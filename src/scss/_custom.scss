@@ -1,0 +1,86 @@
+// Here you can add other styles
+// .sidebar-nav{
+//     background: red;
+// }
+// .sidebar-brand{
+//     background: green;
+// }
+
+p{
+    margin-bottom: 0;
+}
+.ReactModal__Overlay--after-open{
+    z-index: 10000000 !important;
+}
+.dateFilter{
+    background-color: #fff;
+    display: flex;
+    padding-top: 10px;
+    height: 85px;
+    align-items: center;
+    padding-left: 10px;
+    border-radius: 5px;
+    box-shadow: 0 0 6px 0 rgba($color: #000000, $alpha: 0.2);
+    .date{
+        margin-right: 15px;
+    }
+
+}
+.css-1sumxir-MuiFormLabel-root-MuiInputLabel-root{
+    top: -4px !important;
+    background: #fff !important;
+}
+.databox{
+    background-color: #fff;
+    margin-top: 10px;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 6px 0 rgba($color: #000000, $alpha: 0.2);
+    .tablecenter{
+        margin-top: 20px;
+    }
+    .data-form-box{
+        display: flex;
+        align-items: center;
+        // justify-content: space-between;
+        gap: 15px;
+    }
+}
+.addbtn{
+    border: none;
+    padding: 5px;
+    width: 100px;
+    height: 62px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    color: #fff;
+    background-color: red;
+    margin-top: -6px;
+}
+.input{
+    position: relative;
+}
+.error{
+    position: absolute;
+    font-size: 12px;
+    color: red;
+    
+}
+.sidebar-nav{
+    font-size: 13px;
+}
+.simplebar-wrapper{
+    .nav-item{
+        .nav-link{
+            color: #fff !important;
+        }
+    }
+}
+.nav-group-toggle{
+    color: #fff !important;
+}
+.sidebar.sidebar-fixed{
+    background-color: red;
+}
