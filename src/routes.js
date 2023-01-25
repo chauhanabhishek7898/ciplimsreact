@@ -52,6 +52,11 @@ const Widgets = React.lazy(() => import('./views/widgets/Widgets'))
 const Komonth = React.lazy(() => import('./views/city/Komonth'))
 const Country = React.lazy(() => import('./views/country/Country'))
 
+const VenderForm = React.lazy(() => import('./views/VenderForm/VenderForm'))
+const BrandMaster = React.lazy(() => import('./views/BrandMaster/BrandMaster'))
+const PackMaster = React.lazy(() => import('./views/PackMaster/PackMaster'))
+const PlantMaster = React.lazy(() => import('./views/PlantMaster/PlantMaster'))
+
 const routes = [
   { path: '/', exact: true, name: 'Home' },
   { path: '/dashboard', name: 'Dashboard', element: Dashboard },
@@ -60,7 +65,12 @@ const routes = [
   { path: '/theme/typography', name: 'Typography', element: Typography },
   { path: '/city', name: 'Ko Month', element: Komonth, exact: true},
   { path: '/country', name: 'Country', element: Country, exact: true},
-  { path: '/base', name: 'Base', element: Cards, exact: true },
+
+  { path: '/VehicleTypeMaster', name: 'Vender Form', element: VenderForm, exact: true},
+  { path: '/VehicleRateMaster', name: 'Brand Master', element: BrandMaster, exact: true },
+  { path: '/WaitTimeCharges', name: 'Pack Master', element: PackMaster , exact: true},
+  { path: '/KMLimitMaster', name: 'Plant Master', element: PlantMaster, exact: true },
+
   { path: '/base/accordion', name: 'Accordion', element: Accordion },
   { path: '/base/breadcrumbs', name: 'Breadcrumbs', element: Breadcrumbs },
   { path: '/base/cards', name: 'Cards', element: Cards },
