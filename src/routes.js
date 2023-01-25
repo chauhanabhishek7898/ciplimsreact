@@ -67,8 +67,8 @@ const routes = [
   { path: '/country', name: 'Country', element: Country, exact: true},
 
   { path: '/VehicleTypeMaster', name: 'Vender Form', element: VenderForm, exact: true},
-  { path: '/VehicleRateMaster', name: 'Brand Master', element: BrandMaster, exact: true },
-  { path: '/WaitTimeCharges', name: 'Pack Master', element: PackMaster , exact: true},
+  { path: '/BrandMaster', name: 'Brand Master', element: BrandMaster, exact: true },
+  { path: '/PackMaster', name: 'Pack Master', element: PackMaster , exact: true},
   { path: '/KMLimitMaster', name: 'Plant Master', element: PlantMaster, exact: true },
 
   { path: '/base/accordion', name: 'Accordion', element: Accordion },

@@ -17,3 +17,31 @@ export function getVehicleTypeMaster_SelectAll() {
         return response;
     })
 }
+export function PackMasterPost(data) {
+    let apiUrl = environment.apiUrl;
+    let url = `${apiUrl}/PackMaster`
+    return api.post(url, data).then(response => {
+        return response;
+    })
+}
+export function PackMasterPut(data) {
+    let apiUrl = environment.apiUrl;
+    let url = `${apiUrl}/PackMaster`
+    return api.put(url, data).then(response => {
+        return response;
+    })
+}
+export function PackMaster_SelectAll() {
+    let apiUrl = environment.apiUrl;
+    let url = `${apiUrl}/PackMaster/PackMaster_SelectAll`
+    return api.get(url).then(response => {
+        return response;
+    })
+}
+export function UnitMaster_SelectAll() {
+    let apiUrl = environment.apiUrl;
+    let url = `${apiUrl}/UnitMaster/UnitMaster_SelectAll`
+    return api.get(url).then(response => {
+        return response;
+    })
+}
