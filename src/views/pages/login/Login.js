@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import {
   CButton,
@@ -16,16 +16,52 @@ import {
 import CIcon from '@coreui/icons-react'
 import { cilLockLocked, cilUser } from '@coreui/icons'
 import{GetUserDetailsUsingUNandPW} from './loginApi'
+import { useNavigate } from "react-router-dom";
+import DefaultLayout from 'src/layout/DefaultLayout'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 const Login = () => {
+  const navigate = useNavigate();
   const [userName, setUserName] = React.useState('');
   const [password, setPassword] = React.useState('');
+  const [dashboard, setDashboard] = React.useState(false);
+  useEffect(()=>{
+    const vUserName = localStorage.getItem("vUserName")
+      if(vUserName){
+        setDashboard(true)
+      }else{
+        setDashboard(false)
+      }
+    console.log('vUserName',vUserName)
+   
+  },[])
   const login=()=>{
     GetUserDetailsUsingUNandPW(userName,password,null).then(res=>{
-      console.log('res',res)
+      if(res.data?.length>0){
+        setDashboard(true)
+        localStorage.setItem("vFullName", res.data[0].vFullName);
+        localStorage.setItem("vUserName", res.data[0].vUserName);
+        localStorage.setItem("vMobileNo", res.data[0].vMobileNo);
+        localStorage.setItem("vEmailId", res.data[0].vEmailId);
+        localStorage.setItem("nRoleId", res.data[0].nRoleId);
+        localStorage.setItem("vDeviceId", res.data[0].vDeviceId);
+        localStorage.setItem("token", String(res.jwtToken));
+      }else{
+        toast.error('Invalid UserName & Password')
+        setDashboard(false)
+      }
     })
   }
+ 
   return (
-    <div className="bg-light min-vh-100 d-flex flex-row align-items-center">
+    <div>
+
+    
+    {dashboard==true?
+        <DefaultLayout/>
+        :
+        <div className="bg-light min-vh-100 d-flex flex-row align-items-center">
       <CContainer>
         <CRow className="justify-content-center">
           <CCol md={8}>
@@ -88,7 +124,12 @@ const Login = () => {
           </CCol>
         </CRow>
       </CContainer>
+      
     </div>
+      }
+       <ToastContainer/>
+    </div>
+    
   )
 }
 

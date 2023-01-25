@@ -49,8 +49,8 @@ const Modals = React.lazy(() => import('./views/notifications/modals/Modals'))
 const Toasts = React.lazy(() => import('./views/notifications/toasts/Toasts'))
 
 const Widgets = React.lazy(() => import('./views/widgets/Widgets'))
-const Komonth = React.lazy(() => import('./views/city/Komonth'))
-const Country = React.lazy(() => import('./views/country/Country'))
+const Komonth = React.lazy(() => import('./views/Komonth/Komonth'))
+const UnitMaster = React.lazy(() => import('./views/UnitMaster/UnitMaster'))
 
 const VenderForm = React.lazy(() => import('./views/VenderForm/VenderForm'))
 const BrandMaster = React.lazy(() => import('./views/BrandMaster/BrandMaster'))
@@ -63,8 +63,8 @@ const routes = [
   { path: '/theme', name: 'Theme', element: Colors, exact: true },
   { path: '/theme/colors', name: 'Colors', element: Colors },
   { path: '/theme/typography', name: 'Typography', element: Typography },
-  { path: '/city', name: 'Ko Month', element: Komonth, exact: true},
-  { path: '/country', name: 'Country', element: Country, exact: true},
+  { path: '/KOMonth', name: 'Ko Month', element: Komonth, exact: true},
+  { path: '/UnitMaster', name: 'Unit Master', element: UnitMaster, exact: true},
 
   { path: '/VehicleTypeMaster', name: 'Vender Form', element: VenderForm, exact: true},
   { path: '/VehicleRateMaster', name: 'Brand Master', element: BrandMaster, exact: true },
