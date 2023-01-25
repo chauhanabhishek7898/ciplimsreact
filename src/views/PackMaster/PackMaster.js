@@ -20,6 +20,7 @@ import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import { RiEditBoxLine } from "react-icons/ri"
+import AddIcon from '@mui/icons-material/Add';
 function PackMaster() {
     const [modalIsOpen, setIsOpen] = React.useState(false);
     const [page, setPage] = React.useState(0);
@@ -57,7 +58,54 @@ function PackMaster() {
     }
     return (
         <div className='citymasterContainer'>
-            <button className='addbtn' onClick={openmodale}>Add+</button>
+            <button className='addbtn_2' onClick={openmodale} title="Add" ><AddIcon fontSize='large'/></button>
+           
+            <div className='tablecenter'>
+                <Paper sx={{ width: '100%' }}>
+                    <TableContainer sx={{ maxHeight: 440 }}>
+                        <Table stickyHeader aria-label="sticky table">
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell scope="row">SN.</TableCell>
+                                    <TableCell align="left">Pack Code</TableCell>
+                                    <TableCell align="left">Pack Name</TableCell>
+                                    <TableCell align="left">Pack Unit</TableCell>
+                                    <TableCell align="left">Pack Product</TableCell>
+                                    <TableCell align="left">Pack Cases</TableCell>
+                                    <TableCell align="left">Status</TableCell>
+                                    <TableCell align="left">Edit</TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {kmLimitData.map((item, index) => {
+                                    return (
+                                        <TableRow >
+                                            <TableCell component="th" scope="row">{index + 1}.</TableCell>
+                                            <TableCell align="left">{item.CityStateDetailsPX}</TableCell>
+                                            <TableCell align="left">{item.vVehicleType}</TableCell>
+                                            <TableCell align="left">{item.nKMLimit}</TableCell>
+                                            <TableCell align="left">{item.CityStateDetailsPX}</TableCell>
+                                            <TableCell align="left">{item.vVehicleType}</TableCell>
+                                            <TableCell align="left">{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
+                                            <TableCell align="left"><div onClick={openmodale}><RiEditBoxLine fontSize="1.5em"/></div></TableCell>
+                                        </TableRow>
+                                    )
+                                })
+                                }
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+                    <TablePagination
+                        rowsPerPageOptions={[10, 25, 100]}
+                        component="div"
+                        count={kmLimitData.length}
+                        rowsPerPage={rowsPerPage}
+                        page={page}
+                        onPageChange={handleChangePage}
+                        onRowsPerPageChange={handleChangeRowsPerPage}
+                    />
+                </Paper>
+            </div>
             <Modal
                 isOpen={modalIsOpen}
                 style={customStyles}
@@ -136,52 +184,6 @@ function PackMaster() {
                     <button type="" className='submitbtn' onClick={openmodale}>Submit</button>
                 </div>
             </Modal >
-            <div className='tablecenter'>
-                <Paper sx={{ width: '100%', overflow: 'hidden' }}>
-                    <TableContainer sx={{ maxHeight: 440 }}>
-                        <Table stickyHeader aria-label="sticky table">
-                            <TableHead>
-                                <TableRow>
-                                    <TableCell scope="row">SN.</TableCell>
-                                    <TableCell align="left">Pack Code</TableCell>
-                                    <TableCell align="left">Pack Name</TableCell>
-                                    <TableCell align="left">Pack Unit</TableCell>
-                                    <TableCell align="left">Pack Product</TableCell>
-                                    <TableCell align="left">Pack Cases</TableCell>
-                                    <TableCell align="left">Status</TableCell>
-                                    <TableCell align="left">Edit</TableCell>
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                {kmLimitData.map((item, index) => {
-                                    return (
-                                        <TableRow >
-                                            <TableCell component="th" scope="row">{index + 1}.</TableCell>
-                                            <TableCell align="left">{item.CityStateDetailsPX}</TableCell>
-                                            <TableCell align="left">{item.vVehicleType}</TableCell>
-                                            <TableCell align="left">{item.nKMLimit}</TableCell>
-                                            <TableCell align="left">{item.CityStateDetailsPX}</TableCell>
-                                            <TableCell align="left">{item.vVehicleType}</TableCell>
-                                            <TableCell align="left">{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
-                                            <TableCell align="left"><div onClick={openmodale}><RiEditBoxLine /></div></TableCell>
-                                        </TableRow>
-                                    )
-                                })
-                                }
-                            </TableBody>
-                        </Table>
-                    </TableContainer>
-                    <TablePagination
-                        rowsPerPageOptions={[10, 25, 100]}
-                        component="div"
-                        count={kmLimitData.length}
-                        rowsPerPage={rowsPerPage}
-                        page={page}
-                        onPageChange={handleChangePage}
-                        onRowsPerPageChange={handleChangeRowsPerPage}
-                    />
-                </Paper>
-            </div>
         </div >
     )
 }

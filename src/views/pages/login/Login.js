@@ -15,8 +15,15 @@ import {
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import { cilLockLocked, cilUser } from '@coreui/icons'
-
+import{GetUserDetailsUsingUNandPW} from './loginApi'
 const Login = () => {
+  const [userName, setUserName] = React.useState('');
+  const [password, setPassword] = React.useState('');
+  const login=()=>{
+    GetUserDetailsUsingUNandPW(userName,password,null).then(res=>{
+      console.log('res',res)
+    })
+  }
   return (
     <div className="bg-light min-vh-100 d-flex flex-row align-items-center">
       <CContainer>
@@ -32,7 +39,7 @@ const Login = () => {
                       <CInputGroupText>
                         <CIcon icon={cilUser} />
                       </CInputGroupText>
-                      <CFormInput placeholder="Username" autoComplete="username" />
+                      <CFormInput placeholder="Username" autoComplete="username" value={userName} onChange={e=>setUserName(e.target.value)}/>
                     </CInputGroup>
                     <CInputGroup className="mb-4">
                       <CInputGroupText>
@@ -42,11 +49,13 @@ const Login = () => {
                         type="password"
                         placeholder="Password"
                         autoComplete="current-password"
+                        value={password}
+                        onChange={e=>setPassword(e.target.value)}
                       />
                     </CInputGroup>
                     <CRow>
                       <CCol xs={6}>
-                        <CButton color="primary" className="px-4">
+                        <CButton color="primary" className="px-4" onClick={login}>
                           Login
                         </CButton>
                       </CCol>

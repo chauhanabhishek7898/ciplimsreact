@@ -20,6 +20,7 @@ import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import { RiEditBoxLine } from "react-icons/ri"
+import AddIcon from '@mui/icons-material/Add';
 function BrandMaster() {
     const [modalIsOpen, setIsOpen] = React.useState(false);
     const [page, setPage] = React.useState(0);
@@ -57,7 +58,7 @@ function BrandMaster() {
     // }
     return (
         <div className='citymasterContainer'>
-            <button className='addbtn' onClick={openmodale}>Add+</button>
+            <button className='addbtn_2' onClick={openmodale} title='Add' ><AddIcon fontSize='large'/></button>
             <Modal
                 isOpen={modalIsOpen}
                 style={customStyles}
@@ -127,7 +128,7 @@ function BrandMaster() {
                                             <TableCell align="left">{item.CityStateDetailsPX}</TableCell>
                                             <TableCell align="left">{item.vVehicleType}</TableCell>
                                             <TableCell align="left">{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
-                                            <TableCell align="left"><div onClick={openmodale}><RiEditBoxLine /></div></TableCell>
+                                            <TableCell align="left"><div onClick={openmodale}><RiEditBoxLine fontSize="1.5em" style={{cursor:'pointer'}}/></div></TableCell>
                                         </TableRow>
                                     )
                                 })

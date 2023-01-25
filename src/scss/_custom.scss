@@ -59,6 +59,19 @@ p{
     background-color: red;
     margin-top: -6px;
 }
+.addbtn_2{
+    border: none;
+    padding: 5px;
+    width: 100px;
+    height: 62px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    color: #fff;
+    background-color: red;
+    margin-bottom: 10px;
+}
 .input{
     position: relative;
 }
@@ -115,11 +128,7 @@ p{
   .App-link {
     color: #61dafb;
   }
-  .body{
-    max-width: 1300px;
-    margin: 0 auto;
-    padding: 0;
-  }
+  
   .in-body{
     padding: 10px;
   background-color: blue;
@@ -135,18 +144,7 @@ p{
     padding-top: 0px;
     color: #fff;
   }
-  .citymasterContainer{
-    padding: 10px;
   
-  }
-  .addbtn{
-    border: none;
-    padding: 10px;
-    color: #fff;
-    background-color: red;
-    border-radius: 5px;
-    margin-bottom: 10px;
-  }
   .content {
     top: 50%;
     left: 50%;
