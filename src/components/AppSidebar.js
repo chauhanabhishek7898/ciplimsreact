@@ -39,12 +39,9 @@ const AppSidebar = () => {
   }, [])
   const getProfileDetails = () => {
     GetProfileDetails(1).then(response => {
-      // console.log('response',response)
+      console.log('response',response)
       const nav = []
-      let pageId =0
-      let subNav = [];
-      let filter = response.TAB2.filter(e=>e.nPageDependentId==null&& e.vPageName==null )
-      // console.log('filter',filter)
+      let pageId = 0
       response.TAB2.forEach(item => {
         if (item.vPageName != null && item.nPageDependentId == null) {
           nav.push({
@@ -56,7 +53,7 @@ const AppSidebar = () => {
         }
         
         if (item.vPageName == null && item.nPageDependentId == null) {
-         
+          let subNav=[]
           let filterItem = response.TAB2.filter(e=>e.nPageDependentId==item.nPageId)
           // console.log('filterItem',filterItem)
           filterItem.forEach(el => {
