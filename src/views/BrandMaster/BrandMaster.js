@@ -8,7 +8,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import TablePagination from '@mui/material/TablePagination';
 import Paper from '@mui/material/Paper';
-import { BrandMaster_SelectAll, BrandMasterPost } from './BrandMasterService'
+import { BrandMaster_SelectAll, BrandMasterPost, BrandMasterPut } from './BrandMasterService'
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import FormControl from '@mui/material/FormControl';
@@ -18,18 +18,28 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import { RiEditBoxLine } from "react-icons/ri"
 import AddIcon from '@mui/icons-material/Add';
-import { ChangeCircle } from '@mui/icons-material';
+import { useForm } from 'react-hook-form';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { CButton, CSpinner } from '@coreui/react'
 function BrandMaster() {
     const [modalIsOpen, setIsOpen] = React.useState(false);
-    const [modalIsOpenEdit, setIsOpenEdit] = React.useState(false);
+    // const [modalIsOpenEdit, setIsOpenEdit] = React.useState(false);
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
     const [brandData, setBrandData] = React.useState([]);
+
+    const [loader, setLoader] = React.useState(false);
 
     const [nBid, setnBid] = React.useState(0);
     const [btActive, setBtActive] = React.useState(false);
     const [brandCode, setBrandCode] = React.useState("");
     const [brandName, setBrandName] = React.useState("");
+
+    const [buttonName, setbuttonName] = React.useState('');
+    const [disabled, setdisabled] = React.useState(true);
+    const { register, handleSubmit, control, errors } = useForm();
+
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
     };
@@ -38,10 +48,29 @@ function BrandMaster() {
         setPage(0);
     };
 
+    const openmodale = (item, type) => {
+        if (type == 'Submit') {
+            setIsOpen(true)
+            setbuttonName(type)
+            setBrandCode('')
+            setBrandName('')
+            setBtActive(true)
+            setdisabled(true)
+        } else {
+            setIsOpen(true)
+            setnBid(item.nBId)
+            setBrandCode(item.vBrandCode)
+            setBrandName(item.vBrandName)
+            setBtActive(item.btActive)
+            setdisabled(false)
+            setbuttonName(type)
 
-    const openmodale = () => {
-        setIsOpen(true)
+        }
     }
+
+    // const openmodale = () => {
+    //     setIsOpen(true)
+    // }
     useEffect(() => {
         getBrandMaster_SelectAll()
     }, [])
@@ -51,24 +80,43 @@ function BrandMaster() {
             setBrandData(response)
         })
     }
-    const addBrandMaster = () => {
+    const submit = () => {
         // if(validateform()==true){
-
+            setLoader(true)
         let brand = {
-            nBId: 0,
+            nBId: nBid == null ? 0 : nBid,
             vBrandCode: brandCode,
             vBrandName: brandName,
-            btActive: true,
+            btActive: btActive,
+        }
+        if (buttonName == 'Submit') {
+            console.log('brand', brand)
+            BrandMasterPost(brand).then(res => {
+                if (res) {
+                    console.log('res', res)
+                    toast.success("Record Added Successfully !!")
+                    setLoader(false)
+                    setIsOpen(false)
+                    getBrandMaster_SelectAll()
+                    // alert("Record Added Successfully !!")
+                }
+            })
+
+        } else {
+            console.log('brand', brand)
+            BrandMasterPut(brand).then(res => {
+                if (res) {
+                    console.log('res', res)
+                    toast.success("Record Updated Successfully !!")
+                    setLoader(false)
+                    setIsOpen(false)
+                    getBrandMaster_SelectAll()
+                    // alert("Record Added Successfully !!")
+                }
+            })
         }
 
 
-        console.log('brand', brand)
-        BrandMasterPost(brand).then(res => {
-            if (res) {
-                console.log('res', res)
-                alert("Record Added Successfully !!")
-            }
-        })
 
         // }
     }
@@ -82,29 +130,29 @@ function BrandMaster() {
     //         return true
     //     }
     // }
-    const openEditmodale = (item) => {
-        setIsOpenEdit(true)
-        setnBid(item.nBId)
-        setBrandCode(item.vBrandCode)
-        setBrandName(item.vBrandName)
-        setBtActive(item.btActive)
+    // const openEditmodale = (item) => {
+    //     setIsOpenEdit(true)
+    //     setnBid(item.nBId)
+    //     setBrandCode(item.vBrandCode)
+    //     setBrandName(item.vBrandName)
+    //     setBtActive(item.btActive)
 
 
-    }
-    const onChkChange = (e) => {
-       if(e.target.checked){
-        setBtActive(true)
-       }else{
-        setBtActive(false)
-       }
-       
+    // }
+    // const onChkChange = (e) => {
+    //     if (e.target.checked) {
+    //         setBtActive(true)
+    //     } else {
+    //         setBtActive(false)
+    //     }
 
 
-    }
-    
+
+    // }
+
     return (
         <div className='citymasterContainer'>
-            <button className='addbtn_2' onClick={openmodale} title='Add' ><AddIcon fontSize='large' /></button>
+            <button className='addbtn_2' onClick={() => openmodale(null, 'Submit')} title='Add'  ><AddIcon fontSize='large' /></button>
             <Modal
                 isOpen={modalIsOpen}
                 style={customStyles}
@@ -122,7 +170,12 @@ function BrandMaster() {
                                 onChange={e => setBrandCode(e.target.value)}
                                 required id="outlined-basic"
                                 label="Enter Brand Code"
-                                variant="outlined" />
+                                variant="outlined"
+                                name='brandCode'
+                                inputRef={register({ required: "Brand Code is required.*", })}
+                                error={Boolean(errors.brandCode)}
+                                helperText={errors.brandCode?.message}
+                            />
                         </FormControl>
                     </Box>
                     <Box sx={{ width: '48%' }} >
@@ -132,15 +185,29 @@ function BrandMaster() {
                                 onChange={e => setBrandName(e.target.value)}
                                 required id="outlined-basic"
                                 label="Enter Brand Name"
-                                variant="outlined" />
+                                variant="outlined"
+                                name='brandName'
+                                inputRef={register({ required: "Brand Name is required.*", })}
+                                error={Boolean(errors.brandName)}
+                                helperText={errors.brandName?.message}
+                            />
                         </FormControl>
                     </Box>
                 </div>
                 <div className='displayflexend'>
                     <FormGroup >
-                        <FormControlLabel control={<Checkbox defaultChecked />} label="Active" disabled />
+                        <FormControlLabel control={<Checkbox defaultChecked={btActive} value={btActive} onChange={e => setBtActive(e.target.checked)} />} label="Active" disabled={disabled} />
+                        {/* <FormControlLabel control={<Checkbox defaultChecked />} label="Active" disabled /> */}
                     </FormGroup>
-                    <button type="" className='submitbtn' onClick={addBrandMaster}>Submit</button>
+
+                    {loader == true ?
+                        <CButton disabled className='submitbtn'>
+                            <CSpinner component="span" size="sm" aria-hidden="true" />
+                            Loading...
+                        </CButton>
+                        :
+                        <button type="submit" className='submitbtn' onClick={handleSubmit(submit)}>{buttonName}</button>
+                    }
                 </div>
             </Modal >
             <div className='tablecenter'>
@@ -164,7 +231,8 @@ function BrandMaster() {
                                             <TableCell align="left">{item.vBrandCode}</TableCell>
                                             <TableCell align="left">{item.vBrandName}</TableCell>
                                             <TableCell align="left">{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
-                                            <TableCell align="left"><div onClick={() => openEditmodale(item)}><RiEditBoxLine fontSize="1.5em" style={{ cursor: 'pointer' }} /></div></TableCell>
+                                            <TableCell align="left"><div onClick={() => openmodale(item, 'Update')}><RiEditBoxLine fontSize="1.5em" /></div></TableCell>
+                                            {/* <TableCell align="left"><div onClick={() => openEditmodale(item)}><RiEditBoxLine fontSize="1.5em" style={{ cursor: 'pointer' }} /></div></TableCell> */}
                                         </TableRow>
                                     )
                                 })
@@ -184,7 +252,7 @@ function BrandMaster() {
                 </Paper>
             </div>
 
-            <Modal
+            {/* <Modal
                 isOpen={modalIsOpenEdit}
                 style={customStyles}
                 contentLabel="Example Modal"
@@ -227,8 +295,10 @@ function BrandMaster() {
                     </FormGroup>
                     <button type="" className='submitbtn' >Submit</button>
                 </div>
-            </Modal >
+            </Modal > */}
 
+
+            <ToastContainer />
         </div >
     )
 }

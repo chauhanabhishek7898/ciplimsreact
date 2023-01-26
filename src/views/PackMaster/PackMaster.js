@@ -21,14 +21,20 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import { RiEditBoxLine } from "react-icons/ri"
 import AddIcon from '@mui/icons-material/Add';
+import { useForm } from 'react-hook-form';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { CButton, CSpinner } from '@coreui/react'
 function PackMaster() {
     const [modalIsOpen, setIsOpen] = React.useState(false);
-    const [modalIsOpenEdit, setIsOpenEdit] = React.useState(false);
+    // const [modalIsOpenEdit, setIsOpenEdit] = React.useState(false);
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
     const [packData, setPackData] = React.useState([]);
     const [unitid, setUnitid] = React.useState('');
     const [uniteData, setUnitData] = React.useState([]);
+
+    const [loader, setLoader] = React.useState(false);
 
     const [nPId, setnPId] = React.useState(0);
     const [btActive, setBtActive] = React.useState(false);
@@ -38,6 +44,10 @@ function PackMaster() {
     const [packProduct, setpackProduct] = React.useState("");
     const [packCases, setpackCases] = React.useState("");
 
+    const [buttonName, setbuttonName] = React.useState('');
+    const [disabled, setdisabled] = React.useState(true);
+
+    const { register, handleSubmit, control, errors } = useForm();
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
@@ -49,8 +59,31 @@ function PackMaster() {
         setRowsPerPage(+event.target.value);
         setPage(0);
     };
-    const openmodale = () => {
-        setIsOpen(true)
+    const openmodale = (item, type) => {
+        if (type == 'Submit') {
+            setIsOpen(true)
+            setbuttonName(type)
+            setBtActive(true)
+            setnPId(item.nPId)
+            setpackCode("")
+            setpackName("")
+            setUnitid("")
+            setpackProduct("")
+            setpackCases("")
+            setdisabled(true)
+        } else {
+            setIsOpen(true)
+            setnPId(item.nPId)
+            setpackCode(item.vPackCode)
+            setpackName(item.vPackName)
+            setBtActive(item.btActive)
+            setUnitid(item.vUnit)
+            setpackProduct(item.vPackProduct)
+            setpackCases(item.vPackCases)
+            setdisabled(false)
+            setbuttonName(type)
+
+        }
     }
     useEffect(() => {
         getPackMaster_SelectAll()
@@ -68,28 +101,39 @@ function PackMaster() {
         })
     }
 
-    const addPackMaster = () => {
+    const submit = () => {
         // if(validateform()==true){
-
-        let pack = {
-            nPId: 0,
-            vPackCode: packCode,
-            vPackName: packName,
-            vUnit: unitid,
-            vPackProduct: packProduct,
-            vPackCases: packCases,
-            btActive: true,
-        }
-
-
-        console.log('pack', pack)
-        PackMasterPost(pack).then(res => {
-            if (res) {
-                console.log('res', res)
-                alert("Record Added Successfully !!")
+            // setLoader(true)
+            let pack = {
+                nPId: nPId==null ? 0 : nPId,
+                vPackCode: packCode,
+                vPackName: packName,
+                vUnit: unitid,
+                vPackProduct: packProduct,
+                vPackCases: packCases,
+                btActive: btActive,
             }
-        })
-
+            console.log('pack', pack)
+            if(buttonName=='Submit'){
+                PackMasterPost(data).then(res=>{
+                    if(res){
+                        toast.success("Record Added Successfully !!")
+                        setLoader(false)
+                        setIsOpen(false)
+                        getPackMaster_SelectAll()
+                    }
+                })
+    
+            }else{
+                PackMasterPut(data).then(res=>{
+                    if(res){
+                        toast.success("Record Updated Successfully !!")
+                        setLoader(false)
+                        setIsOpen(false)
+                        getPackMaster_SelectAll()
+                    }
+                })
+            }
         // }
     }
     // const validateform=()=>{
@@ -102,57 +146,57 @@ function PackMaster() {
     //         return true
     //     }
     // }
-    const openEditmodale = (item) => {
-        console.log('item', item)
-        setIsOpenEdit(true)
-        setnPId(item.nPId)
-        setpackCode(item.vPackCode)
-        setpackName(item.vPackName)
-        setBtActive(item.btActive)
-        setUnitid(item.vUnit)
-        setpackProduct(item.vPackProduct)
-        setpackCases(item.vPackCases)
-    }
-    const onChkChange = (e) => {
-        console.log('e', e)
-        console.log('e.target.value', e.target.value)
-        if (e.target.value == true) {
-            setBtActive(btActive)
-        } else {
-            setBtActive(!btActive)
-        }
+    // const openEditmodale = (item) => {
+    //     console.log('item', item)
+    //     setIsOpenEdit(true)
+    //     setnPId(item.nPId)
+    //     setpackCode(item.vPackCode)
+    //     setpackName(item.vPackName)
+    //     setBtActive(item.btActive)
+    //     setUnitid(item.vUnit)
+    //     setpackProduct(item.vPackProduct)
+    //     setpackCases(item.vPackCases)
+    // }
+    // const onChkChange = (e) => {
+    //     console.log('e', e)
+    //     console.log('e.target.value', e.target.value)
+    //     if (e.target.value == true) {
+    //         setBtActive(btActive)
+    //     } else {
+    //         setBtActive(!btActive)
+    //     }
 
 
 
-    }
+    // }
 
-    const editPackMaster = () => {
-        // if(validateform()==true){
+    // const editPackMaster = () => {
+    //     // if(validateform()==true){
 
-        let pack = {
-            nPId: nPId,
-            vPackCode: packCode,
-            vPackName: packName,
-            vUnit: unitid,
-            vPackProduct: packProduct,
-            vPackCases: packCases,
-            btActive: btActive,
-        }
+    //     let pack = {
+    //         nPId: nPId,
+    //         vPackCode: packCode,
+    //         vPackName: packName,
+    //         vUnit: unitid,
+    //         vPackProduct: packProduct,
+    //         vPackCases: packCases,
+    //         btActive: btActive,
+    //     }
 
 
-        console.log('pack', pack)
-        PackMasterPut(pack).then(res => {
-            if (res) {
-                console.log('res', res)
-                alert("Record Updated Successfully !!")
-            }
-        })
+    //     console.log('pack', pack)
+    //     PackMasterPut(pack).then(res => {
+    //         if (res) {
+    //             console.log('res', res)
+    //             alert("Record Updated Successfully !!")
+    //         }
+    //     })
 
-        // }
-    }
+    //     // }
+    // }
     return (
         <div className='citymasterContainer'>
-            <button className='addbtn_2' onClick={openmodale} title="Add" ><AddIcon fontSize='large' /></button>
+            <button className='addbtn_2' onClick={() => openmodale(null, 'Submit')} title='Add'  ><AddIcon fontSize='large' /></button>
 
             <div className='tablecenter'>
                 <Paper sx={{ width: '100%' }}>
@@ -181,7 +225,9 @@ function PackMaster() {
                                             <TableCell align="left">{item.vPackProduct}</TableCell>
                                             <TableCell align="left">{item.vPackCases}</TableCell>
                                             <TableCell align="left">{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
-                                            <TableCell align="left"><div onClick={() => openEditmodale(item)}><RiEditBoxLine fontSize="1.5em" /></div></TableCell>
+                                            <TableCell align="left"><div onClick={() => openmodale(item, 'Update')}><RiEditBoxLine fontSize="1.5em" /></div></TableCell>
+
+                                            {/* <TableCell align="left"><div onClick={() => openEditmodale(item)}><RiEditBoxLine fontSize="1.5em" /></div></TableCell> */}
                                         </TableRow>
                                     )
                                 })
@@ -215,10 +261,14 @@ function PackMaster() {
                             <TextField
                                 value={packCode}
                                 onChange={e => setpackCode(e.target.value)}
-                                required
                                 id="outlined-basic"
                                 label="Enter Pack Code"
-                                variant="outlined" />
+                                variant="outlined"
+                                name='packCode'
+                                inputRef={register({ required: "Pack Code is required.*", })}
+                                error={Boolean(errors.packCode)}
+                                helperText={errors.packCode?.message} />
+
                         </FormControl>
                     </Box>
                     <Box sx={{ width: '30%' }} >
@@ -226,10 +276,13 @@ function PackMaster() {
                             <TextField
                                 value={packName}
                                 onChange={e => setpackName(e.target.value)}
-                                required
                                 id="outlined-basic"
                                 label="Enter Pack Name"
-                                variant="outlined" />
+                                variant="outlined"
+                                name='packName'
+                                inputRef={register({ required: "Pack Name is required.*", })}
+                                error={Boolean(errors.packName)}
+                                helperText={errors.packName?.message} />
                         </FormControl>
                     </Box>
                     <Box sx={{ width: '30%', marginTop: 2 }}>
@@ -242,6 +295,10 @@ function PackMaster() {
                                 value={unitid}
                                 label="Select Pack Unit"
                                 onChange={handleChangePackUnit}
+                                name='unitid'
+                                inputRef={register({ required: "Pack Unit is required.*", })}
+                                error={Boolean(errors.unitid)}
+                                helperText={errors.unitid?.message} 
                             >
                                 {uniteData.map((item, index) => {
                                     return (
@@ -257,10 +314,13 @@ function PackMaster() {
                             <TextField
                                 value={packProduct}
                                 onChange={e => setpackProduct(e.target.value)}
-                                required
                                 id="outlined-basic"
                                 label="Enter Pack Product"
-                                variant="outlined" />
+                                variant="outlined"
+                                name='packProduct'
+                                inputRef={register({ required: "Pack Product is required.*", })}
+                                error={Boolean(errors.packProduct)}
+                                helperText={errors.packProduct?.message} />
                         </FormControl>
                     </Box>
                     <Box sx={{ width: '48%', marginTop: 2 }} >
@@ -268,22 +328,34 @@ function PackMaster() {
                             <TextField
                                 value={packCases}
                                 onChange={e => setpackCases(e.target.value)}
-                                required
                                 id="outlined-basic"
                                 label="Enter Pack Cases"
-                                variant="outlined" />
+                                variant="outlined"
+                                name='packCases'
+                                inputRef={register({ required: "Pack Cases is required.*", })}
+                                error={Boolean(errors.packCases)}
+                                helperText={errors.packCases?.message} />
                         </FormControl>
                     </Box>
                 </div>
                 <div className='displayflexend'>
                     <FormGroup >
-                        <FormControlLabel control={<Checkbox defaultChecked />} label="Active" disabled />
+                    <FormControlLabel control={<Checkbox defaultChecked={btActive} value={btActive} onChange={e => setBtActive(e.target.checked)} />} label="Active" disabled={disabled} />
+                        {/* <FormControlLabel control={<Checkbox defaultChecked />} label="Active" disabled /> */}
                     </FormGroup>
-                    <button type="" className='submitbtn' onClick={addPackMaster}>Submit</button>
+
+                    {loader == true ?
+                        <CButton disabled className='submitbtn'>
+                            <CSpinner component="span" size="sm" aria-hidden="true" />
+                            Loading...
+                        </CButton>
+                        :
+                        <button type="submit"  className='submitbtn' onClick={handleSubmit(submit)}>{buttonName}</button>
+                    }
                 </div>
             </Modal >
 
-            <Modal
+            {/* <Modal
                 isOpen={modalIsOpenEdit}
                 style={customStyles}
                 contentLabel="Example Modal"
@@ -368,7 +440,9 @@ function PackMaster() {
                     </FormGroup>
                     <button type="" className='submitbtn' onClick={editPackMaster}>Submit</button>
                 </div>
-            </Modal >
+            </Modal > */}
+
+            <ToastContainer />
         </div >
     )
 }
