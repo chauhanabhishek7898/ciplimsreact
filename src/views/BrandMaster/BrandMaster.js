@@ -24,22 +24,17 @@ import 'react-toastify/dist/ReactToastify.css';
 import { CButton, CSpinner } from '@coreui/react'
 function BrandMaster() {
     const [modalIsOpen, setIsOpen] = React.useState(false);
-    // const [modalIsOpenEdit, setIsOpenEdit] = React.useState(false);
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
     const [brandData, setBrandData] = React.useState([]);
-
     const [loader, setLoader] = React.useState(false);
-
     const [nBid, setnBid] = React.useState(0);
     const [btActive, setBtActive] = React.useState(false);
     const [brandCode, setBrandCode] = React.useState("");
     const [brandName, setBrandName] = React.useState("");
-
     const [buttonName, setbuttonName] = React.useState('');
     const [disabled, setdisabled] = React.useState(true);
     const { register, handleSubmit, control, errors } = useForm();
-
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
     };
@@ -64,13 +59,9 @@ function BrandMaster() {
             setBtActive(item.btActive)
             setdisabled(false)
             setbuttonName(type)
-
         }
     }
 
-    // const openmodale = () => {
-    //     setIsOpen(true)
-    // }
     useEffect(() => {
         getBrandMaster_SelectAll()
     }, [])
@@ -81,8 +72,7 @@ function BrandMaster() {
         })
     }
     const submit = () => {
-        // if(validateform()==true){
-            setLoader(true)
+        setLoader(true)
         let brand = {
             nBId: nBid == null ? 0 : nBid,
             vBrandCode: brandCode,
@@ -98,7 +88,6 @@ function BrandMaster() {
                     setLoader(false)
                     setIsOpen(false)
                     getBrandMaster_SelectAll()
-                    // alert("Record Added Successfully !!")
                 }
             })
 
@@ -111,44 +100,10 @@ function BrandMaster() {
                     setLoader(false)
                     setIsOpen(false)
                     getBrandMaster_SelectAll()
-                    // alert("Record Added Successfully !!")
                 }
             })
         }
-
-
-
-        // }
     }
-    // const validateform=()=>{
-    //     if(weekNumberId==''){
-    //         console.log('Select Week Number')
-    //         setError('Select Week Number'+''+'*')
-    //         return false
-    //     }else{
-    //         setError('')
-    //         return true
-    //     }
-    // }
-    // const openEditmodale = (item) => {
-    //     setIsOpenEdit(true)
-    //     setnBid(item.nBId)
-    //     setBrandCode(item.vBrandCode)
-    //     setBrandName(item.vBrandName)
-    //     setBtActive(item.btActive)
-
-
-    // }
-    // const onChkChange = (e) => {
-    //     if (e.target.checked) {
-    //         setBtActive(true)
-    //     } else {
-    //         setBtActive(false)
-    //     }
-
-
-
-    // }
 
     return (
         <div className='citymasterContainer'>
@@ -197,7 +152,6 @@ function BrandMaster() {
                 <div className='displayflexend'>
                     <FormGroup >
                         <FormControlLabel control={<Checkbox defaultChecked={btActive} value={btActive} onChange={e => setBtActive(e.target.checked)} />} label="Active" disabled={disabled} />
-                        {/* <FormControlLabel control={<Checkbox defaultChecked />} label="Active" disabled /> */}
                     </FormGroup>
 
                     {loader == true ?
@@ -232,7 +186,6 @@ function BrandMaster() {
                                             <TableCell align="left">{item.vBrandName}</TableCell>
                                             <TableCell align="left">{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
                                             <TableCell align="left"><div onClick={() => openmodale(item, 'Update')}><RiEditBoxLine fontSize="1.5em" /></div></TableCell>
-                                            {/* <TableCell align="left"><div onClick={() => openEditmodale(item)}><RiEditBoxLine fontSize="1.5em" style={{ cursor: 'pointer' }} /></div></TableCell> */}
                                         </TableRow>
                                     )
                                 })
@@ -251,52 +204,6 @@ function BrandMaster() {
                     />
                 </Paper>
             </div>
-
-            {/* <Modal
-                isOpen={modalIsOpenEdit}
-                style={customStyles}
-                contentLabel="Example Modal"
-            >
-                <div className='displayright'>
-                    <div><span className='title'>Edit Brand Master</span></div>
-                    <HighlightOffIcon fontSize='large' onClick={() => setIsOpen(false)} />
-                </div>
-                <div className='displayflexend'>
-                    <Box sx={{ width: '48%' }} >
-                        <FormControl fullWidth className='input'>
-                            <TextField
-                                value={brandCode}
-                                onChange={e => setBrandCode(e.target.value)}
-                                required id="outlined-basic"
-                                label="Enter Brand Code"
-                                variant="outlined" />
-                        </FormControl>
-                    </Box>
-                    <Box sx={{ width: '48%' }} >
-                        <FormControl fullWidth className='input' >
-                            <TextField
-                                value={brandName}
-                                onChange={e => setBrandName(e.target.value)}
-                                required id="outlined-basic"
-                                label="Enter Brand Name"
-                                variant="outlined" />
-                        </FormControl>
-                    </Box>
-                </div>
-                <div className='displayflexend'>
-                    <FormGroup >
-                        <FormControlLabel control=
-                            {<Checkbox
-                                checked={btActive}
-                                onChange={()=>onChkChange(e)}
-                                
-                            />}
-                            label="Active"  />
-                    </FormGroup>
-                    <button type="" className='submitbtn' >Submit</button>
-                </div>
-            </Modal > */}
-
 
             <ToastContainer />
         </div >
