@@ -56,6 +56,9 @@ const VenderForm = React.lazy(() => import('./views/VenderForm/VenderForm'))
 const BrandMaster = React.lazy(() => import('./views/BrandMaster/BrandMaster'))
 const PackMaster = React.lazy(() => import('./views/PackMaster/PackMaster'))
 const PlantMaster = React.lazy(() => import('./views/PlantMaster/PlantMaster'))
+const UpdateEmail = React.lazy(() => import('./views/Settings/UpdateEmail/UpdateEmail'))
+const UpdateMobileNo = React.lazy(() => import('./views/Settings/UpdateMobileNo/UpdateMobileNo'))
+const UpdatePassword = React.lazy(() => import('./views/Settings/UpdatePassword/UpdatePassword'))
 
 const routes = [
   { path: '/', exact: true, name: 'Home' },
@@ -70,6 +73,9 @@ const routes = [
   { path: '/VehicleRateMaster', name: 'Brand Master', element: BrandMaster, exact: true },
   { path: '/WaitTimeCharges', name: 'Pack Master', element: PackMaster , exact: true},
   { path: '/KMLimitMaster', name: 'Plant Master', element: PlantMaster, exact: true },
+  { path: '/update-email-id', name: 'Update Email', element: UpdateEmail, exact: true },
+  { path: '/update-mobile-no', name: 'Update Mobile No', element: UpdateMobileNo, exact: true },
+  { path: '/update-password', name: 'Update Password', element: UpdatePassword, exact: true },
 
   { path: '/base/accordion', name: 'Accordion', element: Accordion },
   { path: '/base/breadcrumbs', name: 'Breadcrumbs', element: Breadcrumbs },

@@ -41,6 +41,7 @@ const Login = () => {
       if(res.data?.length>0){
         setDashboard(true)
         localStorage.setItem("vFullName", res.data[0].vFullName);
+        localStorage.setItem("nUserId", res.data[0].nUserId);
         localStorage.setItem("vUserName", res.data[0].vUserName);
         localStorage.setItem("vMobileNo", res.data[0].vMobileNo);
         localStorage.setItem("vEmailId", res.data[0].vEmailId);
