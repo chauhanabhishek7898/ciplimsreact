@@ -3,25 +3,26 @@ import * as environment from '../../coreservices/environment'
 export default function abc() {
     return <div>abc</div>
 }
-export function PlantMaster_SelectAll() {
-    let apiUrl = environment.apiUrl;
-    let url = `${apiUrl}/PlantMaster/PlantMaster_SelectAll`
-    return api.get(url).then(response => {
-        return response;
-    })
-}
 
-export function PlantMasterPost(data) {
+export function UserMobileNo_Update(data) {
     let apiUrl = environment.apiUrl;
-    let url = `${apiUrl}/PlantMaster`
-    return api.post(url, data).then(response => {
-        return response;
-    })
-}
-export function PlantMasterPut(data) {
-    let apiUrl = environment.apiUrl;
-    let url = `${apiUrl}/UnitMaster`
+    let url = `${apiUrl}/UserMaster/UserMobileNo_Update`
     return api.put(url, data).then(response => {
         return response;
     })
 }
+export function UserEmailId_Update(data) {
+    let apiUrl = environment.apiUrl;
+    let url = `${apiUrl}/UserMaster/UserEmailId_Update`
+    return api.put(url, data).then(response => {
+        return response;
+    })
+}
+export function UserChangePassword_Update(data) {
+    let apiUrl = environment.apiUrl;
+    let url = `${apiUrl}/UserMaster/UserChangePassword_Update`
+    return api.put(url, data).then(response => {
+        return response;
+    })
+}
+
