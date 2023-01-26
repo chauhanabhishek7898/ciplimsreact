@@ -144,7 +144,7 @@ function VenderForm() {
                                 value={vVendorCode}
                                 onChange={e => setvVendorCode(e.target.value)}
                                 id="outlined-basic"
-                                label="Enter Vendor Code"
+                                label="Vendor Code"
                                 variant="outlined"
                                 name='vVendorCode'
                                 inputRef={register({ required: "Vendor Code is required.*", })}
@@ -159,7 +159,7 @@ function VenderForm() {
                                 value={vVendorName}
                                 onChange={e => setvVendorName(e.target.value)}
                                 id="outlined-basic"
-                                label="Enter Vendor Name"
+                                label="Vendor Name"
                                 variant="outlined"
                                 name='vVendorName'
                                 inputRef={register({ required: "Vendor Name is required.*", })}
@@ -174,7 +174,7 @@ function VenderForm() {
                                 value={vVendorAddress}
                                 onChange={e => setvVendorAddress(e.target.value)}
                                 id="outlined-basic"
-                                label="Enter Vendor Address"
+                                label="Vendor Address"
                                 variant="outlined"
                             // name='vVendorAddress'
                             // inputRef={register({ required: "Vendor Address is required.*", })}
@@ -189,7 +189,7 @@ function VenderForm() {
                                 value={vContactPerson}
                                 onChange={e => setvContactPerson(e.target.value)}
                                 id="outlined-basic"
-                                label="Enter Contact Person"
+                                label="Contact Person"
                                 variant="outlined"
                             // name='vContactPerson'
                             // inputRef={register({ required: "Contact Person is required.*", })}
@@ -204,7 +204,7 @@ function VenderForm() {
                                 value={vMobileNo}
                                 onChange={e => setvMobileNo(e.target.value)}
                                 id="outlined-basic"
-                                label="Enter Mobile No"
+                                label="Mobile No"
                                 variant="outlined"
                             // name='vMobileNo'
                             // inputRef={register({ required: "Mobile No is required.*", })}
@@ -219,7 +219,7 @@ function VenderForm() {
                                 value={vEmailId}
                                 onChange={e => setvEmailId(e.target.value)}
                                 id="outlined-basic"
-                                label="Enter Email Id"
+                                label="Email Id"
                                 variant="outlined"
                             // name='vEmailId'
                             // inputRef={register({ required: "Email Id is required.*", })}
@@ -236,7 +236,7 @@ function VenderForm() {
                                 value={vGSTNo}
                                 onChange={e => setvGSTNo(e.target.value)}
                                 id="outlined-basic"
-                                label="Enter GST No"
+                                label="GST No"
                                 variant="outlined"
                                 name='vGSTNo'
                                 inputRef={register({ required: "GST No is required.*", })}
@@ -251,7 +251,7 @@ function VenderForm() {
                                 value={vRemarks}
                                 onChange={e => setvRemarks(e.target.value)}
                                 id="outlined-basic"
-                                label="Enter Remarks"
+                                label="Remarks"
                                 variant="outlined"
                                 name='vRemarks'
                             // inputRef={register({ required: "Remarks is required.*", })}

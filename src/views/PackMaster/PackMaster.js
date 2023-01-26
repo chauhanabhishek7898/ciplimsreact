@@ -262,7 +262,7 @@ function PackMaster() {
                                 value={packCode}
                                 onChange={e => setpackCode(e.target.value)}
                                 id="outlined-basic"
-                                label="Enter Pack Code"
+                                label="Pack Code"
                                 variant="outlined"
                                 name='packCode'
                                 inputRef={register({ required: "Pack Code is required.*", })}
@@ -277,7 +277,7 @@ function PackMaster() {
                                 value={packName}
                                 onChange={e => setpackName(e.target.value)}
                                 id="outlined-basic"
-                                label="Enter Pack Name"
+                                label="Pack Name"
                                 variant="outlined"
                                 name='packName'
                                 inputRef={register({ required: "Pack Name is required.*", })}
@@ -315,7 +315,7 @@ function PackMaster() {
                                 value={packProduct}
                                 onChange={e => setpackProduct(e.target.value)}
                                 id="outlined-basic"
-                                label="Enter Pack Product"
+                                label="Pack Product"
                                 variant="outlined"
                                 name='packProduct'
                                 inputRef={register({ required: "Pack Product is required.*", })}
@@ -329,7 +329,7 @@ function PackMaster() {
                                 value={packCases}
                                 onChange={e => setpackCases(e.target.value)}
                                 id="outlined-basic"
-                                label="Enter Pack Cases"
+                                label="Pack Cases"
                                 variant="outlined"
                                 name='packCases'
                                 inputRef={register({ required: "Pack Cases is required.*", })}
@@ -372,7 +372,7 @@ function PackMaster() {
                                 onChange={e => setpackCode(e.target.value)}
                                 required
                                 id="outlined-basic"
-                                label="Enter Pack Code"
+                                label="Pack Code"
                                 variant="outlined" />
                         </FormControl>
                     </Box>
@@ -383,7 +383,7 @@ function PackMaster() {
                                 onChange={e => setpackName(e.target.value)}
                                 required
                                 id="outlined-basic"
-                                label="Enter Pack Name"
+                                label="Pack Name"
                                 variant="outlined" />
                         </FormControl>
                     </Box>
@@ -414,7 +414,7 @@ function PackMaster() {
                                 onChange={e => setpackProduct(e.target.value)}
                                 required
                                 id="outlined-basic"
-                                label="Enter Pack Product"
+                                label="Pack Product"
                                 variant="outlined" />
                         </FormControl>
                     </Box>
@@ -424,7 +424,7 @@ function PackMaster() {
                                 value={packCases}
                                 onChange={e => setpackCases(e.target.value)}
                                 required id="outlined-basic"
-                                label="Enter Pack Cases"
+                                label="Pack Cases"
                                 variant="outlined" />
                         </FormControl>
                     </Box>

@@ -124,7 +124,7 @@ function BrandMaster() {
                                 value={brandCode}
                                 onChange={e => setBrandCode(e.target.value)}
                                 required id="outlined-basic"
-                                label="Enter Brand Code"
+                                label="Brand Code"
                                 variant="outlined"
                                 name='brandCode'
                                 inputRef={register({ required: "Brand Code is required.*", })}
@@ -139,7 +139,7 @@ function BrandMaster() {
                                 value={brandName}
                                 onChange={e => setBrandName(e.target.value)}
                                 required id="outlined-basic"
-                                label="Enter Brand Name"
+                                label="Brand Name"
                                 variant="outlined"
                                 name='brandName'
                                 inputRef={register({ required: "Brand Name is required.*", })}
