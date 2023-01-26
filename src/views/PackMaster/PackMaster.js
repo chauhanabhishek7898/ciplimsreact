@@ -115,7 +115,7 @@ function PackMaster() {
             }
             console.log('pack', pack)
             if(buttonName=='Submit'){
-                PackMasterPost(data).then(res=>{
+                PackMasterPost(pack).then(res=>{
                     if(res){
                         toast.success("Record Added Successfully !!")
                         setLoader(false)
@@ -125,7 +125,7 @@ function PackMaster() {
                 })
     
             }else{
-                PackMasterPut(data).then(res=>{
+                PackMasterPut(pack).then(res=>{
                     if(res){
                         toast.success("Record Updated Successfully !!")
                         setLoader(false)

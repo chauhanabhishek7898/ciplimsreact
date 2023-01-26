@@ -66,7 +66,7 @@ const routes = [
   { path: '/KOMonth', name: 'Ko Month', element: Komonth, exact: true},
   { path: '/UnitMaster', name: 'Unit Master', element: UnitMaster, exact: true},
 
-  { path: '/VehicleTypeMaster', name: 'Vender Form', element: VenderForm, exact: true},
+  { path: '/VendorMaster', name: 'Vender Form', element: VenderForm, exact: true},
   { path: '/BrandMaster', name: 'Brand Master', element: BrandMaster, exact: true },
   { path: '/PackMaster', name: 'Pack Master', element: PackMaster , exact: true},
   { path: '/PlantMaster', name: 'Plant Master', element: PlantMaster, exact: true },

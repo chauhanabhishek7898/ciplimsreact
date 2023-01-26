@@ -8,12 +8,9 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import TablePagination from '@mui/material/TablePagination';
 import Paper from '@mui/material/Paper';
-// import Select from '@mui/material/Select';
-// import MenuItem from '@mui/material/MenuItem';
-import { getKMLimitMaster_SelectAll } from './VenderFormService'
+import { VendorMaster_SelectAll, VendorMasterPost, VendorMasterPut } from './VenderFormService'
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
-// import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import FormGroup from '@mui/material/FormGroup';
@@ -21,105 +18,262 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import { RiEditBoxLine } from "react-icons/ri"
 import AddIcon from '@mui/icons-material/Add';
+import { useForm } from 'react-hook-form';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { CButton, CSpinner } from '@coreui/react'
 function VenderForm() {
     const [modalIsOpen, setIsOpen] = React.useState(false);
-    const [modalIsEditOpen, setIsEditOpen] = React.useState(false);
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
-    const [kmLimitData, setKmLimitData] = React.useState([]);
-    const labelVenderCode = "Enter Vendor Code";
-    // const [vehicleid, setVehicleid] = React.useState('');
-    // const [vehicleData, setVehicleData] = React.useState([]);
+    const [vendorData, setVendorData] = React.useState([]);
+    const [nVId, setnVId] = React.useState(0);
+    const [vVendorCode, setvVendorCode] = React.useState("");
+    const [vVendorName, setvVendorName] = React.useState("");
+    const [vVendorAddress, setvVendorAddress] = React.useState("");
+    const [vContactPerson, setvContactPerson] = React.useState(0);
+    const [vMobileNo, setvMobileNo] = React.useState(false);
+    const [vEmailId, setvEmailId] = React.useState("");
+    const [vGSTNo, setvGSTNo] = React.useState("");
+    const [vRemarks, setvRemarks] = React.useState("");
+    const [btActive, setbtActive] = React.useState(false);
+    const [buttonName, setbuttonName] = React.useState('');
+    const [disabled, setdisabled] = React.useState(true);
+    const [loader, setLoader] = React.useState(false);
+    const { register, handleSubmit, control, errors } = useForm();
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
     };
-    // const handleChangeVehicle = (event) => {
-    //     setVehicleid(event.target.value);
-    // };
     const handleChangeRowsPerPage = (event) => {
         setRowsPerPage(+event.target.value);
         setPage(0);
     };
-    const openmodale = () => {
-        setIsOpen(true)
+    const openmodale = (item, type) => {
+        if (type == 'Submit') {
+            setIsOpen(true)
+            setbuttonName(type)
+            setvVendorCode('')
+            setvVendorName('')
+            setvVendorAddress('')
+            setvContactPerson('')
+            setvMobileNo('')
+            setvEmailId('')
+            setvGSTNo('')
+            setvRemarks('')
+            setbtActive(true)
+            setdisabled(true)
+        } else {
+            setIsOpen(true)
+            setnVId(item.nVId)
+            setvVendorCode(item.vVendorCode)
+            setvVendorName(item.vVendorName)
+            setvVendorAddress(item.vVendorAddress)
+            setvContactPerson(item.vContactPerson)
+            setvMobileNo(item.vMobileNo)
+            setvEmailId(item.vEmailId)
+            setvGSTNo(item.vGSTNo)
+            setvRemarks(item.vRemarks)
+            setbtActive(item.btActive)
+            setdisabled(false)
+            setbuttonName(type)
+        }
     }
-
-    const openEditmodale = (nLimitId) => {
-        console.log("nLimitId", nLimitId)
-        setIsEditOpen(true)
-    }
-
     useEffect(() => {
-        KMLimitMaster_SelectAll()
-        // GetVehicleTypeMaster_SelectAll()
+        getVendorMaster_SelectAll()
     }, [])
-    const KMLimitMaster_SelectAll = () => {
-        getKMLimitMaster_SelectAll().then(response => {
+    const getVendorMaster_SelectAll = () => {
+        VendorMaster_SelectAll().then(response => {
             console.log(response)
-            setKmLimitData(response)
+            setVendorData(response)
         })
+    }
+    const submit = () => {
+        setLoader(true)
+        let vendor = {
+            nVId: nVId == null ? 0 : nVId,
+            vVendorCode: vVendorCode,
+            vVendorName: vVendorName,
+            vVendorAddress: vVendorAddress,
+            vContactPerson: vContactPerson,
+            vMobileNo: vMobileNo,
+            vEmailId: vEmailId,
+            vGSTNo: vGSTNo,
+            vRemarks: vRemarks,
+            btActive: btActive,
+        }
+        if (buttonName == 'Submit') {
+            console.log('vendor', vendor)
+            VendorMasterPost(vendor).then(res => {
+                if (res) {
+                    console.log('res', res)
+                    toast.success("Record Added Successfully !!")
+                    setLoader(false)
+                    setIsOpen(false)
+                    getVendorMaster_SelectAll()
+                }
+            })
+        } else {
+            console.log('vendor', vendor)
+            VendorMasterPut(vendor).then(res => {
+                if (res) {
+                    console.log('res', res)
+                    toast.success("Record Updated Successfully !!")
+                    setLoader(false)
+                    setIsOpen(false)
+                    getVendorMaster_SelectAll()
+                }
+            })
+        }
     }
     return (
         <div className='citymasterContainer'>
-            <button className='addbtn_2' onClick={openmodale} title="Add"><AddIcon fontSize='large'/></button>
+            <button className='addbtn_2' onClick={() => openmodale(null, 'Submit')} title='Add'><AddIcon fontSize='large' /></button>
             <Modal
                 isOpen={modalIsOpen}
                 style={customStyles}
                 contentLabel="Example Modal"
             >
                 <div className='displayright'>
-                    <div><span className='title'>Vender Form</span></div>
+                    <div><span className='title'>Vendor Master Form</span></div>
                     <HighlightOffIcon fontSize='large' onClick={() => setIsOpen(false)} />
                 </div>
                 <div className='displayflexend'>
                     <Box sx={{ width: '30%' }} >
                         <FormControl fullWidth className='input'>
-                            <TextField required id="outlined-basic" label={labelVenderCode} variant="outlined" />
+                            <TextField
+                                value={vVendorCode}
+                                onChange={e => setvVendorCode(e.target.value)}
+                                id="outlined-basic"
+                                label="Enter Vendor Code"
+                                variant="outlined"
+                                name='vVendorCode'
+                                inputRef={register({ required: "Vendor Code is required.*", })}
+                                error={Boolean(errors.vVendorCode)}
+                                helperText={errors.vVendorCode?.message}
+                            />
                         </FormControl>
                     </Box>
                     <Box sx={{ width: '30%' }} >
                         <FormControl fullWidth className='input' >
-                            <TextField required id="outlined-basic" label="Enter Vendor Name" variant="outlined" />
+                            <TextField
+                                value={vVendorName}
+                                onChange={e => setvVendorName(e.target.value)}
+                                id="outlined-basic"
+                                label="Enter Vendor Name"
+                                variant="outlined"
+                                name='vVendorName'
+                                inputRef={register({ required: "Vendor Name is required.*", })}
+                                error={Boolean(errors.vVendorName)}
+                                helperText={errors.vVendorName?.message}
+                            />
                         </FormControl>
                     </Box>
                     <Box sx={{ width: '30%', marginTop: 2 }} >
                         <FormControl fullWidth className='input'>
-                            <TextField required id="outlined-basic" label="Enter Vendor Address" variant="outlined" />
+                            <TextField
+                                value={vVendorAddress}
+                                onChange={e => setvVendorAddress(e.target.value)}
+                                id="outlined-basic"
+                                label="Enter Vendor Address"
+                                variant="outlined"
+                            // name='vVendorAddress'
+                            // inputRef={register({ required: "Vendor Address is required.*", })}
+                            // error={Boolean(errors.vVendorAddress)}
+                            // helperText={errors.vVendorAddress?.message}
+                            />
                         </FormControl>
                     </Box>
                     <Box sx={{ width: '30%', marginTop: 2 }} >
                         <FormControl fullWidth className='input'>
-                            <TextField required id="outlined-basic" label="Enter Contact Person" variant="outlined" />
+                            <TextField
+                                value={vContactPerson}
+                                onChange={e => setvContactPerson(e.target.value)}
+                                id="outlined-basic"
+                                label="Enter Contact Person"
+                                variant="outlined"
+                            // name='vContactPerson'
+                            // inputRef={register({ required: "Contact Person is required.*", })}
+                            // error={Boolean(errors.vContactPerson)}
+                            // helperText={errors.vContactPerson?.message}
+                            />
                         </FormControl>
                     </Box>
                     <Box sx={{ width: '30%', marginTop: 2 }} >
                         <FormControl fullWidth className='input'>
-                            <TextField required id="outlined-basic" label="Enter Mobile No" variant="outlined" />
+                            <TextField
+                                value={vMobileNo}
+                                onChange={e => setvMobileNo(e.target.value)}
+                                id="outlined-basic"
+                                label="Enter Mobile No"
+                                variant="outlined"
+                            // name='vMobileNo'
+                            // inputRef={register({ required: "Mobile No is required.*", })}
+                            // error={Boolean(errors.vMobileNo)}
+                            // helperText={errors.vMobileNo?.message}
+                            />
                         </FormControl>
                     </Box>
                     <Box sx={{ width: '30%', marginTop: 2 }} >
                         <FormControl fullWidth className='input'>
-                            <TextField required id="outlined-basic" label="Enter Email Id" variant="outlined" />
+                            <TextField
+                                value={vEmailId}
+                                onChange={e => setvEmailId(e.target.value)}
+                                id="outlined-basic"
+                                label="Enter Email Id"
+                                variant="outlined"
+                            // name='vEmailId'
+                            // inputRef={register({ required: "Email Id is required.*", })}
+                            // error={Boolean(errors.vEmailId)}
+                            // helperText={errors.vEmailId?.message}
+                            />
                         </FormControl>
                     </Box>
                 </div>
                 <div className='displaystart'>
                     <Box sx={{ width: '30%', marginTop: 2 }}>
                         <FormControl fullWidth className='input'>
-                            <TextField required id="outlined-basic" label="Enter GST No" variant="outlined" />
+                            <TextField
+                                value={vGSTNo}
+                                onChange={e => setvGSTNo(e.target.value)}
+                                id="outlined-basic"
+                                label="Enter GST No"
+                                variant="outlined"
+                                name='vGSTNo'
+                                inputRef={register({ required: "GST No is required.*", })}
+                                error={Boolean(errors.vGSTNo)}
+                                helperText={errors.vGSTNo?.message}
+                            />
                         </FormControl>
                     </Box>
                     <Box sx={{ width: '65%', marginTop: 2 }}>
                         <FormControl fullWidth className='input'>
-                            <TextField required id="outlined-basic" label="Enter Remarks" variant="outlined" />
+                            <TextField
+                                value={vRemarks}
+                                onChange={e => setvRemarks(e.target.value)}
+                                id="outlined-basic"
+                                label="Enter Remarks"
+                                variant="outlined"
+                                name='vRemarks'
+                            // inputRef={register({ required: "Remarks is required.*", })}
+                            // error={Boolean(errors.vRemarks)}
+                            // helperText={errors.vRemarks?.message}
+                            />
                         </FormControl>
                     </Box>
                 </div>
                 <div className='displayflexend'>
                     <FormGroup >
-                        <FormControlLabel control={<Checkbox defaultChecked />} label="Active" disabled />
+                        <FormControlLabel control={<Checkbox defaultChecked={btActive} value={btActive} onChange={e => setbtActive(e.target.checked)} />} label="Active" disabled={disabled} />
                     </FormGroup>
-                    <button type="" className='submitbtn' onClick={openmodale}>Submit</button>
+
+                    {loader == true ?
+                        <CButton disabled className='submitbtn'>
+                            <CSpinner component="span" size="sm" aria-hidden="true" />
+                            Loading...
+                        </CButton>
+                        :
+                        <button type="submit" className='submitbtn' onClick={handleSubmit(submit)}>{buttonName}</button>
+                    }
                 </div>
             </Modal >
             <div className='tablecenter'>
@@ -142,20 +296,20 @@ function VenderForm() {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {kmLimitData.map((item, index) => {
+                                {vendorData.map((item, index) => {
                                     return (
                                         <TableRow >
                                             <TableCell component="th" scope="row">{index + 1}.</TableCell>
-                                            <TableCell align="left">{item.CityStateDetailsPX}</TableCell>
-                                            <TableCell align="left">{item.vVehicleType}</TableCell>
-                                            <TableCell align="left">{item.nKMLimit}</TableCell>
-                                            <TableCell align="left">{item.CityStateDetailsPX}</TableCell>
-                                            <TableCell align="left">{item.vVehicleType}</TableCell>
-                                            <TableCell align="left">{item.nKMLimit}</TableCell>
-                                            <TableCell align="left">{item.vVehicleType}</TableCell>
-                                            <TableCell align="left">{item.nKMLimit}</TableCell>
+                                            <TableCell align="left">{item.vVendorCode}</TableCell>
+                                            <TableCell align="left">{item.vVendorName}</TableCell>
+                                            <TableCell align="left">{item.vVendorAddress}</TableCell>
+                                            <TableCell align="left">{item.vContactPerson}</TableCell>
+                                            <TableCell align="left">{item.vMobileNo}</TableCell>
+                                            <TableCell align="left">{item.vEmailId}</TableCell>
+                                            <TableCell align="left">{item.vGSTNo}</TableCell>
+                                            <TableCell align="left">{item.vRemarks}</TableCell>
                                             <TableCell align="left">{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
-                                            <TableCell align="left"><div onClick={() => openEditmodale(item.nLimitId)}><RiEditBoxLine  fontSize="1.5em"/></div></TableCell>
+                                            <TableCell align="left"><div onClick={() => openmodale(item, 'Update')}><RiEditBoxLine fontSize="1.5em" /></div></TableCell>
                                         </TableRow>
                                     )
                                 })
@@ -166,7 +320,7 @@ function VenderForm() {
                     <TablePagination
                         rowsPerPageOptions={[10, 25, 100]}
                         component="div"
-                        count={kmLimitData.length}
+                        count={vendorData.length}
                         rowsPerPage={rowsPerPage}
                         page={page}
                         onPageChange={handleChangePage}
@@ -174,68 +328,7 @@ function VenderForm() {
                     />
                 </Paper>
             </div>
-            <Modal
-                isOpen={modalIsEditOpen}
-                style={customStyles}
-                contentLabel="Example Modal"
-            >
-                <div className='displayright'>
-                    <div><span className='title'>Edit</span></div>
-                    <HighlightOffIcon fontSize='large'
-                        onClick={() => setIsEditOpen(false)}
-                    />
-                </div>
-                <div className='displayflexend'>
-                    <Box sx={{ width: '30%' }} >
-                        <FormControl fullWidth className='input'>
-                            <TextField required id="outlined-basic" label={labelVenderCode} variant="outlined" />
-                        </FormControl>
-                    </Box>
-                    <Box sx={{ width: '30%' }} >
-                        <FormControl fullWidth className='input' >
-                            <TextField required id="outlined-basic" label="Enter Vendor Name" variant="outlined" />
-                        </FormControl>
-                    </Box>
-                    <Box sx={{ width: '30%', marginTop: 2 }} >
-                        <FormControl fullWidth className='input'>
-                            <TextField required id="outlined-basic" label="Enter Vendor Address" variant="outlined" />
-                        </FormControl>
-                    </Box>
-                    <Box sx={{ width: '30%', marginTop: 2 }} >
-                        <FormControl fullWidth className='input'>
-                            <TextField required id="outlined-basic" label="Enter Contact Person" variant="outlined" />
-                        </FormControl>
-                    </Box>
-                    <Box sx={{ width: '30%', marginTop: 2 }} >
-                        <FormControl fullWidth className='input'>
-                            <TextField required id="outlined-basic" label="Enter Mobile No" variant="outlined" />
-                        </FormControl>
-                    </Box>
-                    <Box sx={{ width: '30%', marginTop: 2 }} >
-                        <FormControl fullWidth className='input'>
-                            <TextField required id="outlined-basic" label="Enter Email Id" variant="outlined" />
-                        </FormControl>
-                    </Box>
-                </div>
-                <div className='displaystart'>
-                    <Box sx={{ width: '30%', marginTop: 2 }}>
-                        <FormControl fullWidth className='input'>
-                            <TextField required id="outlined-basic" label="Enter GST No" variant="outlined" />
-                        </FormControl>
-                    </Box>
-                    <Box sx={{ width: '65%', marginTop: 2 }}>
-                        <FormControl fullWidth className='input'>
-                            <TextField required id="outlined-basic" label="Enter Remarks" variant="outlined" />
-                        </FormControl>
-                    </Box>
-                </div>
-                <div className='displayflexend'>
-                    <FormGroup >
-                        <FormControlLabel control={<Checkbox defaultChecked />} label="Active" />
-                    </FormGroup>
-                    <button type="" className='submitbtn' onClick={openEditmodale}>Submit</button>
-                </div>
-            </Modal >
+            <ToastContainer />
         </div >
     )
 }
