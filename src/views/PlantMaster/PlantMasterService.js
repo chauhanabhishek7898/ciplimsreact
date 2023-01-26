@@ -3,17 +3,25 @@ import * as environment from '../../coreservices/environment'
 export default function abc() {
     return <div>abc</div>
 }
-export function getKMLimitMaster_SelectAll() {
+export function PlantMaster_SelectAll() {
     let apiUrl = environment.apiUrl;
-    let url = `${apiUrl}/KMLimitMaster/KMLimitMaster_SelectAll`
+    let url = `${apiUrl}/PlantMaster/PlantMaster_SelectAll`
     return api.get(url).then(response => {
         return response;
     })
 }
-export function getVehicleTypeMaster_SelectAll() {
+
+export function PlantMasterPost(data) {
     let apiUrl = environment.apiUrl;
-    let url = `${apiUrl}/VehicleTypeMaster/VehicleTypeMaster_SelectAll`
-    return api.get(url).then(response => {
+    let url = `${apiUrl}/PlantMaster`
+    return api.post(url, data).then(response => {
+        return response;
+    })
+}
+export function PlantMasterPut(data) {
+    let apiUrl = environment.apiUrl;
+    let url = `${apiUrl}/UnitMaster`
+    return api.put(url, data).then(response => {
         return response;
     })
 }

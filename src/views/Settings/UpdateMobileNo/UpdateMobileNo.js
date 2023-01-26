@@ -41,6 +41,7 @@ function UpdateMobileNo() {
                     label="Mobile No"
                     variant="outlined"
                     value={vMobileNo}
+                    inputProps={{ inputMode: 'numeric', pattern: '[0-9]*',maxLength: 12 }}
                     name='vMobileNo'
                     onChange={e => setvMobileNo(e.target.value)}
                     inputRef={register({ required: "Mobile No is required.*", })}
