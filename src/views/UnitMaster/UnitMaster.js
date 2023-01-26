@@ -112,7 +112,7 @@ function UnitMaster() {
                     <div><span className='title'>Unit Master</span></div>
                     <HighlightOffIcon fontSize='large' onClick={() => setIsOpen(false)} />
                 </div>
-                <form onSubmit={handleSubmit(submit)}>
+                <form >
                 <div className='displayflexend'>
                 <TextField
                         fullWidth
@@ -137,7 +137,7 @@ function UnitMaster() {
                             Loading...
                         </CButton>
                         :
-                        <button type="submit" className='submitbtn'>{buttonName}</button>
+                        <button type="submit" className='submitbtn' onClick={handleSubmit(submit)}>{buttonName}</button>
 
                     }
                 </div>

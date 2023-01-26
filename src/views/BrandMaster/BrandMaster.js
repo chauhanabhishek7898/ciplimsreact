@@ -8,12 +8,9 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import TablePagination from '@mui/material/TablePagination';
 import Paper from '@mui/material/Paper';
-// import Select from '@mui/material/Select';
-// import MenuItem from '@mui/material/MenuItem';
-import { getKMLimitMaster_SelectAll } from './BrandMasterService'
+import { BrandMaster_SelectAll, BrandMasterPost, BrandMasterPut } from './BrandMasterService'
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
-// import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import FormGroup from '@mui/material/FormGroup';
@@ -21,44 +18,141 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import { RiEditBoxLine } from "react-icons/ri"
 import AddIcon from '@mui/icons-material/Add';
+import { useForm } from 'react-hook-form';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { CButton, CSpinner } from '@coreui/react'
 function BrandMaster() {
     const [modalIsOpen, setIsOpen] = React.useState(false);
+    // const [modalIsOpenEdit, setIsOpenEdit] = React.useState(false);
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
-    const [kmLimitData, setKmLimitData] = React.useState([]);
-    // const [vehicleid, setVehicleid] = React.useState('');
-    // const [vehicleData, setVehicleData] = React.useState([]);
+    const [brandData, setBrandData] = React.useState([]);
+
+    const [loader, setLoader] = React.useState(false);
+
+    const [nBid, setnBid] = React.useState(0);
+    const [btActive, setBtActive] = React.useState(false);
+    const [brandCode, setBrandCode] = React.useState("");
+    const [brandName, setBrandName] = React.useState("");
+
+    const [buttonName, setbuttonName] = React.useState('');
+    const [disabled, setdisabled] = React.useState(true);
+    const { register, handleSubmit, control, errors } = useForm();
+
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
     };
-    // const handleChangeVehicle = (event) => {
-    //     setVehicleid(event.target.value);
-    // };
     const handleChangeRowsPerPage = (event) => {
         setRowsPerPage(+event.target.value);
         setPage(0);
     };
-    const openmodale = () => {
-        setIsOpen(true)
+
+    const openmodale = (item, type) => {
+        if (type == 'Submit') {
+            setIsOpen(true)
+            setbuttonName(type)
+            setBrandCode('')
+            setBrandName('')
+            setBtActive(true)
+            setdisabled(true)
+        } else {
+            setIsOpen(true)
+            setnBid(item.nBId)
+            setBrandCode(item.vBrandCode)
+            setBrandName(item.vBrandName)
+            setBtActive(item.btActive)
+            setdisabled(false)
+            setbuttonName(type)
+
+        }
     }
+
+    // const openmodale = () => {
+    //     setIsOpen(true)
+    // }
     useEffect(() => {
-        KMLimitMaster_SelectAll()
-        // GetVehicleTypeMaster_SelectAll()
+        getBrandMaster_SelectAll()
     }, [])
-    const KMLimitMaster_SelectAll = () => {
-        getKMLimitMaster_SelectAll().then(response => {
+    const getBrandMaster_SelectAll = () => {
+        BrandMaster_SelectAll().then(response => {
             console.log(response)
-            setKmLimitData(response)
+            setBrandData(response)
         })
     }
-    // const GetVehicleTypeMaster_SelectAll = () => {
-    //     getVehicleTypeMaster_SelectAll().then(response => {
-    //         setVehicleData(response)
-    //     })
+    const submit = () => {
+        // if(validateform()==true){
+            setLoader(true)
+        let brand = {
+            nBId: nBid == null ? 0 : nBid,
+            vBrandCode: brandCode,
+            vBrandName: brandName,
+            btActive: btActive,
+        }
+        if (buttonName == 'Submit') {
+            console.log('brand', brand)
+            BrandMasterPost(brand).then(res => {
+                if (res) {
+                    console.log('res', res)
+                    toast.success("Record Added Successfully !!")
+                    setLoader(false)
+                    setIsOpen(false)
+                    getBrandMaster_SelectAll()
+                    // alert("Record Added Successfully !!")
+                }
+            })
+
+        } else {
+            console.log('brand', brand)
+            BrandMasterPut(brand).then(res => {
+                if (res) {
+                    console.log('res', res)
+                    toast.success("Record Updated Successfully !!")
+                    setLoader(false)
+                    setIsOpen(false)
+                    getBrandMaster_SelectAll()
+                    // alert("Record Added Successfully !!")
+                }
+            })
+        }
+
+
+
+        // }
+    }
+    // const validateform=()=>{
+    //     if(weekNumberId==''){
+    //         console.log('Select Week Number')
+    //         setError('Select Week Number'+''+'*')
+    //         return false
+    //     }else{
+    //         setError('')
+    //         return true
+    //     }
     // }
+    // const openEditmodale = (item) => {
+    //     setIsOpenEdit(true)
+    //     setnBid(item.nBId)
+    //     setBrandCode(item.vBrandCode)
+    //     setBrandName(item.vBrandName)
+    //     setBtActive(item.btActive)
+
+
+    // }
+    // const onChkChange = (e) => {
+    //     if (e.target.checked) {
+    //         setBtActive(true)
+    //     } else {
+    //         setBtActive(false)
+    //     }
+
+
+
+    // }
+
     return (
         <div className='citymasterContainer'>
-            <button className='addbtn_2' onClick={openmodale} title='Add' ><AddIcon fontSize='large'/></button>
+            <button className='addbtn_2' onClick={() => openmodale(null, 'Submit')} title='Add'  ><AddIcon fontSize='large' /></button>
             <Modal
                 isOpen={modalIsOpen}
                 style={customStyles}
@@ -71,40 +165,49 @@ function BrandMaster() {
                 <div className='displayflexend'>
                     <Box sx={{ width: '48%' }} >
                         <FormControl fullWidth className='input'>
-                            <TextField required id="outlined-basic" label="Enter Brand Code" variant="outlined" />
+                            <TextField
+                                value={brandCode}
+                                onChange={e => setBrandCode(e.target.value)}
+                                required id="outlined-basic"
+                                label="Enter Brand Code"
+                                variant="outlined"
+                                name='brandCode'
+                                inputRef={register({ required: "Brand Code is required.*", })}
+                                error={Boolean(errors.brandCode)}
+                                helperText={errors.brandCode?.message}
+                            />
                         </FormControl>
                     </Box>
                     <Box sx={{ width: '48%' }} >
                         <FormControl fullWidth className='input' >
-                            <TextField required id="outlined-basic" label="Enter Brand Name" variant="outlined" />
+                            <TextField
+                                value={brandName}
+                                onChange={e => setBrandName(e.target.value)}
+                                required id="outlined-basic"
+                                label="Enter Brand Name"
+                                variant="outlined"
+                                name='brandName'
+                                inputRef={register({ required: "Brand Name is required.*", })}
+                                error={Boolean(errors.brandName)}
+                                helperText={errors.brandName?.message}
+                            />
                         </FormControl>
                     </Box>
-                    {/* <Box sx={{ width: '48%' ,marginTop:2 }}>
-                        <FormControl fullWidth className='input'>
-                            <InputLabel required id="demo-simple-select-label">Status</InputLabel>
-                            <Select
-                                style={{ width: '100%', }}
-                                labelId="demo-simple-select-label"
-                                id="demo-simple-select"
-                                value={vehicleid}
-                                label="Select Vehicle Type"
-                                onChange={handleChangeVehicle}
-                            >
-                                {vehicleData.map((item, index) => {
-                                    return (
-                                        <MenuItem value={item.nVId}>{item.vVehicleType}</MenuItem>
-                                    )
-                                })
-                                }
-                            </Select>
-                        </FormControl>
-                    </Box> */}
                 </div>
                 <div className='displayflexend'>
                     <FormGroup >
-                        <FormControlLabel control={<Checkbox defaultChecked />} label="Active" disabled />
+                        <FormControlLabel control={<Checkbox defaultChecked={btActive} value={btActive} onChange={e => setBtActive(e.target.checked)} />} label="Active" disabled={disabled} />
+                        {/* <FormControlLabel control={<Checkbox defaultChecked />} label="Active" disabled /> */}
                     </FormGroup>
-                    <button type="" className='submitbtn' onClick={openmodale}>Submit</button>
+
+                    {loader == true ?
+                        <CButton disabled className='submitbtn'>
+                            <CSpinner component="span" size="sm" aria-hidden="true" />
+                            Loading...
+                        </CButton>
+                        :
+                        <button type="submit" className='submitbtn' onClick={handleSubmit(submit)}>{buttonName}</button>
+                    }
                 </div>
             </Modal >
             <div className='tablecenter'>
@@ -121,14 +224,15 @@ function BrandMaster() {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {kmLimitData.map((item, index) => {
+                                {brandData.map((item, index) => {
                                     return (
                                         <TableRow >
                                             <TableCell component="th" scope="row">{index + 1}.</TableCell>
-                                            <TableCell align="left">{item.CityStateDetailsPX}</TableCell>
-                                            <TableCell align="left">{item.vVehicleType}</TableCell>
+                                            <TableCell align="left">{item.vBrandCode}</TableCell>
+                                            <TableCell align="left">{item.vBrandName}</TableCell>
                                             <TableCell align="left">{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
-                                            <TableCell align="left"><div onClick={openmodale}><RiEditBoxLine fontSize="1.5em" style={{cursor:'pointer'}}/></div></TableCell>
+                                            <TableCell align="left"><div onClick={() => openmodale(item, 'Update')}><RiEditBoxLine fontSize="1.5em" /></div></TableCell>
+                                            {/* <TableCell align="left"><div onClick={() => openEditmodale(item)}><RiEditBoxLine fontSize="1.5em" style={{ cursor: 'pointer' }} /></div></TableCell> */}
                                         </TableRow>
                                     )
                                 })
@@ -139,7 +243,7 @@ function BrandMaster() {
                     <TablePagination
                         rowsPerPageOptions={[10, 25, 100]}
                         component="div"
-                        count={kmLimitData.length}
+                        count={brandData.length}
                         rowsPerPage={rowsPerPage}
                         page={page}
                         onPageChange={handleChangePage}
@@ -147,6 +251,54 @@ function BrandMaster() {
                     />
                 </Paper>
             </div>
+
+            {/* <Modal
+                isOpen={modalIsOpenEdit}
+                style={customStyles}
+                contentLabel="Example Modal"
+            >
+                <div className='displayright'>
+                    <div><span className='title'>Edit Brand Master</span></div>
+                    <HighlightOffIcon fontSize='large' onClick={() => setIsOpen(false)} />
+                </div>
+                <div className='displayflexend'>
+                    <Box sx={{ width: '48%' }} >
+                        <FormControl fullWidth className='input'>
+                            <TextField
+                                value={brandCode}
+                                onChange={e => setBrandCode(e.target.value)}
+                                required id="outlined-basic"
+                                label="Enter Brand Code"
+                                variant="outlined" />
+                        </FormControl>
+                    </Box>
+                    <Box sx={{ width: '48%' }} >
+                        <FormControl fullWidth className='input' >
+                            <TextField
+                                value={brandName}
+                                onChange={e => setBrandName(e.target.value)}
+                                required id="outlined-basic"
+                                label="Enter Brand Name"
+                                variant="outlined" />
+                        </FormControl>
+                    </Box>
+                </div>
+                <div className='displayflexend'>
+                    <FormGroup >
+                        <FormControlLabel control=
+                            {<Checkbox
+                                checked={btActive}
+                                onChange={()=>onChkChange(e)}
+                                
+                            />}
+                            label="Active"  />
+                    </FormGroup>
+                    <button type="" className='submitbtn' >Submit</button>
+                </div>
+            </Modal > */}
+
+
+            <ToastContainer />
         </div >
     )
 }

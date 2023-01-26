@@ -76,6 +76,9 @@ const routes = [
   { path: '/update-email-id', name: 'Update Email', element: UpdateEmail, exact: true },
   { path: '/update-mobile-no', name: 'Update Mobile No', element: UpdateMobileNo, exact: true },
   { path: '/update-password', name: 'Update Password', element: UpdatePassword, exact: true },
+  { path: '/BrandMaster', name: 'Brand Master', element: BrandMaster, exact: true },
+  { path: '/PackMaster', name: 'Pack Master', element: PackMaster , exact: true},
+  { path: '/PlantMaster', name: 'Plant Master', element: PlantMaster, exact: true },
 
   { path: '/base/accordion', name: 'Accordion', element: Accordion },
   { path: '/base/breadcrumbs', name: 'Breadcrumbs', element: Breadcrumbs },

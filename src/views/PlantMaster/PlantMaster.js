@@ -8,7 +8,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import TablePagination from '@mui/material/TablePagination';
 import Paper from '@mui/material/Paper';
-import { getKMLimitMaster_SelectAll } from './PlantMasterService'
+// import { getKMLimitMaster_SelectAll } from './PlantMasterService'
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import FormControl from '@mui/material/FormControl';
@@ -34,17 +34,17 @@ function PlantMaster() {
         setIsOpen(true)
     }
     useEffect(() => {
-        KMLimitMaster_SelectAll()
+        // KMLimitMaster_SelectAll()
     }, [])
-    const KMLimitMaster_SelectAll = () => {
-        getKMLimitMaster_SelectAll().then(response => {
-            console.log(response)
-            setKmLimitData(response)
-        })
-    }
+    // const KMLimitMaster_SelectAll = () => {
+    //     getKMLimitMaster_SelectAll().then(response => {
+    //         console.log(response)
+    //         setKmLimitData(response)
+    //     })
+    // }
     return (
         <div className='citymasterContainer'>
-            <button className='addbtn_2' onClick={openmodale} title='Add' ><AddIcon fontSize='large'/></button>
+            <button className='addbtn_2' onClick={openmodale} title='Add' ><AddIcon fontSize='large' /></button>
             <Modal
                 isOpen={modalIsOpen}
                 style={customStyles}
@@ -105,21 +105,30 @@ function PlantMaster() {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {kmLimitData.map((item, index) => {
-                                    return (
-                                        <TableRow >
-                                            <TableCell component="th" scope="row">{index + 1}.</TableCell>
+                                {/* {kmLimitData.map((item, index) => {
+                                    return ( */}
+                                <TableRow >
+                                    <TableCell scope="row">SN.</TableCell>
+                                    <TableCell align="left">Plant Code</TableCell>
+                                    <TableCell align="left">Plant Name</TableCell>
+                                    <TableCell align="left">Plant Address</TableCell>
+                                    <TableCell align="left">Profit Centre</TableCell>
+                                    <TableCell align="left">Cost Centre</TableCell>
+                                    <TableCell align="left">Status</TableCell>
+                                    <TableCell align="left">Edit</TableCell>
+
+                                    {/* <TableCell component="th" scope="row">{index + 1}.</TableCell>
                                             <TableCell align="left">{item.CityStateDetailsPX}</TableCell>
                                             <TableCell align="left">{item.vVehicleType}</TableCell>
                                             <TableCell align="left">{item.nKMLimit}</TableCell>
                                             <TableCell align="left">{item.CityStateDetailsPX}</TableCell>
                                             <TableCell align="left">{item.vVehicleType}</TableCell>
                                             <TableCell align="left">{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
-                                            <TableCell align="left"><div onClick={openmodale}><RiEditBoxLine fontSize="1.5em"/></div></TableCell>
-                                        </TableRow>
-                                    )
+                                            <TableCell align="left"><div onClick={openmodale}><RiEditBoxLine fontSize="1.5em"/></div></TableCell> */}
+                                </TableRow>
+                                {/* )
                                 })
-                                }
+                                } */}
                             </TableBody>
                         </Table>
                     </TableContainer>
