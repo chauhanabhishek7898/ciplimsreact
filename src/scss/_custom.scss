@@ -203,6 +203,13 @@ p{
     flex-wrap: wrap;
     margin-top: 10px;
   }
+  .displayflexendmodal{
+    display: flex;
+    align-items: flex-end;
+    justify-content:  flex-end;
+    flex-wrap: wrap;
+    margin-top: 10px;
+  }
   .title{
     font-size: 22px;
     font-weight: 500;

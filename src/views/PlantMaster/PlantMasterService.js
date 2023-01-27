@@ -20,7 +20,7 @@ export function PlantMasterPost(data) {
 }
 export function PlantMasterPut(data) {
     let apiUrl = environment.apiUrl;
-    let url = `${apiUrl}/UnitMaster`
+    let url = `${apiUrl}/PlantMaster`
     return api.put(url, data).then(response => {
         return response;
     })

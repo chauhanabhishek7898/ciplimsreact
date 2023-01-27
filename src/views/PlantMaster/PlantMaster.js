@@ -26,7 +26,7 @@ function PlantMaster() {
     const [modalIsOpen, setIsOpen] = React.useState(false);
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
-    const [kmLimitData, setKmLimitData] = React.useState([]);
+    const [plantData, setPlantData] = React.useState([]);
     const [buttonName, setbuttonName] = React.useState('');
     const [vPlantCode, setvPlantCode] = React.useState('');
     const [vPlantName, setvPlantName] = React.useState('');
@@ -49,16 +49,23 @@ function PlantMaster() {
         if (type == 'Submit') {
             setIsOpen(true)
             setbuttonName(type)
+            setvPlantCode("")
+            setvPlantName("")
+            setvPlantAddress("")
+            setvProfitCentre("")
+            setvCostCentre("")
             setbtActive(true)
             setdisabled(true)
         } else {
             setIsOpen(true)
-            // setvPlantCode()
-            // setvPlantName()
-            // setvPlantAddress()
-            // setvProfitCentre()
-            // setvCostCentre()
-             setnPId(item.nPId)
+            setnPId(item.nPId)
+            setvPlantCode(item.vPlantCode)
+            setvPlantName(item.vPlantName)
+            setvPlantAddress(item.vPlantAddress)
+            setvProfitCentre(item.vProfitCentre)
+            setvCostCentre(item.vCostCentre)
+            setbtActive(item.btActive)
+
             setdisabled(false)
             setbuttonName(type)
 
@@ -102,7 +109,7 @@ function PlantMaster() {
     const plantMaster_SelectAll = () => {
         PlantMaster_SelectAll().then(response => {
             console.log(response)
-            setKmLimitData(response)
+            setPlantData(response)
         })
     }
     return (
@@ -148,7 +155,7 @@ function PlantMaster() {
                             />
                         </FormControl>
                     </Box>
-                    
+
                     <Box sx={{ width: '17%', marginTop: 2 }} >
                         <FormControl fullWidth className='input'>
                             <TextField
@@ -227,15 +234,15 @@ function PlantMaster() {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {kmLimitData.map((item, index) => {
+                                {plantData.map((item, index) => {
                                     return (
                                         <TableRow >
                                             <TableCell component="th" scope="row">{index + 1}.</TableCell>
-                                            <TableCell align="left">{item.CityStateDetailsPX}</TableCell>
-                                            <TableCell align="left">{item.vVehicleType}</TableCell>
-                                            <TableCell align="left">{item.nKMLimit}</TableCell>
-                                            <TableCell align="left">{item.CityStateDetailsPX}</TableCell>
-                                            <TableCell align="left">{item.vVehicleType}</TableCell>
+                                            <TableCell align="left">{item.vPlantCode}</TableCell>
+                                            <TableCell align="left">{item.vPlantName}</TableCell>
+                                            <TableCell align="left">{item.vPlantAddress}</TableCell>
+                                            <TableCell align="left">{item.vProfitCentre}</TableCell>
+                                            <TableCell align="left">{item.vCostCentre}</TableCell>
                                             <TableCell align="left">{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
                                             <TableCell align="left"><div onClick={() => openmodale(item, 'Update')}><RiEditBoxLine fontSize="1.5em" /></div></TableCell>
                                         </TableRow>
@@ -249,7 +256,7 @@ function PlantMaster() {
                     <TablePagination
                         rowsPerPageOptions={[10, 25, 100]}
                         component="div"
-                        count={kmLimitData.length}
+                        count={plantData.length}
                         rowsPerPage={rowsPerPage}
                         page={page}
                         onPageChange={handleChangePage}

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect,useState } from 'react'
 import Modal from 'react-modal';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -21,7 +21,10 @@ import AddIcon from '@mui/icons-material/Add';
 import { useForm } from 'react-hook-form';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { CButton, CSpinner } from '@coreui/react'
+import { CButton, CSpinner } from '@coreui/react';
+
+import SearchBar from "material-ui-search-bar";
+
 function BrandMaster() {
     const [modalIsOpen, setIsOpen] = React.useState(false);
     const [page, setPage] = React.useState(0);
@@ -35,6 +38,36 @@ function BrandMaster() {
     const [buttonName, setbuttonName] = React.useState('');
     const [disabled, setdisabled] = React.useState(true);
     const { register, handleSubmit, control, errors } = useForm();
+
+    // const [rows, setRows] = useState(brandData);
+    const [searched, setSearched] = React.useState("");
+ 
+    useEffect(() => {
+        getBrandMaster_SelectAll()
+    }, [])
+    const getBrandMaster_SelectAll = () => {
+        BrandMaster_SelectAll().then(response => {
+            console.log(response)
+            setBrandData(response)
+        })
+    }
+
+    const requestSearch = (searchedVal) => {
+        console.log("searchedVal.length", searchedVal.length)
+        const filteredRows = brandData.filter((row) => {
+            return row.vBrandCode.toLowerCase().includes(searchedVal.toLowerCase()) || row.vBrandName.toLowerCase().includes(searchedVal.toLowerCase());
+        });
+        setBrandData(filteredRows);
+        console.log("filteredRows", filteredRows)
+    };
+
+    const cancelSearch = () => {
+        setSearched("");
+        requestSearch(searched);
+        getBrandMaster_SelectAll()
+    };
+
+
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
     };
@@ -62,15 +95,7 @@ function BrandMaster() {
         }
     }
 
-    useEffect(() => {
-        getBrandMaster_SelectAll()
-    }, [])
-    const getBrandMaster_SelectAll = () => {
-        BrandMaster_SelectAll().then(response => {
-            console.log(response)
-            setBrandData(response)
-        })
-    }
+    
     const submit = () => {
         setLoader(true)
         let brand = {
@@ -166,6 +191,13 @@ function BrandMaster() {
             </Modal >
             <div className='tablecenter'>
                 <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+
+                    <SearchBar
+                        value={searched}
+                        onChange={(searchVal) => requestSearch(searchVal)}
+                        onCancelSearch={() => cancelSearch()}
+                    />
+
                     <TableContainer sx={{ maxHeight: 440 }}>
                         <Table stickyHeader aria-label="sticky table">
                             <TableHead>

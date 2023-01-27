@@ -51,6 +51,8 @@ const Toasts = React.lazy(() => import('./views/notifications/toasts/Toasts'))
 const Widgets = React.lazy(() => import('./views/widgets/Widgets'))
 const Komonth = React.lazy(() => import('./views/Komonth/Komonth'))
 const UnitMaster = React.lazy(() => import('./views/UnitMaster/UnitMaster'))
+const MaterialMaster = React.lazy(() => import('./views/MaterialMaster/MaterialMaster'))
+const PurchaseOrder = React.lazy(() => import('./views/PurchaseOrder/PurchaseOrder'))
 
 const VenderForm = React.lazy(() => import('./views/VenderForm/VenderForm'))
 const BrandMaster = React.lazy(() => import('./views/BrandMaster/BrandMaster'))
@@ -66,15 +68,17 @@ const routes = [
   { path: '/theme', name: 'Theme', element: Colors, exact: true },
   { path: '/theme/colors', name: 'Colors', element: Colors },
   { path: '/theme/typography', name: 'Typography', element: Typography },
-  { path: '/KOMonth', name: 'Ko Month', element: Komonth, exact: true},
-  { path: '/UnitMaster', name: 'Unit Master', element: UnitMaster, exact: true},
+  { path: '/KOMonth', name: 'Ko Month', element: Komonth, exact: true },
+  { path: '/UnitMaster', name: 'Unit Master', element: UnitMaster, exact: true },
   { path: '/update-email-id', name: 'Update Email', element: UpdateEmail, exact: true },
   { path: '/update-mobile-no', name: 'Update Mobile No', element: UpdateMobileNo, exact: true },
   { path: '/update-password', name: 'Update Password', element: UpdatePassword, exact: true },
-  { path: '/VendorMaster', name: 'Vender Form', element: VenderForm, exact: true},
+  { path: '/VendorMaster', name: 'Vender Form', element: VenderForm, exact: true },
   { path: '/BrandMaster', name: 'Brand Master', element: BrandMaster, exact: true },
-  { path: '/PackMaster', name: 'Pack Master', element: PackMaster , exact: true},
+  { path: '/PackMaster', name: 'Pack Master', element: PackMaster, exact: true },
   { path: '/PlantMaster', name: 'Plant Master', element: PlantMaster, exact: true },
+  { path: '/MaterialMaster', name: 'Material Master', element: MaterialMaster, exact: true },
+  { path: '/PurchaseOrder', name: 'PurchaseOrder', element: PurchaseOrder, exact: true },
 
   { path: '/base/accordion', name: 'Accordion', element: Accordion },
   { path: '/base/breadcrumbs', name: 'Breadcrumbs', element: Breadcrumbs },
