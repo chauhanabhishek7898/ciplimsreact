@@ -1,4 +1,4 @@
-import React, { useEffect,useState,useRef } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import Modal from 'react-modal';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -29,7 +29,7 @@ import ExportExcel from 'src/shareFunction/Excelexport';
 
 
 function BrandMaster() {
-    let Heading = [['SN.',' Brand Code','Brand Name','Status']];
+    let Heading = [['SN.', ' Brand Code', 'Brand Name', 'Status']];
     const [modalIsOpen, setIsOpen] = React.useState(false);
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -47,10 +47,10 @@ function BrandMaster() {
     // const [rows, setRows] = useState(brandData);
     const [searched, setSearched] = React.useState("");
     const [onlyActive, setonlyActive] = React.useState(true);
-    let checkedData=true
-    const checkedonlyActive=(event)=>{
+    let checkedData = true
+    const checkedonlyActive = (event) => {
         setonlyActive(event.target.checked)
-        checkedData=event.target.checked
+        checkedData = event.target.checked
         getBrandMaster_SelectAll()
     }
     useEffect(() => {
@@ -58,12 +58,12 @@ function BrandMaster() {
     }, [])
     const getBrandMaster_SelectAll = () => {
         BrandMaster_SelectAll().then(response => {
-            console.log('onlyActive',onlyActive)
-            if(checkedData==true){
-                let activeData = response.filter(e=>e.btActive==true)
+            console.log('onlyActive', onlyActive)
+            if (checkedData == true) {
+                let activeData = response.filter(e => e.btActive == true)
                 setBrandData(activeData)
                 setMasterBrandData(activeData)
-            }else{
+            } else {
                 setBrandData(response)
                 setMasterBrandData(response)
 
@@ -72,16 +72,16 @@ function BrandMaster() {
     }
 
     const requestSearch = (searchedVal) => {
-        
-        if(searchedVal.length>0){
+
+        if (searchedVal.length > 0) {
             const filteredRows = brandData.filter((row) => {
                 return row.vBrandCode.toLowerCase().includes(searchedVal.toLowerCase()) || row.vBrandName.toLowerCase().includes(searchedVal.toLowerCase());
             });
             setBrandData(filteredRows);
-        }else{
+        } else {
             setBrandData(masterbrandData);
         }
-        
+
     };
 
     const cancelSearch = () => {
@@ -118,7 +118,7 @@ function BrandMaster() {
         }
     }
 
-    
+
     const submit = () => {
         setLoader(true)
         let brand = {
@@ -217,18 +217,18 @@ function BrandMaster() {
             <div className='tablecenter'>
                 <Paper sx={{ width: '100%', overflow: 'hidden' }}>
                     <div className='exportandfilter'>
-                    <ExportExcel excelData={brandData} Heading={Heading} fileName={'Brand_Master'}/>
-                    <Box sx={{ width: '72%' }} >
-                    <SearchBar
-                        value={searched}
-                        onChange={(searchVal) => requestSearch(searchVal)}
-                        onCancelSearch={() => cancelSearch()}
-                    />
+                        <ExportExcel excelData={brandData} Heading={Heading} fileName={'Brand_Master'} />
+                        <Box sx={{ width: '72%' }} >
+                            <SearchBar
+                                value={searched}
+                                onChange={(searchVal) => requestSearch(searchVal)}
+                                onCancelSearch={() => cancelSearch()}
+                            />
 
-                    </Box>
+                        </Box>
                         <FormGroup >
-                        <FormControlLabel control={<Checkbox checked={onlyActive} value={onlyActive} onChange={checkedonlyActive} />} label="Only Active" />
-                    </FormGroup>
+                            <FormControlLabel control={<Checkbox checked={onlyActive} value={onlyActive} onChange={checkedonlyActive} />} label="Only Active" />
+                        </FormGroup>
                     </div>
 
                     <TableContainer sx={{ maxHeight: 440 }}>
@@ -271,7 +271,7 @@ function BrandMaster() {
             </div>
 
             <ToastContainer />
-            
+
         </div >
     )
 }

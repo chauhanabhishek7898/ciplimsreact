@@ -25,15 +25,20 @@ import { useForm } from 'react-hook-form';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { CButton, CSpinner } from '@coreui/react'
+import SearchBar from "material-ui-search-bar";
+import ExportExcel from 'src/shareFunction/Excelexport';
+
 function PackMaster() {
+
+    let Heading = [['SN.', 'Pack Code', 'Pack Name', 'Pack Unit', 'Pack Product', 'Pack Cases', 'Status']];
+
     const [modalIsOpen, setIsOpen] = React.useState(false);
-    // const [modalIsOpenEdit, setIsOpenEdit] = React.useState(false);
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
     const [packData, setPackData] = React.useState([]);
     const [unitid, setUnitid] = React.useState('');
     const [uniteData, setUnitData] = React.useState([]);
-
+    const [masterbrandData, setMasterBrandData] = React.useState([]);
     const [loader, setLoader] = React.useState(false);
 
     const [nPId, setnPId] = React.useState(0);
@@ -46,6 +51,8 @@ function PackMaster() {
 
     const [buttonName, setbuttonName] = React.useState('');
     const [disabled, setdisabled] = React.useState(true);
+
+    const [error, setError] = React.useState('');
 
     const { register, handleSubmit, control, errors } = useForm();
 
@@ -67,7 +74,7 @@ function PackMaster() {
             setnPId(item.nPId)
             setpackCode("")
             setpackName("")
-            setUnitid("")
+            setUnitid('')
             setpackProduct("")
             setpackCases("")
             setdisabled(true)
@@ -85,27 +92,76 @@ function PackMaster() {
 
         }
     }
+
+    const [searched, setSearched] = React.useState("");
+    const [onlyActive, setonlyActive] = React.useState(true);
+    let checkedData = true
+    const checkedonlyActive = (event) => {
+        setonlyActive(event.target.checked)
+        checkedData = event.target.checked
+        getPackMaster_SelectAll()
+    }
     useEffect(() => {
         getPackMaster_SelectAll()
-        getUnitMaster_SelectAll()
     }, [])
     const getPackMaster_SelectAll = () => {
         PackMaster_SelectAll().then(response => {
-            console.log(response)
-            setPackData(response)
+            console.log('onlyActive', onlyActive)
+            if (checkedData == true) {
+                let activeData = response.filter(e => e.btActive == true)
+                setPackData(activeData)
+                setMasterBrandData(activeData)
+            } else {
+                setPackData(response)
+                setMasterBrandData(response)
+
+            }
         })
     }
+
+    const requestSearch = (searchedVal) => {
+        if (searchedVal.length > 0) {
+            const filteredRows = packData.filter((row) => {
+                return row.vPackCode.toLowerCase().includes(searchedVal.toLowerCase()) || row.vPackName.toLowerCase().includes(searchedVal.toLowerCase()) || row.vUnit.toLowerCase().includes(searchedVal.toLowerCase()) || row.vPackProduct.toLowerCase().includes(searchedVal.toLowerCase()) || row.vPackCases.toLowerCase().includes(searchedVal.toLowerCase());
+            });
+            setPackData(filteredRows);
+        } else {
+            setPackData(masterbrandData);
+        }
+    };
+
+    const cancelSearch = () => {
+        setSearched("");
+        requestSearch(searched);
+        getPackMaster_SelectAll()
+    };
+
+    useEffect(() => {
+        getUnitMaster_SelectAll()
+    }, [])
+
     const getUnitMaster_SelectAll = () => {
         UnitMaster_SelectAll().then(response => {
             setUnitData(response)
         })
     }
 
+    const validateform = () => {
+        if (unitid == '') {
+            console.log('Select Unit')
+            setError('Select Unit')
+            return false
+        } else {
+            setError('')
+            return true
+        }
+    }
+
     const submit = () => {
-        // if(validateform()==true){
-            // setLoader(true)
+        if (validateform() == true) {
+            setLoader(true)
             let pack = {
-                nPId: nPId==null ? 0 : nPId,
+                nPId: nPId == null ? 0 : nPId,
                 vPackCode: packCode,
                 vPackName: packName,
                 vUnit: unitid,
@@ -114,19 +170,19 @@ function PackMaster() {
                 btActive: btActive,
             }
             console.log('pack', pack)
-            if(buttonName=='Submit'){
-                PackMasterPost(pack).then(res=>{
-                    if(res){
+            if (buttonName == 'Submit') {
+                PackMasterPost(pack).then(res => {
+                    if (res) {
                         toast.success("Record Added Successfully !!")
                         setLoader(false)
                         setIsOpen(false)
                         getPackMaster_SelectAll()
                     }
                 })
-    
-            }else{
-                PackMasterPut(pack).then(res=>{
-                    if(res){
+
+            } else {
+                PackMasterPut(pack).then(res => {
+                    if (res) {
                         toast.success("Record Updated Successfully !!")
                         setLoader(false)
                         setIsOpen(false)
@@ -134,72 +190,31 @@ function PackMaster() {
                     }
                 })
             }
-        // }
+        }
     }
-    // const validateform=()=>{
-    //     if(weekNumberId==''){
-    //         console.log('Select Week Number')
-    //         setError('Select Week Number'+''+'*')
-    //         return false
-    //     }else{
-    //         setError('')
-    //         return true
-    //     }
-    // }
-    // const openEditmodale = (item) => {
-    //     console.log('item', item)
-    //     setIsOpenEdit(true)
-    //     setnPId(item.nPId)
-    //     setpackCode(item.vPackCode)
-    //     setpackName(item.vPackName)
-    //     setBtActive(item.btActive)
-    //     setUnitid(item.vUnit)
-    //     setpackProduct(item.vPackProduct)
-    //     setpackCases(item.vPackCases)
-    // }
-    // const onChkChange = (e) => {
-    //     console.log('e', e)
-    //     console.log('e.target.value', e.target.value)
-    //     if (e.target.value == true) {
-    //         setBtActive(btActive)
-    //     } else {
-    //         setBtActive(!btActive)
-    //     }
 
-
-
-    // }
-
-    // const editPackMaster = () => {
-    //     // if(validateform()==true){
-
-    //     let pack = {
-    //         nPId: nPId,
-    //         vPackCode: packCode,
-    //         vPackName: packName,
-    //         vUnit: unitid,
-    //         vPackProduct: packProduct,
-    //         vPackCases: packCases,
-    //         btActive: btActive,
-    //     }
-
-
-    //     console.log('pack', pack)
-    //     PackMasterPut(pack).then(res => {
-    //         if (res) {
-    //             console.log('res', res)
-    //             alert("Record Updated Successfully !!")
-    //         }
-    //     })
-
-    //     // }
-    // }
     return (
         <div className='citymasterContainer'>
             <button className='addbtn_2' onClick={() => openmodale(null, 'Submit')} title='Add'  ><AddIcon fontSize='large' /></button>
 
             <div className='tablecenter'>
                 <Paper sx={{ width: '100%' }}>
+
+                    <div className='exportandfilter'>
+                        <ExportExcel excelData={packData} Heading={Heading} fileName={'Pack_Master'} />
+                        <Box sx={{ width: '72%' }} >
+                            <SearchBar
+                                value={searched}
+                                onChange={(searchVal) => requestSearch(searchVal)}
+                                onCancelSearch={() => cancelSearch()}
+                            />
+
+                        </Box>
+                        <FormGroup >
+                            <FormControlLabel control={<Checkbox checked={onlyActive} value={onlyActive} onChange={checkedonlyActive} />} label="Only Active" />
+                        </FormGroup>
+                    </div>
+
                     <TableContainer sx={{ maxHeight: 440 }}>
                         <Table stickyHeader aria-label="sticky table">
                             <TableHead>
@@ -227,7 +242,6 @@ function PackMaster() {
                                             <TableCell align="left">{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
                                             <TableCell align="left"><div onClick={() => openmodale(item, 'Update')}><RiEditBoxLine fontSize="1.5em" /></div></TableCell>
 
-                                            {/* <TableCell align="left"><div onClick={() => openEditmodale(item)}><RiEditBoxLine fontSize="1.5em" /></div></TableCell> */}
                                         </TableRow>
                                     )
                                 })
@@ -298,7 +312,7 @@ function PackMaster() {
                                 name='unitid'
                                 inputRef={register({ required: "Pack Unit is required.*", })}
                                 error={Boolean(errors.unitid)}
-                                helperText={errors.unitid?.message} 
+                                helperText={errors.unitid?.message}
                             >
                                 {uniteData.map((item, index) => {
                                     return (
@@ -308,6 +322,7 @@ function PackMaster() {
                                 }
                             </Select>
                         </FormControl>
+                        <div className='error'>{error} </div>
                     </Box>
                     <Box sx={{ width: '48%', marginTop: 2 }} >
                         <FormControl fullWidth className='input'>
@@ -340,8 +355,7 @@ function PackMaster() {
                 </div>
                 <div className='displayflexend'>
                     <FormGroup >
-                    <FormControlLabel control={<Checkbox defaultChecked={btActive} value={btActive} onChange={e => setBtActive(e.target.checked)} />} label="Active" disabled={disabled} />
-                        {/* <FormControlLabel control={<Checkbox defaultChecked />} label="Active" disabled /> */}
+                        <FormControlLabel control={<Checkbox defaultChecked={btActive} value={btActive} onChange={e => setBtActive(e.target.checked)} />} label="Active" disabled={disabled} />
                     </FormGroup>
 
                     {loader == true ?
@@ -350,97 +364,10 @@ function PackMaster() {
                             Loading...
                         </CButton>
                         :
-                        <button type="submit"  className='submitbtn' onClick={handleSubmit(submit)}>{buttonName}</button>
+                        <button type="submit" className='submitbtn' onClick={handleSubmit(submit)}>{buttonName}</button>
                     }
                 </div>
             </Modal >
-
-            {/* <Modal
-                isOpen={modalIsOpenEdit}
-                style={customStyles}
-                contentLabel="Example Modal"
-            >
-                <div className='displayright'>
-                    <div><span className='title'>Edit Pack Master</span></div>
-                    <HighlightOffIcon fontSize='large' onClick={() => setIsOpenEdit(false)} />
-                </div>
-                <div className='displayflexend'>
-                    <Box sx={{ width: '30%' }} >
-                        <FormControl fullWidth className='input'>
-                            <TextField
-                                value={packCode}
-                                onChange={e => setpackCode(e.target.value)}
-                                required
-                                id="outlined-basic"
-                                label="Pack Code"
-                                variant="outlined" />
-                        </FormControl>
-                    </Box>
-                    <Box sx={{ width: '30%' }} >
-                        <FormControl fullWidth className='input' >
-                            <TextField
-                                value={packName}
-                                onChange={e => setpackName(e.target.value)}
-                                required
-                                id="outlined-basic"
-                                label="Pack Name"
-                                variant="outlined" />
-                        </FormControl>
-                    </Box>
-                    <Box sx={{ width: '30%', marginTop: 2 }}>
-                        <FormControl fullWidth className='input'>
-                            <InputLabel required id="demo-simple-select-label">Pack Unit</InputLabel>
-                            <Select
-                                style={{ width: '100%', }}
-                                labelId="demo-simple-select-label"
-                                id="demo-simple-select"
-                                value={unitid}
-                                label="Select Pack Unit"
-                                onChange={handleChangePackUnit}
-                            >
-                                {uniteData.map((item, index) => {
-                                    return (
-                                        <MenuItem value={item.vUnitName}>{item.vUnitName}</MenuItem>
-                                    )
-                                })
-                                }
-                            </Select>
-                        </FormControl>
-                    </Box>
-                    <Box sx={{ width: '48%', marginTop: 2 }} >
-                        <FormControl fullWidth className='input'>
-                            <TextField
-                                value={packProduct}
-                                onChange={e => setpackProduct(e.target.value)}
-                                required
-                                id="outlined-basic"
-                                label="Pack Product"
-                                variant="outlined" />
-                        </FormControl>
-                    </Box>
-                    <Box sx={{ width: '48%', marginTop: 2 }} >
-                        <FormControl fullWidth className='input'>
-                            <TextField
-                                value={packCases}
-                                onChange={e => setpackCases(e.target.value)}
-                                required id="outlined-basic"
-                                label="Pack Cases"
-                                variant="outlined" />
-                        </FormControl>
-                    </Box>
-                </div>
-                <div className='displayflexend'>
-                    <FormGroup >
-                        <FormControlLabel control=
-                            {<Checkbox
-                                checked={btActive}
-                                onChange={() => onChkChange(e)}
-                            />}
-                            label="Active" />
-                    </FormGroup>
-                    <button type="" className='submitbtn' onClick={editPackMaster}>Submit</button>
-                </div>
-            </Modal > */}
 
             <ToastContainer />
         </div >

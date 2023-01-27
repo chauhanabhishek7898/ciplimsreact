@@ -26,14 +26,17 @@ import { useForm } from 'react-hook-form';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { CButton, CSpinner } from '@coreui/react';
-
 import SearchBar from "material-ui-search-bar";
+import ExportExcel from 'src/shareFunction/Excelexport';
 
 function LineMaster() {
+
+    let Heading = [['SN.', 'Line Code', 'Line Description', 'Plant Detail', 'Status']];
     const [modalIsOpen, setIsOpen] = React.useState(false);
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
     const [lineData, setlineData] = React.useState([]);
+    const [masterbrandData, setMasterBrandData] = React.useState([]);
     const [loader, setLoader] = React.useState(false);
     const [nLId, setnLId] = React.useState(0);
     const [nPId, setnPId] = React.useState(0);
@@ -43,27 +46,42 @@ function LineMaster() {
     const [buttonName, setbuttonName] = React.useState('');
     const [disabled, setdisabled] = React.useState(true);
     const { register, handleSubmit, control, errors } = useForm();
-
-    // const [rows, setRows] = useState(lineData);
     const [searched, setSearched] = React.useState("");
-
+    const [error, setError] = React.useState('');
+    const [onlyActive, setonlyActive] = React.useState(true);
+    let checkedData = true
+    const checkedonlyActive = (event) => {
+        setonlyActive(event.target.checked)
+        checkedData = event.target.checked
+        getLineMaster_SelectAll()
+    }
     useEffect(() => {
         getLineMaster_SelectAll()
     }, [])
     const getLineMaster_SelectAll = () => {
         LineMaster_SelectAll().then(response => {
-            console.log(response)
-            setlineData(response)
+            console.log('onlyActive', onlyActive)
+            if (checkedData == true) {
+                let activeData = response.filter(e => e.btActive == true)
+                setlineData(activeData)
+                setMasterBrandData(activeData)
+            } else {
+                setlineData(response)
+                setMasterBrandData(response)
+
+            }
         })
     }
 
     const requestSearch = (searchedVal) => {
-        console.log("searchedVal.length", searchedVal.length)
-        const filteredRows = lineData.filter((row) => {
-            return row.vBrandCode.toLowerCase().includes(searchedVal.toLowerCase()) || row.vLineDescription.toLowerCase().includes(searchedVal.toLowerCase());
-        });
-        setlineData(filteredRows);
-        console.log("filteredRows", filteredRows)
+        if (searchedVal.length > 0) {
+            const filteredRows = lineData.filter((row) => {
+                return row.vLineName.toLowerCase().includes(searchedVal.toLowerCase()) || row.vLineDescription.toLowerCase().includes(searchedVal.toLowerCase());
+            });
+            setlineData(filteredRows);
+        } else {
+            setlineData(masterbrandData);
+        }
     };
 
     const cancelSearch = () => {
@@ -76,17 +94,22 @@ function LineMaster() {
     const [plantid, setPlantid] = React.useState('');
     const handleChangePackUnit = (event) => {
         setPlantid(event.target.value);
+        console.log("event.target.value",event.target.value)
+        const currentplantData = plantData.find((pl) => pl.vPlantName === event.target.value)
+        console.log('currentplantData', currentplantData)
+        // console.log("plantData",plantData)
+        setnPId(currentplantData.nPId);
     };
     useEffect(() => {
         getPlantMaster_SelectAll()
     }, [])
-   
+
     const getPlantMaster_SelectAll = () => {
         PlantMaster_SelectAll().then(response => {
             setPlantData(response)
+            console.log("PlantMaster_SelectAll_response", response)
         })
     }
-
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
@@ -97,6 +120,7 @@ function LineMaster() {
     };
 
     const openmodale = (item, type) => {
+
         if (type == 'Submit') {
             setIsOpen(true)
             setbuttonName(type)
@@ -107,10 +131,16 @@ function LineMaster() {
             setBtActive(true)
             setdisabled(true)
         } else {
+            console.log('plantData', plantData)
             setIsOpen(true)
             setnLId(item.nLId)
-            setnPId(item.nPId)
-            setPlantid(item.PlantDetail)
+
+            console.log("item", item)
+            console.log("item.nPId", item.nPId)
+            const currentplantData = plantData.find((pl) => pl.nPId === item.nPId)
+            console.log('currentplantData', currentplantData)
+            setnPId(currentplantData.nPId)
+            setPlantid(currentplantData.vPlantName)
             setlineName(item.vLineName)
             setlineDescription(item.vLineDescription)
             setBtActive(item.btActive)
@@ -119,39 +149,51 @@ function LineMaster() {
         }
     }
 
+    const validateform = () => {
+        if (plantid == '') {
+            console.log('Select Unit')
+            setError('Select plant Name')
+            return false
+        } else {
+            setError('')
+            return true
+        }
+    }
 
     const submit = () => {
-        setLoader(true)
-        let line = {
-            nLId: nLId == null ? 0 : nLId,
-            nPId: plantid,
-            vLineName: lineName,
-            vLineDescription: lineDescription,
-            btActive: btActive,
-        }
-        if (buttonName == 'Submit') {
-            console.log('line', line)
-            LineMasterPost(line).then(res => {
-                if (res) {
-                    console.log('res', res)
-                    toast.success("Record Added Successfully !!")
-                    setLoader(false)
-                    setIsOpen(false)
-                    getLineMaster_SelectAll()
-                }
-            })
+        if (validateform() == true) {
+            setLoader(true)
+            let line = {
+                nLId: nLId == null ? 0 : nLId,
+                nPId: nPId,
+                vLineName: lineName,
+                vLineDescription: lineDescription,
+                btActive: btActive,
+            }
+            if (buttonName == 'Submit') {
+                console.log('line', line)
+                LineMasterPost(line).then(res => {
+                    if (res) {
+                        console.log('res', res)
+                        toast.success("Record Added Successfully !!")
+                        setLoader(false)
+                        setIsOpen(false)
+                        getLineMaster_SelectAll()
+                    }
+                })
 
-        } else {
-            console.log('line', line)
-            LineMasterPut(line).then(res => {
-                if (res) {
-                    console.log('res', res)
-                    toast.success("Record Updated Successfully !!")
-                    setLoader(false)
-                    setIsOpen(false)
-                    getLineMaster_SelectAll()
-                }
-            })
+            } else {
+                console.log('line', line)
+                LineMasterPut(line).then(res => {
+                    if (res) {
+                        console.log('res', res)
+                        toast.success("Record Updated Successfully !!")
+                        setLoader(false)
+                        setIsOpen(false)
+                        getLineMaster_SelectAll()
+                    }
+                })
+            }
         }
     }
 
@@ -168,7 +210,7 @@ function LineMaster() {
                     <HighlightOffIcon fontSize='large' onClick={() => setIsOpen(false)} />
                 </div>
                 <div className='displayflexend'>
-                    <Box sx={{ width: '48%' }} >
+                    <Box sx={{ width: '49%' }} >
                         <FormControl fullWidth className='input'>
                             <TextField
                                 value={lineName}
@@ -183,7 +225,7 @@ function LineMaster() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '48%' }} >
+                    <Box sx={{ width: '49%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
                                 value={lineDescription}
@@ -199,7 +241,7 @@ function LineMaster() {
                         </FormControl>
                     </Box>
 
-                    <Box sx={{ width: '30%', marginTop: 2 }}>
+                    <Box sx={{ width: '49%', marginTop: 2 }}>
                         <FormControl fullWidth className='input'>
                             <InputLabel required id="demo-simple-select-label">Plant Name</InputLabel>
                             <Select
@@ -212,16 +254,17 @@ function LineMaster() {
                                 name='plantid'
                                 inputRef={register({ required: "Plant Name is required.*", })}
                                 error={Boolean(errors.plantid)}
-                                helperText={errors.plantid?.message} 
+                                helperText={errors.plantid?.message}
                             >
                                 {plantData.map((item, index) => {
                                     return (
-                                        <MenuItem value={item.nPId}>{item.vPlantName}</MenuItem>
+                                        <MenuItem value={item.vPlantName}>{item.vPlantName}</MenuItem>
                                     )
                                 })
                                 }
                             </Select>
                         </FormControl>
+                        <div className='error'>{error} </div>
                     </Box>
 
                 </div>
@@ -243,11 +286,20 @@ function LineMaster() {
             <div className='tablecenter'>
                 <Paper sx={{ width: '100%', overflow: 'hidden' }}>
 
-                    <SearchBar
-                        value={searched}
-                        onChange={(searchVal) => requestSearch(searchVal)}
-                        onCancelSearch={() => cancelSearch()}
-                    />
+                    <div className='exportandfilter'>
+                        <ExportExcel excelData={lineData} Heading={Heading} fileName={'Line_Master'} />
+                        <Box sx={{ width: '72%' }} >
+                            <SearchBar
+                                value={searched}
+                                onChange={(searchVal) => requestSearch(searchVal)}
+                                onCancelSearch={() => cancelSearch()}
+                            />
+
+                        </Box>
+                        <FormGroup >
+                            <FormControlLabel control={<Checkbox checked={onlyActive} value={onlyActive} onChange={checkedonlyActive} />} label="Only Active" />
+                        </FormGroup>
+                    </div>
 
                     <TableContainer sx={{ maxHeight: 440 }}>
                         <Table stickyHeader aria-label="sticky table">
