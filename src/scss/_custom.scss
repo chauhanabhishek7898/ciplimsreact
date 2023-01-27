@@ -30,6 +30,10 @@ p{
     top: -4px !important;
     background: #fff !important;
 }
+.css-y8ay40-MuiTableCell-root{
+  font-weight: bold !important;
+  white-space:nowrap
+}
 .databox{
     background-color: #fff;
     margin-top: 10px;
@@ -230,6 +234,10 @@ p{
     justify-content: center;
     align-items: center;
     border-radius: 50px;
+    font-size: 13px;
+    .icon{
+      margin-right: 5px;
+    }
   
   }
   //   abhishek end
@@ -237,4 +245,36 @@ p{
   .emailInput{
     width: 33%;
     margin-bottom: 10px;
+  }
+  .exportandfilter{
+    display:flex ;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 15px;
+  }
+  .alertButton{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+  }
+  .alertmsg{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 50px ;
+  }
+  .alertYes,.alertno{
+    border: none;
+    background-color: red;
+    color: #fff;
+    width: 80px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50px;
+  }
+  .alertno{
+    background-color: #ccc;
+    margin-left: 10px;
   }
