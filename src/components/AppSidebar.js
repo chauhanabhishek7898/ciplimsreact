@@ -14,7 +14,7 @@ import 'simplebar/dist/simplebar.min.css'
 
 // sidebar nav config
 import navigation from '../_nav'
-import { GetProfileDetails } from '../views/Komonth/authService'
+import { GetProfileDetails } from '../views/Komonth/Komonthapi'
 import { CNavGroup, CNavItem, CNavTitle } from '@coreui/react'
 import {
   cilBell,
