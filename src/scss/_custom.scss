@@ -16,7 +16,7 @@ p{
     background-color: #fff;
     display: flex;
     padding-top: 10px;
-    height: 85px;
+    min-height: 99px;
     align-items: center;
     padding-left: 10px;
     border-radius: 5px;
@@ -161,6 +161,8 @@ p{
     display: flex;
     justify-content: center;
     align-items: center;
+    width: 100%;
+    margin-bottom: 10px;
   }
   .inputsbox{
     display: flex;
@@ -257,6 +259,12 @@ p{
     justify-content: flex-end;
     align-items: center;
   }
+  .editModel{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+  }
   .alertmsg{
     display: flex;
     justify-content: center;
@@ -274,7 +282,33 @@ p{
     align-items: center;
     border-radius: 50px;
   }
+  .updateko{
+    border: none;
+    background-color: red;
+    color: #fff;
+    width: 120px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50px;
+  }
   .alertno{
     background-color: #ccc;
     margin-left: 10px;
   }
+  .tableview{
+    display: flex;
+    align-items: center;
+    flex-direction: row !important;
+  }
+  .css-j204z7-MuiFormControlLabel-root .MuiFormControlLabel-label {
+    font-size: 13px;
+}
+.break{
+  flex-basis: 100%;
+  margin: 10px 0;
+}
+.css-1anqmj6-MuiPopper-root-MuiPickersPopper-root {
+  z-index: 100000000 !important;
+}

@@ -17,10 +17,38 @@ export function KOMonth_SelectAll() {
         return response;
     })
 }
+export function KOMonth_SelectAllMonthView() {
+    let apiUrl = environment.apiUrl;
+    let url = `${apiUrl}/KOMonthMaster/KOMonth_SelectAllMonthView`
+    return api.get(url).then(response => {
+        return response;
+    })
+}
+export function KOMonth_SelectAllWeekWise(nKOId) {
+    let apiUrl = environment.apiUrl;
+    let url = `${apiUrl}/KOMonthMaster/KOMonth_SelectAllWeekWise/${nKOId}`
+    return api.get(url).then(response => {
+        return response;
+    })
+}
 export function KOMonthMaster(data) {
     let apiUrl = environment.apiUrl;
     let url = `${apiUrl}/KOMonthMaster`
     return api.post(url, data).then(response => {
+        return response;
+    })
+}
+export function KOMonthMasterPut(data) {
+    let apiUrl = environment.apiUrl;
+    let url = `${apiUrl}/KOMonthMaster`
+    return api.put(url, data).then(response => {
+        return response;
+    })
+}
+export function KOMonthMaster_Update(data) {
+    let apiUrl = environment.apiUrl;
+    let url = `${apiUrl}/KOMonthMaster/KOMonthMaster_Update`
+    return api.put(url, data).then(response => {
         return response;
     })
 }
