@@ -256,19 +256,19 @@ function PurchaseOrder() {
                         </FormControl>
                     </Box>
                     <div className='date'>
-                            <LocalizationProvider dateAdapter={AdapterDayjs} >
-                                <Stack spacing={3} >
-                                    <DesktopDatePicker
-                                        label="Po Date"
-                                        inputFormat="DD-MM-YYYY"
-                                        value={startDate}
-                                        onChange={handleChangeStartdate}
-                                        renderInput={(params) => <TextField {...params} />}
-                                    />
-                                </Stack>
-                            </LocalizationProvider>
+                        <LocalizationProvider dateAdapter={AdapterDayjs} >
+                            <Stack spacing={3} >
+                                <DesktopDatePicker
+                                    label="Po Date"
+                                    inputFormat="DD-MM-YYYY"
+                                    value={startDate}
+                                    onChange={handleChangeStartdate}
+                                    renderInput={(params) => <TextField {...params} />}
+                                />
+                            </Stack>
+                        </LocalizationProvider>
 
-                        </div>
+                    </div>
                     <Box sx={{ width: '56%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
@@ -383,7 +383,7 @@ function PurchaseOrder() {
                         </FormControl>
                     </Box>
 
-                   
+
 
 
 
@@ -417,7 +417,7 @@ function PurchaseOrder() {
                             />
                         </FormControl>
                     </Box>
-                     <Box sx={{ width: '28%' }} >
+                    <Box sx={{ width: '28%' }} >
                         <FormControl fullWidth className='input'>
                             <TextField
                                 value={brandCode}
@@ -612,11 +612,14 @@ function PurchaseOrder() {
             <div className='tablecenter'>
                 <Paper sx={{ width: '100%', overflow: 'hidden' }}>
 
-                    <SearchBar
-                        value={searched}
-                        onChange={(searchVal) => requestSearch(searchVal)}
-                        onCancelSearch={() => cancelSearch()}
-                    />
+                    <Box sx={{ width: '65%' }} >
+                        <SearchBar
+                            value={searched}
+                            onChange={(searchVal) => requestSearch(searchVal)}
+                            onCancelSearch={() => cancelSearch()}
+                        />
+
+                    </Box>
 
                     <TableContainer sx={{ maxHeight: 440 }}>
                         <Table stickyHeader aria-label="sticky table">

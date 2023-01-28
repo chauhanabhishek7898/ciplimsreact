@@ -53,6 +53,7 @@ const Komonth = React.lazy(() => import('./views/Komonth/Komonth'))
 const UnitMaster = React.lazy(() => import('./views/UnitMaster/UnitMaster'))
 const MaterialMaster = React.lazy(() => import('./views/MaterialMaster/MaterialMaster'))
 const PurchaseOrder = React.lazy(() => import('./views/PurchaseOrder/PurchaseOrder'))
+const LineMaster = React.lazy(() => import('./views/LineMaster/LineMaster'))
 
 const VenderForm = React.lazy(() => import('./views/VenderForm/VenderForm'))
 const BrandMaster = React.lazy(() => import('./views/BrandMaster/BrandMaster'))
@@ -78,7 +79,8 @@ const routes = [
   { path: '/PackMaster', name: 'Pack Master', element: PackMaster, exact: true },
   { path: '/PlantMaster', name: 'Plant Master', element: PlantMaster, exact: true },
   { path: '/MaterialMaster', name: 'Material Master', element: MaterialMaster, exact: true },
-  { path: '/PurchaseOrder', name: 'PurchaseOrder', element: PurchaseOrder, exact: true },
+  { path: '/PurchaseOrder', name: 'Purchase Order', element: PurchaseOrder, exact: true },
+  { path: '/LineMaster', name: 'Line Master', element: LineMaster, exact: true },
 
   { path: '/base/accordion', name: 'Accordion', element: Accordion },
   { path: '/base/breadcrumbs', name: 'Breadcrumbs', element: Breadcrumbs },

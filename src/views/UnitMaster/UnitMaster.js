@@ -23,12 +23,23 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import SimpleReactValidator from 'simple-react-validator';
 import { useForm } from 'react-hook-form';
+
+import SearchBar from "material-ui-search-bar";
+import ExportExcel from 'src/shareFunction/Excelexport';
+
 function UnitMaster() {
+    // <TableCell scope="row">SN.</TableCell>
+    // <TableCell align="left">Unit Name</TableCell>
+    // <TableCell align="left">Status</TableCell>
+
+    let Heading = [['SN.', 'Unit Code', 'Status']];
+
     const formValidation = new SimpleReactValidator()
     const [modalIsOpen, setIsOpen] = React.useState(false);
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
     const [unitData, setUnitData] = React.useState([]);
+    const [masterbrandData, setMasterBrandData] = React.useState([]);
     const [loader, setLoader] = React.useState(false);
     const [btActive, setbtActive] = React.useState(true);
     const [nUId, setnUId] = React.useState(0);
@@ -51,9 +62,9 @@ function UnitMaster() {
             vUnitName: vUnitName,
             btActive: btActive
         }
-        if(buttonName=='Submit'){
-            UnitMastersPost(data).then(res=>{
-                if(res){
+        if (buttonName == 'Submit') {
+            UnitMastersPost(data).then(res => {
+                if (res) {
                     toast.success(res)
                     setLoader(false)
                     setIsOpen(false)
@@ -61,9 +72,9 @@ function UnitMaster() {
                 }
             })
 
-        }else{
-            UnitMastersPut(data).then(res=>{
-                if(res){
+        } else {
+            UnitMastersPut(data).then(res => {
+                if (res) {
                     toast.success(res)
                     setLoader(false)
                     setIsOpen(false)
@@ -72,17 +83,69 @@ function UnitMaster() {
             })
         }
     }
+    const [searched, setSearched] = React.useState("");
+    const [onlyActive, setonlyActive] = React.useState(true);
+    let checkedData = true
+    const checkedonlyActive = (event) => {
+        setonlyActive(event.target.checked)
+        checkedData = event.target.checked
+        getUnitMaster_SelectAll()
+    }
     useEffect(() => {
-        UnitMaster_SelectAllget()
-    })
-    const UnitMaster_SelectAllget = () => {
-        UnitMaster_SelectAll().then(res => {
-            if (res) {
-                setUnitData(res)
+        getUnitMaster_SelectAll()
+    }, [])
+    const getUnitMaster_SelectAll = () => {
+        UnitMaster_SelectAll().then(response => {
+            console.log('onlyActive', onlyActive)
+            if (checkedData == true) {
+                let activeData = response.filter(e => e.btActive == true)
+                setUnitData(activeData)
+                setMasterBrandData(activeData)
+            } else {
+                setUnitData(response)
+                setMasterBrandData(response)
 
             }
         })
     }
+
+
+    const requestSearch = (searchedVal) => {
+        if (searchedVal.length > 0) {
+            const filteredRows = unitData.filter((row) => {
+                return row.vUnitName.toLowerCase().includes(searchedVal.toLowerCase());
+            });
+            setUnitData(filteredRows);
+        } else {
+            setUnitData(masterbrandData);
+        }
+
+        // console.log("searchedVal.length", searchedVal.length)
+        // const filteredRows = lineData.filter((row) => {
+        //     return row.vBrandCode.toLowerCase().includes(searchedVal.toLowerCase()) || row.vLineDescription.toLowerCase().includes(searchedVal.toLowerCase());
+        // });
+        // setlineData(m);
+        // console.log("filteredRows", filteredRows)
+    };
+
+    const cancelSearch = () => {
+        setSearched("");
+        requestSearch(searched);
+        getUnitMaster_SelectAll()
+    };
+
+
+    // useEffect(() => {
+    //     UnitMaster_SelectAllget()
+    // })
+    // const UnitMaster_SelectAllget = () => {
+    //     UnitMaster_SelectAll().then(res => {
+    //         if (res) {
+    //             setUnitData(res)
+
+    //         }
+    //     })
+    // }
     const openmodale = (item, type) => {
         if (type == 'Submit') {
             setIsOpen(true)
@@ -113,40 +176,56 @@ function UnitMaster() {
                     <HighlightOffIcon fontSize='large' onClick={() => setIsOpen(false)} />
                 </div>
                 <form >
-                <div className='displayflexend'>
-                <TextField
-                        fullWidth
-                        id="outlined-basic"
-                        label="Enter Unit"
-                        variant="outlined"
-                        value={vUnitName}
-                        name='vUnitName'
-                        onChange={e => setvUnitName(e.target.value)}
-                        inputRef={register({ required: "Unit Name is required.*", })}
-                        error={Boolean(errors.vUnitName)}
-                        helperText={errors.vUnitName?.message}
-                    />
-                </div>
-                <div className='displayflexend'>
-                    <FormGroup >
-                        <FormControlLabel control={<Checkbox defaultChecked={btActive} value={btActive} onChange={e => setbtActive(e.target.checked)} />} label="Active" disabled={disabled} />
-                    </FormGroup>
-                    {loader == true ?
-                        <CButton disabled className='submitbtn'>
-                            <CSpinner component="span" size="sm" aria-hidden="true" />
-                            Loading...
-                        </CButton>
-                        :
-                        <button type="submit" className='submitbtn' onClick={handleSubmit(submit)}>{buttonName}</button>
+                    <div className='displayflexend'>
+                        <TextField
+                            fullWidth
+                            id="outlined-basic"
+                            label="Enter Unit"
+                            variant="outlined"
+                            value={vUnitName}
+                            name='vUnitName'
+                            onChange={e => setvUnitName(e.target.value)}
+                            inputRef={register({ required: "Unit Name is required.*", })}
+                            error={Boolean(errors.vUnitName)}
+                            helperText={errors.vUnitName?.message}
+                        />
+                    </div>
+                    <div className='displayflexend'>
+                        <FormGroup >
+                            <FormControlLabel control={<Checkbox defaultChecked={btActive} value={btActive} onChange={e => setbtActive(e.target.checked)} />} label="Active" disabled={disabled} />
+                        </FormGroup>
+                        {loader == true ?
+                            <CButton disabled className='submitbtn'>
+                                <CSpinner component="span" size="sm" aria-hidden="true" />
+                                Loading...
+                            </CButton>
+                            :
+                            <button type="submit" className='submitbtn' onClick={handleSubmit(submit)}>{buttonName}</button>
 
-                    }
-                </div>
+                        }
+                    </div>
 
                 </form>
             </Modal >
             <div className='tablecenter'>
                 <Paper sx={{ width: '100%', overflow: 'hidden' }}>
                     <TableContainer sx={{ maxHeight: 440 }}>
+
+                        <div className='exportandfilter'>
+                            <ExportExcel excelData={unitData} Heading={Heading} fileName={'Unit_Master'} />
+                            <Box sx={{ width: '65%' }} >
+                                <SearchBar
+                                    value={searched}
+                                    onChange={(searchVal) => requestSearch(searchVal)}
+                                    onCancelSearch={() => cancelSearch()}
+                                />
+
+                            </Box>
+                            <FormGroup >
+                                <FormControlLabel control={<Checkbox checked={onlyActive} value={onlyActive} onChange={checkedonlyActive} />} label="Only Active Data" />
+                            </FormGroup>
+                        </div>
+
                         <Table stickyHeader aria-label="sticky table">
                             <TableHead>
                                 <TableRow>
