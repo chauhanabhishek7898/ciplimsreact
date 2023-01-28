@@ -213,7 +213,7 @@ function UnitMaster() {
 
                         <div className='exportandfilter'>
                             <ExportExcel excelData={unitData} Heading={Heading} fileName={'Unit_Master'} />
-                            <Box sx={{ width: '72%' }} >
+                            <Box sx={{ width: '65%' }} >
                                 <SearchBar
                                     value={searched}
                                     onChange={(searchVal) => requestSearch(searchVal)}
@@ -222,7 +222,7 @@ function UnitMaster() {
 
                             </Box>
                             <FormGroup >
-                                <FormControlLabel control={<Checkbox checked={onlyActive} value={onlyActive} onChange={checkedonlyActive} />} label="Only Active" />
+                                <FormControlLabel control={<Checkbox checked={onlyActive} value={onlyActive} onChange={checkedonlyActive} />} label="Only Active Data" />
                             </FormGroup>
                         </div>
 

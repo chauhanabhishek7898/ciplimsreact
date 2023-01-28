@@ -27,7 +27,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { CButton, CSpinner } from '@coreui/react'
 import SearchBar from "material-ui-search-bar";
 import ExportExcel from 'src/shareFunction/Excelexport';
-
+import FormHelperText from '@mui/material/FormHelperText';
 function PackMaster() {
 
     let Heading = [['SN.', 'Pack Code', 'Pack Name', 'Pack Unit', 'Pack Product', 'Pack Cases', 'Status']];
@@ -202,7 +202,7 @@ function PackMaster() {
 
                     <div className='exportandfilter'>
                         <ExportExcel excelData={packData} Heading={Heading} fileName={'Pack_Master'} />
-                        <Box sx={{ width: '72%' }} >
+                        <Box sx={{ width: '65%' }} >
                             <SearchBar
                                 value={searched}
                                 onChange={(searchVal) => requestSearch(searchVal)}
@@ -211,7 +211,7 @@ function PackMaster() {
 
                         </Box>
                         <FormGroup >
-                            <FormControlLabel control={<Checkbox checked={onlyActive} value={onlyActive} onChange={checkedonlyActive} />} label="Only Active" />
+                            <FormControlLabel control={<Checkbox checked={onlyActive} value={onlyActive} onChange={checkedonlyActive} />} label="Only Active Data" />
                         </FormGroup>
                     </div>
 
@@ -309,10 +309,11 @@ function PackMaster() {
                                 value={unitid}
                                 label="Select Pack Unit"
                                 onChange={handleChangePackUnit}
-                                name='unitid'
-                                inputRef={register({ required: "Pack Unit is required.*", })}
-                                error={Boolean(errors.unitid)}
-                                helperText={errors.unitid?.message}
+                                renderValue={(value) => `${value}`}
+                            // name='unitid'
+                            // inputRef={register({ required: "Pack Unit is required.*", })}
+                            // error={Boolean(errors.unitid)}
+                            // helperText={errors.unitid?.message}
                             >
                                 {uniteData.map((item, index) => {
                                     return (
@@ -321,8 +322,11 @@ function PackMaster() {
                                 })
                                 }
                             </Select>
+                            {unitid === "" ? <FormHelperText>Select Pack Unit</FormHelperText> : null}
+
+                            {/* <FormHelperText>Select Pack Unit</FormHelperText> */}
                         </FormControl>
-                        <div className='error'>{error} </div>
+                        {/* <div className='error'>{error} </div> */}
                     </Box>
                     <Box sx={{ width: '48%', marginTop: 2 }} >
                         <FormControl fullWidth className='input'>

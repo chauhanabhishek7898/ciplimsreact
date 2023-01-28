@@ -94,7 +94,7 @@ function LineMaster() {
     const [plantid, setPlantid] = React.useState('');
     const handleChangePackUnit = (event) => {
         setPlantid(event.target.value);
-        console.log("event.target.value",event.target.value)
+        console.log("event.target.value", event.target.value)
         const currentplantData = plantData.find((pl) => pl.vPlantName === event.target.value)
         console.log('currentplantData', currentplantData)
         // console.log("plantData",plantData)
@@ -288,7 +288,7 @@ function LineMaster() {
 
                     <div className='exportandfilter'>
                         <ExportExcel excelData={lineData} Heading={Heading} fileName={'Line_Master'} />
-                        <Box sx={{ width: '72%' }} >
+                        <Box sx={{ width: '65%' }} >
                             <SearchBar
                                 value={searched}
                                 onChange={(searchVal) => requestSearch(searchVal)}
@@ -297,7 +297,7 @@ function LineMaster() {
 
                         </Box>
                         <FormGroup >
-                            <FormControlLabel control={<Checkbox checked={onlyActive} value={onlyActive} onChange={checkedonlyActive} />} label="Only Active" />
+                            <FormControlLabel control={<Checkbox checked={onlyActive} value={onlyActive} onChange={checkedonlyActive} />} label="Only Active Data" />
                         </FormGroup>
                     </div>
 
