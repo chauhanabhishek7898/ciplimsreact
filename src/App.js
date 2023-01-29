@@ -22,7 +22,7 @@ class App extends Component {
     return (
       <HashRouter>
         <Suspense fallback={loading}>
-          <Routes>
+           <Routes>
             <Route path="*" name="Login" element={<Login />} />
             <Route exact path="/login" name="Login Page" element={<Login />} />
             <Route exact path="/register" name="Register Page" element={<Register />} />
@@ -30,7 +30,8 @@ class App extends Component {
             <Route exact path="/500" name="Page 500" element={<Page500 />} />
             {/* <Route path="*" name="Home" element={<DefaultLayout />} /> */}
           </Routes>
-        </Suspense>
+        </Suspense> 
+       
       </HashRouter>
     )
   }

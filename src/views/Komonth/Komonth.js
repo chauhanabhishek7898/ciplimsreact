@@ -596,8 +596,8 @@ function KOMONTH() {
                                                 <TableCell align="left">Edit</TableCell>
                                                 <TableCell align="left">KO Month</TableCell>
                                                 <TableCell align="left">KO Year</TableCell>
-                                                <TableCell align="left">From Date</TableCell>
                                                 <TableCell align="left">Days</TableCell>
+                                                <TableCell align="left">From Date</TableCell>
                                                 <TableCell align="left">To Date </TableCell>
                                                 {/* <TableCell align="left">Week Number</TableCell>
                                                 <TableCell align="left">Start Date</TableCell>
@@ -612,8 +612,8 @@ function KOMONTH() {
                                                 <TableCell align="left">Edit</TableCell>
                                                 <TableCell align="left">KO Month</TableCell>
                                                 <TableCell align="left">KO Year</TableCell>
-                                                <TableCell align="left">From Date</TableCell>
                                                 <TableCell align="left">Days</TableCell>
+                                                <TableCell align="left">From Date</TableCell>
                                                 <TableCell align="left">To Date </TableCell>
                                                 <TableCell align="left">Week Number</TableCell>
                                                 <TableCell align="left">Start Date</TableCell>
