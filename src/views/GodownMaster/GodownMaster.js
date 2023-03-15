@@ -8,7 +8,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import TablePagination from '@mui/material/TablePagination';
 import Paper from '@mui/material/Paper';
-import { BrandMaster_SelectAll, BrandMasterPost, BrandMasterPut } from './BrandMasterService'
+import {GodownMasterPost,GodownMasterPut,GodownMaster_SelectAll } from './GodownMasterService'
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import FormControl from '@mui/material/FormControl';
@@ -22,24 +22,24 @@ import { useForm } from 'react-hook-form';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { CButton, CSpinner } from '@coreui/react';
-
 import SearchBar from "material-ui-search-bar";
 import ExportExcel from 'src/shareFunction/Excelexport';
-
-
-
-function BrandMaster() {
-    let Heading = [['SN.', ' Brand Code', 'Brand Name', 'Status']];
+function GodownMaster() {
+    let Heading = [['SN.','Godown Code','Godown Name','Godown Address','Godown Contact Person','Godown Contact No','Remarks','Status']];
     const [modalIsOpen, setIsOpen] = React.useState(false);
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
     const [brandData, setBrandData] = React.useState([]);
     const [masterbrandData, setMasterBrandData] = React.useState([]);
     const [loader, setLoader] = React.useState(false);
-    const [nBid, setnBid] = React.useState(0);
-    const [btActive, setBtActive] = React.useState(false);
-    const [brandCode, setBrandCode] = React.useState("");
-    const [brandName, setBrandName] = React.useState("");
+    const [nGId, setnGId] = React.useState(0);
+    const [btActive, setBtActive] = React.useState(true);
+    const [vGCode, setvGCode] = React.useState("");
+    const [vGName, setvGName] = React.useState("");
+    const [vGAddress, setvGAddress] = React.useState("");
+    const [vContactPerson, setvContactPerson] = React.useState("");
+    const [vContactNo, setvContactNo] = React.useState("");
+    const [vRemarks, setvRemarks] = React.useState("");
     const [buttonName, setbuttonName] = React.useState('');
     const [disabled, setdisabled] = React.useState(true);
     const { register, handleSubmit, control, errors } = useForm();
@@ -51,14 +51,13 @@ function BrandMaster() {
     const checkedonlyActive = (event) => {
         setonlyActive(event.target.checked)
         checkedData = event.target.checked
-        getBrandMaster_SelectAll()
+        GodownMaster_SelectAllGet()
     }
     useEffect(() => {
-        getBrandMaster_SelectAll()
+        GodownMaster_SelectAllGet()
     }, [])
-    const getBrandMaster_SelectAll = () => {
-        BrandMaster_SelectAll().then(response => {
-            console.log('onlyActive', onlyActive)
+    const GodownMaster_SelectAllGet = () => {
+        GodownMaster_SelectAll().then(response => {
             if (checkedData == true) {
                 let activeData = response.filter(e => e.btActive == true)
                 setBrandData(activeData)
@@ -75,7 +74,7 @@ function BrandMaster() {
 
         if (searchedVal.length > 0) {
             const filteredRows = brandData.filter((row) => {
-                return row.vBrandCode.toLowerCase().includes(searchedVal.toLowerCase()) || row.vBrandName.toLowerCase().includes(searchedVal.toLowerCase());
+                return row.vGCode.toLowerCase().includes(searchedVal.toLowerCase()) || row.vGName.toLowerCase().includes(searchedVal.toLowerCase())|| row.vGAddress.toLowerCase().includes(searchedVal.toLowerCase());
             });
             setBrandData(filteredRows);
         } else {
@@ -87,7 +86,7 @@ function BrandMaster() {
     const cancelSearch = () => {
         setSearched("");
         requestSearch(searched);
-        getBrandMaster_SelectAll()
+        GodownMaster_SelectAll()
     };
 
 
@@ -103,15 +102,23 @@ function BrandMaster() {
         if (type == 'Submit') {
             setIsOpen(true)
             setbuttonName(type)
-            setBrandCode('')
-            setBrandName('')
+            setvGCode('')
+            setvGName('')
+            setvGAddress('')
+            setvContactPerson('')
+            setvContactNo('')
+            setvRemarks('')
             setBtActive(true)
             setdisabled(true)
         } else {
             setIsOpen(true)
-            setnBid(item.nBId)
-            setBrandCode(item.vBrandCode)
-            setBrandName(item.vBrandName)
+            setnGId(item.nGId)
+            setvGCode(item.vGCode)
+            setvGName(item.vGName)
+            setvGAddress(item.vGAddress)
+            setvContactPerson(item.vContactPerson)
+            setvContactNo(item.vContactNo)
+            setvRemarks(item.vRemarks)
             setBtActive(item.btActive)
             setdisabled(false)
             setbuttonName(type)
@@ -122,32 +129,36 @@ function BrandMaster() {
     const submit = () => {
         setLoader(true)
         let brand = {
-            nBId: nBid == null ? 0 : nBid,
-            vBrandCode: brandCode,
-            vBrandName: brandName,
+            nGId: nGId == null ? 0 : nGId,
+            vGCode: vGCode,
+            vGName: vGName,
+            vGAddress: vGAddress,
+            vContactPerson: vContactPerson,
+            vContactNo: vContactNo,
+            vRemarks: vRemarks,
             btActive: btActive,
         }
         if (buttonName == 'Submit') {
             console.log('brand', brand)
-            BrandMasterPost(brand).then(res => {
+            GodownMasterPost(brand).then(res => {
                 if (res) {
                     console.log('res', res)
                     toast.success("Record Added Successfully !!")
                     setLoader(false)
                     setIsOpen(false)
-                    getBrandMaster_SelectAll()
+                    GodownMaster_SelectAllGet()
                 }
             })
 
         } else {
             console.log('brand', brand)
-            BrandMasterPut(brand).then(res => {
+            GodownMasterPut(brand).then(res => {
                 if (res) {
                     console.log('res', res)
                     toast.success("Record Updated Successfully !!")
                     setLoader(false)
                     setIsOpen(false)
-                    getBrandMaster_SelectAll()
+                    GodownMaster_SelectAllGet()
                 }
             })
         }
@@ -163,39 +174,86 @@ function BrandMaster() {
                 style={customStyles}
                 contentLabel="Example Modal"
                 ariaHideApp={false}
+                
             >
                 <div className='displayright'>
-                    <div><span className='title'>Brand Master</span></div>
+                    <div><span className='title'>Godown Code</span></div>
                     <HighlightOffIcon fontSize='large' onClick={() => setIsOpen(false)} />
                 </div>
                 <div className='displayflexend'>
-                    <Box sx={{ width: '48%' }} >
+                    <Box sx={{ width: '33%' }} >
                         <FormControl fullWidth className='input'>
                             <TextField
-                                value={brandCode}
-                                onChange={e => setBrandCode(e.target.value)}
+                                value={vGCode}
+                                onChange={e => setvGCode(e.target.value)}
                                 required id="outlined-basic"
-                                label="Brand Code"
+                                label="Godown Code"
                                 variant="outlined"
-                                name='brandCode'
-                                inputRef={register({ required: "Brand Code is required.*", })}
-                                error={Boolean(errors.brandCode)}
-                                helperText={errors.brandCode?.message}
+                                name='GodownCode'
+                                inputRef={register({ required: "Godown Code is required.*", })}
+                                error={Boolean(errors.GodownCode)}
+                                helperText={errors.GodownCode?.message}
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '48%' }} >
+                    <Box sx={{ width: '33%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
-                                value={brandName}
-                                onChange={e => setBrandName(e.target.value)}
+                                value={vGName}
+                                onChange={e => setvGName(e.target.value)}
                                 required id="outlined-basic"
-                                label="Brand Name"
+                                label="Godown Name"
                                 variant="outlined"
-                                name='brandName'
-                                inputRef={register({ required: "Brand Name is required.*", })}
-                                error={Boolean(errors.brandName)}
-                                helperText={errors.brandName?.message}
+                                name='GodownName'
+                                inputRef={register({ required: "Godown Name is required.*", })}
+                                error={Boolean(errors.GodownName)}
+                                helperText={errors.GodownName?.message}
+                            />
+                        </FormControl>
+                    </Box>
+                    <Box sx={{ width: '33%' }} >
+                        <FormControl fullWidth className='input' >
+                            <TextField
+                                value={vGAddress}
+                                onChange={e => setvGAddress(e.target.value)}
+                                required id="outlined-basic"
+                                label="Godown Address"
+                                variant="outlined"
+                            />
+                        </FormControl>
+                    </Box>
+                    <Box sx={{ width: '33%' }} >
+                        <FormControl fullWidth className='input' >
+                            <TextField
+                                value={vContactPerson}
+                                onChange={e => setvContactPerson(e.target.value)}
+                                required id="outlined-basic"
+                                label="Godown Contact Person"
+                                variant="outlined"
+                            />
+                        </FormControl>
+                    </Box>
+                    <Box sx={{ width: '33%' }} >
+                        <FormControl fullWidth className='input' >
+                            <TextField
+                                value={vContactNo}
+                                onChange={e => setvContactNo(e.target.value)}
+                                required id="outlined-basic"
+                                label="Godown Contact No"
+                                variant="outlined"
+                                
+                            />
+                        </FormControl>
+                    </Box>
+                    <Box sx={{ width: '33%', marginTop: 2 }}>
+                        <FormControl fullWidth className='input'>
+                            <TextField
+                                value={vRemarks}
+                                onChange={e => setvRemarks(e.target.value)}
+                                id="outlined-basic"
+                                label="Remarks"
+                                variant="outlined"
+                                name='vRemarks'
                             />
                         </FormControl>
                     </Box>
@@ -218,7 +276,7 @@ function BrandMaster() {
             <div className='tablecenter'>
                 <Paper sx={{ width: '100%', overflow: 'hidden' }}>
                     <div className='exportandfilter'>
-                    <ExportExcel excelData={brandData} Heading={Heading} fileName={'Brand_Master'}/>
+                    <ExportExcel excelData={brandData} Heading={Heading} fileName={'Godown_Master'}/>
                     <Box sx={{ width: '68%' }} >
                     <SearchBar
                         value={searched}
@@ -237,8 +295,12 @@ function BrandMaster() {
                             <TableHead>
                                 <TableRow>
                                     <TableCell scope="row">SN.</TableCell>
-                                    <TableCell align="left">Brand Code</TableCell>
-                                    <TableCell align="left">Brand Name</TableCell>
+                                    <TableCell align="left">Godown Code</TableCell>
+                                    <TableCell align="left">Godown Name</TableCell>
+                                    <TableCell align="left">Godown Address</TableCell>
+                                    <TableCell align="left">Godown Contact Person</TableCell>
+                                    <TableCell align="left">Godown Contact No</TableCell>
+                                    <TableCell align="left">Remarks</TableCell>
                                     <TableCell align="left">Status</TableCell>
                                     <TableCell align="left">Edit</TableCell>
                                 </TableRow>
@@ -248,8 +310,12 @@ function BrandMaster() {
                                     return (
                                         <TableRow key={index}>
                                             <TableCell component="th" scope="row">{index + 1}.</TableCell>
-                                            <TableCell align="left">{item.vBrandCode}</TableCell>
-                                            <TableCell align="left">{item.vBrandName}</TableCell>
+                                            <TableCell align="left">{item.vGCode}</TableCell>
+                                            <TableCell align="left">{item.vGName}</TableCell>
+                                            <TableCell align="left">{item.vGAddress}</TableCell>
+                                            <TableCell align="left">{item.vContactPerson}</TableCell>
+                                            <TableCell align="left">{item.vContactNo}</TableCell>
+                                            <TableCell align="left">{item.vRemarks}</TableCell>
                                             <TableCell align="left">{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
                                             <TableCell align="left"><div onClick={() => openmodale(item, 'Update')}><RiEditBoxLine fontSize="1.5em" /></div></TableCell>
                                         </TableRow>
@@ -284,9 +350,8 @@ const customStyles = {
         bottom: 'auto',
         marginRight: '-50%',
         transform: 'translate(-50%, -50%)',
-        width: '50%',
+        width: '70%',
     },
 };
-export default BrandMaster
 
-
+export default GodownMaster

@@ -10,6 +10,13 @@ export function PlantMaster_SelectAll() {
         return response;
     })
 }
+export function PlantMaster_SelectAll_ActiveLikeSearch(vGeneric) {
+    let apiUrl = environment.apiUrl;
+    let url = `${apiUrl}/PlantMaster/PlantMaster_SelectAll_ActiveLikeSearch/${vGeneric}`
+    return api.get(url).then(response => {
+        return response;
+    })
+}
 
 export function PlantMasterPost(data) {
     let apiUrl = environment.apiUrl;

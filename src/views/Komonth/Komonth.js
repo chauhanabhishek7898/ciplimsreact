@@ -698,6 +698,7 @@ function KOMONTH() {
                 isOpen={modalIsOpen}
                 style={customStyles}
                 contentLabel="Example Modal"
+                ariaHideApp={false}
             >
                 <div className='displayright'>
                     <div><span className='title'>Alert !!</span></div>
@@ -715,6 +716,7 @@ function KOMONTH() {
                 isOpen={weekmodalIsOpen}
                 style={customStylesWeek}
                 contentLabel="Example Modal"
+                ariaHideApp={false}
             >
                 <div className='displayright'>
                     <div><span className='title'>KO Week Update</span></div>
@@ -1008,6 +1010,7 @@ function KOMONTH() {
                 isOpen={monthmodalIsOpen}
                 style={customStylesWeek}
                 contentLabel="Example Modal"
+                ariaHideApp={false}
             >
                 <div className='displayright'>
                     <div><span className='title'>KO Month Update</span></div>

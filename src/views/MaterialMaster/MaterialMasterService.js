@@ -3,23 +3,30 @@ import * as environment from '../../coreservices/environment'
 export default function abc() {
     return <div>abc</div>
 }
-export function BrandMasterPost(data) {
+export function MaterialMasterPost(data) {
     let apiUrl = environment.apiUrl;
-    let url = `${apiUrl}/BrandMaster`
+    let url = `${apiUrl}/MaterialMaster`
     return api.post(url, data).then(response => {
         return response;
     })
 }
-export function BrandMasterPut(data) {
+export function MaterialMasterPut(data) {
     let apiUrl = environment.apiUrl;
-    let url = `${apiUrl}/BrandMaster`
+    let url = `${apiUrl}/MaterialMaster`
     return api.put(url, data).then(response => {
         return response;
     })
 }
-export function BrandMaster_SelectAll() {
+export function MaterialMaster_SelectAll() {
     let apiUrl = environment.apiUrl;
-    let url = `${apiUrl}/BrandMaster/BrandMaster_SelectAll`
+    let url = `${apiUrl}/MaterialMaster/MaterialMaster_SelectAll`
+    return api.get(url).then(response => {
+        return response;
+    })
+}
+export function MaterialMaster_SelectAll_ActiveLikeSearch(vGeneric) {
+    let apiUrl = environment.apiUrl;
+    let url = `${apiUrl}/MaterialMaster/MaterialMaster_SelectAll_ActiveLikeSearch/${vGeneric}`
     return api.get(url).then(response => {
         return response;
     })

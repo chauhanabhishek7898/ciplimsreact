@@ -68,7 +68,7 @@ function UnitMaster() {
                     toast.success(res)
                     setLoader(false)
                     setIsOpen(false)
-                    UnitMaster_SelectAllget()
+                    getUnitMaster_SelectAll()
                 }
             })
 
@@ -78,7 +78,7 @@ function UnitMaster() {
                     toast.success(res)
                     setLoader(false)
                     setIsOpen(false)
-                    UnitMaster_SelectAllget()
+                    getUnitMaster_SelectAll()
                 }
             })
         }
@@ -170,6 +170,7 @@ function UnitMaster() {
                 isOpen={modalIsOpen}
                 style={customStyles}
                 contentLabel="Example Modal"
+                ariaHideApp={false}
             >
                 <div className='displayright'>
                     <div><span className='title'>Unit Master</span></div>

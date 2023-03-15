@@ -3,33 +3,24 @@ import * as environment from '../../coreservices/environment'
 export default function abc() {
     return <div>abc</div>
 }
-
-export function UnitMastersPost(data) {
+export function GodownMasterPost(data) {
     let apiUrl = environment.apiUrl;
-    let url = `${apiUrl}/UnitMaster`
+    let url = `${apiUrl}/GodownMaster`
     return api.post(url, data).then(response => {
         return response;
     })
 }
-export function UnitMastersPut(data) {
+export function GodownMasterPut(data) {
     let apiUrl = environment.apiUrl;
-    let url = `${apiUrl}/UnitMaster`
+    let url = `${apiUrl}/GodownMaster`
     return api.put(url, data).then(response => {
         return response;
     })
 }
-export function UnitMaster_SelectAll() {
+export function GodownMaster_SelectAll() {
     let apiUrl = environment.apiUrl;
-    let url = `${apiUrl}/UnitMaster/UnitMaster_SelectAll`
+    let url = `${apiUrl}/GodownMaster/GodownMaster_SelectAll`
     return api.get(url).then(response => {
         return response;
     })
-}
-export function UnitMaster_SelectAll_Active() {
-    let apiUrl = environment.apiUrl;
-    let url = `${apiUrl}/UnitMaster/UnitMaster_SelectAll_Active`
-    return api.get(url).then(response => {
-        return response;
-    })
-    
 }

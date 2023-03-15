@@ -63,7 +63,7 @@ let token = await localStorage.getItem('token');
         headers: {
             'Accept': 'application/json',
             'Authorization': `Bearer ${token} `,
-            'Content-Type': 'multipart/form-data'
+            // 'Content-Type': 'multipart/form-data'
         },
         body: data
     };
@@ -84,7 +84,7 @@ async function putFile(url, data) {
         headers: {
             'Accept': 'application/json',
             'Authorization': `Bearer ${token} `,
-            'Content-Type': 'multipart/form-data'
+            // 'Content-Type': 'multipart/form-data'
         },
         body: data
     };

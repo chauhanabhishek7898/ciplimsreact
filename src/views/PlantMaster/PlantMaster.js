@@ -103,7 +103,7 @@ function PlantMaster() {
                     toast.success(res)
                     setLoader(false)
                     setIsOpen(false)
-                    plantMaster_SelectAll()
+                    getPlantMaster_SelectAll()()
                 }
             })
 
@@ -113,7 +113,7 @@ function PlantMaster() {
                     toast.success(res)
                     setLoader(false)
                     setIsOpen(false)
-                    plantMaster_SelectAll()
+                    getPlantMaster_SelectAll()()
                 }
             })
         }
@@ -180,6 +180,7 @@ function PlantMaster() {
                 isOpen={modalIsOpen}
                 style={customStyles}
                 contentLabel="Example Modal"
+                ariaHideApp={false}
             >
                 <div className='displayright'>
                     <div><span className='title'>Plant Master</span></div>
@@ -191,6 +192,7 @@ function PlantMaster() {
                             <TextField
                                 id="outlined-basic"
                                 label="Enter Plant Code"
+                                required
                                 variant="outlined"
                                 value={vPlantCode}
                                 name='vPlantCode'
@@ -207,6 +209,7 @@ function PlantMaster() {
                                 id="outlined-basic"
                                 label="Enter Plant Name"
                                 variant="outlined"
+                                required
                                 value={vPlantName}
                                 name='vPlantName'
                                 onChange={e => setvPlantName(e.target.value)}
@@ -226,9 +229,9 @@ function PlantMaster() {
                                 value={vProfitCentre}
                                 name='vProfitCentre'
                                 onChange={e => setvProfitCentre(e.target.value)}
-                                inputRef={register({ required: "Profit Centre is required.*", })}
-                                error={Boolean(errors.vProfitCentre)}
-                                helperText={errors.vProfitCentre?.message}
+                                // inputRef={register({ required: "Profit Centre is required.*", })}
+                                // error={Boolean(errors.vProfitCentre)}
+                                // helperText={errors.vProfitCentre?.message}
                             />
                         </FormControl>
                     </Box>
@@ -241,9 +244,9 @@ function PlantMaster() {
                                 value={vCostCentre}
                                 name='vCostCentre'
                                 onChange={e => setvCostCentre(e.target.value)}
-                                inputRef={register({ required: "Cost Centre is required.*", })}
-                                error={Boolean(errors.vCostCentre)}
-                                helperText={errors.vCostCentre?.message}
+                                // inputRef={register({ required: "Cost Centre is required.*", })}
+                                // error={Boolean(errors.vCostCentre)}
+                                // helperText={errors.vCostCentre?.message}
                             />
                         </FormControl>
                     </Box>
@@ -256,9 +259,9 @@ function PlantMaster() {
                                 value={vPlantAddress}
                                 name='vPlantAddress'
                                 onChange={e => setvPlantAddress(e.target.value)}
-                                inputRef={register({ required: "Plant Address is required.*", })}
-                                error={Boolean(errors.vPlantAddress)}
-                                helperText={errors.vPlantAddress?.message}
+                                // inputRef={register({ required: "Plant Address is required.*", })}
+                                // error={Boolean(errors.vPlantAddress)}
+                                // helperText={errors.vPlantAddress?.message}
                             />
                         </FormControl>
                     </Box>

@@ -5,7 +5,9 @@
 // .sidebar-brand{
 //     background: green;
 // }
-
+.container-xxl{
+  max-width: 1644px ;
+}
 p{
     margin-bottom: 0;
 }
@@ -26,12 +28,32 @@ p{
     }
 
 }
+.dateFilter-2{
+    background-color: #fff;
+    display: flex;
+    padding: 10px;
+    min-height: 99px;
+    align-items: center;
+    border-radius: 5px;
+    box-shadow: 0 0 6px 0 rgba($color: #000000, $alpha: 0.2);
+    .date{
+        margin-right: 15px;
+    }
+
+}
 .css-1sumxir-MuiFormLabel-root-MuiInputLabel-root{
     top: -4px !important;
     background: #fff !important;
 }
-.css-y8ay40-MuiTableCell-root{
+.css-y8ay40-MuiTableCell-root {
   font-weight: bold !important;
+  white-space:nowrap
+}
+.css-dwuj3p-MuiTableCell-root {
+  font-weight: bold !important;
+  white-space:nowrap
+}
+.css-1ex1afd-MuiTableCell-root{
   white-space:nowrap
 }
 .databox{
@@ -47,6 +69,7 @@ p{
         display: flex;
         align-items: center;
         // justify-content: space-between;
+        flex-wrap: wrap;
         gap: 15px;
     }
 }
@@ -80,7 +103,7 @@ p{
     position: relative;
 }
 .error{
-    position: absolute;
+    // position: absolute;
     font-size: 12px;
     color: red;
     
@@ -208,6 +231,15 @@ p{
     justify-content: space-between;
     flex-wrap: wrap;
     margin-top: 10px;
+    gap: 10px;
+  }
+  .displayflexend-2{
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin-top: 10px;
+    margin-left: 10px;
   }
   .displayflexendmodal{
     display: flex;
@@ -311,4 +343,31 @@ p{
 }
 .css-1anqmj6-MuiPopper-root-MuiPickersPopper-root {
   z-index: 100000000 !important;
+}
+.ReactModal__Content {
+  top: 50% !important;
+  left: 50% !important;
+}
+.choosebtn{
+  border: none;
+  padding: 4px 10px;
+  background: #f00;
+  color: #fff;
+  border-radius: 5px;
+
+}
+.deletbtn {
+  border: none;
+    background: #fff;
+}
+svg.MuiSvgIcon-root.MuiSvgIcon-colorRed.MuiSvgIcon-fontSizeMedium.css-i4bv87-MuiSvgIcon-root{
+  color: red;
+}
+.applybtn{
+  border: none;
+  width: 130px;
+  height: 61px;
+  border-radius: 5px;
+  background: red;
+  color: #fff;
 }

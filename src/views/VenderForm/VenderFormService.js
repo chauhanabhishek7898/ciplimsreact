@@ -17,9 +17,23 @@ export function VendorMasterPut(data) {
         return response;
     })
 }
+export function VendorMaster_SelectAll_Active() {
+    let apiUrl = environment.apiUrl;
+    let url = `${apiUrl}/VendorMaster/VendorMaster_SelectAll_Active`
+    return api.get(url).then(response => {
+        return response;
+    })
+}
 export function VendorMaster_SelectAll() {
     let apiUrl = environment.apiUrl;
     let url = `${apiUrl}/VendorMaster/VendorMaster_SelectAll`
+    return api.get(url).then(response => {
+        return response;
+    })
+}
+export function VendorMaster_SelectAll_ActiveLikeSearch(vGeneric) {
+    let apiUrl = environment.apiUrl;
+    let url = `${apiUrl}/VendorMaster/VendorMaster_SelectAll_ActiveLikeSearch/${vGeneric}`
     return api.get(url).then(response => {
         return response;
     })

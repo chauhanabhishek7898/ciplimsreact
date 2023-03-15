@@ -12,7 +12,7 @@ import MenuItem from '@mui/material/MenuItem';
 import Paper from '@mui/material/Paper';
 import { BrandMaster_SelectAll, BrandMasterPost, BrandMasterPut } from '../BrandMaster/BrandMasterService'
 import { UnitMaster_SelectAll } from '../PackMaster/PackMasterService'
-import { GetPODetails } from './POMasterService'
+import { GetGRNDetails } from './GRNReceivedService'
 
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
@@ -39,7 +39,7 @@ import { parseDateToString,parseDateToStringSubmit } from '../../coreservices/Da
 import { useNavigate, Link } from "react-router-dom";
 import * as environment from '../../coreservices/environment'
 import BorderColorIcon from '@mui/icons-material/BorderColor';
-function PurchaseOrder() {
+function GRNReceivedList() {
     let imageUrl=environment.imageUrl
     const navigate = useNavigate();
     const [modalIsOpen, setIsOpen] = React.useState(false);
@@ -78,7 +78,7 @@ function PurchaseOrder() {
         setUnitid(event.target.value);
     };
     const handleChangeFromedate = (newValue) => {
-        setFromdate(newValue);
+        setFromdate(formatedDate);
     };
     const handleChangeTodate = (newValue) => {
         setTodate(newValue);
@@ -100,7 +100,7 @@ function PurchaseOrder() {
         }else{
             vGenrics=vGenric
         }
-        GetPODetails(parseDateToStringSubmit(new Date(fromDate)),parseDateToStringSubmit(new Date(toDate)),vGenrics).then(response => {
+        GetGRNDetails(parseDateToStringSubmit(new Date(fromDate)),parseDateToStringSubmit(new Date(toDate)),vGenrics).then(response => {
             console.log(response)
             setBrandData(response)
         })
@@ -139,15 +139,15 @@ function PurchaseOrder() {
         })
     }
 
-   const handleDetail = (nPOId) => {
+   const handleDetail = (nGRNId) => {
      
-        navigate('/EditPurchaseOrder', { state: { nPOId } });
+        navigate('/EditGRNReceived', { state: { nGRNId } });
       }
 
     return (
         <div className='citymasterContainer'>
             {/* <button  title='Add' onClick={routeChange}><AddIcon fontSize='large' /></button> */}
-            <Link to="/AddPurchaseOrder" className='addbtn_2'><AddIcon fontSize='large' /></Link>
+            <Link to="/AddGRNReceived" className='addbtn_2'><AddIcon fontSize='large' /></Link>
 
             <div className='tablecenter'>
                
@@ -210,17 +210,22 @@ function PurchaseOrder() {
                                     <TableCell scope="row">SN.</TableCell>
                                     <TableCell align="center">Edit</TableCell>
                                     <TableCell align="left">Status</TableCell>
-                                    <TableCell align="left">PO No</TableCell>
-                                    <TableCell align="left">PO Dated</TableCell>
-                                    <TableCell align="left">PO Description</TableCell>
-                                    <TableCell align="left">Plant Detail</TableCell>
-                                    <TableCell align="left">Cost Centre</TableCell>
-                                    <TableCell align="left">Profit Centre</TableCell>
-                                    <TableCell align="left">GL Code</TableCell>
-                                    <TableCell align="left">Business</TableCell>
-                                    <TableCell align="left">Vendor Detail</TableCell>
+                                    <TableCell align="left">Invoice No.</TableCell>
+                                    <TableCell align="left">GRN Date</TableCell>
+                                    <TableCell align="left">Inv Date</TableCell>
+                                    <TableCell align="left">Vehicle No.</TableCell>
+                                    <TableCell align="left">Transport Name</TableCell>
+                                    <TableCell align="left">PO No.</TableCell>
+                                    <TableCell align="left">Lorry Rec No.</TableCell>
+                                    <TableCell align="left">EWay Bill No.</TableCell>
+                                    <TableCell align="left">Batch No.</TableCell>
+                                    <TableCell align="left">Is COA Received</TableCell>
+                                    <TableCell align="left">GRN Copy</TableCell>
+                                    <TableCell align="left">Gate Entry Date</TableCell>
+                                    <TableCell align="left">Courier To CCIPL</TableCell>
+                                    <TableCell align="left">Courier Docket No</TableCell>
+                                    <TableCell align="left">Payment Receive Date</TableCell>
                                     <TableCell align="left">Remarks</TableCell>
-                                    <TableCell align="left">PO Copy</TableCell>
                                     
                                 </TableRow>
                             </TableHead>
@@ -229,19 +234,24 @@ function PurchaseOrder() {
                                     return (
                                         <TableRow key={index}>
                                             <TableCell component="th" scope="row">{index + 1}.</TableCell>
-                                            <TableCell align="center"><button className='deletbtn' title='Edit' onClick={() =>handleDetail(item.nPOId) }><BorderColorIcon size={20} color='#000' /></button></TableCell>
+                                            <TableCell align="center"><button className='deletbtn' title='Edit' onClick={() =>handleDetail(item.nGRNId) }><BorderColorIcon size={20} color='#000' /></button></TableCell>
                                             <TableCell align="left">{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
+                                            <TableCell align="left">{item.vInvoiceNo}</TableCell>
+                                            <TableCell align="left">{item.GRNDate}</TableCell>
+                                            <TableCell align="left">{item.InvDate}</TableCell>
+                                            <TableCell align="left">{item.vVehicleNo}</TableCell>
+                                            <TableCell align="left">{item.vTransportName}</TableCell>
                                             <TableCell align="left">{item.vPONo}</TableCell>
-                                            <TableCell align="left">{item.PODated}</TableCell>
-                                            <TableCell align="left">{item.vPODesc}</TableCell>
-                                            <TableCell align="left">{item.PlantDetail}</TableCell>
-                                            <TableCell align="left">{item.vCostCentre}</TableCell>
-                                            <TableCell align="left">{item.vProfitCentre}</TableCell>
-                                            <TableCell align="left">{item.vGLCode}</TableCell>
-                                            <TableCell align="left">{item.vBusiness}</TableCell>
-                                            <TableCell align="left">{item.VendorDetail}</TableCell>
+                                            <TableCell align="left">{item.vLorryRecNo}</TableCell>
+                                            <TableCell align="left">{item.vEWayBillNo}</TableCell>
+                                            <TableCell align="left">{item.vBatchNo}</TableCell>
+                                            <TableCell align="left">{item.btCOAReceived === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
+                                            <TableCell align="left"> <a href={imageUrl+'/'+item.vGRNCopyFilePath} target="_blank" rel="noopener noreferrer" style={{ marginLeft: 10 }}>{item.vGRNCopyFilePath!=null&&item.vGRNCopyFilePath!=''?'GRN Copy':null}</a> </TableCell>
+                                            <TableCell align="left">{parseDateToString(new Date(item.dtGateEntryDate))}</TableCell>
+                                            <TableCell align="left">{item.vCourierToCCIPL}</TableCell>
+                                            <TableCell align="left">{item.vCourierDocketNo}</TableCell>
+                                            <TableCell align="left">{parseDateToString(new Date(item.dtPaymentReceiveDate))}</TableCell>
                                             <TableCell align="left">{item.vRemarks}</TableCell>
-                                            <TableCell align="left"> <a href={imageUrl+'/'+item.vPOFilePath} target="_blank" rel="noopener noreferrer" style={{ marginLeft: 10 }}>{item.vPOFilePath!=null&&item.vPOFilePath!=''?'PO Copy':null}</a> </TableCell>
  
                                         </TableRow>
                                     )
@@ -277,4 +287,5 @@ const customStyles = {
         width: '80%',
     },
 };
-export default PurchaseOrder
+
+export default GRNReceivedList

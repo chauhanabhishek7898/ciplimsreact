@@ -110,7 +110,7 @@ function VenderForm() {
     }, [])
     const getVendorMaster_SelectAll = () => {
         VendorMaster_SelectAll().then(response => {
-            console.log('onlyActive', onlyActive)
+          
             if (checkedData == true) {
                 let activeData = response.filter(e => e.btActive == true)
                 setVendorData(activeData)
@@ -167,10 +167,9 @@ function VenderForm() {
             btActive: btActive,
         }
         if (buttonName == 'Submit') {
-            console.log('vendor', vendor)
             VendorMasterPost(vendor).then(res => {
                 if (res) {
-                    console.log('res', res)
+                  
                     toast.success("Record Added Successfully !!")
                     setLoader(false)
                     setIsOpen(false)
@@ -178,10 +177,8 @@ function VenderForm() {
                 }
             })
         } else {
-            console.log('vendor', vendor)
             VendorMasterPut(vendor).then(res => {
                 if (res) {
-                    console.log('res', res)
                     toast.success("Record Updated Successfully !!")
                     setLoader(false)
                     setIsOpen(false)
@@ -196,10 +193,12 @@ function VenderForm() {
             <Modal
                 isOpen={modalIsOpen}
                 style={customStyles}
+                ariaHideApp={false}
                 contentLabel="Example Modal"
+                
             >
                 <div className='displayright'>
-                    <div><span className='title'>Vendor Master Form</span></div>
+                    <div><span className='title'>Vendor Master</span></div>
                     <HighlightOffIcon fontSize='large' onClick={() => setIsOpen(false)} />
                 </div>
                 <div className='displayflexend'>
@@ -210,6 +209,7 @@ function VenderForm() {
                                 onChange={e => setvVendorCode(e.target.value)}
                                 id="outlined-basic"
                                 label="Vendor Code"
+                                required
                                 variant="outlined"
                                 name='vVendorCode'
                                 inputRef={register({ required: "Vendor Code is required.*", })}
@@ -224,6 +224,7 @@ function VenderForm() {
                                 value={vVendorName}
                                 onChange={e => setvVendorName(e.target.value)}
                                 id="outlined-basic"
+                                required
                                 label="Vendor Name"
                                 variant="outlined"
                                 name='vVendorName'
@@ -304,9 +305,9 @@ function VenderForm() {
                                 label="GST No"
                                 variant="outlined"
                                 name='vGSTNo'
-                                inputRef={register({ required: "GST No is required.*", })}
-                                error={Boolean(errors.vGSTNo)}
-                                helperText={errors.vGSTNo?.message}
+                                // inputRef={register({ required: "GST No is required.*", })}
+                                // error={Boolean(errors.vGSTNo)}
+                                // helperText={errors.vGSTNo?.message}
                             />
                         </FormControl>
                     </Box>
@@ -366,7 +367,7 @@ function VenderForm() {
                                     <TableCell scope="row">SN.</TableCell>
                                     <TableCell align="left">Vendor Code</TableCell>
                                     <TableCell align="left">Vendor Name</TableCell>
-                                    <TableCell align="left">Vendor Address</TableCell>
+                                    <TableCell align="left">Address</TableCell>
                                     <TableCell align="left">Contact Person</TableCell>
                                     <TableCell align="left">Mobile No</TableCell>
                                     <TableCell align="left">Email Id</TableCell>
@@ -379,7 +380,7 @@ function VenderForm() {
                             <TableBody>
                                 {vendorData.map((item, index) => {
                                     return (
-                                        <TableRow >
+                                        <TableRow key={index}>
                                             <TableCell component="th" scope="row">{index + 1}.</TableCell>
                                             <TableCell align="left">{item.vVendorCode}</TableCell>
                                             <TableCell align="left">{item.vVendorName}</TableCell>

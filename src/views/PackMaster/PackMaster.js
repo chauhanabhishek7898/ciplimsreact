@@ -148,7 +148,6 @@ function PackMaster() {
 
     const validateform = () => {
         if (unitid == '') {
-            console.log('Select Unit')
             setError('Select Unit')
             return false
         } else {
@@ -222,7 +221,7 @@ function PackMaster() {
                                     <TableCell scope="row">SN.</TableCell>
                                     <TableCell align="left">Pack Code</TableCell>
                                     <TableCell align="left">Pack Name</TableCell>
-                                    <TableCell align="left">Pack Unit</TableCell>
+                                    <TableCell align="left">Unit</TableCell>
                                     <TableCell align="left">Pack Product</TableCell>
                                     <TableCell align="left">Pack Cases</TableCell>
                                     <TableCell align="left">Status</TableCell>
@@ -264,6 +263,7 @@ function PackMaster() {
                 isOpen={modalIsOpen}
                 style={customStyles}
                 contentLabel="Example Modal"
+                ariaHideApp={false}
             >
                 <div className='displayright'>
                     <div><span className='title'>Pack Master</span></div>
@@ -276,6 +276,7 @@ function PackMaster() {
                                 value={packCode}
                                 onChange={e => setpackCode(e.target.value)}
                                 id="outlined-basic"
+                                required
                                 label="Pack Code"
                                 variant="outlined"
                                 name='packCode'
@@ -291,6 +292,7 @@ function PackMaster() {
                                 value={packName}
                                 onChange={e => setpackName(e.target.value)}
                                 id="outlined-basic"
+                                required
                                 label="Pack Name"
                                 variant="outlined"
                                 name='packName'
@@ -301,7 +303,7 @@ function PackMaster() {
                     </Box>
                     <Box sx={{ width: '30%', marginTop: 2 }}>
                         <FormControl fullWidth className='input'>
-                            <InputLabel required id="demo-simple-select-label">Pack Unit</InputLabel>
+                            <InputLabel required id="demo-simple-select-label">Unit</InputLabel>
                             <Select
                                 style={{ width: '100%', }}
                                 labelId="demo-simple-select-label"
@@ -322,8 +324,7 @@ function PackMaster() {
                                 })
                                 }
                             </Select>
-                            {unitid === "" ? <FormHelperText>Select Pack Unit</FormHelperText> : null}
-
+                            {unitid != '' ? <p  className='error'>{error}</p> : null}
                             {/* <FormHelperText>Select Pack Unit</FormHelperText> */}
                         </FormControl>
                         {/* <div className='error'>{error} </div> */}

@@ -49,6 +49,9 @@ function LineMaster() {
     const [searched, setSearched] = React.useState("");
     const [error, setError] = React.useState('');
     const [onlyActive, setonlyActive] = React.useState(true);
+    const [errorText, setErrorText] = React.useState({
+        plantid: '',
+    });
     let checkedData = true
     const checkedonlyActive = (event) => {
         setonlyActive(event.target.checked)
@@ -151,11 +154,10 @@ function LineMaster() {
 
     const validateform = () => {
         if (plantid == '') {
-            console.log('Select Unit')
-            setError('Select plant Name')
+            setErrorText({plantid:'Select Plant Name'})
             return false
         } else {
-            setError('')
+            setErrorText('')
             return true
         }
     }
@@ -204,6 +206,7 @@ function LineMaster() {
                 isOpen={modalIsOpen}
                 style={customStyles}
                 contentLabel="Example Modal"
+                ariaHideApp={false}
             >
                 <div className='displayright'>
                     <div><span className='title'>Line Master</span></div>
@@ -230,20 +233,20 @@ function LineMaster() {
                             <TextField
                                 value={lineDescription}
                                 onChange={e => setlineDescription(e.target.value)}
-                                required id="outlined-basic"
+                                 id="outlined-basic"
                                 label="Line Description"
                                 variant="outlined"
                                 name='lineDescription'
-                                inputRef={register({ required: "Line Description is required.*", })}
-                                error={Boolean(errors.lineDescription)}
-                                helperText={errors.lineDescription?.message}
+                                // inputRef={register({ required: "Line Description is required.*", })}
+                                // error={Boolean(errors.lineDescription)}
+                                // helperText={errors.lineDescription?.message}
                             />
                         </FormControl>
                     </Box>
 
                     <Box sx={{ width: '49%', marginTop: 2 }}>
                         <FormControl fullWidth className='input'>
-                            <InputLabel required id="demo-simple-select-label">Plant Name</InputLabel>
+                            <InputLabel required id="demo-simple-select-label">Plant Name </InputLabel>
                             <Select
                                 style={{ width: '100%', }}
                                 labelId="demo-simple-select-label"
@@ -252,9 +255,9 @@ function LineMaster() {
                                 label="Select Plant Name"
                                 onChange={handleChangePackUnit}
                                 name='plantid'
-                                inputRef={register({ required: "Plant Name is required.*", })}
-                                error={Boolean(errors.plantid)}
-                                helperText={errors.plantid?.message}
+                                // inputRef={register({ required: "Plant Name is required.*", })}
+                                // error={Boolean(errors.plantid)}
+                                // helperText={errors.plantid?.message}
                             >
                                 {plantData.map((item, index) => {
                                     return (
@@ -262,9 +265,10 @@ function LineMaster() {
                                     )
                                 })
                                 }
-                            </Select>
+                            </Select> 
+                            {errorText.plantid != '' ? <p  className='error'>{errorText.plantid}</p> : null}
                         </FormControl>
-                        <div className='error'>{error} </div>
+                       
                     </Box>
 
                 </div>
