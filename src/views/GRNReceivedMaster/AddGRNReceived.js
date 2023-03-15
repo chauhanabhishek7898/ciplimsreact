@@ -515,54 +515,60 @@ function AddGRNReceived() {
                         onClick: () => {
                             if (validateformPoDetial() == true) {
                                 let poMasteerDetail = [...PODetails]
-                                poMasteerDetail.push({
-                                    id: new Date().getUTCMilliseconds(),
-                                    nMId: parseInt(nMId),
-                                    MaterialDetail: MaterialDetail,
-                                    nQty: parseInt(nQty == '' ? 0 : nQty),
-                                    nQtyAccepted: parseInt(nQtyAccepted == '' ? 0 : nQtyAccepted),
-                                    nQtyRejected: parseInt(nQtyRejected == '' ? 0 : nQtyRejected),
-                                    nRate: parseInt(nRate == '' ? 0 : nRate),
-                                    dtMfgDate: parseDateToStringSubmit(new Date(dtMfgDate)),
-                                    dtExpDate: parseDateToStringSubmit(new Date(dtExpDate)),
-                                    dtMfgDate1: dtMfgDate,
-                                    dtExpDate2: dtExpDate,
-                                    nTotalAmount: parseInt(nAmt == '' ? 0 : nAmt),
-                                    nSGSTP: parseInt(nSGSTP == '' ? 0 : nSGSTP),
-                                    nSGST: parseInt(nSGST == '' ? 0 : nSGST),
-                                    nCGSTP: parseInt(nCGSTP == '' ? 0 : nCGSTP),
-                                    nCGST: parseInt(nCGST == '' ? 0 : nCGST),
-                                    nIGSTP: parseInt(nIGSTP == '' ? 0 : nIGSTP),
-                                    nIGST: parseInt(nIGST == '' ? 0 : nIGST),
-                                    nTax: parseInt(nTax == '' ? 0 : nTax),
-                                    nGrandTotal: parseInt(nGrandTotal == '' ? 0 : nGrandTotal),
-                                    nFreight: parseInt(nFreight == '' ? 0 : nFreight),
-                                    nNetTotalAmt: parseInt(nNetTotalAmt == '' ? 0 : nNetTotalAmt)
-                                })
-                                console.log('koMonth', poMasteerDetail)
-                                setPODetails(poMasteerDetail)
-                                setnMId('')
-                                setMaterialDetail('')
-                                setnQty('')
-                                setnRate('')
-                                setdtMfgDate(new Date(Date.now()))
-                                setdtExpDate(new Date(Date.now()))
-                                setnAmt('')
-                                setnSGSTP('')
-                                setnSGST('')
-                                setnCGSTP('')
-                                setnCGST('')
-                                setnIGSTP('')
-                                setnIGST('')
-                                setnTax('')
-                                setnTotalAmt('')
-                                setnFreight('')
-                                setnPoQtyAccepted('')
-                                setnQtyAccepted('')
-                                setnQtyRejected('')
-                                setvBusiness('')
-                                setnGrandTotal('')
-                                setnNetTotalAmt('')
+                                let findnMId=poMasteerDetail.find(e=>e.nMId==nMId)
+                                if(findnMId){
+                                    toast.success("Item is already Added")
+                                }else{
+                                    poMasteerDetail.push({
+                                        id: new Date().getUTCMilliseconds(),
+                                        nMId: parseInt(nMId),
+                                        MaterialDetail: MaterialDetail,
+                                        nQty: parseInt(nQty == '' ? 0 : nQty),
+                                        nQtyAccepted: parseInt(nQtyAccepted == '' ? 0 : nQtyAccepted),
+                                        nQtyRejected: parseInt(nQtyRejected == '' ? 0 : nQtyRejected),
+                                        nRate: parseInt(nRate == '' ? 0 : nRate),
+                                        dtMfgDate: parseDateToStringSubmit(new Date(dtMfgDate)),
+                                        dtExpDate: parseDateToStringSubmit(new Date(dtExpDate)),
+                                        dtMfgDate1: dtMfgDate,
+                                        dtExpDate2: dtExpDate,
+                                        nTotalAmount: parseInt(nAmt == '' ? 0 : nAmt),
+                                        nSGSTP: parseInt(nSGSTP == '' ? 0 : nSGSTP),
+                                        nSGST: parseInt(nSGST == '' ? 0 : nSGST),
+                                        nCGSTP: parseInt(nCGSTP == '' ? 0 : nCGSTP),
+                                        nCGST: parseInt(nCGST == '' ? 0 : nCGST),
+                                        nIGSTP: parseInt(nIGSTP == '' ? 0 : nIGSTP),
+                                        nIGST: parseInt(nIGST == '' ? 0 : nIGST),
+                                        nTax: parseInt(nTax == '' ? 0 : nTax),
+                                        nGrandTotal: parseInt(nGrandTotal == '' ? 0 : nGrandTotal),
+                                        nFreight: parseInt(nFreight == '' ? 0 : nFreight),
+                                        nNetTotalAmt: parseInt(nNetTotalAmt == '' ? 0 : nNetTotalAmt)
+                                    })
+                                    console.log('koMonth', poMasteerDetail)
+                                    setPODetails(poMasteerDetail)
+                                    setnMId('')
+                                    setMaterialDetail('')
+                                    setnQty('')
+                                    setnRate('')
+                                    setdtMfgDate(new Date(Date.now()))
+                                    setdtExpDate(new Date(Date.now()))
+                                    setnAmt('')
+                                    setnSGSTP('')
+                                    setnSGST('')
+                                    setnCGSTP('')
+                                    setnCGST('')
+                                    setnIGSTP('')
+                                    setnIGST('')
+                                    setnTax('')
+                                    setnTotalAmt('')
+                                    setnFreight('')
+                                    setnPoQtyAccepted('')
+                                    setnQtyAccepted('')
+                                    setnQtyRejected('')
+                                    setvBusiness('')
+                                    setnGrandTotal('')
+                                    setnNetTotalAmt('')
+
+                                }
                             }
 
                         }
@@ -1109,7 +1115,7 @@ function AddGRNReceived() {
                                 label="PO Qty"
                                 variant="outlined"
                                 name='Quantity'
-                                type={number}
+                                type="number" inputProps={{ min: 4, max: 10 }}
                             // inputRef={register({ required: "Quantity is required.*", })}
                             // error={Boolean(errors.Quantity)}
                             // helperText={errors.Quantity?.message}
@@ -1126,7 +1132,7 @@ function AddGRNReceived() {
                                 label="Quantity Accepted"
                                 variant="outlined"
                                 name='Quantity'
-                                type={number}
+                                type="number" inputProps={{ min: 4, max: 10 }}
                             // inputRef={register({ required: "Quantity is required.*", })}
                             // error={Boolean(errors.Quantity)}
                             // helperText={errors.Quantity?.message}
@@ -1143,7 +1149,7 @@ function AddGRNReceived() {
                                 label="Quantity Rejected"
                                 variant="outlined"
                                 name='Quantity'
-                                type={number}
+                                type="number" inputProps={{ min: 4, max: 10 }}
                             // inputRef={register({ required: "Quantity is required.*", })}
                             // error={Boolean(errors.Quantity)}
                             // helperText={errors.Quantity?.message}
@@ -1160,7 +1166,7 @@ function AddGRNReceived() {
                                 label="Rate"
                                 variant="outlined"
                                 name='rate'
-                                type={number}
+                                type="number" inputProps={{ min: 4, max: 10 }}
                             // inputRef={register({ required: "rate is required.*", })}
                             // error={Boolean(errors.rate)}
                             // helperText={errors.rate?.message}
@@ -1215,7 +1221,7 @@ function AddGRNReceived() {
                                 label="Total Amount"
                                 variant="outlined"
                                 name='Amount'
-                                type={number}
+                                type="number" inputProps={{ min: 4, max: 10 }}
                                 disabled={true}
                             // inputRef={register({ required: "Amount is required.*", })}
                             // error={Boolean(errors.Amount)}
@@ -1232,7 +1238,7 @@ function AddGRNReceived() {
                                 label="SGST (%)"
                                 variant="outlined"
                                 name='SGSTin'
-                                type={number}
+                                type="number" inputProps={{ min: 4, max: 10 }}
                             // inputRef={register({ required: "SGST in % is required.*", })}
                             // error={Boolean(errors.SGSTin)}
                             // helperText={errors.SGSTin?.message}
@@ -1249,7 +1255,7 @@ function AddGRNReceived() {
                                 variant="outlined"
                                 name='sGST'
                                 disabled={true}
-                                type={number}
+                                type="number" inputProps={{ min: 4, max: 10 }}
                             // inputRef={register({ required: "SGST is required.*", })}
                             // error={Boolean(errors.sGST)}
                             // helperText={errors.sGST?.message}
@@ -1265,7 +1271,7 @@ function AddGRNReceived() {
                                 label="CGST (%)"
                                 variant="outlined"
                                 name='CGSTin'
-                                type={number}
+                                type="number" inputProps={{ min: 4, max: 10 }}
                             // inputRef={register({ required: "CGST in % is required.*", })}
                             // error={Boolean(errors.CGSTin)}
                             // helperText={errors.CGSTin?.message}
@@ -1282,7 +1288,7 @@ function AddGRNReceived() {
                                 variant="outlined"
                                 name='cGST'
                                 disabled={true}
-                                type={number}
+                                type="number" inputProps={{ min: 4, max: 10 }}
                             // inputRef={register({ required: "CGST is required.*", })}
                             // error={Boolean(errors.cGST)}
                             // helperText={errors.cGST?.message}
@@ -1298,7 +1304,7 @@ function AddGRNReceived() {
                                 label="IGST (%)"
                                 variant="outlined"
                                 name='IGSTin'
-                                type={number}
+                                type="number" inputProps={{ min: 4, max: 10 }}
                             // inputRef={register({ required: "IGST in % is required.*", })}
                             // error={Boolean(errors.IGSTin)}
                             // helperText={errors.IGSTin?.message}
@@ -1314,7 +1320,7 @@ function AddGRNReceived() {
                                 label="IGST"
                                 variant="outlined"
                                 name='iGST'
-                                type={number}
+                                type="number" inputProps={{ min: 4, max: 10 }}
                                 disabled={true}
                             // inputRef={register({ required: "IGST is required.*", })}
                             // error={Boolean(errors.iGST)}
@@ -1332,7 +1338,7 @@ function AddGRNReceived() {
                                 variant="outlined"
                                 name='Tax'
                                 disabled={true}
-                                type={number}
+                                type="number" inputProps={{ min: 4, max: 10 }}
                             // inputRef={register({ required: "Total Tax is required.*", })}
                             // error={Boolean(errors.Tax)}
                             // helperText={errors.Tax?.message}
@@ -1349,7 +1355,7 @@ function AddGRNReceived() {
                                 variant="outlined"
                                 name='TotalAmount'
                                 disabled={true}
-                                type={number}
+                                type="number" inputProps={{ min: 4, max: 10 }}
                             // inputRef={register({ required: "Total Amount is required.*", })}
                             // error={Boolean(errors.brandName5)}
                             // helperText={errors.brandName5?.message}
@@ -1366,7 +1372,7 @@ function AddGRNReceived() {
                                 variant="outlined"
                                 name='TotalAmount'
 
-                                type={number}
+                                type="number" inputProps={{ min: 4, max: 10 }}
                             // inputRef={register({ required: "Total Amount is required.*", })}
                             // error={Boolean(errors.brandName5)}
                             // helperText={errors.brandName5?.message}
@@ -1384,7 +1390,7 @@ function AddGRNReceived() {
                                 variant="outlined"
                                 name='TotalAmount'
                                 disabled={true}
-                                type={number}
+                                type="number" inputProps={{ min: 4, max: 10 }}
                             // inputRef={register({ required: "Total Amount is required.*", })}
                             // error={Boolean(errors.brandName5)}
                             // helperText={errors.brandName5?.message}
