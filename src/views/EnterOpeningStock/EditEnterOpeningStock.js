@@ -877,9 +877,9 @@ function EditEnterOpeningStock() {
                 </div>
             </div>
 
-            <div className='displayflexendmodal'>
+            <div className='displayflex-2'>
 
-                <button type="submit" className='submitbtn' style={{ marginRight: 10 }} onClick={goback}><HomeIcon size={18} /> Home</button>
+                <button type="submit" className='submitbtn-2' style={{ marginRight: 10 }} onClick={goback}><HomeIcon size={18} /> Home</button>
                 {loader == true ?
                     <CButton disabled className='submitbtn'>
                         <CSpinner component="span" size="sm" aria-hidden="true" />

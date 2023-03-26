@@ -92,7 +92,7 @@ function AddGRNReceived() {
     const [btActive, setBtActive] = React.useState(true);
     const [disabled, setdisabled] = React.useState(true)
     const { register, handleSubmit, control, errors } = useForm();
-
+    const [monthmodalIsOpen, setmonthmodalIsOpen] = React.useState(false);
     // const [rows, setRows] = useState(brandData);
     const [searched, setSearched] = React.useState("");
 
@@ -110,6 +110,7 @@ function AddGRNReceived() {
     const [PODetails, setPODetails] = React.useState([]);
     const [weekNumberId, setWeekNumberId] = React.useState('');
     const [nLoggedInUserId, setnLoggedInUserId] = React.useState('');
+    const [GrnData, setGrnData] = React.useState([]);
     const [errorText, setError] = React.useState({
         plant: '',
         vendor: '',
@@ -711,11 +712,15 @@ function AddGRNReceived() {
                                     GRNOrder.GRNDetails = PODetails
                                 console.log('PurchaseOrder', GRNOrder)
                                 POMasterPost(GRNOrder, vPOFilePath).then(res => {
-                                    if (res) {
+                                    console.log('res',res)
+                                    if (res?.length>0) {
+                                        setGrnData(res)
+                                        setmonthmodalIsOpen(true)
+                                        setLoader(false)
+                                    }else{
                                         setLoader(false)
                                         toast.success("Record Updated Successfully !!")
                                         navigate('/GRNReceived')
-
                                     }
                                 })
 
@@ -1602,9 +1607,9 @@ function AddGRNReceived() {
                 }
             </div>
 
-            <div className='displayflexendmodal'>
+            <div className='displayflex-2' >
 
-                <button type="submit" className='submitbtn' style={{ marginRight: 10 }} onClick={goback}><HomeIcon size={18} /> Home</button>
+                <button type="submit" className='submitbtn-2' style={{ marginRight: 10 }} onClick={goback}><HomeIcon size={18} /> Home</button>
                 {loader == true ?
                     <CButton disabled className='submitbtn'>
                         <CSpinner component="span" size="sm" aria-hidden="true" />
@@ -1616,10 +1621,83 @@ function AddGRNReceived() {
                 }
             </div>
 
+            <Modal
+                isOpen={monthmodalIsOpen}
+                style={customStyles}
+                contentLabel="Example Modal"
+                ariaHideApp={false}
+            >
+                <div className='displayright'>
+                    <div><span className='title'>Alert !!</span></div>
+                    <HighlightOffIcon fontSize='large' onClick={() => setmonthmodalIsOpen(false)} />
+                </div>
+                <div>
+                    <div className='editModel'>
+                        <div className='tablecenter'>
+                            <div><p style={{color:'red',fontSize:14,marginLeft:-10}}>OOPS !!, For this selected PO, Input Quantity is greater than Balance Left Quantity. Please try again with appropriate inputs.</p></div>
+                            {GrnData.length > 0 ?
+                                <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+                                    <TableContainer sx={{ maxHeight: 440 }}>
+                                        <Table stickyHeader aria-label="sticky table">
+                                            <TableHead>
+                                                <TableRow>
+                                                    <TableCell scope="row">SN.</TableCell>
+                                                    <TableCell align="left">PO No</TableCell>
+                                                    <TableCell align="left">Material Name</TableCell>
+                                                    <TableCell align="left">Qty</TableCell>
+                                                    <TableCell align="left">Bal Qty</TableCell>
+                                                    <TableCell align="left">Input Qty</TableCell>
 
+                                                </TableRow>
+                                            </TableHead>
+                                            <TableBody>
+
+                                                {GrnData.map((item, index) => {
+                                                    return (
+
+                                                        <TableRow key={index}>
+
+                                                            <TableCell component="th" scope="row">{index + 1}.</TableCell>
+                                                            <TableCell align="left">{item.vPONo}</TableCell>
+                                                            <TableCell align="left">{item.MaterialDetail}</TableCell>
+                                                            <TableCell align="left">{item.nQty}</TableCell>
+                                                            <TableCell align="left">{item.BalanceQty}</TableCell>
+                                                            <TableCell align="left">{item.SelectedQty}</TableCell>
+                                                        </TableRow>
+                                                    )
+                                                })
+                                                }
+
+
+                                            </TableBody>
+                                        </Table>
+                                    </TableContainer>
+
+                                </Paper>
+                                :
+                                null
+
+                            }
+
+                        </div>
+                       
+                    </div>
+                </div>
+                
+            </Modal >
         </div>
     )
 }
-
+const customStyles = {
+    content: {
+        top: '50%',
+        left: '50%',
+        right: 'auto',
+        bottom: 'auto',
+        marginRight: '-50%',
+        transform: 'translate(-50%, -50%)',
+        width: '50%',
+    },
+};
 
 export default AddGRNReceived
