@@ -26,7 +26,7 @@ import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
-import { RiEditBoxLine } from "react-icons/ri"
+
 import AddIcon from '@mui/icons-material/Add';
 import { useForm } from 'react-hook-form';
 import { ToastContainer, toast } from 'react-toastify';
@@ -229,9 +229,9 @@ function AddEnterOpeningStock() {
     };
 
     const plantMaster_SelectAll_ActiveLikeSearch = (vGeneric) => {
-      
 
-        PlantMaster_SelectAll_ActiveLikeSearch(vGeneric==undefined||vGeneric==''?null:vGeneric.target.value).then(res => {
+
+        PlantMaster_SelectAll_ActiveLikeSearch(vGeneric == undefined || vGeneric == '' ? null : vGeneric.target.value).then(res => {
             console.log('response', res)
 
             let count = Object.keys(res).length
@@ -282,7 +282,7 @@ function AddEnterOpeningStock() {
 
     }
     const materialMaster_SelectAll_ActiveLikeSearch = (vGeneric) => {
-        MaterialMaster_SelectAll_ActiveLikeSearch(vGeneric==undefined||vGeneric==''?null:vGeneric.target.value).then(res => {
+        MaterialMaster_SelectAll_ActiveLikeSearch(vGeneric == undefined || vGeneric == '' ? null : vGeneric.target.value).then(res => {
             let count = Object.keys(res).length
             let data = []
             for (var i = 0; i < count; i++) {
@@ -329,22 +329,22 @@ function AddEnterOpeningStock() {
         }
     }
     const calculateAmount = (value, type) => {
-       
+
         if (type == 'nQtyAccepted') {
             setnQtyAccepted(value)
             setnAmt(0)
             let amount = parseFloat(value == '' ? 0 : value) + parseFloat(nQtyRejected == '' ? 0 : nQtyRejected)
             setnAmt(parseFloat(amount))
-         
+
         }
 
         if (type == 'nQtyRejected') {
             setnQtyRejected(value)
             let amount = parseFloat(value == '' ? 0 : value) + parseFloat(nQtyAccepted == '' ? 0 : nQtyAccepted)
             setnAmt(parseFloat(amount))
-           
+
         }
-       
+
     }
     const validateformPoDetial = () => {
         if (nMId == '' || nMId == undefined) {
@@ -375,7 +375,7 @@ function AddEnterOpeningStock() {
         }
 
     }
-  
+
     const addKoMonthDate = () => {
 
         if (btnType == 'edit') {
@@ -398,8 +398,8 @@ function AddEnterOpeningStock() {
                                 poMasteerDetail[indexToUpdate].TotalQty = parseFloat(nAmt == '' ? 0 : nAmt),
                                 poMasteerDetail[indexToUpdate].dtExpDate = parseDateToStringSubmit(new Date(dtExpDate)),
                                 poMasteerDetail[indexToUpdate].dtExpDate2 = dtExpDate,
-                           
-                            setPODetails(poMasteerDetail)
+
+                                setPODetails(poMasteerDetail)
                             setbtnType('')
                             setnMId('')
                             setMaterialDetail('')
@@ -440,17 +440,17 @@ function AddEnterOpeningStock() {
                                         TotalQty: parseFloat(nAmt == '' ? 0 : nAmt),
                                         dtExpDate: parseDateToStringSubmit(new Date(dtExpDate)),
                                         dtExpDate2: dtExpDate,
-                                      
+
                                     })
-                                    
+
                                     setPODetails(poMasteerDetail)
                                     setnMId('')
-                                    setMaterialDetail('') 
+                                    setMaterialDetail('')
                                     setdtExpDate(new Date(Date.now()))
                                     setnAmt('')
                                     setnQtyAccepted('')
                                     setnQtyRejected('')
-                                   
+
 
                                 }
                             }
@@ -468,7 +468,7 @@ function AddEnterOpeningStock() {
         }
     }
     const validateform = () => {
-     if (nPOId == '') {
+        if (nPOId == '') {
             setError({
                 plant: 'Select PO No. *'
             })
@@ -480,15 +480,15 @@ function AddEnterOpeningStock() {
 
     }
     const submit = () => {
-        confirmAlert({
-            title: 'Alert !!',
-            message: 'Do you want Proceed ?',
-            buttons: [
-                {
-                    label: 'Yes',
-                    onClick: () => {
-                        if (validateform() == true) {
-                            if (PODetails.length > 0) {
+        if (validateform() == true) {
+            if (PODetails.length > 0) {
+                confirmAlert({
+                    title: 'Alert !!',
+                    message: 'Do you want Proceed ?',
+                    buttons: [
+                        {
+                            label: 'Yes',
+                            onClick: () => {
                                 setLoader(true)
                                 const POMasterData = [{
                                     nPId: nPOId,
@@ -509,29 +509,31 @@ function AddEnterOpeningStock() {
                                     }
                                 })
 
-                            } else {
-                                confirmAlert({
-                                    title: 'Alert !!',
-                                    message: 'Please Add at least one Material.',
-                                    buttons: [
-                                        {
-                                            label: 'Ok',
-                                            onClick: () => { return null },
-                                        },
-                                    ]
-                                });
                             }
-
+                        },
+                        {
+                            label: 'No',
+                            onClick: () => { return null }
                         }
+                    ]
+                });
 
-                    }
-                },
-                {
-                    label: 'No',
-                    onClick: () => { return null }
-                }
-            ]
-        });
+
+            } else {
+                confirmAlert({
+                    title: 'Alert !!',
+                    message: 'Please Add at least one Material.',
+                    buttons: [
+                        {
+                            label: 'Ok',
+                            onClick: () => { return null },
+                        },
+                    ]
+                });
+            }
+
+        }
+
 
     }
     const deleteItem = (ids) => {
@@ -569,7 +571,7 @@ function AddEnterOpeningStock() {
         setnQtyAccepted(item.nQtyAccepted)
         setnQtyRejected(item.nQtyRejected)
         setnAmt(item.TotalQty)
-      
+
     }
     const goback = () => {
         confirmAlert({
@@ -592,7 +594,7 @@ function AddEnterOpeningStock() {
         <div className='citymasterContainer'>
             <div className='dateFilter-2'>
                 <div className='displayflexend'>
-                  
+
                     <Box sx={{ width: '39%', marginTop: 2 }} >
                         <FormControl fullWidth className='input'>
                             {/* <InputLabel required id="demo-simple-select-label">Plant</InputLabel>npm  */}
@@ -639,7 +641,7 @@ function AddEnterOpeningStock() {
                 <div className='data-form-box'>
                     <Box sx={{ width: '25%' }} >
                         <FormControl fullWidth className='input'>
-                             {/* <InputLabel required id="demo-simple-select-label">Item</InputLabel>  */}
+                            {/* <InputLabel required id="demo-simple-select-label">Item</InputLabel>  */}
                             <Autocomplete
                                 disablePortal
                                 id="combo-box-demo"
@@ -658,7 +660,7 @@ function AddEnterOpeningStock() {
                             {errorText.MaterialDetail != '' ? <p className='error'>{errorText.MaterialDetail}</p> : null}
                         </FormControl>
                     </Box>
-                
+
                     {/* {errorText != '' ?
                             <p style={{ color: 'red' }}>{errorText}</p>
                             :
@@ -734,7 +736,7 @@ function AddEnterOpeningStock() {
                             {errorText.QuanReject != '' ? <p className='error'>{errorText.QuanReject}</p> : null}
                         </FormControl>
                     </Box>
-                    
+
                     <Box sx={{ width: '11%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
@@ -781,7 +783,7 @@ function AddEnterOpeningStock() {
                                 <Table stickyHeader aria-label="sticky table">
                                     <TableHead>
                                         <TableRow>
-                                            <TableCell scope="row" style={{ width:'2%' }} >SN.</TableCell>
+                                            <TableCell scope="row" style={{ width: '2%' }} >SN.</TableCell>
                                             <TableCell align="center">Action</TableCell>
                                             <TableCell align="left">Material Name</TableCell>
                                             {/* <TableCell align="left">PO Qty</TableCell>
@@ -801,7 +803,7 @@ function AddEnterOpeningStock() {
                                                     <TableRow key={index}>
                                                         <TableCell component="th" scope="row">{index + 1}.</TableCell>
                                                         <TableCell align="center">
-                                                            <div style={{ display: 'flex',justifyContent:'center' }}>
+                                                            <div style={{ display: 'flex', justifyContent: 'center' }}>
                                                                 <button className='deletbtn' title='Delete' onClick={() => deleteItem(item.id)}><DeleteIcon size={20} color='red' /></button>
                                                                 <button className='deletbtn' title='Edit' onClick={() => editItem(item)}><BorderColorIcon size={20} color='#000' /></button>
 
@@ -815,12 +817,12 @@ function AddEnterOpeningStock() {
                                                         <TableCell align="left">{item.nQtyRejected}</TableCell>
                                                         <TableCell align="left">{item.nAmt}</TableCell>
                                                         <TableCell align="left">{parseDateToString(new Date(item.dtExpDate2))}</TableCell>
-                                                      
+
                                                     </TableRow>
                                                 )
                                             })
                                             }
-                                           
+
                                         </TableBody>
                                         :
 

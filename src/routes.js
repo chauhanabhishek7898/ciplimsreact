@@ -34,7 +34,7 @@ const routes = [
   { path: '/UnitMaster', name: 'Unit Master', element: UnitMaster, exact: true },
   { path: '/update-email-id', name: 'Update Email', element: UpdateEmail, exact: true },
   { path: '/update-mobile-no', name: 'Update Mobile No', element: UpdateMobileNo, exact: true },
-  { path: '/update-password', name: 'Update Password', element: UpdatePassword, exact: true },
+  { path: '/update-password', name: 'Change Password', element: UpdatePassword, exact: true },
   { path: '/VendorMaster', name: 'Vendor Master', element: VenderForm, exact: true },
   { path: '/BrandMaster', name: 'Brand Master', element: BrandMaster, exact: true },
   { path: '/PackMaster', name: 'Pack Master', element: PackMaster, exact: true },

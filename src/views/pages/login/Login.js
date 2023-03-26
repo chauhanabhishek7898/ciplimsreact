@@ -56,6 +56,7 @@ const Login = () => {
           localStorage.setItem("nRoleId", res.data[0].nRoleId);
           localStorage.setItem("vDeviceId", res.data[0].vDeviceId);
           localStorage.setItem("token", String(res.jwtToken));
+          navigate('/GRNReceived')
           setLoader(false)
         } else {
         

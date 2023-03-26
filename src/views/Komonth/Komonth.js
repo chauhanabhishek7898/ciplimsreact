@@ -31,7 +31,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { CButton, CSpinner } from '@coreui/react';
 import RefreshIcon from '@mui/icons-material/Refresh';
-import { RiEditBoxLine } from "react-icons/ri"
+import BorderColorIcon from '@mui/icons-material/BorderColor';
 import UpdateIcon from '@mui/icons-material/Update';
 import { FormHelperText } from '@mui/material';
 import Radio from '@mui/material/Radio';
@@ -608,7 +608,7 @@ function KOMONTH() {
                                     {tableView == 'MonthView' ?
                                         <TableHead>
                                             <TableRow>
-                                                <TableCell scope="row">SN.</TableCell>
+                                                {/* <TableCell scope="row">SN.</TableCell> */}
                                                 <TableCell align="left">Edit</TableCell>
                                                 <TableCell align="left">KO Month</TableCell>
                                                 <TableCell align="left">KO Year</TableCell>
@@ -624,7 +624,7 @@ function KOMONTH() {
                                         :
                                         <TableHead>
                                             <TableRow>
-                                                <TableCell scope="row">SN.</TableCell>
+                                                {/* <TableCell scope="row">SN.</TableCell> */}
                                                 <TableCell align="left">Edit</TableCell>
                                                 <TableCell align="left">KO Month</TableCell>
                                                 <TableCell align="left">KO Year</TableCell>
@@ -642,12 +642,12 @@ function KOMONTH() {
                                     {tableView == 'MonthView' ?
                                         <TableBody>
 
-                                            {koMonthData.map((item, index) => {
+                                            {koMonthData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((item,index) => {
                                                 return (
 
                                                     <TableRow key={index}>
 
-                                                        <TableCell component="th" scope="row">{index + 1}.</TableCell>
+                                                        {/* <TableCell component="th" scope="row">{index + 1}.</TableCell> */}
                                                         <TableCell align="left"><div onClick={() => openMonthModel(item)}><RiEditBoxLine fontSize="1.5em" color='red' /></div></TableCell>
                                                         <TableCell align="left">{item.vKOMonth}</TableCell>
                                                         <TableCell align="left">{item.nKOYear}</TableCell>
@@ -667,12 +667,12 @@ function KOMONTH() {
                                         :
                                         <TableBody>
 
-                                            {koMonthData.map((item, index) => {
+                                            {koMonthData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((item,index) => {
                                                 return (
 
                                                     <TableRow key={index}>
 
-                                                        <TableCell component="th" scope="row">{index + 1}.</TableCell>
+                                                        {/* <TableCell component="th" scope="row">{index + 1}.</TableCell> */}
                                                         <TableCell align="left"><div onClick={() => openWeekModel(item)}><RiEditBoxLine fontSize="1.5em" color='red'/></div></TableCell>
                                                         <TableCell align="left">{item.vKOMonth}</TableCell>
                                                         <TableCell align="left">{item.nKOYear}</TableCell>

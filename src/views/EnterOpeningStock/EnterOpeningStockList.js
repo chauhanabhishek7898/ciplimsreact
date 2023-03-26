@@ -22,7 +22,7 @@ import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
-import { RiEditBoxLine } from "react-icons/ri"
+
 import AddIcon from '@mui/icons-material/Add';
 import { useForm } from 'react-hook-form';
 import { ToastContainer, toast } from 'react-toastify';
@@ -221,7 +221,7 @@ function EnterOpeningStockList() {
                         <Table stickyHeader aria-label="sticky table">
                             <TableHead>
                                 <TableRow>
-                                    <TableCell scope="row" style={{width:'2%'}}>SN.</TableCell>
+                                    {/* <TableCell scope="row" style={{width:'2%'}}>SN.</TableCell> */}
                                     <TableCell align="center">Edit</TableCell>
                                     <TableCell align="left">Status</TableCell>
                                     <TableCell align="left">Opening No.</TableCell>
@@ -233,10 +233,10 @@ function EnterOpeningStockList() {
                             </TableHead>
                             {brandData?.length > 0 ?
                                 <TableBody>
-                                    {brandData.map((item, index) => {
+                                    {brandData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((item,index) => {
                                         return (
                                             <TableRow key={index}>
-                                                <TableCell component="th" scope="row">{index + 1}.</TableCell>
+                                                {/* <TableCell component="th" scope="row">{index + 1}.</TableCell> */}
                                                 <TableCell align="center"><button className='deletbtn' title='Edit' onClick={() => handleDetail(item.nGRNId)}><BorderColorIcon size={20} color='#000' /></button></TableCell>
                                                 <TableCell align="left">{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
                                                 <TableCell align="left">{item.OpeningNo}</TableCell>

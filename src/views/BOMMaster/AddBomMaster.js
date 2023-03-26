@@ -22,7 +22,7 @@ import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
-import { RiEditBoxLine } from "react-icons/ri"
+
 import AddIcon from '@mui/icons-material/Add';
 import { useForm } from 'react-hook-form';
 import { ToastContainer, toast } from 'react-toastify';
@@ -373,7 +373,7 @@ function AddBomMaster() {
             } else {
                 confirmAlert({
                     title: 'Alert !!',
-                    message: 'Please Add at least one Item.',
+                    message: 'Please Add at least one Material.',
                     buttons: [
                         {
                             label: 'Ok',

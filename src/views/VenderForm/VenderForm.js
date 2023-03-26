@@ -16,7 +16,7 @@ import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
-import { RiEditBoxLine } from "react-icons/ri"
+import BorderColorIcon from '@mui/icons-material/BorderColor';
 import AddIcon from '@mui/icons-material/Add';
 import { useForm } from 'react-hook-form';
 import { ToastContainer, toast } from 'react-toastify';
@@ -378,7 +378,7 @@ function VenderForm() {
                         <Table stickyHeader aria-label="sticky table">
                             <TableHead>
                                 <TableRow>
-                                    <TableCell scope="row">SN.</TableCell>
+                                    {/* <TableCell scope="row">SN.</TableCell> */}
                                     <TableCell align="left">Vendor Code</TableCell>
                                     <TableCell align="left">Vendor Name</TableCell>
                                     <TableCell align="left">Address</TableCell>
@@ -393,10 +393,11 @@ function VenderForm() {
                             </TableHead>
                             {vendorData?.length>0?
                             <TableBody>
-                                {vendorData.map((item, index) => {
+                                {vendorData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((item,index) => {
                                     return (
                                         <TableRow key={index}>
-                                            <TableCell component="th" scope="row">{index + 1}.</TableCell>
+                                            {/* <TableCell component="th" scope="row">{index + 1}.</TableCell> */}
+                                            <TableCell align="left"><div onClick={() => openmodale(item, 'Update')}><BorderColorIcon size={20} color='#000' /></div></TableCell>
                                             <TableCell align="left">{item.vVendorCode}</TableCell>
                                             <TableCell align="left">{item.vVendorName}</TableCell>
                                             <TableCell align="left">{item.vVendorAddress}</TableCell>
@@ -406,7 +407,6 @@ function VenderForm() {
                                             <TableCell align="left">{item.vGSTNo}</TableCell>
                                             <TableCell align="left">{item.vRemarks}</TableCell>
                                             <TableCell align="left">{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
-                                            <TableCell align="left"><div onClick={() => openmodale(item, 'Update')}><RiEditBoxLine fontSize="1.5em" /></div></TableCell>
                                         </TableRow>
                                     )
                                 })

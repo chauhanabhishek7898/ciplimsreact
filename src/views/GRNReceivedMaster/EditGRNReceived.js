@@ -25,7 +25,7 @@ import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
-import { RiEditBoxLine } from "react-icons/ri"
+
 import AddIcon from '@mui/icons-material/Add';
 import { useForm } from 'react-hook-form';
 import { ToastContainer, toast } from 'react-toastify';
@@ -249,7 +249,7 @@ function EditGRNReceived() {
             }
             // console.log('data',data)
             setPODetails(data)
-           
+
             setvInvoiceNo(res.GRNMaster[0].vInvoiceNo)
             setStartDate(res.GRNMaster[0].dtGRNDate)
             setEndDate(res.GRNMaster[0].dtInvDate)
@@ -281,7 +281,7 @@ function EditGRNReceived() {
             for (var i = 0; i < counts; i++) {
                 datas = datas + PODetails[i].nNetTotalAmt
             }
-             setAllTotalAmount(datas)
+            setAllTotalAmount(datas)
         })
     }
 
@@ -699,15 +699,15 @@ function EditGRNReceived() {
 
     }
     const submit = () => {
-        confirmAlert({
-            title: 'Alert !!',
-            message: 'Do you want Proceed ?',
-            buttons: [
-                {
-                    label: 'Yes',
-                    onClick: () => {
-                        if (validateform() == true) {
-                            if (PODetails.length > 0) {
+        if (validateform() == true) {
+            if (PODetails.length > 0) {
+                confirmAlert({
+                    title: 'Alert !!',
+                    message: 'Do you want Proceed ?',
+                    buttons: [
+                        {
+                            label: 'Yes',
+                            onClick: () => {
                                 setLoader(true)
                                 const POMasterData = [{
                                     nGRNId: nGRNId,
@@ -743,35 +743,37 @@ function EditGRNReceived() {
                                     }
                                 })
 
-                            } else {
-                                confirmAlert({
-                                    title: 'Alert !!',
-                                    message: 'Please Add at least one Item.',
-                                    buttons: [
-                                        {
-                                            label: 'Ok',
-                                            onClick: () => { return null },
-                                        },
-                                    ]
-                                });
                             }
-
+                        },
+                        {
+                            label: 'No',
+                            onClick: () => { return null }
                         }
+                    ]
+                });
 
-                    }
-                },
-                {
-                    label: 'No',
-                    onClick: () => { return null }
-                }
-            ]
-        });
+
+            } else {
+                confirmAlert({
+                    title: 'Alert !!',
+                    message: 'Please Add at least one Material.',
+                    buttons: [
+                        {
+                            label: 'Ok',
+                            onClick: () => { return null },
+                        },
+                    ]
+                });
+            }
+
+        }
+
 
     }
     const deleteItem = (ids) => {
         confirmAlert({
             title: 'Alert !!',
-            message: 'Do you want to delete',
+            message: 'Do you want to delete ?',
             buttons: [
                 {
                     label: 'Yes',
@@ -946,7 +948,7 @@ function EditGRNReceived() {
                             {errorText.plant != '' ? <p className='error'>{errorText.plant}</p> : null}
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '7%' }} >
+                    <Box sx={{ width: '8%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
                                 value={vLorryRecNo}
@@ -1055,7 +1057,7 @@ function EditGRNReceived() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '9%' }} >
+                    <Box sx={{ width: '10%' }} >
                         <FormControl fullWidth className='input'>
                             <TextField
                                 value={vCourierDocketNo}
@@ -1566,7 +1568,7 @@ function EditGRNReceived() {
                                                     <TableCell component="th" scope="row">{index + 1}.</TableCell>
                                                     <TableCell align="center">
                                                         <div style={{ display: 'flex', }}>
-                                                            <button className='deletbtn' title='Delete' onClick={() => deleteItem(item.id)}><DeleteIcon size={20} color='red' /></button>
+                                                            {/* <button className='deletbtn' title='Delete' onClick={() => deleteItem(item.id)}><DeleteIcon size={20} color='red' /></button> */}
                                                             <button className='deletbtn' title='Edit' onClick={() => editItem(item)}><BorderColorIcon size={20} color='#000' /></button>
 
                                                         </div>

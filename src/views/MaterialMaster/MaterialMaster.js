@@ -21,7 +21,7 @@ import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
-import { RiEditBoxLine } from "react-icons/ri"
+import BorderColorIcon from '@mui/icons-material/BorderColor';
 import AddIcon from '@mui/icons-material/Add';
 import { useForm } from 'react-hook-form';
 import { ToastContainer, toast } from 'react-toastify';
@@ -41,7 +41,7 @@ function MaterialMaster() {
     let Heading = [['SN.', 'Material Code', 'Material Name', 'Category', 'Material Type', 'UOM', 'HSN Code', 'Remarks', 'Status']];
     const [modalIsOpen, setIsOpen] = React.useState(false);
     const [page, setPage] = React.useState(0);
-    const [rowsPerPage, setRowsPerPage] = React.useState(10);
+    const [rowsPerPage, setRowsPerPage] = React.useState(5);
     const [brandData, setBrandData] = React.useState([]);
     const [masterbrandData, setMasterBrandData] = React.useState([]);
     const [loader, setLoader] = React.useState(false);
@@ -200,17 +200,17 @@ function MaterialMaster() {
         }
     }
     const validateform = () => {
-        if (vCategory == ''||vCategory==undefined) {
+        if (vCategory == '' || vCategory == undefined) {
             setErrorText({
                 vCategory: 'Select Category *'
             })
             return false
-        }else if(vMaterialType==''||vMaterialType==undefined){
+        } else if (vMaterialType == '' || vMaterialType == undefined) {
             setErrorText({
                 vMaterialType: 'Select Material Type *'
             })
             return false
-        }else if(vUOM==''||vUOM==undefined){
+        } else if (vUOM == '' || vUOM == undefined) {
             setErrorText({
                 vUOM: 'Select UOM *'
             })
@@ -218,14 +218,14 @@ function MaterialMaster() {
         }
         else {
             setError({
-                MaterialDetail:''
+                MaterialDetail: ''
             })
             return true
         }
 
     }
     const submit = () => {
-        if(validateform()==true){
+        if (validateform() == true) {
             let brand = {
                 nMId: nMId == null ? 0 : nMId,
                 vMCode: vMCode,
@@ -241,7 +241,7 @@ function MaterialMaster() {
             console.log(brand)
             if (buttonName == 'Submit') {
                 setLoader(true)
-              
+
                 MaterialMasterPost(brand).then(res => {
                     if (res) {
                         console.log('res', res)
@@ -258,11 +258,11 @@ function MaterialMaster() {
                         getMaterialMaster_SelectAll()
                     }
                 })
-    
+
             } else {
                 setLoader(true)
                 MaterialMasterPut(brand).then(res => {
-    
+
                     if (res) {
                         console.log('res', res)
                         toast.success("Record Updated Successfully !!")
@@ -273,8 +273,8 @@ function MaterialMaster() {
                 })
             }
         }
-        
-      
+
+
     }
 
 
@@ -308,18 +308,18 @@ function MaterialMaster() {
             setkoMonthData(koMonth)
         }
     }
-   
+
 
     return (
         <div className='citymasterContainer'>
-             {loader2==true?
-            <div className='progressBox'>
-                <div className='progressInner'>
-                    <CircularProgress />
+            {loader2 == true ?
+                <div className='progressBox'>
+                    <div className='progressInner'>
+                        <CircularProgress />
+                    </div>
                 </div>
-            </div>
-            :
-            null
+                :
+                null
 
             }
             <button className='addbtn_2' onClick={() => openmodale(null, 'Submit')} title='Add'  ><AddIcon fontSize='large' /></button>
@@ -392,7 +392,7 @@ function MaterialMaster() {
         })
         } */}
                             </Select>
-                            {errorText.vCategory != '' ? <p  className='error'>{errorText.vCategory}</p> : null}
+                            {errorText.vCategory != '' ? <p className='error'>{errorText.vCategory}</p> : null}
                         </FormControl>
                     </Box>
 
@@ -421,7 +421,7 @@ function MaterialMaster() {
         })
         } */}
                             </Select>
-                            {errorText.vMaterialType != '' ? <p  className='error'>{errorText.vMaterialType}</p> : null}
+                            {errorText.vMaterialType != '' ? <p className='error'>{errorText.vMaterialType}</p> : null}
                         </FormControl>
                     </Box>
 
@@ -447,7 +447,7 @@ function MaterialMaster() {
                                 })
                                 }
                             </Select>
-                            {errorText.vUOM != '' ? <p  className='error'>{errorText.vUOM}</p> : null}
+                            {errorText.vUOM != '' ? <p className='error'>{errorText.vUOM}</p> : null}
                         </FormControl>
                     </Box>
 
@@ -459,7 +459,7 @@ function MaterialMaster() {
                             <TextField
                                 value={vHSNCode}
                                 onChange={e => setvHSNCode(e.target.value)}
-                                 id="outlined-basic"
+                                id="outlined-basic"
                                 label="HSN Code"
                                 variant="outlined"
                                 name='HSNCode'
@@ -599,7 +599,7 @@ function MaterialMaster() {
                             <Table stickyHeader aria-label="sticky table">
                                 <TableHead>
                                     <TableRow>
-                                        <TableCell scope="row">SN.</TableCell>
+                                        {/* <TableCell scope="row">SN.</TableCell> */}
                                         <TableCell align="left">Material Code</TableCell>
                                         <TableCell align="left">Material Name</TableCell>
                                         <TableCell align="left">Category</TableCell>
@@ -611,13 +611,13 @@ function MaterialMaster() {
                                         <TableCell align="left">Edit</TableCell>
                                     </TableRow>
                                 </TableHead>
-
-                                {brandData?.length>0 ?
+                               
+                                {brandData?.length > 0 ?
                                     <TableBody>
-                                        {brandData.map((item, index) => {
+                                    {brandData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((item,index) => {
                                             return (
-                                                <TableRow key={index}>
-                                                    <TableCell component="th" scope="row">{index + 1}.</TableCell>
+                                                <TableRow hover role="checkbox" tabIndex={-1} key={index}>
+                                                      {/* <TableCell component="th" scope="row">{index + 1}.</TableCell> */}
                                                     <TableCell align="left">{item.vMCode}</TableCell>
                                                     <TableCell align="left">{item.vMName}</TableCell>
                                                     <TableCell align="left">{item.vCategory}</TableCell>
@@ -626,26 +626,25 @@ function MaterialMaster() {
                                                     <TableCell align="left">{item.vHSNCode}</TableCell>
                                                     <TableCell align="left">{item.vRemarks}</TableCell>
                                                     <TableCell align="left">{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
-                                                    <TableCell align="left"><div onClick={() => openmodale(item, 'Update')}><RiEditBoxLine fontSize="1.5em" /></div></TableCell>
+                                                    <TableCell align="left"><div onClick={() => openmodale(item, 'Update')}><BorderColorIcon size={20} color='#000' /></div></TableCell>
                                                 </TableRow>
-                                            )
-                                        })
-                                        }
-                                    </TableBody>
-                                    
+                                            );
+                                        })}
+                                </TableBody>
+
                                     :
                                     <TableBody>
-                                    <TableRow>
-                                        <TableCell align="center" colSpan={10}>No Record</TableCell>
-                                    </TableRow>
-                                </TableBody>
+                                        <TableRow>
+                                            <TableCell align="center" colSpan={10}>No Record</TableCell>
+                                        </TableRow>
+                                    </TableBody>
                                 }
 
 
                             </Table>
                         </TableContainer>
                         <TablePagination
-                            rowsPerPageOptions={[10, 25, 100]}
+                            rowsPerPageOptions={[5,10, 25, 100]}
                             component="div"
                             count={brandData.length}
                             rowsPerPage={rowsPerPage}

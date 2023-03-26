@@ -16,7 +16,7 @@ import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import AddIcon from '@mui/icons-material/Add';
-import { RiEditBoxLine } from "react-icons/ri"
+import BorderColorIcon from '@mui/icons-material/BorderColor';
 import { CButton, CSpinner } from '@coreui/react'
 import { UnitMastersPost, UnitMaster_SelectAll, UnitMastersPut } from './UnitMasterApi'
 import { ToastContainer, toast } from 'react-toastify';
@@ -244,7 +244,7 @@ function UnitMaster() {
                         <Table stickyHeader aria-label="sticky table">
                             <TableHead>
                                 <TableRow>
-                                    <TableCell scope="row">SN.</TableCell>
+                                    {/* <TableCell scope="row">SN.</TableCell> */}
                                     <TableCell align="left">Unit Name</TableCell>
                                     <TableCell align="left">Status</TableCell>
                                     <TableCell align="left">Edit</TableCell>
@@ -252,13 +252,13 @@ function UnitMaster() {
                             </TableHead>
                             {unitData?.length>0?
                             <TableBody>
-                                {unitData.map((item, index) => {
+                                {unitData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((item,index) => {
                                     return (
                                         <TableRow key={index}>
-                                            <TableCell component="th" scope="row">{index + 1}.</TableCell>
+                                            {/* <TableCell component="th" scope="row">{index + 1}.</TableCell> */}
                                             <TableCell align="left">{item.vUnitName}</TableCell>
                                             <TableCell align="left">{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
-                                            <TableCell align="left"><div onClick={() => openmodale(item, 'Update')}><RiEditBoxLine fontSize="1.5em" /></div></TableCell>
+                                            <TableCell align="left"><div onClick={() => openmodale(item, 'Update')}><BorderColorIcon size={20} color='#000' /></div></TableCell>
                                         </TableRow>
                                     )
                                 })

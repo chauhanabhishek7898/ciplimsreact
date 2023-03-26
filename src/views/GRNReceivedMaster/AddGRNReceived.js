@@ -26,7 +26,7 @@ import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
-import { RiEditBoxLine } from "react-icons/ri"
+
 import AddIcon from '@mui/icons-material/Add';
 import { useForm } from 'react-hook-form';
 import { ToastContainer, toast } from 'react-toastify';
@@ -673,15 +673,16 @@ function AddGRNReceived() {
 
     }
     const submit = () => {
-        confirmAlert({
-            title: 'Alert !!',
-            message: 'Do you want Proceed ?',
-            buttons: [
-                {
-                    label: 'Yes',
-                    onClick: () => {
-                        if (validateform() == true) {
-                            if (PODetails.length > 0) {
+
+        if (validateform() == true) {
+            if (PODetails.length > 0) {
+                confirmAlert({
+                    title: 'Alert !!',
+                    message: 'Do you want Proceed ?',
+                    buttons: [
+                        {
+                            label: 'Yes',
+                            onClick: () => {
                                 setLoader(true)
                                 const POMasterData = [{
                                     vInvoiceNo: vInvoiceNo,
@@ -716,30 +717,29 @@ function AddGRNReceived() {
                                     }
                                 })
 
-                            } else {
-                                confirmAlert({
-                                    title: 'Alert !!',
-                                    message: 'Please Add at least one Material.',
-                                    buttons: [
-                                        {
-                                            label: 'Ok',
-                                            onClick: () => { return null },
-                                        },
-                                    ]
-                                });
                             }
-
+                        },
+                        {
+                            label: 'No',
+                            onClick: () => { return null }
                         }
+                    ]
+                });
 
-                    }
-                },
-                {
-                    label: 'No',
-                    onClick: () => { return null }
-                }
-            ]
-        });
+            } else {
+                confirmAlert({
+                    title: 'Alert !!',
+                    message: 'Please Add at least one Material.',
+                    buttons: [
+                        {
+                            label: 'Ok',
+                            onClick: () => { return null },
+                        },
+                    ]
+                });
+            }
 
+        }
     }
     const deleteItem = (ids) => {
         confirmAlert({
@@ -917,7 +917,7 @@ function AddGRNReceived() {
                             {errorText.plant != '' ? <p className='error'>{errorText.plant}</p> : null}
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '7%' }} >
+                    <Box sx={{ width: '8%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
                                 value={vLorryRecNo}
@@ -1026,7 +1026,7 @@ function AddGRNReceived() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '9%' }} >
+                    <Box sx={{ width: '10%' }} >
                         <FormControl fullWidth className='input'>
                             <TextField
                                 value={vCourierDocketNo}

@@ -16,7 +16,7 @@ import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
-import { RiEditBoxLine } from "react-icons/ri"
+import BorderColorIcon from '@mui/icons-material/BorderColor';
 import AddIcon from '@mui/icons-material/Add';
 import { CButton, CSpinner } from '@coreui/react'
 import { ToastContainer, toast } from 'react-toastify';
@@ -317,7 +317,7 @@ function PlantMaster() {
                         <Table stickyHeader aria-label="sticky table">
                             <TableHead>
                                 <TableRow>
-                                    <TableCell scope="row">SN.</TableCell>
+                                    {/* <TableCell scope="row">SN.</TableCell> */}
                                     <TableCell align="left">Plant Code</TableCell>
                                     <TableCell align="left">Plant Name</TableCell>
                                     <TableCell align="left">Plant Address</TableCell>
@@ -329,17 +329,17 @@ function PlantMaster() {
                             </TableHead>
                             {plantData?.length>0?
                             <TableBody>
-                                {plantData.map((item, index) => {
+                                {plantData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((item,index) => {
                                     return (
                                         <TableRow >
-                                            <TableCell component="th" scope="row">{index + 1}.</TableCell>
+                                            {/* <TableCell component="th" scope="row">{index + 1}.</TableCell> */}
                                             <TableCell align="left">{item.vPlantCode}</TableCell>
                                             <TableCell align="left">{item.vPlantName}</TableCell>
                                             <TableCell align="left">{item.vPlantAddress}</TableCell>
                                             <TableCell align="left">{item.vProfitCentre}</TableCell>
                                             <TableCell align="left">{item.vCostCentre}</TableCell>
                                             <TableCell align="left">{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
-                                            <TableCell align="left"><div onClick={() => openmodale(item, 'Update')}><RiEditBoxLine fontSize="1.5em" /></div></TableCell>
+                                            <TableCell align="left"><div onClick={() => openmodale(item, 'Update')}><BorderColorIcon size={20} color='#000' /></div></TableCell>
                                         </TableRow>
                                     )
                                 })
