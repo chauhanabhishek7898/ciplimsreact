@@ -500,6 +500,7 @@ function AddGRNReceived() {
                             // setPODetails(complaintDetail)
                             poMasteerDetail[indexToUpdate].id = id,
                                 poMasteerDetail[indexToUpdate].nMId = parseInt(nMId),
+                                poMasteerDetail[indexToUpdate].nPOId =  parseInt(nPOId),
                                 poMasteerDetail[indexToUpdate].MaterialDetail = MaterialDetail,
                                 poMasteerDetail[indexToUpdate].nQty = parseInt(nQty == '' ? 0 : nQty),
                                 poMasteerDetail[indexToUpdate].BalanceQuantity = parseInt(BalanceQuantity == '' ? 0 : BalanceQuantity),
@@ -581,6 +582,7 @@ function AddGRNReceived() {
                                     poMasteerDetail.push({
                                         id: new Date().getUTCMilliseconds(),
                                         nMId: parseInt(nMId),
+                                        nPOId: parseInt(nPOId),
                                         MaterialDetail: MaterialDetail,
                                         nQty: parseInt(nQty == '' ? 0 : nQty),
                                         BalanceQuantity: parseInt(BalanceQuantity == '' ? 0 : BalanceQuantity),
