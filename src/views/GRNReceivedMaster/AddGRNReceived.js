@@ -815,7 +815,10 @@ function AddGRNReceived() {
                 }
             ]
         });
-
+    }
+    const closeModal=()=>{
+        setmonthmodalIsOpen(false)
+        navigate('/GRNReceived')
     }
     return (
         <div className='citymasterContainer'>
@@ -1629,12 +1632,12 @@ function AddGRNReceived() {
             >
                 <div className='displayright'>
                     <div><span className='title'>Alert !!</span></div>
-                    <HighlightOffIcon fontSize='large' onClick={() => setmonthmodalIsOpen(false)} />
+                    <HighlightOffIcon fontSize='large' onClick={closeModal} />
                 </div>
                 <div>
-                    <div className='editModel'>
+                    <div className='editModel-2'>
+                       <div><p className='errormasg'>OOPS !!, For this selected PO, Input Quantity is greater than Balance Left Quantity. Please try again with appropriate inputs.</p></div>
                         <div className='tablecenter'>
-                            <div><p style={{color:'red',fontSize:14,marginLeft:-10}}>OOPS !!, For this selected PO, Input Quantity is greater than Balance Left Quantity. Please try again with appropriate inputs.</p></div>
                             {GrnData.length > 0 ?
                                 <Paper sx={{ width: '100%', overflow: 'hidden' }}>
                                     <TableContainer sx={{ maxHeight: 440 }}>

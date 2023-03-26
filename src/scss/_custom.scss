@@ -301,6 +301,12 @@ p{
     }
   
   }
+  .errormasg{
+    font-size: 16px;
+    margin-bottom: 10px;
+    font-weight: 500;
+    color: red;
+  }
   //   abhishek end
 
   .emailInput{
@@ -323,6 +329,13 @@ p{
     justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
+  }
+  .editModel-2{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    flex-direction: column;
   }
   .alertmsg{
     display: flex;
