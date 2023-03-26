@@ -257,20 +257,29 @@ function BrandMaster() {
                                     <TableCell align="left">Edit</TableCell>
                                 </TableRow>
                             </TableHead>
-                            <TableBody>
-                                {brandData.map((item, index) => {
-                                    return (
-                                        <TableRow key={index}>
-                                            <TableCell component="th" scope="row">{index + 1}.</TableCell>
-                                            <TableCell align="left">{item.vBrandCode}</TableCell>
-                                            <TableCell align="left">{item.vBrandName}</TableCell>
-                                            <TableCell align="left">{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
-                                            <TableCell align="left"><div onClick={() => openmodale(item, 'Update')}><RiEditBoxLine fontSize="1.5em" /></div></TableCell>
-                                        </TableRow>
-                                    )
-                                })
-                                }
-                            </TableBody>
+                            {brandData?.length>0?
+                                  <TableBody>
+                                  {brandData.map((item, index) => {
+                                      return (
+                                          <TableRow key={index}>
+                                              <TableCell component="th" scope="row">{index + 1}.</TableCell>
+                                              <TableCell align="left">{item.vBrandCode}</TableCell>
+                                              <TableCell align="left">{item.vBrandName}</TableCell>
+                                              <TableCell align="left">{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
+                                              <TableCell align="left"><div onClick={() => openmodale(item, 'Update')}><RiEditBoxLine fontSize="1.5em" /></div></TableCell>
+                                          </TableRow>
+                                      )
+                                  })
+                                  }
+                              </TableBody>
+                                :
+                                <TableBody>
+                                    <TableRow>
+                                        <TableCell align="center" colSpan={5}>No Record</TableCell>
+                                    </TableRow>
+                                </TableBody>
+                            }
+                          
                         </Table>
                     </TableContainer>
                     <TablePagination

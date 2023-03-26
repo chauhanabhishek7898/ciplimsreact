@@ -252,7 +252,7 @@ function EnterOpeningStockList() {
                                 :
                                 <TableBody>
                                     <TableRow>
-                                        <TableCell align="center" colSpan={17}>No Record</TableCell>
+                                        <TableCell align="center" colSpan={7}>No Record</TableCell>
                                     </TableRow>
                                 </TableBody>
 

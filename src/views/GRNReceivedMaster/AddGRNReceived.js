@@ -251,12 +251,12 @@ function AddGRNReceived() {
         })
     }
     const getPODetails = (vGeneric) => {
-        if (vGeneric != '') {
-            vGeneric = vGeneric.target.value
-        } else {
-            vGeneric = null
-        }
-        GetPODetailsLIkeSearch(vGeneric).then(res => {
+        // if (vGeneric != '') {
+        //     vGeneric = vGeneric.target.value
+        // } else {
+        //     vGeneric = null
+        // }
+        GetPODetailsLIkeSearch(vGeneric == undefined || vGeneric == '' ? null : vGeneric.target.value).then(res => {
             let count = Object.keys(res).length
             let data = []
             for (var i = 0; i < count; i++) {
@@ -829,7 +829,7 @@ function AddGRNReceived() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '9%' }} >
+                    <Box sx={{ width: '11%' }} >
                         <FormControl fullWidth className='input' >
                             <LocalizationProvider dateAdapter={AdapterDayjs} >
                                 <Stack spacing={3} >
@@ -847,7 +847,7 @@ function AddGRNReceived() {
                             {errorText.date != '' ? <p className='error'>{errorText.date}</p> : null}
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '9%' }} >
+                    <Box sx={{ width: '11%' }} >
                         <FormControl fullWidth className='input' >
                             <LocalizationProvider dateAdapter={AdapterDayjs} >
                                 <Stack spacing={3} >
@@ -895,7 +895,7 @@ function AddGRNReceived() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '39%', marginTop: 2 }} >
+                    <Box sx={{ width: '34%', marginTop: 2 }} >
                         <FormControl fullWidth className='input'>
                             {/* <InputLabel required id="demo-simple-select-label">Plant</InputLabel>npm  */}
                             <Autocomplete
@@ -965,7 +965,7 @@ function AddGRNReceived() {
                         </FormControl>
                     </Box>
 
-                    <Box sx={{ width: '9%' }} >
+                    <Box sx={{ width: '11%' }} >
                         <FormControl fullWidth className='input' >
                             <LocalizationProvider dateAdapter={AdapterDayjs} >
                                 <Stack spacing={3} >
@@ -1041,7 +1041,7 @@ function AddGRNReceived() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '9%' }} >
+                    <Box sx={{ width: '11%' }} >
                         <FormControl fullWidth className='input' >
                             <LocalizationProvider dateAdapter={AdapterDayjs} >
                                 <Stack spacing={3} >
@@ -1079,7 +1079,7 @@ function AddGRNReceived() {
                             {errorText.vendor != '' ? <p  className='error'>{errorText.vendor}</p> : null}
                         </FormControl>
                     </Box> */}
-                    <Box sx={{ width: '38%', marginTop: 1 }} >
+                    <Box sx={{ width: '28%', marginTop: 1 }} >
                         <FormControl fullWidth className='input'>
                             <TextField
                                 value={vRemarks}
@@ -1558,18 +1558,7 @@ function AddGRNReceived() {
                                                 )
                                             })
                                             }
-                                            {/* <TableRow>
-                                                <TableCell />
-                                            </TableRow> */}
-                                            {/* <Table stickyHeader aria-label="simple table">
-                                                <TableRow>
-                                                    <TableCell>Dessert (100g serving)</TableCell>
-                                                    <TableCell align="right">Calories</TableCell>
-                                                    <TableCell align="right">Fat&nbsp;(g)</TableCell>
-                                                    <TableCell align="right">Carbs&nbsp;(g)</TableCell>
-                                                    <TableCell align="right">Protein&nbsp;(g)</TableCell>
-                                                </TableRow>
-                                            </Table> */}
+
                                         </TableBody>
                                         :
 
@@ -1598,6 +1587,17 @@ function AddGRNReceived() {
                     }
 
                 </div>
+                {AllTotalAmount != '' ?
+                    <div className='dateFilter-2' style={{ width: '25%', minHeight: 30 }}>
+                        <div className='displayflex'>
+                            <p style={{ fontWeight: '700' }}>Total</p>
+                            <p>: &#8377; {AllTotalAmount}</p>
+
+                        </div>
+                    </div>
+                    :
+                    null
+                }
             </div>
 
             <div className='displayflexendmodal'>

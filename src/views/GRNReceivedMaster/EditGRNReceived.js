@@ -16,7 +16,7 @@ import { MaterialMaster_SelectAll_ActiveLikeSearch } from '../MaterialMaster/Mat
 import { PlantMaster_SelectAll_ActiveLikeSearch } from '../PlantMaster/PlantMasterService'
 import { VendorMaster_SelectAll_ActiveLikeSearch, VendorMaster_SelectAll_Active } from '../VenderForm/VenderFormService'
 import { GetPODetails, GetPOByPOId } from '../PurchaseOrder/POMasterService'
-import { POMasterPut,GetGRNByGRNId,GetPODetailsLIkeSearch } from './GRNReceivedService'
+import { POMasterPut, GetGRNByGRNId, GetPODetailsLIkeSearch } from './GRNReceivedService'
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import InputLabel from '@mui/material/InputLabel';
@@ -39,7 +39,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import { parseDateToString, parseDateToStringSubmit } from '../../coreservices/Date';
-import { useNavigate ,useLocation} from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import Autocomplete from '@mui/material/Autocomplete';
 import { number } from 'prop-types';
 import { Navigation } from '@coreui/coreui';
@@ -158,6 +158,7 @@ function EditGRNReceived() {
     const [nGrandTotal, setnGrandTotal] = useState('')
     const [nNetTotalAmt, setnNetTotalAmt] = useState('')
     const [localImage, setlocalImage] = useState(false)
+    const [AllTotalAmount, setAllTotalAmount] = useState('')
     const [vPOFilePathFile, setvPOFilePathFile] = React.useState({});
     useEffect(() => {
         const userId = localStorage.getItem("nUserId")
@@ -235,17 +236,20 @@ function EditGRNReceived() {
         GetGRNByGRNId(parseInt(nGRNId)).then(res => {
             // setPODetails(res.GRNDetail)
             // // PODetails.map(v => v.id = new Date().getUTCMilliseconds());
-            
+
             let count = Object.keys(res.GRNDetail).length
             let data = res.GRNDetail
-            for(var i = 0; i < count; i++) {
+
+            for (var i = 0; i < count; i++) {
                 let counts = i
-                res.GRNDetail[i].id=counts
-                res.GRNDetail[i].dtMfgDate=parseDateToStringSubmit(new Date(res.GRNDetail[i].dtMfgDate))
-                res.GRNDetail[i].dtExpDate=parseDateToStringSubmit(new Date(res.GRNDetail[i].dtExpDate))
+                res.GRNDetail[i].id = counts
+                res.GRNDetail[i].dtMfgDate = parseDateToStringSubmit(new Date(res.GRNDetail[i].dtMfgDate))
+                res.GRNDetail[i].dtExpDate = parseDateToStringSubmit(new Date(res.GRNDetail[i].dtExpDate))
+                // data = data + res.GRNDetail[i].nNetTotalAmt
             }
             // console.log('data',data)
             setPODetails(data)
+           
             setvInvoiceNo(res.GRNMaster[0].vInvoiceNo)
             setStartDate(res.GRNMaster[0].dtGRNDate)
             setEndDate(res.GRNMaster[0].dtInvDate)
@@ -272,9 +276,15 @@ function EditGRNReceived() {
             setvRemarks(res.GRNMaster[0].vRemarks)
             setBtActive(res.GRNMaster[0].btActive)
             getPOByPOId(res.GRNMaster[0].nPOId)
+            let counts = Object.keys(PODetails).length
+            let datas = 0
+            for (var i = 0; i < counts; i++) {
+                datas = datas + PODetails[i].nNetTotalAmt
+            }
+             setAllTotalAmount(datas)
         })
     }
-    
+
     const plantMaster_SelectAll_ActiveLikeSearch = (vGeneric) => {
         if (vGeneric != '') {
             vGeneric = vGeneric.target.value
@@ -398,11 +408,11 @@ function EditGRNReceived() {
         if (type == 'nQtyAccepted') {
             setnQtyAccepted(value)
             setnAmt(0)
-            let amount = parseInt(value== '' ? 0 : value) + parseInt(nQtyRejected== '' ? 0 : nQtyRejected)
-            const FinalAmount= amount * nRate
+            let amount = parseInt(value == '' ? 0 : value) + parseInt(nQtyRejected == '' ? 0 : nQtyRejected)
+            const FinalAmount = amount * nRate
             setnAmt(parseInt(FinalAmount))
-            setnGrandTotal(parseInt(FinalAmount)+parseInt(nSGST)+ parseInt(nCGST)+ parseInt(nIGST))
-            setnNetTotalAmt(parseInt(FinalAmount)+parseInt(nSGST)+ parseInt(nCGST)+ parseInt(nIGST)+parseInt(nFreight == '' ? 0 : nFreight))
+            setnGrandTotal(parseInt(FinalAmount) + parseInt(nSGST) + parseInt(nCGST) + parseInt(nIGST))
+            setnNetTotalAmt(parseInt(FinalAmount) + parseInt(nSGST) + parseInt(nCGST) + parseInt(nIGST) + parseInt(nFreight == '' ? 0 : nFreight))
             if (amount > BalanceQuantity) {
                 console.log('1')
                 setTimeout(() => {
@@ -410,14 +420,14 @@ function EditGRNReceived() {
                 }, 2000)
 
             }
-        } 
+        }
         if (type == 'nQtyRejected') {
             setnQtyRejected(value)
-            let amount = parseInt(value== '' ? 0 : value) + parseInt(nQtyAccepted== '' ? 0 : nQtyAccepted)
-            const FinalAmount= amount*nRate
+            let amount = parseInt(value == '' ? 0 : value) + parseInt(nQtyAccepted == '' ? 0 : nQtyAccepted)
+            const FinalAmount = amount * nRate
             setnAmt(parseInt(FinalAmount))
-            setnGrandTotal(parseInt(FinalAmount)+parseInt(nSGST)+ parseInt(nCGST)+ parseInt(nIGST))
-            setnNetTotalAmt(parseInt(FinalAmount)+parseInt(nSGST)+ parseInt(nCGST)+ parseInt(nIGST)+parseInt(nFreight == '' ? 0 : nFreight))
+            setnGrandTotal(parseInt(FinalAmount) + parseInt(nSGST) + parseInt(nCGST) + parseInt(nIGST))
+            setnNetTotalAmt(parseInt(FinalAmount) + parseInt(nSGST) + parseInt(nCGST) + parseInt(nIGST) + parseInt(nFreight == '' ? 0 : nFreight))
             if (amount > BalanceQuantity) {
                 console.log('1')
                 setTimeout(() => {
@@ -428,16 +438,16 @@ function EditGRNReceived() {
         }
         if (type == 'nRate') {
             setnRate(value)
-            let amount =  parseInt(nQtyAccepted) + parseInt(nQtyRejected)
-            const FinalAmount = parseInt(value== '' ? 0 : value) * parseInt(amount)
+            let amount = parseInt(nQtyAccepted) + parseInt(nQtyRejected)
+            const FinalAmount = parseInt(value == '' ? 0 : value) * parseInt(amount)
             setnAmt(parseInt(FinalAmount))
-            setnGrandTotal(parseInt(FinalAmount)+parseInt(nSGST)+ parseInt(nCGST)+ parseInt(nIGST))
-            setnNetTotalAmt(parseInt(FinalAmount)+parseInt(nSGST)+ parseInt(nCGST)+ parseInt(nIGST)+parseInt(nFreight == '' ? 0 : nFreight))
+            setnGrandTotal(parseInt(FinalAmount) + parseInt(nSGST) + parseInt(nCGST) + parseInt(nIGST))
+            setnNetTotalAmt(parseInt(FinalAmount) + parseInt(nSGST) + parseInt(nCGST) + parseInt(nIGST) + parseInt(nFreight == '' ? 0 : nFreight))
         }
-        
+
         if (type == 'nSGSTP') {
             setnSGSTP(value)
-            let amount = value== '' ? 0 : value * nAmt / 100
+            let amount = value == '' ? 0 : value * nAmt / 100
             setnSGST(parseInt(amount))
             setnTax(parseInt(amount) + parseInt(nCGST) + parseInt(nIGST))
             setnGrandTotal(parseInt(nCGST) + parseInt(nIGST) + parseInt(nAmt) + parseInt(amount))
@@ -445,7 +455,7 @@ function EditGRNReceived() {
         }
         if (type == 'nCGSTP') {
             setnCGSTP(value)
-            let amount = value== '' ? 0 : value * nAmt / 100
+            let amount = value == '' ? 0 : value * nAmt / 100
             setnCGST(parseInt(amount))
             setnTax(parseInt(nSGST) + parseInt(nIGST) + parseInt(amount))
             setnGrandTotal(parseInt(nSGST) + parseInt(nIGST) + parseInt(nAmt) + parseInt(amount))
@@ -453,7 +463,7 @@ function EditGRNReceived() {
         }
         if (type == 'nIGSTP') {
             setnIGSTP(value)
-            let amount = value== '' ? 0 : value * nAmt / 100
+            let amount = value == '' ? 0 : value * nAmt / 100
             setnIGST(parseInt(amount))
             console.log('parseInt(nSGST) + parseInt(nCGST) + parseInt(amount)', parseInt(nSGST == undefined ? 0 : nSGST), parseInt(nCGST == undefined ? 0 : nCGST), parseInt(amount))
             setnTax(parseInt(nSGST == NaN ? 0 : nSGST) + parseInt(nCGST == NaN ? 0 : nCGST) + parseInt(amount))
@@ -523,9 +533,9 @@ function EditGRNReceived() {
         else {
             setError({
                 QuanReject: '',
-                MaterialDetail:'',
-                QuanAccept:'',
-                amount:'',
+                MaterialDetail: '',
+                QuanAccept: '',
+                amount: '',
             })
             return true
         }
@@ -538,7 +548,7 @@ function EditGRNReceived() {
             let poMasteerDetail = [...PODetails]
 
             // setPODetails(complaintDetail)
-                poMasteerDetail[indexToUpdate].id = id,
+            poMasteerDetail[indexToUpdate].id = id,
                 poMasteerDetail[indexToUpdate].nGRNId = parseInt(nGRNId),
                 poMasteerDetail[indexToUpdate].nMId = parseInt(nMId),
                 poMasteerDetail[indexToUpdate].MaterialDetail = MaterialDetail,
@@ -563,6 +573,12 @@ function EditGRNReceived() {
                 poMasteerDetail[indexToUpdate].nGrandTotal = parseInt(nGrandTotal == '' ? 0 : nGrandTotal),
                 poMasteerDetail[indexToUpdate].nFreight = parseInt(nFreight == '' ? 0 : nFreight),
                 poMasteerDetail[indexToUpdate].nNetTotalAmt = parseInt(nNetTotalAmt == '' ? 0 : nNetTotalAmt)
+            let count = Object.keys(poMasteerDetail).length
+            let data = 0
+            for (var i = 0; i < count; i++) {
+                data = data + poMasteerDetail[i].nNetTotalAmt
+            }
+            setAllTotalAmount(data)
             console.log('koMonth', poMasteerDetail)
             setPODetails(poMasteerDetail)
             setbtnType('')
@@ -592,10 +608,10 @@ function EditGRNReceived() {
         } else {
             if (validateformPoDetial() == true) {
                 let poMasteerDetail = [...PODetails]
-                let findnMId=poMasteerDetail.find(e=>e.nMId==nMId)
-                if(findnMId){
+                let findnMId = poMasteerDetail.find(e => e.nMId == nMId)
+                if (findnMId) {
                     toast.success("Material is already Added")
-                }else{
+                } else {
                     poMasteerDetail.push({
                         id: new Date().getUTCMilliseconds(),
                         nGRNId: parseInt(nGRNId),
@@ -622,6 +638,12 @@ function EditGRNReceived() {
                         nFreight: parseInt(nFreight == '' ? 0 : nFreight),
                         nNetTotalAmt: parseInt(nNetTotalAmt == '' ? 0 : nNetTotalAmt)
                     })
+                    let count = Object.keys(poMasteerDetail).length
+                    let data = 0
+                    for (var i = 0; i < count; i++) {
+                        data = data + poMasteerDetail[i].nNetTotalAmt
+                    }
+                    setAllTotalAmount(data)
                     console.log('koMonth', poMasteerDetail)
                     setPODetails(poMasteerDetail)
                     setnMId('')
@@ -665,7 +687,7 @@ function EditGRNReceived() {
                 endDate: 'Select Invoce Date *'
             })
             return false
-        }  else if (nPOId == '' ) {
+        } else if (nPOId == '') {
             setError({
                 plant: 'Select PO No. *'
             })
@@ -710,17 +732,17 @@ function EditGRNReceived() {
                                 }]
                                 let GRNOrder = {}
                                 GRNOrder.GRNMaster = POMasterData,
-                                GRNOrder.GRNDetails = PODetails
+                                    GRNOrder.GRNDetails = PODetails
                                 console.log('PurchaseOrder', GRNOrder)
                                 POMasterPut(GRNOrder, vPOFilePathFile).then(res => {
                                     if (res) {
                                         setLoader(false)
                                         toast.success("Record Updated Successfully !!")
                                         navigate('/GRNReceived')
-                    
+
                                     }
                                 })
-                    
+
                             } else {
                                 confirmAlert({
                                     title: 'Alert !!',
@@ -733,7 +755,7 @@ function EditGRNReceived() {
                                     ]
                                 });
                             }
-                
+
                         }
 
                     }
@@ -744,7 +766,7 @@ function EditGRNReceived() {
                 }
             ]
         });
-       
+
     }
     const deleteItem = (ids) => {
         confirmAlert({
@@ -774,7 +796,7 @@ function EditGRNReceived() {
     }
     const editItem = (item) => {
         setbtnType('edit')
-        console.log('item.id',item.id)
+        console.log('item.id', item.id)
         setId(item.id)
         setnMId(item.nMId)
         setMaterialDetail(item.MaterialDetail)
@@ -799,14 +821,14 @@ function EditGRNReceived() {
         setnNetTotalAmt(item.nNetTotalAmt)
         setvBusiness(item.nMId)
     }
-    const goback=()=>{
+    const goback = () => {
         confirmAlert({
             title: 'Alert !!',
             message: 'Are you Sure.?',
             buttons: [
                 {
                     label: 'Yes',
-                    onClick: () => { navigate('/GRNReceived')},
+                    onClick: () => { navigate('/GRNReceived') },
                 },
                 {
                     label: 'No',
@@ -814,7 +836,7 @@ function EditGRNReceived() {
                 }
             ]
         });
-        
+
     }
     return (
         <div className='citymasterContainer'>
@@ -835,7 +857,7 @@ function EditGRNReceived() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '9%' }} >
+                    <Box sx={{ width: '11%' }} >
                         <FormControl fullWidth className='input' >
                             <LocalizationProvider dateAdapter={AdapterDayjs} >
                                 <Stack spacing={3} >
@@ -853,7 +875,7 @@ function EditGRNReceived() {
                             {errorText.date != '' ? <p className='error'>{errorText.date}</p> : null}
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '9%' }} >
+                    <Box sx={{ width: '11%' }} >
                         <FormControl fullWidth className='input' >
                             <LocalizationProvider dateAdapter={AdapterDayjs} >
                                 <Stack spacing={3} >
@@ -901,7 +923,7 @@ function EditGRNReceived() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '39%', marginTop: 2 }} >
+                    <Box sx={{ width: '34%', marginTop: 2 }} >
                         <FormControl fullWidth className='input'>
                             {/* <InputLabel required id="demo-simple-select-label">Plant</InputLabel>npm  */}
                             <Autocomplete
@@ -971,8 +993,8 @@ function EditGRNReceived() {
                             />
                         </FormControl>
                     </Box>
-                   
-                    <Box sx={{ width: '9%' }} >
+
+                    <Box sx={{ width: '11%' }} >
                         <FormControl fullWidth className='input' >
                             <LocalizationProvider dateAdapter={AdapterDayjs} >
                                 <Stack spacing={3} >
@@ -1048,7 +1070,7 @@ function EditGRNReceived() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '9%' }} >
+                    <Box sx={{ width: '11%' }} >
                         <FormControl fullWidth className='input' >
                             <LocalizationProvider dateAdapter={AdapterDayjs} >
                                 <Stack spacing={3} >
@@ -1086,7 +1108,7 @@ function EditGRNReceived() {
                             {errorText.vendor != '' ? <p  className='error'>{errorText.vendor}</p> : null}
                         </FormControl>
                     </Box> */}
-                    <Box sx={{ width: '38%',marginTop:1 }} >
+                    <Box sx={{ width: '29%', marginTop: 1 }} >
                         <FormControl fullWidth className='input'>
                             <TextField
                                 value={vRemarks}
@@ -1101,44 +1123,44 @@ function EditGRNReceived() {
                             />
                         </FormControl>
                     </Box>
-                    <div style={{display: 'flex',width: '100%',alignItems:'flex-end',gap:18}}>
-                    <Box sx={{ width: '10%' }} >
-                        <div >
-                            <InputLabel id="demo-simple-select-label" style={{ marginTop: 5, marginBottom: 5 }}>Attach GRN</InputLabel>
-                            <input type="file" name='vPOFilePath' onChange={imageFile} hidden ref={imageRef} />
-                            <div style={{ display:'flex' }}>
-                                <button onClick={() => imageRef.current.click()} className='choosebtn'>Choose File</button>
-                                {localImage == true ?
-                                    <div style={{ flexDirection: 'row' }}>
-                                        {imgpreview != false ?
-                                            <a href={preview} target="_blank" rel="noopener noreferrer" style={{ marginLeft: 10,fontSize:13 }}>GRN Copy </a>
-                                            : null
-                                        }
-                                    </div>
-                                    :
-                                    <div style={{ flexDirection: 'row' }}>
-                                        {imgpreview != false ?
-                                            <a href={imageUrl + '/' + preview} target="_blank" rel="noopener noreferrer" style={{ marginLeft: 10,fontSize:13 }}>GRN Copy </a>
-                                            : null
-                                        }
-                                    </div>
-                                }
+                    <div style={{ display: 'flex', width: '100%', alignItems: 'flex-end', gap: 18 }}>
+                        <Box sx={{ width: '10%' }} >
+                            <div >
+                                <InputLabel id="demo-simple-select-label" style={{ marginTop: 5, marginBottom: 5 }}>Attach GRN</InputLabel>
+                                <input type="file" name='vPOFilePath' onChange={imageFile} hidden ref={imageRef} />
+                                <div style={{ display: 'flex' }}>
+                                    <button onClick={() => imageRef.current.click()} className='choosebtn'>Choose File</button>
+                                    {localImage == true ?
+                                        <div style={{ flexDirection: 'row' }}>
+                                            {imgpreview != false ?
+                                                <a href={preview} target="_blank" rel="noopener noreferrer" style={{ marginLeft: 10, fontSize: 13 }}>GRN Copy </a>
+                                                : null
+                                            }
+                                        </div>
+                                        :
+                                        <div style={{ flexDirection: 'row' }}>
+                                            {imgpreview != false ?
+                                                <a href={imageUrl + '/' + preview} target="_blank" rel="noopener noreferrer" style={{ marginLeft: 10, fontSize: 13 }}>GRN Copy </a>
+                                                : null
+                                            }
+                                        </div>
+                                    }
 
+                                </div>
                             </div>
-                        </div>
 
-                    </Box>
-                    <FormGroup >
-                        <FormControlLabel control={<Checkbox checked ={btCOAReceived} value={btCOAReceived} onChange={e => setbtCOAReceived(e.target.checked)} />} label="COA Received" />
-                    </FormGroup>
-                    <FormGroup >
-                        <FormControlLabel control={<Checkbox checked ={btActive}  value={btActive} onChange={e => setBtActive(e.target.checked)} />} label="Active" />
-                    </FormGroup>
+                        </Box>
+                        <FormGroup >
+                            <FormControlLabel control={<Checkbox checked={btCOAReceived} value={btCOAReceived} onChange={e => setbtCOAReceived(e.target.checked)} />} label="COA Received" />
+                        </FormGroup>
+                        <FormGroup >
+                            <FormControlLabel control={<Checkbox checked={btActive} value={btActive} onChange={e => setBtActive(e.target.checked)} />} label="Active" />
+                        </FormGroup>
                     </div>
                 </div>
             </div>
             <div className='databox'>
-            <div className='data-form-box'>
+                <div className='data-form-box'>
                     {/* <Box sx={{ width: '25%' }} >
                         <FormControl fullWidth className='input'>
                              <InputLabel required id="demo-simple-select-label">Item</InputLabel> 
@@ -1231,7 +1253,7 @@ function EditGRNReceived() {
                         <FormControl fullWidth className='input' >
                             <TextField
                                 value={nQtyAccepted}
-                                onChange={e => calculateAmount(e.target.value,'nQtyAccepted')}
+                                onChange={e => calculateAmount(e.target.value, 'nQtyAccepted')}
                                 required id="outlined-basic"
                                 label="Quantity Accepted"
                                 variant="outlined"
@@ -1248,7 +1270,7 @@ function EditGRNReceived() {
                         <FormControl fullWidth className='input' >
                             <TextField
                                 value={nQtyRejected}
-                                onChange={e =>calculateAmount(e.target.value,'nQtyRejected')}
+                                onChange={e => calculateAmount(e.target.value, 'nQtyRejected')}
                                 required id="outlined-basic"
                                 label="Quantity Rejected"
                                 variant="outlined"
@@ -1481,7 +1503,7 @@ function EditGRNReceived() {
                             // error={Boolean(errors.brandName5)}
                             // helperText={errors.brandName5?.message}
                             />
-                             {/* {errorText.Freight != '' ? <p className='error'>{errorText.Freight}</p> : null} */}
+                            {/* {errorText.Freight != '' ? <p className='error'>{errorText.Freight}</p> : null} */}
                         </FormControl>
                     </Box>
                     <Box sx={{ width: '9%' }} >
@@ -1555,7 +1577,7 @@ function EditGRNReceived() {
                                                     <TableCell align="left">{item.BalanceQuantity}</TableCell>
                                                     <TableCell align="left">{item.nQtyAccepted}</TableCell>
                                                     <TableCell align="left">{item.nQtyRejected}</TableCell>
-                                                    <TableCell align="left">{item.nQtyAccepted+item.nQtyRejected}</TableCell>
+                                                    <TableCell align="left">{item.nQtyAccepted + item.nQtyRejected}</TableCell>
                                                     <TableCell align="left">{item.nRate}</TableCell>
                                                     <TableCell align="left">{parseDateToString(new Date(item.dtMfgDate))}</TableCell>
                                                     <TableCell align="left">{parseDateToString(new Date(item.dtExpDate))}</TableCell>
@@ -1598,11 +1620,22 @@ function EditGRNReceived() {
                     }
 
                 </div>
+                {AllTotalAmount != '' ?
+                    <div className='dateFilter-2' style={{ width: '25%', minHeight: 30 }}>
+                        <div className='displayflex'>
+                            <p style={{ fontWeight: '700' }}>Total</p>
+                            <p>: &#8377; {AllTotalAmount}</p>
+
+                        </div>
+                    </div>
+                    :
+                    null
+                }
             </div>
 
             <div className='displayflexendmodal'>
 
-            <button type="submit" className='submitbtn' style={{marginRight:10}} onClick={goback}><HomeIcon size={18}/> Home</button>
+                <button type="submit" className='submitbtn' style={{ marginRight: 10 }} onClick={goback}><HomeIcon size={18} /> Home</button>
                 {loader == true ?
                     <CButton disabled className='submitbtn'>
                         <CSpinner component="span" size="sm" aria-hidden="true" />

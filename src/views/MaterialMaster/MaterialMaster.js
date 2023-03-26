@@ -612,15 +612,7 @@ function MaterialMaster() {
                                     </TableRow>
                                 </TableHead>
 
-                                {noRecord == true ?
-                                    <TableBody>
-                                        <TableRow>
-                                            <TableCell style={{ textAlign: 'center' }} component="th" scope="row" colSpan={10} >No Record</TableCell>
-
-                                        </TableRow>
-
-                                    </TableBody>
-                                    :
+                                {brandData?.length>0 ?
                                     <TableBody>
                                         {brandData.map((item, index) => {
                                             return (
@@ -640,6 +632,13 @@ function MaterialMaster() {
                                         })
                                         }
                                     </TableBody>
+                                    
+                                    :
+                                    <TableBody>
+                                    <TableRow>
+                                        <TableCell align="center" colSpan={10}>No Record</TableCell>
+                                    </TableRow>
+                                </TableBody>
                                 }
 
 

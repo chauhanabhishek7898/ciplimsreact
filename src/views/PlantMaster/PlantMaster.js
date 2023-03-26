@@ -327,6 +327,7 @@ function PlantMaster() {
                                     <TableCell align="left">Edit</TableCell>
                                 </TableRow>
                             </TableHead>
+                            {plantData?.length>0?
                             <TableBody>
                                 {plantData.map((item, index) => {
                                     return (
@@ -345,6 +346,13 @@ function PlantMaster() {
 
                                 }
                             </TableBody>
+                                :
+                                <TableBody>
+                                <TableRow>
+                                    <TableCell align="center" colSpan={8}>No Record</TableCell>
+                                </TableRow>
+                            </TableBody>
+                            }
                         </Table>
                     </TableContainer>
                     <TablePagination

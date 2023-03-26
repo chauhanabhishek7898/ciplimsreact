@@ -237,6 +237,7 @@ function PurchaseOrder() {
                                     
                                 </TableRow>
                             </TableHead>
+                            {brandData?.length>0?
                             <TableBody>
                                 {brandData.map((item, index) => {
                                     return (
@@ -261,6 +262,14 @@ function PurchaseOrder() {
                                 })
                                 }
                             </TableBody>
+                            :
+                            <TableBody>
+                                    <TableRow>
+                                        <TableCell align="center" colSpan={14}>No Record</TableCell>
+                                    </TableRow>
+                                </TableBody>
+
+                            }
                         </Table>
                     </TableContainer>
                     <TablePagination

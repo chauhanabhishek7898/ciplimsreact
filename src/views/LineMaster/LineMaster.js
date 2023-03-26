@@ -331,6 +331,7 @@ function LineMaster() {
                                     <TableCell align="left">Edit</TableCell>
                                 </TableRow>
                             </TableHead>
+                            {lineData?.length?
                             <TableBody>
                                 {lineData.map((item, index) => {
                                     return (
@@ -346,6 +347,15 @@ function LineMaster() {
                                 })
                                 }
                             </TableBody>
+
+                                :
+                                <TableBody>
+                                <TableRow>
+                                    <TableCell align="center" colSpan={6}>No Record</TableCell>
+                                </TableRow>
+                            </TableBody>
+                                
+                            }
                         </Table>
                     </TableContainer>
                     <TablePagination

@@ -243,6 +243,7 @@ function PackMaster() {
                                     <TableCell align="left">Edit</TableCell>
                                 </TableRow>
                             </TableHead>
+                            {packData?.length>0?
                             <TableBody>
                                 {packData.map((item, index) => {
                                     return (
@@ -261,6 +262,13 @@ function PackMaster() {
                                 })
                                 }
                             </TableBody>
+                                :
+                                <TableBody>
+                                    <TableRow>
+                                        <TableCell align="center" colSpan={8}>No Record</TableCell>
+                                    </TableRow>
+                                </TableBody>
+                            }
                         </Table>
                     </TableContainer>
                     <TablePagination

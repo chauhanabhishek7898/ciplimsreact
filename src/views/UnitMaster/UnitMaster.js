@@ -250,6 +250,7 @@ function UnitMaster() {
                                     <TableCell align="left">Edit</TableCell>
                                 </TableRow>
                             </TableHead>
+                            {unitData?.length>0?
                             <TableBody>
                                 {unitData.map((item, index) => {
                                     return (
@@ -263,6 +264,13 @@ function UnitMaster() {
                                 })
                                 }
                             </TableBody>
+                                :
+                                <TableBody>
+                                <TableRow>
+                                    <TableCell align="center" colSpan={4}>No Record</TableCell>
+                                </TableRow>
+                            </TableBody>
+                            }
                         </Table>
                     </TableContainer>
                     <TablePagination
