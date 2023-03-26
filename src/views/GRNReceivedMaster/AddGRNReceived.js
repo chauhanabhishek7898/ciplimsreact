@@ -1558,9 +1558,9 @@ function AddGRNReceived() {
                                                 )
                                             })
                                             }
-                                            <TableRow>
+                                            {/* <TableRow>
                                                 <TableCell />
-                                            </TableRow>
+                                            </TableRow> */}
                                             {/* <Table stickyHeader aria-label="simple table">
                                                 <TableRow>
                                                     <TableCell>Dessert (100g serving)</TableCell>
