@@ -25,7 +25,7 @@ import { CButton, CSpinner } from '@coreui/react';
 
 import SearchBar from "material-ui-search-bar";
 import ExportExcel from 'src/shareFunction/Excelexport';
-
+import CircularProgress from '@mui/joy/CircularProgress';
 
 
 function BrandMaster() {
@@ -36,6 +36,7 @@ function BrandMaster() {
     const [brandData, setBrandData] = React.useState([]);
     const [masterbrandData, setMasterBrandData] = React.useState([]);
     const [loader, setLoader] = React.useState(false);
+    const [loader2, setLoader2] = React.useState(false);
     const [nBid, setnBid] = React.useState(0);
     const [btActive, setBtActive] = React.useState(false);
     const [brandCode, setBrandCode] = React.useState("");
@@ -57,15 +58,18 @@ function BrandMaster() {
         getBrandMaster_SelectAll()
     }, [])
     const getBrandMaster_SelectAll = () => {
+        setLoader2(true)
         BrandMaster_SelectAll().then(response => {
             console.log('onlyActive', onlyActive)
             if (checkedData == true) {
                 let activeData = response.filter(e => e.btActive == true)
                 setBrandData(activeData)
                 setMasterBrandData(activeData)
+                setLoader2(false)
             } else {
                 setBrandData(response)
                 setMasterBrandData(response)
+                setLoader2(false)
 
             }
         })
@@ -157,6 +161,16 @@ function BrandMaster() {
 
     return (
         <div className='citymasterContainer'>
+              {loader2==true?
+            <div className='progressBox'>
+                <div className='progressInner'>
+                    <CircularProgress />
+                </div>
+            </div>
+            :
+            null
+
+            }
             <button className='addbtn_2' onClick={() => openmodale(null, 'Submit')} title='Add'  ><AddIcon fontSize='large' /></button>
             <Modal
                 isOpen={modalIsOpen}

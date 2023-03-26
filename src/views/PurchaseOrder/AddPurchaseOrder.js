@@ -150,7 +150,7 @@ function AddPurchaseOrder() {
 
     const plantMaster_SelectAll_ActiveLikeSearch = (vGeneric) => {
         if (vGeneric != '') {
-            vGeneric = vGeneric
+            vGeneric = vGeneric.target.value
         } else {
             vGeneric = null
         }
@@ -174,9 +174,9 @@ function AddPurchaseOrder() {
 
     const vendorMaster_SelectAll_ActiveLikeSearch = (vGeneric) => {
         if (vGeneric != '') {
-            vGeneric = null
+            vGeneric = vGeneric.target.value
         } else {
-            vGeneric = vGeneric
+            vGeneric = null
         }
         VendorMaster_SelectAll_ActiveLikeSearch(vGeneric).then(res => {
             console.log('response', res)
@@ -196,9 +196,9 @@ function AddPurchaseOrder() {
     const materialMaster_SelectAll_ActiveLikeSearch = (vGeneric) => {
 
         if (vGeneric != '') {
-            vGeneric = null
+            vGeneric = vGeneric.target.value
         } else {
-            vGeneric = vGeneric
+            vGeneric = null
         }
         MaterialMaster_SelectAll_ActiveLikeSearch(vGeneric).then(res => {
             console.log('response', res)
@@ -757,12 +757,12 @@ function AddPurchaseOrder() {
 
                     <Box sx={{ width: '13%' }} >
                         <div >
-                            <InputLabel id="demo-simple-select-label" style={{ marginTop: 5, marginBottom: 5 }}>Purchase Order File</InputLabel>
+                            <InputLabel id="demo-simple-select-label" style={{ marginTop: 5, marginBottom: 5 }}>Attach PO </InputLabel>
                             <input type="file" name='vPOFilePath' onChange={imageFile} hidden ref={imageRef} />
                             <div style={{ flexDirection: 'row' }}>
                                 <button onClick={() => imageRef.current.click()} className='choosebtn'>Choose File</button>
                                 {imgpreview != false ?
-                                    <a href={preview} target="_blank" rel="noopener noreferrer" style={{ marginLeft: 10 }}>File Preview</a>
+                                    <a href={preview} target="_blank" rel="noopener noreferrer" style={{ marginLeft: 10 }}>PO Copy</a>
                                     : null
                                 }
 
@@ -777,7 +777,7 @@ function AddPurchaseOrder() {
             </div>
             <div className='databox'>
                 <div className='data-form-box'>
-                    <Box sx={{ width: '25%' }} >
+                    <Box sx={{ width: '22%' }} >
                         <FormControl fullWidth className='input'>
                             {/* <InputLabel required id="demo-simple-select-label">Item</InputLabel> */}
                             <Autocomplete
@@ -805,7 +805,7 @@ function AddPurchaseOrder() {
 
                         } */}
 
-                    <Box sx={{ width: '12%' }} >
+                    <Box sx={{ width: '5%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
                                 value={nRate}
@@ -822,7 +822,7 @@ function AddPurchaseOrder() {
                             {errorText.amount != '' ? <p className='error'>{errorText.amount}</p> : null}
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '12%' }} >
+                    <Box sx={{ width: '5%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
                                 value={nQty}
@@ -839,7 +839,7 @@ function AddPurchaseOrder() {
                             {errorText.Quan != '' ? <p className='error'>{errorText.Quan}</p> : null}
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '12%' }} >
+                    <Box sx={{ width: '5%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
                                 value={nAmt}
@@ -856,7 +856,7 @@ function AddPurchaseOrder() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '12%' }} >
+                    <Box sx={{ width: '6%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
                                 value={nSGSTP}
@@ -872,7 +872,7 @@ function AddPurchaseOrder() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '12%' }} >
+                    <Box sx={{ width: '5%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
                                 value={nSGST}
@@ -889,7 +889,7 @@ function AddPurchaseOrder() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '12%' }} >
+                    <Box sx={{ width: '6%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
                                 value={nCGSTP}
@@ -905,7 +905,7 @@ function AddPurchaseOrder() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '12%' }} >
+                    <Box sx={{ width: '5%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
                                 value={nCGST}
@@ -922,7 +922,7 @@ function AddPurchaseOrder() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '12%' }} >
+                    <Box sx={{ width: '6%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
                                 value={nIGSTP}
@@ -938,7 +938,7 @@ function AddPurchaseOrder() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '12%' }} >
+                    <Box sx={{ width: '5%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
                                 value={nIGST}
@@ -955,7 +955,7 @@ function AddPurchaseOrder() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '12%' }} >
+                    <Box sx={{ width: '5%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
                                 value={nTax}
@@ -972,7 +972,7 @@ function AddPurchaseOrder() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '12%' }} >
+                    <Box sx={{ width: '7%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
                                 value={nTotalAmt}

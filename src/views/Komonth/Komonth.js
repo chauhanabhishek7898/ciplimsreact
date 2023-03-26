@@ -38,6 +38,7 @@ import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormLabel from '@mui/material/FormLabel';
 import FormControlLabel from '@mui/material/FormControlLabel';
+import CircularProgress from '@mui/joy/CircularProgress';
 function KOMONTH() {
     const [modalIsOpen, setIsOpen] = React.useState(false);
     const [weekmodalIsOpen, setweekmodalIsOpen] = React.useState(false);
@@ -64,6 +65,7 @@ function KOMONTH() {
     const [endDate, setEndDate] = React.useState(null);
     const { register, handleSubmit, control, errors, name } = useForm();
     const [loader, setLoader] = React.useState(false);
+    const [loader2, setLoader2] = React.useState(false);
     const [disable, setDisable] = React.useState(false);
     const [monthDisable, setMonthDisable] = React.useState(false);
     const [WeekDisable, setWeekDisable] = React.useState(false);
@@ -160,18 +162,22 @@ function KOMONTH() {
         getKOMonth_SelectAll()
     }, [])
     const getKOMonth_SelectAll = () => {
+        setLoader2(true)
         KOMonth_SelectAll().then(res => {
             if (res) {
                 console.log('resWeek', res)
                 setkoMonthData(res)
+                setLoader2(false)
             }
         })
     }
     const getKOMonth_SelectAllMonthView = () => {
+        setLoader2(true)
         KOMonth_SelectAllMonthView().then(res => {
             if (res) {
                 console.log('resMont', res)
                 setkoMonthData(res)
+                setLoader2(false)
             }
         })
     }
@@ -296,6 +302,16 @@ function KOMONTH() {
     return (
         <div className='citymasterContainer'>
             {/* <button className='addbtn' onClick={openmodale}>Add</button> */}
+            {loader2==true?
+            <div className='progressBox'>
+                <div className='progressInner'>
+                    <CircularProgress />
+                </div>
+            </div>
+            :
+            null
+
+            }
             <div className='dateFilter'>
                 <div className='date'>
                     <Box sx={{ width: '100%' }}>
@@ -475,7 +491,7 @@ function KOMONTH() {
                             </Select> */}
                             <Controller
                                 render={(props) => (
-                                    <Select value={props.value} onChange={props.onChange} style={{ width: 170, }} >
+                                    <Select value={props.value} onChange={props.onChange} >
                                         <MenuItem value={'W1'}>W1</MenuItem>
                                         <MenuItem value={'W2'}>W2</MenuItem>
                                         <MenuItem value={'W3'}>W3</MenuItem>
@@ -718,18 +734,17 @@ function KOMONTH() {
                 contentLabel="Example Modal"
                 ariaHideApp={false}
             >
-                <div className='displayright'>
+                <div className='displayright '>
                     <div><span className='title'>KO Week Update</span></div>
                     <HighlightOffIcon fontSize='large' onClick={() => setweekmodalIsOpen(false)} />
                 </div>
                 <div>
                     <div className='editModel'>
-                        <div className='date'>
-                            <Box sx={{ width: '100%' }}>
-                                <FormControl fullWidth error={Boolean(errors.nKOYear)}>
+                       
+                            <Box sx={{ width: '25%' }}>
+                                <FormControl fullWidth error={Boolean(errors.nKOYear)} className='input'>
                                     <InputLabel id="demo-simple-select-label">KO Month <span >*</span></InputLabel>
                                     <Select
-                                        style={{ width: 130, }}
                                         labelId="demo-simple-select-label"
                                         id="demo-simple-select"
                                         value={vKOMonth}
@@ -778,7 +793,7 @@ function KOMONTH() {
                                 </FormControl>
                             </Box>
 
-                        </div>
+                       
                         <div className='date'>
                             <Box sx={{ width: '100%' }} >
                                 <FormControl fullWidth className='input'>
@@ -878,9 +893,8 @@ function KOMONTH() {
 
                         </div>
                         <div className='break'> </div>
-                        <div className='date'>
-                            <Box sx={{ width: '33%' }}>
-                                <FormControl fullWidth error={Boolean(errors.nKOYear)} style={{ width: 170 }}>
+                            <Box sx={{ width: '25%' }}>
+                                <FormControl fullWidth error={Boolean(errors.nKOYear)} >
                                     <InputLabel id="demo-simple-select-label">Week Number <span>*</span></InputLabel>
                                     <Select
                                         style={{ width: '100%', }}
@@ -917,8 +931,6 @@ function KOMONTH() {
                                 </FormControl>
                                 <div className='error'>{error} </div>
                             </Box>
-
-                        </div>
 
                         <div className='date'>
                             <Box sx={{ width: '100%' }}>
@@ -1018,12 +1030,10 @@ function KOMONTH() {
                 </div>
                 <div>
                     <div className='editModel'>
-                        <div className='date'>
-                            <Box sx={{ width: '100%' }}>
+                            <Box sx={{ width: '25%' }}>
                                 <FormControl fullWidth error={Boolean(errors.nKOYear)}>
                                     <InputLabel id="demo-simple-select-label">KO Month <span >*</span></InputLabel>
                                     <Select
-                                        style={{ width: 130, }}
                                         labelId="demo-simple-select-label"
                                         id="demo-simple-select"
                                         value={vKOMonth}
@@ -1072,8 +1082,6 @@ function KOMONTH() {
                                     <FormHelperText>{errors.vKOMonth?.message}</FormHelperText>
                                 </FormControl>
                             </Box>
-
-                        </div>
                         <div className='date'>
                             <Box sx={{ width: '100%' }} >
                                 <FormControl fullWidth className='input'>
@@ -1170,9 +1178,8 @@ function KOMONTH() {
 
                         </div>
                         <div className='break'> </div>
-                        <div className='date'>
-                            <Box sx={{ width: '33%' }}>
-                                <FormControl fullWidth error={Boolean(errors.nKOYear)} style={{ width: 170 }}>
+                            <Box sx={{ width: '25%' }}>
+                                <FormControl fullWidth error={Boolean(errors.nKOYear)} >
                                     <InputLabel id="demo-simple-select-label">Week Number <span>*</span></InputLabel>
                                     <Select
                                         style={{ width: '100%', }}
@@ -1210,8 +1217,6 @@ function KOMONTH() {
                                 </FormControl>
                                 <div className='error'>{error} </div>
                             </Box>
-
-                        </div>
 
                         <div className='date'>
                             <Box sx={{ width: '100%' }}>

@@ -24,3 +24,10 @@ export function BrandMaster_SelectAll() {
         return response;
     })
 }
+export function BrandMaster_SelectAll_ActiveLikeSearch(vGeneric) {
+    let apiUrl = environment.apiUrl;
+    let url = `${apiUrl}/BrandMaster/BrandMaster_SelectAll_ActiveLikeSearch/${vGeneric}`
+    return api.get(url).then(response => {
+        return response;
+    })
+}

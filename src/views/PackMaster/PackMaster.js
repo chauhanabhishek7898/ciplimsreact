@@ -28,6 +28,7 @@ import { CButton, CSpinner } from '@coreui/react'
 import SearchBar from "material-ui-search-bar";
 import ExportExcel from 'src/shareFunction/Excelexport';
 import FormHelperText from '@mui/material/FormHelperText';
+import CircularProgress from '@mui/joy/CircularProgress';
 function PackMaster() {
 
     let Heading = [['SN.', 'Pack Code', 'Pack Name', 'Pack Unit', 'Pack Product', 'Pack Cases', 'Status']];
@@ -40,6 +41,7 @@ function PackMaster() {
     const [uniteData, setUnitData] = React.useState([]);
     const [masterbrandData, setMasterBrandData] = React.useState([]);
     const [loader, setLoader] = React.useState(false);
+    const [loader2, setLoader2] = React.useState(false);
 
     const [nPId, setnPId] = React.useState(0);
     const [btActive, setBtActive] = React.useState(false);
@@ -105,15 +107,18 @@ function PackMaster() {
         getPackMaster_SelectAll()
     }, [])
     const getPackMaster_SelectAll = () => {
+        setLoader2(true)
         PackMaster_SelectAll().then(response => {
             console.log('onlyActive', onlyActive)
             if (checkedData == true) {
                 let activeData = response.filter(e => e.btActive == true)
                 setPackData(activeData)
                 setMasterBrandData(activeData)
+                setLoader2(false)
             } else {
                 setPackData(response)
                 setMasterBrandData(response)
+                setLoader2(false)
 
             }
         })
@@ -194,6 +199,16 @@ function PackMaster() {
 
     return (
         <div className='citymasterContainer'>
+              {loader2==true?
+            <div className='progressBox'>
+                <div className='progressInner'>
+                    <CircularProgress />
+                </div>
+            </div>
+            :
+            null
+
+            }
             <button className='addbtn_2' onClick={() => openmodale(null, 'Submit')} title='Add'  ><AddIcon fontSize='large' /></button>
 
             <div className='tablecenter'>
@@ -302,7 +317,20 @@ function PackMaster() {
                         </FormControl>
                     </Box>
                     <Box sx={{ width: '30%', marginTop: 2 }}>
-                        <FormControl fullWidth className='input'>
+                        <FormControl fullWidth className='input' >
+                            <TextField
+                                value={unitid}
+                                onChange={e => setUnitid(e.target.value)}
+                                id="outlined-basic"
+                                required
+                                label="Unit"
+                                variant="outlined"
+                                name='unitid'
+                                inputRef={register({ required: "Unit is required.*", })}
+                                error={Boolean(errors.unitid)}
+                                helperText={errors.unitid?.message} />
+                        </FormControl>
+                        {/* <FormControl fullWidth className='input'>
                             <InputLabel required id="demo-simple-select-label">Unit</InputLabel>
                             <Select
                                 style={{ width: '100%', }}
@@ -325,8 +353,7 @@ function PackMaster() {
                                 }
                             </Select>
                             {unitid != '' ? <p  className='error'>{error}</p> : null}
-                            {/* <FormHelperText>Select Pack Unit</FormHelperText> */}
-                        </FormControl>
+                        </FormControl> */}
                         {/* <div className='error'>{error} </div> */}
                     </Box>
                     <Box sx={{ width: '48%', marginTop: 2 }} >

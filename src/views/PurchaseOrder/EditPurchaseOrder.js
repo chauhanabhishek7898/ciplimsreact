@@ -157,7 +157,7 @@ function EditPurchaseOrder() {
     }, [])
     const plantMaster_SelectAll_ActiveLikeSearch = (vGeneric) => {
         if (vGeneric != '') {
-            vGeneric = vGeneric
+            vGeneric = vGeneric.target.value
         } else {
             vGeneric = null
         }
@@ -181,7 +181,13 @@ function EditPurchaseOrder() {
     const getPOByPOId = () => {
         GetPOByPOId(nPOId).then(res => {
             console.log('response', res)
-            setPODetails(res.PODetail)
+            let count = Object.keys(res.PODetail).length
+            let data = res.PODetail
+            for(var i = 0; i < count; i++) {
+                let counts = i
+                res.PODetail[i].id=counts
+            }
+            setPODetails(data)
             setStartDate(res.POMaster[0].dtPODated)
             setnPId(res.POMaster[0].nPId)
             setPlantDetail(res.POMaster[0].PlantDetail)
@@ -215,9 +221,9 @@ function EditPurchaseOrder() {
 
     const vendorMaster_SelectAll_ActiveLikeSearch = (vGeneric) => {
         if (vGeneric != '') {
-            vGeneric = null
+            vGeneric = vGeneric.target.value
         } else {
-            vGeneric = vGeneric
+            vGeneric = null
         }
         VendorMaster_SelectAll_ActiveLikeSearch(vGeneric).then(res => {
             console.log('response', res)
@@ -237,9 +243,9 @@ function EditPurchaseOrder() {
     const materialMaster_SelectAll_ActiveLikeSearch = (vGeneric) => {
 
         if (vGeneric != '') {
-            vGeneric = null
+            vGeneric = vGeneric.target.value
         } else {
-            vGeneric = vGeneric
+            vGeneric = null
         }
         MaterialMaster_SelectAll_ActiveLikeSearch(vGeneric).then(res => {
             console.log('response', res)
@@ -837,7 +843,7 @@ function EditPurchaseOrder() {
             </div>
             <div className='databox'>
                 <div className='data-form-box'>
-                    <Box sx={{ width: '25%' }} >
+                    <Box sx={{ width: '22%' }} >
                         <FormControl fullWidth className='input'>
                             {/* <InputLabel required id="demo-simple-select-label">Item</InputLabel> */}
                             <Autocomplete
@@ -864,7 +870,7 @@ function EditPurchaseOrder() {
                             null
 
                         } */}
-                    <Box sx={{ width: '12%' }} >
+                    <Box sx={{ width: '5%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
                                 value={nRate}
@@ -881,7 +887,7 @@ function EditPurchaseOrder() {
                             {errorText.amount != '' ? <p className='error'>{errorText.amount}</p> : null}
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '12%' }} >
+                    <Box sx={{ width: '5%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
                                 value={nQty}
@@ -899,7 +905,7 @@ function EditPurchaseOrder() {
                         </FormControl>
                     </Box>
 
-                    <Box sx={{ width: '12%' }} >
+                    <Box sx={{ width: '5%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
                                 value={nAmt}
@@ -916,7 +922,7 @@ function EditPurchaseOrder() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '12%' }} >
+                    <Box sx={{ width: '6%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
                                 value={nSGSTP}
@@ -932,7 +938,7 @@ function EditPurchaseOrder() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '12%' }} >
+                    <Box sx={{ width: '5%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
                                 value={nSGST}
@@ -949,7 +955,7 @@ function EditPurchaseOrder() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '12%' }} >
+                    <Box sx={{ width: '6%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
                                 value={nCGSTP}
@@ -965,7 +971,7 @@ function EditPurchaseOrder() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '12%' }} >
+                    <Box sx={{ width: '5%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
                                 value={nCGST}
@@ -982,7 +988,7 @@ function EditPurchaseOrder() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '12%' }} >
+                    <Box sx={{ width: '6%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
                                 value={nIGSTP}
@@ -998,7 +1004,7 @@ function EditPurchaseOrder() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '12%' }} >
+                    <Box sx={{ width: '5%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
                                 value={nIGST}
@@ -1015,7 +1021,7 @@ function EditPurchaseOrder() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '12%' }} >
+                    <Box sx={{ width: '5%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
                                 value={nTax}
@@ -1032,7 +1038,7 @@ function EditPurchaseOrder() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '12%' }} >
+                    <Box sx={{ width: '7%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
                                 value={nTotalAmt}

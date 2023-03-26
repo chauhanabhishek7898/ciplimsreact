@@ -77,7 +77,7 @@ p{
     border: none;
     padding: 5px;
     width: 100px;
-    height: 62px;
+    height: 34px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -232,6 +232,8 @@ p{
     flex-wrap: wrap;
     margin-top: 10px;
     gap: 10px;
+    width: 100%;
+
   }
   .displayflexend-2{
     display: flex;
@@ -354,6 +356,7 @@ p{
   background: #f00;
   color: #fff;
   border-radius: 5px;
+  font-size: 13px;
 
 }
 .deletbtn {
@@ -366,7 +369,7 @@ svg.MuiSvgIcon-root.MuiSvgIcon-colorRed.MuiSvgIcon-fontSizeMedium.css-i4bv87-Mui
 .applybtn{
   border: none;
   width: 130px;
-  height: 61px;
+  height: 34px;
   border-radius: 5px;
   background: red;
   color: #fff;
@@ -381,4 +384,56 @@ input::-webkit-inner-spin-button {
 /* Works for Firefox */
 input[type="number"] {
   -moz-appearance: textfield;
+}
+.progressBox{
+  width: 100%;
+  background: rgba(0,0,0,0.5);
+  position: absolute;
+  height: 100%;
+  z-index: 1000000;
+  top: 0;
+  left: 0;
+  .progressInner{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
+.css-14s5rfu-MuiFormLabel-root-MuiInputLabel-root{
+  font-size: 13px !important;
+  line-height: 0 !important;
+  top: -4px !important;
+  overflow: visible !important;
+}
+.css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input, .css-nxo287-MuiInputBase-input-MuiOutlinedInput-input{
+  padding: 5px 14px !important;
+  font-size: 13px !important;
+}
+.css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input{
+  padding: 3px 14px !important;
+  font-size: 13px !important;
+}
+.css-154xyx0-MuiInputBase-root-MuiOutlinedInput-root{
+  padding: 0px !important;
+  font-size: 13px !important;
+}
+.css-hfutr2-MuiSvgIcon-root-MuiSelect-icon{
+  top: calc(50% - 0.6em) !important;
+}
+.MuiMenu-list .MuiButtonBase-root{
+  border-bottom: 1px solid #ccc !important;
+  width: 100% !important;
+  padding-left: 10px !important;
+  justify-content: flex-start !important;
+  font-size: 13px !important;
+  &:last-child{
+    border-bottom:none !important
+  }
+}
+.MuiAutocomplete-popper{
+  font-size: 12px !important;
+}
+.css-9npbnl-MuiFormLabel-root-MuiInputLabel-root{
+  font-size: 13px !important;
 }

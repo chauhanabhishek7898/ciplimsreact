@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState, useStateDebounced } from 'react'
 import Modal from 'react-modal';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -7,6 +7,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import TablePagination from '@mui/material/TablePagination';
+import { TableFooter } from "@material-ui/core";
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import Paper from '@mui/material/Paper';
@@ -16,7 +17,7 @@ import { MaterialMaster_SelectAll_ActiveLikeSearch } from '../MaterialMaster/Mat
 import { PlantMaster_SelectAll_ActiveLikeSearch } from '../PlantMaster/PlantMasterService'
 import { VendorMaster_SelectAll_ActiveLikeSearch, VendorMaster_SelectAll_Active } from '../VenderForm/VenderFormService'
 import { GetPODetails, GetPOByPOId } from '../PurchaseOrder/POMasterService'
-import { POMasterPost,GetPODetailsLIkeSearch } from './GRNReceivedService'
+import { POMasterPost, GetPODetailsLIkeSearch } from './GRNReceivedService'
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import InputLabel from '@mui/material/InputLabel';
@@ -146,6 +147,8 @@ function AddGRNReceived() {
     const [vCourierToCCIPL, setvCourierToCCIPL] = useState('')
     const [vCourierDocketNo, setvCourierDocketNo] = useState('')
     const [nPoQtyAccepted, setnPoQtyAccepted] = useState('')
+    const [BalanceQuantity, setBalanceQuantity] = useState('')
+    const [AllTotalAmount, setAllTotalAmount] = useState('')
     const [nQtyAccepted, setnQtyAccepted] = useState('')
     const [nQtyRejected, setnQtyRejected] = useState('')
     const [dtMfgDate, setdtMfgDate] = useState(dayjs(startDates))
@@ -167,6 +170,7 @@ function AddGRNReceived() {
         setMaterialDetail(item.MaterialDetail)
         setnQty(item.nQty)
         setnPoQtyAccepted(item.nQty)
+        setBalanceQuantity(item.BalanceQuantity)
         setnRate(item.nRate)
         setnAmt(item.nAmt)
         setnSGSTP(item.nSGSTP)
@@ -225,7 +229,7 @@ function AddGRNReceived() {
 
     const plantMaster_SelectAll_ActiveLikeSearch = (vGeneric) => {
         if (vGeneric != '') {
-            vGeneric = vGeneric
+            vGeneric = vGeneric.target.value
         } else {
             vGeneric = null
         }
@@ -248,7 +252,7 @@ function AddGRNReceived() {
     }
     const getPODetails = (vGeneric) => {
         if (vGeneric != '') {
-            vGeneric = vGeneric
+            vGeneric = vGeneric.target.value
         } else {
             vGeneric = null
         }
@@ -345,32 +349,47 @@ function AddGRNReceived() {
         if (type == 'nQtyAccepted') {
             setnQtyAccepted(value)
             setnAmt(0)
-            let amount = parseInt(value==''?0:value) + parseInt(nQtyRejected==''?0:nQtyRejected)
-            const FinalAmount= amount * nRate
+            let amount = parseInt(value == '' ? 0 : value) + parseInt(nQtyRejected == '' ? 0 : nQtyRejected)
+            const FinalAmount = amount * nRate
             setnAmt(parseInt(FinalAmount))
-            setnGrandTotal(parseInt(FinalAmount)+parseInt(nSGST)+ parseInt(nCGST)+ parseInt(nIGST))
-            setnNetTotalAmt(parseInt(FinalAmount)+parseInt(nSGST)+ parseInt(nCGST)+ parseInt(nIGST)+parseInt(nFreight == '' ? 0 : nFreight))
-        } 
+            setnGrandTotal(parseInt(FinalAmount) + parseInt(nSGST) + parseInt(nCGST) + parseInt(nIGST))
+            setnNetTotalAmt(parseInt(FinalAmount) + parseInt(nSGST) + parseInt(nCGST) + parseInt(nIGST) + parseInt(nFreight == '' ? 0 : nFreight))
+            if (amount > BalanceQuantity) {
+                console.log('1')
+                setTimeout(() => {
+                    checkbalanceQty('nQtyAccepted')
+                }, 2000)
+
+            }
+        }
+
         if (type == 'nQtyRejected') {
             setnQtyRejected(value)
-            let amount = parseInt(value==''?0:value) + parseInt(nQtyAccepted==''?0:nQtyAccepted)
-            const FinalAmount= amount*nRate
+            let amount = parseInt(value == '' ? 0 : value) + parseInt(nQtyAccepted == '' ? 0 : nQtyAccepted)
+            const FinalAmount = amount * nRate
             setnAmt(parseInt(FinalAmount))
-            setnGrandTotal(parseInt(FinalAmount)+parseInt(nSGST)+ parseInt(nCGST)+ parseInt(nIGST))
-            setnNetTotalAmt(parseInt(FinalAmount)+parseInt(nSGST)+ parseInt(nCGST)+ parseInt(nIGST)+parseInt(nFreight == '' ? 0 : nFreight))
+            setnGrandTotal(parseInt(FinalAmount) + parseInt(nSGST) + parseInt(nCGST) + parseInt(nIGST))
+            setnNetTotalAmt(parseInt(FinalAmount) + parseInt(nSGST) + parseInt(nCGST) + parseInt(nIGST) + parseInt(nFreight == '' ? 0 : nFreight))
+            if (amount > BalanceQuantity) {
+                console.log('1')
+                setTimeout(() => {
+                    checkbalanceQty('nQtyRejected')
+                }, 2000)
+
+            }
         }
         if (type == 'nRate') {
             setnRate(value)
-            let amount =  parseInt(nQtyAccepted) + parseInt(nQtyRejected)
-            const FinalAmount = parseInt(value==''?0:value) * parseInt(amount)
+            let amount = parseInt(nQtyAccepted) + parseInt(nQtyRejected)
+            const FinalAmount = parseInt(value == '' ? 0 : value) * parseInt(amount)
             setnAmt(parseInt(FinalAmount))
-            setnGrandTotal(parseInt(FinalAmount)+parseInt(nSGST)+ parseInt(nCGST)+ parseInt(nIGST))
-            setnNetTotalAmt(parseInt(FinalAmount)+parseInt(nSGST)+ parseInt(nCGST)+ parseInt(nIGST)+parseInt(nFreight == '' ? 0 : nFreight))
+            setnGrandTotal(parseInt(FinalAmount) + parseInt(nSGST) + parseInt(nCGST) + parseInt(nIGST))
+            setnNetTotalAmt(parseInt(FinalAmount) + parseInt(nSGST) + parseInt(nCGST) + parseInt(nIGST) + parseInt(nFreight == '' ? 0 : nFreight))
         }
-        
+
         if (type == 'nSGSTP') {
             setnSGSTP(value)
-            let amount = value==''?0:value * nAmt / 100
+            let amount = value == '' ? 0 : value * nAmt / 100
             setnSGST(parseInt(amount))
             setnTax(parseInt(amount) + parseInt(nCGST) + parseInt(nIGST))
             setnGrandTotal(parseInt(nCGST) + parseInt(nIGST) + parseInt(nAmt) + parseInt(amount))
@@ -378,7 +397,7 @@ function AddGRNReceived() {
         }
         if (type == 'nCGSTP') {
             setnCGSTP(value)
-            let amount = value==''?0:value * nAmt / 100
+            let amount = value == '' ? 0 : value * nAmt / 100
             setnCGST(parseInt(amount))
             setnTax(parseInt(nSGST) + parseInt(nIGST) + parseInt(amount))
             setnGrandTotal(parseInt(nSGST) + parseInt(nIGST) + parseInt(nAmt) + parseInt(amount))
@@ -386,7 +405,7 @@ function AddGRNReceived() {
         }
         if (type == 'nIGSTP') {
             setnIGSTP(value)
-            let amount = value==''?0:value * nAmt / 100
+            let amount = value == '' ? 0 : value * nAmt / 100
             setnIGST(parseInt(amount))
             console.log('parseInt(nSGST) + parseInt(nCGST) + parseInt(amount)', parseInt(nSGST == undefined ? 0 : nSGST), parseInt(nCGST == undefined ? 0 : nCGST), parseInt(amount))
             setnTax(parseInt(nSGST == NaN ? 0 : nSGST) + parseInt(nCGST == NaN ? 0 : nCGST) + parseInt(amount))
@@ -425,32 +444,65 @@ function AddGRNReceived() {
         else {
             setError({
                 QuanReject: '',
-                MaterialDetail:'',
-                QuanAccept:'',
-                amount:'',
+                MaterialDetail: '',
+                QuanAccept: '',
+                amount: '',
             })
             return true
         }
 
+    }
+    const checkbalanceQty = (type) => {
+        if (type == 'nQtyAccepted') {
+            confirmAlert({
+                title: 'Alert !!',
+                message: 'Qty. Accepted + Qty. Rejected should not be greater than Bal. Qty.',
+                buttons: [
+                    {
+                        label: 'Ok',
+                        onClick: () => {
+                            setnQtyAccepted('')
+                        },
+                    },
+                ]
+            });
+
+        }
+        if (type == 'nQtyRejected') {
+            confirmAlert({
+                title: 'Alert !!',
+                message: 'Qty. Accepted + Qty. Rejected should not be greater than Bal. Qty.',
+                buttons: [
+                    {
+                        label: 'Ok',
+                        onClick: () => {
+                            setnQtyRejected('')
+                        },
+                    },
+                ]
+            });
+
+        }
     }
     const addKoMonthDate = () => {
 
         if (btnType == 'edit') {
             confirmAlert({
                 title: 'Alert !!',
-                message: 'Do you want Edit this Item. ?',
+                message: 'Do you want Edit this Material ?',
                 buttons: [
                     {
                         label: 'Yes',
                         onClick: () => {
                             const indexToUpdate = PODetails.findIndex((todo) => todo.id == id);
                             let poMasteerDetail = [...PODetails]
-                
+
                             // setPODetails(complaintDetail)
                             poMasteerDetail[indexToUpdate].id = id,
                                 poMasteerDetail[indexToUpdate].nMId = parseInt(nMId),
                                 poMasteerDetail[indexToUpdate].MaterialDetail = MaterialDetail,
                                 poMasteerDetail[indexToUpdate].nQty = parseInt(nQty == '' ? 0 : nQty),
+                                poMasteerDetail[indexToUpdate].BalanceQuantity = parseInt(BalanceQuantity == '' ? 0 : BalanceQuantity),
                                 poMasteerDetail[indexToUpdate].nQtyAccepted = parseInt(nQtyAccepted == '' ? 0 : nQtyAccepted),
                                 poMasteerDetail[indexToUpdate].nQtyRejected = parseInt(nQtyRejected == '' ? 0 : nQtyRejected),
                                 poMasteerDetail[indexToUpdate].nRate = parseInt(nRate == '' ? 0 : nRate),
@@ -470,7 +522,13 @@ function AddGRNReceived() {
                                 poMasteerDetail[indexToUpdate].nGrandTotal = parseInt(nGrandTotal == '' ? 0 : nGrandTotal),
                                 poMasteerDetail[indexToUpdate].nFreight = parseInt(nFreight == '' ? 0 : nFreight),
                                 poMasteerDetail[indexToUpdate].nNetTotalAmt = parseInt(nNetTotalAmt == '' ? 0 : nNetTotalAmt)
-                            console.log('koMonth', poMasteerDetail)
+                            let count = Object.keys(poMasteerDetail).length
+                            let data = 0
+                            for (var i = 0; i < count; i++) {
+                                data = data + poMasteerDetail[i].nNetTotalAmt
+                            }
+                            setAllTotalAmount(data)
+                            console.log('koMonth', data)
                             setPODetails(poMasteerDetail)
                             setbtnType('')
                             setnMId('')
@@ -495,6 +553,7 @@ function AddGRNReceived() {
                             setvBusiness('')
                             setnGrandTotal('')
                             setnNetTotalAmt('')
+                            setBalanceQuantity('')
 
                         }
                     },
@@ -504,26 +563,27 @@ function AddGRNReceived() {
                     }
                 ]
             });
-           
+
         } else {
             confirmAlert({
                 title: 'Alert !!',
-                message: 'Do you want Add this Item. ?',
+                message: 'Do you want Add this Material ?',
                 buttons: [
                     {
                         label: 'Yes',
                         onClick: () => {
                             if (validateformPoDetial() == true) {
                                 let poMasteerDetail = [...PODetails]
-                                let findnMId=poMasteerDetail.find(e=>e.nMId==nMId)
-                                if(findnMId){
-                                    toast.success("Item is already Added")
-                                }else{
+                                let findnMId = poMasteerDetail.find(e => e.nMId == nMId)
+                                if (findnMId) {
+                                    toast.success("Material is already Added.")
+                                } else {
                                     poMasteerDetail.push({
                                         id: new Date().getUTCMilliseconds(),
                                         nMId: parseInt(nMId),
                                         MaterialDetail: MaterialDetail,
                                         nQty: parseInt(nQty == '' ? 0 : nQty),
+                                        BalanceQuantity: parseInt(BalanceQuantity == '' ? 0 : BalanceQuantity),
                                         nQtyAccepted: parseInt(nQtyAccepted == '' ? 0 : nQtyAccepted),
                                         nQtyRejected: parseInt(nQtyRejected == '' ? 0 : nQtyRejected),
                                         nRate: parseInt(nRate == '' ? 0 : nRate),
@@ -543,7 +603,13 @@ function AddGRNReceived() {
                                         nFreight: parseInt(nFreight == '' ? 0 : nFreight),
                                         nNetTotalAmt: parseInt(nNetTotalAmt == '' ? 0 : nNetTotalAmt)
                                     })
-                                    console.log('koMonth', poMasteerDetail)
+                                    let count = Object.keys(poMasteerDetail).length
+                                    let data = 0
+                                    for (var i = 0; i < count; i++) {
+                                        data = data + poMasteerDetail[i].nNetTotalAmt
+                                    }
+                                    setAllTotalAmount(data)
+                                    console.log('koMonth', data)
                                     setPODetails(poMasteerDetail)
                                     setnMId('')
                                     setMaterialDetail('')
@@ -567,6 +633,7 @@ function AddGRNReceived() {
                                     setvBusiness('')
                                     setnGrandTotal('')
                                     setnNetTotalAmt('')
+                                    setBalanceQuantity('')
 
                                 }
                             }
@@ -579,7 +646,7 @@ function AddGRNReceived() {
                     }
                 ]
             });
-           
+
 
         }
     }
@@ -594,7 +661,7 @@ function AddGRNReceived() {
                 endDate: 'Select Invoce Date *'
             })
             return false
-        }  else if (nPOId == '' ) {
+        } else if (nPOId == '') {
             setError({
                 plant: 'Select PO No. *'
             })
@@ -645,14 +712,14 @@ function AddGRNReceived() {
                                         setLoader(false)
                                         toast.success("Record Updated Successfully !!")
                                         navigate('/GRNReceived')
-                    
+
                                     }
                                 })
-                    
+
                             } else {
                                 confirmAlert({
                                     title: 'Alert !!',
-                                    message: 'Please Add at least one Item.',
+                                    message: 'Please Add at least one Material.',
                                     buttons: [
                                         {
                                             label: 'Ok',
@@ -661,7 +728,7 @@ function AddGRNReceived() {
                                     ]
                                 });
                             }
-                
+
                         }
 
                     }
@@ -672,12 +739,12 @@ function AddGRNReceived() {
                 }
             ]
         });
-        
+
     }
     const deleteItem = (ids) => {
         confirmAlert({
             title: 'Alert !!',
-            message: 'Do you want to delete',
+            message: 'Do you want to delete ?',
             buttons: [
                 {
                     label: 'Yes',
@@ -706,6 +773,7 @@ function AddGRNReceived() {
         setnMId(item.nMId)
         setMaterialDetail(item.MaterialDetail)
         setnQty(parseInt(item.nQty))
+        setBalanceQuantity(parseInt(item.BalanceQuantity))
         setnRate(item.nRate)
         setnAmt(item.nTotalAmount)
         setnSGSTP(item.nSGSTP)
@@ -725,14 +793,14 @@ function AddGRNReceived() {
         setvBusiness(item.nMId)
         setnNetTotalAmt(item.nNetTotalAmt)
     }
-    const goback=()=>{
+    const goback = () => {
         confirmAlert({
             title: 'Alert !!',
-            message: 'Are you Sure.?',
+            message: 'Are you Sure ?',
             buttons: [
                 {
                     label: 'Yes',
-                    onClick: () => { navigate('/GRNReceived')},
+                    onClick: () => { navigate('/GRNReceived') },
                 },
                 {
                     label: 'No',
@@ -740,7 +808,7 @@ function AddGRNReceived() {
                 }
             ]
         });
-        
+
     }
     return (
         <div className='citymasterContainer'>
@@ -761,7 +829,7 @@ function AddGRNReceived() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '11%' }} >
+                    <Box sx={{ width: '9%' }} >
                         <FormControl fullWidth className='input' >
                             <LocalizationProvider dateAdapter={AdapterDayjs} >
                                 <Stack spacing={3} >
@@ -779,7 +847,7 @@ function AddGRNReceived() {
                             {errorText.date != '' ? <p className='error'>{errorText.date}</p> : null}
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '11%' }} >
+                    <Box sx={{ width: '9%' }} >
                         <FormControl fullWidth className='input' >
                             <LocalizationProvider dateAdapter={AdapterDayjs} >
                                 <Stack spacing={3} >
@@ -812,7 +880,7 @@ function AddGRNReceived() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '8%' }} >
+                    <Box sx={{ width: '20%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
                                 value={vTransportName}
@@ -827,7 +895,7 @@ function AddGRNReceived() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '18%', marginTop: 2 }} >
+                    <Box sx={{ width: '39%', marginTop: 2 }} >
                         <FormControl fullWidth className='input'>
                             {/* <InputLabel required id="demo-simple-select-label">Plant</InputLabel>npm  */}
                             <Autocomplete
@@ -849,7 +917,7 @@ function AddGRNReceived() {
                             {errorText.plant != '' ? <p className='error'>{errorText.plant}</p> : null}
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '11%' }} >
+                    <Box sx={{ width: '7%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
                                 value={vLorryRecNo}
@@ -865,7 +933,7 @@ function AddGRNReceived() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '11%' }} >
+                    <Box sx={{ width: '7%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
                                 value={vEWayBillNo}
@@ -881,7 +949,7 @@ function AddGRNReceived() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '11%' }} >
+                    <Box sx={{ width: '7%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
                                 value={vBatchNo}
@@ -896,8 +964,8 @@ function AddGRNReceived() {
                             />
                         </FormControl>
                     </Box>
-                    
-                    <Box sx={{ width: '11%' }} >
+
+                    <Box sx={{ width: '9%' }} >
                         <FormControl fullWidth className='input' >
                             <LocalizationProvider dateAdapter={AdapterDayjs} >
                                 <Stack spacing={3} >
@@ -943,7 +1011,7 @@ function AddGRNReceived() {
                             </Select>
                         </FormControl>
                     </Box> */}
-                    <Box sx={{ width: '18%' }} >
+                    <Box sx={{ width: '9%' }} >
                         <FormControl fullWidth className='input'>
                             <TextField
                                 value={vCourierToCCIPL}
@@ -958,7 +1026,7 @@ function AddGRNReceived() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '16%' }} >
+                    <Box sx={{ width: '9%' }} >
                         <FormControl fullWidth className='input'>
                             <TextField
                                 value={vCourierDocketNo}
@@ -973,7 +1041,7 @@ function AddGRNReceived() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '10%' }} >
+                    <Box sx={{ width: '9%' }} >
                         <FormControl fullWidth className='input' >
                             <LocalizationProvider dateAdapter={AdapterDayjs} >
                                 <Stack spacing={3} >
@@ -1011,7 +1079,7 @@ function AddGRNReceived() {
                             {errorText.vendor != '' ? <p  className='error'>{errorText.vendor}</p> : null}
                         </FormControl>
                     </Box> */}
-                    <Box sx={{ width: '26%',marginTop:1  }} >
+                    <Box sx={{ width: '38%', marginTop: 1 }} >
                         <FormControl fullWidth className='input'>
                             <TextField
                                 value={vRemarks}
@@ -1026,29 +1094,29 @@ function AddGRNReceived() {
                             />
                         </FormControl>
                     </Box>
-                    <div style={{display: 'flex',width: '100%',alignItems:'flex-end',gap:18}}>
-                    
-                    <Box sx={{ width: '13%' }} >
-                        <div >
-                            <InputLabel id="demo-simple-select-label" style={{ marginTop: 5, marginBottom: 5 }}>GRN Copy </InputLabel>
-                            <input type="file" name='vPOFilePath' onChange={imageFile} hidden ref={imageRef} />
-                            <div style={{ flexDirection: 'row' }}>
-                                <button onClick={() => imageRef.current.click()} className='choosebtn'>Choose File</button>
-                                {imgpreview != false ?
-                                    <a href={preview} target="_blank" rel="noopener noreferrer" style={{ marginLeft: 10 }}>GRN Copy</a>
-                                    : null
-                                }
+                    <div style={{ display: 'flex', width: '100%', alignItems: 'flex-end', gap: 18 }}>
 
+                        <Box sx={{ width: '10%' }} >
+                            <div >
+                                <InputLabel id="demo-simple-select-label" style={{ marginTop: 5, marginBottom: 5 }}>Attach GRN</InputLabel>
+                                <input type="file" name='vPOFilePath' onChange={imageFile} hidden ref={imageRef} />
+                                <div style={{ flexDirection: 'row' }}>
+                                    <button onClick={() => imageRef.current.click()} className='choosebtn'>Choose File</button>
+                                    {imgpreview != false ?
+                                        <a href={preview} target="_blank" rel="noopener noreferrer" style={{ marginLeft: 10, fontSize: 13 }}>GRN Copy</a>
+                                        : null
+                                    }
+
+                                </div>
                             </div>
-                        </div>
 
-                    </Box>
-                    <FormGroup >
-                        <FormControlLabel control={<Checkbox defaultChecked={btCOAReceived} value={btCOAReceived} onChange={e => setbtCOAReceived(e.target.checked)} />} label="COA Received" />
-                    </FormGroup>
-                    <FormGroup >
-                        <FormControlLabel control={<Checkbox defaultChecked={btActive} value={btActive} onChange={e => setBtActive(e.target.checked)} />} label="Active" disabled={disabled} />
-                    </FormGroup>
+                        </Box>
+                        <FormGroup >
+                            <FormControlLabel control={<Checkbox defaultChecked={btCOAReceived} value={btCOAReceived} onChange={e => setbtCOAReceived(e.target.checked)} />} label="COA Received" />
+                        </FormGroup>
+                        <FormGroup >
+                            <FormControlLabel control={<Checkbox defaultChecked={btActive} value={btActive} onChange={e => setBtActive(e.target.checked)} />} label="Active" disabled={disabled} />
+                        </FormGroup>
                     </div>
                 </div>
             </div>
@@ -1106,7 +1174,7 @@ function AddGRNReceived() {
                             null
 
                         } */}
-                    <Box sx={{ width: '12%' }} >
+                    <Box sx={{ width: '7%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
                                 value={nQty}
@@ -1123,11 +1191,29 @@ function AddGRNReceived() {
                             {errorText.Quan != '' ? <p className='error'>{errorText.Quan}</p> : null}
                         </FormControl>
                     </Box>
+                    <Box sx={{ width: '7%' }} >
+                        <FormControl fullWidth className='input' >
+                            <TextField
+                                value={BalanceQuantity}
+                                // onChange={e => calculateAmount(e.target.value,'nQty')}
+                                id="outlined-basic"
+                                label="Balance Qty"
+                                variant="outlined"
+                                name='BalanceQuantity'
+                                type="number" inputProps={{ min: 4, max: 10 }}
+                                disabled={true}
+                            // inputRef={register({ required: "Quantity is required.*", })}
+                            // error={Boolean(errors.Quantity)}
+                            // helperText={errors.Quantity?.message}
+                            />
+                            {errorText.Quan != '' ? <p className='error'>{errorText.Quan}</p> : null}
+                        </FormControl>
+                    </Box>
                     <Box sx={{ width: '12%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
                                 value={nQtyAccepted}
-                                onChange={e => calculateAmount(e.target.value,'nQtyAccepted')}
+                                onChange={e => calculateAmount(e.target.value, 'nQtyAccepted')}
                                 required id="outlined-basic"
                                 label="Quantity Accepted"
                                 variant="outlined"
@@ -1140,11 +1226,11 @@ function AddGRNReceived() {
                             {errorText.QuanAccept != '' ? <p className='error'>{errorText.QuanAccept}</p> : null}
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '11.2%' }} >
+                    <Box sx={{ width: '12%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
                                 value={nQtyRejected}
-                                onChange={e =>calculateAmount(e.target.value,'nQtyRejected')}
+                                onChange={e => calculateAmount(e.target.value, 'nQtyRejected')}
                                 required id="outlined-basic"
                                 label="Quantity Rejected"
                                 variant="outlined"
@@ -1157,7 +1243,7 @@ function AddGRNReceived() {
                             {errorText.QuanReject != '' ? <p className='error'>{errorText.QuanReject}</p> : null}
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '12%' }} >
+                    <Box sx={{ width: '7%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
                                 value={nRate}
@@ -1174,7 +1260,7 @@ function AddGRNReceived() {
                             {errorText.amount != '' ? <p className='error'>{errorText.amount}</p> : null}
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '11%' }} >
+                    <Box sx={{ width: '11.5%' }} >
                         <FormControl fullWidth className='input' >
                             <LocalizationProvider dateAdapter={AdapterDayjs} >
                                 <Stack spacing={3} >
@@ -1192,7 +1278,7 @@ function AddGRNReceived() {
                             {errorText.date != '' ? <p className='error'>{errorText.date}</p> : null}
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '11%' }} >
+                    <Box sx={{ width: '11.5%' }} >
                         <FormControl fullWidth className='input' >
                             <LocalizationProvider dateAdapter={AdapterDayjs} >
                                 <Stack spacing={3} >
@@ -1212,7 +1298,7 @@ function AddGRNReceived() {
                     </Box>
 
 
-                    <Box sx={{ width: '12%' }} >
+                    <Box sx={{ width: '8%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
                                 value={nAmt}
@@ -1229,7 +1315,7 @@ function AddGRNReceived() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '12%' }} >
+                    <Box sx={{ width: '6%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
                                 value={nSGSTP}
@@ -1245,7 +1331,7 @@ function AddGRNReceived() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '12%' }} >
+                    <Box sx={{ width: '5%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
                                 value={nSGST}
@@ -1262,7 +1348,7 @@ function AddGRNReceived() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '12%' }} >
+                    <Box sx={{ width: '6%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
                                 value={nCGSTP}
@@ -1278,7 +1364,7 @@ function AddGRNReceived() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '11%' }} >
+                    <Box sx={{ width: '5%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
                                 value={nCGST}
@@ -1295,7 +1381,7 @@ function AddGRNReceived() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '12%' }} >
+                    <Box sx={{ width: '6%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
                                 value={nIGSTP}
@@ -1311,7 +1397,7 @@ function AddGRNReceived() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '11%' }} >
+                    <Box sx={{ width: '5%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
                                 value={nIGST}
@@ -1328,7 +1414,7 @@ function AddGRNReceived() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '11%' }} >
+                    <Box sx={{ width: '7%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
                                 value={nTax}
@@ -1345,7 +1431,7 @@ function AddGRNReceived() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '12%' }} >
+                    <Box sx={{ width: '8%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
                                 value={nGrandTotal}
@@ -1362,7 +1448,7 @@ function AddGRNReceived() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '12%' }} >
+                    <Box sx={{ width: '5%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
                                 value={nFreight}
@@ -1377,10 +1463,10 @@ function AddGRNReceived() {
                             // error={Boolean(errors.brandName5)}
                             // helperText={errors.brandName5?.message}
                             />
-                             {/* {errorText.Freight != '' ? <p className='error'>{errorText.Freight}</p> : null} */}
+                            {/* {errorText.Freight != '' ? <p className='error'>{errorText.Freight}</p> : null} */}
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '12%' }} >
+                    <Box sx={{ width: '9%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
                                 value={nNetTotalAmt}
@@ -1411,9 +1497,11 @@ function AddGRNReceived() {
                                             <TableCell scope="row">SN.</TableCell>
                                             <TableCell align="center">Action</TableCell>
                                             <TableCell align="left">Material Name</TableCell>
-                                            <TableCell align="left">Quantity</TableCell>
+                                            <TableCell align="left">PO Qty</TableCell>
+                                            <TableCell align="left">Balance QTY</TableCell>
                                             <TableCell align="left">Qty Accepted</TableCell>
                                             <TableCell align="left">Qty Rejected</TableCell>
+                                            <TableCell align="left">Total Qty</TableCell>
                                             <TableCell align="left">Rate</TableCell>
                                             <TableCell align="left">Mfg Date</TableCell>
                                             <TableCell align="left">Exp Date</TableCell>
@@ -1430,47 +1518,67 @@ function AddGRNReceived() {
                                             <TableCell align="left">Net Total Amt</TableCell>
                                         </TableRow>
                                     </TableHead>
-                                    <TableBody>
+                                    {PODetails?.length > 0 ?
 
-                                        {PODetails.map((item, index) => {
-                                            return (
-                                                <TableRow key={index}>
-                                                    <TableCell component="th" scope="row">{index + 1}.</TableCell>
-                                                    <TableCell align="center">
-                                                        <div style={{ display: 'flex', }}>
-                                                            <button className='deletbtn' title='Delete' onClick={() => deleteItem(item.id)}><DeleteIcon size={20} color='red' /></button>
-                                                            <button className='deletbtn' title='Edit' onClick={() => editItem(item)}><BorderColorIcon size={20} color='#000' /></button>
+                                        <TableBody>
 
-                                                        </div>
+                                            {PODetails.map((item, index) => {
+                                                return (
+                                                    <TableRow key={index}>
+                                                        <TableCell component="th" scope="row">{index + 1}.</TableCell>
+                                                        <TableCell align="center">
+                                                            <div style={{ display: 'flex', }}>
+                                                                <button className='deletbtn' title='Delete' onClick={() => deleteItem(item.id)}><DeleteIcon size={20} color='red' /></button>
+                                                                <button className='deletbtn' title='Edit' onClick={() => editItem(item)}><BorderColorIcon size={20} color='#000' /></button>
 
-                                                    </TableCell>
-                                                    <TableCell align="left">{item.MaterialDetail}</TableCell>
-                                                    <TableCell align="left">{item.nQty}</TableCell>
-                                                    <TableCell align="left">{item.nQtyAccepted}</TableCell>
-                                                    <TableCell align="left">{item.nQtyRejected}</TableCell>
-                                                    <TableCell align="left">{item.nRate}</TableCell>
-                                                    <TableCell align="left">{item.dtMfgDate}</TableCell>
-                                                    <TableCell align="left">{item.dtExpDate}</TableCell>
-                                                    <TableCell align="left">{item.nTotalAmount}</TableCell>
-                                                    <TableCell align="left">{item.nSGSTP}</TableCell>
-                                                    <TableCell align="left">{item.nSGST}</TableCell>
-                                                    <TableCell align="left">{item.nCGSTP}</TableCell>
-                                                    <TableCell align="left">{item.nCGST}</TableCell>
-                                                    <TableCell align="left">{item.nIGSTP}</TableCell>
-                                                    <TableCell align="left">{item.nIGST}</TableCell>
-                                                    <TableCell align="left">{item.nTax}</TableCell>
-                                                    <TableCell align="left">{item.nGrandTotal}</TableCell>
-                                                    <TableCell align="left">{item.nFreight}</TableCell>
-                                                    <TableCell align="left">{item.nNetTotalAmt}</TableCell>
+                                                            </div>
 
-
+                                                        </TableCell>
+                                                        <TableCell align="left">{item.MaterialDetail}</TableCell>
+                                                        <TableCell align="left">{item.nQty}</TableCell>
+                                                        <TableCell align="left">{item.BalanceQuantity}</TableCell>
+                                                        <TableCell align="left">{item.nQtyAccepted}</TableCell>
+                                                        <TableCell align="left">{item.nQtyRejected}</TableCell>
+                                                        <TableCell align="left">{item.nQtyAccepted + item.nQtyRejected}</TableCell>
+                                                        <TableCell align="left">{item.nRate}</TableCell>
+                                                        <TableCell align="left">{item.dtMfgDate}</TableCell>
+                                                        <TableCell align="left">{item.dtExpDate}</TableCell>
+                                                        <TableCell align="left">{item.nTotalAmount}</TableCell>
+                                                        <TableCell align="left">{item.nSGSTP}</TableCell>
+                                                        <TableCell align="left">{item.nSGST}</TableCell>
+                                                        <TableCell align="left">{item.nCGSTP}</TableCell>
+                                                        <TableCell align="left">{item.nCGST}</TableCell>
+                                                        <TableCell align="left">{item.nIGSTP}</TableCell>
+                                                        <TableCell align="left">{item.nIGST}</TableCell>
+                                                        <TableCell align="left">{item.nTax}</TableCell>
+                                                        <TableCell align="left">{item.nGrandTotal}</TableCell>
+                                                        <TableCell align="left">{item.nFreight}</TableCell>
+                                                        <TableCell align="left">{item.nNetTotalAmt}</TableCell>
+                                                    </TableRow>
+                                                )
+                                            })
+                                            }
+                                            <TableRow>
+                                                <TableCell />
+                                            </TableRow>
+                                            {/* <Table stickyHeader aria-label="simple table">
+                                                <TableRow>
+                                                    <TableCell>Dessert (100g serving)</TableCell>
+                                                    <TableCell align="right">Calories</TableCell>
+                                                    <TableCell align="right">Fat&nbsp;(g)</TableCell>
+                                                    <TableCell align="right">Carbs&nbsp;(g)</TableCell>
+                                                    <TableCell align="right">Protein&nbsp;(g)</TableCell>
                                                 </TableRow>
-                                            )
-                                        })
-                                        }
+                                            </Table> */}
+                                        </TableBody>
+                                        :
 
-
-                                    </TableBody>
+                                        <TableBody>
+                                            <TableRow>
+                                                <TableCell align="left">No Record</TableCell>
+                                            </TableRow>
+                                        </TableBody>
+                                    }
                                 </Table>
                             </TableContainer>
                             <TablePagination
@@ -1494,7 +1602,7 @@ function AddGRNReceived() {
 
             <div className='displayflexendmodal'>
 
-            <button type="submit" className='submitbtn' style={{marginRight:10}} onClick={()=>navigate('/GRNReceived')}><HomeIcon size={18}/> Home</button>
+                <button type="submit" className='submitbtn' style={{ marginRight: 10 }} onClick={goback}><HomeIcon size={18} /> Home</button>
                 {loader == true ?
                     <CButton disabled className='submitbtn'>
                         <CSpinner component="span" size="sm" aria-hidden="true" />

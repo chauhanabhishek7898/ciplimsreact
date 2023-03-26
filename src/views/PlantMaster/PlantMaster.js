@@ -25,7 +25,7 @@ import { useForm } from 'react-hook-form';
 
 import SearchBar from "material-ui-search-bar";
 import ExportExcel from 'src/shareFunction/Excelexport';
-
+import CircularProgress from '@mui/joy/CircularProgress';
 function PlantMaster() {
     {/* <TableCell scope="row">SN.</TableCell>
                                     <TableCell align="left">Plant Code</TableCell>
@@ -52,6 +52,7 @@ function PlantMaster() {
     const [disabled, setdisabled] = React.useState(true);
     const { register, handleSubmit, control, errors } = useForm();
     const [loader, setLoader] = React.useState(false);
+    const [loader2, setLoader2] = React.useState(false);
     const [btActive, setbtActive] = React.useState(true);
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
@@ -130,15 +131,18 @@ function PlantMaster() {
         getPlantMaster_SelectAll()
     }, [])
     const getPlantMaster_SelectAll = () => {
+        setLoader2(true)
         PlantMaster_SelectAll().then(response => {
             console.log('onlyActive', onlyActive)
             if (checkedData == true) {
                 let activeData = response.filter(e => e.btActive == true)
                 setPlantData(activeData)
                 setMasterBrandData(activeData)
+                setLoader2(false)
             } else {
                 setPlantData(response)
                 setMasterBrandData(response)
+                setLoader2(false)
 
             }
         })
@@ -175,6 +179,16 @@ function PlantMaster() {
     // }
     return (
         <div className='citymasterContainer'>
+              {loader2==true?
+            <div className='progressBox'>
+                <div className='progressInner'>
+                    <CircularProgress />
+                </div>
+            </div>
+            :
+            null
+
+            }
             <button className='addbtn_2' onClick={() => openmodale(null, 'Submit')} title='Add' ><AddIcon fontSize='large' /></button>
             <Modal
                 isOpen={modalIsOpen}

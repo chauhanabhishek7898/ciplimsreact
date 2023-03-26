@@ -12,7 +12,7 @@ import MenuItem from '@mui/material/MenuItem';
 import Paper from '@mui/material/Paper';
 import { BrandMaster_SelectAll, BrandMasterPost, BrandMasterPut } from '../BrandMaster/BrandMasterService'
 import { UnitMaster_SelectAll } from '../PackMaster/PackMasterService'
-import { GetPODetails } from './POMasterService'
+import { GetBOMDetails } from './BomMasteerService'
 
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
@@ -40,7 +40,7 @@ import { useNavigate, Link } from "react-router-dom";
 import * as environment from '../../coreservices/environment'
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import CircularProgress from '@mui/joy/CircularProgress';
-function PurchaseOrder() {
+function BomMasterList() {
     let imageUrl=environment.imageUrl
     const navigate = useNavigate();
     const [modalIsOpen, setIsOpen] = React.useState(false);
@@ -102,7 +102,7 @@ function PurchaseOrder() {
         }else{
             vGenrics=vGenric
         }
-        GetPODetails(parseDateToStringSubmit(new Date(fromDate)),parseDateToStringSubmit(new Date(toDate)),vGenrics).then(response => {
+        GetBOMDetails(vGenrics).then(response => {
             console.log(response)
             setBrandData(response)
             setLoader(false)
@@ -142,9 +142,9 @@ function PurchaseOrder() {
         })
     }
 
-   const handleDetail = (nPOId) => {
+   const handleDetail = (nBId) => {
      
-        navigate('/EditPurchaseOrder', { state: { nPOId } });
+        navigate('/EditBomMaster', { state: { nBId } });
       }
 
     return (
@@ -160,14 +160,14 @@ function PurchaseOrder() {
             null
 
             }
-            <Link to="/AddPurchaseOrder" className='addbtn_2'><AddIcon fontSize='large' /></Link>
+            <Link to="/AddBomMaster" className='addbtn_2'><AddIcon fontSize='large' /></Link>
 
             <div className='tablecenter'>
                
                 <Paper sx={{ width: '100%', overflow: 'hidden' }}>
                     <div className='displayflexend-2'>
                 <Box sx={{ width: '28%' }} >
-                    <LocalizationProvider dateAdapter={AdapterDayjs} >
+                    {/* <LocalizationProvider dateAdapter={AdapterDayjs} >
                         <Stack spacing={3} >
                             <DesktopDatePicker
                                 label={'Start Date *'}
@@ -178,10 +178,10 @@ function PurchaseOrder() {
                                 
                             />
                         </Stack>
-                    </LocalizationProvider>
+                    </LocalizationProvider> */}
                 </Box>
                 <Box sx={{ width: '28%' }} >
-                    <LocalizationProvider dateAdapter={AdapterDayjs} >
+                    {/* <LocalizationProvider dateAdapter={AdapterDayjs} >
                         <Stack spacing={3}>
                             <DesktopDatePicker
                                 label="End Date *"
@@ -192,7 +192,7 @@ function PurchaseOrder() {
                                
                             />
                         </Stack>
-                    </LocalizationProvider>
+                    </LocalizationProvider> */}
                 </Box>
 
                 <Box sx={{ width: '28%' }} >
@@ -223,17 +223,13 @@ function PurchaseOrder() {
                                     <TableCell scope="row">SN.</TableCell>
                                     <TableCell align="center">Edit</TableCell>
                                     <TableCell align="left">Status</TableCell>
-                                    <TableCell align="left">PO No</TableCell>
-                                    <TableCell align="left">PO Dated</TableCell>
-                                    <TableCell align="left">PO Description</TableCell>
-                                    <TableCell align="left">Plant Detail</TableCell>
-                                    <TableCell align="left">Cost Centre</TableCell>
-                                    <TableCell align="left">Profit Centre</TableCell>
-                                    <TableCell align="left">GL Code</TableCell>
-                                    <TableCell align="left">Business</TableCell>
-                                    <TableCell align="left">Vendor Detail</TableCell>
+                                    <TableCell align="left">BOM No</TableCell>
+                                    <TableCell align="left">Brand</TableCell>
+                                    <TableCell align="left">Pack</TableCell>
+                                    <TableCell align="left">BOM Name</TableCell>
+                                    <TableCell align="left">Unit</TableCell>
                                     <TableCell align="left">Remarks</TableCell>
-                                    <TableCell align="left">PO Copy</TableCell>
+                                    <TableCell align="left">BOM Copy</TableCell>
                                     
                                 </TableRow>
                             </TableHead>
@@ -242,19 +238,15 @@ function PurchaseOrder() {
                                     return (
                                         <TableRow key={index}>
                                             <TableCell component="th" scope="row">{index + 1}.</TableCell>
-                                            <TableCell align="center"><button className='deletbtn' title='Edit' onClick={() =>handleDetail(item.nPOId) }><BorderColorIcon size={20} color='#000' /></button></TableCell>
+                                            <TableCell align="center"><button className='deletbtn' title='Edit' onClick={() =>handleDetail(item.nBId) }><BorderColorIcon size={20} color='#000' /></button></TableCell>
                                             <TableCell align="left">{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
-                                            <TableCell align="left">{item.vPONo}</TableCell>
-                                            <TableCell align="left">{item.PODated}</TableCell>
-                                            <TableCell align="left">{item.vPODesc}</TableCell>
-                                            <TableCell align="left">{item.PlantDetail}</TableCell>
-                                            <TableCell align="left">{item.vCostCentre}</TableCell>
-                                            <TableCell align="left">{item.vProfitCentre}</TableCell>
-                                            <TableCell align="left">{item.vGLCode}</TableCell>
-                                            <TableCell align="left">{item.vBusiness}</TableCell>
-                                            <TableCell align="left">{item.VendorDetail}</TableCell>
+                                            <TableCell align="left">{item.vBOMNo}</TableCell>
+                                            <TableCell align="left">{item.vBrand}</TableCell>
+                                            <TableCell align="left">{item.vPack}</TableCell>
+                                            <TableCell align="left">{item.vBOMName}</TableCell>
+                                            <TableCell align="left">{item.vUnit}</TableCell>
                                             <TableCell align="left">{item.vRemarks}</TableCell>
-                                            <TableCell align="left"> <a href={imageUrl+'/'+item.vPOFilePath} target="_blank" rel="noopener noreferrer" style={{ marginLeft: 10 }}>{item.vPOFilePath!=null&&item.vPOFilePath!=''?'PO Copy':null}</a> </TableCell>
+                                            <TableCell align="left"> <a href={imageUrl+'/'+item.vBOMCopyFilePath} target="_blank" rel="noopener noreferrer" style={{ marginLeft: 10 }}>{item.vBOMCopyFilePath!=null&&item.vBOMCopyFilePath!=''?'BOM Copy':null}</a> </TableCell>
  
                                         </TableRow>
                                     )
@@ -290,4 +282,4 @@ const customStyles = {
         width: '80%',
     },
 };
-export default PurchaseOrder
+export default BomMasterList

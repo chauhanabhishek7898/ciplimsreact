@@ -12,7 +12,7 @@ import MenuItem from '@mui/material/MenuItem';
 import Paper from '@mui/material/Paper';
 import { BrandMaster_SelectAll, BrandMasterPost, BrandMasterPut } from '../BrandMaster/BrandMasterService'
 import { UnitMaster_SelectAll } from '../PackMaster/PackMasterService'
-import { GetGRNDetails } from './GRNReceivedService'
+import { GetGRNDetails,GetOpeningDetails } from './EnterOpeningStockService'
 
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
@@ -40,7 +40,7 @@ import { useNavigate, Link } from "react-router-dom";
 import * as environment from '../../coreservices/environment'
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import CircularProgress from '@mui/joy/CircularProgress';
-function GRNReceivedList() {
+function EnterOpeningStockList() {
     let imageUrl = environment.imageUrl
     const navigate = useNavigate();
     const [modalIsOpen, setIsOpen] = React.useState(false);
@@ -102,7 +102,7 @@ function GRNReceivedList() {
         } else {
             vGenrics = vGenric
         }
-        GetGRNDetails(parseDateToStringSubmit(new Date(fromDate)), parseDateToStringSubmit(new Date(toDate)), vGenrics).then(response => {
+        GetOpeningDetails(vGenrics).then(response => {
             console.log(response)
             setBrandData(response)
             setLoader(false)
@@ -143,8 +143,7 @@ function GRNReceivedList() {
     }
 
     const handleDetail = (nGRNId) => {
-
-        navigate('/EditGRNReceived', { state: { nGRNId } });
+        navigate('/EditEnterOpeningStock', { state: { nGRNId } });
     }
 
     return (
@@ -160,14 +159,14 @@ function GRNReceivedList() {
             null
 
             }
-            <Link to="/AddGRNReceived" className='addbtn_2'><AddIcon fontSize='large' /></Link>
+            <Link to="/AddEnterOpeningStock" className='addbtn_2'><AddIcon fontSize='large' /></Link>
 
             <div className='tablecenter'>
 
                 <Paper sx={{ width: '100%', overflow: 'hidden' }}>
                     <div className='displayflexend-2'>
                         <Box sx={{ width: '28%' }} >
-                            <LocalizationProvider dateAdapter={AdapterDayjs} >
+                            {/* <LocalizationProvider dateAdapter={AdapterDayjs} >
                                 <Stack spacing={3} >
                                     <DesktopDatePicker
                                         label={'Start Date *'}
@@ -179,10 +178,10 @@ function GRNReceivedList() {
 
                                     />
                                 </Stack>
-                            </LocalizationProvider>
+                            </LocalizationProvider> */}
                         </Box>
                         <Box sx={{ width: '28%' }} >
-                            <LocalizationProvider dateAdapter={AdapterDayjs} >
+                            {/* <LocalizationProvider dateAdapter={AdapterDayjs} >
                                 <Stack spacing={3}>
                                     <DesktopDatePicker
                                         label="End Date *"
@@ -194,7 +193,7 @@ function GRNReceivedList() {
 
                                     />
                                 </Stack>
-                            </LocalizationProvider>
+                            </LocalizationProvider> */}
                         </Box>
 
                         <Box sx={{ width: '28%' }} >
@@ -222,24 +221,12 @@ function GRNReceivedList() {
                         <Table stickyHeader aria-label="sticky table">
                             <TableHead>
                                 <TableRow>
-                                    <TableCell scope="row">SN.</TableCell>
+                                    <TableCell scope="row" style={{width:'2%'}}>SN.</TableCell>
                                     <TableCell align="center">Edit</TableCell>
                                     <TableCell align="left">Status</TableCell>
-                                    <TableCell align="left">Invoice No.</TableCell>
-                                    <TableCell align="left">GRN Date</TableCell>
-                                    <TableCell align="left">Inv Date</TableCell>
-                                    <TableCell align="left">Vehicle No.</TableCell>
-                                    <TableCell align="left">Transport Name</TableCell>
-                                    <TableCell align="left">PO No.</TableCell>
-                                    <TableCell align="left">Lorry Rec No.</TableCell>
-                                    <TableCell align="left">EWay Bill No.</TableCell>
-                                    <TableCell align="left">Batch No.</TableCell>
-                                    <TableCell align="left">Is COA Received</TableCell>
-                                    <TableCell align="left">GRN Copy</TableCell>
-                                    <TableCell align="left">Gate Entry Date</TableCell>
-                                    <TableCell align="left">Courier To CCIPL</TableCell>
-                                    <TableCell align="left">Courier Docket No</TableCell>
-                                    <TableCell align="left">Payment Receive Date</TableCell>
+                                    <TableCell align="left">Opening No.</TableCell>
+                                    <TableCell align="left">Plant Detail</TableCell>
+                                    <TableCell align="left">Dated</TableCell>
                                     <TableCell align="left">Remarks</TableCell>
 
                                 </TableRow>
@@ -252,21 +239,9 @@ function GRNReceivedList() {
                                                 <TableCell component="th" scope="row">{index + 1}.</TableCell>
                                                 <TableCell align="center"><button className='deletbtn' title='Edit' onClick={() => handleDetail(item.nGRNId)}><BorderColorIcon size={20} color='#000' /></button></TableCell>
                                                 <TableCell align="left">{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
-                                                <TableCell align="left">{item.vInvoiceNo}</TableCell>
-                                                <TableCell align="left">{item.GRNDate}</TableCell>
-                                                <TableCell align="left">{item.InvDate}</TableCell>
-                                                <TableCell align="left">{item.vVehicleNo}</TableCell>
-                                                <TableCell align="left">{item.vTransportName}</TableCell>
-                                                <TableCell align="left">{item.vPONo}</TableCell>
-                                                <TableCell align="left">{item.vLorryRecNo}</TableCell>
-                                                <TableCell align="left">{item.vEWayBillNo}</TableCell>
-                                                <TableCell align="left">{item.vBatchNo}</TableCell>
-                                                <TableCell align="left">{item.btCOAReceived === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
-                                                <TableCell align="left"> <a href={imageUrl + '/' + item.vGRNCopyFilePath} target="_blank" rel="noopener noreferrer" style={{ marginLeft: 10 }}>{item.vGRNCopyFilePath != null && item.vGRNCopyFilePath != '' ? 'GRN Copy' : null}</a> </TableCell>
-                                                <TableCell align="left">{parseDateToString(new Date(item.dtGateEntryDate))}</TableCell>
-                                                <TableCell align="left">{item.vCourierToCCIPL}</TableCell>
-                                                <TableCell align="left">{item.vCourierDocketNo}</TableCell>
-                                                <TableCell align="left">{parseDateToString(new Date(item.dtPaymentReceiveDate))}</TableCell>
+                                                <TableCell align="left">{item.OpeningNo}</TableCell>
+                                                <TableCell align="left">{item.PlantDetail}</TableCell>
+                                                <TableCell align="left">{item.Dated}</TableCell>
                                                 <TableCell align="left">{item.vRemarks}</TableCell>
 
                                             </TableRow>
@@ -312,4 +287,5 @@ const customStyles = {
     },
 };
 
-export default GRNReceivedList
+
+export default EnterOpeningStockList

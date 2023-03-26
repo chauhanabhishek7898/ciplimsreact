@@ -11,6 +11,12 @@ const GRNReceivedList = React.lazy(() => import('./views/GRNReceivedMaster/GRNRe
 const AddGRNReceived = React.lazy(() => import('./views/GRNReceivedMaster/AddGRNReceived'))
 const EditGRNReceived = React.lazy(() => import('./views/GRNReceivedMaster/EditGRNReceived'))
 const LineMaster = React.lazy(() => import('./views/LineMaster/LineMaster'))
+const BomMasterList = React.lazy(() => import('./views/BOMMaster/BomMasterList'))
+const AddBomMaster = React.lazy(() => import('./views/BOMMaster/AddBomMaster'))
+const EditBomMaster = React.lazy(() => import('./views/BOMMaster/EditBomMaster'))
+const EnterOpeningStock = React.lazy(() => import('./views/EnterOpeningStock/EnterOpeningStockList'))
+const AddEnterOpeningStock = React.lazy(() => import('./views/EnterOpeningStock/AddEnterOpeningStock'))
+const EditEnterOpeningStock = React.lazy(() => import('./views/EnterOpeningStock/EditEnterOpeningStock'))
 
 const VenderForm = React.lazy(() => import('./views/VenderForm/VenderForm'))
 const BrandMaster = React.lazy(() => import('./views/BrandMaster/BrandMaster'))
@@ -42,6 +48,12 @@ const routes = [
   { path: '/GRNReceived', name: 'GRN Received', element: GRNReceivedList, exact: true },
   { path: '/AddGRNReceived', name: 'Add GRN Received', element: AddGRNReceived, exact: true },
   { path: '/EditGRNReceived', name: 'Edit GRN Received', element: EditGRNReceived, exact: true },
+  { path: '/BOM', name: 'BOM', element: BomMasterList, exact: true },
+  { path: '/AddBomMaster', name: 'Add BOM', element: AddBomMaster, exact: true },
+  { path: '/EditBomMaster', name: 'Edit BOM', element: EditBomMaster, exact: true },
+  { path: '/EnterOpeningStock', name: 'Enter Opening Stock', element: EnterOpeningStock, exact: true },
+  { path: '/AddEnterOpeningStock', name: 'Add Enter Opening Stock', element: AddEnterOpeningStock, exact: true },
+  { path: '/EditEnterOpeningStock', name: 'Edit Enter Opening Stock', element: EditEnterOpeningStock, exact: true },
 ]
 
 export default routes

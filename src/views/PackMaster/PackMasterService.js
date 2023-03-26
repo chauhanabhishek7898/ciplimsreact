@@ -31,3 +31,10 @@ export function UnitMaster_SelectAll() {
         return response;
     })
 }
+export function PackMaster_SelectAll_ActiveLikeSearch(vGeneric) {
+    let apiUrl = environment.apiUrl;
+    let url = `${apiUrl}/PackMaster/PackMaster_SelectAll_ActiveLikeSearch/${vGeneric}`
+    return api.get(url).then(response => {
+        return response;
+    })
+}

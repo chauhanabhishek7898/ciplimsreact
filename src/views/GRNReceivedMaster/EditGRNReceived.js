@@ -16,7 +16,7 @@ import { MaterialMaster_SelectAll_ActiveLikeSearch } from '../MaterialMaster/Mat
 import { PlantMaster_SelectAll_ActiveLikeSearch } from '../PlantMaster/PlantMasterService'
 import { VendorMaster_SelectAll_ActiveLikeSearch, VendorMaster_SelectAll_Active } from '../VenderForm/VenderFormService'
 import { GetPODetails, GetPOByPOId } from '../PurchaseOrder/POMasterService'
-import { POMasterPut,GetGRNByGRNId } from './GRNReceivedService'
+import { POMasterPut,GetGRNByGRNId,GetPODetailsLIkeSearch } from './GRNReceivedService'
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import InputLabel from '@mui/material/InputLabel';
@@ -149,6 +149,7 @@ function EditGRNReceived() {
     const [vCourierToCCIPL, setvCourierToCCIPL] = useState('')
     const [vCourierDocketNo, setvCourierDocketNo] = useState('')
     const [nPoQtyAccepted, setnPoQtyAccepted] = useState('')
+    const [BalanceQuantity, setBalanceQuantity] = useState('')
     const [nQtyAccepted, setnQtyAccepted] = useState('')
     const [nQtyRejected, setnQtyRejected] = useState('')
     const [dtMfgDate, setdtMfgDate] = useState(dayjs(startDates))
@@ -171,6 +172,7 @@ function EditGRNReceived() {
         setMaterialDetail(item.MaterialDetail)
         setnQty(item.nQty)
         setnPoQtyAccepted(item.nQty)
+        setBalanceQuantity(item.BalanceQuantity)
         setnRate(item.nRate)
         setnAmt(item.nAmt)
         setnSGSTP(item.nSGSTP)
@@ -231,15 +233,26 @@ function EditGRNReceived() {
     }, [])
     const getGRNByGRNId = () => {
         GetGRNByGRNId(parseInt(nGRNId)).then(res => {
-            console.log('response', res)
-            setPODetails(res.GRNDetail)
+            // setPODetails(res.GRNDetail)
+            // // PODetails.map(v => v.id = new Date().getUTCMilliseconds());
+            
+            let count = Object.keys(res.GRNDetail).length
+            let data = res.GRNDetail
+            for(var i = 0; i < count; i++) {
+                let counts = i
+                res.GRNDetail[i].id=counts
+                res.GRNDetail[i].dtMfgDate=parseDateToStringSubmit(new Date(res.GRNDetail[i].dtMfgDate))
+                res.GRNDetail[i].dtExpDate=parseDateToStringSubmit(new Date(res.GRNDetail[i].dtExpDate))
+            }
+            // console.log('data',data)
+            setPODetails(data)
             setvInvoiceNo(res.GRNMaster[0].vInvoiceNo)
             setStartDate(res.GRNMaster[0].dtGRNDate)
             setEndDate(res.GRNMaster[0].dtInvDate)
             setvVehicleNo(res.GRNMaster[0].vVehicleNo)
             setvTransportName(res.GRNMaster[0].vTransportName)
             setnPOId(res.GRNMaster[0].nPOId)
-            setPlantDetail(res.GRNMaster[0].vPONo)
+            setPlantDetail(res.GRNMaster[0].PODetail)
             setvLorryRecNo(res.GRNMaster[0].vLorryRecNo)
             setvEWayBillNo(res.GRNMaster[0].vEWayBillNo)
             setvBatchNo(res.GRNMaster[0].vBatchNo)
@@ -264,7 +277,7 @@ function EditGRNReceived() {
     
     const plantMaster_SelectAll_ActiveLikeSearch = (vGeneric) => {
         if (vGeneric != '') {
-            vGeneric = vGeneric
+            vGeneric = vGeneric.target.value
         } else {
             vGeneric = null
         }
@@ -287,7 +300,7 @@ function EditGRNReceived() {
     }
     const getPODetails = (vGeneric) => {
         if (vGeneric != '') {
-            vGeneric = vGeneric
+            vGeneric = vGeneric.target.value
         } else {
             vGeneric = null
         }
@@ -306,7 +319,7 @@ function EditGRNReceived() {
     }
     const getPOByPOId = (nPOId) => {
         GetPOByPOId(nPOId).then(res => {
-            console.log('response', res)
+            // console.log('response', res)
             // let count = Object.keys(res.PODetail).length
             // let data = []
             // for (var i = 0; i < count; i++) {
@@ -390,6 +403,13 @@ function EditGRNReceived() {
             setnAmt(parseInt(FinalAmount))
             setnGrandTotal(parseInt(FinalAmount)+parseInt(nSGST)+ parseInt(nCGST)+ parseInt(nIGST))
             setnNetTotalAmt(parseInt(FinalAmount)+parseInt(nSGST)+ parseInt(nCGST)+ parseInt(nIGST)+parseInt(nFreight == '' ? 0 : nFreight))
+            if (amount > BalanceQuantity) {
+                console.log('1')
+                setTimeout(() => {
+                    checkbalanceQty('nQtyAccepted')
+                }, 2000)
+
+            }
         } 
         if (type == 'nQtyRejected') {
             setnQtyRejected(value)
@@ -398,6 +418,13 @@ function EditGRNReceived() {
             setnAmt(parseInt(FinalAmount))
             setnGrandTotal(parseInt(FinalAmount)+parseInt(nSGST)+ parseInt(nCGST)+ parseInt(nIGST))
             setnNetTotalAmt(parseInt(FinalAmount)+parseInt(nSGST)+ parseInt(nCGST)+ parseInt(nIGST)+parseInt(nFreight == '' ? 0 : nFreight))
+            if (amount > BalanceQuantity) {
+                console.log('1')
+                setTimeout(() => {
+                    checkbalanceQty('nQtyRejected')
+                }, 2000)
+
+            }
         }
         if (type == 'nRate') {
             setnRate(value)
@@ -437,6 +464,38 @@ function EditGRNReceived() {
             setnFreight(value)
             // let amount = value + nTotalAmt
             setnNetTotalAmt(parseInt(value == '' ? 0 : value) + parseInt(nGrandTotal))
+        }
+    }
+    const checkbalanceQty = (type) => {
+        if (type == 'nQtyAccepted') {
+            confirmAlert({
+                title: 'Alert !!',
+                message: 'Qty. Accepted + Qty. Rejected should not be greater than Bal. Qty.',
+                buttons: [
+                    {
+                        label: 'Ok',
+                        onClick: () => {
+                            setnQtyAccepted('')
+                        },
+                    },
+                ]
+            });
+
+        }
+        if (type == 'nQtyRejected') {
+            confirmAlert({
+                title: 'Alert !!',
+                message: 'Qty. Accepted + Qty. Rejected should not be greater than Bal. Qty.',
+                buttons: [
+                    {
+                        label: 'Ok',
+                        onClick: () => {
+                            setnQtyRejected('')
+                        },
+                    },
+                ]
+            });
+
         }
     }
     const validateformPoDetial = () => {
@@ -479,11 +538,12 @@ function EditGRNReceived() {
             let poMasteerDetail = [...PODetails]
 
             // setPODetails(complaintDetail)
-            poMasteerDetail[indexToUpdate].id = id,
+                poMasteerDetail[indexToUpdate].id = id,
                 poMasteerDetail[indexToUpdate].nGRNId = parseInt(nGRNId),
                 poMasteerDetail[indexToUpdate].nMId = parseInt(nMId),
                 poMasteerDetail[indexToUpdate].MaterialDetail = MaterialDetail,
-                poMasteerDetail[indexToUpdate].nQty = parseInt(nQty == '' ? 0 : nQty),
+                poMasteerDetail[indexToUpdate].POQty = parseInt(nQty == '' ? 0 : nQty),
+                poMasteerDetail[indexToUpdate].BalanceQuantity = parseInt(BalanceQuantity == '' ? 0 : BalanceQuantity),
                 poMasteerDetail[indexToUpdate].nQtyAccepted = parseInt(nQtyAccepted == '' ? 0 : nQtyAccepted),
                 poMasteerDetail[indexToUpdate].nQtyRejected = parseInt(nQtyRejected == '' ? 0 : nQtyRejected),
                 poMasteerDetail[indexToUpdate].nRate = parseInt(nRate == '' ? 0 : nRate),
@@ -528,19 +588,21 @@ function EditGRNReceived() {
             setvBusiness('')
             setnGrandTotal('')
             setnNetTotalAmt('')
+            setBalanceQuantity('')
         } else {
             if (validateformPoDetial() == true) {
                 let poMasteerDetail = [...PODetails]
                 let findnMId=poMasteerDetail.find(e=>e.nMId==nMId)
                 if(findnMId){
-                    toast.success("Item is already Added")
+                    toast.success("Material is already Added")
                 }else{
                     poMasteerDetail.push({
                         id: new Date().getUTCMilliseconds(),
                         nGRNId: parseInt(nGRNId),
                         nMId: parseInt(nMId),
                         MaterialDetail: MaterialDetail,
-                        nQty: parseInt(nQty == '' ? 0 : nQty),
+                        POQty: parseInt(nQty == '' ? 0 : nQty),
+                        BalanceQuantity: parseInt(BalanceQuantity == '' ? 0 : BalanceQuantity),
                         nQtyAccepted: parseInt(nQtyAccepted == '' ? 0 : nQtyAccepted),
                         nQtyRejected: parseInt(nQtyRejected == '' ? 0 : nQtyRejected),
                         nRate: parseInt(nRate == '' ? 0 : nRate),
@@ -584,6 +646,7 @@ function EditGRNReceived() {
                     setvBusiness('')
                     setnGrandTotal('')
                     setnNetTotalAmt('')
+                    setBalanceQuantity('')
 
                 }
 
@@ -614,57 +677,74 @@ function EditGRNReceived() {
 
     }
     const submit = () => {
-        if (validateform() == true) {
-            if (PODetails.length > 0) {
-                setLoader(true)
-                const POMasterData = [{
-                    nGRNId: nGRNId,
-                    vInvoiceNo: vInvoiceNo,
-                    dtGRNDate: parseDateToStringSubmit(new Date(startDate)),
-                    dtInvDate: parseDateToStringSubmit(new Date(endDate)),
-                    vVehicleNo: vVehicleNo,
-                    vTransportName: vTransportName,
-                    nPOId: nPOId,
-                    vLorryRecNo: vLorryRecNo,
-                    vEWayBillNo: vEWayBillNo,
-                    vBatchNo: vBatchNo,
-                    btCOAReceived: btCOAReceived,
-                    dtGateEntryDate: parseDateToStringSubmit(new Date(dtGateEntryDate)),
-                    vCourierToCCIPL: vCourierToCCIPL,
-                    vCourierDocketNo: vCourierDocketNo,
-                    dtPaymentReceiveDate: parseDateToStringSubmit(new Date(dtPaymentReceiveDate)),
-                    vRemarks: vRemarks,
-                    btActive: btActive,
-                    vGRNCopyFilePath: vGRNCopyFilePath,
-                    nLoggedInUserId: parseInt(nLoggedInUserId)
-                }]
-                let GRNOrder = {}
-                GRNOrder.GRNMaster = POMasterData,
-                    GRNOrder.GRNDetails = PODetails
-                console.log('PurchaseOrder', GRNOrder)
-                POMasterPut(GRNOrder, vPOFilePathFile).then(res => {
-                    if (res) {
-                        setLoader(false)
-                        toast.success("Record Updated Successfully !!")
-                        navigate('/GRNReceived')
-    
-                    }
-                })
-    
-            } else {
-                confirmAlert({
-                    title: 'Alert !!',
-                    message: 'Please Add at least one Item.',
-                    buttons: [
-                        {
-                            label: 'Ok',
-                            onClick: () => { return null },
-                        },
-                    ]
-                });
-            }
+        confirmAlert({
+            title: 'Alert !!',
+            message: 'Do you want Proceed ?',
+            buttons: [
+                {
+                    label: 'Yes',
+                    onClick: () => {
+                        if (validateform() == true) {
+                            if (PODetails.length > 0) {
+                                setLoader(true)
+                                const POMasterData = [{
+                                    nGRNId: nGRNId,
+                                    vInvoiceNo: vInvoiceNo,
+                                    dtGRNDate: parseDateToStringSubmit(new Date(startDate)),
+                                    dtInvDate: parseDateToStringSubmit(new Date(endDate)),
+                                    vVehicleNo: vVehicleNo,
+                                    vTransportName: vTransportName,
+                                    nPOId: nPOId,
+                                    vLorryRecNo: vLorryRecNo,
+                                    vEWayBillNo: vEWayBillNo,
+                                    vBatchNo: vBatchNo,
+                                    btCOAReceived: btCOAReceived,
+                                    dtGateEntryDate: parseDateToStringSubmit(new Date(dtGateEntryDate)),
+                                    vCourierToCCIPL: vCourierToCCIPL,
+                                    vCourierDocketNo: vCourierDocketNo,
+                                    dtPaymentReceiveDate: parseDateToStringSubmit(new Date(dtPaymentReceiveDate)),
+                                    vRemarks: vRemarks,
+                                    btActive: btActive,
+                                    vGRNCopyFilePath: vGRNCopyFilePath,
+                                    nLoggedInUserId: parseInt(nLoggedInUserId)
+                                }]
+                                let GRNOrder = {}
+                                GRNOrder.GRNMaster = POMasterData,
+                                GRNOrder.GRNDetails = PODetails
+                                console.log('PurchaseOrder', GRNOrder)
+                                POMasterPut(GRNOrder, vPOFilePathFile).then(res => {
+                                    if (res) {
+                                        setLoader(false)
+                                        toast.success("Record Updated Successfully !!")
+                                        navigate('/GRNReceived')
+                    
+                                    }
+                                })
+                    
+                            } else {
+                                confirmAlert({
+                                    title: 'Alert !!',
+                                    message: 'Please Add at least one Item.',
+                                    buttons: [
+                                        {
+                                            label: 'Ok',
+                                            onClick: () => { return null },
+                                        },
+                                    ]
+                                });
+                            }
+                
+                        }
 
-        }
+                    }
+                },
+                {
+                    label: 'No',
+                    onClick: () => { return null }
+                }
+            ]
+        });
+       
     }
     const deleteItem = (ids) => {
         confirmAlert({
@@ -694,10 +774,12 @@ function EditGRNReceived() {
     }
     const editItem = (item) => {
         setbtnType('edit')
+        console.log('item.id',item.id)
         setId(item.id)
         setnMId(item.nMId)
         setMaterialDetail(item.MaterialDetail)
-        setnQty(item.nQty)
+        setnQty(item.POQty)
+        setBalanceQuantity(parseInt(item.BalanceQuantity))
         setnRate(item.nRate)
         setnAmt(item.nTotalAmount)
         setnSGSTP(item.nSGSTP)
@@ -711,7 +793,7 @@ function EditGRNReceived() {
         setdtMfgDate(item.dtMfgDate)
         setdtExpDate(item.dtExpDate)
         setnFreight(item.nFreight)
-        setnPoQtyAccepted(item.nQty)
+        setnPoQtyAccepted(item.POQty)
         setnQtyAccepted(item.nQtyAccepted)
         setnQtyRejected(item.nQtyRejected)
         setnNetTotalAmt(item.nNetTotalAmt)
@@ -753,7 +835,7 @@ function EditGRNReceived() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '11%' }} >
+                    <Box sx={{ width: '9%' }} >
                         <FormControl fullWidth className='input' >
                             <LocalizationProvider dateAdapter={AdapterDayjs} >
                                 <Stack spacing={3} >
@@ -771,7 +853,7 @@ function EditGRNReceived() {
                             {errorText.date != '' ? <p className='error'>{errorText.date}</p> : null}
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '11%' }} >
+                    <Box sx={{ width: '9%' }} >
                         <FormControl fullWidth className='input' >
                             <LocalizationProvider dateAdapter={AdapterDayjs} >
                                 <Stack spacing={3} >
@@ -804,7 +886,7 @@ function EditGRNReceived() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '8%' }} >
+                    <Box sx={{ width: '20%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
                                 value={vTransportName}
@@ -819,7 +901,7 @@ function EditGRNReceived() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '18%', marginTop: 2 }} >
+                    <Box sx={{ width: '39%', marginTop: 2 }} >
                         <FormControl fullWidth className='input'>
                             {/* <InputLabel required id="demo-simple-select-label">Plant</InputLabel>npm  */}
                             <Autocomplete
@@ -827,20 +909,22 @@ function EditGRNReceived() {
                                 id="combo-box-demo"
                                 options={PlantMaster}
                                 value={PlantDetail}
+                                disabled={true}
                                 // changePlantValue(value)
                                 onChange={(event, value) => changePlantValue(value)}
                                 // inputValue={inputValue}
+                                isOptionEqualToValue={(option, value) => option.value === value.value}
                                 onKeyDown={newInputValue => getPODetails(newInputValue)}
                                 onInputChange={(event, newInputValue) => {
                                     // setInputValue(newInputValue);
                                     console.log('newInputValue', newInputValue)
                                 }}
-                                renderInput={(params) => <TextField {...params} label="PO No. " required />}
+                                renderInput={(params) => <TextField {...params} label="Search PO No. " required />}
                             />
                             {errorText.plant != '' ? <p className='error'>{errorText.plant}</p> : null}
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '11%' }} >
+                    <Box sx={{ width: '7%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
                                 value={vLorryRecNo}
@@ -856,7 +940,7 @@ function EditGRNReceived() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '11%' }} >
+                    <Box sx={{ width: '7%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
                                 value={vEWayBillNo}
@@ -872,7 +956,7 @@ function EditGRNReceived() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '11%' }} >
+                    <Box sx={{ width: '7%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
                                 value={vBatchNo}
@@ -888,7 +972,7 @@ function EditGRNReceived() {
                         </FormControl>
                     </Box>
                    
-                    <Box sx={{ width: '11%' }} >
+                    <Box sx={{ width: '9%' }} >
                         <FormControl fullWidth className='input' >
                             <LocalizationProvider dateAdapter={AdapterDayjs} >
                                 <Stack spacing={3} >
@@ -934,7 +1018,7 @@ function EditGRNReceived() {
                             </Select>
                         </FormControl>
                     </Box> */}
-                    <Box sx={{ width: '18%' }} >
+                    <Box sx={{ width: '9%' }} >
                         <FormControl fullWidth className='input'>
                             <TextField
                                 value={vCourierToCCIPL}
@@ -949,7 +1033,7 @@ function EditGRNReceived() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '16%' }} >
+                    <Box sx={{ width: '9%' }} >
                         <FormControl fullWidth className='input'>
                             <TextField
                                 value={vCourierDocketNo}
@@ -964,7 +1048,7 @@ function EditGRNReceived() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '10%' }} >
+                    <Box sx={{ width: '9%' }} >
                         <FormControl fullWidth className='input' >
                             <LocalizationProvider dateAdapter={AdapterDayjs} >
                                 <Stack spacing={3} >
@@ -1002,7 +1086,7 @@ function EditGRNReceived() {
                             {errorText.vendor != '' ? <p  className='error'>{errorText.vendor}</p> : null}
                         </FormControl>
                     </Box> */}
-                    <Box sx={{ width: '26%',marginTop:1 }} >
+                    <Box sx={{ width: '38%',marginTop:1 }} >
                         <FormControl fullWidth className='input'>
                             <TextField
                                 value={vRemarks}
@@ -1018,23 +1102,23 @@ function EditGRNReceived() {
                         </FormControl>
                     </Box>
                     <div style={{display: 'flex',width: '100%',alignItems:'flex-end',gap:18}}>
-                    <Box sx={{ width: '13%' }} >
+                    <Box sx={{ width: '10%' }} >
                         <div >
-                            <InputLabel id="demo-simple-select-label" style={{ marginTop: 5, marginBottom: 5 }}>GRN Copy </InputLabel>
+                            <InputLabel id="demo-simple-select-label" style={{ marginTop: 5, marginBottom: 5 }}>Attach GRN</InputLabel>
                             <input type="file" name='vPOFilePath' onChange={imageFile} hidden ref={imageRef} />
                             <div style={{ display:'flex' }}>
                                 <button onClick={() => imageRef.current.click()} className='choosebtn'>Choose File</button>
                                 {localImage == true ?
                                     <div style={{ flexDirection: 'row' }}>
                                         {imgpreview != false ?
-                                            <a href={preview} target="_blank" rel="noopener noreferrer" style={{ marginLeft: 10 }}>GRN Copy </a>
+                                            <a href={preview} target="_blank" rel="noopener noreferrer" style={{ marginLeft: 10,fontSize:13 }}>GRN Copy </a>
                                             : null
                                         }
                                     </div>
                                     :
                                     <div style={{ flexDirection: 'row' }}>
                                         {imgpreview != false ?
-                                            <a href={imageUrl + '/' + preview} target="_blank" rel="noopener noreferrer" style={{ marginLeft: 10 }}>GRN Copy </a>
+                                            <a href={imageUrl + '/' + preview} target="_blank" rel="noopener noreferrer" style={{ marginLeft: 10,fontSize:13 }}>GRN Copy </a>
                                             : null
                                         }
                                     </div>
@@ -1107,7 +1191,7 @@ function EditGRNReceived() {
                             null
 
                         } */}
-                    {/* <Box sx={{ width: '12%' }} >
+                    <Box sx={{ width: '7%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
                                 value={nQty}
@@ -1116,6 +1200,7 @@ function EditGRNReceived() {
                                 label="PO Qty"
                                 variant="outlined"
                                 name='Quantity'
+                                disabled={true}
                                 type="number" inputProps={{ min: 4, max: 10 }}
                             // inputRef={register({ required: "Quantity is required.*", })}
                             // error={Boolean(errors.Quantity)}
@@ -1123,7 +1208,25 @@ function EditGRNReceived() {
                             />
                             {errorText.Quan != '' ? <p className='error'>{errorText.Quan}</p> : null}
                         </FormControl>
-                    </Box> */}
+                    </Box>
+                    <Box sx={{ width: '7%' }} >
+                        <FormControl fullWidth className='input' >
+                            <TextField
+                                value={BalanceQuantity}
+                                // onChange={e => calculateAmount(e.target.value,'nQty')}
+                                id="outlined-basic"
+                                label="Balance Qty"
+                                variant="outlined"
+                                name='BalanceQuantity'
+                                type="number" inputProps={{ min: 4, max: 10 }}
+                                disabled={true}
+                            // inputRef={register({ required: "Quantity is required.*", })}
+                            // error={Boolean(errors.Quantity)}
+                            // helperText={errors.Quantity?.message}
+                            />
+                            {errorText.Quan != '' ? <p className='error'>{errorText.Quan}</p> : null}
+                        </FormControl>
+                    </Box>
                     <Box sx={{ width: '12%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
@@ -1141,7 +1244,7 @@ function EditGRNReceived() {
                             {errorText.QuanAccept != '' ? <p className='error'>{errorText.QuanAccept}</p> : null}
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '11.2%' }} >
+                    <Box sx={{ width: '12%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
                                 value={nQtyRejected}
@@ -1158,7 +1261,7 @@ function EditGRNReceived() {
                             {errorText.QuanReject != '' ? <p className='error'>{errorText.QuanReject}</p> : null}
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '12%' }} >
+                    <Box sx={{ width: '5%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
                                 value={nRate}
@@ -1175,7 +1278,7 @@ function EditGRNReceived() {
                             {errorText.amount != '' ? <p className='error'>{errorText.amount}</p> : null}
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '11%' }} >
+                    <Box sx={{ width: '12%' }} >
                         <FormControl fullWidth className='input' >
                             <LocalizationProvider dateAdapter={AdapterDayjs} >
                                 <Stack spacing={3} >
@@ -1193,7 +1296,7 @@ function EditGRNReceived() {
                             {errorText.date != '' ? <p className='error'>{errorText.date}</p> : null}
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '11%' }} >
+                    <Box sx={{ width: '12%' }} >
                         <FormControl fullWidth className='input' >
                             <LocalizationProvider dateAdapter={AdapterDayjs} >
                                 <Stack spacing={3} >
@@ -1213,7 +1316,7 @@ function EditGRNReceived() {
                     </Box>
 
 
-                    <Box sx={{ width: '12%' }} >
+                    <Box sx={{ width: '8%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
                                 value={nAmt}
@@ -1230,7 +1333,7 @@ function EditGRNReceived() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '12%' }} >
+                    <Box sx={{ width: '6%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
                                 value={nSGSTP}
@@ -1246,7 +1349,7 @@ function EditGRNReceived() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '12%' }} >
+                    <Box sx={{ width: '5%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
                                 value={nSGST}
@@ -1263,7 +1366,7 @@ function EditGRNReceived() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '12%' }} >
+                    <Box sx={{ width: '6%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
                                 value={nCGSTP}
@@ -1279,7 +1382,7 @@ function EditGRNReceived() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '11%' }} >
+                    <Box sx={{ width: '5%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
                                 value={nCGST}
@@ -1296,7 +1399,7 @@ function EditGRNReceived() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '12%' }} >
+                    <Box sx={{ width: '6%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
                                 value={nIGSTP}
@@ -1312,7 +1415,7 @@ function EditGRNReceived() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '11%' }} >
+                    <Box sx={{ width: '5%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
                                 value={nIGST}
@@ -1329,7 +1432,7 @@ function EditGRNReceived() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '11%' }} >
+                    <Box sx={{ width: '7%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
                                 value={nTax}
@@ -1346,7 +1449,7 @@ function EditGRNReceived() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '12%' }} >
+                    <Box sx={{ width: '8%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
                                 value={nGrandTotal}
@@ -1363,7 +1466,7 @@ function EditGRNReceived() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '12%' }} >
+                    <Box sx={{ width: '5%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
                                 value={nFreight}
@@ -1381,7 +1484,7 @@ function EditGRNReceived() {
                              {/* {errorText.Freight != '' ? <p className='error'>{errorText.Freight}</p> : null} */}
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '12%' }} >
+                    <Box sx={{ width: '9%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
                                 value={nNetTotalAmt}
@@ -1412,9 +1515,11 @@ function EditGRNReceived() {
                                             <TableCell scope="row">SN.</TableCell>
                                             <TableCell align="center">Action</TableCell>
                                             <TableCell align="left">Material Name</TableCell>
-                                            {/* <TableCell align="left">Quantity</TableCell> */}
+                                            <TableCell align="left">PO Qty</TableCell>
+                                            <TableCell align="left">Balance Qty</TableCell>
                                             <TableCell align="left">Qty Accepted</TableCell>
                                             <TableCell align="left">Qty Rejected</TableCell>
+                                            <TableCell align="left">Total Qty</TableCell>
                                             <TableCell align="left">Rate</TableCell>
                                             <TableCell align="left">Mfg Date</TableCell>
                                             <TableCell align="left">Exp Date</TableCell>
@@ -1446,9 +1551,11 @@ function EditGRNReceived() {
 
                                                     </TableCell>
                                                     <TableCell align="left">{item.MaterialDetail}</TableCell>
-                                                    {/* <TableCell align="left">{item.nQty}</TableCell> */}
+                                                    <TableCell align="left">{item.POQty}</TableCell>
+                                                    <TableCell align="left">{item.BalanceQuantity}</TableCell>
                                                     <TableCell align="left">{item.nQtyAccepted}</TableCell>
                                                     <TableCell align="left">{item.nQtyRejected}</TableCell>
+                                                    <TableCell align="left">{item.nQtyAccepted+item.nQtyRejected}</TableCell>
                                                     <TableCell align="left">{item.nRate}</TableCell>
                                                     <TableCell align="left">{parseDateToString(new Date(item.dtMfgDate))}</TableCell>
                                                     <TableCell align="left">{parseDateToString(new Date(item.dtExpDate))}</TableCell>

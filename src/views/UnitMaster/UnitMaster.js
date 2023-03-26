@@ -26,7 +26,7 @@ import { useForm } from 'react-hook-form';
 
 import SearchBar from "material-ui-search-bar";
 import ExportExcel from 'src/shareFunction/Excelexport';
-
+import CircularProgress from '@mui/joy/CircularProgress';
 function UnitMaster() {
     // <TableCell scope="row">SN.</TableCell>
     // <TableCell align="left">Unit Name</TableCell>
@@ -41,6 +41,7 @@ function UnitMaster() {
     const [unitData, setUnitData] = React.useState([]);
     const [masterbrandData, setMasterBrandData] = React.useState([]);
     const [loader, setLoader] = React.useState(false);
+    const [loader2, setLoader2] = React.useState(false);
     const [btActive, setbtActive] = React.useState(true);
     const [nUId, setnUId] = React.useState(0);
     const [vUnitName, setvUnitName] = React.useState('');
@@ -95,15 +96,18 @@ function UnitMaster() {
         getUnitMaster_SelectAll()
     }, [])
     const getUnitMaster_SelectAll = () => {
+        setLoader2(true)
         UnitMaster_SelectAll().then(response => {
             console.log('onlyActive', onlyActive)
             if (checkedData == true) {
                 let activeData = response.filter(e => e.btActive == true)
                 setUnitData(activeData)
                 setMasterBrandData(activeData)
+                setLoader2(false)
             } else {
                 setUnitData(response)
                 setMasterBrandData(response)
+                setLoader2(false)
 
             }
         })
@@ -165,6 +169,16 @@ function UnitMaster() {
     }
     return (
         <div className='citymasterContainer'>
+              {loader2==true?
+            <div className='progressBox'>
+                <div className='progressInner'>
+                    <CircularProgress />
+                </div>
+            </div>
+            :
+            null
+
+            }
             <button className='addbtn_2' onClick={() => openmodale(null, 'Submit')} title='Add' ><AddIcon fontSize='large' /></button>
             <Modal
                 isOpen={modalIsOpen}

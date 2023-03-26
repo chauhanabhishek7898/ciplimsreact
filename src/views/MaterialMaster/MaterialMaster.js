@@ -36,6 +36,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import { parseDateToString } from '../../coreservices/Date';
 import ExportExcel from 'src/shareFunction/Excelexport';
+import CircularProgress from '@mui/joy/CircularProgress';
 function MaterialMaster() {
     let Heading = [['SN.', 'Material Code', 'Material Name', 'Category', 'Material Type', 'UOM', 'HSN Code', 'Remarks', 'Status']];
     const [modalIsOpen, setIsOpen] = React.useState(false);
@@ -44,6 +45,7 @@ function MaterialMaster() {
     const [brandData, setBrandData] = React.useState([]);
     const [masterbrandData, setMasterBrandData] = React.useState([]);
     const [loader, setLoader] = React.useState(false);
+    const [loader2, setLoader2] = React.useState(false);
     const [nMId, setnMId] = React.useState(0);
     const [btActive, setBtActive] = React.useState(true);
     const [brandName, setbrandName] = React.useState("");
@@ -116,14 +118,17 @@ function MaterialMaster() {
         getMaterialMaster_SelectAll()
     }, [])
     const getMaterialMaster_SelectAll = () => {
+        setLoader2(true)
         MaterialMaster_SelectAll().then(response => {
             if (checkedData == true) {
                 let activeData = response.filter(e => e.btActive == true)
                 setBrandData(activeData)
                 setMasterBrandData(activeData)
+                setLoader2(false)
             } else {
                 setBrandData(response)
                 setMasterBrandData(response)
+                setLoader2(false)
 
             }
         })
@@ -307,6 +312,16 @@ function MaterialMaster() {
 
     return (
         <div className='citymasterContainer'>
+             {loader2==true?
+            <div className='progressBox'>
+                <div className='progressInner'>
+                    <CircularProgress />
+                </div>
+            </div>
+            :
+            null
+
+            }
             <button className='addbtn_2' onClick={() => openmodale(null, 'Submit')} title='Add'  ><AddIcon fontSize='large' /></button>
             <Modal
                 isOpen={modalIsOpen}

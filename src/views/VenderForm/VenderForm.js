@@ -25,7 +25,7 @@ import { CButton, CSpinner } from '@coreui/react'
 
 import SearchBar from "material-ui-search-bar";
 import ExportExcel from 'src/shareFunction/Excelexport';
-
+import CircularProgress from '@mui/joy/CircularProgress';
 function VenderForm() {
     // <TableCell scope="row">SN.</TableCell>
     // <TableCell align="left">Vendor Code</TableCell>
@@ -58,6 +58,7 @@ function VenderForm() {
     const [buttonName, setbuttonName] = React.useState('');
     const [disabled, setdisabled] = React.useState(true);
     const [loader, setLoader] = React.useState(false);
+    const [loader2, setLoader2] = React.useState(false);
     const { register, handleSubmit, control, errors } = useForm();
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
@@ -109,15 +110,18 @@ function VenderForm() {
         getVendorMaster_SelectAll()
     }, [])
     const getVendorMaster_SelectAll = () => {
+        setLoader2(true)
         VendorMaster_SelectAll().then(response => {
           
             if (checkedData == true) {
                 let activeData = response.filter(e => e.btActive == true)
                 setVendorData(activeData)
                 setMasterBrandData(activeData)
+                setLoader2(false)
             } else {
                 setVendorData(response)
                 setMasterBrandData(response)
+                setLoader2(false)
 
             }
         })
@@ -189,6 +193,16 @@ function VenderForm() {
     }
     return (
         <div className='citymasterContainer'>
+              {loader2==true?
+            <div className='progressBox'>
+                <div className='progressInner'>
+                    <CircularProgress />
+                </div>
+            </div>
+            :
+            null
+
+            }
             <button className='addbtn_2' onClick={() => openmodale(null, 'Submit')} title='Add'><AddIcon fontSize='large' /></button>
             <Modal
                 isOpen={modalIsOpen}
