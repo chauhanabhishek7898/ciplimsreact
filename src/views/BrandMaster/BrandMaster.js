@@ -214,7 +214,7 @@ function BrandMaster() {
                         </FormControl>
                     </Box>
                 </div>
-                <div className='displayflexend'>
+                <div className='displayflexend-2'>
                     <FormGroup >
                         <FormControlLabel control={<Checkbox defaultChecked={btActive} onChange={e => setBtActive(e.target.checked)} />} label="Active" disabled={disabled} />
                     </FormGroup>
@@ -251,10 +251,10 @@ function BrandMaster() {
                             <TableHead>
                                 <TableRow>
                                     {/* <TableCell scope="row">SN.</TableCell> */}
+                                    <TableCell align="left">Edit</TableCell>
                                     <TableCell align="left">Brand Code</TableCell>
                                     <TableCell align="left">Brand Name</TableCell>
                                     <TableCell align="left">Status</TableCell>
-                                    <TableCell align="left">Edit</TableCell>
                                 </TableRow>
                             </TableHead>
                             {brandData?.length>0?
@@ -263,10 +263,10 @@ function BrandMaster() {
                                       return (
                                           <TableRow key={index}>
                                               {/* <TableCell component="th" scope="row">{index + 1}.</TableCell> */}
+                                              <TableCell align="left"><div onClick={() => openmodale(item, 'Update')}><BorderColorIcon size={20} color='#000' /></div></TableCell>
                                               <TableCell align="left">{item.vBrandCode}</TableCell>
                                               <TableCell align="left">{item.vBrandName}</TableCell>
                                               <TableCell align="left">{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
-                                              <TableCell align="left"><div onClick={() => openmodale(item, 'Update')}><BorderColorIcon size={20} color='#000' /></div></TableCell>
                                           </TableRow>
                                       )
                                   })

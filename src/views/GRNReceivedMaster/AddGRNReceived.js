@@ -13,11 +13,11 @@ import MenuItem from '@mui/material/MenuItem';
 import Paper from '@mui/material/Paper';
 import { BrandMaster_SelectAll, BrandMasterPost, BrandMasterPut, } from '../BrandMaster/BrandMasterService'
 import { UnitMaster_SelectAll } from '../PackMaster/PackMasterService'
-import { MaterialMaster_SelectAll_ActiveLikeSearch } from '../MaterialMaster/MaterialMasterService'
+import { GetBOMDetailsLIkeSearch } from '../BOMMaster/BomMasteerService'
 import { PlantMaster_SelectAll_ActiveLikeSearch } from '../PlantMaster/PlantMasterService'
 import { VendorMaster_SelectAll_ActiveLikeSearch, VendorMaster_SelectAll_Active } from '../VenderForm/VenderFormService'
 import { GetPODetails, GetPOByPOId } from '../PurchaseOrder/POMasterService'
-import { POMasterPost, GetPODetailsLIkeSearch } from './GRNReceivedService'
+import { POMasterPost, GetPODetailsLIkeSearch ,MaterialMasterForGRN_SelectAll_ActiveLikeSearch} from './GRNReceivedService'
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import InputLabel from '@mui/material/InputLabel';
@@ -270,6 +270,34 @@ function AddGRNReceived() {
             setPlantMaster(data)
         })
     }
+     const getMaterialMasterForGRN_SelectAll_ActiveLikeSearch = (nPOId,vGeneric) => {
+        MaterialMasterForGRN_SelectAll_ActiveLikeSearch(nPOId,vGeneric == undefined || vGeneric == '' ? null : vGeneric.target.value).then(res => {
+            let count = Object.keys(res).length
+            let data = []
+            for (var i = 0; i < count; i++) {
+                data.push({
+                    value: res[i].nMId,
+                    label: res[i].MaterialDetail,
+                    nPOId: res[i].nPOId,
+                    nQty: res[i].nQty,
+                    BalanceQuantity: res[i].BalanceQuantity,
+                    nRate: res[i].nRate,
+                    nAmt: res[i].nAmt,
+                    nSGSTP: res[i].nSGSTP,
+                    nSGST: res[i].nSGST,
+                    nCGSTP: res[i].nCGSTP,
+                    nCGST: res[i].nCGST,
+                    nIGSTP: res[i].nIGSTP,
+                    nIGST: res[i].nIGST,
+                    nTax: res[i].nTax,
+                    nTotalAmt: res[i].nTotalAmt,
+                })
+
+            }
+            setMaterialMaster(data)
+        })
+    } 
+   
     const getPOByPOId = (nPOId) => {
         GetPOByPOId(nPOId).then(res => {
             console.log('response', res)
@@ -291,20 +319,38 @@ function AddGRNReceived() {
     const changePlantValue = (value) => {
         setnPOId(value.value)
         setPlantDetail(value.label)
-        getPOByPOId(value.value)
+        getMaterialMasterForGRN_SelectAll_ActiveLikeSearch(value.value,'')
         setCostCentre(value.vCostCentre)
         setProfitCentre(value.vProfitCentre)
         setError({
             plant: ''
         })
     }
-    const changeVendorMasterValue = (value) => {
-        setnVId(value.value)
-        setVendorDetail(value.label)
+     const changeMaterialValue = (item) => {
+        setId(item.id)
+        setnMId(item.value)
+        setvMId(item.label)
+        setMaterialDetail(item.label)
+        setnQty(item.nQty)
+        setnPoQtyAccepted(item.nQty)
+        setBalanceQuantity(item.BalanceQuantity)
+        setnRate(item.nRate)
+        setnAmt(item.nAmt)
+        setnSGSTP(item.nSGSTP)
+        setnSGST(item.nSGST)
+        setnCGSTP(item.nCGSTP)
+        setnCGST(item.nCGST)
+        setnIGSTP(item.nIGSTP)
+        setnIGST(item.nIGST)
+        setnTax(item.nTax)
+        setnGrandTotal(item.nTotalAmt)
+        setnNetTotalAmt(parseInt(item.nTotalAmt))
         setError({
-            vendor: ''
+            MaterialDetail: ''
         })
     }
+     
+
     const changeMaterialMasterValue = (value) => {
         setnMId(value.value)
         setMaterialDetail(value.label)
@@ -705,7 +751,7 @@ function AddGRNReceived() {
                                     vRemarks: vRemarks,
                                     btActive: true,
                                     vGRNCopyFilePath: '',
-                                    nLoggedInUserId: parseInt(nLoggedInUserId)
+                                    nLoggedInUserId: parseInt(nLoggedInUserId), 
                                 }]
                                 let GRNOrder = {}
                                 GRNOrder.GRNMaster = POMasterData,
@@ -719,7 +765,7 @@ function AddGRNReceived() {
                                         setLoader(false)
                                     }else{
                                         setLoader(false)
-                                        toast.success("Record Updated Successfully !!")
+                                        toast.success("Record Added Successfully !!")
                                         navigate('/GRNReceived')
                                     }
                                 })
@@ -926,7 +972,7 @@ function AddGRNReceived() {
                             />
                             {errorText.plant != '' ? <p className='error'>{errorText.plant}</p> : null}
                         </FormControl>
-                    </Box>
+                    </Box>  
                     <Box sx={{ width: '8%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
@@ -1104,9 +1150,9 @@ function AddGRNReceived() {
                             />
                         </FormControl>
                     </Box>
+                      
                     <div style={{ display: 'flex', width: '100%', alignItems: 'flex-end', gap: 18 }}>
-
-                        <Box sx={{ width: '10%' }} >
+                    <Box sx={{ width: '10%' }} >
                             <div >
                                 <InputLabel id="demo-simple-select-label" style={{ marginTop: 5, marginBottom: 5 }}>Attach GRN</InputLabel>
                                 <input type="file" name='vPOFilePath' onChange={imageFile} hidden ref={imageRef} />
@@ -1132,28 +1178,27 @@ function AddGRNReceived() {
             </div>
             <div className='databox'>
                 <div className='data-form-box'>
-                    {/* <Box sx={{ width: '25%' }} >
+                    <Box sx={{ width: '25%' }} >
                         <FormControl fullWidth className='input'>
-                             <InputLabel required id="demo-simple-select-label">Item</InputLabel> 
                             <Autocomplete
                                 disablePortal
                                 id="combo-box-demo"
                                 options={MaterialMaster}
                                 value={MaterialDetail}
                                 // inputValue={MaterialDetail}
-                                onChange={(event, value) => changeMaterialMasterValue(value)}
-                                onKeyDown={newInputValue => materialMaster_SelectAll_ActiveLikeSearch(newInputValue)}
+                                onChange={(event, value) => changeMaterialValue(value)}
+                                onKeyDown={newInputValue => getMaterialMasterForGRN_SelectAll_ActiveLikeSearch(nPOId,newInputValue)}
                                 onInputChange={(event, newInputValue) => {
                                     // setInputValue(newInputValue);
                                     // materialMaster_SelectAll_ActiveLikeSearch()
                                     console.log('newInputValue', newInputValue)
                                 }}
-                                renderInput={(params) => <TextField {...params} label="Item" required />}
+                                renderInput={(params) => <TextField {...params} label="Search Material" required />}
                             />
                             {errorText.MaterialDetail != '' ? <p className='error'>{errorText.MaterialDetail}</p> : null}
                         </FormControl>
-                    </Box> */}
-                    <Box sx={{ width: '25%' }} >
+                    </Box>
+                    {/* <Box sx={{ width: '25%' }} >
                         <FormControl fullWidth className='input'>
                             <InputLabel id="demo-simple-select-label">Select Material</InputLabel>
                             <Select
@@ -1177,7 +1222,7 @@ function AddGRNReceived() {
                             </Select>
                             {errorText.MaterialDetail != '' ? <p className='error'>{errorText.MaterialDetail}</p> : null}
                         </FormControl>
-                    </Box>
+                    </Box> */}
                     {/* {errorText != '' ?
                             <p style={{ color: 'red' }}>{errorText}</p>
                             :

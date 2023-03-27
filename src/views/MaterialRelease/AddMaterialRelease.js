@@ -12,12 +12,12 @@ import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import Paper from '@mui/material/Paper';
 import { BrandMaster_SelectAll, BrandMasterPost, BrandMasterPut, } from '../BrandMaster/BrandMasterService'
-import { UnitMaster_SelectAll } from '../PackMaster/PackMasterService'
+import { GetBOMDetailsLIkeSearch } from '../BOMMaster/BomMasteerService'
 import { MaterialMaster_SelectAll_ActiveLikeSearch } from '../MaterialMaster/MaterialMasterService'
 import { PlantMaster_SelectAll_ActiveLikeSearch } from '../PlantMaster/PlantMasterService'
 import { VendorMaster_SelectAll_ActiveLikeSearch, VendorMaster_SelectAll_Active } from '../VenderForm/VenderFormService'
 import { GetPODetails, GetPOByPOId } from '../PurchaseOrder/POMasterService'
-import { OpeningStock_Update, GetPODetailsLIkeSearch, GetGRNByGRNId } from './EnterOpeningStockService'
+import { OpeningStock_Insert, GetPODetailsLIkeSearch, GetBOMMaterialsQty } from './MaterialReleaseService'
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import InputLabel from '@mui/material/InputLabel';
@@ -40,7 +40,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import { parseDateToString, parseDateToStringSubmit } from '../../coreservices/Date';
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Autocomplete from '@mui/material/Autocomplete';
 import { number } from 'prop-types';
 import { Navigation } from '@coreui/coreui';
@@ -49,10 +49,9 @@ import BorderColorIcon from '@mui/icons-material/BorderColor';
 import { confirmAlert } from 'react-confirm-alert'; // Import
 import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
 import HomeIcon from '@mui/icons-material/Home';
-function EditEnterOpeningStock() {
+import InfoIcon from '@mui/icons-material/Info';
+function AddMaterialRelease() {
     const navigate = useNavigate();
-    const location = useLocation();
-    let nGRNId = location.state.nGRNId
     const [modalIsOpen, setIsOpen] = React.useState(false);
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -143,7 +142,6 @@ function EditEnterOpeningStock() {
     const [nPOId, setnPOId] = useState('')
     const [vLorryRecNo, setvLorryRecNo] = useState('')
     const [vEWayBillNo, setvEWayBillNo] = useState('')
-    const [vBatchNo, setvBatchNo] = useState('')
     const [btCOAReceived, setbtCOAReceived] = useState(false)
     const [vGRNCopyFilePath, setvGRNCopyFilePath] = useState('')
     const [vCourierToCCIPL, setvCourierToCCIPL] = useState('')
@@ -153,12 +151,15 @@ function EditEnterOpeningStock() {
     const [AllTotalAmount, setAllTotalAmount] = useState('')
     const [nQtyAccepted, setnQtyAccepted] = useState('')
     const [nQtyRejected, setnQtyRejected] = useState('')
-    const [dtMfgDate, setdtMfgDate] = useState(dayjs(startDates))
+
     const [dtExpDate, setdtExpDate] = useState(dayjs(startDates))
-    const [nFreight, setnFreight] = useState('')
-    const [nGrandTotal, setnGrandTotal] = useState('')
-    const [nNetTotalAmt, setnNetTotalAmt] = useState('')
+
     const [vUOM, setvUOM] = useState('')
+    const [vBatchNo, setvBatchNo] = useState('')
+    const [vBOMUnit, setvBOMUnit] = useState('')
+    const [BOMMaterialsQty, setBOMMaterialsQty] = useState([])
+    const [TableShow, setTableShow] = useState(false)
+
     useEffect(() => {
         const userId = localStorage.getItem("nUserId")
         setnLoggedInUserId(userId)
@@ -228,30 +229,7 @@ function EditEnterOpeningStock() {
         setRowsPerPage(+event.target.value);
         setPage(0);
     };
-    useEffect(() => {
-        getGRNByGRNId()
-    }, [])
-    const getGRNByGRNId = () => {
-        GetGRNByGRNId(parseInt(nGRNId)).then(res => {
-            let count = Object.keys(res.GRNDetail).length
-            let data = res.GRNDetail
-            for (var i = 0; i < count; i++) {
-                let counts = i
-                res.GRNDetail[i].id = counts
-                res.GRNDetail[i].dtExpDate = parseDateToStringSubmit(new Date(res.GRNDetail[i].ExpDate))
-            }
-            // console.log('data',data)
-            setPODetails(data)
-            setEndDate(res.GRNMaster[0].Dated)
-            setnPOId(res.GRNMaster[0].nPId)
-            setPlantDetail(res.GRNMaster[0].PlantDetail)
-            setvUOM(res.GRNMaster[0].vUOM)
 
-            setBtActive(res.GRNMaster[0].btActive)
-            setvRemarks(res.GRNMaster[0].vRemarks)
-
-        })
-    }
     const plantMaster_SelectAll_ActiveLikeSearch = (vGeneric) => {
 
 
@@ -269,6 +247,24 @@ function EditEnterOpeningStock() {
             setPlantMaster(data)
         })
     }
+    const getBOMDetailsLIkeSearch = (vGeneric) => {
+
+
+        GetBOMDetailsLIkeSearch(vGeneric == undefined || vGeneric == '' ? null : vGeneric.target.value).then(res => {
+            console.log('response', res)
+
+            let count = Object.keys(res).length
+            let data = []
+            for (var i = 0; i < count; i++) {
+                data.push({
+                    value: res[i].nPId,
+                    label: res[i].PlantDetail,
+                })
+            }
+            setPlantMaster(data)
+        })
+    }
+
     const getPODetails = (vGeneric) => {
         if (vGeneric != '') {
             vGeneric = vGeneric.target.value
@@ -328,6 +324,13 @@ function EditEnterOpeningStock() {
             plant: ''
         })
     }
+    const changeBOMValue = (value) => {
+        setnPOId(value.value)
+        setPlantDetail(value.label)
+        setError({
+            plant: ''
+        })
+    }
     const changeVendorMasterValue = (value) => {
         setnVId(value.value)
         setVendorDetail(value.label)
@@ -352,6 +355,23 @@ function EditEnterOpeningStock() {
         } else {
             setimgPreview(false)
         }
+    }
+    const changeBOMMaterialsQtyValue = (value) => {
+        setvBOMUnit(value)
+        if (value != '' && value != undefined) {
+            setTimeout(() => {
+                getBOMMaterialsQty(value)
+            }, 2000)
+        }else{
+            setBOMMaterialsQty([])
+            setTableShow(false)
+        }
+    }
+    const getBOMMaterialsQty = (value) => {
+        GetBOMMaterialsQty(2, value).then(res => {
+            console.log('response', res)
+            setBOMMaterialsQty(res)
+        })
     }
     const calculateAmount = (value, type) => {
 
@@ -418,12 +438,12 @@ function EditEnterOpeningStock() {
                             poMasteerDetail[indexToUpdate].id = id,
                                 poMasteerDetail[indexToUpdate].nMId = parseInt(nMId),
                                 poMasteerDetail[indexToUpdate].MaterialDetail = MaterialDetail,
-                                poMasteerDetail[indexToUpdate].vUOM = vUOM,
                                 poMasteerDetail[indexToUpdate].nQtyAccepted = parseFloat(nQtyAccepted == '' ? 0 : nQtyAccepted),
                                 poMasteerDetail[indexToUpdate].nQtyRejected = parseFloat(nQtyRejected == '' ? 0 : nQtyRejected),
+                                poMasteerDetail[indexToUpdate].vUOM = vUOM,
                                 poMasteerDetail[indexToUpdate].TotalQty = parseFloat(nAmt == '' ? 0 : nAmt),
                                 poMasteerDetail[indexToUpdate].dtExpDate = parseDateToStringSubmit(new Date(dtExpDate)),
-                                poMasteerDetail[indexToUpdate].ExpDate = dtExpDate,
+                                poMasteerDetail[indexToUpdate].dtExpDate2 = dtExpDate,
 
                                 setPODetails(poMasteerDetail)
                             setbtnType('')
@@ -453,7 +473,7 @@ function EditEnterOpeningStock() {
                         onClick: () => {
                             if (validateformPoDetial() == true) {
                                 let poMasteerDetail = [...PODetails]
-                                let findnMId = poMasteerDetail.find(e => e.nMId == nMId&&e.dtExpDate == parseDateToStringSubmit(new Date(dtExpDate)))
+                                let findnMId = poMasteerDetail.find(e => e.nMId == nMId && e.dtExpDate == parseDateToStringSubmit(new Date(dtExpDate)))
                                 if (findnMId) {
                                     toast.success("Material with this expiry date is already Added.")
                                 } else {
@@ -461,12 +481,12 @@ function EditEnterOpeningStock() {
                                         id: new Date().getUTCMilliseconds(),
                                         nMId: parseInt(nMId),
                                         MaterialDetail: MaterialDetail,
-                                        vUOM: vUOM,
                                         nQtyAccepted: parseFloat(nQtyAccepted == '' ? 0 : nQtyAccepted),
                                         nQtyRejected: parseFloat(nQtyRejected == '' ? 0 : nQtyRejected),
+                                        vUOM: vUOM,
                                         TotalQty: parseFloat(nAmt == '' ? 0 : nAmt),
                                         dtExpDate: parseDateToStringSubmit(new Date(dtExpDate)),
-                                        ExpDate: dtExpDate,
+                                        dtExpDate2: dtExpDate,
 
                                     })
 
@@ -518,7 +538,6 @@ function EditEnterOpeningStock() {
                             onClick: () => {
                                 setLoader(true)
                                 const POMasterData = [{
-                                    nGRNId: nGRNId,
                                     nPId: nPOId,
                                     vRemarks: vRemarks,
                                     btActive: true,
@@ -528,10 +547,10 @@ function EditEnterOpeningStock() {
                                 GRNOrder.GRNMaster = POMasterData,
                                     GRNOrder.GRNDetails = PODetails
                                 console.log('PurchaseOrder', GRNOrder)
-                                OpeningStock_Update(GRNOrder).then(res => {
+                                OpeningStock_Insert(GRNOrder, vPOFilePath).then(res => {
                                     if (res) {
                                         setLoader(false)
-                                        toast.success("Record Updated Successfully !!")
+                                        toast.success("Record Added Successfully !!")
                                         navigate('/EnterOpeningStock')
 
                                     }
@@ -595,11 +614,11 @@ function EditEnterOpeningStock() {
         setId(item.id)
         setnMId(item.nMId)
         setMaterialDetail(item.MaterialDetail)
-        setdtExpDate(item.ExpDate)
+        setdtExpDate(item.dtExpDate2)
         setnQtyAccepted(item.nQtyAccepted)
         setnQtyRejected(item.nQtyRejected)
-        setvUOM(item.vUOM)
         setnAmt(item.TotalQty)
+        setvUOM(item.vUOM)
 
     }
     const goback = () => {
@@ -641,12 +660,64 @@ function EditEnterOpeningStock() {
                                     // setInputValue(newInputValue);
                                     console.log('newInputValue', newInputValue)
                                 }}
-                                renderInput={(params) => <TextField {...params} label="Search Plant" required />}
+                                renderInput={(params) => <TextField {...params} label="Search Plant " required />}
                             />
                             {errorText.plant != '' ? <p className='error'>{errorText.plant}</p> : null}
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '53%', marginTop: 1 }} >
+                    <Box sx={{ width: '7%', marginTop: 1 }} >
+                        <FormControl fullWidth className='input'>
+                            <TextField
+                                value={vBatchNo}
+                                onChange={e => setvBatchNo(e.target.value)}
+                                id="outlined-basic"
+                                label="Batch No"
+                                variant="outlined"
+                                name='BatchNo'
+                            // inputRef={register({ required: "Remarks is required.", })}
+                            // error={Boolean(errors.brandCode)}
+                            // helperText={errors.brandCode?.message}
+                            />
+                        </FormControl>
+                    </Box>
+                    <Box sx={{ width: '39%', marginTop: 2 }} >
+                        <FormControl fullWidth className='input'>
+                            {/* <InputLabel required id="demo-simple-select-label">Plant</InputLabel>npm  */}
+                            <Autocomplete
+                                disablePortal
+                                id="combo-box-demo"
+                                options={PlantMaster}
+                                value={PlantDetail}
+                                // changePlantValue(value)
+                                onChange={(event, value) => changeBOMValue(value)}
+                                // inputValue={inputValue}
+                                isOptionEqualToValue={(option, value) => option.value === value.value}
+                                onKeyDown={newInputValue => getBOMDetailsLIkeSearch(newInputValue)}
+                                onInputChange={(event, newInputValue) => {
+                                    // setInputValue(newInputValue);
+                                    console.log('newInputValue', newInputValue)
+                                }}
+                                renderInput={(params) => <TextField {...params} label="Search BOM " required />}
+                            />
+                            {errorText.plant != '' ? <p className='error'>{errorText.plant}</p> : null}
+                        </FormControl>
+                    </Box>
+                    <Box sx={{ width: '7%', marginTop: 1 }} >
+                        <FormControl fullWidth className='input'>
+                            <TextField
+                                value={vBOMUnit}
+                                onChange={e => changeBOMMaterialsQtyValue(e.target.value)}
+                                id="outlined-basic"
+                                label="BOM Unit"
+                                variant="outlined"
+                                name='vBOMUnit'
+                            // inputRef={register({ required: "Remarks is required.", })}
+                            // error={Boolean(errors.brandCode)}
+                            // helperText={errors.brandCode?.message}
+                            />
+                        </FormControl>
+                    </Box>
+                    {/* <Box sx={{ width: '53%', marginTop: 1 }} >
                         <FormControl fullWidth className='input'>
                             <TextField
                                 value={vRemarks}
@@ -660,10 +731,59 @@ function EditEnterOpeningStock() {
                             // helperText={errors.brandCode?.message}
                             />
                         </FormControl>
-                    </Box>
+                    </Box> */}
                     <FormGroup >
-                        <FormControlLabel control={<Checkbox checked={btActive} value={btActive} onChange={e => setBtActive(e.target.checked)} />} label="Active" />
+                        <FormControlLabel control={<Checkbox defaultChecked={btActive} value={btActive} onChange={e => setBtActive(e.target.checked)} />} label="Active" disabled={disabled} />
                     </FormGroup>
+                    {BOMMaterialsQty.length > 0 ?
+                    <div>
+                        <button onClick={() => setTableShow(!TableShow)} className='infobtn'>
+                            <InfoIcon size={20} />
+
+                        </button>
+                    </div>
+                    :null
+                    }
+                    {TableShow == true ?
+                        <div className='tablecenter'>
+                            {BOMMaterialsQty.length > 0 ?
+                                <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+                                    <TableContainer sx={{ maxHeight: 440 }}>
+                                        <Table stickyHeader aria-label="sticky table">
+                                            <TableHead>
+                                                <TableRow>
+                                                    <TableCell scope="row" style={{ width: '2%' }} >SN.</TableCell>
+                                                    <TableCell align="left">Material Name</TableCell>
+                                                    <TableCell align="left">UOM</TableCell>
+                                                    <TableCell align="left">Required Qty</TableCell>
+                                                </TableRow>
+                                            </TableHead>
+                                            <TableBody>
+                                                {BOMMaterialsQty.map((item, index) => {
+                                                    return (
+                                                        <TableRow key={index}>
+                                                            <TableCell component="th" scope="row">{index + 1}.</TableCell>
+                                                            <TableCell align="left">{item.MaterialDetail}</TableCell>
+                                                            <TableCell align="left">{item.vUOM}</TableCell>
+                                                            <TableCell align="left">{item.RequiredQty}</TableCell>
+                                                        </TableRow>
+                                                    )
+                                                })
+                                                }
+
+                                            </TableBody>
+                                        </Table>
+                                    </TableContainer>
+                                </Paper>
+                                :
+                                null
+
+                            }
+
+                        </div>
+                        :
+                        null
+                    }
                 </div>
             </div>
             <div className='databox'>
@@ -731,7 +851,7 @@ function EditEnterOpeningStock() {
                             {errorText.Quan != '' ? <p className='error'>{errorText.Quan}</p> : null}
                         </FormControl>
                     </Box> */}
-                     <Box sx={{ width: '11%' }} >
+                    <Box sx={{ width: '11%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
                                 value={vUOM}
@@ -781,6 +901,7 @@ function EditEnterOpeningStock() {
                             {errorText.QuanReject != '' ? <p className='error'>{errorText.QuanReject}</p> : null}
                         </FormControl>
                     </Box>
+
 
                     <Box sx={{ width: '11%' }} >
                         <FormControl fullWidth className='input' >
@@ -862,7 +983,7 @@ function EditEnterOpeningStock() {
                                                         <TableCell align="left">{item.nQtyAccepted}</TableCell>
                                                         <TableCell align="left">{item.nQtyRejected}</TableCell>
                                                         <TableCell align="left">{item.TotalQty}</TableCell>
-                                                        <TableCell align="left">{parseDateToString(new Date(item.ExpDate))}</TableCell>
+                                                        <TableCell align="left">{parseDateToString(new Date(item.dtExpDate2))}</TableCell>
 
                                                     </TableRow>
                                                 )
@@ -917,4 +1038,4 @@ function EditEnterOpeningStock() {
         </div>
     )
 }
-export default EditEnterOpeningStock
+export default AddMaterialRelease

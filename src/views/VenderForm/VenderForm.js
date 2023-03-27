@@ -308,8 +308,6 @@ function VenderForm() {
                             />
                         </FormControl>
                     </Box>
-                </div>
-                <div className='displaystart'>
                     <Box sx={{ width: '30%', marginTop: 2 }}>
                         <FormControl fullWidth className='input'>
                             <TextField
@@ -341,7 +339,7 @@ function VenderForm() {
                         </FormControl>
                     </Box>
                 </div>
-                <div className='displayflexend'>
+                <div className='displayflexend-2'>
                     <FormGroup >
                         <FormControlLabel control={<Checkbox defaultChecked={btActive} value={btActive} onChange={e => setbtActive(e.target.checked)} />} label="Active" disabled={disabled} />
                     </FormGroup>

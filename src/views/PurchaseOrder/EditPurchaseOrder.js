@@ -361,7 +361,7 @@ function EditPurchaseOrder() {
         if (btnType == 'edit') {
             confirmAlert({
                 title: 'Alert !!',
-                message: 'Do you want Edit this Item. ?',
+                message: 'Do you want Edit this Material ?',
                 buttons: [
                     {
                         label: 'Yes',
@@ -417,7 +417,7 @@ function EditPurchaseOrder() {
             if (validateformPoDetial() == true) {
                 confirmAlert({
                     title: 'Alert !!',
-                    message: 'Do you want Edit this Item. ?',
+                    message: 'Do you want Edit this Material ?',
                     buttons: [
                         {
                             label: 'Yes',
@@ -502,7 +502,7 @@ function EditPurchaseOrder() {
             if (PODetails.length > 0) {
                 confirmAlert({
                     title: 'Alert !!',
-                    message: 'Do you want Proceed. ?',
+                    message: 'Do you want Proceed ?',
                     buttons: [
                         {
                             label: 'Yes',
@@ -887,7 +887,7 @@ function EditPurchaseOrder() {
                             {errorText.amount != '' ? <p className='error'>{errorText.amount}</p> : null}
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '5%' }} >
+                    <Box sx={{ width: '6%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
                                 value={nQty}
@@ -905,7 +905,7 @@ function EditPurchaseOrder() {
                         </FormControl>
                     </Box>
 
-                    <Box sx={{ width: '5%' }} >
+                    <Box sx={{ width: '6%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
                                 value={nAmt}
@@ -1021,7 +1021,7 @@ function EditPurchaseOrder() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '5%' }} >
+                    <Box sx={{ width: '6%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
                                 value={nTax}
@@ -1038,7 +1038,7 @@ function EditPurchaseOrder() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '7%' }} >
+                    <Box sx={{ width: '9%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
                                 value={nTotalAmt}

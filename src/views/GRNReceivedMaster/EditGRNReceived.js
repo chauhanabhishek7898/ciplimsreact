@@ -16,7 +16,7 @@ import { MaterialMaster_SelectAll_ActiveLikeSearch } from '../MaterialMaster/Mat
 import { PlantMaster_SelectAll_ActiveLikeSearch } from '../PlantMaster/PlantMasterService'
 import { VendorMaster_SelectAll_ActiveLikeSearch, VendorMaster_SelectAll_Active } from '../VenderForm/VenderFormService'
 import { GetPODetails, GetPOByPOId } from '../PurchaseOrder/POMasterService'
-import { POMasterPut, GetGRNByGRNId, GetPODetailsLIkeSearch } from './GRNReceivedService'
+import { POMasterPut, GetGRNByGRNId, GetPODetailsLIkeSearch,MaterialMasterForGRN_SelectAll_ActiveLikeSearch } from './GRNReceivedService'
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import InputLabel from '@mui/material/InputLabel';
@@ -160,6 +160,8 @@ function EditGRNReceived() {
     const [localImage, setlocalImage] = useState(false)
     const [AllTotalAmount, setAllTotalAmount] = useState('')
     const [vPOFilePathFile, setvPOFilePathFile] = React.useState({});
+    const [monthmodalIsOpen, setmonthmodalIsOpen] = React.useState(false);
+    const [GrnData, setGrnData] = React.useState([]);
     useEffect(() => {
         const userId = localStorage.getItem("nUserId")
         setnLoggedInUserId(userId)
@@ -236,10 +238,8 @@ function EditGRNReceived() {
         GetGRNByGRNId(parseInt(nGRNId)).then(res => {
             // setPODetails(res.GRNDetail)
             // // PODetails.map(v => v.id = new Date().getUTCMilliseconds());
-
             let count = Object.keys(res.GRNDetail).length
             let data = res.GRNDetail
-
             for (var i = 0; i < count; i++) {
                 let counts = i
                 res.GRNDetail[i].id = counts
@@ -248,8 +248,7 @@ function EditGRNReceived() {
                 // data = data + res.GRNDetail[i].nNetTotalAmt
             }
             // console.log('data',data)
-            setPODetails(data)
-
+            setPODetails(data)  
             setvInvoiceNo(res.GRNMaster[0].vInvoiceNo)
             setStartDate(res.GRNMaster[0].dtGRNDate)
             setEndDate(res.GRNMaster[0].dtInvDate)
@@ -282,6 +281,7 @@ function EditGRNReceived() {
                 datas = datas + PODetails[i].nNetTotalAmt
             }
             setAllTotalAmount(datas)
+            getMaterialMasterForGRN_SelectAll_ActiveLikeSearch(res.GRNMaster[0].nPOId,'')
         })
     }
 
@@ -344,11 +344,37 @@ function EditGRNReceived() {
         })
 
     }
+    const getMaterialMasterForGRN_SelectAll_ActiveLikeSearch = (nPOId,vGeneric) => {
+        MaterialMasterForGRN_SelectAll_ActiveLikeSearch(nPOId,vGeneric == undefined || vGeneric == '' ? null : vGeneric.target.value).then(res => {
+            let count = Object.keys(res).length
+            let data = []
+            for (var i = 0; i < count; i++) {
+                data.push({
+                    value: res[i].nMId,
+                    label: res[i].MaterialDetail,
+                    nPOId: res[i].nPOId,
+                    nQty: res[i].nQty,
+                    BalanceQuantity: res[i].BalanceQuantity,
+                    nRate: res[i].nRate,
+                    nAmt: res[i].nAmt,
+                    nSGSTP: res[i].nSGSTP,
+                    nSGST: res[i].nSGST,
+                    nCGSTP: res[i].nCGSTP,
+                    nCGST: res[i].nCGST,
+                    nIGSTP: res[i].nIGSTP,
+                    nIGST: res[i].nIGST,
+                    nTax: res[i].nTax,
+                    nTotalAmt: res[i].nTotalAmt,
+                })
 
+            }
+            setMaterialMaster(data)
+        })
+    } 
     const changePlantValue = (value) => {
         setnPOId(value.value)
         setPlantDetail(value.label)
-        getPOByPOId(value.value)
+        getMaterialMasterForGRN_SelectAll_ActiveLikeSearch(value.value,'')
         setCostCentre(value.vCostCentre)
         setProfitCentre(value.vProfitCentre)
         setError({
@@ -365,6 +391,29 @@ function EditGRNReceived() {
     const changeMaterialMasterValue = (value) => {
         setnMId(value.value)
         setMaterialDetail(value.label)
+        setError({
+            MaterialDetail: ''
+        })
+    }
+    const changeMaterialValue = (item) => {
+        setId(item.id)
+        setnMId(item.value)
+        setvMId(item.label)
+        setMaterialDetail(item.label)
+        setnQty(item.nQty)
+        setnPoQtyAccepted(item.nQty)
+        setBalanceQuantity(item.BalanceQuantity)
+        setnRate(item.nRate)
+        setnAmt(item.nAmt)
+        setnSGSTP(item.nSGSTP)
+        setnSGST(item.nSGST)
+        setnCGSTP(item.nCGSTP)
+        setnCGST(item.nCGST)
+        setnIGSTP(item.nIGSTP)
+        setnIGST(item.nIGST)
+        setnTax(item.nTax)
+        setnGrandTotal(item.nTotalAmt)
+        setnNetTotalAmt(parseInt(item.nTotalAmt))
         setError({
             MaterialDetail: ''
         })
@@ -737,12 +786,15 @@ function EditGRNReceived() {
                                     GRNOrder.GRNDetails = PODetails
                                 console.log('PurchaseOrder', GRNOrder)
                                 POMasterPut(GRNOrder, vPOFilePathFile).then(res => {
-                                    if (res) {
-                                        console.log('res',res)
+                                    if (res?.length>0) {
+                                        setGrnData(res)
+                                        setmonthmodalIsOpen(true)
+                                        setLoader(false)
+                                    }else{
+
                                         setLoader(false)
                                         toast.success("Record Updated Successfully !!")
-                                        // navigate('/GRNReceived')         
-
+                                        navigate('/GRNReceived')         
                                     }
                                 })
 
@@ -842,6 +894,10 @@ function EditGRNReceived() {
             ]
         });
 
+    }
+    const closeModal=()=>{
+        setmonthmodalIsOpen(false)
+        navigate('/GRNReceived')
     }
     return (
         <div className='citymasterContainer'>
@@ -1166,28 +1222,27 @@ function EditGRNReceived() {
             </div>
             <div className='databox'>
                 <div className='data-form-box'>
-                    {/* <Box sx={{ width: '25%' }} >
+                <Box sx={{ width: '25%' }} >
                         <FormControl fullWidth className='input'>
-                             <InputLabel required id="demo-simple-select-label">Item</InputLabel> 
                             <Autocomplete
                                 disablePortal
                                 id="combo-box-demo"
                                 options={MaterialMaster}
                                 value={MaterialDetail}
                                 // inputValue={MaterialDetail}
-                                onChange={(event, value) => changeMaterialMasterValue(value)}
-                                onKeyDown={newInputValue => materialMaster_SelectAll_ActiveLikeSearch(newInputValue)}
+                                onChange={(event, value) => changeMaterialValue(value)}
+                                onKeyDown={newInputValue => getMaterialMasterForGRN_SelectAll_ActiveLikeSearch(nPOId,newInputValue)}
                                 onInputChange={(event, newInputValue) => {
                                     // setInputValue(newInputValue);
                                     // materialMaster_SelectAll_ActiveLikeSearch()
                                     console.log('newInputValue', newInputValue)
                                 }}
-                                renderInput={(params) => <TextField {...params} label="Item" required />}
+                                renderInput={(params) => <TextField {...params} label="Search Material" required />}
                             />
                             {errorText.MaterialDetail != '' ? <p className='error'>{errorText.MaterialDetail}</p> : null}
                         </FormControl>
-                    </Box> */}
-                    <Box sx={{ width: '25%' }} >
+                    </Box>
+                    {/* <Box sx={{ width: '25%' }} >
                         <FormControl fullWidth className='input'>
                             <InputLabel id="demo-simple-select-label">Select Material</InputLabel>
                             <Select
@@ -1211,7 +1266,7 @@ function EditGRNReceived() {
                             </Select>
                             {errorText.MaterialDetail != '' ? <p className='error'>{errorText.MaterialDetail}</p> : null}
                         </FormControl>
-                    </Box>
+                    </Box> */}
                     {/* {errorText != '' ?
                             <p style={{ color: 'red' }}>{errorText}</p>
                             :
@@ -1651,11 +1706,84 @@ function EditGRNReceived() {
                     <button type="submit" className='submitbtn' onClick={handleSubmit(submit)}>Submit</button>
                 }
             </div>
+            <Modal
+                isOpen={monthmodalIsOpen}
+                style={customStyles}
+                contentLabel="Example Modal"
+                ariaHideApp={false}
+            >
+                <div className='displayright'>
+                    <div><span className='title'>Alert !!</span></div>
+                    <HighlightOffIcon fontSize='large' onClick={closeModal} />
+                </div>
+                <div>
+                    <div className='editModel-2'>
+                       <div><p className='errormasg'>OOPS !!, For this selected PO, Input Quantity is greater than Balance Left Quantity. Please try again with appropriate inputs.</p></div>
+                        <div className='tablecenter'>
+                            {GrnData.length > 0 ?
+                                <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+                                    <TableContainer sx={{ maxHeight: 440 }}>
+                                        <Table stickyHeader aria-label="sticky table">
+                                            <TableHead>
+                                                <TableRow>
+                                                    <TableCell scope="row">SN.</TableCell>
+                                                    <TableCell align="left">PO No</TableCell>
+                                                    <TableCell align="left">Material Name</TableCell>
+                                                    <TableCell align="left">Qty</TableCell>
+                                                    <TableCell align="left">Bal Qty</TableCell>
+                                                    <TableCell align="left">Input Qty</TableCell>
 
+                                                </TableRow>
+                                            </TableHead>
+                                            <TableBody>
+
+                                                {GrnData.map((item, index) => {
+                                                    return (
+
+                                                        <TableRow key={index}>
+
+                                                            <TableCell component="th" scope="row">{index + 1}.</TableCell>
+                                                            <TableCell align="left">{item.vPONo}</TableCell>
+                                                            <TableCell align="left">{item.MaterialDetail}</TableCell>
+                                                            <TableCell align="left">{item.nQty}</TableCell>
+                                                            <TableCell align="left">{item.BalanceQty}</TableCell>
+                                                            <TableCell align="left">{item.SelectedQty}</TableCell>
+                                                        </TableRow>
+                                                    )
+                                                })
+                                                }
+
+
+                                            </TableBody>
+                                        </Table>
+                                    </TableContainer>
+
+                                </Paper>
+                                :
+                                null
+
+                            }
+
+                        </div>
+                       
+                    </div>
+                </div>
+                
+            </Modal >
 
         </div>
     )
 }
 
-
+const customStyles = {
+    content: {
+        top: '50%',
+        left: '50%',
+        right: 'auto',
+        bottom: 'auto',
+        marginRight: '-50%',
+        transform: 'translate(-50%, -50%)',
+        width: '50%',
+    },
+};
 export default EditGRNReceived

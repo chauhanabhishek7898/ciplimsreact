@@ -17,6 +17,8 @@ const EditBomMaster = React.lazy(() => import('./views/BOMMaster/EditBomMaster')
 const EnterOpeningStock = React.lazy(() => import('./views/EnterOpeningStock/EnterOpeningStockList'))
 const AddEnterOpeningStock = React.lazy(() => import('./views/EnterOpeningStock/AddEnterOpeningStock'))
 const EditEnterOpeningStock = React.lazy(() => import('./views/EnterOpeningStock/EditEnterOpeningStock'))
+const MaterialRelease = React.lazy(() => import('./views/MaterialRelease/MaterialReleaseList'))
+const AddMaterialRelease = React.lazy(() => import('./views/MaterialRelease/AddMaterialRelease'))
 
 const VenderForm = React.lazy(() => import('./views/VenderForm/VenderForm'))
 const BrandMaster = React.lazy(() => import('./views/BrandMaster/BrandMaster'))
@@ -54,6 +56,8 @@ const routes = [
   { path: '/EnterOpeningStock', name: 'Enter Opening Stock', element: EnterOpeningStock, exact: true },
   { path: '/AddEnterOpeningStock', name: 'Add Enter Opening Stock', element: AddEnterOpeningStock, exact: true },
   { path: '/EditEnterOpeningStock', name: 'Edit Enter Opening Stock', element: EditEnterOpeningStock, exact: true },
+  { path: '/MaterialRelease', name: 'Material Release', element: MaterialRelease, exact: true },
+  { path: '/AddMaterialRelease', name: 'Add Material Release', element: AddMaterialRelease, exact: true },
 ]
 
 export default routes

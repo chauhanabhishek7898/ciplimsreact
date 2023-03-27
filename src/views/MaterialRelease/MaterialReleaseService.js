@@ -39,6 +39,13 @@ export function GetOpeningDetails(vGeneric) {
         return response;
     })
 }
+export function GetBOMMaterialsQty(nBId,nBOMUnit) {
+    let apiUrl = environment.apiUrl;
+    let url = `${apiUrl}/GRNMaster/GetBOMMaterialsQty/${nBId}/${nBOMUnit}`
+    return get(url).then(response => {
+        return response;
+    })
+}
 export function POMasterPost(data,file) {
     let apiUrl = environment.apiUrl;
     const formData = new FormData();

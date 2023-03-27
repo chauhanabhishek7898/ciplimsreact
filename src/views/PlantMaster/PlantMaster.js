@@ -249,7 +249,7 @@ function PlantMaster() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '17%', marginTop: 2 }} >
+                    <Box sx={{ width: '16.5%', marginTop: 2 }} >
                         <FormControl fullWidth className='input'>
                             <TextField
                                 id="outlined-basic"
@@ -280,7 +280,7 @@ function PlantMaster() {
                         </FormControl>
                     </Box>
                 </div>
-                <div className='displayflexend'>
+                <div className='displayflexend-2'>
                     <FormGroup >
                         <FormControlLabel control={<Checkbox defaultChecked={btActive} value={btActive} onChange={e => setbtActive(e.target.checked)} />} label="Active" disabled={disabled} />
                     </FormGroup>
@@ -318,13 +318,13 @@ function PlantMaster() {
                             <TableHead>
                                 <TableRow>
                                     {/* <TableCell scope="row">SN.</TableCell> */}
+                                    <TableCell align="left">Edit</TableCell>
+                                    <TableCell align="left">Status</TableCell>
                                     <TableCell align="left">Plant Code</TableCell>
                                     <TableCell align="left">Plant Name</TableCell>
                                     <TableCell align="left">Plant Address</TableCell>
                                     <TableCell align="left">Profit Centre</TableCell>
                                     <TableCell align="left">Cost Centre</TableCell>
-                                    <TableCell align="left">Status</TableCell>
-                                    <TableCell align="left">Edit</TableCell>
                                 </TableRow>
                             </TableHead>
                             {plantData?.length>0?
@@ -333,13 +333,13 @@ function PlantMaster() {
                                     return (
                                         <TableRow >
                                             {/* <TableCell component="th" scope="row">{index + 1}.</TableCell> */}
+                                            <TableCell align="left"><div onClick={() => openmodale(item, 'Update')}><BorderColorIcon size={20} color='#000' /></div></TableCell>
+                                            <TableCell align="left">{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
                                             <TableCell align="left">{item.vPlantCode}</TableCell>
                                             <TableCell align="left">{item.vPlantName}</TableCell>
                                             <TableCell align="left">{item.vPlantAddress}</TableCell>
                                             <TableCell align="left">{item.vProfitCentre}</TableCell>
                                             <TableCell align="left">{item.vCostCentre}</TableCell>
-                                            <TableCell align="left">{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
-                                            <TableCell align="left"><div onClick={() => openmodale(item, 'Update')}><BorderColorIcon size={20} color='#000' /></div></TableCell>
                                         </TableRow>
                                     )
                                 })

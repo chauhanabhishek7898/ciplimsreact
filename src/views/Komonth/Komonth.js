@@ -648,7 +648,7 @@ function KOMONTH() {
                                                     <TableRow key={index}>
 
                                                         {/* <TableCell component="th" scope="row">{index + 1}.</TableCell> */}
-                                                        <TableCell align="left"><div onClick={() => openMonthModel(item)}><RiEditBoxLine fontSize="1.5em" color='red' /></div></TableCell>
+                                                        <TableCell align="left"><div onClick={() => openMonthModel(item)}><BorderColorIcon size={20} color='#000' /></div></TableCell>
                                                         <TableCell align="left">{item.vKOMonth}</TableCell>
                                                         <TableCell align="left">{item.nKOYear}</TableCell>
                                                         <TableCell align="left">{item.nDays}</TableCell>
@@ -673,7 +673,7 @@ function KOMONTH() {
                                                     <TableRow key={index}>
 
                                                         {/* <TableCell component="th" scope="row">{index + 1}.</TableCell> */}
-                                                        <TableCell align="left"><div onClick={() => openWeekModel(item)}><RiEditBoxLine fontSize="1.5em" color='red'/></div></TableCell>
+                                                        <TableCell align="left"><div onClick={() => openWeekModel(item)}><BorderColorIcon size={20} color='#000' /></div></TableCell>
                                                         <TableCell align="left">{item.vKOMonth}</TableCell>
                                                         <TableCell align="left">{item.nKOYear}</TableCell>
                                                         <TableCell align="left">{item.nDays}</TableCell>

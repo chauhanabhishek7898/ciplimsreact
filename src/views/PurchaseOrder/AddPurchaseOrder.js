@@ -312,7 +312,7 @@ function AddPurchaseOrder() {
         if (btnType == 'edit') {
             confirmAlert({
                 title: 'Alert !!',
-                message: 'Do you want Edit this Item. ?',
+                message: 'Do you want Edit this Material ?',
                 buttons: [
                     {
                         label: 'Yes',
@@ -366,7 +366,7 @@ function AddPurchaseOrder() {
             if (validateformPoDetial() == true) {
                 confirmAlert({
                     title: 'Alert !!',
-                    message: 'Do you want Add this Item. ?',
+                    message: 'Do you want Add this Material ?',
                     buttons: [
                         {
                             label: 'Yes',
@@ -450,7 +450,7 @@ function AddPurchaseOrder() {
             if (PODetails.length > 0) {
                 confirmAlert({
                     title: 'Alert !!',
-                    message: 'Do you want Proceed. ?',
+                    message: 'Do you want Proceed ?',
                     buttons: [
                         {
                             label: 'Yes',
@@ -822,7 +822,7 @@ function AddPurchaseOrder() {
                             {errorText.amount != '' ? <p className='error'>{errorText.amount}</p> : null}
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '5%' }} >
+                    <Box sx={{ width: '6%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
                                 value={nQty}
@@ -839,7 +839,7 @@ function AddPurchaseOrder() {
                             {errorText.Quan != '' ? <p className='error'>{errorText.Quan}</p> : null}
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '5%' }} >
+                    <Box sx={{ width: '6%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
                                 value={nAmt}
@@ -955,7 +955,7 @@ function AddPurchaseOrder() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '5%' }} >
+                    <Box sx={{ width: '6%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
                                 value={nTax}
@@ -972,7 +972,7 @@ function AddPurchaseOrder() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '7%' }} >
+                    <Box sx={{ width: '9%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
                                 value={nTotalAmt}
@@ -1078,7 +1078,6 @@ function AddPurchaseOrder() {
                         Loading...
                     </CButton>
                     :
-                    // <button type="submit" className='submitbtn' onClick={submit}>Submit</button>
                     <button type="submit" className='submitbtn' onClick={handleSubmit(submit)}>Submit</button>
                 }
             </div>

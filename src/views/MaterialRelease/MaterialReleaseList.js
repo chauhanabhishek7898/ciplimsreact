@@ -12,7 +12,7 @@ import MenuItem from '@mui/material/MenuItem';
 import Paper from '@mui/material/Paper';
 import { BrandMaster_SelectAll, BrandMasterPost, BrandMasterPut } from '../BrandMaster/BrandMasterService'
 import { UnitMaster_SelectAll } from '../PackMaster/PackMasterService'
-import { GetGRNDetails,GetOpeningDetails } from './EnterOpeningStockService'
+import { GetGRNDetails,GetOpeningDetails } from './MaterialReleaseService'
 
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
@@ -40,7 +40,7 @@ import { useNavigate, Link } from "react-router-dom";
 import * as environment from '../../coreservices/environment'
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import CircularProgress from '@mui/joy/CircularProgress';
-function EnterOpeningStockList() {
+function MaterialReleaseList() {
     let imageUrl = environment.imageUrl
     const navigate = useNavigate();
     const [modalIsOpen, setIsOpen] = React.useState(false);
@@ -159,7 +159,7 @@ function EnterOpeningStockList() {
             null
 
             }
-            <Link to="/AddEnterOpeningStock" className='addbtn_2'><AddIcon fontSize='large' /></Link>
+            <Link to="/AddMaterialRelease" className='addbtn_2'><AddIcon fontSize='large' /></Link>
 
             <div className='tablecenter'>
 
@@ -287,5 +287,4 @@ const customStyles = {
     },
 };
 
-
-export default EnterOpeningStockList
+export default MaterialReleaseList

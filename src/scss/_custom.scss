@@ -237,7 +237,7 @@ p{
   .displayflexend{
     display: flex;
     align-items: flex-end;
-    justify-content: space-between;
+    // justify-content: space-between;
     flex-wrap: wrap;
     margin-top: 10px;
     gap: 10px;
@@ -474,4 +474,14 @@ input[type="number"] {
 }
 .css-9npbnl-MuiFormLabel-root-MuiInputLabel-root{
   font-size: 13px !important;
+}
+.infobtn{
+  border: none;
+  background: green;
+  border-radius: 100px;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

@@ -157,6 +157,7 @@ function AddEnterOpeningStock() {
     const [nFreight, setnFreight] = useState('')
     const [nGrandTotal, setnGrandTotal] = useState('')
     const [nNetTotalAmt, setnNetTotalAmt] = useState('')
+    const [vUOM, setvUOM] = useState('')
 
     useEffect(() => {
         const userId = localStorage.getItem("nUserId")
@@ -314,6 +315,7 @@ function AddEnterOpeningStock() {
     const changeMaterialMasterValue = (value) => {
         setnMId(value.value)
         setMaterialDetail(value.label)
+        setvUOM(value.vUOM)
         setError({
             MaterialDetail: ''
         })
@@ -395,6 +397,7 @@ function AddEnterOpeningStock() {
                                 poMasteerDetail[indexToUpdate].MaterialDetail = MaterialDetail,
                                 poMasteerDetail[indexToUpdate].nQtyAccepted = parseFloat(nQtyAccepted == '' ? 0 : nQtyAccepted),
                                 poMasteerDetail[indexToUpdate].nQtyRejected = parseFloat(nQtyRejected == '' ? 0 : nQtyRejected),
+                                poMasteerDetail[indexToUpdate].vUOM = vUOM ,
                                 poMasteerDetail[indexToUpdate].TotalQty = parseFloat(nAmt == '' ? 0 : nAmt),
                                 poMasteerDetail[indexToUpdate].dtExpDate = parseDateToStringSubmit(new Date(dtExpDate)),
                                 poMasteerDetail[indexToUpdate].dtExpDate2 = dtExpDate,
@@ -427,9 +430,9 @@ function AddEnterOpeningStock() {
                         onClick: () => {
                             if (validateformPoDetial() == true) {
                                 let poMasteerDetail = [...PODetails]
-                                let findnMId = poMasteerDetail.find(e => e.nMId == nMId)
+                                let findnMId = poMasteerDetail.find(e => e.nMId == nMId&&e.dtExpDate == parseDateToStringSubmit(new Date(dtExpDate)))
                                 if (findnMId) {
-                                    toast.success("Material is already Added.")
+                                    toast.success("Material with this expiry date is already Added.")
                                 } else {
                                     poMasteerDetail.push({
                                         id: new Date().getUTCMilliseconds(),
@@ -437,6 +440,7 @@ function AddEnterOpeningStock() {
                                         MaterialDetail: MaterialDetail,
                                         nQtyAccepted: parseFloat(nQtyAccepted == '' ? 0 : nQtyAccepted),
                                         nQtyRejected: parseFloat(nQtyRejected == '' ? 0 : nQtyRejected),
+                                        vUOM: vUOM,
                                         TotalQty: parseFloat(nAmt == '' ? 0 : nAmt),
                                         dtExpDate: parseDateToStringSubmit(new Date(dtExpDate)),
                                         dtExpDate2: dtExpDate,
@@ -571,6 +575,7 @@ function AddEnterOpeningStock() {
         setnQtyAccepted(item.nQtyAccepted)
         setnQtyRejected(item.nQtyRejected)
         setnAmt(item.TotalQty)
+        setvUOM(item.vUOM)
 
     }
     const goback = () => {
@@ -612,7 +617,7 @@ function AddEnterOpeningStock() {
                                     // setInputValue(newInputValue);
                                     console.log('newInputValue', newInputValue)
                                 }}
-                                renderInput={(params) => <TextField {...params} label="Search Plant . " required />}
+                                renderInput={(params) => <TextField {...params} label="Search Plant " required />}
                             />
                             {errorText.plant != '' ? <p className='error'>{errorText.plant}</p> : null}
                         </FormControl>
@@ -702,6 +707,22 @@ function AddEnterOpeningStock() {
                             {errorText.Quan != '' ? <p className='error'>{errorText.Quan}</p> : null}
                         </FormControl>
                     </Box> */}
+                     <Box sx={{ width: '11%' }} >
+                        <FormControl fullWidth className='input' >
+                            <TextField
+                                value={vUOM}
+                                // onChange={e => setnAmt(e.target.value)}
+                                id="outlined-basic"
+                                label="UOM"
+                                variant="outlined"
+                                name='Amount'
+                                disabled={true}
+                            // inputRef={register({ required: "Amount is required.*", })}
+                            // error={Boolean(errors.Amount)}
+                            // helperText={errors.Amount?.message}
+                            />
+                        </FormControl>
+                    </Box>
                     <Box sx={{ width: '12%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
@@ -737,6 +758,7 @@ function AddEnterOpeningStock() {
                         </FormControl>
                     </Box>
 
+                   
                     <Box sx={{ width: '11%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
@@ -763,7 +785,6 @@ function AddEnterOpeningStock() {
                                         inputFormat="DD-MM-YYYY"
                                         value={dtExpDate}
                                         required
-                                        maxDate={toDates}
                                         onChange={handleChangedtExpDate}
                                         renderInput={(params) => <TextField {...params} />}
                                     />
@@ -788,6 +809,7 @@ function AddEnterOpeningStock() {
                                             <TableCell align="left">Material Name</TableCell>
                                             {/* <TableCell align="left">PO Qty</TableCell>
                                             <TableCell align="left">Balance QTY</TableCell> */}
+                                            <TableCell align="left">UOM</TableCell>
                                             <TableCell align="left">Qty Accepted</TableCell>
                                             <TableCell align="left">Qty Rejected</TableCell>
                                             <TableCell align="left">Total Qty</TableCell>
@@ -813,9 +835,10 @@ function AddEnterOpeningStock() {
                                                         <TableCell align="left">{item.MaterialDetail}</TableCell>
                                                         {/* <TableCell align="left">{item.nQty}</TableCell>
                                                         <TableCell align="left">{item.BalanceQuantity}</TableCell> */}
+                                                        <TableCell align="left">{item.vUOM}</TableCell>
                                                         <TableCell align="left">{item.nQtyAccepted}</TableCell>
                                                         <TableCell align="left">{item.nQtyRejected}</TableCell>
-                                                        <TableCell align="left">{item.nAmt}</TableCell>
+                                                        <TableCell align="left">{item.TotalQty}</TableCell>
                                                         <TableCell align="left">{parseDateToString(new Date(item.dtExpDate2))}</TableCell>
 
                                                     </TableRow>

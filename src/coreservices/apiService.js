@@ -1,4 +1,7 @@
-async function get(url) {
+export default function abc() {
+    return <div>abc</div>
+}
+export async function get(url) {
      let token = await localStorage.getItem('token');
 return fetch(url, {
         headers: {
@@ -15,7 +18,7 @@ return fetch(url, {
             console.log(err);
         });
 }
-async function post(url, data) {
+export async function post(url, data) {
      let token = await localStorage.getItem('token');
     const requestOptions = {
         method: 'POST',
@@ -35,7 +38,7 @@ async function post(url, data) {
             console.log(err);
         });
 }
-async function put(url, data) {
+export async function put(url, data) {
   let token = await localStorage.getItem('token');
     const requestOptions = {
         method: 'PUT',
@@ -56,7 +59,7 @@ async function put(url, data) {
             console.log(err);
         });
 }
-async function postFile(url, data) {
+export async function postFile(url, data) {
 let token = await localStorage.getItem('token');
     const requestOptions = {
         method: 'POST',
@@ -77,7 +80,7 @@ let token = await localStorage.getItem('token');
             console.log(err);
         });
 }
-async function putFile(url, data) {
+export async function putFile(url, data) {
   let token = await localStorage.getItem('token');
     const requestOptions = {
         method: 'PUT',
@@ -98,4 +101,4 @@ async function putFile(url, data) {
             console.log(err);
         });
 }
-module.exports = { get, post, put, postFile, putFile } 
+// module.exports = { get, post, put, postFile, putFile } 

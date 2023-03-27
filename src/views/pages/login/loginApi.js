@@ -6,7 +6,7 @@ export default function abc() {
 export function GetUserDetailsUsingUNandPW(vUserName,vPassword,vDeviceId) {
     let apiUrl = environment.apiUrl;
     let url = `${apiUrl}/UserMaster/GetUserDetailsUsingUNandPW/${vUserName}/${vPassword}/${null}`
-    return api.get(url).then(response => {
+    return get(url).then(response => {
         return response;
     })
 }

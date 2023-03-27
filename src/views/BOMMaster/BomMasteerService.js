@@ -1,4 +1,5 @@
-import * as api from '../../coreservices/apiService'
+// import {get,put,putFile,post,postFile} from '../../coreservices/apiService'
+import {get,put,putFile,post,postFile} from '../../coreservices/apiService'
 import * as environment from '../../coreservices/environment'
 export default function abc() {
     return <div>abc</div>
@@ -6,21 +7,28 @@ export default function abc() {
 export function PlantMaster_SelectAll() {
     let apiUrl = environment.apiUrl;
     let url = `${apiUrl}/PlantMaster/PlantMaster_SelectAll`
-    return api.get(url).then(response => {
+    return get(url).then(response => {
         return response;
     })
 }
 export function GetBOMDetails(vGeneric) {
     let apiUrl = environment.apiUrl;
     let url = `${apiUrl}/BOMMaster/GetBOMDetails/${vGeneric}`
-    return api.get(url).then(response => {
+    return get(url).then(response => {
+        return response;
+    })
+}
+export function GetBOMDetailsLIkeSearch(vGeneric) {
+    let apiUrl = environment.apiUrl;
+    let url = `${apiUrl}/BOMMaster/GetBOMDetailsLIkeSearch/${vGeneric}`
+    return get(url).then(response => {
         return response;
     })
 }
 export function GetBOMByBId(nBId) {
     let apiUrl = environment.apiUrl;
     let url = `${apiUrl}/BOMMaster/GetBOMByBId/${nBId}`
-    return api.get(url).then(response => {
+    return get(url).then(response => {
         return response;
     })
 }
@@ -31,7 +39,7 @@ export function BOMMasterPost(data,file) {
     // formData.append("fileSize", fileSize);
     formData.append("BOMMaster", JSON.stringify(data));
     let url = `${apiUrl}/BOMMaster`
-    return api.postFile(url, formData).then(response => {
+    return postFile(url, formData).then(response => {
         return response;
     })
 }
@@ -42,7 +50,7 @@ export function BOMMasterPut(data,file) {
     // formData.append("fileSize", fileSize);
     formData.append("BOMMaster", JSON.stringify(data));
     let url = `${apiUrl}/BOMMaster`
-    return api.putFile(url, formData).then(response => {
+    return putFile(url, formData).then(response => {
         return response;
     })
 }

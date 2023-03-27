@@ -234,13 +234,13 @@ function PackMaster() {
                             <TableHead>
                                 <TableRow>
                                     {/* <TableCell scope="row">SN.</TableCell> */}
+                                    <TableCell align="left">Edit</TableCell>
+                                    <TableCell align="left">Status</TableCell>
                                     <TableCell align="left">Pack Code</TableCell>
                                     <TableCell align="left">Pack Name</TableCell>
                                     <TableCell align="left">Unit</TableCell>
                                     <TableCell align="left">Pack Product</TableCell>
                                     <TableCell align="left">Pack Cases</TableCell>
-                                    <TableCell align="left">Status</TableCell>
-                                    <TableCell align="left">Edit</TableCell>
                                 </TableRow>
                             </TableHead>
                             {packData?.length>0?
@@ -249,13 +249,13 @@ function PackMaster() {
                                     return (
                                         <TableRow >
                                             {/* <TableCell component="th" scope="row">{index + 1}.</TableCell> */}
+                                            <TableCell align="left"><div onClick={() => openmodale(item, 'Update')}><BorderColorIcon size={20} color='#000' /></div></TableCell>
+                                            <TableCell align="left">{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
                                             <TableCell align="left">{item.vPackCode}</TableCell>
                                             <TableCell align="left">{item.vPackName}</TableCell>
                                             <TableCell align="left">{item.vUnit}</TableCell>
                                             <TableCell align="left">{item.vPackProduct}</TableCell>
                                             <TableCell align="left">{item.vPackCases}</TableCell>
-                                            <TableCell align="left">{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
-                                            <TableCell align="left"><div onClick={() => openmodale(item, 'Update')}><BorderColorIcon size={20} color='#000' /></div></TableCell>
 
                                         </TableRow>
                                     )
@@ -393,7 +393,7 @@ function PackMaster() {
                         </FormControl>
                     </Box>
                 </div>
-                <div className='displayflexend'>
+                <div className='displayflexend-2'>
                     <FormGroup >
                         <FormControlLabel control={<Checkbox defaultChecked={btActive} value={btActive} onChange={e => setBtActive(e.target.checked)} />} label="Active" disabled={disabled} />
                     </FormGroup>
