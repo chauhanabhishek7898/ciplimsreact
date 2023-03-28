@@ -352,7 +352,7 @@ function AddMaterialRelease() {
         }
     }
     const getBOMMaterialsQty = (value) => {
-        GetBOMMaterialsQty(nBid, value).then(res => {
+        GetBOMMaterialsQty(nBId, value).then(res => {
             console.log('response', res)
             setBOMMaterialsQty(res)
         })
@@ -381,20 +381,40 @@ function AddMaterialRelease() {
     }
     const onChangenQty = (value) => {
         setnQty(value)
-        if (value > LeftStockQty && value > LeftQty) {
-            confirmAlert({
-                title: 'Alert !!',
-                message: 'Input Qty. should not be greater than Left Stock Qty.',
-                buttons: [
-                    {
-                        label: 'Ok',
-                        onClick: () => { return null },
-                    },
-                ]
-            });
-        }else{
-            console.log('false')
-        }
+        setTimeout(() => {
+            if(value!=''||value!=undefined){
+                if (value <= LeftQty) {
+                    if(value <= LeftStockQty){
+    
+                    }else{
+                        confirmAlert({
+                            title: 'Alert !!',
+                            message: 'Input Qty. should not be greater than Left Stock Qty.',
+                            buttons: [
+                                {
+                                    label: 'Ok',
+                                    onClick: () => { return null },
+                                },
+                            ]
+                        });
+                        
+                    }
+                }else{
+                    console.log('false')
+                    confirmAlert({
+                        title: 'Alert !!',
+                        message: 'Input Qty. should not be greater than Left Stock Qty.',
+                        buttons: [
+                            {
+                                label: 'Ok',
+                                onClick: () => { return null },
+                            },
+                        ]
+                    });
+                }
+            }
+                       
+        }, 2000)
     }
     // const calculateAmount = (value, type) => {
 
@@ -582,6 +602,7 @@ function AddMaterialRelease() {
                                 nBOMUnit: nBOMUnit,
                                 vBatchNo: vBatchNo,
                                 btActive: true,
+                                dtGRNDate:parseDateToStringSubmit(new Date(startDate)),
                                 nLoggedInUserId: parseInt(nLoggedInUserId)
                             }]
                             const POMasterDataDtails = [{

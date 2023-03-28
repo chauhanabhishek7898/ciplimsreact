@@ -1,4 +1,4 @@
-import * as api from '../../../coreservices/apiService'
+import {get} from '../../../coreservices/apiService'
 import * as environment from '../../../coreservices/environment'
 export default function abc() {
     return <div>abc</div>

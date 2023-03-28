@@ -114,7 +114,7 @@ const Login = () => {
                             </CCol>
                             :
                             <CCol xs={6}>
-                              <CButton color="primary" className="px-4" onClick={login}>
+                              <CButton  style={{background:'#ef1e2c',color:"#fff",border:'none'}} className="px-4" onClick={login}>
                                 Login
                               </CButton>
                             </CCol>
@@ -129,7 +129,7 @@ const Login = () => {
                       </CForm>
                     </CCardBody>
                   </CCard>
-                  <CCard className="text-white bg-primary py-5" style={{ width: '44%' }}>
+                  <CCard className="text-white  py-5" style={{ width: '44%',background:'#ef1e2c' }}>
                     <CCardBody className="text-center">
                       <div>
                         <h2>Sign up</h2>
@@ -138,7 +138,7 @@ const Login = () => {
                           tempor incididunt ut labore et dolore magna aliqua.
                         </p>
                         <Link to="/register">
-                          <CButton color="primary" className="mt-3" active tabIndex={-1}>
+                          <CButton style={{background:'#fff',color:"#000",border:'none'}} className="mt-3" active tabIndex={-1}>
                             Register Now!
                           </CButton>
                         </Link>
