@@ -856,13 +856,13 @@ function AddPurchaseOrder() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '6%' }} >
+                    <Box sx={{ width: '6.5%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
                                 value={nSGSTP}
                                 onChange={e => calculateAmount(e.target.value, 'nSGSTP')}
                                 id="outlined-basic"
-                                label="SGST in (%)"
+                                label="SGST (%)"
                                 variant="outlined"
                                 name='SGSTin'
                                 type="number" inputProps={{ min: 4, max: 10 }}
@@ -889,13 +889,13 @@ function AddPurchaseOrder() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '6%' }} >
+                    <Box sx={{ width: '6.5%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
                                 value={nCGSTP}
                                 onChange={e => calculateAmount(e.target.value, 'nCGSTP')}
                                 id="outlined-basic"
-                                label="CGST in (%)"
+                                label="CGST (%)"
                                 variant="outlined"
                                 name='CGSTin'
                                 type="number" inputProps={{ min: 4, max: 10 }}
@@ -922,13 +922,13 @@ function AddPurchaseOrder() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '6%' }} >
+                    <Box sx={{ width: '6.5%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
                                 value={nIGSTP}
                                 onChange={e => calculateAmount(e.target.value, 'nIGSTP')}
                                 id="outlined-basic"
-                                label="IGST in (%)"
+                                label="IGST (%)"
                                 variant="outlined"
                                 name='IGSTin'
                                 type="number" inputProps={{ min: 4, max: 10 }}

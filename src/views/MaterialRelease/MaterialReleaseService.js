@@ -46,6 +46,20 @@ export function GetBOMMaterialsQty(nBId,nBOMUnit) {
         return response;
     })
 }
+export function GetExpiryDatesforMaterialRelease(nPId,nMId) {
+    let apiUrl = environment.apiUrl;
+    let url = `${apiUrl}/GRNMaster/GetExpiryDatesforMaterialRelease/${nPId}/${nMId}`
+    return get(url).then(response => {
+        return response;
+    })
+}
+export function GetMaterialforRelease(nPId,nMId,dtExpDate,nBId,nBOMUnit,vBatchNo) {
+    let apiUrl = environment.apiUrl;
+    let url = `${apiUrl}/GRNMaster/GetMaterialforRelease/${nPId}/${nMId}/${dtExpDate}/${nBId}/${nBOMUnit}/${vBatchNo}`
+    return get(url).then(response => {
+        return response;
+    })
+}
 export function POMasterPost(data,file) {
     let apiUrl = environment.apiUrl;
     const formData = new FormData();
@@ -57,10 +71,10 @@ export function POMasterPost(data,file) {
         return response;
     })
 }
-export function OpeningStock_Insert(data) {
+export function MaterialRelease_Insert(data) {
     let apiUrl = environment.apiUrl;
-    let url = `${apiUrl}/GRNMaster/OpeningStock_Insert`
-    return postFile(url, data).then(response => {
+    let url = `${apiUrl}/GRNMaster/MaterialRelease_Insert`
+    return post(url, data).then(response => {
         return response;
     })
 }

@@ -486,8 +486,6 @@ function MaterialMaster() {
                     </FormGroup>
                 </div>
                 <div className='displayflexendmodal'>
-
-
                     {loader == true ?
                         <CButton disabled className='submitbtn'>
                             <CSpinner component="span" size="sm" aria-hidden="true" />

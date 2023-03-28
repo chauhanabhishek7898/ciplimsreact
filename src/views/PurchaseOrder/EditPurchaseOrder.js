@@ -922,7 +922,7 @@ function EditPurchaseOrder() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '6%' }} >
+                    <Box sx={{ width: '6.5%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
                                 value={nSGSTP}
@@ -955,7 +955,7 @@ function EditPurchaseOrder() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '6%' }} >
+                    <Box sx={{ width: '6.5%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
                                 value={nCGSTP}
@@ -988,7 +988,7 @@ function EditPurchaseOrder() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '6%' }} >
+                    <Box sx={{ width: '6.5%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
                                 value={nIGSTP}

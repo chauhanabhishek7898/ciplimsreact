@@ -223,10 +223,9 @@ function UnitMaster() {
                 </form>
             </Modal >
             <div className='tablecenter'>
+                
                 <Paper sx={{ width: '100%', overflow: 'hidden' }}>
-                    <TableContainer sx={{ maxHeight: 440 }}>
-
-                        <div className='exportandfilter'>
+                <div className='exportandfilter'>
                             <ExportExcel excelData={unitData} Heading={Heading} fileName={'Unit_Master'} />
                             <Box sx={{ width: '65%' }} >
                                 <SearchBar
@@ -240,6 +239,9 @@ function UnitMaster() {
                                 <FormControlLabel control={<Checkbox checked={onlyActive} value={onlyActive} onChange={checkedonlyActive} />} label="Only Active Data" />
                             </FormGroup>
                         </div>
+                    <TableContainer sx={{ maxHeight: 440 }}>
+
+                       
 
                         <Table stickyHeader aria-label="sticky table">
                             <TableHead>
