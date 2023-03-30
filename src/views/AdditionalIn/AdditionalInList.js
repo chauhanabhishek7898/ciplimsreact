@@ -12,7 +12,7 @@ import MenuItem from '@mui/material/MenuItem';
 import Paper from '@mui/material/Paper';
 import { BrandMaster_SelectAll, BrandMasterPost, BrandMasterPut } from '../BrandMaster/BrandMasterService'
 import { UnitMaster_SelectAll } from '../PackMaster/PackMasterService'
-import { GetGRNDetailsForReleasedMaterials,GetOpeningDetails } from './MaterialReleaseService'
+import { GetGRNDetails,GetAdditionalInDetails } from './AdditionalInService'
 
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
@@ -40,7 +40,7 @@ import { useNavigate, Link } from "react-router-dom";
 import * as environment from '../../coreservices/environment'
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import CircularProgress from '@mui/joy/CircularProgress';
-function MaterialReleaseList() {
+function AdditionalInList() {
     let imageUrl = environment.imageUrl
     const navigate = useNavigate();
     const [modalIsOpen, setIsOpen] = React.useState(false);
@@ -102,7 +102,7 @@ function MaterialReleaseList() {
         } else {
             vGenrics = vGenric
         }
-        GetGRNDetailsForReleasedMaterials(parseDateToStringSubmit(new Date(fromDate)),parseDateToStringSubmit(new Date(toDate)),vGenrics).then(response => {
+        GetAdditionalInDetails(parseDateToStringSubmit(new Date(fromDate)),parseDateToStringSubmit(new Date(toDate)),vGenrics).then(response => {
             console.log(response)
             setBrandData(response)
             setLoader(false)
@@ -143,7 +143,7 @@ function MaterialReleaseList() {
     }
 
     const handleDetail = (nGRNId) => {
-        navigate('/EditMaterialRelease', { state: { nGRNId } });
+        navigate('/EditAdditionalIn', { state: { nGRNId } });
     }
 
     return (
@@ -159,7 +159,7 @@ function MaterialReleaseList() {
             null
 
             }
-            <Link to="/AddMaterialRelease" className='addbtn_2'><AddIcon fontSize='large' /></Link>
+            <Link to="/AddAdditionalIn" className='addbtn_2'><AddIcon fontSize='large' /></Link>
 
             <div className='tablecenter'>
 
@@ -224,13 +224,11 @@ function MaterialReleaseList() {
                                     {/* <TableCell scope="row" style={{width:'2%'}}>SN.</TableCell> */}
                                     <TableCell align="center">Edit</TableCell>
                                     <TableCell align="left">Status</TableCell>
-                                    <TableCell align="left">Ref No</TableCell>
+                                    <TableCell align="left">Reference No</TableCell>
                                     <TableCell align="left">Batch No</TableCell>
-                                    <TableCell align="left">Date</TableCell>
                                     <TableCell align="left">Plant Detail</TableCell>
-                                    <TableCell align="left">BOM Detail</TableCell>
-                                    <TableCell align="left">BOM Unit</TableCell>
-                                    {/* <TableCell align="left">Remarks</TableCell> */}
+                                    <TableCell align="left">Dated</TableCell>
+                                    <TableCell align="left">Remarks</TableCell>
 
                                 </TableRow>
                             </TableHead>
@@ -242,13 +240,12 @@ function MaterialReleaseList() {
                                                 {/* <TableCell component="th" scope="row">{index + 1}.</TableCell> */}
                                                 <TableCell align="center"><button className='deletbtn' title='Edit' onClick={() => handleDetail(item.nGRNId)}><BorderColorIcon size={20} color='#000' /></button></TableCell>
                                                 <TableCell align="left">{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
-                                                <TableCell align="left">{item.vInvoiceNo}</TableCell>
+                                                <TableCell align="left">{item.AINo}</TableCell>
                                                 <TableCell align="left">{item.vBatchNo}</TableCell>
-                                                <TableCell align="left">{item.GRNDate}</TableCell>
                                                 <TableCell align="left">{item.PlantDetail}</TableCell>
-                                                <TableCell align="left">{item.vBOMName}</TableCell>
-                                                <TableCell align="left">{item.nBOMUnit}</TableCell>
-                                                {/* <TableCell align="left">{item.vRemarks}</TableCell> */}
+                                                <TableCell align="left">{item.Dated}</TableCell>
+                                                <TableCell align="left">{item.vRemarks}</TableCell>
+
                                             </TableRow>
                                         )
                                     })
@@ -292,4 +289,5 @@ const customStyles = {
     },
 };
 
-export default MaterialReleaseList
+
+export default AdditionalInList

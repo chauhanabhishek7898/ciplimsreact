@@ -17,9 +17,9 @@ export function GetGRNDetails(FromDt,ToDt,vGeneric) {
         return response;
     })
 }
-export function GetGRNByGRNId(nGRNId) {
+export function GetAdditionalInByGRNId(nGRNId) {
     let apiUrl = environment.apiUrl;
-    let url = `${apiUrl}/GRNMaster/GetOpeningByGRNId/${nGRNId}`
+    let url = `${apiUrl}/GRNMaster/GetAdditionalInByGRNId/${nGRNId}`
     return get(url).then(response => {
         return response;
     })
@@ -32,9 +32,9 @@ export function GetPODetailsLIkeSearch(vGeneric) {
         return response;
     })
 }
-export function GetOpeningDetails(vGeneric) {
+export function GetAdditionalInDetails(FromDt,ToDt,vGeneric) {
     let apiUrl = environment.apiUrl;
-    let url = `${apiUrl}/GRNMaster/GetOpeningDetails/${vGeneric}`
+    let url = `${apiUrl}/GRNMaster/GetAdditionalInDetails/${FromDt}/${ToDt}/${vGeneric}`
     return get(url).then(response => {
         return response;
     })
@@ -50,16 +50,16 @@ export function POMasterPost(data,file) {
         return response;
     })
 }
-export function OpeningStock_Insert(data) {
+export function AdditionalIn_Insert(data) {
     let apiUrl = environment.apiUrl;
-    let url = `${apiUrl}/GRNMaster/OpeningStock_Insert`
+    let url = `${apiUrl}/GRNMaster/AdditionalIn_Insert`
     return post(url, data).then(response => {
         return response;
     })
 }
-export function OpeningStock_Update(data) {
+export function AdditionalIn_Update(data) {
     let apiUrl = environment.apiUrl;
-    let url = `${apiUrl}/GRNMaster/OpeningStock_Update`
+    let url = `${apiUrl}/GRNMaster/AdditionalIn_Update`
     return put(url, data).then(response => {
         return response;
     })

@@ -41,10 +41,10 @@ p{
     }
 
 }
-.css-1sumxir-MuiFormLabel-root-MuiInputLabel-root{
-    top: -4px !important;
-    background: #fff !important;
-}
+// .css-1sumxir-MuiFormLabel-root-MuiInputLabel-root{
+//     top: -4px !important;
+//     background: #fff !important;
+// }
 .css-y8ay40-MuiTableCell-root {
   font-weight: bold !important;
   white-space:nowrap
@@ -441,24 +441,24 @@ input[type="number"] {
     transform: translate(-50%, -50%);
   }
 }
-.css-14s5rfu-MuiFormLabel-root-MuiInputLabel-root{
-  font-size: 13px !important;
-  line-height: 0 !important;
-  top: -4px !important;
-  overflow: visible !important;
-}
-.css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input, .css-nxo287-MuiInputBase-input-MuiOutlinedInput-input{
-  padding: 5px 14px !important;
-  font-size: 13px !important;
-}
-.css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input{
-  padding: 3px 14px !important;
-  font-size: 13px !important;
-}
-.css-154xyx0-MuiInputBase-root-MuiOutlinedInput-root{
-  padding: 0px !important;
-  font-size: 13px !important;
-}
+// .css-14s5rfu-MuiFormLabel-root-MuiInputLabel-root{
+//   font-size: 13px !important;
+//   line-height: 0 !important;
+//   top: -4px !important;
+//   overflow: visible !important;
+// }
+// .css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input, .css-nxo287-MuiInputBase-input-MuiOutlinedInput-input{
+//   padding: 5px 14px !important;
+//   font-size: 13px !important;
+// }
+// .css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input{
+//   padding: 3px 14px !important;
+//   font-size: 13px !important;
+// }
+// .css-154xyx0-MuiInputBase-root-MuiOutlinedInput-root{
+//   padding: 0px !important;
+//   font-size: 13px !important;
+// }
 .css-hfutr2-MuiSvgIcon-root-MuiSelect-icon{
   top: calc(50% - 0.6em) !important;
 }
@@ -487,4 +487,16 @@ input[type="number"] {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+.updatebtnbox{
+  position: absolute;
+  right: 5px;
+  top: -2px;
+  .updatebtn{
+    border: none;
+    font-size: 12px;
+    background: #f01d2c;
+    color: #fff;
+    border-radius: 5px;
+  }
 }

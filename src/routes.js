@@ -19,6 +19,13 @@ const AddEnterOpeningStock = React.lazy(() => import('./views/EnterOpeningStock/
 const EditEnterOpeningStock = React.lazy(() => import('./views/EnterOpeningStock/EditEnterOpeningStock'))
 const MaterialRelease = React.lazy(() => import('./views/MaterialRelease/MaterialReleaseList'))
 const AddMaterialRelease = React.lazy(() => import('./views/MaterialRelease/AddMaterialRelease'))
+const EditMaterialRelease = React.lazy(() => import('./views/MaterialRelease/EditMaterialRelease'))
+const AdditionalInList = React.lazy(() => import('./views/AdditionalIn/AdditionalInList'))
+const AddAdditionalIn = React.lazy(() => import('./views/AdditionalIn/AddAdditionalIn'))
+const EditAdditionalIn = React.lazy(() => import('./views/AdditionalIn/EditAdditionalIn'))
+const RejectedOutList = React.lazy(() => import('./views/RejectedOut/RejectedOutList'))
+const AddRejectedOut = React.lazy(() => import('./views/RejectedOut/AddRejectedOut'))
+const EditRejectedOut = React.lazy(() => import('./views/RejectedOut/EditRejectedOut'))
 
 const VenderForm = React.lazy(() => import('./views/VenderForm/VenderForm'))
 const BrandMaster = React.lazy(() => import('./views/BrandMaster/BrandMaster'))
@@ -58,6 +65,13 @@ const routes = [
   { path: '/EditEnterOpeningStock', name: 'Edit Enter Opening Stock', element: EditEnterOpeningStock, exact: true },
   { path: '/MaterialRelease', name: 'Material Release', element: MaterialRelease, exact: true },
   { path: '/AddMaterialRelease', name: 'Add Material Release', element: AddMaterialRelease, exact: true },
+  { path: '/EditMaterialRelease', name: 'Edit Material Release', element: EditMaterialRelease, exact: true },
+  { path: '/AdditionalIn', name: 'Additional In', element: AdditionalInList, exact: true },
+  { path: '/AddAdditionalIn', name: 'Add Additional In', element: AddAdditionalIn, exact: true },
+  { path: '/EditAdditionalIn', name: 'Edit Additional In', element: EditAdditionalIn, exact: true }, 
+  { path: '/RejectedOut', name: 'Rejected Out', element: RejectedOutList, exact: true },
+  { path: '/AddRejectedOut', name: 'Add Rejected Out', element: AddRejectedOut, exact: true },
+  { path: '/EditRejectedOut', name: 'Edit Rejected Out', element: EditRejectedOut, exact: true },
 ]
 
 export default routes

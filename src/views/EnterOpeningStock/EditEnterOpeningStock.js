@@ -246,6 +246,7 @@ function EditEnterOpeningStock() {
             setnPOId(res.GRNMaster[0].nPId)
             setPlantDetail(res.GRNMaster[0].PlantDetail)
             setvUOM(res.GRNMaster[0].vUOM)
+            setStartDate(parseDateToString(res.GRNMaster[0].dtGRNDate))
 
             setBtActive(res.GRNMaster[0].btActive)
             setvRemarks(res.GRNMaster[0].vRemarks)
@@ -520,6 +521,7 @@ function EditEnterOpeningStock() {
                                 const POMasterData = [{
                                     nGRNId: nGRNId,
                                     nPId: nPOId,
+                                    dtGRNDate: parseDateToStringSubmit(new Date(startDate)),
                                     vRemarks: vRemarks,
                                     btActive: true,
                                     nLoggedInUserId: parseInt(nLoggedInUserId)
@@ -567,6 +569,7 @@ function EditEnterOpeningStock() {
     const deleteItem = (ids) => {
         confirmAlert({
             title: 'Alert !!',
+            closeOnClickOutside: false,
             message: 'Do you want to delete ?',
             buttons: [
                 {
@@ -605,6 +608,7 @@ function EditEnterOpeningStock() {
     const goback = () => {
         confirmAlert({
             title: 'Alert !!',
+            closeOnClickOutside: false,
             message: 'Are you Sure ?',
             buttons: [
                 {
@@ -623,7 +627,24 @@ function EditEnterOpeningStock() {
         <div className='citymasterContainer'>
             <div className='dateFilter-2'>
                 <div className='displayflexend'>
-
+                <Box sx={{ width: '11.5%' }} >
+                        <FormControl fullWidth className='input' >
+                            <LocalizationProvider dateAdapter={AdapterDayjs} >
+                                <Stack spacing={3} >
+                                    <DesktopDatePicker
+                                        label="Date *"
+                                        inputFormat="DD-MM-YYYY"
+                                        value={startDate}
+                                        required
+                                        maxDate={startDates}
+                                        onChange={handleChangeStartdate}
+                                        renderInput={(params) => <TextField {...params} />}
+                                    />
+                                </Stack>
+                            </LocalizationProvider>
+                            {errorText.date != '' ? <p className='error'>{errorText.date}</p> : null}
+                        </FormControl>
+                    </Box>
                     <Box sx={{ width: '39%', marginTop: 2 }} >
                         <FormControl fullWidth className='input'>
                             {/* <InputLabel required id="demo-simple-select-label">Plant</InputLabel>npm  */}
@@ -646,7 +667,7 @@ function EditEnterOpeningStock() {
                             {errorText.plant != '' ? <p className='error'>{errorText.plant}</p> : null}
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '53%', marginTop: 1 }} >
+                    <Box sx={{ width: '41%', marginTop: 1 }} >
                         <FormControl fullWidth className='input'>
                             <TextField
                                 value={vRemarks}

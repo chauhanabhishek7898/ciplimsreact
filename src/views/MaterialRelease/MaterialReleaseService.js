@@ -10,16 +10,23 @@ export function PlantMaster_SelectAll() {
         return response;
     })
 }
-export function GetGRNDetails(FromDt,ToDt,vGeneric) {
+export function GetGRNDetailsForReleasedMaterials(FromDt,ToDt,vGeneric) {
     let apiUrl = environment.apiUrl;
-    let url = `${apiUrl}/GRNMaster/GetGRNDetails/${FromDt}/${ToDt}/${vGeneric}`
+    let url = `${apiUrl}/GRNMaster/GetGRNDetailsForReleasedMaterials/${FromDt}/${ToDt}/${vGeneric}`
     return get(url).then(response => {
         return response;
     })
 }
-export function GetGRNByGRNId(nGRNId) {
+export function GetGRNByGRNIdForReleasedMaterials(nGRNId) {
     let apiUrl = environment.apiUrl;
-    let url = `${apiUrl}/GRNMaster/GetOpeningByGRNId/${nGRNId}`
+    let url = `${apiUrl}/GRNMaster/GetGRNByGRNIdForReleasedMaterials/${nGRNId}`
+    return get(url).then(response => {
+        return response;
+    })
+}
+export function GetBatchNoDetails(vBatchNo) {
+    let apiUrl = environment.apiUrl;
+    let url = `${apiUrl}/GRNMaster/GetBatchNoDetails/${vBatchNo}`
     return get(url).then(response => {
         return response;
     })
@@ -60,6 +67,13 @@ export function GetMaterialforRelease(nPId,nMId,dtExpDate,nBId,nBOMUnit,vBatchNo
         return response;
     })
 }
+export function GetMaterialforReleaseForEdit(nPId,nMId,dtExpDate,nBId,nBOMUnit,vBatchNo,nOutQty) {
+    let apiUrl = environment.apiUrl;
+    let url = `${apiUrl}/GRNMaster/GetMaterialforReleaseForEdit/${nPId}/${nMId}/${dtExpDate}/${nBId}/${nBOMUnit}/${vBatchNo}/${nOutQty}`
+    return get(url).then(response => {
+        return response;
+    })
+}
 export function POMasterPost(data,file) {
     let apiUrl = environment.apiUrl;
     const formData = new FormData();
@@ -75,6 +89,27 @@ export function MaterialRelease_Insert(data) {
     let apiUrl = environment.apiUrl;
     let url = `${apiUrl}/GRNMaster/MaterialRelease_Insert`
     return post(url, data).then(response => {
+        return response;
+    })
+}
+export function BatchNo_Update(data) {
+    let apiUrl = environment.apiUrl;
+    let url = `${apiUrl}/GRNMaster/BatchNo_Update`
+    return put(url, data).then(response => {
+        return response;
+    })
+}
+export function ReleasedMaterial_Delete(data) {
+    let apiUrl = environment.apiUrl;
+    let url = `${apiUrl}/GRNMaster/ReleasedMaterial_Delete`
+    return put(url, data).then(response => {
+        return response;
+    })
+}
+export function ReleasedMaterialMaster_Update(data) {
+    let apiUrl = environment.apiUrl;
+    let url = `${apiUrl}/GRNMaster/ReleasedMaterialMaster_Update`
+    return put(url, data).then(response => {
         return response;
     })
 }

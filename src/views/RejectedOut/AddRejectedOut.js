@@ -12,12 +12,12 @@ import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import Paper from '@mui/material/Paper';
 import { BrandMaster_SelectAll, BrandMasterPost, BrandMasterPut, } from '../BrandMaster/BrandMasterService'
-import { GetBOMDetailsLIkeSearch } from '../BOMMaster/BomMasteerService'
+import { GetBatchNoDetails } from '../MaterialRelease/MaterialReleaseService'
 import { MaterialMaster_SelectAll_ActiveLikeSearch } from '../MaterialMaster/MaterialMasterService'
 import { PlantMaster_SelectAll_ActiveLikeSearch } from '../PlantMaster/PlantMasterService'
 import { VendorMaster_SelectAll_ActiveLikeSearch, VendorMaster_SelectAll_Active } from '../VenderForm/VenderFormService'
 import { GetPODetails, GetPOByPOId } from '../PurchaseOrder/POMasterService'
-import { MaterialRelease_Insert, GetPODetailsLIkeSearch, GetBOMMaterialsQty, GetExpiryDatesforMaterialRelease, GetMaterialforRelease, GetBatchNoDetails } from './MaterialReleaseService'
+import { Drain_Insert, GetPODetailsLIkeSearch, GetExpDateForRejection, GetBalStockForRejection } from './RejectedOutService'
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import InputLabel from '@mui/material/InputLabel';
@@ -49,9 +49,8 @@ import BorderColorIcon from '@mui/icons-material/BorderColor';
 import { confirmAlert } from 'react-confirm-alert'; // Import
 import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
 import HomeIcon from '@mui/icons-material/Home';
-import InfoIcon from '@mui/icons-material/Info';
-import CloseIcon from '@mui/icons-material/Close';
-function AddMaterialRelease() {
+
+function AddRejectedOut() {
     const navigate = useNavigate();
     const [modalIsOpen, setIsOpen] = React.useState(false);
     const [page, setPage] = React.useState(0);
@@ -61,7 +60,7 @@ function AddMaterialRelease() {
     const [PlantMaster, setPlantMaster] = React.useState([]);
     const [VendorMaster, setVendorMaster] = React.useState([]);
     const [loader, setLoader] = React.useState(false);
-    const [nBId, setnBId] = React.useState(0);
+    const [nBid, setnBid] = React.useState(0);
     const [id, setId] = React.useState(0);
     const [nPId, setnPId] = React.useState('');
     const [PlantDetail, setPlantDetail] = React.useState('');
@@ -118,13 +117,10 @@ function AddMaterialRelease() {
         date: '',
         endDate: '',
         MaterialDetail: '',
-        BomDetail: '',
-        expireDate: '',
         Quan: '',
-        amount: '',
-        QuanAccept: '',
-        QuanReject: '',
-        Freight: '',
+        Qty: '',
+        expireDateValue: '',
+
 
     });
     const [unitid, setUnitid] = React.useState('');
@@ -145,6 +141,7 @@ function AddMaterialRelease() {
     const [nPOId, setnPOId] = useState('')
     const [vLorryRecNo, setvLorryRecNo] = useState('')
     const [vEWayBillNo, setvEWayBillNo] = useState('')
+    const [vBatchNo, setvBatchNo] = useState('')
     const [btCOAReceived, setbtCOAReceived] = useState(false)
     const [vGRNCopyFilePath, setvGRNCopyFilePath] = useState('')
     const [vCourierToCCIPL, setvCourierToCCIPL] = useState('')
@@ -154,25 +151,15 @@ function AddMaterialRelease() {
     const [AllTotalAmount, setAllTotalAmount] = useState('')
     const [nQtyAccepted, setnQtyAccepted] = useState('')
     const [nQtyRejected, setnQtyRejected] = useState('')
-
+    const [dtMfgDate, setdtMfgDate] = useState(dayjs(startDates))
     const [dtExpDate, setdtExpDate] = useState(dayjs(startDates))
-
-    const [vUOM, setvUOM] = useState('')
-    const [vBatchNo, setvBatchNo] = useState('')
-    const [nBOMUnit, setnBOMUnit] = useState('')
-    const [BOMMaterialsQty, setBOMMaterialsQty] = useState([])
-    const [BomDetail, setBomDetail] = useState('')
-    const [BOMMaster, setBOMMaster] = useState([])
-    const [expireDate, setExpireDate] = useState([])
-    const [expireDateValue, setexpireDateValue] = useState('')
-    const [RequiredQty, setRequiredQty] = useState('')
-    const [ReleasedQty, setReleasedQty] = useState('')
-    const [LeftStockQty, setLeftStockQty] = useState('')
+    const [nFreight, setnFreight] = useState('')
+    const [nGrandTotal, setnGrandTotal] = useState('')
+    const [nNetTotalAmt, setnNetTotalAmt] = useState('')
     const [LeftQty, setLeftQty] = useState('')
-    const [nGRNId, setnGRNId] = useState('')
-    const [TableShow, setTableShow] = useState(false)
-    const [firstRecord, setfirstRecord] = useState(false)
-    const [BomDisable, setBomDisable] = useState(false)
+    const [vUOM, setvUOM] = useState('')
+    const [expireDateValue, setexpireDateValue] = useState('')
+    const [expireDate, setExpireDate] = useState([])
 
     useEffect(() => {
         const userId = localStorage.getItem("nUserId")
@@ -261,22 +248,6 @@ function AddMaterialRelease() {
             setPlantMaster(data)
         })
     }
-    const getBOMDetailsLIkeSearch = (vGeneric) => {
-        GetBOMDetailsLIkeSearch(vGeneric == undefined || vGeneric == '' ? null : vGeneric.target.value).then(res => {
-            console.log('response', res)
-
-            let count = Object.keys(res).length
-            let data = []
-            for (var i = 0; i < count; i++) {
-                data.push({
-                    value: res[i].nBId,
-                    label: res[i].vBOMName,
-                })
-            }
-            setBOMMaster(data)
-        })
-    }
-
     const getPODetails = (vGeneric) => {
         if (vGeneric != '') {
             vGeneric = vGeneric.target.value
@@ -296,7 +267,23 @@ function AddMaterialRelease() {
             setPlantMaster(data)
         })
     }
+    const getPOByPOId = (nPOId) => {
+        GetPOByPOId(nPOId).then(res => {
+            console.log('response', res)
+            // let count = Object.keys(res.PODetail).length
+            // let data = []
+            // for (var i = 0; i < count; i++) {
+            //     data.push({
+            //         value: res[i].nMId,
+            //         label: res[i].MatDetail,
+            //     })
 
+            // }
+            setMaterialMaster(res.PODetail)
+
+        })
+
+    }
     const materialMaster_SelectAll_ActiveLikeSearch = (vGeneric) => {
         MaterialMaster_SelectAll_ActiveLikeSearch(vGeneric == undefined || vGeneric == '' ? null : vGeneric.target.value).then(res => {
             let count = Object.keys(res).length
@@ -316,17 +303,10 @@ function AddMaterialRelease() {
     const changePlantValue = (value) => {
         setnPId(value.value)
         setPlantDetail(value.label)
-        getExpiryDatesforMaterialRelease(value.value, nMId == '' ? 0 : nMId)
+        getExpDateForRejection(value.value, nMId == '' ? 0 : nMId)
         setError({
             plant: ''
         })
-    }
-    const changeBOMValue = (value) => {
-        setnBId(value.value)
-        setBomDetail(value.label)
-        // setError({
-        //     plant: ''
-        // })
     }
     const changeVendorMasterValue = (value) => {
         setnVId(value.value)
@@ -339,159 +319,40 @@ function AddMaterialRelease() {
         setnMId(value.value)
         setMaterialDetail(value.label)
         setvUOM(value.vUOM)
-        getExpiryDatesforMaterialRelease(nPId == '' ? 0 : nPId, value.value)
+        getExpDateForRejection(nPId == '' ? 0 : nPId, value.value)
+
         setError({
             MaterialDetail: ''
         })
     }
-
-    const changeBOMMaterialsQtyValue = (value) => {
-        setnBOMUnit(value)
-        if (value != '' && value != undefined) {
-            setTimeout(() => {
-                getBOMMaterialsQty(value)
-            }, 1500)
+    const imageFile = (event) => {
+        setvPOFilePath(event.target.files[0])
+        if (event.target.files[0]) {
+            setimgPreview(true)
+            const objectUrl = URL.createObjectURL(event.target.files[0])
+            setPreview(objectUrl)
         } else {
-            setBOMMaterialsQty([])
-            setTableShow(false)
+            setimgPreview(false)
         }
     }
-    const getBOMMaterialsQty = (value) => {
-        GetBOMMaterialsQty(nBId, value).then(res => {
+    const calculateAmount = (value, type) => {
 
-            setBOMMaterialsQty(res)
-        })
+        if (type == 'nQtyAccepted') {
+            setnQtyAccepted(value)
+            setnAmt(0)
+            let amount = parseFloat(value == '' ? 0 : value) + parseFloat(nQtyRejected == '' ? 0 : nQtyRejected)
+            setnAmt(parseFloat(amount))
+
+        }
+
+        if (type == 'nQtyRejected') {
+            setnQtyRejected(value)
+            let amount = parseFloat(value == '' ? 0 : value) + parseFloat(nQtyAccepted == '' ? 0 : nQtyAccepted)
+            setnAmt(parseFloat(amount))
+
+        }
+
     }
-    const getExpiryDatesforMaterialRelease = (PId, MId) => {
-
-        GetExpiryDatesforMaterialRelease(PId, MId).then(res => {
-            console.log('response', res)
-            setExpireDate(res)
-
-        })
-    }
-    const getBatchNoDetails = (value) => {
-        setvBatchNo(value)
-        setTimeout(() => {
-            if (value == '' || value == undefined) {
-              console.log('1')
-            }else{
-                setTimeout(() => {
-                    GetBatchNoDetails(value).then(res => {
-                        console.log('response', res)
-                        // setExpireDate(res)
-                        if(res?.length>0){
-                            setnBId(res[0].nBId)
-                            setBomDetail(res[0].vBOMName)
-                            setnBOMUnit(res[0].nBOMUnit)
-                            setnPId(res[0].nPId)
-                            setPlantDetail(res[0].PlantDetail)
-                            setBomDisable(true)
-                        }else{
-                            setBomDisable(false)
-                            setnBId('')
-                            setBomDetail('')
-                            setnBOMUnit('')
-                            setnPId('')
-                            setPlantDetail('')
-                        }
-                    })
-                }, 1000)
-            }  
-        }, 2000)
-    }
-    const handleexpireDateChange = (e) => {
-        confirmAlert({
-            title: 'Alert !!',
-            closeOnClickOutside: false,
-            message: 'Are you Sure ?',
-            buttons: [
-                {
-                    label: 'Yes',
-                    onClick: () => { 
-                        setexpireDateValue(e.target.value)
-                        getMaterialforRelease(nPId, nMId, e.target.value, nBId, nBOMUnit, vBatchNo)
-                     },
-                }, 
-                 {
-                    label: 'No',
-                    onClick: () => { 
-                       return null
-                     },
-                },
-            ]
-        });
-       
-    }
-    const getMaterialforRelease = (PId, MId, expireDate, Bid, BOMUnit, BatchNo) => {
-        GetMaterialforRelease(PId, MId, expireDate, Bid, BOMUnit, BatchNo).then(res => {
-            console.log('response', res)
-            // setExpireDate(res)
-            setRequiredQty(res[0].RequiredQty)
-            setReleasedQty(res[0].ReleasedQty)
-            setLeftStockQty(res[0].LeftStockQty)
-            setLeftQty(res[0].LeftQty)
-            setnQty(res[0].LeftQty)
-
-        })
-    }
-    const onChangenQty = (value) => {
-        setnQty(value)
-        setTimeout(() => {
-            if (value != '' || value != undefined) {
-                if (value <= LeftQty) {
-                    if (value <= LeftStockQty) {
-
-                    } else {
-                        confirmAlert({
-                            title: 'Alert !!',
-                            message: 'Input Qty. should not be greater than Balance Left Stock Quantity.',
-                            closeOnClickOutside: false,
-                            buttons: [
-                                {
-                                    label: 'Ok',
-                                    onClick: () => { setnQty('')  },
-                                },
-                            ]
-                        });
-
-                    }
-                } else {
-                    console.log('false')
-                    confirmAlert({
-                        title: 'Alert !!',
-                        message: 'Input Qty. should not be greater than Quantity to be Released.',
-                        closeOnClickOutside: false,
-                        buttons: [
-                            {
-                                label: 'Ok',
-                                onClick: () => { setnQty('') },
-                            },
-                        ]
-                    });
-                }
-            }
-
-        }, 2000)
-    }
-    // const calculateAmount = (value, type) => {
-
-    //     if (type == 'nQtyAccepted') {
-    //         setnQtyAccepted(value)
-    //         setnAmt(0)
-    //         let amount = parseFloat(value == '' ? 0 : value) + parseFloat(nQtyRejected == '' ? 0 : nQtyRejected)
-    //         setnAmt(parseFloat(amount))
-
-    //     }
-
-    //     if (type == 'nQtyRejected') {
-    //         setnQtyRejected(value)
-    //         let amount = parseFloat(value == '' ? 0 : value) + parseFloat(nQtyAccepted == '' ? 0 : nQtyAccepted)
-    //         setnAmt(parseFloat(amount))
-
-    //     }
-
-    // }
     const validateformPoDetial = () => {
         if (nMId == '' || nMId == undefined) {
             alert(1)
@@ -499,14 +360,14 @@ function AddMaterialRelease() {
                 MaterialDetail: 'Select Item *'
             })
             return false
-        } else if (nQtyAccepted == '' || nQtyAccepted == undefined) {
+        } else if (expireDateValue == '' || expireDateValue == undefined) {
             setError({
-                QuanAccept: 'Enter Qty Accepted *'
+                expireDateValue: 'Select Exp Date*'
             })
             return false
-        } else if (nQtyRejected == '' || nQtyRejected == undefined) {
+        } else if (nQty == '' || nQty == undefined) {
             setError({
-                QuanReject: 'Enter Qty Rejected *'
+                QuanAccept: 'Enter Qty*'
             })
             return false
         }
@@ -528,7 +389,6 @@ function AddMaterialRelease() {
             confirmAlert({
                 title: 'Alert !!',
                 message: 'Do you want Edit this Material ?',
-                closeOnClickOutside: false,
                 buttons: [
                     {
                         label: 'Yes',
@@ -540,21 +400,21 @@ function AddMaterialRelease() {
                             poMasteerDetail[indexToUpdate].id = id,
                                 poMasteerDetail[indexToUpdate].nMId = parseInt(nMId),
                                 poMasteerDetail[indexToUpdate].MaterialDetail = MaterialDetail,
-                                poMasteerDetail[indexToUpdate].nQtyAccepted = parseFloat(nQtyAccepted == '' ? 0 : nQtyAccepted),
-                                poMasteerDetail[indexToUpdate].nQtyRejected = parseFloat(nQtyRejected == '' ? 0 : nQtyRejected),
+                                poMasteerDetail[indexToUpdate].nQTYOut = parseFloat(nQty == '' ? 0 : nQty),
+                                poMasteerDetail[indexToUpdate].LeftQty = parseFloat(LeftQty == '' ? 0 : LeftQty),
                                 poMasteerDetail[indexToUpdate].vUOM = vUOM,
-                                poMasteerDetail[indexToUpdate].TotalQty = parseFloat(nAmt == '' ? 0 : nAmt),
-                                poMasteerDetail[indexToUpdate].dtExpDate = parseDateToStringSubmit(new Date(dtExpDate)),
-                                poMasteerDetail[indexToUpdate].dtExpDate2 = dtExpDate,
+                                poMasteerDetail[indexToUpdate].ExpDate = expireDateValue,
+
 
                                 setPODetails(poMasteerDetail)
                             setbtnType('')
                             setnMId('')
                             setMaterialDetail('')
                             setdtExpDate(new Date(Date.now()))
-                            setnAmt('')
-                            setnQtyAccepted('')
-                            setnQtyRejected('')
+                            setnQty('')
+                            setLeftQty('')
+                            setexpireDateValue('')
+                            setvUOM('')
 
                         }
                     },
@@ -569,14 +429,13 @@ function AddMaterialRelease() {
             confirmAlert({
                 title: 'Alert !!',
                 message: 'Do you want Add this Material ?',
-                closeOnClickOutside: false,
                 buttons: [
                     {
                         label: 'Yes',
                         onClick: () => {
                             if (validateformPoDetial() == true) {
                                 let poMasteerDetail = [...PODetails]
-                                let findnMId = poMasteerDetail.find(e => e.nMId == nMId && e.dtExpDate == parseDateToStringSubmit(new Date(dtExpDate)))
+                                let findnMId = poMasteerDetail.find(e => e.nMId == nMId && e.dtExpDate == expireDateValue)
                                 if (findnMId) {
                                     toast.success("Material with this expiry date is already Added.")
                                 } else {
@@ -584,23 +443,22 @@ function AddMaterialRelease() {
                                         id: new Date().getUTCMilliseconds(),
                                         nMId: parseInt(nMId),
                                         MaterialDetail: MaterialDetail,
-                                        nQtyAccepted: parseFloat(nQtyAccepted == '' ? 0 : nQtyAccepted),
-                                        nQtyRejected: parseFloat(nQtyRejected == '' ? 0 : nQtyRejected),
+                                        nQTYOut: parseFloat(nQty == '' ? 0 : nQty),
+                                        LeftQty: parseFloat(LeftQty == '' ? 0 : LeftQty),
                                         vUOM: vUOM,
-                                        TotalQty: parseFloat(nAmt == '' ? 0 : nAmt),
-                                        dtExpDate: parseDateToStringSubmit(new Date(dtExpDate)),
-                                        dtExpDate2: dtExpDate,
+                                        ExpDate: expireDateValue,
+
 
                                     })
 
                                     setPODetails(poMasteerDetail)
-                                    submit
-                                    // setnMId('')
-                                    // setMaterialDetail('')
-                                    // setdtExpDate(new Date(Date.now()))
-                                    // setnAmt('')
-                                    // setnQtyAccepted('')
-                                    // setnQtyRejected('')
+                                    setnMId('')
+                                    setMaterialDetail('')
+                                    setdtExpDate(new Date(Date.now()))
+                                    setnQty('')
+                                    setLeftQty('')
+                                    setexpireDateValue('')
+                                    setvUOM('')
 
 
                                 }
@@ -624,21 +482,6 @@ function AddMaterialRelease() {
                 plant: 'Select PO No. *'
             })
             return false
-        }else if (nBId == '' || nBId == undefined) {
-            setError({
-                BomDetail: 'Select Material *'
-            })
-            return false
-        }else if (nMId == '' || nMId == undefined) {
-            setError({
-                MaterialDetail: 'Select Material *'
-            })
-            return false
-        }else if (expireDateValue == '' || expireDateValue == undefined) {
-            setError({
-                expireDate: 'Select Exp Date *'
-            })
-            return false
         } else {
             setError('')
             return true
@@ -646,72 +489,36 @@ function AddMaterialRelease() {
 
     }
     const submit = () => {
-        let expDateFind= PODetails.find(e=>e.nMId==nMId&&e.ExpDate==expireDateValue)
-        if(expDateFind){
-            toast.success("Material with this Expiry Date is already Added.")
-        }else{
-            if (validateform() == true) {
-                // if (PODetails.length > 0) {
-    
-    
-    
-                // } else {
-                //     confirmAlert({
-                //         title: 'Alert !!',
-                //         message: 'Please Add at least one Material.',
-                //         buttons: [
-                //             {
-                //                 label: 'Ok',
-                //                 onClick: () => { return null },
-                //             },
-                //         ]
-                //     });
-                // }
+        if (validateform() == true) {
+            if (PODetails.length > 0) {
                 confirmAlert({
                     title: 'Alert !!',
                     message: 'Do you want Proceed ?',
-                    closeOnClickOutside: false,
                     buttons: [
                         {
                             label: 'Yes',
                             onClick: () => {
-    
                                 setLoader(true)
                                 const POMasterData = [{
-                                    nGRNId: firstRecord==false?0:nGRNId,
                                     nPId: nPId,
-                                    nBId: nBId,
-                                    nBOMUnit: nBOMUnit,
-                                    vBatchNo: vBatchNo,
-                                    btActive: true,
                                     dtGRNDate: parseDateToStringSubmit(new Date(startDate)),
+                                    vRemarks: vRemarks,
+                                    btActive: true,
                                     nLoggedInUserId: parseInt(nLoggedInUserId)
-                                }]
-                                const POMasterDataDtails = [{
-                                    nGRNId: firstRecord==false?0:nGRNId,
-                                    nMId: nMId,
-                                    nQTYOut: nQty,
-                                    dtExpDate: expireDateValue
                                 }]
                                 let GRNOrder = {}
                                 GRNOrder.GRNMaster = POMasterData,
-                                GRNOrder.GRNDetails = POMasterDataDtails
+                                    GRNOrder.GRNDetails = PODetails
                                 console.log('PurchaseOrder', GRNOrder)
-                                MaterialRelease_Insert(GRNOrder).then(res => {
+                                Drain_Insert(GRNOrder, vPOFilePath).then(res => {
                                     if (res) {
-                                        setPODetails(res)
-                                        setBomDisable(true)
-                                        setnGRNId(res[0].nGRNId),
                                         setLoader(false)
                                         toast.success("Record Added Successfully !!")
-                                        setfirstRecord(true)
-                                        setMaterialDetail('')
-                                        setnMId('')
-                                        // navigate('/EnterOpeningStock')
-    
+                                        navigate('/RejectedOut')
+
                                     }
                                 })
-    
+
                             }
                         },
                         {
@@ -720,8 +527,21 @@ function AddMaterialRelease() {
                         }
                     ]
                 });
-    
+
+
+            } else {
+                confirmAlert({
+                    title: 'Alert !!',
+                    message: 'Please Add at least one Material.',
+                    buttons: [
+                        {
+                            label: 'Ok',
+                            onClick: () => { return null },
+                        },
+                    ]
+                });
             }
+
         }
 
 
@@ -758,11 +578,9 @@ function AddMaterialRelease() {
         setId(item.id)
         setnMId(item.nMId)
         setMaterialDetail(item.MaterialDetail)
-        getExpiryDatesforMaterialRelease(nPId, item.nMId)
         setexpireDateValue(item.ExpDate)
-        setnQtyAccepted(item.nQtyAccepted)
-        setnQtyRejected(item.nQtyRejected)
-        setnAmt(item.TotalQty)
+        setnQty(item.nQTYOut)
+        setLeftQty(item.LeftQty)
         setvUOM(item.vUOM)
 
     }
@@ -774,7 +592,7 @@ function AddMaterialRelease() {
             buttons: [
                 {
                     label: 'Yes',
-                    onClick: () => { navigate('/MaterialRelease') },
+                    onClick: () => { navigate('/RejectedOut') },
                 },
                 {
                     label: 'No',
@@ -784,11 +602,95 @@ function AddMaterialRelease() {
         });
 
     }
+
+    const getBatchNoDetails = (value) => {
+        setvBatchNo(value)
+        setTimeout(() => {
+            if (value == '' || value == undefined) {
+            } else {
+                setTimeout(() => {
+                    GetBatchNoDetails(value).then(res => {
+                        console.log('response', res)
+                        // setExpireDate(res)
+                        if (res?.length > 0) {
+
+                            setnPId(res[0].nPId)
+                            setPlantDetail(res[0].PlantDetail)
+                        } else {
+                            setPlantDetail('')
+                        }
+                    })
+                }, 1000)
+            }
+        }, 2000)
+    }
+    const getExpDateForRejection = (PId, MId) => {
+
+        GetExpDateForRejection(PId, MId).then(res => {
+            console.log('response', res)
+            setExpireDate(res)
+
+        })
+    }
+    const handleexpireDateChange = (e) => {
+        confirmAlert({
+            title: 'Alert !!',
+            closeOnClickOutside: false,
+            message: 'Are you Sure ?',
+            buttons: [
+                {
+                    label: 'Yes',
+                    onClick: () => {
+                        setexpireDateValue(e.target.value)
+                        getMaterialforRelease(nPId, nMId, e.target.value)
+                    },
+                },
+                {
+                    label: 'No',
+                    onClick: () => {
+                        return null
+                    },
+                },
+            ]
+        });
+
+    }
+    const getMaterialforRelease = (PId, MId, expireDate) => {
+        GetBalStockForRejection(PId, MId, expireDate).then(res => {
+            console.log('response', res)
+            setLeftQty(res[0].BalQty)
+
+        })
+    }
+    const onChangenQty = (value) => {
+        setnQty(value)
+        setTimeout(() => {
+            if (value != '' || value != undefined) {
+                if (value <= LeftQty) {
+
+                } else {
+                    console.log('false')
+                    confirmAlert({
+                        title: 'Alert !!',
+                        message: 'Input Qty. should not be greater than Quantity Stock .',
+                        closeOnClickOutside: false,
+                        buttons: [
+                            {
+                                label: 'Ok',
+                                onClick: () => { setnQty('') },
+                            },
+                        ]
+                    });
+                }
+            }
+
+        }, 2000)
+    }
     return (
         <div className='citymasterContainer'>
             <div className='dateFilter-2'>
                 <div className='displayflexend'>
-                    <Box sx={{ width: '11%' }} >
+                    <Box sx={{ width: '11.5%' }} >
                         <FormControl fullWidth className='input' >
                             <LocalizationProvider dateAdapter={AdapterDayjs} >
                                 <Stack spacing={3} >
@@ -797,16 +699,38 @@ function AddMaterialRelease() {
                                         inputFormat="DD-MM-YYYY"
                                         value={startDate}
                                         required
-                                        disabled={BomDisable}
+                                        maxDate={startDates}
+
                                         onChange={handleChangeStartdate}
-                                        renderInput={(params) => <TextField {...params} />}
+                                        renderInput={(params) => <TextField
+                                            {...params}
+                                            sx={{
+                                                "& .MuiInputBase-root": {
+                                                    "& input": {
+                                                        padding: '5px 14px',
+                                                        fontSize:'13px'
+                                                    }
+                                                },
+                                                ".MuiFormLabel-root": {
+                                                    fontSize: '13px',
+                                                    lineHeight: '0',
+                                                    top:'4.6px',
+                                                    overflow: 'visible',
+                                                },
+                                                "label.Mui-focused": {
+                                                    top:'5px',
+                                                    backgroundColor:'#fff',
+                                                    zIndex:'10000'
+                                                },
+                                            }}
+                                        />}
                                     />
                                 </Stack>
                             </LocalizationProvider>
                             {errorText.date != '' ? <p className='error'>{errorText.date}</p> : null}
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '15%', marginTop: 1 }} >
+                    {/* <Box sx={{ width: '15%', marginTop: 1 }} >
                         <FormControl fullWidth className='input'>
                             <TextField
                                 value={vBatchNo}
@@ -815,14 +739,14 @@ function AddMaterialRelease() {
                                 label="Batch No"
                                 variant="outlined"
                                 name='BatchNo'
-                                disabled={BomDisable}
-                            // inputRef={register({ required: "Remarks is required.", })}
-                            // error={Boolean(errors.brandCode)}
-                            // helperText={errors.brandCode?.message}
+                                required
+                            inputRef={register({ required: "Batch No is required.", })}
+                            error={Boolean(errors.BatchNo)}
+                            helperText={errors.BatchNo?.message}
                             />
                         </FormControl>
-                    </Box>
-                    <Box sx={{ width: '32%', marginTop: 2 }} >
+                    </Box> */}
+                    <Box sx={{ width: '40%', marginTop: 2 }} >
                         <FormControl fullWidth className='input'>
                             {/* <InputLabel required id="demo-simple-select-label">Plant</InputLabel>npm  */}
                             <Autocomplete
@@ -833,58 +757,39 @@ function AddMaterialRelease() {
                                 // changePlantValue(value)
                                 onChange={(event, value) => changePlantValue(value)}
                                 // inputValue={inputValue}
-                                disabled={BomDisable}
                                 isOptionEqualToValue={(option, value) => option.value === value.value}
                                 onKeyDown={newInputValue => plantMaster_SelectAll_ActiveLikeSearch(newInputValue)}
                                 onInputChange={(event, newInputValue) => {
                                     // setInputValue(newInputValue);
                                     console.log('newInputValue', newInputValue)
                                 }}
+                                sx={{
+                                    "& .MuiOutlinedInput-root": {
+                                        padding: '0px',
+                                        "& .MuiAutocomplete-input": {
+                                            padding: '5px 14px',
+                                            fontSize:'13px'
+                                        }
+
+                                    },
+                                    ".MuiFormLabel-root": {
+                                        fontSize: '13px',
+                                        lineHeight: '0',
+                                        top:'-4px',
+                                        overflow: 'visible',
+                                    },
+                                    "label.Mui-focused": {
+                                        top:'5px',
+                                        backgroundColor:'#fff',
+                                        zIndex:'10000'
+                                    },
+                                }}
                                 renderInput={(params) => <TextField {...params} label="Search Plant " required />}
                             />
                             {errorText.plant != '' ? <p className='error'>{errorText.plant}</p> : null}
                         </FormControl>
                     </Box>
-                    
-                    <Box sx={{ width: '32%', marginTop: 2 }} >
-                        <FormControl fullWidth className='input'>
-                            {/* <InputLabel required id="demo-simple-select-label">Plant</InputLabel>npm  */}
-                            <Autocomplete
-                                disablePortal
-                                id="combo-box-demo"
-                                options={BOMMaster}
-                                value={BomDetail}
-                                // changePlantValue(value)
-                                onChange={(event, value) => changeBOMValue(value)}
-                                disabled={BomDisable}
-                                isOptionEqualToValue={(option, value) => option.value === value.value}
-                                onKeyDown={newInputValue => getBOMDetailsLIkeSearch(newInputValue)}
-                                onInputChange={(event, newInputValue) => {
-                                    // setInputValue(newInputValue);
-                                    console.log('newInputValue', newInputValue)
-                                }}
-                                renderInput={(params) => <TextField {...params} label="Search BOM " required />}
-                            />
-                            {errorText.BomDetail != '' ? <p className='error'>{errorText.BomDetail}</p> : null}
-                        </FormControl>
-                    </Box>
-                    <Box sx={{ width: '7%', marginTop: 1 }} >
-                        <FormControl fullWidth className='input'>
-                            <TextField
-                                value={nBOMUnit}
-                                onChange={e => changeBOMMaterialsQtyValue(e.target.value)}
-                                id="outlined-basic"
-                                label="BOM Unit"
-                                variant="outlined"
-                                name='vBOMUnit'
-                                disabled={BomDisable}
-                            // inputRef={register({ required: "Remarks is required.", })}
-                            // error={Boolean(errors.brandCode)}
-                            // helperText={errors.brandCode?.message}
-                            />
-                        </FormControl>
-                    </Box>
-                    {/* <Box sx={{ width: '53%', marginTop: 1 }} >
+                    <Box sx={{ width: '40%', marginTop: 1 }} >
                         <FormControl fullWidth className='input'>
                             <TextField
                                 value={vRemarks}
@@ -893,70 +798,34 @@ function AddMaterialRelease() {
                                 label="Remarks"
                                 variant="outlined"
                                 name='Remarks'
+                                sx={{
+                                    "& .MuiOutlinedInput-root": {
+                                        "& input": {
+                                            padding: '6px 14px',
+                                            fontSize:'12px'
+                                        }
+                                    },
+                                    ".MuiFormLabel-root": {
+                                        fontSize: '13px',
+                                        lineHeight: '0',
+                                        top:'-4px',
+                                        overflow: 'visible',
+                                    },
+                                    "label.Mui-focused": {
+                                        top:'5px',
+                                        backgroundColor:'green',
+                                        zIndex:'10000'
+                                    },
+                                }}
                             // inputRef={register({ required: "Remarks is required.", })}
                             // error={Boolean(errors.brandCode)}
                             // helperText={errors.brandCode?.message}
                             />
                         </FormControl>
-                    </Box> */}
+                    </Box>
                     <FormGroup >
                         <FormControlLabel control={<Checkbox defaultChecked={btActive} value={btActive} onChange={e => setBtActive(e.target.checked)} />} label="Active" disabled={disabled} />
                     </FormGroup>
-                    {BOMMaterialsQty.length > 0 ?
-                        <div>
-                            <button onClick={() => setTableShow(!TableShow)} className='infobtn' title='BOM Info'>
-                                {TableShow == true ?
-                                    <CloseIcon style={{ width: 20, height: 20 }} />
-                                    :
-                                    <InfoIcon style={{ width: 20, height: 20 }} />
-                                }
-
-                            </button>
-                        </div>
-                        : null
-                    }
-                    {TableShow == true ?
-                        <div className='tablecenter'>
-                            {BOMMaterialsQty.length > 0 ?
-                                <Paper sx={{ width: '100%', overflow: 'hidden' }}>
-                                    <TableContainer sx={{ maxHeight: 440 }}>
-                                        <Table stickyHeader aria-label="sticky table">
-                                            <TableHead>
-                                                <TableRow>
-                                                    <TableCell scope="row" style={{ width: '2%' }} >SN.</TableCell>
-                                                    <TableCell align="left">Material Name</TableCell>
-                                                    <TableCell align="left">UOM</TableCell>
-                                                    <TableCell align="left">Qty</TableCell>
-                                                    <TableCell align="left">Required Qty</TableCell>
-                                                </TableRow>
-                                            </TableHead>
-                                            <TableBody>
-                                                {BOMMaterialsQty.map((item, index) => {
-                                                    return (
-                                                        <TableRow key={index}>
-                                                            <TableCell component="th" scope="row">{index + 1}.</TableCell>
-                                                            <TableCell align="left">{item.MaterialDetail}</TableCell>
-                                                            <TableCell align="left">{item.vUOM}</TableCell>
-                                                            <TableCell align="left">{item.nQty}</TableCell>
-                                                            <TableCell align="left">{item.RequiredQty}</TableCell>
-                                                        </TableRow>
-                                                    )
-                                                })
-                                                }
-
-                                            </TableBody>
-                                        </Table>
-                                    </TableContainer>
-                                </Paper>
-                                :
-                                null
-
-                            }
-
-                        </div>
-                        :
-                        null
-                    }
                 </div>
             </div>
             <div className='databox'>
@@ -1024,7 +893,7 @@ function AddMaterialRelease() {
                             {errorText.Quan != '' ? <p className='error'>{errorText.Quan}</p> : null}
                         </FormControl>
                     </Box> */}
-                    <Box sx={{ width: '5%' }} >
+                    <Box sx={{ width: '11%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
                                 value={vUOM}
@@ -1061,55 +930,17 @@ function AddMaterialRelease() {
                                 }
 
                             </Select>
-                            {errorText.expireDate != '' ? <p className='error'>{errorText.expireDate}</p> : null}
+                            {errorText.expireDateValue != '' ? <p className='error'>{errorText.expireDateValue}</p> : null}
                         </FormControl>
 
                     </Box>
-                    <Box sx={{ width: '12%' }} >
-                        <FormControl fullWidth className='input' >
-                            <TextField
-                                value={RequiredQty}
-                                onChange={e => setRequiredQty(e.target.value)}
-                                required id="outlined-basic"
-                                label="Required Qty"
-                                variant="outlined"
-                                name='RequiredQty'
-                                disabled={true}
-                                type="number" inputProps={{ min: 4, max: 1000000000000000000 }}
-                            // inputRef={register({ required: "Quantity is required.*", })}
-                            // error={Boolean(errors.Quantity)}
-                            // helperText={errors.Quantity?.message}
-                            />
-                            {/* {errorText.QuanAccept != '' ? <p className='error'>{errorText.QuanAccept}</p> : null} */}
-                        </FormControl>
-                    </Box>
-                    <Box sx={{ width: '12%' }} >
-                        <FormControl fullWidth className='input' >
-                            <TextField
-                                value={ReleasedQty}
-                                onChange={e => setReleasedQty(e.target.value)}
-                                required id="outlined-basic"
-                                label="Released Qty"
-                                variant="outlined"
-                                name='Quantity'
-                                disabled={true}
-                            // type="number" inputProps={{ min: 4, max: 10 }}
-                            // inputRef={register({ required: "Quantity is required.*", })}
-                            // error={Boolean(errors.Quantity)}
-                            // helperText={errors.Quantity?.message}
-                            />
-                            {errorText.QuanReject != '' ? <p className='error'>{errorText.QuanReject}</p> : null}
-                        </FormControl>
-                    </Box>
-
-
                     <Box sx={{ width: '11%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
                                 value={LeftQty}
                                 onChange={e => setLeftQty(e.target.value)}
                                 id="outlined-basic"
-                                label="Qty to be Released"
+                                label="Bal stock"
                                 variant="outlined"
                                 name='Amount'
                                 // type="number" inputProps={{ min: 4, max: 1000000000000000000000000000000 }}
@@ -1120,84 +951,43 @@ function AddMaterialRelease() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '10%' }} >
+                    {/* <Box sx={{ width: '12%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
-                                value={LeftStockQty}
-                                onChange={e => setLeftStockQty(e.target.value)}
-                                id="outlined-basic"
-                                label="Bal. Stock"
+                                value={nQtyAccepted}
+                                onChange={e => calculateAmount(e.target.value, 'nQtyAccepted')}
+                                required id="outlined-basic"
+                                label="Quantity Accepted"
                                 variant="outlined"
-                                name='Amount'
-                                // type="number" inputProps={{ min: 4, max: 1000000000000000000000000000000 }}
-                                disabled={true}
-                            // inputRef={register({ required: "Amount is required.*", })}
-                            // error={Boolean(errors.Amount)}
-                            // helperText={errors.Amount?.message}
+                                name='Quantity'
+                                type="number" inputProps={{ min: 4, max: 10 }}
+                            // inputRef={register({ required: "Quantity is required.*", })}
+                            // error={Boolean(errors.Quantity)}
+                            // helperText={errors.Quantity?.message}
                             />
+                            {errorText.QuanAccept != '' ? <p className='error'>{errorText.QuanAccept}</p> : null}
                         </FormControl>
-                    </Box>
-                    <Box sx={{ width: '10%' }} >
+                    </Box> */}
+                    <Box sx={{ width: '12%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
                                 value={nQty}
                                 onChange={e => onChangenQty(e.target.value)}
-                                id="outlined-basic"
+                                required id="outlined-basic"
                                 label="Qty"
                                 variant="outlined"
-                                name='Qty'
-                                required
-                                type="number" inputProps={{ min: 4, max: 1000000000000000000000000000000 }}
-                                inputRef={register({ required: "Qty is required.*", })}
-                                error={Boolean(errors.Qty)}
-                                helperText={errors.Qty?.message}
+                                name='Quantity'
+                                type="number" inputProps={{ min: 4, max: 10 }}
+                            // inputRef={register({ required: "Quantity is required.*", })}
+                            // error={Boolean(errors.Quantity)}
+                            // helperText={errors.Quantity?.message}
                             />
+                            {errorText.Qty != '' ? <p className='error'>{errorText.Qty}</p> : null}
                         </FormControl>
                     </Box>
-                    {/* <Box sx={{ width: '11.5%' }} >
-                        <FormControl fullWidth className='input' >
-                            <LocalizationProvider dateAdapter={AdapterDayjs} >
-                                <Stack spacing={3} >
-                                    <DesktopDatePicker
-                                        label="Expire Date *"
-                                        inputFormat="DD-MM-YYYY"
-                                        value={dtExpDate}
-                                        required
-                                        onChange={handleChangedtExpDate}
-                                        renderInput={(params) => <TextField {...params} />}
-                                    />
-                                </Stack>
-                            </LocalizationProvider>
-                            {errorText.date != '' ? <p className='error'>{errorText.date}</p> : null}
-                        </FormControl>
-                    </Box> */}
-                    <div>
-                        {firstRecord == true ?
-                            <div>
-                                {loader == true ?
-                                    <CButton disabled className='addbtn'>
-                                        <CSpinner component="span" size="sm" aria-hidden="true" />
-                                        Loading...
-                                    </CButton>
-                                    :
-                                    // <button type="submit" className='submitbtn' onClick={submit}>Submit</button>
-                                    <button title='Add&Submit' className='addbtn' onClick={handleSubmit(submit)}><AddIcon fontSize='large' /></button>
-                                }
-                            </div>
-                            :
-                            <div>
-                                {loader == true ?
-                                    <CButton disabled className='addbtn'>
-                                        <CSpinner component="span" size="sm" aria-hidden="true" />
-                                        Loading...
-                                    </CButton>
-                                    :
-                                    // <button type="submit" className='submitbtn' onClick={submit}>Submit</button>
-                                    <button title='Submit' className='addbtn' onClick={handleSubmit(submit)}>Submit</button>
-                                }
-                            </div>
-                        }
 
+                    <div>
+                        <button title='Add' className='addbtn' onClick={addKoMonthDate}><AddIcon fontSize='large' /></button>
                     </div>
                 </div>
                 <div className='tablecenter'>
@@ -1209,12 +999,14 @@ function AddMaterialRelease() {
                                         <TableRow>
                                             <TableCell scope="row" style={{ width: '2%' }} >SN.</TableCell>
                                             <TableCell align="center">Action</TableCell>
-                                            {/* <TableCell align="left">Ref No</TableCell> */}
+                                            <TableCell align="left">Material Name</TableCell>
                                             {/* <TableCell align="left">PO Qty</TableCell>
                                             <TableCell align="left">Balance QTY</TableCell> */}
-                                            <TableCell align="left">Material Detail</TableCell>
+                                            <TableCell align="left">UOM</TableCell>
                                             <TableCell align="left">Exp Date</TableCell>
-                                            <TableCell align="left">Qty Released</TableCell>
+                                            <TableCell align="left">Bal Qty </TableCell>
+                                            <TableCell align="left">Qty</TableCell>
+
                                         </TableRow>
                                     </TableHead>
                                     {PODetails?.length > 0 ?
@@ -1233,13 +1025,13 @@ function AddMaterialRelease() {
                                                             </div>
 
                                                         </TableCell>
-                                                        {/* <TableCell align="left">{item.RefNo}</TableCell> */}
                                                         <TableCell align="left">{item.MaterialDetail}</TableCell>
                                                         {/* <TableCell align="left">{item.nQty}</TableCell>
                                                         <TableCell align="left">{item.BalanceQuantity}</TableCell> */}
+                                                        <TableCell align="left">{item.vUOM}</TableCell>
                                                         <TableCell align="left">{item.ExpDate}</TableCell>
+                                                        <TableCell align="left">{item.LeftQty}</TableCell>
                                                         <TableCell align="left">{item.nQTYOut}</TableCell>
-                                                        
 
                                                     </TableRow>
                                                 )
@@ -1279,24 +1071,19 @@ function AddMaterialRelease() {
             <div className='displayflex-2'>
 
                 <button type="submit" className='submitbtn-2' style={{ marginRight: 10 }} onClick={goback}><HomeIcon size={18} /> Home</button>
-                {/* {firstRecord == true ?
-                    <div>
-                        {loader == true ?
-                            <CButton disabled className='submitbtn'>
-                                <CSpinner component="span" size="sm" aria-hidden="true" />
-                                Loading...
-                            </CButton>
-                            :
-                            // <button type="submit" className='submitbtn' onClick={submit}>Submit</button>
-                            <button type="submit" className='submitbtn' onClick={handleSubmit(submit)}>Submit</button>
-                        }
-
-                    </div>
+                {loader == true ?
+                    <CButton disabled className='submitbtn'>
+                        <CSpinner component="span" size="sm" aria-hidden="true" />
+                        Loading...
+                    </CButton>
                     :
-                } */}
-                <div></div>
+                    // <button type="submit" className='submitbtn' onClick={submit}>Submit</button>
+                    <button type="submit" className='submitbtn' onClick={handleSubmit(submit)}>Submit</button>
+                }
             </div>
+
+
         </div>
     )
 }
-export default AddMaterialRelease
+export default AddRejectedOut

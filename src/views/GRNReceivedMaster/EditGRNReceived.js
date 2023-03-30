@@ -828,6 +828,7 @@ function EditGRNReceived() {
     const deleteItem = (ids) => {
         confirmAlert({
             title: 'Alert !!',
+            closeOnClickOutside: false,
             message: 'Do you want to delete ?',
             buttons: [
                 {
@@ -881,7 +882,8 @@ function EditGRNReceived() {
     const goback = () => {
         confirmAlert({
             title: 'Alert !!',
-            message: 'Are you Sure.?',
+            closeOnClickOutside: false,
+            message: 'Are you Sure ??',
             buttons: [
                 {
                     label: 'Yes',
