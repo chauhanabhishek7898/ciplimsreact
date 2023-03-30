@@ -6,14 +6,14 @@ export default function abc() {
 export function LineMasterPost(data) {
     let apiUrl = environment.apiUrl;
     let url = `${apiUrl}/LineMaster`
-    return postFile(url, data).then(response => {
+    return post(url, data).then(response => {
         return response;
     })
 }
 export function LineMasterPut(data) {
     let apiUrl = environment.apiUrl;
     let url = `${apiUrl}/LineMaster`
-    return postFile(url, data).then(response => {
+    return put(url, data).then(response => {
         return response;
     })
 }

@@ -6,14 +6,14 @@ export default function abc() {
 export function MaterialMasterPost(data) {
     let apiUrl = environment.apiUrl;
     let url = `${apiUrl}/MaterialMaster`
-    return postFile(url, data).then(response => {
+    return post(url, data).then(response => {
         return response;
     })
 }
 export function MaterialMasterPut(data) {
     let apiUrl = environment.apiUrl;
     let url = `${apiUrl}/MaterialMaster`
-    return postFile(url, data).then(response => {
+    return put(url, data).then(response => {
         return response;
     })
 }

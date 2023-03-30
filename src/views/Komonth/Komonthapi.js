@@ -34,21 +34,21 @@ export function KOMonth_SelectAllWeekWise(nKOId) {
 export function KOMonthMaster(data) {
     let apiUrl = environment.apiUrl;
     let url = `${apiUrl}/KOMonthMaster`
-    return postFile(url, data).then(response => {
+    return post(url, data).then(response => {
         return response;
     })
 }
 export function KOMonthMasterPut(data) {
     let apiUrl = environment.apiUrl;
     let url = `${apiUrl}/KOMonthMaster`
-    return postFile(url, data).then(response => {
+    return put(url, data).then(response => {
         return response;
     })
 }
 export function KOMonthMaster_Update(data) {
     let apiUrl = environment.apiUrl;
     let url = `${apiUrl}/KOMonthMaster/KOMonthMaster_Update`
-    return postFile(url, data).then(response => {
+    return put(url, data).then(response => {
         return response;
     })
 }

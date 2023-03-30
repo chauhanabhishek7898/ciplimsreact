@@ -6,14 +6,14 @@ export default function abc() {
 export function VendorMasterPost(data) {
     let apiUrl = environment.apiUrl;
     let url = `${apiUrl}/VendorMaster`
-    return postFile(url, data).then(response => {
+    return post(url, data).then(response => {
         return response;
     })
 }
 export function VendorMasterPut(data) {
     let apiUrl = environment.apiUrl;
     let url = `${apiUrl}/VendorMaster`
-    return postFile(url, data).then(response => {
+    return put(url, data).then(response => {
         return response;
     })
 }

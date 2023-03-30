@@ -6,14 +6,14 @@ export default function abc() {
 export function GodownMasterPost(data) {
     let apiUrl = environment.apiUrl;
     let url = `${apiUrl}/GodownMaster`
-    return postFile(url, data).then(response => {
+    return post(url, data).then(response => {
         return response;
     })
 }
 export function GodownMasterPut(data) {
     let apiUrl = environment.apiUrl;
     let url = `${apiUrl}/GodownMaster`
-    return postFile(url, data).then(response => {
+    return put(url, data).then(response => {
         return response;
     })
 }

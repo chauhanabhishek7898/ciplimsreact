@@ -6,14 +6,14 @@ export default function abc() {
 export function PackMasterPost(data) {
     let apiUrl = environment.apiUrl;
     let url = `${apiUrl}/PackMaster`
-    return postFile(url, data).then(response => {
+    return post(url, data).then(response => {
         return response;
     })
 }
 export function PackMasterPut(data) {
     let apiUrl = environment.apiUrl;
     let url = `${apiUrl}/PackMaster`
-    return postFile(url, data).then(response => {
+    return put(url, data).then(response => {
         return response;
     })
 }

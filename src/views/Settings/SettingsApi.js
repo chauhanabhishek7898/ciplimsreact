@@ -7,21 +7,21 @@ export default function abc() {
 export function UserMobileNo_Update(data) {
     let apiUrl = environment.apiUrl;
     let url = `${apiUrl}/UserMaster/UserMobileNo_Update`
-    return postFile(url, data).then(response => {
+    return put(url, data).then(response => {
         return response;
     })
 }
 export function UserEmailId_Update(data) {
     let apiUrl = environment.apiUrl;
     let url = `${apiUrl}/UserMaster/UserEmailId_Update`
-    return postFile(url, data).then(response => {
+    return put(url, data).then(response => {
         return response;
     })
 }
 export function UserChangePassword_Update(data) {
     let apiUrl = environment.apiUrl;
     let url = `${apiUrl}/UserMaster/UserChangePassword_Update`
-    return postFile(url, data).then(response => {
+    return put(url, data).then(response => {
         return response;
     })
 }

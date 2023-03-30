@@ -7,14 +7,14 @@ export default function abc() {
 export function UnitMastersPost(data) {
     let apiUrl = environment.apiUrl;
     let url = `${apiUrl}/UnitMaster`
-    return postFile(url, data).then(response => {
+    return post(url, data).then(response => {
         return response;
     })
 }
 export function UnitMastersPut(data) {
     let apiUrl = environment.apiUrl;
     let url = `${apiUrl}/UnitMaster`
-    return postFile(url, data).then(response => {
+    return put(url, data).then(response => {
         return response;
     })
 }

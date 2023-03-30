@@ -21,14 +21,14 @@ export function PlantMaster_SelectAll_ActiveLikeSearch(vGeneric) {
 export function PlantMasterPost(data) {
     let apiUrl = environment.apiUrl;
     let url = `${apiUrl}/PlantMaster`
-    return postFile(url, data).then(response => {
+    return post(url, data).then(response => {
         return response;
     })
 }
 export function PlantMasterPut(data) {
     let apiUrl = environment.apiUrl;
     let url = `${apiUrl}/PlantMaster`
-    return postFile(url, data).then(response => {
+    return put(url, data).then(response => {
         return response;
     })
 }

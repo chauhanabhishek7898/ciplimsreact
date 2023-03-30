@@ -6,14 +6,14 @@ export default function abc() {
 export function BrandMasterPost(data) {
     let apiUrl = environment.apiUrl;
     let url = `${apiUrl}/BrandMaster`
-    return postFile(url, data).then(response => {
+    return post(url, data).then(response => {
         return response;
     })
 }
 export function BrandMasterPut(data) {
     let apiUrl = environment.apiUrl;
     let url = `${apiUrl}/BrandMaster`
-    return postFile(url, data).then(response => {
+    return put(url, data).then(response => {
         return response;
     })
 }
