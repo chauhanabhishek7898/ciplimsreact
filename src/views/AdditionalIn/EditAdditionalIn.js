@@ -49,7 +49,7 @@ import BorderColorIcon from '@mui/icons-material/BorderColor';
 import { confirmAlert } from 'react-confirm-alert'; // Import
 import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
 import HomeIcon from '@mui/icons-material/Home';
-
+import ReplayIcon from '@mui/icons-material/Replay';
 function EditAdditionalIn() {
     const navigate = useNavigate();
     const location = useLocation();
@@ -160,6 +160,7 @@ function EditAdditionalIn() {
     const [nGrandTotal, setnGrandTotal] = useState('')
     const [nNetTotalAmt, setnNetTotalAmt] = useState('')
     const [vUOM, setvUOM] = useState('')
+    const [EditId, setEditId] = useState(null)
     useEffect(() => {
         const userId = localStorage.getItem("nUserId")
         setnLoggedInUserId(userId)
@@ -252,7 +253,7 @@ function EditAdditionalIn() {
 
             setBtActive(res.GRNMaster[0].btActive)
             setvRemarks(res.GRNMaster[0].vRemarks)
-
+            setEditId(null)
         })
     }
     const plantMaster_SelectAll_ActiveLikeSearch = (vGeneric) => {
@@ -325,11 +326,31 @@ function EditAdditionalIn() {
 
     }
     const changePlantValue = (value) => {
-        setnPOId(value.value)
-        setPlantDetail(value.label)
-        setError({
-            plant: ''
-        })
+        confirmAlert({
+            title: 'Alert !!',
+            closeOnClickOutside: false,
+            message: 'You are going to change the Plant of this transaction. In case you change it, all the below selections done will be removed. Do you still want to proceed ?',
+            buttons: [
+                {
+                    label: 'Yes',
+                    onClick: () => {
+                        setnPOId(value.value)
+                        setPlantDetail(value.label)
+                        setError({
+                            plant: ''
+                        })
+                        setPODetails([])
+                     
+                    },
+                },
+                {
+                    label: 'No',
+                    onClick: () => {
+                        return null
+                    },
+                },
+            ]
+        });
     }
     const changeVendorMasterValue = (value) => {
         setnVId(value.value)
@@ -428,7 +449,7 @@ function EditAdditionalIn() {
                                 poMasteerDetail[indexToUpdate].dtExpDate = parseDateToStringSubmit(new Date(dtExpDate)),
                                 poMasteerDetail[indexToUpdate].ExpDate = dtExpDate,
 
-                                setPODetails(poMasteerDetail)
+                            setPODetails(poMasteerDetail)
                             setbtnType('')
                             setnMId('')
                             setMaterialDetail('')
@@ -436,6 +457,7 @@ function EditAdditionalIn() {
                             setnAmt('')
                             setnQtyAccepted('')
                             setnQtyRejected('')
+                            setEditId(null)
 
                         }
                     },
@@ -480,7 +502,7 @@ function EditAdditionalIn() {
                                     setnAmt('')
                                     setnQtyAccepted('')
                                     setnQtyRejected('')
-
+                                    setEditId(null)
 
                                 }
                             }
@@ -599,6 +621,7 @@ function EditAdditionalIn() {
     const editItem = (item) => {
         setbtnType('edit')
         setId(item.id)
+        setEditId(item.id)
         setnMId(item.nMId)
         setMaterialDetail(item.MaterialDetail)
         setdtExpDate(item.ExpDate)
@@ -626,6 +649,17 @@ function EditAdditionalIn() {
         });
 
     }
+    const refreshbtn=()=>{
+        setEditId(null)
+        setnMId('')
+        setMaterialDetail('')
+        setdtExpDate(new Date(Date.now()))
+        setnQtyAccepted('')
+        setnQtyRejected('')
+        setnAmt('')
+        setvUOM('')
+        setbtnType('')
+    }
     return (
         <div className='citymasterContainer'>
             <div className='dateFilter-2'>
@@ -652,7 +686,7 @@ function EditAdditionalIn() {
                         <FormControl fullWidth className='input'>
                             <TextField
                                 value={vBatchNo}
-                                onChange={e => getBatchNoDetails(e.target.value)}
+                                onChange={e => setvBatchNo(e.target.value)}
                                 id="outlined-basic"
                                 label="Batch No"
                                 variant="outlined"
@@ -856,8 +890,10 @@ function EditAdditionalIn() {
                             {errorText.date != '' ? <p className='error'>{errorText.date}</p> : null}
                         </FormControl>
                     </Box>
-                    <div>
-                        <button title='Add' className='addbtn' onClick={addKoMonthDate}><AddIcon fontSize='large' /></button>
+                    <div style={{display:'flex',alignItems:'center',gap:10}}>
+                        <button title='Add' className='addbtn' onClick={addKoMonthDate}>{btnType=='edit'?'Update':<AddIcon fontSize='large' />}</button>
+                        
+                        <button title='Refresh' className='addbtn' onClick={refreshbtn}><ReplayIcon fontSize='large' /></button>
                     </div>
                 </div>
                 <div className='tablecenter'>
@@ -885,7 +921,7 @@ function EditAdditionalIn() {
 
                                             {PODetails.map((item, index) => {
                                                 return (
-                                                    <TableRow key={index}>
+                                                    <TableRow key={index} style={item.id==EditId?{background:'rgba(239,30,44,0.15)'}:{background:'#fff'}}>
                                                         <TableCell component="th" scope="row">{index + 1}.</TableCell>
                                                         <TableCell align="center">
                                                             <div style={{ display: 'flex', justifyContent: 'center' }}>

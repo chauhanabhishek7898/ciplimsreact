@@ -26,6 +26,7 @@ const EditAdditionalIn = React.lazy(() => import('./views/AdditionalIn/EditAddit
 const RejectedOutList = React.lazy(() => import('./views/RejectedOut/RejectedOutList'))
 const AddRejectedOut = React.lazy(() => import('./views/RejectedOut/AddRejectedOut'))
 const EditRejectedOut = React.lazy(() => import('./views/RejectedOut/EditRejectedOut'))
+const CurrentStockStatus = React.lazy(() => import('./views/CurrentStockStatus/CurrentStockStatus'))
 
 const VenderForm = React.lazy(() => import('./views/VenderForm/VenderForm'))
 const BrandMaster = React.lazy(() => import('./views/BrandMaster/BrandMaster'))
@@ -72,6 +73,7 @@ const routes = [
   { path: '/RejectedOut', name: 'Rejected Out', element: RejectedOutList, exact: true },
   { path: '/AddRejectedOut', name: 'Add Rejected Out', element: AddRejectedOut, exact: true },
   { path: '/EditRejectedOut', name: 'Edit Rejected Out', element: EditRejectedOut, exact: true },
+  { path: '/CurrentStockStatus', name: 'Current Stock Status', element: CurrentStockStatus, exact: true },
 ]
 
 export default routes

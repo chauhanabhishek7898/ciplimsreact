@@ -377,6 +377,8 @@ function VenderForm() {
                             <TableHead>
                                 <TableRow>
                                     {/* <TableCell scope="row">SN.</TableCell> */}
+                                    <TableCell align="left">Edit</TableCell>
+                                    <TableCell align="left">Status</TableCell>
                                     <TableCell align="left">Vendor Code</TableCell>
                                     <TableCell align="left">Vendor Name</TableCell>
                                     <TableCell align="left">Address</TableCell>
@@ -385,8 +387,6 @@ function VenderForm() {
                                     <TableCell align="left">Email Id</TableCell>
                                     <TableCell align="left">GST No</TableCell>
                                     <TableCell align="left">Remarks</TableCell>
-                                    <TableCell align="left">Status</TableCell>
-                                    <TableCell align="left">Edit</TableCell>
                                 </TableRow>
                             </TableHead>
                             {vendorData?.length>0?
@@ -396,6 +396,7 @@ function VenderForm() {
                                         <TableRow key={index}>
                                             {/* <TableCell component="th" scope="row">{index + 1}.</TableCell> */}
                                             <TableCell align="left"><div onClick={() => openmodale(item, 'Update')}><BorderColorIcon size={20} color='#000' /></div></TableCell>
+                                            <TableCell align="left">{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
                                             <TableCell align="left">{item.vVendorCode}</TableCell>
                                             <TableCell align="left">{item.vVendorName}</TableCell>
                                             <TableCell align="left">{item.vVendorAddress}</TableCell>
@@ -404,7 +405,6 @@ function VenderForm() {
                                             <TableCell align="left">{item.vEmailId}</TableCell>
                                             <TableCell align="left">{item.vGSTNo}</TableCell>
                                             <TableCell align="left">{item.vRemarks}</TableCell>
-                                            <TableCell align="left">{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
                                         </TableRow>
                                     )
                                 })

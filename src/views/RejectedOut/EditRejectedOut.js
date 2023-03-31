@@ -17,7 +17,7 @@ import { MaterialMaster_SelectAll_ActiveLikeSearch } from '../MaterialMaster/Mat
 import { PlantMaster_SelectAll_ActiveLikeSearch } from '../PlantMaster/PlantMasterService'
 import { VendorMaster_SelectAll_ActiveLikeSearch, VendorMaster_SelectAll_Active } from '../VenderForm/VenderFormService'
 import { GetPODetails, GetPOByPOId } from '../PurchaseOrder/POMasterService'
-import { AdditionalIn_Update, Drain_Insert, GetPODetailsLIkeSearch, GetExpDateForRejection, GetBalStockForRejection, GetAdditionalInByGRNId } from './RejectedOutService'
+import { DRAIN_Update, Drain_Insert, GetPODetailsLIkeSearch, GetExpDateForRejection, GetBalStockForRejection, GetAdditionalInByGRNId,GetBalStockForRejectionDuringEdit } from './RejectedOutService'
 
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
@@ -50,6 +50,7 @@ import BorderColorIcon from '@mui/icons-material/BorderColor';
 import { confirmAlert } from 'react-confirm-alert'; // Import
 import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
 import HomeIcon from '@mui/icons-material/Home';
+import ReplayIcon from '@mui/icons-material/Replay';
 function EditRejectedOut() {
     const navigate = useNavigate();
     const location = useLocation();
@@ -163,6 +164,10 @@ function EditRejectedOut() {
     const [vUOM, setvUOM] = useState('')
     const [expireDateValue, setexpireDateValue] = useState('')
     const [expireDate, setExpireDate] = useState([])
+    const [firstTimeSelect, setfirstTimeSelect] = useState(false)
+    const [monthmodalIsOpen, setmonthmodalIsOpen] = React.useState(false);
+    const [GrnData, setGrnData] = React.useState([]);
+    const [EditId, setEditId] = useState('')
     useEffect(() => {
         const userId = localStorage.getItem("nUserId")
         setnLoggedInUserId(userId)
@@ -237,24 +242,24 @@ function EditRejectedOut() {
     }, [])
     const getGRNByGRNId = () => {
         GetAdditionalInByGRNId(parseInt(nGRNId)).then(res => {
+            setnPId(res.GRNMaster[0].nPId)
+            setPlantDetail(res.GRNMaster[0].PlantDetail)
+            setvUOM(res.GRNMaster[0].vUOM)
+            setvBatchNo(res.GRNMaster[0].vBatchNo)
+            setStartDate(new Date(res.GRNMaster[0].Dated))
+
+            setBtActive(res.GRNMaster[0].btActive)
+            setvRemarks(res.GRNMaster[0].vRemarks)
             let count = Object.keys(res.GRNDetail).length
             let data = res.GRNDetail
             for (var i = 0; i < count; i++) {
                 let counts = i
                 res.GRNDetail[i].id = counts
+                res.GRNDetail[i].nPId = res.GRNMaster[0].nPId
             }
-            // console.log('data',data)
+             console.log('data',data)
             setPODetails(data)
-            setEndDate(res.GRNMaster[0].Dated)
-            setnPId(res.GRNMaster[0].nPId)
-            setPlantDetail(res.GRNMaster[0].PlantDetail)
-            setvUOM(res.GRNMaster[0].vUOM)
-            setvBatchNo(res.GRNMaster[0].vBatchNo)
-            setStartDate(parseDateToString(res.GRNMaster[0].dtGRNDate))
-
-            setBtActive(res.GRNMaster[0].btActive)
-            setvRemarks(res.GRNMaster[0].vRemarks)
-
+            setEditId(null)
         })
     }
     const plantMaster_SelectAll_ActiveLikeSearch = (vGeneric) => {
@@ -335,12 +340,32 @@ function EditRejectedOut() {
         })
     }
     const changePlantValue = (value) => {
-        setnPId(value.value)
-        setPlantDetail(value.label)
-        getExpDateForRejection(value.value, nMId == '' ? 0 : nMId)
-        setError({
-            plant: ''
-        })
+        confirmAlert({
+            title: 'Alert !!',
+            closeOnClickOutside: false,
+            message: 'You are going to change the Plant of this transaction. In case you change it, all the below selections done will be removed. Do you still want to proceed ?',
+            buttons: [
+                {
+                    label: 'Yes',
+                    onClick: () => { 
+                        setPlantDetail(value.label)
+                        getExpDateForRejection(value.value, nMId == '' ? 0 : nMId)
+                        setError({
+                            plant: ''
+                        })
+                        setPODetails([])
+                     },
+                },
+                {
+                    label: 'No',
+                    onClick: () => { 
+                     return null
+                     },
+                },
+            ]
+        });
+        
+       
     }
     const changeMaterialMasterValue = (value) => {
         setnMId(value.value)
@@ -415,6 +440,7 @@ function EditRejectedOut() {
         if (btnType == 'edit') {
             confirmAlert({
                 title: 'Alert !!',
+                closeOnClickOutside: false,
                 message: 'Do you want Edit this Material ?',
                 buttons: [
                     {
@@ -425,15 +451,16 @@ function EditRejectedOut() {
 
                             // setPODetails(complaintDetail)
                             poMasteerDetail[indexToUpdate].id = id,
-                                poMasteerDetail[indexToUpdate].nMId = parseInt(nMId),
-                                poMasteerDetail[indexToUpdate].MaterialDetail = MaterialDetail,
-                                poMasteerDetail[indexToUpdate].nQTYOut = parseFloat(nQty == '' ? 0 : nQty),
-                                poMasteerDetail[indexToUpdate].LeftQty = parseFloat(LeftQty == '' ? 0 : LeftQty),
-                                poMasteerDetail[indexToUpdate].vUOM = vUOM,
-                                poMasteerDetail[indexToUpdate].ExpDate = expireDateValue,
+                            poMasteerDetail[indexToUpdate].nMId = parseInt(nMId),
+                            poMasteerDetail[indexToUpdate].MaterialDetail = MaterialDetail,
+                            poMasteerDetail[indexToUpdate].nQTYOut = parseFloat(nQty == '' ? 0 : nQty),
+                            poMasteerDetail[indexToUpdate].LeftQty = parseFloat(LeftQty == '' ? 0 : LeftQty),
+                            poMasteerDetail[indexToUpdate].vUOM = vUOM,
+                            poMasteerDetail[indexToUpdate].ExpDate = expireDateValue,
+                            poMasteerDetail[indexToUpdate].nPId = nPId,
 
 
-                                setPODetails(poMasteerDetail)
+                            setPODetails(poMasteerDetail)
                             setbtnType('')
                             setnMId('')
                             setMaterialDetail('')
@@ -442,6 +469,7 @@ function EditRejectedOut() {
                             setLeftQty('')
                             setexpireDateValue('')
                             setvUOM('')
+                            setEditId('')
 
                         }
                     },
@@ -456,6 +484,7 @@ function EditRejectedOut() {
             confirmAlert({
                 title: 'Alert !!',
                 message: 'Do you want Add this Material ?',
+                closeOnClickOutside: false,
                 buttons: [
                     {
                         label: 'Yes',
@@ -474,6 +503,7 @@ function EditRejectedOut() {
                                         LeftQty: parseFloat(LeftQty == '' ? 0 : LeftQty),
                                         vUOM: vUOM,
                                         ExpDate: expireDateValue,
+                                        nPId: nPId,
 
 
                                     })
@@ -486,6 +516,7 @@ function EditRejectedOut() {
                                     setLeftQty('')
                                     setexpireDateValue('')
                                     setvUOM('')
+                                    setEditId('')
 
 
                                 }
@@ -520,6 +551,7 @@ function EditRejectedOut() {
             if (PODetails.length > 0) {
                 confirmAlert({
                     title: 'Alert !!',
+                    closeOnClickOutside: false,
                     message: 'Do you want Proceed ?',
                     buttons: [
                         {
@@ -536,10 +568,15 @@ function EditRejectedOut() {
                                 }]
                                 let GRNOrder = {}
                                 GRNOrder.GRNMaster = POMasterData,
-                                    GRNOrder.GRNDetails = PODetails
+                                GRNOrder.GRNDetails = PODetails
                                 console.log('PurchaseOrder', GRNOrder)
-                                AdditionalIn_Update(GRNOrder).then(res => {
-                                    if (res) {
+                                DRAIN_Update(GRNOrder).then(res => {
+                                    if (res?.length>0) {
+                                        console.log('res',res)
+                                        setGrnData(res)
+                                        setmonthmodalIsOpen(true)
+                                        setLoader(false)
+                                    }else{
                                         setLoader(false)
                                         toast.success("Record Updated Successfully !!")
                                         navigate('/RejectedOut')
@@ -560,6 +597,7 @@ function EditRejectedOut() {
             } else {
                 confirmAlert({
                     title: 'Alert !!',
+                    closeOnClickOutside: false,
                     message: 'Please Add at least one Material.',
                     buttons: [
                         {
@@ -604,6 +642,7 @@ function EditRejectedOut() {
     const editItem = (item) => {
         setbtnType('edit')
         setId(item.id)
+        setEditId(item.id)
         setnMId(item.nMId)
         setMaterialDetail(item.MaterialDetail)
         setexpireDateValue(item.ExpDate)
@@ -611,6 +650,7 @@ function EditRejectedOut() {
         setLeftQty(item.LeftQty)
         setvUOM(item.vUOM)
         getExpDateForRejection(nPId,item.nMId)
+        getBalStockForRejectionDuringEdit(nGRNId,nPId,item.nMId,item.ExpDate)
 
     }
     const goback = () => {
@@ -632,7 +672,6 @@ function EditRejectedOut() {
 
     }
     const getExpDateForRejection = (PId, MId) => {
-
         GetExpDateForRejection(PId, MId).then(res => {
             console.log('response', res)
             setExpireDate(res)
@@ -669,6 +708,13 @@ function EditRejectedOut() {
 
         })
     }
+    const getBalStockForRejectionDuringEdit = (GRNId,PId, MId, expireDate) => {
+        GetBalStockForRejectionDuringEdit(GRNId,PId, MId, expireDate).then(res => {
+            console.log('response', res)
+            setLeftQty(res[0].BalQty)
+
+        })
+    }
     const onChangenQty = (value) => {
         setnQty(value)
         setTimeout(() => {
@@ -693,6 +739,20 @@ function EditRejectedOut() {
 
         }, 2000)
     }
+    const refreshbtn=()=>{
+        setnMId('')
+        setMaterialDetail('')
+        setexpireDateValue('')
+        setnQty('')
+        setLeftQty('')
+        setvUOM('')
+        setbtnType('')
+        setEditId('')
+    }
+    const closeModal=()=>{
+        setmonthmodalIsOpen(false)
+        navigate('/RejectedOut')
+    }
     return (
         <div className='citymasterContainer'>
             <div className='dateFilter-2'>
@@ -705,7 +765,6 @@ function EditRejectedOut() {
                                         label="Date *"
                                         inputFormat="DD-MM-YYYY"
                                         value={startDate}
-                                        required
                                         maxDate={startDates}
                                         onChange={handleChangeStartdate}
                                         renderInput={(params) => <TextField {...params} />}
@@ -826,7 +885,6 @@ function EditRejectedOut() {
                                 {expireDate.map((item, index) => {
                                     return (
                                         <MenuItem value={item.ExpDate} key={index}>{item.ExpDate}</MenuItem>
-
                                     )
                                 })
 
@@ -871,8 +929,10 @@ function EditRejectedOut() {
                             {errorText.Qty != '' ? <p className='error'>{errorText.Qty}</p> : null}
                         </FormControl>
                     </Box>
-                    <div>
-                        <button title='Add' className='addbtn' onClick={addKoMonthDate}><AddIcon fontSize='large' /></button>
+                    <div style={{display:'flex',alignItems:'center',gap:10}}>
+                        <button title='Add' className='addbtn' onClick={addKoMonthDate}>{btnType=='edit'?'Update':<AddIcon fontSize='large' />}</button>
+                        
+                        <button title='Refresh' className='addbtn' onClick={refreshbtn}><ReplayIcon fontSize='large' /></button>
                     </div>
                 </div>
                 <div className='tablecenter'>
@@ -889,7 +949,7 @@ function EditRejectedOut() {
                                         <TableCell align="left">Balance QTY</TableCell> */}
                                             <TableCell align="left">UOM</TableCell>
                                             <TableCell align="left">Exp Date</TableCell>
-                                            <TableCell align="left">Bal Qty </TableCell>
+                                            {/* <TableCell align="left">Bal Qty </TableCell> */}
                                             <TableCell align="left">Qty</TableCell>
 
                                         </TableRow>
@@ -900,13 +960,12 @@ function EditRejectedOut() {
 
                                             {PODetails.map((item, index) => {
                                                 return (
-                                                    <TableRow key={index}>
+                                                    <TableRow key={index} style={item.id==EditId?{background:'rgba(239,30,44,0.15)'}:{background:'#fff'}}>
                                                         <TableCell component="th" scope="row">{index + 1}.</TableCell>
                                                         <TableCell align="center">
                                                             <div style={{ display: 'flex', justifyContent: 'center' }}>
                                                                 <button className='deletbtn' title='Delete' onClick={() => deleteItem(item.id)}><DeleteIcon size={20} color='red' /></button>
                                                                 <button className='deletbtn' title='Edit' onClick={() => editItem(item)}><BorderColorIcon size={20} color='#000' /></button>
-
                                                             </div>
 
                                                         </TableCell>
@@ -915,7 +974,7 @@ function EditRejectedOut() {
                                                     <TableCell align="left">{item.BalanceQuantity}</TableCell> */}
                                                         <TableCell align="left">{item.vUOM}</TableCell>
                                                         <TableCell align="left">{item.ExpDate}</TableCell>
-                                                        <TableCell align="left">{item.LeftQty}</TableCell>
+                                                        {/* <TableCell align="left">{item.LeftQty}</TableCell> */}
                                                         <TableCell align="left">{item.nQTYOut}</TableCell>
 
                                                     </TableRow>
@@ -966,9 +1025,83 @@ function EditRejectedOut() {
                     <button type="submit" className='submitbtn' onClick={handleSubmit(submit)}>Submit</button>
                 }
             </div>
+            <Modal
+                isOpen={monthmodalIsOpen}
+                style={customStyles}
+                contentLabel="Example Modal"
+                ariaHideApp={false}
+            >
+                <div className='displayright'>
+                    <div><span className='title'>Alert !!</span></div>
+                    <HighlightOffIcon fontSize='large' onClick={closeModal} />
+                </div>
+                <div>
+                    <div className='editModel-2'>
+                       <div><p className='errormasg'>OOPS !!, For this selected Transaction, Input Quantity is greater than Balance Stock Quantity. Please try again with appropriate inputs.</p></div>
+                        <div className='tablecenter'>
+                            {GrnData.length > 0 ?
+                                <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+                                    <TableContainer sx={{ maxHeight: 440 }}>
+                                        <Table stickyHeader aria-label="sticky table">
+                                            <TableHead>
+                                                <TableRow>
+                                                    <TableCell scope="row">SN.</TableCell>
+                                                    <TableCell align="left">Plant Detail</TableCell>
+                                                    <TableCell align="left">Material Name</TableCell>
+                                                    <TableCell align="left">Exp Date</TableCell>
+                                                    <TableCell align="left">Bal Stock</TableCell>
+                                                    <TableCell align="left">Input Qty</TableCell>
 
+                                                </TableRow>
+                                            </TableHead>
+                                            <TableBody>
+
+                                                {GrnData.map((item, index) => {
+                                                    return (
+
+                                                        <TableRow key={index}  style={item.id==EditId?{background:'rgba(239,30,44,0.15)'}:{background:'#fff'}}>
+
+                                                            <TableCell component="th" scope="row">{index + 1}.</TableCell>
+                                                            <TableCell align="left">{item.PlantDetail}</TableCell>
+                                                            <TableCell align="left">{item.MaterialDetail}</TableCell>
+                                                            <TableCell align="left">{item.dtExpDate}</TableCell>
+                                                            <TableCell align="left">{item.BalanceStockQty}</TableCell>
+                                                            <TableCell align="left">{item.nQTYOut}</TableCell>
+                                                        </TableRow>
+                                                    )
+                                                })
+                                                }
+
+
+                                            </TableBody>
+                                        </Table>
+                                    </TableContainer>
+
+                                </Paper>
+                                :
+                                null
+
+                            }
+
+                        </div>
+                       
+                    </div>
+                </div>
+                
+            </Modal >
 
         </div>
     )
 }
+const customStyles = {
+    content: {
+        top: '50%',
+        left: '50%',
+        right: 'auto',
+        bottom: 'auto',
+        marginRight: '-50%',
+        transform: 'translate(-50%, -50%)',
+        width: '50%',
+    },
+};
 export default EditRejectedOut

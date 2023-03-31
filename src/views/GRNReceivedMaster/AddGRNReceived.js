@@ -1683,7 +1683,7 @@ function AddGRNReceived() {
                 </div>
                 <div>
                     <div className='editModel-2'>
-                       <div><p className='errormasg'>OOPS !!, For this selected PO, Input Quantity is greater than Balance Left Quantity. Please try again with appropriate inputs.</p></div>
+                       <div><p className='errormasg'>OOPS !!, For this selected Transaction, Input Quantity is greater than Balance Left Quantity. Please try again with appropriate inputs.</p></div>
                         <div className='tablecenter'>
                             {GrnData.length > 0 ?
                                 <Paper sx={{ width: '100%', overflow: 'hidden' }}>

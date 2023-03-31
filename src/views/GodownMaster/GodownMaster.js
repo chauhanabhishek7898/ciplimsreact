@@ -181,7 +181,7 @@ function GodownMaster() {
                     <HighlightOffIcon fontSize='large' onClick={() => setIsOpen(false)} />
                 </div>
                 <div className='displayflexend'>
-                    <Box sx={{ width: '33%' }} >
+                    <Box sx={{ width: '32.5%' }} >
                         <FormControl fullWidth className='input'>
                             <TextField
                                 value={vGCode}
@@ -196,7 +196,7 @@ function GodownMaster() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '33%' }} >
+                    <Box sx={{ width: '32.5%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
                                 value={vGName}
@@ -211,7 +211,7 @@ function GodownMaster() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '33%' }} >
+                    <Box sx={{ width: '32.5%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
                                 value={vGAddress}
@@ -222,7 +222,7 @@ function GodownMaster() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '33%' }} >
+                    <Box sx={{ width: '32.5%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
                                 value={vContactPerson}
@@ -233,7 +233,7 @@ function GodownMaster() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '33%' }} >
+                    <Box sx={{ width: '32.5%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
                                 value={vContactNo}
@@ -245,7 +245,7 @@ function GodownMaster() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '33%', marginTop: 2 }}>
+                    <Box sx={{ width: '32.5%', marginTop: 2 }}>
                         <FormControl fullWidth className='input'>
                             <TextField
                                 value={vRemarks}
@@ -258,7 +258,7 @@ function GodownMaster() {
                         </FormControl>
                     </Box>
                 </div>
-                <div className='displayflexend'>
+                <div className='displayflexend-2'>
                     <FormGroup >
                         <FormControlLabel control={<Checkbox defaultChecked={btActive} onChange={e => setBtActive(e.target.checked)} />} label="Active" disabled={disabled} />
                     </FormGroup>
@@ -294,30 +294,30 @@ function GodownMaster() {
                         <Table stickyHeader aria-label="sticky table" >
                             <TableHead>
                                 <TableRow>
-                                    <TableCell scope="row">SN.</TableCell>
+                                    {/* <TableCell scope="row">SN.</TableCell> */}
+                                    <TableCell align="left">Edit</TableCell>
+                                    <TableCell align="left">Status</TableCell>
                                     <TableCell align="left">Godown Code</TableCell>
                                     <TableCell align="left">Godown Name</TableCell>
                                     <TableCell align="left">Godown Address</TableCell>
                                     <TableCell align="left">Godown Contact Person</TableCell>
                                     <TableCell align="left">Godown Contact No</TableCell>
                                     <TableCell align="left">Remarks</TableCell>
-                                    <TableCell align="left">Status</TableCell>
-                                    <TableCell align="left">Edit</TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
                                 {brandData.map((item, index) => {
                                     return (
                                         <TableRow key={index}>
-                                            <TableCell component="th" scope="row">{index + 1}.</TableCell>
+                                            {/* <TableCell component="th" scope="row">{index + 1}.</TableCell> */}
+                                            <TableCell align="left"><div onClick={() => openmodale(item, 'Update')}><BorderColorIcon size={20} color='#000' /></div></TableCell>
+                                            <TableCell align="left">{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
                                             <TableCell align="left">{item.vGCode}</TableCell>
                                             <TableCell align="left">{item.vGName}</TableCell>
                                             <TableCell align="left">{item.vGAddress}</TableCell>
                                             <TableCell align="left">{item.vContactPerson}</TableCell>
                                             <TableCell align="left">{item.vContactNo}</TableCell>
                                             <TableCell align="left">{item.vRemarks}</TableCell>
-                                            <TableCell align="left">{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
-                                            <TableCell align="left"><div onClick={() => openmodale(item, 'Update')}><BorderColorIcon size={20} color='#000' /></div></TableCell>
                                         </TableRow>
                                     )
                                 })

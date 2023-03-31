@@ -49,7 +49,7 @@ import BorderColorIcon from '@mui/icons-material/BorderColor';
 import { confirmAlert } from 'react-confirm-alert'; // Import
 import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
 import HomeIcon from '@mui/icons-material/Home';
-
+import ReplayIcon from '@mui/icons-material/Replay';
 function AddRejectedOut() {
     const navigate = useNavigate();
     const [modalIsOpen, setIsOpen] = React.useState(false);
@@ -159,8 +159,11 @@ function AddRejectedOut() {
     const [LeftQty, setLeftQty] = useState('')
     const [vUOM, setvUOM] = useState('')
     const [expireDateValue, setexpireDateValue] = useState('')
+    const [EditId, setEditId] = useState('')
     const [expireDate, setExpireDate] = useState([])
-
+    const [monthmodalIsOpen, setmonthmodalIsOpen] = React.useState(false);
+    const [GrnData, setGrnData] = React.useState([]);
+    const [FirstTimeAdd, setFirstTimeAdd] = React.useState(true);
     useEffect(() => {
         const userId = localStorage.getItem("nUserId")
         setnLoggedInUserId(userId)
@@ -301,12 +304,43 @@ function AddRejectedOut() {
 
     }
     const changePlantValue = (value) => {
-        setnPId(value.value)
-        setPlantDetail(value.label)
-        getExpDateForRejection(value.value, nMId == '' ? 0 : nMId)
-        setError({
-            plant: ''
-        })
+        if(FirstTimeAdd==true){
+            setnPId(value.value)
+            setPlantDetail(value.label)
+            getExpDateForRejection(value.value, nMId == '' ? 0 : nMId)
+            setError({
+                plant: ''
+            })
+            setFirstTimeAdd(false)
+        }else{
+            confirmAlert({
+                title: 'Alert !!',
+                closeOnClickOutside: false,
+                message: 'You are going to change the Plant of this transaction. In case you change it, all the below selections done will be removed. Do you still want to proceed ?',
+                buttons: [
+                    {
+                        label: 'Yes',
+                        onClick: () => {
+                            setnPId(value.value)
+                            setPlantDetail(value.label)
+                            getExpDateForRejection(value.value, nMId == '' ? 0 : nMId)
+                            setError({
+                                plant: ''
+                            })
+                            setPODetails([])
+                         
+                        },
+                    },
+                    {
+                        label: 'No',
+                        onClick: () => {
+                            return null
+                        },
+                    },
+                ]
+            });
+
+        }
     }
     const changeVendorMasterValue = (value) => {
         setnVId(value.value)
@@ -403,7 +437,8 @@ function AddRejectedOut() {
                                 poMasteerDetail[indexToUpdate].nQTYOut = parseFloat(nQty == '' ? 0 : nQty),
                                 poMasteerDetail[indexToUpdate].LeftQty = parseFloat(LeftQty == '' ? 0 : LeftQty),
                                 poMasteerDetail[indexToUpdate].vUOM = vUOM,
-                                poMasteerDetail[indexToUpdate].ExpDate = expireDateValue,
+                                poMasteerDetail[indexToUpdate].dtExpDate = expireDateValue,
+                                poMasteerDetail[indexToUpdate].nPId = nPId,
 
 
                                 setPODetails(poMasteerDetail)
@@ -415,6 +450,7 @@ function AddRejectedOut() {
                             setLeftQty('')
                             setexpireDateValue('')
                             setvUOM('')
+                            setEditId('')
 
                         }
                     },
@@ -446,8 +482,8 @@ function AddRejectedOut() {
                                         nQTYOut: parseFloat(nQty == '' ? 0 : nQty),
                                         LeftQty: parseFloat(LeftQty == '' ? 0 : LeftQty),
                                         vUOM: vUOM,
-                                        ExpDate: expireDateValue,
-
+                                        dtExpDate: expireDateValue,
+                                        nPId: nPId,
 
                                     })
 
@@ -459,6 +495,7 @@ function AddRejectedOut() {
                                     setLeftQty('')
                                     setexpireDateValue('')
                                     setvUOM('')
+                                    setEditId('')
 
 
                                 }
@@ -511,7 +548,12 @@ function AddRejectedOut() {
                                     GRNOrder.GRNDetails = PODetails
                                 console.log('PurchaseOrder', GRNOrder)
                                 Drain_Insert(GRNOrder, vPOFilePath).then(res => {
-                                    if (res) {
+                                    if (res?.length > 0) {
+                                        console.log('res', res)
+                                        setGrnData(res)
+                                        setmonthmodalIsOpen(true)
+                                        setLoader(false)
+                                    } else {
                                         setLoader(false)
                                         toast.success("Record Added Successfully !!")
                                         navigate('/RejectedOut')
@@ -576,9 +618,10 @@ function AddRejectedOut() {
     const editItem = (item) => {
         setbtnType('edit')
         setId(item.id)
+        setEditId(item.id)
         setnMId(item.nMId)
         setMaterialDetail(item.MaterialDetail)
-        setexpireDateValue(item.ExpDate)
+        setexpireDateValue(item.dtExpDate)
         setnQty(item.nQTYOut)
         setLeftQty(item.LeftQty)
         setvUOM(item.vUOM)
@@ -686,6 +729,20 @@ function AddRejectedOut() {
 
         }, 2000)
     }
+    const closeModal = () => {
+        setmonthmodalIsOpen(false)
+        navigate('/RejectedOut')
+    }
+    const refreshbtn = () => {
+        setEditId('')
+        setnMId('')
+        setMaterialDetail('')
+        setexpireDateValue('')
+        setnQty('')
+        setLeftQty('')
+        setvUOM('')
+        setbtnType('')
+    }
     return (
         <div className='citymasterContainer'>
             <div className='dateFilter-2'>
@@ -708,19 +765,19 @@ function AddRejectedOut() {
                                                 "& .MuiInputBase-root": {
                                                     "& input": {
                                                         padding: '5px 14px',
-                                                        fontSize:'13px'
+                                                        fontSize: '13px'
                                                     }
                                                 },
                                                 ".MuiFormLabel-root": {
                                                     fontSize: '13px',
                                                     lineHeight: '0',
-                                                    top:'4.6px',
+                                                    top: '4.6px',
                                                     overflow: 'visible',
                                                 },
                                                 "label.Mui-focused": {
-                                                    top:'5px',
-                                                    backgroundColor:'#fff',
-                                                    zIndex:'10000'
+                                                    top: '5px',
+                                                    backgroundColor: '#fff',
+                                                    zIndex: '10000'
                                                 },
                                             }}
                                         />}
@@ -768,20 +825,20 @@ function AddRejectedOut() {
                                         padding: '0px',
                                         "& .MuiAutocomplete-input": {
                                             padding: '5px 14px',
-                                            fontSize:'13px'
+                                            fontSize: '13px'
                                         }
 
                                     },
                                     ".MuiFormLabel-root": {
                                         fontSize: '13px',
                                         lineHeight: '0',
-                                        top:'-4px',
+                                        top: '-4px',
                                         overflow: 'visible',
                                     },
                                     "label.Mui-focused": {
-                                        top:'5px',
-                                        backgroundColor:'#fff',
-                                        zIndex:'10000'
+                                        top: '5px',
+                                        backgroundColor: '#fff',
+                                        zIndex: '10000'
                                     },
                                 }}
                                 renderInput={(params) => <TextField {...params} label="Search Plant " required />}
@@ -802,19 +859,19 @@ function AddRejectedOut() {
                                     "& .MuiOutlinedInput-root": {
                                         "& input": {
                                             padding: '6px 14px',
-                                            fontSize:'12px'
+                                            fontSize: '12px'
                                         }
                                     },
                                     ".MuiFormLabel-root": {
                                         fontSize: '13px',
                                         lineHeight: '0',
-                                        top:'-4px',
+                                        top: '-4px',
                                         overflow: 'visible',
                                     },
                                     "label.Mui-focused": {
-                                        top:'5px',
-                                        backgroundColor:'green',
-                                        zIndex:'10000'
+                                        top: '5px',
+                                        backgroundColor: 'green',
+                                        zIndex: '10000'
                                     },
                                 }}
                             // inputRef={register({ required: "Remarks is required.", })}
@@ -986,8 +1043,10 @@ function AddRejectedOut() {
                         </FormControl>
                     </Box>
 
-                    <div>
-                        <button title='Add' className='addbtn' onClick={addKoMonthDate}><AddIcon fontSize='large' /></button>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                        <button title='Add' className='addbtn' onClick={addKoMonthDate}>{btnType == 'edit' ? 'Update' : <AddIcon fontSize='large' />}</button>
+
+                        <button title='Refresh' className='addbtn' onClick={refreshbtn}><ReplayIcon fontSize='large' /></button>
                     </div>
                 </div>
                 <div className='tablecenter'>
@@ -1004,7 +1063,7 @@ function AddRejectedOut() {
                                             <TableCell align="left">Balance QTY</TableCell> */}
                                             <TableCell align="left">UOM</TableCell>
                                             <TableCell align="left">Exp Date</TableCell>
-                                            <TableCell align="left">Bal Qty </TableCell>
+                                            {/* <TableCell align="left">Bal Qty </TableCell> */}
                                             <TableCell align="left">Qty</TableCell>
 
                                         </TableRow>
@@ -1015,7 +1074,7 @@ function AddRejectedOut() {
 
                                             {PODetails.map((item, index) => {
                                                 return (
-                                                    <TableRow key={index}>
+                                                    <TableRow key={index} style={item.id == EditId ? { background: 'rgba(239,30,44,0.15)' } : { background: '#fff' }}>
                                                         <TableCell component="th" scope="row">{index + 1}.</TableCell>
                                                         <TableCell align="center">
                                                             <div style={{ display: 'flex', justifyContent: 'center' }}>
@@ -1029,8 +1088,8 @@ function AddRejectedOut() {
                                                         {/* <TableCell align="left">{item.nQty}</TableCell>
                                                         <TableCell align="left">{item.BalanceQuantity}</TableCell> */}
                                                         <TableCell align="left">{item.vUOM}</TableCell>
-                                                        <TableCell align="left">{item.ExpDate}</TableCell>
-                                                        <TableCell align="left">{item.LeftQty}</TableCell>
+                                                        <TableCell align="left">{item.dtExpDate}</TableCell>
+                                                        {/* <TableCell align="left">{item.LeftQty}</TableCell> */}
                                                         <TableCell align="left">{item.nQTYOut}</TableCell>
 
                                                     </TableRow>
@@ -1082,8 +1141,82 @@ function AddRejectedOut() {
                 }
             </div>
 
+            <Modal
+                isOpen={monthmodalIsOpen}
+                style={customStyles}
+                contentLabel="Example Modal"
+                ariaHideApp={false}
+            >
+                <div className='displayright'>
+                    <div><span className='title'>Alert !!</span></div>
+                    <HighlightOffIcon fontSize='large' onClick={closeModal} />
+                </div>
+                <div>
+                    <div className='editModel-2'>
+                        <div><p className='errormasg'>OOPS !!, For this selected Transaction, Input Quantity is greater than Balance Stock Quantity. Please try again with appropriate inputs.</p></div>
+                        <div className='tablecenter'>
+                            {GrnData.length > 0 ?
+                                <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+                                    <TableContainer sx={{ maxHeight: 440 }}>
+                                        <Table stickyHeader aria-label="sticky table">
+                                            <TableHead>
+                                                <TableRow>
+                                                    <TableCell scope="row">SN.</TableCell>
+                                                    <TableCell align="left">Plant Detail</TableCell>
+                                                    <TableCell align="left">Material Name</TableCell>
+                                                    <TableCell align="left">Exp Date</TableCell>
+                                                    <TableCell align="left">Bal Stock</TableCell>
+                                                    <TableCell align="left">Input Qty</TableCell>
 
+                                                </TableRow>
+                                            </TableHead>
+                                            <TableBody>
+
+                                                {GrnData.map((item, index) => {
+                                                    return (
+
+                                                        <TableRow key={index}>
+
+                                                            <TableCell component="th" scope="row">{index + 1}.</TableCell>
+                                                            <TableCell align="left">{item.PlantDetail}</TableCell>
+                                                            <TableCell align="left">{item.MaterialDetail}</TableCell>
+                                                            <TableCell align="left">{item.dtExpDate}</TableCell>
+                                                            <TableCell align="left">{item.BalanceStockQty}</TableCell>
+                                                            <TableCell align="left">{item.nQTYOut}</TableCell>
+                                                        </TableRow>
+                                                    )
+                                                })
+                                                }
+
+
+                                            </TableBody>
+                                        </Table>
+                                    </TableContainer>
+
+                                </Paper>
+                                :
+                                null
+
+                            }
+
+                        </div>
+
+                    </div>
+                </div>
+
+            </Modal >
         </div>
     )
 }
+const customStyles = {
+    content: {
+        top: '50%',
+        left: '50%',
+        right: 'auto',
+        bottom: 'auto',
+        marginRight: '-50%',
+        transform: 'translate(-50%, -50%)',
+        width: '50%',
+    },
+};
 export default AddRejectedOut

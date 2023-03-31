@@ -49,7 +49,7 @@ import BorderColorIcon from '@mui/icons-material/BorderColor';
 import { confirmAlert } from 'react-confirm-alert'; // Import
 import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
 import HomeIcon from '@mui/icons-material/Home';
-
+import ReplayIcon from '@mui/icons-material/Replay';
 function AddAdditionalIn() {
     const navigate = useNavigate();
     const [modalIsOpen, setIsOpen] = React.useState(false);
@@ -158,7 +158,8 @@ function AddAdditionalIn() {
     const [nGrandTotal, setnGrandTotal] = useState('')
     const [nNetTotalAmt, setnNetTotalAmt] = useState('')
     const [vUOM, setvUOM] = useState('')
-
+    const [EditId, setEditId] = useState('')
+    const [FirstTimeAdd, setFirstTimeAdd] = React.useState(true);
     useEffect(() => {
         const userId = localStorage.getItem("nUserId")
         setnLoggedInUserId(userId)
@@ -299,11 +300,41 @@ function AddAdditionalIn() {
 
     }
     const changePlantValue = (value) => {
-        setnPOId(value.value)
-        setPlantDetail(value.label)
-        setError({
-            plant: ''
-        })
+        if(FirstTimeAdd==true){
+            setnPId(value.value)
+            setPlantDetail(value.label)
+            setError({
+                plant: ''
+            })
+            setFirstTimeAdd(false)
+        }else{
+            confirmAlert({
+                title: 'Alert !!',
+                closeOnClickOutside: false,
+                message: 'You are going to change the Plant of this transaction. In case you change it, all the below selections done will be removed. Do you still want to proceed ?',
+                buttons: [
+                    {
+                        label: 'Yes',
+                        onClick: () => {
+                            setnPOId(value.value)
+                            setPlantDetail(value.label)
+                            setError({
+                                plant: ''
+                            })
+                            setPODetails([])
+                         
+                        },
+                    },
+                    {
+                        label: 'No',
+                        onClick: () => {
+                            return null
+                        },
+                    },
+                ]
+            });
+
+        }
     }
     const changeVendorMasterValue = (value) => {
         setnVId(value.value)
@@ -410,6 +441,7 @@ function AddAdditionalIn() {
                             setnAmt('')
                             setnQtyAccepted('')
                             setnQtyRejected('')
+                            setEditId(null)
 
                         }
                     },
@@ -454,6 +486,7 @@ function AddAdditionalIn() {
                                     setnAmt('')
                                     setnQtyAccepted('')
                                     setnQtyRejected('')
+                                    setEditId(null)
 
 
                                 }
@@ -474,7 +507,7 @@ function AddAdditionalIn() {
     const validateform = () => {
         if (nPOId == '') {
             setError({
-                plant: 'Select PO No. *'
+                plant: 'Select Plant . *'
             })
             return false
         } else {
@@ -572,6 +605,7 @@ function AddAdditionalIn() {
     const editItem = (item) => {
         setbtnType('edit')
         setId(item.id)
+        setEditId(item.id)
         setnMId(item.nMId)
         setMaterialDetail(item.MaterialDetail)
         setdtExpDate(item.dtExpDate2)
@@ -601,24 +635,18 @@ function AddAdditionalIn() {
     }
     const getBatchNoDetails = (value) => {
         setvBatchNo(value)
-        setTimeout(() => {
-            if (value == '' || value == undefined) {
-            }else{
-                setTimeout(() => {
-                    GetBatchNoDetails(value).then(res => {
-                        console.log('response', res)
-                        // setExpireDate(res)
-                        if(res?.length>0){
-                            
-                            setnPId(res[0].nPId)
-                            setPlantDetail(res[0].PlantDetail)
-                        }else{
-                            setPlantDetail('')
-                        }
-                    })
-                }, 1000)
-            }  
-        }, 2000)
+      
+    }
+    const refreshbtn=()=>{
+        setEditId(null)
+        setnMId('')
+        setMaterialDetail('')
+        setdtExpDate(new Date(Date.now()))
+        setnQtyAccepted('')
+        setnQtyRejected('')
+        setnAmt('')
+        setvUOM('')
+        setbtnType('')
     }
     return (
         <div className='citymasterContainer'>
@@ -646,7 +674,7 @@ function AddAdditionalIn() {
                         <FormControl fullWidth className='input'>
                             <TextField
                                 value={vBatchNo}
-                                onChange={e => getBatchNoDetails(e.target.value)}
+                                onChange={e => setvBatchNo(e.target.value)}
                                 id="outlined-basic"
                                 label="Batch No"
                                 variant="outlined"
@@ -851,8 +879,10 @@ function AddAdditionalIn() {
                             {errorText.date != '' ? <p className='error'>{errorText.date}</p> : null}
                         </FormControl>
                     </Box>
-                    <div>
-                        <button title='Add' className='addbtn' onClick={addKoMonthDate}><AddIcon fontSize='large' /></button>
+                    <div style={{display:'flex',alignItems:'center',gap:10}}>
+                        <button title='Add' className='addbtn' onClick={addKoMonthDate}>{btnType=='edit'?'Update':<AddIcon fontSize='large' />}</button>
+                        
+                        <button title='Refresh' className='addbtn' onClick={refreshbtn}><ReplayIcon fontSize='large' /></button>
                     </div>
                 </div>
                 <div className='tablecenter'>
@@ -880,7 +910,7 @@ function AddAdditionalIn() {
 
                                             {PODetails.map((item, index) => {
                                                 return (
-                                                    <TableRow key={index}>
+                                                    <TableRow key={index}  style={item.id==EditId?{background:'rgba(239,30,44,0.15)'}:{background:'#fff'}}>
                                                         <TableCell component="th" scope="row">{index + 1}.</TableCell>
                                                         <TableCell align="center">
                                                             <div style={{ display: 'flex', justifyContent: 'center' }}>
