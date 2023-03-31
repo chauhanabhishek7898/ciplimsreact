@@ -114,10 +114,19 @@ p{
 .sidebar-nav{
     font-size: 13px;
 }
+.simplebar-content{
+  .nav-item{
+    .nav-link{
+      color: #fff !important;
+        padding: 10px 15px;
+    }
+}
+}
 .simplebar-wrapper{
-    .nav-item{
+    .nav-group-items{
         .nav-link{
             color: #fff !important;
+            padding: 10px;
         }
     }
 }
@@ -267,11 +276,11 @@ p{
     font-weight: 500;
   }
   .ReactModal__Overlay--after-open{
-    z-index: 1000000 !important;
+    z-index: 1040 !important;
   }
-  .css-10nakn3-MuiModal-root-MuiPopover-root-MuiMenu-root{
-    z-index: 10000000 !important;
-  }
+  // .css-10nakn3-MuiModal-root-MuiPopover-root-MuiMenu-root{
+  //   z-index: 10000000 !important;
+  // }
   .submitbtn{
     border: none;
     background-color: #ef1e2c;
