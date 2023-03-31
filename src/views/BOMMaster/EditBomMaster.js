@@ -487,6 +487,7 @@ function EditBomMaster() {
                     <Box sx={{ width: '18%' }} >
                         <FormControl fullWidth className='input'>
                             <TextField
+                            sx={muiStyles.input}
                                 value={vBOMNo}
                                 onChange={e => setvBOMNo(e.target.value)}
                                 required id="outlined-basic"
@@ -503,6 +504,7 @@ function EditBomMaster() {
                         <FormControl fullWidth className='input'>
                             {/* <InputLabel required id="demo-simple-select-label">Plant</InputLabel>npm  */}
                             <Autocomplete
+                            sx={muiStyles.autoCompleate}
                                 disablePortal
                                 id="combo-box-demo"
                                 options={PlantMaster}
@@ -524,6 +526,7 @@ function EditBomMaster() {
                         <FormControl fullWidth className='input'>
                             {/* <InputLabel required id="demo-simple-select-label">Vendor</InputLabel> */}
                             <Autocomplete
+                            sx={muiStyles.autoCompleate}
                                 disablePortal
                                 id="combo-box-demo"
                                 options={VendorMaster}
@@ -543,6 +546,7 @@ function EditBomMaster() {
                     <Box sx={{ width: '18%' }} >
                         <FormControl fullWidth className='input'>
                             <TextField
+                            sx={muiStyles.input}
                                 value={vBOMName}
                                 onChange={e => setvBOMName(e.target.value)}
                                 required id="outlined-basic"
@@ -558,6 +562,7 @@ function EditBomMaster() {
                     <Box sx={{ width: '18%' }} >
                         <FormControl fullWidth className='input'>
                             <TextField
+                            sx={muiStyles.input}
                                 value={vUnit}
                                 onChange={e => setvUnit(e.target.value)}
                                 required id="outlined-basic"
@@ -573,6 +578,7 @@ function EditBomMaster() {
                     <Box sx={{ width: '59.5%' }} >
                         <FormControl fullWidth className='input'>
                             <TextField
+                            sx={muiStyles.input}
                                 value={vRemarks}
                                 onChange={e => setvRemarks(e.target.value)}
                                 id="outlined-basic"
@@ -625,6 +631,7 @@ function EditBomMaster() {
                         <FormControl fullWidth className='input'>
                             {/* <InputLabel required id="demo-simple-select-label">Item</InputLabel> */}
                             <Autocomplete
+                            sx={muiStyles.autoCompleate}
                                 disablePortal
                                 id="combo-box-demo"
                                 options={MaterialMaster}
@@ -647,6 +654,7 @@ function EditBomMaster() {
                     <Box sx={{ width: '6%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
+                            sx={muiStyles.input}
                                 value={vUMO}
                                 onChange={e => setvUMO(e.target.value)}
                                 required id="outlined-basic"
@@ -664,6 +672,7 @@ function EditBomMaster() {
                     <Box sx={{ width: '6%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
+                            sx={muiStyles.input}
                                 value={nQty}
                                 onChange={e => setnQty(e.target.value)}
                                 required id="outlined-basic"
@@ -691,9 +700,9 @@ function EditBomMaster() {
                                         <TableRow>
                                             <TableCell scope="row" style={{width: '5%',}}>SN.</TableCell>
                                             <TableCell align="center" style={{width: '10%',}}>Action</TableCell>
-                                            <TableCell align="left">Material Name</TableCell>
-                                            <TableCell align="left">UOM</TableCell>
-                                            <TableCell align="left">Qty</TableCell>
+                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>Material Name</TableCell>
+                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>UOM</TableCell>
+                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>Qty</TableCell>
                                        
                                         </TableRow>
                                     </TableHead>
@@ -708,9 +717,9 @@ function EditBomMaster() {
                                                         <button className='deletbtn' title='Edit' onClick={() => editItem(item)}><BorderColorIcon size={20} color='#000' /></button>
 
                                                     </TableCell>
-                                                    <TableCell align="left">{item.MaterialDetail}</TableCell>
-                                                    <TableCell align="left">{item.vUOM}</TableCell>
-                                                    <TableCell align="left">{item.nQty}</TableCell>
+                                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.MaterialDetail}</TableCell>
+                                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vUOM}</TableCell>
+                                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.nQty}</TableCell>
                                                   
 
 
@@ -760,5 +769,96 @@ function EditBomMaster() {
         </div>
     )
 }
+const muiStyles = {
+    content: {
+        top: '50%',
+        left: '50%',
+        right: 'auto',
+        bottom: 'auto',
+        marginRight: '-50%',
+        transform: 'translate(-50%, -50%)',
+        width: '50%',
+    },
+    date: {
+        "& .MuiInputBase-root": {
+            "& input": {
+                padding: '5px 14px',
+                fontSize: '13px'
+            }
+        },
+        "& .MuiFormLabel-root": {
+            fontSize: '13px',
+            lineHeight: '0',
+            top: '4.6px',
+            overflow: 'visible',
+            background: '#fff',
+            zIndex: '1'
+        },
+        "& label.Mui-focused": {
+            top: '5px',
+            background: '#fff',
+            zIndex: '1'
 
+        },
+    },
+    autoCompleate: {
+        "& .MuiOutlinedInput-root": {
+            padding: '0px',
+            "& .MuiAutocomplete-input": {
+                padding: '5px 14px',
+                fontSize: '13px'
+            }
+
+        },
+        "& .MuiFormLabel-root": {
+            fontSize: '13px',
+            lineHeight: '0',
+            top: '-4px',
+            overflow: 'visible',
+        },
+        "& label.Mui-focused": {
+            top: '5px',
+            backgroundColor: '#fff',
+            zIndex: '1'
+        },
+    },
+    input: {
+        "& .MuiOutlinedInput-root": {
+            "& input": {
+                padding: '6px 14px',
+                fontSize: '12px'
+            }
+        },
+        "& .MuiFormLabel-root": {
+            fontSize: '13px',
+            lineHeight: '0',
+            top: '-4px',
+            overflow: 'visible',
+        },
+        "& label.Mui-focused": {
+            top: '5px',
+            backgroundColor: 'green',
+            zIndex: '1'
+        },
+    },
+    select: {
+        "& .MuiSelect-select": {
+            padding: '3px 14px',
+            fontSize: '12px'
+        },
+
+    },
+    InputLabels: {
+        fontSize: '13px',
+        lineHeight: '0',
+        top: '-4px',
+        overflow: 'visible',
+        "&.Mui-focused": {
+            top: '5px',
+            backgroundColor: 'green',
+            zIndex: '1'
+        }
+    }
+
+};
 export default EditBomMaster

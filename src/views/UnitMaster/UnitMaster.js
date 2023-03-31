@@ -29,8 +29,8 @@ import ExportExcel from 'src/shareFunction/Excelexport';
 import CircularProgress from '@mui/joy/CircularProgress';
 function UnitMaster() {
     // <TableCell scope="row">SN.</TableCell>
-    // <TableCell align="left">Unit Name</TableCell>
-    // <TableCell align="left">Status</TableCell>
+    // <TableCell align="left" style={{whiteSpace:'nowrap'}}>Unit Name</TableCell>
+    // <TableCell align="left" style={{whiteSpace:'nowrap'}}>Status</TableCell>
 
     let Heading = [['SN.', 'Unit Code', 'Status']];
 
@@ -191,8 +191,9 @@ function UnitMaster() {
                     <HighlightOffIcon fontSize='large' onClick={() => setIsOpen(false)} />
                 </div>
                 <form >
-                    <div className='displayflexend'>
+                    <div className='displayflexend mt-4'>
                         <TextField
+                        sx={muiStyles.input}
                             fullWidth
                             id="outlined-basic"
                             label="Enter Unit"
@@ -247,9 +248,9 @@ function UnitMaster() {
                             <TableHead>
                                 <TableRow>
                                     {/* <TableCell scope="row">SN.</TableCell> */}
-                                    <TableCell align="left">Edit</TableCell>
-                                    <TableCell align="left">Unit Name</TableCell>
-                                    <TableCell align="left">Status</TableCell>
+                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Edit</TableCell>
+                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Unit Name</TableCell>
+                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Status</TableCell>
                                 </TableRow>
                             </TableHead>
                             {unitData?.length>0?
@@ -258,9 +259,9 @@ function UnitMaster() {
                                     return (
                                         <TableRow key={index}>
                                             {/* <TableCell component="th" scope="row">{index + 1}.</TableCell> */}
-                                            <TableCell align="left"><div onClick={() => openmodale(item, 'Update')}><BorderColorIcon size={20} color='#000' /></div></TableCell>
-                                            <TableCell align="left">{item.vUnitName}</TableCell>
-                                            <TableCell align="left">{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
+                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}><div onClick={() => openmodale(item, 'Update')}><BorderColorIcon size={20} color='#000' /></div></TableCell>
+                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vUnitName}</TableCell>
+                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
                                         </TableRow>
                                     )
                                 })
@@ -301,6 +302,97 @@ const customStyles = {
         width: '50%',
     },
 };
+const muiStyles = {
+    content: {
+        top: '50%',
+        left: '50%',
+        right: 'auto',
+        bottom: 'auto',
+        marginRight: '-50%',
+        transform: 'translate(-50%, -50%)',
+        width: '50%',
+    },
+    date: {
+        "& .MuiInputBase-root": {
+            "& input": {
+                padding: '5px 14px',
+                fontSize: '13px'
+            }
+        },
+        "& .MuiFormLabel-root": {
+            fontSize: '13px',
+            lineHeight: '0',
+            top: '4.6px',
+            overflow: 'visible',
+            background: '#fff',
+            zIndex: '1'
+        },
+        "& label.Mui-focused": {
+            top: '5px',
+            background: '#fff',
+            zIndex: '1'
 
+        },
+    },
+    autoCompleate: {
+        "& .MuiOutlinedInput-root": {
+            padding: '0px',
+            "& .MuiAutocomplete-input": {
+                padding: '5px 14px',
+                fontSize: '13px'
+            }
+
+        },
+        "& .MuiFormLabel-root": {
+            fontSize: '13px',
+            lineHeight: '0',
+            top: '-4px',
+            overflow: 'visible',
+        },
+        "& label.Mui-focused": {
+            top: '5px',
+            backgroundColor: '#fff',
+            zIndex: '1'
+        },
+    },
+    input: {
+        "& .MuiOutlinedInput-root": {
+            "& input": {
+                padding: '6px 14px',
+                fontSize: '12px'
+            }
+        },
+        "& .MuiFormLabel-root": {
+            fontSize: '13px',
+            lineHeight: '0',
+            top: '-4px',
+            overflow: 'visible',
+        },
+        "& label.Mui-focused": {
+            top: '5px',
+            backgroundColor: 'green',
+            zIndex: '1'
+        },
+    },
+    select: {
+        "& .MuiSelect-select": {
+            padding: '3px 14px',
+            fontSize: '12px'
+        },
+
+    },
+    InputLabels: {
+        fontSize: '13px',
+        lineHeight: '0',
+        top: '-4px',
+        overflow: 'visible',
+        "&.Mui-focused": {
+            top: '5px',
+            backgroundColor: 'green',
+            zIndex: '1'
+        }
+    }
+
+};
 
 export default UnitMaster

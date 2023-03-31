@@ -205,6 +205,7 @@ function CurrentStockStatus() {
                         <FormControl fullWidth className='input'>
                             {/* <InputLabel required id="demo-simple-select-label">Plant</InputLabel>npm  */}
                             <Autocomplete
+                               sx={muiStyles.autoCompleate}
                                 disablePortal
                                 id="combo-box-demo"
                                 options={PlantMaster}
@@ -218,27 +219,6 @@ function CurrentStockStatus() {
                                     // setInputValue(newInputValue);
                                     console.log('newInputValue', newInputValue)
                                 }}
-                                sx={{
-                                    "& .MuiOutlinedInput-root": {
-                                        padding: '0px',
-                                        "& .MuiAutocomplete-input": {
-                                            padding: '5px 14px',
-                                            fontSize: '13px'
-                                        }
-
-                                    },
-                                    ".MuiFormLabel-root": {
-                                        fontSize: '13px',
-                                        lineHeight: '0',
-                                        top: '-4px',
-                                        overflow: 'visible',
-                                    },
-                                    "label.Mui-focused": {
-                                        top: '5px',
-                                        backgroundColor: '#fff',
-                                        zIndex: '10000'
-                                    },
-                                }}
                                 renderInput={(params) => <TextField {...params} label="Search Plant " required />}
                             />
                             {/* {errorText.plant != '' ? <p className='error'>{errorText.plant}</p> : null} */}
@@ -248,6 +228,7 @@ function CurrentStockStatus() {
                         <FormControl fullWidth className='input'>
                             {/* <InputLabel required id="demo-simple-select-label">Item</InputLabel>  */}
                             <Autocomplete
+                               sx={muiStyles.autoCompleate}
                                 disablePortal
                                 id="combo-box-demo"
                                 options={MaterialMaster}
@@ -269,6 +250,7 @@ function CurrentStockStatus() {
                         <Box sx={{ width: '28%' }} >
                             <FormControl fullWidth className='input' >
                                 <TextField
+                                   sx={muiStyles.input}
                                     value={vGeneric}
                                     onChange={e => setvGeneric(e.target.value)}
                                     id="outlined-basic"
@@ -305,17 +287,17 @@ function CurrentStockStatus() {
                             <TableHead>
                                 <TableRow>
                                     {/* <TableCell scope="row">SN.</TableCell> */}
-                                    {/* <TableCell align="left">Edit</TableCell> */}
-                                    <TableCell align="left">Plant Detail</TableCell>
-                                    <TableCell align="left">Material Detail</TableCell>
-                                    <TableCell align="left">UOM</TableCell>
-                                    <TableCell align="left">Category</TableCell>
-                                    {/* <TableCell align="left">HSN Code</TableCell> */}
-                                    <TableCell align="left">Material Type</TableCell>
-                                    <TableCell align="left">Exp Date</TableCell>
-                                    <TableCell align="left">Aeging</TableCell>
-                                    <TableCell align="left">Balance Stock</TableCell>
-                                    {/* <TableCell align="left">Status</TableCell> */}
+                                    {/* <TableCell align="left" style={{whiteSpace:'nowrap'}}>Edit</TableCell> */}
+                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Plant Detail</TableCell>
+                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Material Detail</TableCell>
+                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>UOM</TableCell>
+                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Category</TableCell>
+                                    {/* <TableCell align="left" style={{whiteSpace:'nowrap'}}>HSN Code</TableCell> */}
+                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Material Type</TableCell>
+                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Exp Date</TableCell>
+                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Aeging</TableCell>
+                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Balance Stock</TableCell>
+                                    {/* <TableCell align="left" style={{whiteSpace:'nowrap'}}>Status</TableCell> */}
                                 </TableRow>
                             </TableHead>
                             {brandData?.length>0?
@@ -324,17 +306,17 @@ function CurrentStockStatus() {
                                       return (
                                           <TableRow key={index}>
                                               {/* <TableCell component="th" scope="row">{index + 1}.</TableCell> */}
-                                              {/* <TableCell align="left"><div onClick={() => openmodale(item, 'Update')}><BorderColorIcon size={20} color='#000' /></div></TableCell> */}
-                                              <TableCell align="left">{item.PlantDetail}</TableCell>
-                                              <TableCell align="left">{item.MaterialDetail}</TableCell>
-                                              <TableCell align="left">{item.vUOM}</TableCell>
-                                              <TableCell align="left">{item.vCategory}</TableCell>
-                                              {/* <TableCell align="left">{item.vHSNCode}</TableCell> */}
-                                              <TableCell align="left">{item.vMaterialType}</TableCell>
-                                              <TableCell align="left">{item.ExpDate}</TableCell>
-                                              <TableCell align="left">{item.Aeging}</TableCell>
-                                              <TableCell align="left">{item.BalanceStock}</TableCell>
-                                              {/* <TableCell align="left">{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell> */}
+                                              {/* <TableCell align="left" style={{whiteSpace:'nowrap'}}><div onClick={() => openmodale(item, 'Update')}><BorderColorIcon size={20} color='#000' /></div></TableCell> */}
+                                              <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.PlantDetail}</TableCell>
+                                              <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.MaterialDetail}</TableCell>
+                                              <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vUOM}</TableCell>
+                                              <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vCategory}</TableCell>
+                                              {/* <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vHSNCode}</TableCell> */}
+                                              <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vMaterialType}</TableCell>
+                                              <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.ExpDate}</TableCell>
+                                              <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.Aeging}</TableCell>
+                                              <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.BalanceStock}</TableCell>
+                                              {/* <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell> */}
                                           </TableRow>
                                       )
                                   })
@@ -367,6 +349,97 @@ function CurrentStockStatus() {
         </div >
     )
 }
+const muiStyles = {
+    content: {
+        top: '50%',
+        left: '50%',
+        right: 'auto',
+        bottom: 'auto',
+        marginRight: '-50%',
+        transform: 'translate(-50%, -50%)',
+        width: '50%',
+    },
+    date: {
+        "& .MuiInputBase-root": {
+            "& input": {
+                padding: '5px 14px',
+                fontSize: '13px'
+            }
+        },
+        "& .MuiFormLabel-root": {
+            fontSize: '13px',
+            lineHeight: '0',
+            top: '4.6px',
+            overflow: 'visible',
+            background: '#fff',
+            zIndex: '1'
+        },
+        "& label.Mui-focused": {
+            top: '5px',
+            background: '#fff',
+            zIndex: '1'
 
+        },
+    },
+    autoCompleate: {
+        "& .MuiOutlinedInput-root": {
+            padding: '0px',
+            "& .MuiAutocomplete-input": {
+                padding: '5px 14px',
+                fontSize: '13px'
+            }
+
+        },
+        "& .MuiFormLabel-root": {
+            fontSize: '13px',
+            lineHeight: '0',
+            top: '-4px',
+            overflow: 'visible',
+        },
+        "& label.Mui-focused": {
+            top: '5px',
+            backgroundColor: '#fff',
+            zIndex: '1'
+        },
+    },
+    input: {
+        "& .MuiOutlinedInput-root": {
+            "& input": {
+                padding: '6px 14px',
+                fontSize: '12px'
+            }
+        },
+        "& .MuiFormLabel-root": {
+            fontSize: '13px',
+            lineHeight: '0',
+            top: '-4px',
+            overflow: 'visible',
+        },
+        "& label.Mui-focused": {
+            top: '5px',
+            backgroundColor: 'green',
+            zIndex: '1'
+        },
+    },
+    select: {
+        "& .MuiSelect-select": {
+            padding: '3px 14px',
+            fontSize: '12px'
+        },
+
+    },
+    InputLabels: {
+        fontSize: '13px',
+        lineHeight: '0',
+        top: '-4px',
+        overflow: 'visible',
+        "&.Mui-focused": {
+            top: '5px',
+            backgroundColor: 'green',
+            zIndex: '1'
+        }
+    }
+
+};
 
 export default CurrentStockStatus

@@ -316,7 +316,7 @@ function KOMONTH() {
                 <div className='date'>
                     <Box sx={{ width: '100%' }}>
                         <FormControl fullWidth error={Boolean(errors.nKOYear)}>
-                            <InputLabel id="demo-simple-select-label">KO Month<span >*</span></InputLabel>
+                            <InputLabel id="demo-simple-select-label" sx={muiStyles.InputLabels}>KO Month<span >*</span></InputLabel>
                             {/* <Select
                             style={{ width: 130, }}
                             labelId="demo-simple-select-label"
@@ -342,7 +342,7 @@ function KOMONTH() {
                         </Select> */}
                             <Controller
                                 render={(props) => (
-                                    <Select value={props.value} onChange={props.onChange} style={{ width: 130, }} readOnly={disable}>
+                                    <Select value={props.value} sx={muiStyles.select} onChange={props.onChange} style={{ width: 130, }} readOnly={disable}>
                                         <MenuItem value={'JAN'}>JAN</MenuItem>
                                         <MenuItem value={'FEB'}>FEB</MenuItem>
                                         <MenuItem value={'MAR'}>MAR</MenuItem>
@@ -373,6 +373,7 @@ function KOMONTH() {
                     <Box sx={{ width: '100%' }} >
                         <FormControl fullWidth className='input'>
                             <TextField
+                            sx={muiStyles.input}
                                 value={nKOYear}
                                 onChange={e => setnKOYear(e.target.value)}
                                 required id="outlined-basic"
@@ -393,6 +394,7 @@ function KOMONTH() {
                     <Box sx={{ width: '100%' }} >
                         <FormControl fullWidth className='input'>
                             <TextField
+                            sx={muiStyles.input}
                                 value={nDays}
                                 onChange={e => setnDays(e.target.value)}
                                 required id="outlined-basic"
@@ -419,7 +421,7 @@ function KOMONTH() {
                                             inputFormat="DD-MM-YYYY"
                                             value={props.value}
                                             onChange={props.onChange}
-                                            renderInput={(params) => <TextField {...params} />}
+                                            renderInput={(params) => <TextField sx={muiStyles.date} {...params} />}
                                             disabled={disable}
                                         />
                                     </Stack>
@@ -447,7 +449,7 @@ function KOMONTH() {
                                             inputFormat="DD-MM-YYYY"
                                             value={props.value}
                                             onChange={props.onChange}
-                                            renderInput={(params) => <TextField {...params} />}
+                                            renderInput={(params) => <TextField sx={muiStyles.date} {...params} />}
                                             disabled={disable}
                                         />
                                     </Stack>
@@ -474,7 +476,7 @@ function KOMONTH() {
                 <div className='data-form-box'>
                     <Box sx={{ width: '15%' }}>
                         <FormControl fullWidth className='input' error={Boolean(errors.nKOYear)}>
-                            <InputLabel id="demo-simple-select-label">Week Number <span>*</span></InputLabel>
+                            <InputLabel id="demo-simple-select-label" sx={muiStyles.InputLabels}>Week Number <span>*</span></InputLabel>
                             {/* <Select
                                 style={{ width: '100%', }}
                                 labelId="demo-simple-select-label"
@@ -491,7 +493,7 @@ function KOMONTH() {
                             </Select> */}
                             <Controller
                                 render={(props) => (
-                                    <Select value={props.value} onChange={props.onChange} >
+                                    <Select value={props.value} sx={muiStyles.select} onChange={props.onChange} >
                                         <MenuItem value={'W1'}>W1</MenuItem>
                                         <MenuItem value={'W2'}>W2</MenuItem>
                                         <MenuItem value={'W3'}>W3</MenuItem>
@@ -522,7 +524,7 @@ function KOMONTH() {
                                                 inputFormat="DD-MM-YYYY"
                                                 value={props.value}
                                                 onChange={props.onChange}
-                                                renderInput={(params) => <TextField {...params} />}
+                                                renderInput={(params) => <TextField sx={muiStyles.date} {...params} />}
                                             />
                                         </Stack>
                                     </LocalizationProvider>
@@ -550,7 +552,7 @@ function KOMONTH() {
                                                 inputFormat="DD-MM-YYYY"
                                                 value={props.value}
                                                 onChange={props.onChange}
-                                                renderInput={(params) => <TextField {...params} />}
+                                                renderInput={(params) => <TextField sx={muiStyles.date} {...params} />}
                                             />
                                         </Stack>
                                     </LocalizationProvider>
@@ -609,15 +611,15 @@ function KOMONTH() {
                                         <TableHead>
                                             <TableRow>
                                                 {/* <TableCell scope="row">SN.</TableCell> */}
-                                                <TableCell align="left">Edit</TableCell>
-                                                <TableCell align="left">KO Month</TableCell>
-                                                <TableCell align="left">KO Year</TableCell>
-                                                <TableCell align="left">Days</TableCell>
-                                                <TableCell align="left">From Date</TableCell>
-                                                <TableCell align="left">To Date </TableCell>
-                                                {/* <TableCell align="left">Week Number</TableCell>
-                                                <TableCell align="left">Start Date</TableCell>
-                                                <TableCell align="left">End Date</TableCell> */}
+                                                <TableCell align="left" style={{whiteSpace:'nowrap'}}>Edit</TableCell>
+                                                <TableCell align="left" style={{whiteSpace:'nowrap'}}>KO Month</TableCell>
+                                                <TableCell align="left" style={{whiteSpace:'nowrap'}}>KO Year</TableCell>
+                                                <TableCell align="left" style={{whiteSpace:'nowrap'}}>Days</TableCell>
+                                                <TableCell align="left" style={{whiteSpace:'nowrap'}}>From Date</TableCell>
+                                                <TableCell align="left" style={{whiteSpace:'nowrap'}}>To Date </TableCell>
+                                                {/* <TableCell align="left" style={{whiteSpace:'nowrap'}}>Week Number</TableCell>
+                                                <TableCell align="left" style={{whiteSpace:'nowrap'}}>Start Date</TableCell>
+                                                <TableCell align="left" style={{whiteSpace:'nowrap'}}>End Date</TableCell> */}
 
                                             </TableRow>
                                         </TableHead>
@@ -625,15 +627,15 @@ function KOMONTH() {
                                         <TableHead>
                                             <TableRow>
                                                 {/* <TableCell scope="row">SN.</TableCell> */}
-                                                <TableCell align="left">Edit</TableCell>
-                                                <TableCell align="left">KO Month</TableCell>
-                                                <TableCell align="left">KO Year</TableCell>
-                                                <TableCell align="left">Days</TableCell>
-                                                <TableCell align="left">From Date</TableCell>
-                                                <TableCell align="left">To Date </TableCell>
-                                                <TableCell align="left">Week Number</TableCell>
-                                                <TableCell align="left">Start Date</TableCell>
-                                                <TableCell align="left">End Date</TableCell>
+                                                <TableCell align="left" style={{whiteSpace:'nowrap'}}>Edit</TableCell>
+                                                <TableCell align="left" style={{whiteSpace:'nowrap'}}>KO Month</TableCell>
+                                                <TableCell align="left" style={{whiteSpace:'nowrap'}}>KO Year</TableCell>
+                                                <TableCell align="left" style={{whiteSpace:'nowrap'}}>Days</TableCell>
+                                                <TableCell align="left" style={{whiteSpace:'nowrap'}}>From Date</TableCell>
+                                                <TableCell align="left" style={{whiteSpace:'nowrap'}}>To Date </TableCell>
+                                                <TableCell align="left" style={{whiteSpace:'nowrap'}}>Week Number</TableCell>
+                                                <TableCell align="left" style={{whiteSpace:'nowrap'}}>Start Date</TableCell>
+                                                <TableCell align="left" style={{whiteSpace:'nowrap'}}>End Date</TableCell>
 
                                             </TableRow>
                                         </TableHead>
@@ -648,15 +650,15 @@ function KOMONTH() {
                                                     <TableRow key={index}>
 
                                                         {/* <TableCell component="th" scope="row">{index + 1}.</TableCell> */}
-                                                        <TableCell align="left"><div onClick={() => openMonthModel(item)}><BorderColorIcon size={20} color='#000' /></div></TableCell>
-                                                        <TableCell align="left">{item.vKOMonth}</TableCell>
-                                                        <TableCell align="left">{item.nKOYear}</TableCell>
-                                                        <TableCell align="left">{item.nDays}</TableCell>
-                                                        <TableCell align="left">{item.dtStartDt}</TableCell>
-                                                        <TableCell align="left">{item.dtEndDt}</TableCell>
-                                                        {/* <TableCell align="left">{item.vWeekNo}</TableCell>
-                                                    <TableCell align="left">{item.dtWStartDt}</TableCell>
-                                                    <TableCell align="left">{item.dtWEndDt}</TableCell> */}
+                                                        <TableCell align="left" style={{whiteSpace:'nowrap'}}><div onClick={() => openMonthModel(item)}><BorderColorIcon size={20} color='#000' /></div></TableCell>
+                                                        <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vKOMonth}</TableCell>
+                                                        <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.nKOYear}</TableCell>
+                                                        <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.nDays}</TableCell>
+                                                        <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.dtStartDt}</TableCell>
+                                                        <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.dtEndDt}</TableCell>
+                                                        {/* <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vWeekNo}</TableCell>
+                                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.dtWStartDt}</TableCell>
+                                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.dtWEndDt}</TableCell> */}
                                                     </TableRow>
                                                 )
                                             })
@@ -673,15 +675,15 @@ function KOMONTH() {
                                                     <TableRow key={index}>
 
                                                         {/* <TableCell component="th" scope="row">{index + 1}.</TableCell> */}
-                                                        <TableCell align="left"><div onClick={() => openWeekModel(item)}><BorderColorIcon size={20} color='#000' /></div></TableCell>
-                                                        <TableCell align="left">{item.vKOMonth}</TableCell>
-                                                        <TableCell align="left">{item.nKOYear}</TableCell>
-                                                        <TableCell align="left">{item.nDays}</TableCell>
-                                                        <TableCell align="left">{item.dtStartDt}</TableCell>
-                                                        <TableCell align="left">{item.dtEndDt}</TableCell>
-                                                        <TableCell align="left">{item.vWeekNo}</TableCell>
-                                                        <TableCell align="left">{item.dtWStartDt}</TableCell>
-                                                        <TableCell align="left">{item.dtWEndDt}</TableCell>
+                                                        <TableCell align="left" style={{whiteSpace:'nowrap'}}><div onClick={() => openWeekModel(item)}><BorderColorIcon size={20} color='#000' /></div></TableCell>
+                                                        <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vKOMonth}</TableCell>
+                                                        <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.nKOYear}</TableCell>
+                                                        <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.nDays}</TableCell>
+                                                        <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.dtStartDt}</TableCell>
+                                                        <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.dtEndDt}</TableCell>
+                                                        <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vWeekNo}</TableCell>
+                                                        <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.dtWStartDt}</TableCell>
+                                                        <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.dtWEndDt}</TableCell>
                                                     </TableRow>
                                                 )
                                             })
@@ -738,13 +740,14 @@ function KOMONTH() {
                     <div><span className='title'>KO Week Update</span></div>
                     <HighlightOffIcon fontSize='large' onClick={() => setweekmodalIsOpen(false)} />
                 </div>
-                <div>
+                <div className='mt-4'>
                     <div className='editModel'>
                        
                             <Box sx={{ width: '25%' }}>
                                 <FormControl fullWidth error={Boolean(errors.nKOYear)} className='input'>
-                                    <InputLabel id="demo-simple-select-label">KO Month <span >*</span></InputLabel>
+                                    <InputLabel id="demo-simple-select-label" sx={muiStyles.InputLabels}>KO Month <span >*</span></InputLabel>
                                     <Select
+                                    sx={muiStyles.select}
                                         labelId="demo-simple-select-label"
                                         id="demo-simple-select"
                                         value={vKOMonth}
@@ -798,6 +801,7 @@ function KOMONTH() {
                             <Box sx={{ width: '100%' }} >
                                 <FormControl fullWidth className='input'>
                                     <TextField
+                                    sx={muiStyles.input}
                                         value={nKOYear}
                                         onChange={e => setnKOYear(e.target.value)}
                                         required id="outlined-basic"
@@ -818,6 +822,7 @@ function KOMONTH() {
                             <Box sx={{ width: '100%' }} >
                                 <FormControl fullWidth className='input'>
                                     <TextField
+                                    sx={muiStyles.input}
                                         value={nDays}
                                         onChange={e => setnDays(e.target.value)}
                                         required id="outlined-basic"
@@ -853,7 +858,7 @@ function KOMONTH() {
                                             inputFormat="DD-MM-YYYY"
                                             value={fromDate}
                                             onChange={handleChangeFromedate}
-                                            renderInput={(params) => <TextField {...params} />}
+                                            renderInput={(params) => <TextField sx={muiStyles.date} {...params} />}
                                             disabled={monthDisable}
                                         />
                                     </Stack>
@@ -882,7 +887,7 @@ function KOMONTH() {
                                             inputFormat="DD-MM-YYYY"
                                             value={toDate}
                                             onChange={handleChangeTodate}
-                                            renderInput={(params) => <TextField {...params} />}
+                                            renderInput={(params) => <TextField sx={muiStyles.date} {...params} />}
                                             disabled={monthDisable}
                                         />
                                     </Stack>
@@ -895,8 +900,9 @@ function KOMONTH() {
                         <div className='break'> </div>
                             <Box sx={{ width: '25%' }}>
                                 <FormControl fullWidth error={Boolean(errors.nKOYear)} >
-                                    <InputLabel id="demo-simple-select-label">Week Number <span>*</span></InputLabel>
+                                    <InputLabel id="demo-simple-select-label" sx={muiStyles.InputLabels}>Week Number <span>*</span></InputLabel>
                                     <Select
+                                    sx={muiStyles.select}
                                         style={{ width: '100%', }}
                                         labelId="demo-simple-select-label"
                                         id="demo-simple-select"
@@ -953,7 +959,7 @@ function KOMONTH() {
                                                 inputFormat="DD-MM-YYYY"
                                                 value={startDate}
                                                 onChange={handleChangeStartdate}
-                                                renderInput={(params) => <TextField {...params} />}
+                                                renderInput={(params) => <TextField sx={muiStyles.date} {...params} />}
                                             />
                                         </Stack>
                                     </LocalizationProvider>
@@ -983,7 +989,7 @@ function KOMONTH() {
                                                 inputFormat="DD-MM-YYYY"
                                                 value={endDate}
                                                 onChange={handleChangeEnddate}
-                                                renderInput={(params) => <TextField {...params} />}
+                                                renderInput={(params) => <TextField sx={muiStyles.date} {...params} />}
                                             />
                                         </Stack>
                                     </LocalizationProvider>
@@ -1028,12 +1034,13 @@ function KOMONTH() {
                     <div><span className='title'>KO Month Update</span></div>
                     <HighlightOffIcon fontSize='large' onClick={() => setmonthmodalIsOpen(false)} />
                 </div>
-                <div>
+                <div className='mt-4'>
                     <div className='editModel'>
                             <Box sx={{ width: '25%' }}>
                                 <FormControl fullWidth error={Boolean(errors.nKOYear)}>
-                                    <InputLabel id="demo-simple-select-label">KO Month <span >*</span></InputLabel>
+                                    <InputLabel id="demo-simple-select-label" sx={muiStyles.InputLabels}>KO Month <span >*</span></InputLabel>
                                     <Select
+                                    sx={muiStyles.select}
                                         labelId="demo-simple-select-label"
                                         id="demo-simple-select"
                                         value={vKOMonth}
@@ -1086,6 +1093,7 @@ function KOMONTH() {
                             <Box sx={{ width: '100%' }} >
                                 <FormControl fullWidth className='input'>
                                     <TextField
+                                    sx={muiStyles.input}
                                         value={nKOYear}
                                         onChange={e => setnKOYear(e.target.value)}
                                         required id="outlined-basic"
@@ -1106,6 +1114,7 @@ function KOMONTH() {
                             <Box sx={{ width: '100%' }} >
                                 <FormControl fullWidth className='input'>
                                     <TextField
+                                    sx={muiStyles.input}
                                         value={nDays}
                                         onChange={e => setnDays(e.target.value)}
                                         required id="outlined-basic"
@@ -1140,7 +1149,7 @@ function KOMONTH() {
                                             inputFormat="DD-MM-YYYY"
                                             value={fromDate}
                                             onChange={handleChangeFromedate}
-                                            renderInput={(params) => <TextField {...params} />}
+                                            renderInput={(params) => <TextField sx={muiStyles.date} {...params} />}
                                         />
                                     </Stack>
                                 </LocalizationProvider>
@@ -1168,7 +1177,7 @@ function KOMONTH() {
                                             inputFormat="DD-MM-YYYY"
                                             value={toDate}
                                             onChange={handleChangeTodate}
-                                            renderInput={(params) => <TextField {...params} />}
+                                            renderInput={(params) => <TextField sx={muiStyles.date} {...params} />}
                                         />
                                     </Stack>
                                 </LocalizationProvider>
@@ -1180,8 +1189,9 @@ function KOMONTH() {
                         <div className='break'> </div>
                             <Box sx={{ width: '25%' }}>
                                 <FormControl fullWidth error={Boolean(errors.nKOYear)} >
-                                    <InputLabel id="demo-simple-select-label">Week Number <span>*</span></InputLabel>
+                                    <InputLabel id="demo-simple-select-label" sx={muiStyles.InputLabels}>Week Number <span>*</span></InputLabel>
                                     <Select
+                                    sx={muiStyles.select}
                                         style={{ width: '100%', }}
                                         labelId="demo-simple-select-label"
                                         id="demo-simple-select"
@@ -1239,7 +1249,7 @@ function KOMONTH() {
                                                 inputFormat="DD-MM-YYYY"
                                                 value={startDate}
                                                 onChange={handleChangeStartdate}
-                                                renderInput={(params) => <TextField {...params} />}
+                                                renderInput={(params) => <TextField sx={muiStyles.date} {...params} />}
                                                 disabled={WeekDisable}
                                             />
                                         </Stack>
@@ -1270,7 +1280,7 @@ function KOMONTH() {
                                                 inputFormat="DD-MM-YYYY"
                                                 value={endDate}
                                                 onChange={handleChangeEnddate}
-                                                renderInput={(params) => <TextField {...params} />}
+                                                renderInput={(params) => <TextField sx={muiStyles.date} {...params} />}
                                                 disabled={WeekDisable}
                                             />
                                         </Stack>
@@ -1295,9 +1305,9 @@ function KOMONTH() {
                                             <TableHead>
                                                 <TableRow>
                                                     <TableCell scope="row">SN.</TableCell>
-                                                    <TableCell align="left">Week Number</TableCell>
-                                                    <TableCell align="left">Start Date</TableCell>
-                                                    <TableCell align="left">End Date</TableCell>
+                                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Week Number</TableCell>
+                                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Start Date</TableCell>
+                                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>End Date</TableCell>
 
                                                 </TableRow>
                                             </TableHead>
@@ -1309,9 +1319,9 @@ function KOMONTH() {
                                                         <TableRow key={index}>
 
                                                             <TableCell component="th" scope="row">{index + 1}.</TableCell>
-                                                            <TableCell align="left">{item.vWeekNo}</TableCell>
-                                                            <TableCell align="left">{item.dtWEndDt}</TableCell>
-                                                            <TableCell align="left">{item.dtWEndDt}</TableCell>
+                                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vWeekNo}</TableCell>
+                                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.dtWEndDt}</TableCell>
+                                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.dtWEndDt}</TableCell>
                                                         </TableRow>
                                                     )
                                                 })
@@ -1379,5 +1389,96 @@ const customStylesWeek = {
         width: '70%',
     },
 };
+const muiStyles = {
+    content: {
+        top: '50%',
+        left: '50%',
+        right: 'auto',
+        bottom: 'auto',
+        marginRight: '-50%',
+        transform: 'translate(-50%, -50%)',
+        width: '50%',
+    },
+    date: {
+        "& .MuiInputBase-root": {
+            "& input": {
+                padding: '5px 14px',
+                fontSize: '13px'
+            }
+        },
+        "& .MuiFormLabel-root": {
+            fontSize: '13px',
+            lineHeight: '0',
+            top: '-4px',
+            overflow: 'visible',
+            background: '#fff',
+            zIndex: '1'
+        },
+        "& label.Mui-focused": {
+            top: '5px',
+            background: '#fff',
+            zIndex: '1'
 
+        },
+    },
+    autoCompleate: {
+        "& .MuiOutlinedInput-root": {
+            padding: '0px',
+            "& .MuiAutocomplete-input": {
+                padding: '5px 14px',
+                fontSize: '13px'
+            }
+
+        },
+        "& .MuiFormLabel-root": {
+            fontSize: '13px',
+            lineHeight: '0',
+            top: '-4px',
+            overflow: 'visible',
+        },
+        "& label.Mui-focused": {
+            top: '5px',
+            backgroundColor: '#fff',
+            zIndex: '1'
+        },
+    },
+    input: {
+        "& .MuiOutlinedInput-root": {
+            "& input": {
+                padding: '6px 14px',
+                fontSize: '12px'
+            }
+        },
+        "& .MuiFormLabel-root": {
+            fontSize: '13px',
+            lineHeight: '0',
+            top: '-4px',
+            overflow: 'visible',
+        },
+        "& label.Mui-focused": {
+            top: '5px',
+            backgroundColor: 'green',
+            zIndex: '1'
+        },
+    },
+    select: {
+        "& .MuiSelect-select": {
+            padding: '3px 14px',
+            fontSize: '12px'
+        },
+
+    },
+    InputLabels: {
+        fontSize: '13px',
+        lineHeight: '0',
+        top: '-4px',
+        overflow: 'visible',
+        "&.Mui-focused": {
+            top: '5px',
+            backgroundColor: 'green',
+            zIndex: '1'
+        }
+    }
+
+};
 export default KOMONTH

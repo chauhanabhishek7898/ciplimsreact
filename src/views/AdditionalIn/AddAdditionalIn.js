@@ -663,7 +663,7 @@ function AddAdditionalIn() {
                                         required
                                         maxDate={startDates}
                                         onChange={handleChangeStartdate}
-                                        renderInput={(params) => <TextField {...params} />}
+                                        renderInput={(params) => <TextField sx={muiStyles.date}{...params} />}
                                     />
                                 </Stack>
                             </LocalizationProvider>
@@ -673,6 +673,7 @@ function AddAdditionalIn() {
                     <Box sx={{ width: '15%', marginTop: 1 }} >
                         <FormControl fullWidth className='input'>
                             <TextField
+                            sx={muiStyles.input}
                                 value={vBatchNo}
                                 onChange={e => setvBatchNo(e.target.value)}
                                 id="outlined-basic"
@@ -690,6 +691,7 @@ function AddAdditionalIn() {
                         <FormControl fullWidth className='input'>
                             {/* <InputLabel required id="demo-simple-select-label">Plant</InputLabel>npm  */}
                             <Autocomplete
+                            sx={muiStyles.autoCompleate}
                                 disablePortal
                                 id="combo-box-demo"
                                 options={PlantMaster}
@@ -711,6 +713,7 @@ function AddAdditionalIn() {
                     <Box sx={{ width: '32%', marginTop: 1 }} >
                         <FormControl fullWidth className='input'>
                             <TextField
+                            sx={muiStyles.input}
                                 value={vRemarks}
                                 onChange={e => setvRemarks(e.target.value)}
                                 id="outlined-basic"
@@ -734,6 +737,7 @@ function AddAdditionalIn() {
                         <FormControl fullWidth className='input'>
                             {/* <InputLabel required id="demo-simple-select-label">Item</InputLabel>  */}
                             <Autocomplete
+                            sx={muiStyles.autoCompleate}
                                 disablePortal
                                 id="combo-box-demo"
                                 options={MaterialMaster}
@@ -796,6 +800,7 @@ function AddAdditionalIn() {
                      <Box sx={{ width: '11%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
+                            sx={muiStyles.input}
                                 value={vUOM}
                                 // onChange={e => setnAmt(e.target.value)}
                                 id="outlined-basic"
@@ -812,6 +817,7 @@ function AddAdditionalIn() {
                     <Box sx={{ width: '12%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
+                            sx={muiStyles.input}
                                 value={nQtyAccepted}
                                 onChange={e => calculateAmount(e.target.value, 'nQtyAccepted')}
                                 required id="outlined-basic"
@@ -829,6 +835,7 @@ function AddAdditionalIn() {
                     <Box sx={{ width: '12%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
+                            sx={muiStyles.input}
                                 value={nQtyRejected}
                                 onChange={e => calculateAmount(e.target.value, 'nQtyRejected')}
                                 required id="outlined-basic"
@@ -848,6 +855,7 @@ function AddAdditionalIn() {
                     <Box sx={{ width: '11%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
+                            sx={muiStyles.input}
                                 value={nAmt}
                                 onChange={e => setnAmt(e.target.value)}
                                 id="outlined-basic"
@@ -872,14 +880,14 @@ function AddAdditionalIn() {
                                         value={dtExpDate}
                                         required
                                         onChange={handleChangedtExpDate}
-                                        renderInput={(params) => <TextField {...params} />}
+                                        renderInput={(params) => <TextField sx={muiStyles.date}{...params} />}
                                     />
                                 </Stack>
                             </LocalizationProvider>
                             {errorText.date != '' ? <p className='error'>{errorText.date}</p> : null}
                         </FormControl>
                     </Box>
-                    <div style={{display:'flex',alignItems:'center',gap:10}}>
+                    <div style={{display:'flex',alignItems:'center',gap:10,justifyContent:'space-between',width: '100%',}}>
                         <button title='Add' className='addbtn' onClick={addKoMonthDate}>{btnType=='edit'?'Update':<AddIcon fontSize='large' />}</button>
                         
                         <button title='Refresh' className='addbtn' onClick={refreshbtn}><ReplayIcon fontSize='large' /></button>
@@ -894,14 +902,14 @@ function AddAdditionalIn() {
                                         <TableRow>
                                             <TableCell scope="row" style={{ width: '2%' }} >SN.</TableCell>
                                             <TableCell align="center">Action</TableCell>
-                                            <TableCell align="left">Material Name</TableCell>
-                                            {/* <TableCell align="left">PO Qty</TableCell>
-                                            <TableCell align="left">Balance QTY</TableCell> */}
-                                            <TableCell align="left">UOM</TableCell>
-                                            <TableCell align="left">Qty Accepted</TableCell>
-                                            <TableCell align="left">Qty Rejected</TableCell>
-                                            <TableCell align="left">Total Qty</TableCell>
-                                            <TableCell align="left">Exp Date</TableCell>
+                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>Material Name</TableCell>
+                                            {/* <TableCell align="left" style={{whiteSpace:'nowrap'}}>PO Qty</TableCell>
+                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>Balance QTY</TableCell> */}
+                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>UOM</TableCell>
+                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>Qty Accepted</TableCell>
+                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>Qty Rejected</TableCell>
+                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>Total Qty</TableCell>
+                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>Exp Date</TableCell>
                                         </TableRow>
                                     </TableHead>
                                     {PODetails?.length > 0 ?
@@ -920,14 +928,14 @@ function AddAdditionalIn() {
                                                             </div>
 
                                                         </TableCell>
-                                                        <TableCell align="left">{item.MaterialDetail}</TableCell>
-                                                        {/* <TableCell align="left">{item.nQty}</TableCell>
-                                                        <TableCell align="left">{item.BalanceQuantity}</TableCell> */}
-                                                        <TableCell align="left">{item.vUOM}</TableCell>
-                                                        <TableCell align="left">{item.nQtyAccepted}</TableCell>
-                                                        <TableCell align="left">{item.nQtyRejected}</TableCell>
-                                                        <TableCell align="left">{item.TotalQty}</TableCell>
-                                                        <TableCell align="left">{parseDateToString(new Date(item.dtExpDate2))}</TableCell>
+                                                        <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.MaterialDetail}</TableCell>
+                                                        {/* <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.nQty}</TableCell>
+                                                        <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.BalanceQuantity}</TableCell> */}
+                                                        <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vUOM}</TableCell>
+                                                        <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.nQtyAccepted}</TableCell>
+                                                        <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.nQtyRejected}</TableCell>
+                                                        <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.TotalQty}</TableCell>
+                                                        <TableCell align="left" style={{whiteSpace:'nowrap'}}>{parseDateToString(new Date(item.dtExpDate2))}</TableCell>
 
                                                     </TableRow>
                                                 )
@@ -939,7 +947,7 @@ function AddAdditionalIn() {
 
                                         <TableBody>
                                             <TableRow>
-                                                <TableCell align="left">No Record</TableCell>
+                                                <TableCell align="left" style={{whiteSpace:'nowrap'}}>No Record</TableCell>
                                             </TableRow>
                                         </TableBody>
                                     }
@@ -982,5 +990,96 @@ function AddAdditionalIn() {
         </div>
     )
 }
+const muiStyles = {
+    content: {
+        top: '50%',
+        left: '50%',
+        right: 'auto',
+        bottom: 'auto',
+        marginRight: '-50%',
+        transform: 'translate(-50%, -50%)',
+        width: '50%',
+    },
+    date: {
+        "& .MuiInputBase-root": {
+            "& input": {
+                padding: '5px 14px',
+                fontSize: '13px'
+            }
+        },
+        "& .MuiFormLabel-root": {
+            fontSize: '13px',
+            lineHeight: '0',
+            top: '4.6px',
+            overflow: 'visible',
+            background: '#fff',
+            zIndex: '1'
+        },
+        "& label.Mui-focused": {
+            top: '5px',
+            background: '#fff',
+            zIndex: '1'
 
+        },
+    },
+    autoCompleate: {
+        "& .MuiOutlinedInput-root": {
+            padding: '0px',
+            "& .MuiAutocomplete-input": {
+                padding: '5px 14px',
+                fontSize: '13px'
+            }
+
+        },
+        "& .MuiFormLabel-root": {
+            fontSize: '13px',
+            lineHeight: '0',
+            top: '-4px',
+            overflow: 'visible',
+        },
+        "& label.Mui-focused": {
+            top: '5px',
+            backgroundColor: '#fff',
+            zIndex: '1'
+        },
+    },
+    input: {
+        "& .MuiOutlinedInput-root": {
+            "& input": {
+                padding: '6px 14px',
+                fontSize: '12px'
+            }
+        },
+        "& .MuiFormLabel-root": {
+            fontSize: '13px',
+            lineHeight: '0',
+            top: '-4px',
+            overflow: 'visible',
+        },
+        "& label.Mui-focused": {
+            top: '5px',
+            backgroundColor: 'green',
+            zIndex: '1'
+        },
+    },
+    select: {
+        "& .MuiSelect-select": {
+            padding: '3px 14px',
+            fontSize: '12px'
+        },
+
+    },
+    InputLabels: {
+        fontSize: '13px',
+        lineHeight: '0',
+        top: '-4px',
+        overflow: 'visible',
+        "&.Mui-focused": {
+            top: '5px',
+            backgroundColor: 'green',
+            zIndex: '1'
+        }
+    }
+
+};
 export default AddAdditionalIn

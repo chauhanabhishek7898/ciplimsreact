@@ -875,6 +875,7 @@ function AddGRNReceived() {
                     <Box sx={{ width: '11%' }} >
                         <FormControl fullWidth className='input'>
                             <TextField
+                            sx={muiStyles.input}
                                 value={vInvoiceNo}
                                 onChange={e => setvInvoiceNo(e.target.value)}
                                 required id="outlined-basic"
@@ -898,7 +899,7 @@ function AddGRNReceived() {
                                         required
                                         maxDate={toDates}
                                         onChange={handleChangeStartdate}
-                                        renderInput={(params) => <TextField {...params} />}
+                                        renderInput={(params) => <TextField sx={muiStyles.date} {...params} />}
                                     />
                                 </Stack>
                             </LocalizationProvider>
@@ -916,7 +917,7 @@ function AddGRNReceived() {
                                         required
                                         maxDate={toDates}
                                         onChange={handleChangeEndtdate}
-                                        renderInput={(params) => <TextField {...params} />}
+                                        renderInput={(params) => <TextField sx={muiStyles.date} {...params} />}
                                     />
                                 </Stack>
                             </LocalizationProvider>
@@ -926,6 +927,7 @@ function AddGRNReceived() {
                     <Box sx={{ width: '8%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
+                            sx={muiStyles.input}
                                 value={vVehicleNo}
                                 onChange={e => setvVehicleNo(e.target.value)}
                                 id="outlined-basic"
@@ -941,6 +943,7 @@ function AddGRNReceived() {
                     <Box sx={{ width: '20%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
+                            sx={muiStyles.input}
                                 value={vTransportName}
                                 onChange={e => setvTransportName(e.target.value)}
                                 id="outlined-basic"
@@ -957,6 +960,7 @@ function AddGRNReceived() {
                         <FormControl fullWidth className='input'>
                             {/* <InputLabel required id="demo-simple-select-label">Plant</InputLabel>npm  */}
                             <Autocomplete
+                            sx={muiStyles.autoCompleate}
                                 disablePortal
                                 id="combo-box-demo"
                                 options={PlantMaster}
@@ -978,6 +982,7 @@ function AddGRNReceived() {
                     <Box sx={{ width: '8%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
+                            sx={muiStyles.input}
                                 value={vLorryRecNo}
                                 onChange={e => setvLorryRecNo(e.target.value)}
                                 id="outlined-basic"
@@ -994,6 +999,7 @@ function AddGRNReceived() {
                     <Box sx={{ width: '7%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
+                            sx={muiStyles.input}
                                 value={vEWayBillNo}
                                 onChange={e => setvEWayBillNo(e.target.value)}
                                 id="outlined-basic"
@@ -1010,6 +1016,7 @@ function AddGRNReceived() {
                     <Box sx={{ width: '7%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
+                            sx={muiStyles.input}
                                 value={vBatchNo}
                                 onChange={e => setvBatchNo(e.target.value)}
                                 id="outlined-basic"
@@ -1034,7 +1041,7 @@ function AddGRNReceived() {
                                         required
                                         maxDate={toDates}
                                         onChange={handleChangedtGateEntryDate}
-                                        renderInput={(params) => <TextField {...params} />}
+                                        renderInput={(params) => <TextField sx={muiStyles.date} {...params} />}
                                     />
                                 </Stack>
                             </LocalizationProvider>
@@ -1072,6 +1079,7 @@ function AddGRNReceived() {
                     <Box sx={{ width: '9%' }} >
                         <FormControl fullWidth className='input'>
                             <TextField
+                            sx={muiStyles.input}
                                 value={vCourierToCCIPL}
                                 onChange={e => setvCourierToCCIPL(e.target.value)}
                                 id="outlined-basic"
@@ -1087,6 +1095,7 @@ function AddGRNReceived() {
                     <Box sx={{ width: '10%' }} >
                         <FormControl fullWidth className='input'>
                             <TextField
+                            sx={muiStyles.input}
                                 value={vCourierDocketNo}
                                 onChange={e => setvCourierDocketNo(e.target.value)}
                                 id="outlined-basic"
@@ -1110,7 +1119,7 @@ function AddGRNReceived() {
                                         required
                                         maxDate={toDates}
                                         onChange={handleChangedtdtPaymentReceiveDate}
-                                        renderInput={(params) => <TextField {...params} />}
+                                        renderInput={(params) => <TextField sx={muiStyles.date} {...params} />}
                                     />
                                 </Stack>
                             </LocalizationProvider>
@@ -1140,6 +1149,7 @@ function AddGRNReceived() {
                     <Box sx={{ width: '28%', marginTop: 1 }} >
                         <FormControl fullWidth className='input'>
                             <TextField
+                            sx={muiStyles.input}
                                 value={vRemarks}
                                 onChange={e => setvRemarks(e.target.value)}
                                 id="outlined-basic"
@@ -1183,6 +1193,7 @@ function AddGRNReceived() {
                     <Box sx={{ width: '25%' }} >
                         <FormControl fullWidth className='input'>
                             <Autocomplete
+                            sx={muiStyles.autoCompleate}
                                 disablePortal
                                 id="combo-box-demo"
                                 options={MaterialMaster}
@@ -1234,6 +1245,7 @@ function AddGRNReceived() {
                     <Box sx={{ width: '7%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
+                            sx={muiStyles.input}
                                 value={nQty}
                                 // onChange={e => calculateAmount(e.target.value,'nQty')}
                                 required id="outlined-basic"
@@ -1251,6 +1263,7 @@ function AddGRNReceived() {
                     <Box sx={{ width: '7%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
+                            sx={muiStyles.input}
                                 value={BalanceQuantity}
                                 // onChange={e => calculateAmount(e.target.value,'nQty')}
                                 id="outlined-basic"
@@ -1269,6 +1282,7 @@ function AddGRNReceived() {
                     <Box sx={{ width: '12%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
+                            sx={muiStyles.input}
                                 value={nQtyAccepted}
                                 onChange={e => calculateAmount(e.target.value, 'nQtyAccepted')}
                                 required id="outlined-basic"
@@ -1286,6 +1300,7 @@ function AddGRNReceived() {
                     <Box sx={{ width: '12%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
+                            sx={muiStyles.input}
                                 value={nQtyRejected}
                                 onChange={e => calculateAmount(e.target.value, 'nQtyRejected')}
                                 required id="outlined-basic"
@@ -1303,6 +1318,7 @@ function AddGRNReceived() {
                     <Box sx={{ width: '7%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
+                            sx={muiStyles.input}
                                 value={nRate}
                                 onChange={e => calculateAmount(e.target.value, 'nRate')}
                                 required id="outlined-basic"
@@ -1328,7 +1344,7 @@ function AddGRNReceived() {
                                         required
                                         maxDate={toDates}
                                         onChange={handleChangedtMfgDate}
-                                        renderInput={(params) => <TextField {...params} />}
+                                        renderInput={(params) => <TextField sx={muiStyles.date} {...params} />}
                                     />
                                 </Stack>
                             </LocalizationProvider>
@@ -1346,7 +1362,7 @@ function AddGRNReceived() {
                                         required
                                         maxDate={toDates}
                                         onChange={handleChangedtExpDate}
-                                        renderInput={(params) => <TextField {...params} />}
+                                        renderInput={(params) => <TextField sx={muiStyles.date}{...params} />}
                                     />
                                 </Stack>
                             </LocalizationProvider>
@@ -1358,6 +1374,7 @@ function AddGRNReceived() {
                     <Box sx={{ width: '8%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
+                            sx={muiStyles.input}
                                 value={nAmt}
                                 onChange={e => setnAmt(e.target.value)}
                                 id="outlined-basic"
@@ -1375,6 +1392,7 @@ function AddGRNReceived() {
                     <Box sx={{ width: '6%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
+                            sx={muiStyles.input}
                                 value={nSGSTP}
                                 onChange={e => calculateAmount(e.target.value, 'nSGSTP')}
                                 id="outlined-basic"
@@ -1391,6 +1409,7 @@ function AddGRNReceived() {
                     <Box sx={{ width: '5%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
+                            sx={muiStyles.input}
                                 value={nSGST}
                                 onChange={e => setnSGST(e.target.value)}
                                 id="outlined-basic"
@@ -1408,6 +1427,7 @@ function AddGRNReceived() {
                     <Box sx={{ width: '6%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
+                            sx={muiStyles.input}
                                 value={nCGSTP}
                                 onChange={e => calculateAmount(e.target.value, 'nCGSTP')}
                                 id="outlined-basic"
@@ -1424,6 +1444,7 @@ function AddGRNReceived() {
                     <Box sx={{ width: '5%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
+                            sx={muiStyles.input}
                                 value={nCGST}
                                 onChange={e => setnCGST(e.target.value)}
                                 id="outlined-basic"
@@ -1441,6 +1462,7 @@ function AddGRNReceived() {
                     <Box sx={{ width: '6%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
+                            sx={muiStyles.input}
                                 value={nIGSTP}
                                 onChange={e => calculateAmount(e.target.value, 'nIGSTP')}
                                 id="outlined-basic"
@@ -1457,6 +1479,7 @@ function AddGRNReceived() {
                     <Box sx={{ width: '5%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
+                            sx={muiStyles.input}
                                 value={nIGST}
                                 onChange={e => setnIGST(e.target.value)}
                                 id="outlined-basic"
@@ -1474,6 +1497,7 @@ function AddGRNReceived() {
                     <Box sx={{ width: '7%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
+                            sx={muiStyles.input}
                                 value={nTax}
                                 onChange={e => setnTax(e.target.value)}
                                 id="outlined-basic"
@@ -1491,6 +1515,7 @@ function AddGRNReceived() {
                     <Box sx={{ width: '8%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
+                            sx={muiStyles.input}
                                 value={nGrandTotal}
                                 onChange={e => setnGrandTotal(e.target.value)}
                                 required id="outlined-basic"
@@ -1508,6 +1533,7 @@ function AddGRNReceived() {
                     <Box sx={{ width: '5%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
+                            sx={muiStyles.input}
                                 value={nFreight}
                                 onChange={e => calculateAmount(e.target.value, 'nFreight')}
                                 id="outlined-basic"
@@ -1526,6 +1552,7 @@ function AddGRNReceived() {
                     <Box sx={{ width: '9%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
+                            sx={muiStyles.input}
                                 value={nNetTotalAmt}
                                 onChange={e => setnNetTotalAmt(e.target.value)}
                                 required id="outlined-basic"
@@ -1553,26 +1580,26 @@ function AddGRNReceived() {
                                         <TableRow>
                                             <TableCell scope="row">SN.</TableCell>
                                             <TableCell align="center">Action</TableCell>
-                                            <TableCell align="left">Material Name</TableCell>
-                                            <TableCell align="left">PO Qty</TableCell>
-                                            <TableCell align="left">Balance QTY</TableCell>
-                                            <TableCell align="left">Qty Accepted</TableCell>
-                                            <TableCell align="left">Qty Rejected</TableCell>
-                                            <TableCell align="left">Total Qty</TableCell>
-                                            <TableCell align="left">Rate</TableCell>
-                                            <TableCell align="left">Mfg Date</TableCell>
-                                            <TableCell align="left">Exp Date</TableCell>
-                                            <TableCell align="left">Total Amount</TableCell>
-                                            <TableCell align="left">SGST (%)</TableCell>
-                                            <TableCell align="left">SGST </TableCell>
-                                            <TableCell align="left">CGST (%)</TableCell>
-                                            <TableCell align="left">CGST</TableCell>
-                                            <TableCell align="left">IGST (%)</TableCell>
-                                            <TableCell align="left">IGST</TableCell>
-                                            <TableCell align="left">Total Tax</TableCell>
-                                            <TableCell align="left">Grand Total</TableCell>
-                                            <TableCell align="left">Freight</TableCell>
-                                            <TableCell align="left">Net Total Amt</TableCell>
+                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>Material Name</TableCell>
+                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>PO Qty</TableCell>
+                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>Balance QTY</TableCell>
+                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>Qty Accepted</TableCell>
+                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>Qty Rejected</TableCell>
+                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>Total Qty</TableCell>
+                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>Rate</TableCell>
+                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>Mfg Date</TableCell>
+                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>Exp Date</TableCell>
+                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>Total Amount</TableCell>
+                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>SGST (%)</TableCell>
+                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>SGST </TableCell>
+                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>CGST (%)</TableCell>
+                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>CGST</TableCell>
+                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>IGST (%)</TableCell>
+                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>IGST</TableCell>
+                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>Total Tax</TableCell>
+                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>Grand Total</TableCell>
+                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>Freight</TableCell>
+                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>Net Total Amt</TableCell>
                                         </TableRow>
                                     </TableHead>
                                     {PODetails?.length > 0 ?
@@ -1591,26 +1618,26 @@ function AddGRNReceived() {
                                                             </div>
 
                                                         </TableCell>
-                                                        <TableCell align="left">{item.MaterialDetail}</TableCell>
-                                                        <TableCell align="left">{item.nQty}</TableCell>
-                                                        <TableCell align="left">{item.BalanceQuantity}</TableCell>
-                                                        <TableCell align="left">{item.nQtyAccepted}</TableCell>
-                                                        <TableCell align="left">{item.nQtyRejected}</TableCell>
-                                                        <TableCell align="left">{item.nQtyAccepted + item.nQtyRejected}</TableCell>
-                                                        <TableCell align="left">{item.nRate}</TableCell>
-                                                        <TableCell align="left">{item.dtMfgDate}</TableCell>
-                                                        <TableCell align="left">{item.dtExpDate}</TableCell>
-                                                        <TableCell align="left">{item.nTotalAmount}</TableCell>
-                                                        <TableCell align="left">{item.nSGSTP}</TableCell>
-                                                        <TableCell align="left">{item.nSGST}</TableCell>
-                                                        <TableCell align="left">{item.nCGSTP}</TableCell>
-                                                        <TableCell align="left">{item.nCGST}</TableCell>
-                                                        <TableCell align="left">{item.nIGSTP}</TableCell>
-                                                        <TableCell align="left">{item.nIGST}</TableCell>
-                                                        <TableCell align="left">{item.nTax}</TableCell>
-                                                        <TableCell align="left">{item.nGrandTotal}</TableCell>
-                                                        <TableCell align="left">{item.nFreight}</TableCell>
-                                                        <TableCell align="left">{item.nNetTotalAmt}</TableCell>
+                                                        <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.MaterialDetail}</TableCell>
+                                                        <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.nQty}</TableCell>
+                                                        <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.BalanceQuantity}</TableCell>
+                                                        <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.nQtyAccepted}</TableCell>
+                                                        <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.nQtyRejected}</TableCell>
+                                                        <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.nQtyAccepted + item.nQtyRejected}</TableCell>
+                                                        <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.nRate}</TableCell>
+                                                        <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.dtMfgDate}</TableCell>
+                                                        <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.dtExpDate}</TableCell>
+                                                        <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.nTotalAmount}</TableCell>
+                                                        <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.nSGSTP}</TableCell>
+                                                        <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.nSGST}</TableCell>
+                                                        <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.nCGSTP}</TableCell>
+                                                        <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.nCGST}</TableCell>
+                                                        <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.nIGSTP}</TableCell>
+                                                        <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.nIGST}</TableCell>
+                                                        <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.nTax}</TableCell>
+                                                        <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.nGrandTotal}</TableCell>
+                                                        <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.nFreight}</TableCell>
+                                                        <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.nNetTotalAmt}</TableCell>
                                                     </TableRow>
                                                 )
                                             })
@@ -1621,7 +1648,7 @@ function AddGRNReceived() {
 
                                         <TableBody>
                                             <TableRow>
-                                                <TableCell align="left">No Record</TableCell>
+                                                <TableCell align="left" style={{whiteSpace:'nowrap'}}>No Record</TableCell>
                                             </TableRow>
                                         </TableBody>
                                     }
@@ -1692,11 +1719,11 @@ function AddGRNReceived() {
                                             <TableHead>
                                                 <TableRow>
                                                     <TableCell scope="row">SN.</TableCell>
-                                                    <TableCell align="left">PO No</TableCell>
-                                                    <TableCell align="left">Material Name</TableCell>
-                                                    <TableCell align="left">Qty</TableCell>
-                                                    <TableCell align="left">Bal Qty</TableCell>
-                                                    <TableCell align="left">Input Qty</TableCell>
+                                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>PO No</TableCell>
+                                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Material Name</TableCell>
+                                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Qty</TableCell>
+                                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Bal Qty</TableCell>
+                                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Input Qty</TableCell>
 
                                                 </TableRow>
                                             </TableHead>
@@ -1708,11 +1735,11 @@ function AddGRNReceived() {
                                                         <TableRow key={index}>
 
                                                             <TableCell component="th" scope="row">{index + 1}.</TableCell>
-                                                            <TableCell align="left">{item.vPONo}</TableCell>
-                                                            <TableCell align="left">{item.MaterialDetail}</TableCell>
-                                                            <TableCell align="left">{item.nQty}</TableCell>
-                                                            <TableCell align="left">{item.BalanceQty}</TableCell>
-                                                            <TableCell align="left">{item.SelectedQty}</TableCell>
+                                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vPONo}</TableCell>
+                                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.MaterialDetail}</TableCell>
+                                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.nQty}</TableCell>
+                                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.BalanceQty}</TableCell>
+                                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.SelectedQty}</TableCell>
                                                         </TableRow>
                                                     )
                                                 })
@@ -1749,5 +1776,96 @@ const customStyles = {
         width: '50%',
     },
 };
+const muiStyles = {
+    content: {
+        top: '50%',
+        left: '50%',
+        right: 'auto',
+        bottom: 'auto',
+        marginRight: '-50%',
+        transform: 'translate(-50%, -50%)',
+        width: '50%',
+    },
+    date: {
+        "& .MuiInputBase-root": {
+            "& input": {
+                padding: '5px 14px',
+                fontSize: '13px'
+            }
+        },
+        "& .MuiFormLabel-root": {
+            fontSize: '13px',
+            lineHeight: '0',
+            top: '4.6px',
+            overflow: 'visible',
+            background: '#fff',
+            zIndex: '1'
+        },
+        "& label.Mui-focused": {
+            top: '5px',
+            background: '#fff',
+            zIndex: '1'
 
+        },
+    },
+    autoCompleate: {
+        "& .MuiOutlinedInput-root": {
+            padding: '0px',
+            "& .MuiAutocomplete-input": {
+                padding: '5px 14px',
+                fontSize: '13px'
+            }
+
+        },
+        "& .MuiFormLabel-root": {
+            fontSize: '13px',
+            lineHeight: '0',
+            top: '-4px',
+            overflow: 'visible',
+        },
+        "& label.Mui-focused": {
+            top: '5px',
+            backgroundColor: '#fff',
+            zIndex: '1'
+        },
+    },
+    input: {
+        "& .MuiOutlinedInput-root": {
+            "& input": {
+                padding: '6px 14px',
+                fontSize: '12px'
+            }
+        },
+        "& .MuiFormLabel-root": {
+            fontSize: '13px',
+            lineHeight: '0',
+            top: '-4px',
+            overflow: 'visible',
+        },
+        "& label.Mui-focused": {
+            top: '5px',
+            backgroundColor: 'green',
+            zIndex: '1'
+        },
+    },
+    select: {
+        "& .MuiSelect-select": {
+            padding: '3px 14px',
+            fontSize: '12px'
+        },
+
+    },
+    InputLabels: {
+        fontSize: '13px',
+        lineHeight: '0',
+        top: '-4px',
+        overflow: 'visible',
+        "&.Mui-focused": {
+            top: '5px',
+            backgroundColor: 'green',
+            zIndex: '1'
+        }
+    }
+
+};
 export default AddGRNReceived

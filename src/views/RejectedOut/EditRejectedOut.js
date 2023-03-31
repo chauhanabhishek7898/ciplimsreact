@@ -256,6 +256,7 @@ function EditRejectedOut() {
                 let counts = i
                 res.GRNDetail[i].id = counts
                 res.GRNDetail[i].nPId = res.GRNMaster[0].nPId
+                res.GRNDetail[i].dtExpDate = res.GRNDetail[0].ExpDate
             }
              console.log('data',data)
             setPODetails(data)
@@ -456,6 +457,7 @@ function EditRejectedOut() {
                             poMasteerDetail[indexToUpdate].nQTYOut = parseFloat(nQty == '' ? 0 : nQty),
                             poMasteerDetail[indexToUpdate].LeftQty = parseFloat(LeftQty == '' ? 0 : LeftQty),
                             poMasteerDetail[indexToUpdate].vUOM = vUOM,
+                            poMasteerDetail[indexToUpdate].dtExpDate = expireDateValue,
                             poMasteerDetail[indexToUpdate].ExpDate = expireDateValue,
                             poMasteerDetail[indexToUpdate].nPId = nPId,
 
@@ -502,6 +504,7 @@ function EditRejectedOut() {
                                         nQTYOut: parseFloat(nQty == '' ? 0 : nQty),
                                         LeftQty: parseFloat(LeftQty == '' ? 0 : LeftQty),
                                         vUOM: vUOM,
+                                        dtExpDate: expireDateValue,
                                         ExpDate: expireDateValue,
                                         nPId: nPId,
 
@@ -762,12 +765,13 @@ function EditRejectedOut() {
                             <LocalizationProvider dateAdapter={AdapterDayjs} >
                                 <Stack spacing={3} >
                                     <DesktopDatePicker
+                                       
                                         label="Date *"
                                         inputFormat="DD-MM-YYYY"
                                         value={startDate}
                                         maxDate={startDates}
                                         onChange={handleChangeStartdate}
-                                        renderInput={(params) => <TextField {...params} />}
+                                        renderInput={(params) => <TextField sx={muiStyles.date} {...params} />}
                                     />
                                 </Stack>
                             </LocalizationProvider>
@@ -794,6 +798,7 @@ function EditRejectedOut() {
                         <FormControl fullWidth className='input'>
                             {/* <InputLabel required id="demo-simple-select-label">Plant</InputLabel>npm  */}
                             <Autocomplete
+                               sx={muiStyles.autoCompleate}
                                 disablePortal
                                 id="combo-box-demo"
                                 options={PlantMaster}
@@ -815,6 +820,7 @@ function EditRejectedOut() {
                     <Box sx={{ width: '40%', marginTop: 1 }} >
                         <FormControl fullWidth className='input'>
                             <TextField
+                               sx={muiStyles.input}
                                 value={vRemarks}
                                 onChange={e => setvRemarks(e.target.value)}
                                 id="outlined-basic"
@@ -838,6 +844,7 @@ function EditRejectedOut() {
                         <FormControl fullWidth className='input'>
                             {/* <InputLabel required id="demo-simple-select-label">Item</InputLabel>  */}
                             <Autocomplete
+                               sx={muiStyles.autoCompleate}
                                 disablePortal
                                 id="combo-box-demo"
                                 options={MaterialMaster}
@@ -858,6 +865,7 @@ function EditRejectedOut() {
                     <Box sx={{ width: '11%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
+                               sx={muiStyles.input}
                                 value={vUOM}
                                 // onChange={e => setnAmt(e.target.value)}
                                 id="outlined-basic"
@@ -873,8 +881,9 @@ function EditRejectedOut() {
                     </Box>
                     <Box sx={{ width: '8%' }}>
                         <FormControl fullWidth className='input'>
-                            <InputLabel id="demo-simple-select-label" required>Exp Date</InputLabel>
+                            <InputLabel id="demo-simple-select-label" required  sx={muiStyles.InputLabels}>Exp Date</InputLabel>
                             <Select
+                               sx={muiStyles.select}
                                 style={{ width: '100%', }}
                                 labelId="demo-simple-select-label"
                                 id="demo-simple-select"
@@ -898,6 +907,7 @@ function EditRejectedOut() {
                     <Box sx={{ width: '11%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
+                               sx={muiStyles.input}
                                 value={LeftQty}
                                 onChange={e => setLeftQty(e.target.value)}
                                 id="outlined-basic"
@@ -915,6 +925,7 @@ function EditRejectedOut() {
                     <Box sx={{ width: '12%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
+                               sx={muiStyles.input}
                                 value={nQty}
                                 onChange={e => onChangenQty(e.target.value)}
                                 required id="outlined-basic"
@@ -944,13 +955,13 @@ function EditRejectedOut() {
                                         <TableRow>
                                             <TableCell scope="row" style={{ width: '2%' }} >SN.</TableCell>
                                             <TableCell align="center">Action</TableCell>
-                                            <TableCell align="left">Material Name</TableCell>
-                                            {/* <TableCell align="left">PO Qty</TableCell>
-                                        <TableCell align="left">Balance QTY</TableCell> */}
-                                            <TableCell align="left">UOM</TableCell>
-                                            <TableCell align="left">Exp Date</TableCell>
-                                            {/* <TableCell align="left">Bal Qty </TableCell> */}
-                                            <TableCell align="left">Qty</TableCell>
+                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>Material Name</TableCell>
+                                            {/* <TableCell align="left" style={{whiteSpace:'nowrap'}}>PO Qty</TableCell>
+                                        <TableCell align="left" style={{whiteSpace:'nowrap'}}>Balance QTY</TableCell> */}
+                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>UOM</TableCell>
+                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>Exp Date</TableCell>
+                                            {/* <TableCell align="left" style={{whiteSpace:'nowrap'}}>Bal Qty </TableCell> */}
+                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>Qty</TableCell>
 
                                         </TableRow>
                                     </TableHead>
@@ -969,13 +980,13 @@ function EditRejectedOut() {
                                                             </div>
 
                                                         </TableCell>
-                                                        <TableCell align="left">{item.MaterialDetail}</TableCell>
-                                                        {/* <TableCell align="left">{item.nQty}</TableCell>
-                                                    <TableCell align="left">{item.BalanceQuantity}</TableCell> */}
-                                                        <TableCell align="left">{item.vUOM}</TableCell>
-                                                        <TableCell align="left">{item.ExpDate}</TableCell>
-                                                        {/* <TableCell align="left">{item.LeftQty}</TableCell> */}
-                                                        <TableCell align="left">{item.nQTYOut}</TableCell>
+                                                        <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.MaterialDetail}</TableCell>
+                                                        {/* <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.nQty}</TableCell>
+                                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.BalanceQuantity}</TableCell> */}
+                                                        <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vUOM}</TableCell>
+                                                        <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.ExpDate}</TableCell>
+                                                        {/* <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.LeftQty}</TableCell> */}
+                                                        <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.nQTYOut}</TableCell>
 
                                                     </TableRow>
                                                 )
@@ -987,7 +998,7 @@ function EditRejectedOut() {
 
                                         <TableBody>
                                             <TableRow>
-                                                <TableCell align="left">No Record</TableCell>
+                                                <TableCell align="left" style={{whiteSpace:'nowrap'}}>No Record</TableCell>
                                             </TableRow>
                                         </TableBody>
                                     }
@@ -1046,11 +1057,11 @@ function EditRejectedOut() {
                                             <TableHead>
                                                 <TableRow>
                                                     <TableCell scope="row">SN.</TableCell>
-                                                    <TableCell align="left">Plant Detail</TableCell>
-                                                    <TableCell align="left">Material Name</TableCell>
-                                                    <TableCell align="left">Exp Date</TableCell>
-                                                    <TableCell align="left">Bal Stock</TableCell>
-                                                    <TableCell align="left">Input Qty</TableCell>
+                                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Plant Detail</TableCell>
+                                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Material Name</TableCell>
+                                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Exp Date</TableCell>
+                                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Bal Stock</TableCell>
+                                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Input Qty</TableCell>
 
                                                 </TableRow>
                                             </TableHead>
@@ -1062,11 +1073,11 @@ function EditRejectedOut() {
                                                         <TableRow key={index}  style={item.id==EditId?{background:'rgba(239,30,44,0.15)'}:{background:'#fff'}}>
 
                                                             <TableCell component="th" scope="row">{index + 1}.</TableCell>
-                                                            <TableCell align="left">{item.PlantDetail}</TableCell>
-                                                            <TableCell align="left">{item.MaterialDetail}</TableCell>
-                                                            <TableCell align="left">{item.dtExpDate}</TableCell>
-                                                            <TableCell align="left">{item.BalanceStockQty}</TableCell>
-                                                            <TableCell align="left">{item.nQTYOut}</TableCell>
+                                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.PlantDetail}</TableCell>
+                                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.MaterialDetail}</TableCell>
+                                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.dtExpDate}</TableCell>
+                                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.BalanceStockQty}</TableCell>
+                                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.nQTYOut}</TableCell>
                                                         </TableRow>
                                                     )
                                                 })
@@ -1103,5 +1114,97 @@ const customStyles = {
         transform: 'translate(-50%, -50%)',
         width: '50%',
     },
+};
+const muiStyles = {
+    content: {
+        top: '50%',
+        left: '50%',
+        right: 'auto',
+        bottom: 'auto',
+        marginRight: '-50%',
+        transform: 'translate(-50%, -50%)',
+        width: '50%',
+    },
+    date: {
+        "& .MuiInputBase-root": {
+            "& input": {
+                padding: '5px 14px',
+                fontSize: '13px'
+            }
+        },
+        "& .MuiFormLabel-root": {
+            fontSize: '13px',
+            lineHeight: '0',
+            top: '4.6px',
+            overflow: 'visible',
+            background: '#fff',
+            zIndex: '1'
+        },
+        "& label.Mui-focused": {
+            top: '5px',
+            background: '#fff',
+            zIndex: '1'
+
+        },
+    },
+    autoCompleate: {
+        "& .MuiOutlinedInput-root": {
+            padding: '0px',
+            "& .MuiAutocomplete-input": {
+                padding: '5px 14px',
+                fontSize: '13px'
+            }
+
+        },
+        "& .MuiFormLabel-root": {
+            fontSize: '13px',
+            lineHeight: '0',
+            top: '-4px',
+            overflow: 'visible',
+        },
+        "& label.Mui-focused": {
+            top: '5px',
+            backgroundColor: '#fff',
+            zIndex: '1'
+        },
+    },
+    input: {
+        "& .MuiOutlinedInput-root": {
+            "& input": {
+                padding: '6px 14px',
+                fontSize: '12px'
+            }
+        },
+        "& .MuiFormLabel-root": {
+            fontSize: '13px',
+            lineHeight: '0',
+            top: '-4px',
+            overflow: 'visible',
+        },
+        "& label.Mui-focused": {
+            top: '5px',
+            backgroundColor: 'green',
+            zIndex: '1'
+        },
+    },
+    select: {
+        "& .MuiSelect-select": {
+            padding: '3px 14px',
+            fontSize: '12px'
+        },
+
+    },
+    InputLabels: {
+        fontSize: '13px',
+        lineHeight: '0',
+        top: '-4px',
+        overflow: 'visible',
+        "&.Mui-focused": {
+            top: '5px',
+            backgroundColor: 'green',
+            zIndex: '1'
+        }
+    }
+
 };
 export default EditRejectedOut

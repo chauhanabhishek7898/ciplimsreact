@@ -175,7 +175,7 @@ function GRNReceivedList() {
                                         value={fromDate}
                                         onChange={handleChangeFromedate}
                                         maxDate={new Date(Date.now())}
-                                        renderInput={(params) => <TextField {...params} />}
+                                        renderInput={(params) => <TextField sx={muiStyles.date} {...params} />}
 
                                     />
                                 </Stack>
@@ -190,7 +190,7 @@ function GRNReceivedList() {
                                         value={toDate}
                                         onChange={handleChangeTodate}
                                         maxDate={new Date(Date.now())}
-                                        renderInput={(params) => <TextField {...params} />}
+                                        renderInput={(params) => <TextField sx={muiStyles.date} {...params} />}
 
                                     />
                                 </Stack>
@@ -200,6 +200,7 @@ function GRNReceivedList() {
                         <Box sx={{ width: '28%' }} >
                             <FormControl fullWidth className='input' >
                                 <TextField
+                                sx={muiStyles.input}
                                     value={vGenric}
                                     onChange={e => setvGenric(e.target.value)}
                                     id="outlined-basic"
@@ -224,23 +225,23 @@ function GRNReceivedList() {
                                 <TableRow>
                                     {/* <TableCell scope="row">SN.</TableCell> */}
                                     <TableCell align="center">Edit</TableCell>
-                                    <TableCell align="left">Status</TableCell>
-                                    <TableCell align="left">Invoice No.</TableCell>
-                                    <TableCell align="left">GRN Date</TableCell>
-                                    <TableCell align="left">Inv Date</TableCell>
-                                    <TableCell align="left">Vehicle No.</TableCell>
-                                    <TableCell align="left">Transport Name</TableCell>
-                                    <TableCell align="left">PO No.</TableCell>
-                                    <TableCell align="left">Lorry Rec No.</TableCell>
-                                    <TableCell align="left">EWay Bill No.</TableCell>
-                                    <TableCell align="left">Batch No.</TableCell>
-                                    <TableCell align="left">Is COA Received</TableCell>
-                                    <TableCell align="left">GRN Copy</TableCell>
-                                    <TableCell align="left">Gate Entry Date</TableCell>
-                                    <TableCell align="left">Courier To CCIPL</TableCell>
-                                    <TableCell align="left">Courier Docket No</TableCell>
-                                    <TableCell align="left">Payment Receive Date</TableCell>
-                                    <TableCell align="left">Remarks</TableCell>
+                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Status</TableCell>
+                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Invoice No.</TableCell>
+                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>GRN Date</TableCell>
+                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Inv Date</TableCell>
+                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Vehicle No.</TableCell>
+                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Transport Name</TableCell>
+                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>PO No.</TableCell>
+                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Lorry Rec No.</TableCell>
+                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>EWay Bill No.</TableCell>
+                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Batch No.</TableCell>
+                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Is COA Received</TableCell>
+                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>GRN Copy</TableCell>
+                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Gate Entry Date</TableCell>
+                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Courier To CCIPL</TableCell>
+                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Courier Docket No</TableCell>
+                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Payment Receive Date</TableCell>
+                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Remarks</TableCell>
 
                                 </TableRow>
                             </TableHead>
@@ -251,23 +252,23 @@ function GRNReceivedList() {
                                             <TableRow key={index}>
                                                 {/* <TableCell component="th" scope="row">{index + 1}.</TableCell> */}
                                                 <TableCell align="center"><button className='deletbtn' title='Edit' onClick={() => handleDetail(item.nGRNId)}><BorderColorIcon size={20} color='#000' /></button></TableCell>
-                                                <TableCell align="left">{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
-                                                <TableCell align="left">{item.vInvoiceNo}</TableCell>
-                                                <TableCell align="left">{item.GRNDate}</TableCell>
-                                                <TableCell align="left">{item.InvDate}</TableCell>
-                                                <TableCell align="left">{item.vVehicleNo}</TableCell>
-                                                <TableCell align="left">{item.vTransportName}</TableCell>
-                                                <TableCell align="left">{item.vPONo}</TableCell>
-                                                <TableCell align="left">{item.vLorryRecNo}</TableCell>
-                                                <TableCell align="left">{item.vEWayBillNo}</TableCell>
-                                                <TableCell align="left">{item.vBatchNo}</TableCell>
-                                                <TableCell align="left">{item.btCOAReceived === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
-                                                <TableCell align="left"> <a href={imageUrl + '/' + item.vGRNCopyFilePath} target="_blank" rel="noopener noreferrer" style={{ marginLeft: 10 }}>{item.vGRNCopyFilePath != null && item.vGRNCopyFilePath != '' ? 'GRN Copy' : null}</a> </TableCell>
-                                                <TableCell align="left">{parseDateToString(new Date(item.dtGateEntryDate))}</TableCell>
-                                                <TableCell align="left">{item.vCourierToCCIPL}</TableCell>
-                                                <TableCell align="left">{item.vCourierDocketNo}</TableCell>
-                                                <TableCell align="left">{parseDateToString(new Date(item.dtPaymentReceiveDate))}</TableCell>
-                                                <TableCell align="left">{item.vRemarks}</TableCell>
+                                                <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
+                                                <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vInvoiceNo}</TableCell>
+                                                <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.GRNDate}</TableCell>
+                                                <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.InvDate}</TableCell>
+                                                <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vVehicleNo}</TableCell>
+                                                <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vTransportName}</TableCell>
+                                                <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vPONo}</TableCell>
+                                                <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vLorryRecNo}</TableCell>
+                                                <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vEWayBillNo}</TableCell>
+                                                <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vBatchNo}</TableCell>
+                                                <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.btCOAReceived === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
+                                                <TableCell align="left" style={{whiteSpace:'nowrap'}}> <a href={imageUrl + '/' + item.vGRNCopyFilePath} target="_blank" rel="noopener noreferrer" style={{ marginLeft: 10 }}>{item.vGRNCopyFilePath != null && item.vGRNCopyFilePath != '' ? 'GRN Copy' : null}</a> </TableCell>
+                                                <TableCell align="left" style={{whiteSpace:'nowrap'}}>{parseDateToString(new Date(item.dtGateEntryDate))}</TableCell>
+                                                <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vCourierToCCIPL}</TableCell>
+                                                <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vCourierDocketNo}</TableCell>
+                                                <TableCell align="left" style={{whiteSpace:'nowrap'}}>{parseDateToString(new Date(item.dtPaymentReceiveDate))}</TableCell>
+                                                <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vRemarks}</TableCell>
 
                                             </TableRow>
                                         )
@@ -311,5 +312,96 @@ const customStyles = {
         width: '80%',
     },
 };
+const muiStyles = {
+    content: {
+        top: '50%',
+        left: '50%',
+        right: 'auto',
+        bottom: 'auto',
+        marginRight: '-50%',
+        transform: 'translate(-50%, -50%)',
+        width: '50%',
+    },
+    date: {
+        "& .MuiInputBase-root": {
+            "& input": {
+                padding: '5px 14px',
+                fontSize: '13px'
+            }
+        },
+        "& .MuiFormLabel-root": {
+            fontSize: '13px',
+            lineHeight: '0',
+            top: '4.6px',
+            overflow: 'visible',
+            background: '#fff',
+            zIndex: '1'
+        },
+        "& label.Mui-focused": {
+            top: '5px',
+            background: '#fff',
+            zIndex: '1'
 
+        },
+    },
+    autoCompleate: {
+        "& .MuiOutlinedInput-root": {
+            padding: '0px',
+            "& .MuiAutocomplete-input": {
+                padding: '5px 14px',
+                fontSize: '13px'
+            }
+
+        },
+        "& .MuiFormLabel-root": {
+            fontSize: '13px',
+            lineHeight: '0',
+            top: '-4px',
+            overflow: 'visible',
+        },
+        "& label.Mui-focused": {
+            top: '5px',
+            backgroundColor: '#fff',
+            zIndex: '1'
+        },
+    },
+    input: {
+        "& .MuiOutlinedInput-root": {
+            "& input": {
+                padding: '6px 14px',
+                fontSize: '12px'
+            }
+        },
+        "& .MuiFormLabel-root": {
+            fontSize: '13px',
+            lineHeight: '0',
+            top: '-4px',
+            overflow: 'visible',
+        },
+        "& label.Mui-focused": {
+            top: '5px',
+            backgroundColor: 'green',
+            zIndex: '1'
+        },
+    },
+    select: {
+        "& .MuiSelect-select": {
+            padding: '3px 14px',
+            fontSize: '12px'
+        },
+
+    },
+    InputLabels: {
+        fontSize: '13px',
+        lineHeight: '0',
+        top: '-4px',
+        overflow: 'visible',
+        "&.Mui-focused": {
+            top: '5px',
+            backgroundColor: 'green',
+            zIndex: '1'
+        }
+    }
+
+};
 export default GRNReceivedList

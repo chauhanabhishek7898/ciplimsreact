@@ -174,7 +174,7 @@ function PurchaseOrder() {
                                 inputFormat="DD-MM-YYYY"
                                 value={fromDate}
                                 onChange={handleChangeFromedate}
-                                renderInput={(params) => <TextField {...params} />}
+                                renderInput={(params) => <TextField sx={muiStyles.date} {...params} />}
                                 
                             />
                         </Stack>
@@ -188,7 +188,7 @@ function PurchaseOrder() {
                                 inputFormat="DD-MM-YYYY"
                                 value={toDate}
                                 onChange={handleChangeTodate}
-                                renderInput={(params) => <TextField {...params} />}
+                                renderInput={(params) => <TextField sx={muiStyles.date} {...params} />}
                                
                             />
                         </Stack>
@@ -198,6 +198,7 @@ function PurchaseOrder() {
                 <Box sx={{ width: '28%' }} >
                     <FormControl fullWidth className='input' >
                         <TextField
+                        sx={muiStyles.input}
                             value={vGenric}
                             onChange={e => setvGenric(e.target.value)}
                             id="outlined-basic"
@@ -222,18 +223,18 @@ function PurchaseOrder() {
                                 <TableRow>
                                     {/* <TableCell scope="row">SN.</TableCell> */}
                                     <TableCell align="center">Edit</TableCell>
-                                    <TableCell align="left">Status</TableCell>
-                                    <TableCell align="left">PO No</TableCell>
-                                    <TableCell align="left">PO Dated</TableCell>
-                                    <TableCell align="left">PO Description</TableCell>
-                                    <TableCell align="left">Plant Detail</TableCell>
-                                    <TableCell align="left">Cost Centre</TableCell>
-                                    <TableCell align="left">Profit Centre</TableCell>
-                                    <TableCell align="left">GL Code</TableCell>
-                                    <TableCell align="left">Business</TableCell>
-                                    <TableCell align="left">Vendor Detail</TableCell>
-                                    <TableCell align="left">Remarks</TableCell>
-                                    <TableCell align="left">PO Copy</TableCell>
+                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Status</TableCell>
+                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>PO No</TableCell>
+                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>PO Dated</TableCell>
+                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>PO Description</TableCell>
+                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Plant Detail</TableCell>
+                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Cost Centre</TableCell>
+                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Profit Centre</TableCell>
+                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>GL Code</TableCell>
+                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Business</TableCell>
+                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Vendor Detail</TableCell>
+                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Remarks</TableCell>
+                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>PO Copy</TableCell>
                                     
                                 </TableRow>
                             </TableHead>
@@ -244,18 +245,18 @@ function PurchaseOrder() {
                                         <TableRow key={index}>
                                             {/* <TableCell component="th" scope="row">{index + 1}.</TableCell> */}
                                             <TableCell align="center"><button className='deletbtn' title='Edit' onClick={() =>handleDetail(item.nPOId) }><BorderColorIcon size={20} color='#000' /></button></TableCell>
-                                            <TableCell align="left">{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
-                                            <TableCell align="left">{item.vPONo}</TableCell>
-                                            <TableCell align="left">{item.PODated}</TableCell>
-                                            <TableCell align="left">{item.vPODesc}</TableCell>
-                                            <TableCell align="left">{item.PlantDetail}</TableCell>
-                                            <TableCell align="left">{item.vCostCentre}</TableCell>
-                                            <TableCell align="left">{item.vProfitCentre}</TableCell>
-                                            <TableCell align="left">{item.vGLCode}</TableCell>
-                                            <TableCell align="left">{item.vBusiness}</TableCell>
-                                            <TableCell align="left">{item.VendorDetail}</TableCell>
-                                            <TableCell align="left">{item.vRemarks}</TableCell>
-                                            <TableCell align="left"> <a href={imageUrl+'/'+item.vPOFilePath} target="_blank" rel="noopener noreferrer" style={{ marginLeft: 10 }}>{item.vPOFilePath!=null&&item.vPOFilePath!=''?'PO Copy':null}</a> </TableCell>
+                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
+                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vPONo}</TableCell>
+                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.PODated}</TableCell>
+                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vPODesc}</TableCell>
+                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.PlantDetail}</TableCell>
+                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vCostCentre}</TableCell>
+                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vProfitCentre}</TableCell>
+                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vGLCode}</TableCell>
+                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vBusiness}</TableCell>
+                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.VendorDetail}</TableCell>
+                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vRemarks}</TableCell>
+                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}> <a href={imageUrl+'/'+item.vPOFilePath} target="_blank" rel="noopener noreferrer" style={{ marginLeft: 10 }}>{item.vPOFilePath!=null&&item.vPOFilePath!=''?'PO Copy':null}</a> </TableCell>
  
                                         </TableRow>
                                     )
@@ -299,4 +300,97 @@ const customStyles = {
         width: '80%',
     },
 };
+const muiStyles = {
+    content: {
+        top: '50%',
+        left: '50%',
+        right: 'auto',
+        bottom: 'auto',
+        marginRight: '-50%',
+        transform: 'translate(-50%, -50%)',
+        width: '50%',
+    },
+    date: {
+        "& .MuiInputBase-root": {
+            "& input": {
+                padding: '5px 14px',
+                fontSize: '13px'
+            }
+        },
+        "& .MuiFormLabel-root": {
+            fontSize: '13px',
+            lineHeight: '0',
+            top: '4.6px',
+            overflow: 'visible',
+            background: '#fff',
+            zIndex: '1'
+        },
+        "& label.Mui-focused": {
+            top: '5px',
+            background: '#fff',
+            zIndex: '1'
+
+        },
+    },
+    autoCompleate: {
+        "& .MuiOutlinedInput-root": {
+            padding: '0px',
+            "& .MuiAutocomplete-input": {
+                padding: '5px 14px',
+                fontSize: '13px'
+            }
+
+        },
+        "& .MuiFormLabel-root": {
+            fontSize: '13px',
+            lineHeight: '0',
+            top: '-4px',
+            overflow: 'visible',
+        },
+        "& label.Mui-focused": {
+            top: '5px',
+            backgroundColor: '#fff',
+            zIndex: '1'
+        },
+    },
+    input: {
+        "& .MuiOutlinedInput-root": {
+            "& input": {
+                padding: '6px 14px',
+                fontSize: '12px'
+            }
+        },
+        "& .MuiFormLabel-root": {
+            fontSize: '13px',
+            lineHeight: '0',
+            top: '-4px',
+            overflow: 'visible',
+        },
+        "& label.Mui-focused": {
+            top: '5px',
+            backgroundColor: 'green',
+            zIndex: '1'
+        },
+    },
+    select: {
+        "& .MuiSelect-select": {
+            padding: '3px 14px',
+            fontSize: '12px'
+        },
+
+    },
+    InputLabels: {
+        fontSize: '13px',
+        lineHeight: '0',
+        top: '-4px',
+        overflow: 'visible',
+        "&.Mui-focused": {
+            top: '5px',
+            backgroundColor: 'green',
+            zIndex: '1'
+        }
+    }
+
+};
+
 export default PurchaseOrder

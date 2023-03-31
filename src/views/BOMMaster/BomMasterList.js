@@ -198,6 +198,7 @@ function BomMasterList() {
                 <Box sx={{ width: '28%' }} >
                     <FormControl fullWidth className='input' >
                         <TextField
+                        sx={muiStyles.input}
                             value={vGenric}
                             onChange={e => setvGenric(e.target.value)}
                             id="outlined-basic"
@@ -222,14 +223,14 @@ function BomMasterList() {
                                 <TableRow>
                                     {/* <TableCell scope="row">SN.</TableCell> */}
                                     <TableCell align="center">Edit</TableCell>
-                                    <TableCell align="left">Status</TableCell>
-                                    <TableCell align="left">BOM No</TableCell>
-                                    <TableCell align="left">Brand</TableCell>
-                                    <TableCell align="left">Pack</TableCell>
-                                    <TableCell align="left">BOM Name</TableCell>
-                                    <TableCell align="left">Unit</TableCell>
-                                    <TableCell align="left">Remarks</TableCell>
-                                    <TableCell align="left">BOM Copy</TableCell>
+                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Status</TableCell>
+                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>BOM No</TableCell>
+                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Brand</TableCell>
+                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Pack</TableCell>
+                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>BOM Name</TableCell>
+                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Unit</TableCell>
+                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Remarks</TableCell>
+                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>BOM Copy</TableCell>
                                     
                                 </TableRow>
                             </TableHead>
@@ -240,14 +241,14 @@ function BomMasterList() {
                                         <TableRow key={index}>
                                             {/* <TableCell component="th" scope="row">{index + 1}.</TableCell> */}
                                             <TableCell align="center"><button className='deletbtn' title='Edit' onClick={() =>handleDetail(item.nBId) }><BorderColorIcon size={20} color='#000' /></button></TableCell>
-                                            <TableCell align="left">{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
-                                            <TableCell align="left">{item.vBOMNo}</TableCell>
-                                            <TableCell align="left">{item.vBrand}</TableCell>
-                                            <TableCell align="left">{item.vPack}</TableCell>
-                                            <TableCell align="left">{item.vBOMName}</TableCell>
-                                            <TableCell align="left">{item.vUnit}</TableCell>
-                                            <TableCell align="left">{item.vRemarks}</TableCell>
-                                            <TableCell align="left"> <a href={imageUrl+'/'+item.vBOMCopyFilePath} target="_blank" rel="noopener noreferrer" style={{ marginLeft: 10 }}>{item.vBOMCopyFilePath!=null&&item.vBOMCopyFilePath!=''?'BOM Copy':null}</a> </TableCell>
+                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
+                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vBOMNo}</TableCell>
+                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vBrand}</TableCell>
+                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vPack}</TableCell>
+                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vBOMName}</TableCell>
+                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vUnit}</TableCell>
+                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vRemarks}</TableCell>
+                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}> <a href={imageUrl+'/'+item.vBOMCopyFilePath} target="_blank" rel="noopener noreferrer" style={{ marginLeft: 10 }}>{item.vBOMCopyFilePath!=null&&item.vBOMCopyFilePath!=''?'BOM Copy':null}</a> </TableCell>
  
                                         </TableRow>
                                     )
@@ -289,5 +290,97 @@ const customStyles = {
         transform: 'translate(-50%, -50%)',
         width: '80%',
     },
+};
+const muiStyles = {
+    content: {
+        top: '50%',
+        left: '50%',
+        right: 'auto',
+        bottom: 'auto',
+        marginRight: '-50%',
+        transform: 'translate(-50%, -50%)',
+        width: '50%',
+    },
+    date: {
+        "& .MuiInputBase-root": {
+            "& input": {
+                padding: '5px 14px',
+                fontSize: '13px'
+            }
+        },
+        "& .MuiFormLabel-root": {
+            fontSize: '13px',
+            lineHeight: '0',
+            top: '4.6px',
+            overflow: 'visible',
+            background: '#fff',
+            zIndex: '1'
+        },
+        "& label.Mui-focused": {
+            top: '5px',
+            background: '#fff',
+            zIndex: '1'
+
+        },
+    },
+    autoCompleate: {
+        "& .MuiOutlinedInput-root": {
+            padding: '0px',
+            "& .MuiAutocomplete-input": {
+                padding: '5px 14px',
+                fontSize: '13px'
+            }
+
+        },
+        "& .MuiFormLabel-root": {
+            fontSize: '13px',
+            lineHeight: '0',
+            top: '-4px',
+            overflow: 'visible',
+        },
+        "& label.Mui-focused": {
+            top: '5px',
+            backgroundColor: '#fff',
+            zIndex: '1'
+        },
+    },
+    input: {
+        "& .MuiOutlinedInput-root": {
+            "& input": {
+                padding: '6px 14px',
+                fontSize: '12px'
+            }
+        },
+        "& .MuiFormLabel-root": {
+            fontSize: '13px',
+            lineHeight: '0',
+            top: '-4px',
+            overflow: 'visible',
+        },
+        "& label.Mui-focused": {
+            top: '5px',
+            backgroundColor: 'green',
+            zIndex: '1'
+        },
+    },
+    select: {
+        "& .MuiSelect-select": {
+            padding: '3px 14px',
+            fontSize: '12px'
+        },
+
+    },
+    InputLabels: {
+        fontSize: '13px',
+        lineHeight: '0',
+        top: '-4px',
+        overflow: 'visible',
+        "&.Mui-focused": {
+            top: '5px',
+            backgroundColor: 'green',
+            zIndex: '1'
+        }
+    }
+
 };
 export default BomMasterList

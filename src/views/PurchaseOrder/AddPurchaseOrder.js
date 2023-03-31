@@ -577,6 +577,7 @@ function AddPurchaseOrder() {
                     <Box sx={{ width: '11%' }} >
                         <FormControl fullWidth className='input'>
                             <TextField
+                            sx={muiStyles.input}
                                 value={vPONo}
                                 onChange={e => setvPONo(e.target.value)}
                                 required id="outlined-basic"
@@ -599,7 +600,7 @@ function AddPurchaseOrder() {
                                         value={startDate}
                                         required
                                         onChange={handleChangeStartdate}
-                                        renderInput={(params) => <TextField {...params} />}
+                                        renderInput={(params) => <TextField sx={muiStyles.date} {...params} />}
                                     />
                                 </Stack>
                             </LocalizationProvider>
@@ -609,6 +610,7 @@ function AddPurchaseOrder() {
                     <Box sx={{ width: '34%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
+                            sx={muiStyles.input}
                                 value={vPODesc}
                                 onChange={e => setvPODesc(e.target.value)}
                                 id="outlined-basic"
@@ -625,6 +627,7 @@ function AddPurchaseOrder() {
                         <FormControl fullWidth className='input'>
                             {/* <InputLabel required id="demo-simple-select-label">Plant</InputLabel>npm  */}
                             <Autocomplete
+                            sx={muiStyles.autoCompleate}
                                 disablePortal
                                 id="combo-box-demo"
                                 options={PlantMaster}
@@ -645,6 +648,7 @@ function AddPurchaseOrder() {
                     <Box sx={{ width: '11%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
+                            sx={muiStyles.input}
                                 value={String(CostCentre == undefined ? '' : CostCentre)}
                                 // onChange={e => setBrandName(e.target.value)}
                                 id="outlined-basic"
@@ -661,6 +665,7 @@ function AddPurchaseOrder() {
                     <Box sx={{ width: '11%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
+                            sx={muiStyles.input}
                                 value={String(ProfitCentre == undefined ? '' : ProfitCentre)}
                                 // onChange={e => setBrandName(e.target.value)} 
                                 id="outlined-basic"
@@ -677,6 +682,7 @@ function AddPurchaseOrder() {
                     <Box sx={{ width: '7%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
+                            sx={muiStyles.input}
                                 value={vGLCode}
                                 onChange={e => setvGLCode(e.target.value)}
                                 id="outlined-basic"
@@ -693,8 +699,9 @@ function AddPurchaseOrder() {
 
                     <Box sx={{ width: '10%', marginTop: 2 }}>
                         <FormControl fullWidth className='input'>
-                            <InputLabel id="demo-simple-select-label">Business</InputLabel>
+                            <InputLabel id="demo-simple-select-label" sx={muiStyles.InputLabels}>Business</InputLabel>
                             <Select
+                            sx={muiStyles.select}
                                 style={{ width: '100%', }}
                                 labelId="demo-simple-select-label"
                                 id="demo-simple-select"
@@ -724,6 +731,7 @@ function AddPurchaseOrder() {
                         <FormControl fullWidth className='input'>
                             {/* <InputLabel required id="demo-simple-select-label">Vendor</InputLabel> */}
                             <Autocomplete
+                            sx={muiStyles.autoCompleate}
                                 disablePortal
                                 id="combo-box-demo"
                                 options={VendorMaster}
@@ -743,6 +751,7 @@ function AddPurchaseOrder() {
                     <Box sx={{ width: '37.5%' }} >
                         <FormControl fullWidth className='input'>
                             <TextField
+                            sx={muiStyles.input}
                                 value={vRemarks}
                                 onChange={e => setvRemarks(e.target.value)}
                                 id="outlined-basic"
@@ -783,6 +792,7 @@ function AddPurchaseOrder() {
                         <FormControl fullWidth className='input'>
                             {/* <InputLabel required id="demo-simple-select-label">Item</InputLabel> */}
                             <Autocomplete
+                            sx={muiStyles.autoCompleate}
                                 disablePortal
                                 id="combo-box-demo"
                                 options={MaterialMaster}
@@ -810,6 +820,7 @@ function AddPurchaseOrder() {
                     <Box sx={{ width: '5%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
+                            sx={muiStyles.input}
                                 value={nRate}
                                 onChange={e => calculateAmount(e.target.value, 'nRate')}
                                 required id="outlined-basic"
@@ -827,6 +838,7 @@ function AddPurchaseOrder() {
                     <Box sx={{ width: '6%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
+                            sx={muiStyles.input}
                                 value={nQty}
                                 onChange={e => calculateAmount(e.target.value, 'nQty')}
                                 required id="outlined-basic"
@@ -844,6 +856,7 @@ function AddPurchaseOrder() {
                     <Box sx={{ width: '6%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
+                            sx={muiStyles.input}
                                 value={nAmt}
                                 onChange={e => setnAmt(e.target.value)}
                                 id="outlined-basic"
@@ -861,6 +874,7 @@ function AddPurchaseOrder() {
                     <Box sx={{ width: '6.5%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
+                            sx={muiStyles.input}
                                 value={nSGSTP}
                                 onChange={e => calculateAmount(e.target.value, 'nSGSTP')}
                                 id="outlined-basic"
@@ -877,6 +891,7 @@ function AddPurchaseOrder() {
                     <Box sx={{ width: '5%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
+                            sx={muiStyles.input}
                                 value={nSGST}
                                 onChange={e => setnSGST(e.target.value)}
                                 id="outlined-basic"
@@ -894,6 +909,7 @@ function AddPurchaseOrder() {
                     <Box sx={{ width: '6.5%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
+                            sx={muiStyles.input}
                                 value={nCGSTP}
                                 onChange={e => calculateAmount(e.target.value, 'nCGSTP')}
                                 id="outlined-basic"
@@ -910,6 +926,7 @@ function AddPurchaseOrder() {
                     <Box sx={{ width: '5%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
+                            sx={muiStyles.input}
                                 value={nCGST}
                                 onChange={e => setnCGST(e.target.value)}
                                 id="outlined-basic"
@@ -927,6 +944,7 @@ function AddPurchaseOrder() {
                     <Box sx={{ width: '6.5%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
+                            sx={muiStyles.input}
                                 value={nIGSTP}
                                 onChange={e => calculateAmount(e.target.value, 'nIGSTP')}
                                 id="outlined-basic"
@@ -943,6 +961,7 @@ function AddPurchaseOrder() {
                     <Box sx={{ width: '5%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
+                            sx={muiStyles.input}
                                 value={nIGST}
                                 onChange={e => setnIGST(e.target.value)}
                                 id="outlined-basic"
@@ -960,6 +979,7 @@ function AddPurchaseOrder() {
                     <Box sx={{ width: '6%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
+                            sx={muiStyles.input}
                                 value={nTax}
                                 onChange={e => setnTax(e.target.value)}
                                 id="outlined-basic"
@@ -977,6 +997,7 @@ function AddPurchaseOrder() {
                     <Box sx={{ width: '9%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
+                            sx={muiStyles.input}
                                 value={nTotalAmt}
                                 onChange={e => setnTotalAmt(e.target.value)}
                                 required id="outlined-basic"
@@ -1004,18 +1025,18 @@ function AddPurchaseOrder() {
                                         <TableRow>
                                             <TableCell scope="row">SN.</TableCell>
                                             <TableCell align="center">Action</TableCell>
-                                            <TableCell align="left">Material Name</TableCell>
-                                            <TableCell align="left">Quantity</TableCell>
-                                            <TableCell align="left">Rate</TableCell>
-                                            <TableCell align="left">Amount</TableCell>
-                                            <TableCell align="left">SGST in %</TableCell>
-                                            <TableCell align="left">SGST </TableCell>
-                                            <TableCell align="left">CGST  in %</TableCell>
-                                            <TableCell align="left">CGST</TableCell>
-                                            <TableCell align="left">IGST in %</TableCell>
-                                            <TableCell align="left">IGST</TableCell>
-                                            <TableCell align="left">Total Tax</TableCell>
-                                            <TableCell align="left">Total Amount</TableCell>
+                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>Material Name</TableCell>
+                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>Quantity</TableCell>
+                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>Rate</TableCell>
+                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>Amount</TableCell>
+                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>SGST in %</TableCell>
+                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>SGST </TableCell>
+                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>CGST  in %</TableCell>
+                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>CGST</TableCell>
+                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>IGST in %</TableCell>
+                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>IGST</TableCell>
+                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>Total Tax</TableCell>
+                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>Total Amount</TableCell>
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
@@ -1029,18 +1050,18 @@ function AddPurchaseOrder() {
                                                         <button className='deletbtn' title='Edit' onClick={() => editItem(item)}><BorderColorIcon size={20} color='#000' /></button>
 
                                                     </TableCell>
-                                                    <TableCell align="left">{item.vMId}</TableCell>
-                                                    <TableCell align="left">{item.nQty}</TableCell>
-                                                    <TableCell align="left">&#8377;{item.nRate}</TableCell>
-                                                    <TableCell align="left">&#8377;{item.nAmt}</TableCell>
-                                                    <TableCell align="left">{item.nSGSTP}</TableCell>
-                                                    <TableCell align="left">&#8377;{item.nSGST}</TableCell>
-                                                    <TableCell align="left">{item.nCGSTP}</TableCell>
-                                                    <TableCell align="left">&#8377;{item.nCGST}</TableCell>
-                                                    <TableCell align="left">{item.nIGSTP}</TableCell>
-                                                    <TableCell align="left">&#8377;{item.nIGST}</TableCell>
-                                                    <TableCell align="left">&#8377;{item.nTax}</TableCell>
-                                                    <TableCell align="left">&#8377;{item.nTotalAmt}</TableCell>
+                                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vMId}</TableCell>
+                                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.nQty}</TableCell>
+                                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>&#8377;{item.nRate}</TableCell>
+                                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>&#8377;{item.nAmt}</TableCell>
+                                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.nSGSTP}</TableCell>
+                                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>&#8377;{item.nSGST}</TableCell>
+                                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.nCGSTP}</TableCell>
+                                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>&#8377;{item.nCGST}</TableCell>
+                                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.nIGSTP}</TableCell>
+                                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>&#8377;{item.nIGST}</TableCell>
+                                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>&#8377;{item.nTax}</TableCell>
+                                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>&#8377;{item.nTotalAmt}</TableCell>
 
 
                                                 </TableRow>
@@ -1088,5 +1109,96 @@ function AddPurchaseOrder() {
         </div>
     )
 }
+const muiStyles = {
+    content: {
+        top: '50%',
+        left: '50%',
+        right: 'auto',
+        bottom: 'auto',
+        marginRight: '-50%',
+        transform: 'translate(-50%, -50%)',
+        width: '50%',
+    },
+    date: {
+        "& .MuiInputBase-root": {
+            "& input": {
+                padding: '5px 14px',
+                fontSize: '13px'
+            }
+        },
+        "& .MuiFormLabel-root": {
+            fontSize: '13px',
+            lineHeight: '0',
+            top: '4.6px',
+            overflow: 'visible',
+            background: '#fff',
+            zIndex: '1'
+        },
+        "& label.Mui-focused": {
+            top: '5px',
+            background: '#fff',
+            zIndex: '1'
 
+        },
+    },
+    autoCompleate: {
+        "& .MuiOutlinedInput-root": {
+            padding: '0px',
+            "& .MuiAutocomplete-input": {
+                padding: '5px 14px',
+                fontSize: '13px'
+            }
+
+        },
+        "& .MuiFormLabel-root": {
+            fontSize: '13px',
+            lineHeight: '0',
+            top: '-4px',
+            overflow: 'visible',
+        },
+        "& label.Mui-focused": {
+            top: '5px',
+            backgroundColor: '#fff',
+            zIndex: '1'
+        },
+    },
+    input: {
+        "& .MuiOutlinedInput-root": {
+            "& input": {
+                padding: '6px 14px',
+                fontSize: '12px'
+            }
+        },
+        "& .MuiFormLabel-root": {
+            fontSize: '13px',
+            lineHeight: '0',
+            top: '-4px',
+            overflow: 'visible',
+        },
+        "& label.Mui-focused": {
+            top: '5px',
+            backgroundColor: 'green',
+            zIndex: '1'
+        },
+    },
+    select: {
+        "& .MuiSelect-select": {
+            padding: '3px 14px',
+            fontSize: '12px'
+        },
+
+    },
+    InputLabels: {
+        fontSize: '13px',
+        lineHeight: '0',
+        top: '-4px',
+        overflow: 'visible',
+        "&.Mui-focused": {
+            top: '5px',
+            backgroundColor: 'green',
+            zIndex: '1'
+        }
+    }
+
+};
 export default AddPurchaseOrder
