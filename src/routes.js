@@ -1,114 +1,77 @@
 import React from 'react'
 
 const Dashboard = React.lazy(() => import('./views/dashboard/Dashboard'))
-const Colors = React.lazy(() => import('./views/theme/colors/Colors'))
-const Typography = React.lazy(() => import('./views/theme/typography/Typography'))
-
-// Base
-const Accordion = React.lazy(() => import('./views/base/accordion/Accordion'))
-const Breadcrumbs = React.lazy(() => import('./views/base/breadcrumbs/Breadcrumbs'))
-const Cards = React.lazy(() => import('./views/base/cards/Cards'))
-const Carousels = React.lazy(() => import('./views/base/carousels/Carousels'))
-const Collapses = React.lazy(() => import('./views/base/collapses/Collapses'))
-const ListGroups = React.lazy(() => import('./views/base/list-groups/ListGroups'))
-const Navs = React.lazy(() => import('./views/base/navs/Navs'))
-const Paginations = React.lazy(() => import('./views/base/paginations/Paginations'))
-const Placeholders = React.lazy(() => import('./views/base/placeholders/Placeholders'))
-const Popovers = React.lazy(() => import('./views/base/popovers/Popovers'))
-const Progress = React.lazy(() => import('./views/base/progress/Progress'))
-const Spinners = React.lazy(() => import('./views/base/spinners/Spinners'))
-const Tables = React.lazy(() => import('./views/base/tables/Tables'))
-const Tooltips = React.lazy(() => import('./views/base/tooltips/Tooltips'))
-
-// Buttons
-const Buttons = React.lazy(() => import('./views/buttons/buttons/Buttons'))
-const ButtonGroups = React.lazy(() => import('./views/buttons/button-groups/ButtonGroups'))
-const Dropdowns = React.lazy(() => import('./views/buttons/dropdowns/Dropdowns'))
-
-//Forms
-const ChecksRadios = React.lazy(() => import('./views/forms/checks-radios/ChecksRadios'))
-const FloatingLabels = React.lazy(() => import('./views/forms/floating-labels/FloatingLabels'))
-const FormControl = React.lazy(() => import('./views/forms/form-control/FormControl'))
-const InputGroup = React.lazy(() => import('./views/forms/input-group/InputGroup'))
-const Layout = React.lazy(() => import('./views/forms/layout/Layout'))
-const Range = React.lazy(() => import('./views/forms/range/Range'))
-const Select = React.lazy(() => import('./views/forms/select/Select'))
-const Validation = React.lazy(() => import('./views/forms/validation/Validation'))
-
-const Charts = React.lazy(() => import('./views/charts/Charts'))
-
-// Icons
-const CoreUIIcons = React.lazy(() => import('./views/icons/coreui-icons/CoreUIIcons'))
-const Flags = React.lazy(() => import('./views/icons/flags/Flags'))
-const Brands = React.lazy(() => import('./views/icons/brands/Brands'))
-
-// Notifications
-const Alerts = React.lazy(() => import('./views/notifications/alerts/Alerts'))
-const Badges = React.lazy(() => import('./views/notifications/badges/Badges'))
-const Modals = React.lazy(() => import('./views/notifications/modals/Modals'))
-const Toasts = React.lazy(() => import('./views/notifications/toasts/Toasts'))
-
-const Widgets = React.lazy(() => import('./views/widgets/Widgets'))
-const Komonth = React.lazy(() => import('./views/city/Komonth'))
-const Country = React.lazy(() => import('./views/country/Country'))
+const Komonth = React.lazy(() => import('./views/Komonth/Komonth'))
+const UnitMaster = React.lazy(() => import('./views/UnitMaster/UnitMaster'))
+const MaterialMaster = React.lazy(() => import('./views/MaterialMaster/MaterialMaster'))
+const PurchaseOrder = React.lazy(() => import('./views/PurchaseOrder/PurchaseOrder'))
+const AddPurchaseOrder = React.lazy(() => import('./views/PurchaseOrder/AddPurchaseOrder'))
+const EditPurchaseOrder = React.lazy(() => import('./views/PurchaseOrder/EditPurchaseOrder'))
+const GRNReceivedList = React.lazy(() => import('./views/GRNReceivedMaster/GRNReceivedList'))
+const AddGRNReceived = React.lazy(() => import('./views/GRNReceivedMaster/AddGRNReceived'))
+const EditGRNReceived = React.lazy(() => import('./views/GRNReceivedMaster/EditGRNReceived'))
+const LineMaster = React.lazy(() => import('./views/LineMaster/LineMaster'))
+const BomMasterList = React.lazy(() => import('./views/BOMMaster/BomMasterList'))
+const AddBomMaster = React.lazy(() => import('./views/BOMMaster/AddBomMaster'))
+const EditBomMaster = React.lazy(() => import('./views/BOMMaster/EditBomMaster'))
+const EnterOpeningStock = React.lazy(() => import('./views/EnterOpeningStock/EnterOpeningStockList'))
+const AddEnterOpeningStock = React.lazy(() => import('./views/EnterOpeningStock/AddEnterOpeningStock'))
+const EditEnterOpeningStock = React.lazy(() => import('./views/EnterOpeningStock/EditEnterOpeningStock'))
+const MaterialRelease = React.lazy(() => import('./views/MaterialRelease/MaterialReleaseList'))
+const AddMaterialRelease = React.lazy(() => import('./views/MaterialRelease/AddMaterialRelease'))
+const EditMaterialRelease = React.lazy(() => import('./views/MaterialRelease/EditMaterialRelease'))
+const AdditionalInList = React.lazy(() => import('./views/AdditionalIn/AdditionalInList'))
+const AddAdditionalIn = React.lazy(() => import('./views/AdditionalIn/AddAdditionalIn'))
+const EditAdditionalIn = React.lazy(() => import('./views/AdditionalIn/EditAdditionalIn'))
+const RejectedOutList = React.lazy(() => import('./views/RejectedOut/RejectedOutList'))
+const AddRejectedOut = React.lazy(() => import('./views/RejectedOut/AddRejectedOut'))
+const EditRejectedOut = React.lazy(() => import('./views/RejectedOut/EditRejectedOut'))
 
 const VenderForm = React.lazy(() => import('./views/VenderForm/VenderForm'))
 const BrandMaster = React.lazy(() => import('./views/BrandMaster/BrandMaster'))
 const PackMaster = React.lazy(() => import('./views/PackMaster/PackMaster'))
 const PlantMaster = React.lazy(() => import('./views/PlantMaster/PlantMaster'))
+const GodownMaster = React.lazy(() => import('./views/GodownMaster/GodownMaster'))
+const UpdateEmail = React.lazy(() => import('./views/Settings/UpdateEmail/UpdateEmail'))
+const UpdateMobileNo = React.lazy(() => import('./views/Settings/UpdateMobileNo/UpdateMobileNo'))
+const UpdatePassword = React.lazy(() => import('./views/Settings/UpdatePassword/UpdatePassword'))
 
 const routes = [
   { path: '/', exact: true, name: 'Home' },
   { path: '/dashboard', name: 'Dashboard', element: Dashboard },
-  { path: '/theme', name: 'Theme', element: Colors, exact: true },
-  { path: '/theme/colors', name: 'Colors', element: Colors },
-  { path: '/theme/typography', name: 'Typography', element: Typography },
-  { path: '/city', name: 'Ko Month', element: Komonth, exact: true},
-  { path: '/country', name: 'Country', element: Country, exact: true},
-
-  { path: '/VehicleTypeMaster', name: 'Vender Form', element: VenderForm, exact: true},
-  { path: '/VehicleRateMaster', name: 'Brand Master', element: BrandMaster, exact: true },
-  { path: '/WaitTimeCharges', name: 'Pack Master', element: PackMaster , exact: true},
-  { path: '/KMLimitMaster', name: 'Plant Master', element: PlantMaster, exact: true },
-
-  { path: '/base/accordion', name: 'Accordion', element: Accordion },
-  { path: '/base/breadcrumbs', name: 'Breadcrumbs', element: Breadcrumbs },
-  { path: '/base/cards', name: 'Cards', element: Cards },
-  { path: '/base/carousels', name: 'Carousel', element: Carousels },
-  { path: '/base/collapses', name: 'Collapse', element: Collapses },
-  { path: '/base/list-groups', name: 'List Groups', element: ListGroups },
-  { path: '/base/navs', name: 'Navs', element: Navs },
-  { path: '/base/paginations', name: 'Paginations', element: Paginations },
-  { path: '/base/placeholders', name: 'Placeholders', element: Placeholders },
-  { path: '/base/popovers', name: 'Popovers', element: Popovers },
-  { path: '/base/progress', name: 'Progress', element: Progress },
-  { path: '/base/spinners', name: 'Spinners', element: Spinners },
-  { path: '/base/tables', name: 'Tables', element: Tables },
-  { path: '/base/tooltips', name: 'Tooltips', element: Tooltips },
-  { path: '/buttons', name: 'Buttons', element: Buttons, exact: true },
-  { path: '/buttons/buttons', name: 'Buttons', element: Buttons },
-  { path: '/buttons/dropdowns', name: 'Dropdowns', element: Dropdowns },
-  { path: '/buttons/button-groups', name: 'Button Groups', element: ButtonGroups },
-  { path: '/charts', name: 'Charts', element: Charts },
-  { path: '/forms', name: 'Forms', element: FormControl, exact: true },
-  { path: '/forms/form-control', name: 'Form Control', element: FormControl },
-  { path: '/forms/select', name: 'Select', element: Select },
-  { path: '/forms/checks-radios', name: 'Checks & Radios', element: ChecksRadios },
-  { path: '/forms/range', name: 'Range', element: Range },
-  { path: '/forms/input-group', name: 'Input Group', element: InputGroup },
-  { path: '/forms/floating-labels', name: 'Floating Labels', element: FloatingLabels },
-  { path: '/forms/layout', name: 'Layout', element: Layout },
-  { path: '/forms/validation', name: 'Validation', element: Validation },
-  { path: '/icons', exact: true, name: 'Icons', element: CoreUIIcons },
-  { path: '/icons/coreui-icons', name: 'CoreUI Icons', element: CoreUIIcons },
-  { path: '/icons/flags', name: 'Flags', element: Flags },
-  { path: '/icons/brands', name: 'Brands', element: Brands },
-  { path: '/notifications', name: 'Notifications', element: Alerts, exact: true },
-  { path: '/notifications/alerts', name: 'Alerts', element: Alerts },
-  { path: '/notifications/badges', name: 'Badges', element: Badges },
-  { path: '/notifications/modals', name: 'Modals', element: Modals },
-  { path: '/notifications/toasts', name: 'Toasts', element: Toasts },
-  { path: '/widgets', name: 'Widgets', element: Widgets },
+  { path: '/KOMonth', name: 'Ko Month', element: Komonth, exact: true },
+  { path: '/UnitMaster', name: 'Unit Master', element: UnitMaster, exact: true },
+  { path: '/update-email-id', name: 'Update Email', element: UpdateEmail, exact: true },
+  { path: '/update-mobile-no', name: 'Update Mobile No', element: UpdateMobileNo, exact: true },
+  { path: '/update-password', name: 'Change Password', element: UpdatePassword, exact: true },
+  { path: '/VendorMaster', name: 'Vendor Master', element: VenderForm, exact: true },
+  { path: '/BrandMaster', name: 'Brand Master', element: BrandMaster, exact: true },
+  { path: '/PackMaster', name: 'Pack Master', element: PackMaster, exact: true },
+  { path: '/PlantMaster', name: 'Plant Master', element: PlantMaster, exact: true },
+  { path: '/MaterialMaster', name: 'Material Master', element: MaterialMaster, exact: true },
+  { path: '/PurchaseOrder', name: 'Purchase Order', element: PurchaseOrder, exact: true },
+  { path: '/LineMaster', name: 'Line Master', element: LineMaster, exact: true },
+  { path: '/GodownMaster', name: 'Godown Master', element: GodownMaster, exact: true },
+  { path: '/AddPurchaseOrder', name: 'Add Purchase Order', element: AddPurchaseOrder, exact: true },
+  { path: '/EditPurchaseOrder', name: 'Edit Purchase Order', element: EditPurchaseOrder, exact: true },
+  { path: '/GRNReceived', name: 'GRN Received', element: GRNReceivedList, exact: true },
+  { path: '/AddGRNReceived', name: 'Add GRN Received', element: AddGRNReceived, exact: true },
+  { path: '/EditGRNReceived', name: 'Edit GRN Received', element: EditGRNReceived, exact: true },
+  { path: '/BOM', name: 'BOM', element: BomMasterList, exact: true },
+  { path: '/AddBomMaster', name: 'Add BOM', element: AddBomMaster, exact: true },
+  { path: '/EditBomMaster', name: 'Edit BOM', element: EditBomMaster, exact: true },
+  { path: '/EnterOpeningStock', name: 'Enter Opening Stock', element: EnterOpeningStock, exact: true },
+  { path: '/AddEnterOpeningStock', name: 'Add Enter Opening Stock', element: AddEnterOpeningStock, exact: true },
+  { path: '/EditEnterOpeningStock', name: 'Edit Enter Opening Stock', element: EditEnterOpeningStock, exact: true },
+  { path: '/MaterialRelease', name: 'Material Release', element: MaterialRelease, exact: true },
+  { path: '/AddMaterialRelease', name: 'Add Material Release', element: AddMaterialRelease, exact: true },
+  { path: '/EditMaterialRelease', name: 'Edit Material Release', element: EditMaterialRelease, exact: true },
+  { path: '/AdditionalIn', name: 'Additional In', element: AdditionalInList, exact: true },
+  { path: '/AddAdditionalIn', name: 'Add Additional In', element: AddAdditionalIn, exact: true },
+  { path: '/EditAdditionalIn', name: 'Edit Additional In', element: EditAdditionalIn, exact: true }, 
+  { path: '/RejectedOut', name: 'Rejected Out', element: RejectedOutList, exact: true },
+  { path: '/AddRejectedOut', name: 'Add Rejected Out', element: AddRejectedOut, exact: true },
+  { path: '/EditRejectedOut', name: 'Edit Rejected Out', element: EditRejectedOut, exact: true },
 ]
 
 export default routes

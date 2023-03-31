@@ -1,0 +1,295 @@
+import React, { useEffect, useState } from 'react'
+import Modal from 'react-modal';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import TablePagination from '@mui/material/TablePagination';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
+import Paper from '@mui/material/Paper';
+import { BrandMaster_SelectAll, BrandMasterPost, BrandMasterPut } from '../BrandMaster/BrandMasterService'
+import { UnitMaster_SelectAll } from '../PackMaster/PackMasterService'
+import { GetGRNDetailsForReleasedMaterials,GetOpeningDetails } from './MaterialReleaseService'
+
+import TextField from '@mui/material/TextField';
+import Box from '@mui/material/Box';
+import InputLabel from '@mui/material/InputLabel';
+import FormControl from '@mui/material/FormControl';
+import HighlightOffIcon from '@mui/icons-material/HighlightOff';
+import FormGroup from '@mui/material/FormGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
+
+import AddIcon from '@mui/icons-material/Add';
+import { useForm } from 'react-hook-form';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { CButton, CSpinner } from '@coreui/react';
+
+import SearchBar from "material-ui-search-bar";
+import dayjs from 'dayjs';
+import Stack from '@mui/material/Stack';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
+import { parseDateToString, parseDateToStringSubmit } from '../../coreservices/Date';
+import { useNavigate, Link } from "react-router-dom";
+import * as environment from '../../coreservices/environment'
+import BorderColorIcon from '@mui/icons-material/BorderColor';
+import CircularProgress from '@mui/joy/CircularProgress';
+function MaterialReleaseList() {
+    let imageUrl = environment.imageUrl
+    const navigate = useNavigate();
+    const [modalIsOpen, setIsOpen] = React.useState(false);
+    const [page, setPage] = React.useState(0);
+    const [rowsPerPage, setRowsPerPage] = React.useState(10);
+    const [brandData, setBrandData] = React.useState([]);
+    const [loader, setLoader] = React.useState(false);
+    const [nBid, setnBid] = React.useState(0);
+    const [btActive, setBtActive] = React.useState(false);
+    const [vGenric, setvGenric] = React.useState('');
+
+    const [buttonName, setbuttonName] = React.useState('');
+    const [disabled, setdisabled] = React.useState(true);
+
+    const [uniteData, setUnitData] = React.useState([]);
+
+    const { register, handleSubmit, control, errors } = useForm();
+
+    // const [rows, setRows] = useState(brandData);
+    const [searched, setSearched] = React.useState("");
+
+    let fromDates = new Date(Date.now())
+    fromDates.setDate(fromDates.getDate() - 7)
+    let toDates = new Date(Date.now())
+    const [fromDate, setFromdate] = React.useState(dayjs(fromDates));
+    const [toDate, setTodate] = React.useState(dayjs(toDates));
+    let startDates = new Date(Date.now())
+    let endDates = new Date(Date.now())
+    const [startDate, setStartDate] = React.useState(dayjs(startDates));
+    const [endDate, setEndDate] = React.useState(dayjs(endDates));
+    const [koMonthData, setkoMonthData] = React.useState([]);
+    const [weekNumberId, setWeekNumberId] = React.useState('');
+    const [error, setError] = React.useState('');
+    const [unitid, setUnitid] = React.useState('');
+    const handleChangePackUnit = (event) => {
+        setUnitid(event.target.value);
+    };
+    const handleChangeFromedate = (newValue) => {
+        setFromdate(newValue);
+    };
+    const handleChangeTodate = (newValue) => {
+        setTodate(newValue);
+    };
+    const handleChangeStartdate = (newValue) => {
+        setStartDate(newValue);
+    };
+    const handleChangeEnddate = (newValue) => {
+        setEndDate(newValue);
+    };
+
+    useEffect(() => {
+        getPODetails()
+    }, [])
+    const getPODetails = () => {
+        setLoader(true)
+        let vGenrics
+        if (vGenric == '' || vGenric == undefined) {
+            vGenrics = null
+        } else {
+            vGenrics = vGenric
+        }
+        GetGRNDetailsForReleasedMaterials(parseDateToStringSubmit(new Date(fromDate)),parseDateToStringSubmit(new Date(toDate)),vGenrics).then(response => {
+            console.log(response)
+            setBrandData(response)
+            setLoader(false)
+        })
+    }
+
+    const requestSearch = (searchedVal) => {
+        console.log("searchedVal.length", searchedVal.length)
+        const filteredRows = brandData.filter((row) => {
+            return row.vBrandCode.toLowerCase().includes(searchedVal.toLowerCase()) || row.vBrandName.toLowerCase().includes(searchedVal.toLowerCase());
+        });
+        setBrandData(filteredRows);
+        console.log("filteredRows", filteredRows)
+    };
+
+    const cancelSearch = () => {
+        setSearched("");
+        requestSearch(searched);
+        getBrandMaster_SelectAll()
+    };
+
+
+    const handleChangePage = (event, newPage) => {
+        setPage(newPage);
+    };
+    const handleChangeRowsPerPage = (event) => {
+        setRowsPerPage(+event.target.value);
+        setPage(0);
+    };
+    useEffect(() => {
+        getUnitMaster_SelectAll()
+    }, [])
+
+    const getUnitMaster_SelectAll = () => {
+        UnitMaster_SelectAll().then(response => {
+            setUnitData(response)
+        })
+    }
+
+    const handleDetail = (nGRNId) => {
+        navigate('/EditMaterialRelease', { state: { nGRNId } });
+    }
+
+    return (
+        <div className='citymasterContainer'>
+            {/* <button  title='Add' onClick={routeChange}><AddIcon fontSize='large' /></button> */}
+            {loader==true?
+            <div className='progressBox'>
+                <div className='progressInner'>
+                    <CircularProgress />
+                </div>
+            </div>
+            :
+            null
+
+            }
+            <Link to="/AddMaterialRelease" className='addbtn_2'><AddIcon fontSize='large' /></Link>
+
+            <div className='tablecenter'>
+
+                <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+                    <div className='displayflexend-2'>
+                        <Box sx={{ width: '28%' }} >
+                            <LocalizationProvider dateAdapter={AdapterDayjs} >
+                                <Stack spacing={3} >
+                                    <DesktopDatePicker
+                                        label={'Start Date *'}
+                                        inputFormat="DD-MM-YYYY"
+                                        value={fromDate}
+                                        onChange={handleChangeFromedate}
+                                        maxDate={new Date(Date.now())}
+                                        renderInput={(params) => <TextField {...params} />}
+
+                                    />
+                                </Stack>
+                            </LocalizationProvider>
+                        </Box>
+                        <Box sx={{ width: '28%' }} >
+                            <LocalizationProvider dateAdapter={AdapterDayjs} >
+                                <Stack spacing={3}>
+                                    <DesktopDatePicker
+                                        label="End Date *"
+                                        inputFormat="DD-MM-YYYY"
+                                        value={toDate}
+                                        onChange={handleChangeTodate}
+                                        maxDate={new Date(Date.now())}
+                                        renderInput={(params) => <TextField {...params} />}
+
+                                    />
+                                </Stack>
+                            </LocalizationProvider>
+                        </Box>
+
+                        <Box sx={{ width: '28%' }} >
+                            <FormControl fullWidth className='input' >
+                                <TextField
+                                    value={vGenric}
+                                    onChange={e => setvGenric(e.target.value)}
+                                    id="outlined-basic"
+                                    label="Search.."
+                                    variant="outlined"
+                                    name='vPODesc'
+                                />
+                            </FormControl>
+
+                        </Box>
+
+                        <Box sx={{ width: '10%' }} >
+                            <button className='applybtn' onClick={getPODetails}>Apply</button>
+
+                        </Box>
+
+                    </div>
+
+                    <TableContainer sx={{ maxHeight: 440 }}>
+                        <Table stickyHeader aria-label="sticky table">
+                            <TableHead>
+                                <TableRow>
+                                    {/* <TableCell scope="row" style={{width:'2%'}}>SN.</TableCell> */}
+                                    <TableCell align="center">Edit</TableCell>
+                                    <TableCell align="left">Status</TableCell>
+                                    <TableCell align="left">Ref No</TableCell>
+                                    <TableCell align="left">Batch No</TableCell>
+                                    <TableCell align="left">Date</TableCell>
+                                    <TableCell align="left">Plant Detail</TableCell>
+                                    <TableCell align="left">BOM Detail</TableCell>
+                                    <TableCell align="left">BOM Unit</TableCell>
+                                    {/* <TableCell align="left">Remarks</TableCell> */}
+
+                                </TableRow>
+                            </TableHead>
+                            {brandData?.length > 0 ?
+                                <TableBody>
+                                    {brandData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((item,index) => {
+                                        return (
+                                            <TableRow key={index}>
+                                                {/* <TableCell component="th" scope="row">{index + 1}.</TableCell> */}
+                                                <TableCell align="center"><button className='deletbtn' title='Edit' onClick={() => handleDetail(item.nGRNId)}><BorderColorIcon size={20} color='#000' /></button></TableCell>
+                                                <TableCell align="left">{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
+                                                <TableCell align="left">{item.vInvoiceNo}</TableCell>
+                                                <TableCell align="left">{item.vBatchNo}</TableCell>
+                                                <TableCell align="left">{item.GRNDate}</TableCell>
+                                                <TableCell align="left">{item.PlantDetail}</TableCell>
+                                                <TableCell align="left">{item.vBOMName}</TableCell>
+                                                <TableCell align="left">{item.nBOMUnit}</TableCell>
+                                                {/* <TableCell align="left">{item.vRemarks}</TableCell> */}
+                                            </TableRow>
+                                        )
+                                    })
+                                    }
+                                </TableBody>
+                                :
+                                <TableBody>
+                                    <TableRow>
+                                        <TableCell align="center" colSpan={7}>No Record</TableCell>
+                                    </TableRow>
+                                </TableBody>
+
+                            }
+                        </Table>
+                    </TableContainer>
+                    <TablePagination
+                        rowsPerPageOptions={[10, 25, 100]}
+                        component="div"
+                        count={brandData.length}
+                        rowsPerPage={rowsPerPage}
+                        page={page}
+                        onPageChange={handleChangePage}
+                        onRowsPerPageChange={handleChangeRowsPerPage}
+                    />
+                </Paper>
+            </div>
+
+            <ToastContainer />
+        </div >
+    )
+}
+const customStyles = {
+    content: {
+        top: '50%',
+        left: '58%',
+        right: 'auto',
+        bottom: 'auto',
+        marginRight: '-50%',
+        transform: 'translate(-50%, -50%)',
+        width: '80%',
+    },
+};
+
+export default MaterialReleaseList

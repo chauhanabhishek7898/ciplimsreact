@@ -1,9 +1,12 @@
-async function get(url) {
-    // let token = await AsyncStorage.getItem('token');
+export default function abc() {
+    return <div>abc</div>
+}
+export async function get(url) {
+     let token = await localStorage.getItem('token');
 return fetch(url, {
         headers: {
-            //'Authorization': `Bearer ${token} `,
-            // 'Content-Type': 'application/json'
+            'Authorization': `Bearer ${token} `,
+            'Content-Type': 'application/json'
         }
     })
         .then(response => response.json())
@@ -15,12 +18,12 @@ return fetch(url, {
             console.log(err);
         });
 }
-async function post(url, data) {
-    // let token = await AsyncStorage.getItem('token');
+export async function post(url, data) {
+     let token = await localStorage.getItem('token');
     const requestOptions = {
         method: 'POST',
         headers: {
-            // //'Authorization': `Bearer ${token} `,
+            'Authorization': `Bearer ${token} `,
             'Content-Type': 'application/json',
             "accept": "application/json"
         },
@@ -35,13 +38,13 @@ async function post(url, data) {
             console.log(err);
         });
 }
-async function put(url, data) {
-  // let token = await AsyncStorage.getItem('token');
+export async function put(url, data) {
+  let token = await localStorage.getItem('token');
     const requestOptions = {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
-            //'Authorization': `Bearer ${token} `,
+            'Authorization': `Bearer ${token} `,
         },
         body: JSON.stringify(data)
     };
@@ -56,14 +59,14 @@ async function put(url, data) {
             console.log(err);
         });
 }
-async function postFile(url, data) {
-// let token = await AsyncStorage.getItem('token');
+export async function postFile(url, data) {
+let token = await localStorage.getItem('token');
     const requestOptions = {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
-            //'Authorization': `Bearer ${token} `,
-            'Content-Type': 'multipart/form-data'
+            'Authorization': `Bearer ${token} `,
+            // 'Content-Type': 'multipart/form-data'
         },
         body: data
     };
@@ -77,14 +80,14 @@ async function postFile(url, data) {
             console.log(err);
         });
 }
-async function putFile(url, data) {
- // let token = await AsyncStorage.getItem('token');
+export async function putFile(url, data) {
+  let token = await localStorage.getItem('token');
     const requestOptions = {
         method: 'PUT',
         headers: {
             'Accept': 'application/json',
-            //'Authorization': `Bearer ${token} `,
-            'Content-Type': 'multipart/form-data'
+            'Authorization': `Bearer ${token} `,
+            // 'Content-Type': 'multipart/form-data'
         },
         body: data
     };
@@ -98,4 +101,4 @@ async function putFile(url, data) {
             console.log(err);
         });
 }
-module.exports = { get, post, put, postFile, putFile } 
+// module.exports = { get, post, put, postFile, putFile } 

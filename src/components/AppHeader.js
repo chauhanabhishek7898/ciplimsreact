@@ -17,9 +17,10 @@ import { cilBell, cilEnvelopeOpen, cilList, cilMenu } from '@coreui/icons'
 import { AppBreadcrumb } from './index'
 import { AppHeaderDropdown } from './header/index'
 import { logo } from 'src/assets/brand/logo'
-
+import { useNavigate } from "react-router-dom";
 const AppHeader = () => {
   const dispatch = useDispatch()
+  const navigate = useNavigate();
   const sidebarShow = useSelector((state) => state.sidebarShow)
 
   return (
@@ -36,18 +37,18 @@ const AppHeader = () => {
         </CHeaderBrand>
         <CHeaderNav className="d-none d-md-flex me-auto">
           <CNavItem>
-            <CNavLink to="/dashboard" component={NavLink}>
+            {/* <CNavLink to="/dashboard" component={NavLink}>
               Dashboard
-            </CNavLink>
+            </CNavLink> */}
           </CNavItem>
-          <CNavItem>
+          {/* <CNavItem>
             <CNavLink href="#">Users</CNavLink>
-          </CNavItem>
+          </CNavItem> */}
           <CNavItem>
-            <CNavLink href="#">Settings</CNavLink>
+            <CNavLink href='#' onClick={()=>navigate('/update-password')}>Settings</CNavLink>
           </CNavItem>
         </CHeaderNav>
-        <CHeaderNav>
+        {/* <CHeaderNav>
           <CNavItem>
             <CNavLink href="#">
               <CIcon icon={cilBell} size="lg" />
@@ -63,7 +64,7 @@ const AppHeader = () => {
               <CIcon icon={cilEnvelopeOpen} size="lg" />
             </CNavLink>
           </CNavItem>
-        </CHeaderNav>
+        </CHeaderNav> */}
         <CHeaderNav className="ms-3">
           <AppHeaderDropdown />
         </CHeaderNav>

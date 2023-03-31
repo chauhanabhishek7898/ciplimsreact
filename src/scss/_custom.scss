@@ -5,7 +5,9 @@
 // .sidebar-brand{
 //     background: green;
 // }
-
+.container-xxl{
+  max-width: 1644px ;
+}
 p{
     margin-bottom: 0;
 }
@@ -16,7 +18,7 @@ p{
     background-color: #fff;
     display: flex;
     padding-top: 10px;
-    height: 85px;
+    min-height: 99px;
     align-items: center;
     padding-left: 10px;
     border-radius: 5px;
@@ -26,9 +28,33 @@ p{
     }
 
 }
-.css-1sumxir-MuiFormLabel-root-MuiInputLabel-root{
-    top: -4px !important;
-    background: #fff !important;
+.dateFilter-2{
+    background-color: #fff;
+    display: flex;
+    padding: 10px;
+    min-height: 99px;
+    align-items: center;
+    border-radius: 5px;
+    box-shadow: 0 0 6px 0 rgba($color: #000000, $alpha: 0.2);
+    .date{
+        margin-right: 15px;
+    }
+
+}
+// .css-1sumxir-MuiFormLabel-root-MuiInputLabel-root{
+//     top: -4px !important;
+//     background: #fff !important;
+// }
+.css-y8ay40-MuiTableCell-root {
+  font-weight: bold !important;
+  white-space:nowrap
+}
+.css-dwuj3p-MuiTableCell-root {
+  font-weight: bold !important;
+  white-space:nowrap
+}
+.css-1ex1afd-MuiTableCell-root{
+  white-space:nowrap
 }
 .databox{
     background-color: #fff;
@@ -43,10 +69,24 @@ p{
         display: flex;
         align-items: center;
         // justify-content: space-between;
+        flex-wrap: wrap;
         gap: 15px;
     }
 }
 .addbtn{
+    border: none;
+    padding: 5px;
+    width: 100px;
+    height: 34px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    color: #fff;
+    background-color: #ef1e2c;
+    margin-top: -6px;
+}
+.addbtn_2{
     border: none;
     padding: 5px;
     width: 100px;
@@ -56,17 +96,20 @@ p{
     align-items: center;
     border-radius: 5px;
     color: #fff;
-    background-color: red;
-    margin-top: -6px;
+    background-color: #ef1e2c;
+    margin-bottom: 10px;
 }
 .input{
     position: relative;
 }
 .error{
-    position: absolute;
+    // position: absolute;
     font-size: 12px;
     color: red;
     
+}
+.sidebar-nav .nav-group.show{
+  background: #ef1e2c;
 }
 .sidebar-nav{
     font-size: 13px;
@@ -82,5 +125,378 @@ p{
     color: #fff !important;
 }
 .sidebar.sidebar-fixed{
-    background-color: red;
+    background-color: #ef1e2c;
+}
+
+//  abhishek start
+.App {
+    text-align: center;
+  }
+  
+  .App-logo {
+    height: 40vmin;
+    pointer-events: none;
+  }
+  
+  @media (prefers-reduced-motion: no-preference) {
+    .App-logo {
+      animation: App-logo-spin infinite 20s linear;
+    }
+  }
+  
+  .App-header {
+    background-color: #282c34;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+    color: white;
+  }
+  
+  .App-link {
+    color: #61dafb;
+  }
+  
+  .in-body{
+    padding: 10px;
+  background-color: blue;
+  }
+  .links{
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+  }
+  .linkli{
+    margin-right: 10px;
+    margin-right: 10px;
+    padding-top: 0px;
+    color: #fff;
+  }
+  
+  .content {
+    top: 50%;
+    left: 50%;
+    right: auto;
+    bottom: auto;
+    margin-right: -50%;
+    transform: translate(-50%, -50%)
+  }
+  .tablecenter{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 10px;
+  }
+  .inputsbox{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+  }
+  .formefield{
+    margin: 10px;
+    flex-wrap: wrap;
+  }
+  .input{
+    width: 48%;
+    padding: 8px;
+  }
+  .displayright{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+  .displaystart{
+    display: flex;
+    align-items: center;
+    justify-content:  space-between;
+    margin-bottom: 10px;
+  }
+  .displayflex{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    width: 100%;
+  } 
+  .displayflex-2{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    width: 100%;
+    margin-top: 10px;
+  }
+  .displayflexbaseline{
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+  .displayflexend{
+    display: flex;
+    align-items: flex-end;
+    // justify-content: space-between;
+    flex-wrap: wrap;
+    margin-top: 10px;
+    gap: 10px;
+    width: 100%;
+
+  }
+  .displayflexend-2{
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin-top: 10px;
+    margin-left: 10px;
+  }
+  .displayflexendmodal{
+    display: flex;
+    align-items: flex-end;
+    justify-content:  flex-end;
+    flex-wrap: wrap;
+    margin-top: 10px;
+  }
+  .title{
+    font-size: 22px;
+    font-weight: 500;
+  }
+  .ReactModal__Overlay--after-open{
+    z-index: 1000000 !important;
+  }
+  .css-10nakn3-MuiModal-root-MuiPopover-root-MuiMenu-root{
+    z-index: 10000000 !important;
+  }
+  .submitbtn{
+    border: none;
+    background-color: #ef1e2c;
+    color: #fff;
+    width: 150px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50px;
+    font-size: 13px;
+    .icon{
+      margin-right: 5px;
+    }
+  
+  }
+  .submitbtn-2{
+    border: none;
+    background-color: green;
+    color: #fff;
+    width: 150px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50px;
+    font-size: 13px;
+    .icon{
+      margin-right: 5px;
+    }
+  
+  }
+  .errormasg{
+    font-size: 16px;
+    margin-bottom: 10px;
+    font-weight: 500;
+    color: red;
+  }
+  //   abhishek end
+
+  .emailInput{
+    width: 33%;
+    margin-bottom: 10px;
+  }
+  .exportandfilter{
+    display:flex ;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 15px;
+  }
+  .alertButton{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+  }
+  .editModel{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .editModel-2{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    flex-direction: column;
+  }
+  .alertmsg{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 50px ;
+  }
+  .alertYes,.alertno{
+    border: none;
+    background-color: #ef1e2c;
+    color: #fff;
+    width: 80px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50px;
+  }
+  .updateko{
+    border: none;
+    background-color: #ef1e2c;
+    color: #fff;
+    width: 120px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50px;
+  }
+  .alertno{
+    background-color: #ccc;
+    margin-left: 10px;
+  }
+  .tableview{
+    display: flex;
+    align-items: center;
+    flex-direction: row !important;
+  }
+  .css-j204z7-MuiFormControlLabel-root .MuiFormControlLabel-label {
+    font-size: 13px;
+}
+.break{
+  flex-basis: 100%;
+  margin: 10px 0;
+}
+.css-1anqmj6-MuiPopper-root-MuiPickersPopper-root {
+  z-index: 100000000 !important;
+}
+.ReactModal__Content {
+  top: 50% !important;
+  left: 50% !important;
+}
+.choosebtn{
+  border: none;
+  padding: 4px 10px;
+  background: #f00;
+  color: #fff;
+  border-radius: 5px;
+  font-size: 13px;
+
+}
+.deletbtn {
+  border: none;
+    background: #fff;
+}
+svg.MuiSvgIcon-root.MuiSvgIcon-colorRed.MuiSvgIcon-fontSizeMedium.css-i4bv87-MuiSvgIcon-root{
+  color: red;
+}
+.applybtn{
+  border: none;
+  width: 130px;
+  height: 34px;
+  border-radius: 5px;
+  background: #ef1e2c;
+  color: #fff;
+}
+/* Works for Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Works for Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+.progressBox{
+  width: 100%;
+  background: rgba(0,0,0,0.5);
+  position: absolute;
+  height: 100%;
+  z-index: 1000000;
+  top: 0;
+  left: 0;
+  .progressInner{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
+// .css-14s5rfu-MuiFormLabel-root-MuiInputLabel-root{
+//   font-size: 13px !important;
+//   line-height: 0 !important;
+//   top: -4px !important;
+//   overflow: visible !important;
+// }
+// .css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input, .css-nxo287-MuiInputBase-input-MuiOutlinedInput-input{
+//   padding: 5px 14px !important;
+//   font-size: 13px !important;
+// }
+// .css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input{
+//   padding: 3px 14px !important;
+//   font-size: 13px !important;
+// }
+// .css-154xyx0-MuiInputBase-root-MuiOutlinedInput-root{
+//   padding: 0px !important;
+//   font-size: 13px !important;
+// }
+.css-hfutr2-MuiSvgIcon-root-MuiSelect-icon{
+  top: calc(50% - 0.6em) !important;
+}
+.MuiMenu-list .MuiButtonBase-root{
+  border-bottom: 1px solid #ccc !important;
+  width: 100% !important;
+  padding-left: 10px !important;
+  justify-content: flex-start !important;
+  font-size: 13px !important;
+  &:last-child{
+    border-bottom:none !important
+  }
+}
+.MuiAutocomplete-popper{
+  font-size: 12px !important;
+}
+.css-9npbnl-MuiFormLabel-root-MuiInputLabel-root{
+  font-size: 13px !important;
+}
+.infobtn{
+  border: none;
+  background: green;
+  border-radius: 100px;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.updatebtnbox{
+  position: absolute;
+  right: 5px;
+  top: -2px;
+  .updatebtn{
+    border: none;
+    font-size: 12px;
+    background: #f01d2c;
+    color: #fff;
+    border-radius: 5px;
+  }
 }

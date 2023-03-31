@@ -8,7 +8,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import TablePagination from '@mui/material/TablePagination';
 import Paper from '@mui/material/Paper';
-import { getKMLimitMaster_SelectAll } from './PlantMasterService'
+import { PlantMaster_SelectAll, PlantMasterPost, PlantMasterPut } from './PlantMasterService'
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import FormControl from '@mui/material/FormControl';
@@ -16,12 +16,44 @@ import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
-import { RiEditBoxLine } from "react-icons/ri"
+import BorderColorIcon from '@mui/icons-material/BorderColor';
+import AddIcon from '@mui/icons-material/Add';
+import { CButton, CSpinner } from '@coreui/react'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { useForm } from 'react-hook-form';
+
+import SearchBar from "material-ui-search-bar";
+import ExportExcel from 'src/shareFunction/Excelexport';
+import CircularProgress from '@mui/joy/CircularProgress';
 function PlantMaster() {
+    {/* <TableCell scope="row">SN.</TableCell>
+                                    <TableCell align="left">Plant Code</TableCell>
+                                    <TableCell align="left">Plant Name</TableCell>
+                                    <TableCell align="left">Plant Address</TableCell>
+                                    <TableCell align="left">Profit Centre</TableCell>
+                                    <TableCell align="left">Cost Centre</TableCell>
+                                    <TableCell align="left">Status</TableCell> */}
+
+    let Heading = [['SN.', 'Plant Code', 'Plant Name', 'Plant Address', 'Profit Centre', 'Cost Centre', 'Status']];
+
     const [modalIsOpen, setIsOpen] = React.useState(false);
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
-    const [kmLimitData, setKmLimitData] = React.useState([]);
+    const [plantData, setPlantData] = React.useState([]);
+    const [masterbrandData, setMasterBrandData] = React.useState([]);
+    const [buttonName, setbuttonName] = React.useState('');
+    const [vPlantCode, setvPlantCode] = React.useState('');
+    const [vPlantName, setvPlantName] = React.useState('');
+    const [vPlantAddress, setvPlantAddress] = React.useState('');
+    const [vProfitCentre, setvProfitCentre] = React.useState('');
+    const [vCostCentre, setvCostCentre] = React.useState('');
+    const [nPId, setnPId] = React.useState(0);
+    const [disabled, setdisabled] = React.useState(true);
+    const { register, handleSubmit, control, errors } = useForm();
+    const [loader, setLoader] = React.useState(false);
+    const [loader2, setLoader2] = React.useState(false);
+    const [btActive, setbtActive] = React.useState(true);
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
     };
@@ -29,25 +61,140 @@ function PlantMaster() {
         setRowsPerPage(+event.target.value);
         setPage(0);
     };
-    const openmodale = () => {
-        setIsOpen(true)
+    const openmodale = (item, type) => {
+        if (type == 'Submit') {
+            setIsOpen(true)
+            setbuttonName(type)
+            setvPlantCode("")
+            setvPlantName("")
+            setvPlantAddress("")
+            setvProfitCentre("")
+            setvCostCentre("")
+            setbtActive(true)
+            setdisabled(true)
+        } else {
+            setIsOpen(true)
+            setnPId(item.nPId)
+            setvPlantCode(item.vPlantCode)
+            setvPlantName(item.vPlantName)
+            setvPlantAddress(item.vPlantAddress)
+            setvProfitCentre(item.vProfitCentre)
+            setvCostCentre(item.vCostCentre)
+            setbtActive(item.btActive)
+
+            setdisabled(false)
+            setbuttonName(type)
+
+        }
+    }
+    const submit = () => {
+        setLoader(true)
+        let data = {
+            nPId: nPId == null ? 0 : nPId,
+            vPlantCode: vPlantCode,
+            vPlantName: vPlantName,
+            vPlantAddress: vPlantAddress,
+            vProfitCentre: vProfitCentre,
+            vCostCentre: vCostCentre,
+            btActive: btActive
+        }
+        if (buttonName == 'Submit') {
+            PlantMasterPost(data).then(res => {
+                if (res) {
+                    toast.success(res)
+                    setLoader(false)
+                    setIsOpen(false)
+                    getPlantMaster_SelectAll()()
+                }
+            })
+
+        } else {
+            PlantMasterPut(data).then(res => {
+                if (res) {
+                    toast.success(res)
+                    setLoader(false)
+                    setIsOpen(false)
+                    getPlantMaster_SelectAll()()
+                }
+            })
+        }
+    }
+    const [searched, setSearched] = React.useState("");
+    const [onlyActive, setonlyActive] = React.useState(true);
+    let checkedData = true
+    const checkedonlyActive = (event) => {
+        setonlyActive(event.target.checked)
+        checkedData = event.target.checked
+        getPlantMaster_SelectAll()
     }
     useEffect(() => {
-        KMLimitMaster_SelectAll()
+        getPlantMaster_SelectAll()
     }, [])
-    const KMLimitMaster_SelectAll = () => {
-        getKMLimitMaster_SelectAll().then(response => {
-            console.log(response)
-            setKmLimitData(response)
+    const getPlantMaster_SelectAll = () => {
+        setLoader2(true)
+        PlantMaster_SelectAll().then(response => {
+            console.log('onlyActive', onlyActive)
+            if (checkedData == true) {
+                let activeData = response.filter(e => e.btActive == true)
+                setPlantData(activeData)
+                setMasterBrandData(activeData)
+                setLoader2(false)
+            } else {
+                setPlantData(response)
+                setMasterBrandData(response)
+                setLoader2(false)
+
+            }
         })
     }
+
+
+    const requestSearch = (searchedVal) => {
+        if (searchedVal.length > 0) {
+            const filteredRows = plantData.filter((row) => {
+                return row.vPlantName.toLowerCase().includes(searchedVal.toLowerCase()) || row.vPlantAddress.toLowerCase().includes(searchedVal.toLowerCase()) || row.vProfitCentre.toLowerCase().includes(searchedVal.toLowerCase()) || row.vCostCentre.toLowerCase().includes(searchedVal.toLowerCase());
+            });
+            setPlantData(filteredRows);
+        } else {
+            setPlantData(masterbrandData);
+        }
+
+
+    };
+
+    const cancelSearch = () => {
+        setSearched("");
+        requestSearch(searched);
+        getPlantMaster_SelectAll()
+    };
+
+    // useEffect(() => {
+    //     plantMaster_SelectAll()
+    // }, [])
+    // const plantMaster_SelectAll = () => {
+    //     PlantMaster_SelectAll().then(response => {
+    //         console.log(response)
+    //         setPlantData(response)
+    //     })
+    // }
     return (
         <div className='citymasterContainer'>
-            <button className='addbtn' onClick={openmodale}>Add+</button>
+              {loader2==true?
+            <div className='progressBox'>
+                <div className='progressInner'>
+                    <CircularProgress />
+                </div>
+            </div>
+            :
+            null
+
+            }
+            <button className='addbtn_2' onClick={() => openmodale(null, 'Submit')} title='Add' ><AddIcon fontSize='large' /></button>
             <Modal
                 isOpen={modalIsOpen}
                 style={customStyles}
                 contentLabel="Example Modal"
+                ariaHideApp={false}
             >
                 <div className='displayright'>
                     <div><span className='title'>Plant Master</span></div>
@@ -56,76 +203,162 @@ function PlantMaster() {
                 <div className='displayflexend'>
                     <Box sx={{ width: '30%' }} >
                         <FormControl fullWidth className='input'>
-                            <TextField required id="outlined-basic" label="Enter Plant Code" variant="outlined" />
+                            <TextField
+                                id="outlined-basic"
+                                label="Enter Plant Code"
+                                required
+                                variant="outlined"
+                                value={vPlantCode}
+                                name='vPlantCode'
+                                onChange={e => setvPlantCode(e.target.value)}
+                                inputRef={register({ required: "Plant Code is required.*", })}
+                                error={Boolean(errors.vPlantCode)}
+                                helperText={errors.vPlantCode?.message}
+                            />
                         </FormControl>
                     </Box>
                     <Box sx={{ width: '30%' }} >
                         <FormControl fullWidth className='input' >
-                            <TextField required id="outlined-basic" label="Enter Plant Name" variant="outlined" />
+                            <TextField
+                                id="outlined-basic"
+                                label="Enter Plant Name"
+                                variant="outlined"
+                                required
+                                value={vPlantName}
+                                name='vPlantName'
+                                onChange={e => setvPlantName(e.target.value)}
+                                inputRef={register({ required: "Plant Name is required.*", })}
+                                error={Boolean(errors.vPlantName)}
+                                helperText={errors.vPlantName?.message}
+                            />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '30%', marginTop: 2 }} >
+
+                    <Box sx={{ width: '17%', marginTop: 2 }} >
                         <FormControl fullWidth className='input'>
-                            <TextField required id="outlined-basic" label="Enter Plant Address" variant="outlined" />
+                            <TextField
+                                id="outlined-basic"
+                                label="Profit Centre"
+                                variant="outlined"
+                                value={vProfitCentre}
+                                name='vProfitCentre'
+                                onChange={e => setvProfitCentre(e.target.value)}
+                                // inputRef={register({ required: "Profit Centre is required.*", })}
+                                // error={Boolean(errors.vProfitCentre)}
+                                // helperText={errors.vProfitCentre?.message}
+                            />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '48%', marginTop: 2 }} >
+                    <Box sx={{ width: '16.5%', marginTop: 2 }} >
                         <FormControl fullWidth className='input'>
-                            <TextField required id="outlined-basic" label="Enter Profit Centre" variant="outlined" />
+                            <TextField
+                                id="outlined-basic"
+                                label="Cost Centre"
+                                variant="outlined"
+                                value={vCostCentre}
+                                name='vCostCentre'
+                                onChange={e => setvCostCentre(e.target.value)}
+                                // inputRef={register({ required: "Cost Centre is required.*", })}
+                                // error={Boolean(errors.vCostCentre)}
+                                // helperText={errors.vCostCentre?.message}
+                            />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '48%', marginTop: 2 }} >
+                    <Box sx={{ width: '100%', marginTop: 2 }} >
                         <FormControl fullWidth className='input'>
-                            <TextField required id="outlined-basic" label="Enter Cost Centre" variant="outlined" />
+                            <TextField
+                                id="outlined-basic"
+                                label="Plant Address"
+                                variant="outlined"
+                                value={vPlantAddress}
+                                name='vPlantAddress'
+                                onChange={e => setvPlantAddress(e.target.value)}
+                                // inputRef={register({ required: "Plant Address is required.*", })}
+                                // error={Boolean(errors.vPlantAddress)}
+                                // helperText={errors.vPlantAddress?.message}
+                            />
                         </FormControl>
                     </Box>
                 </div>
-                <div className='displayflexend'>
+                <div className='displayflexend-2'>
                     <FormGroup >
-                        <FormControlLabel control={<Checkbox defaultChecked />} label="Active" disabled />
+                        <FormControlLabel control={<Checkbox defaultChecked={btActive} value={btActive} onChange={e => setbtActive(e.target.checked)} />} label="Active" disabled={disabled} />
                     </FormGroup>
-                    <button type="" className='submitbtn' onClick={openmodale}>Submit</button>
+                    {loader == true ?
+                        <CButton disabled className='submitbtn'>
+                            <CSpinner component="span" size="sm" aria-hidden="true" />
+                            Loading...
+                        </CButton>
+                        :
+                        <button type="submit" className='submitbtn' onClick={handleSubmit(submit)}>{buttonName}</button>
+
+                    }
                 </div>
             </Modal >
             <div className='tablecenter'>
                 <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+
+                    <div className='exportandfilter'>
+                        <ExportExcel excelData={plantData} Heading={Heading} fileName={'Plant_Master'} />
+                        <Box sx={{ width: '65%' }} >
+                            <SearchBar
+                                value={searched}
+                                onChange={(searchVal) => requestSearch(searchVal)}
+                                onCancelSearch={() => cancelSearch()}
+                            />
+
+                        </Box>
+                        <FormGroup >
+                            <FormControlLabel control={<Checkbox checked={onlyActive} value={onlyActive} onChange={checkedonlyActive} />} label="Only Active Data" />
+                        </FormGroup>
+                    </div>
+
                     <TableContainer sx={{ maxHeight: 440 }}>
                         <Table stickyHeader aria-label="sticky table">
                             <TableHead>
                                 <TableRow>
-                                    <TableCell scope="row">SN.</TableCell>
+                                    {/* <TableCell scope="row">SN.</TableCell> */}
+                                    <TableCell align="left">Edit</TableCell>
+                                    <TableCell align="left">Status</TableCell>
                                     <TableCell align="left">Plant Code</TableCell>
                                     <TableCell align="left">Plant Name</TableCell>
                                     <TableCell align="left">Plant Address</TableCell>
                                     <TableCell align="left">Profit Centre</TableCell>
                                     <TableCell align="left">Cost Centre</TableCell>
-                                    <TableCell align="left">Status</TableCell>
-                                    <TableCell align="left">Edit</TableCell>
                                 </TableRow>
                             </TableHead>
+                            {plantData?.length>0?
                             <TableBody>
-                                {kmLimitData.map((item, index) => {
+                                {plantData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((item,index) => {
                                     return (
                                         <TableRow >
-                                            <TableCell component="th" scope="row">{index + 1}.</TableCell>
-                                            <TableCell align="left">{item.CityStateDetailsPX}</TableCell>
-                                            <TableCell align="left">{item.vVehicleType}</TableCell>
-                                            <TableCell align="left">{item.nKMLimit}</TableCell>
-                                            <TableCell align="left">{item.CityStateDetailsPX}</TableCell>
-                                            <TableCell align="left">{item.vVehicleType}</TableCell>
+                                            {/* <TableCell component="th" scope="row">{index + 1}.</TableCell> */}
+                                            <TableCell align="left"><div onClick={() => openmodale(item, 'Update')}><BorderColorIcon size={20} color='#000' /></div></TableCell>
                                             <TableCell align="left">{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
-                                            <TableCell align="left"><div onClick={openmodale}><RiEditBoxLine /></div></TableCell>
+                                            <TableCell align="left">{item.vPlantCode}</TableCell>
+                                            <TableCell align="left">{item.vPlantName}</TableCell>
+                                            <TableCell align="left">{item.vPlantAddress}</TableCell>
+                                            <TableCell align="left">{item.vProfitCentre}</TableCell>
+                                            <TableCell align="left">{item.vCostCentre}</TableCell>
                                         </TableRow>
                                     )
                                 })
+
                                 }
                             </TableBody>
+                                :
+                                <TableBody>
+                                <TableRow>
+                                    <TableCell align="center" colSpan={8}>No Record</TableCell>
+                                </TableRow>
+                            </TableBody>
+                            }
                         </Table>
                     </TableContainer>
                     <TablePagination
                         rowsPerPageOptions={[10, 25, 100]}
                         component="div"
-                        count={kmLimitData.length}
+                        count={plantData.length}
                         rowsPerPage={rowsPerPage}
                         page={page}
                         onPageChange={handleChangePage}
@@ -133,6 +366,7 @@ function PlantMaster() {
                     />
                 </Paper>
             </div>
+            <ToastContainer />
         </div >
     )
 }
@@ -144,7 +378,7 @@ const customStyles = {
         bottom: 'auto',
         marginRight: '-50%',
         transform: 'translate(-50%, -50%)',
-        width: '50%',
+        width: '80%',
     },
 };
 export default PlantMaster
