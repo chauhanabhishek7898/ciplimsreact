@@ -49,6 +49,7 @@ import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
 import { useParams } from 'react-router';
 import { imageUrl } from 'src/coreservices/environment';
 import HomeIcon from '@mui/icons-material/Home';
+import ReplayIcon from '@mui/icons-material/Replay';
 function EditPurchaseOrder() {
     const navigate = useNavigate();
     const location = useLocation();
@@ -126,6 +127,7 @@ function EditPurchaseOrder() {
     const [imgpreview, setimgPreview] = useState(false)
     const [localImage, setlocalImage] = useState(false)
     const imageRef = useRef(null)
+    const [EditId, setEditId] = useState('')
     const [alert, setAlert] = React.useState({
         type: 'error',
         text: 'This is a alert message',
@@ -215,6 +217,7 @@ function EditPurchaseOrder() {
                 setBtActive(false)
                 console.log('2')
             }
+            setEditId(null)
         })
 
     }
@@ -262,13 +265,47 @@ function EditPurchaseOrder() {
 
     }
     const changePlantValue = (value) => {
-        setnPId(value.value)
-        setPlantDetail(value.label)
-        setCostCentre(value.vCostCentre)
-        setProfitCentre(value.vProfitCentre)
-        setError({
-            plant: ''
-        })
+        confirmAlert({
+            title: 'Alert !!',
+            closeOnClickOutside: false,
+            message: 'You are going to change the Plant of this transaction. In case you change it, all the below selections done will be removed. Do you still want to proceed ?',
+            buttons: [
+                {
+                    label: 'Yes',
+                    onClick: () => {
+                        setnPId(value.value)
+                        setPlantDetail(value.label)
+                        setCostCentre(value.vCostCentre)
+                        setProfitCentre(value.vProfitCentre)
+                        setError({
+                            plant: ''
+                        })
+                        setnMId('')
+                        setMaterialDetail('')
+                        setnQty('')
+                        setnRate('')
+                        setnAmt('')
+                        setnSGSTP('')
+                        setnSGST('')
+                        setnCGSTP('')
+                        setnCGST('')
+                        setnIGSTP('')
+                        setnIGST('')
+                        setnTax('')
+                        setnTotalAmt('')
+                        setEditId(null)
+                        setPODetails([])
+
+                    },
+                },
+                {
+                    label: 'No',
+                    onClick: () => {
+                        return null
+                    },
+                },
+            ]
+        });
     }
     const changeVendorMasterValue = (value) => {
         setnVId(value.value)
@@ -401,6 +438,7 @@ function EditPurchaseOrder() {
                             setnIGST('')
                             setnTax('')
                             setnTotalAmt('')
+                            setEditId(null)
                             setMaterialMaster([])
 
                         }
@@ -459,6 +497,7 @@ function EditPurchaseOrder() {
                                     setnIGST('')
                                     setnTax('')
                                     setnTotalAmt('')
+                                    setEditId(null)
                                     setMaterialMaster([])  
                                 }
 
@@ -591,6 +630,7 @@ function EditPurchaseOrder() {
     const editItem = (item) => {
         setbtnType('edit')
         setId(item.id)
+        setEditId(item.id)
         setnMId(item.nMId)
         setMaterialDetail(item.MaterialDetail)
         setnQty(item.nQty)
@@ -623,6 +663,23 @@ function EditPurchaseOrder() {
             ]
         });
 
+    }
+    const refreshbtn = () => {
+        setEditId(null)
+        setnMId('')
+        setMaterialDetail('')
+        setnQty('')
+        setnRate('')
+        setnAmt('')
+        setnSGSTP('')
+        setnSGST('')
+        setnCGSTP('')
+        setnCGST('')
+        setnIGSTP('')
+        setnIGST('')
+        setnTax('')
+        setnTotalAmt('')
+        setbtnType('')
     }
     return (
         <div className='citymasterContainer'>
@@ -1078,8 +1135,10 @@ function EditPurchaseOrder() {
                             />
                         </FormControl>
                     </Box>
-                    <div>
-                        <button title='Add' className='addbtn' onClick={addKoMonthDate}><AddIcon fontSize='large' /></button>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 10, justifyContent: 'space-between', width: '100%', }}>
+                        <button title='Add' className='addbtn' onClick={addKoMonthDate}>{btnType == 'edit' ? 'Update' : <AddIcon fontSize='large' />}</button>
+
+                        <button title='Refresh' className='addbtn' onClick={refreshbtn}><ReplayIcon fontSize='large' /></button>
                     </div>
                 </div>
                 <div className='tablecenter'>
@@ -1109,7 +1168,7 @@ function EditPurchaseOrder() {
 
                                         {PODetails.map((item, index) => {
                                             return (
-                                                <TableRow key={index}>
+                                                <TableRow key={index} style={item.id==EditId?{background:'rgba(239,30,44,0.15)'}:{background:'#fff'}}>
                                                     <TableCell component="th" scope="row">{index + 1}.</TableCell>
                                                     <TableCell align="center">
                                                         <button className='deletbtn' title='Delete' onClick={() => deleteItem(item.id)}><DeleteIcon size={20} color='red' /></button>
@@ -1118,16 +1177,16 @@ function EditPurchaseOrder() {
                                                     </TableCell>
                                                     <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.MaterialDetail}</TableCell>
                                                     <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.nQty}</TableCell>
-                                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>&#8377;{item.nRate}</TableCell>
-                                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>&#8377;{item.nAmt}</TableCell>
+                                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.nRate}</TableCell>
+                                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.nAmt}</TableCell>
                                                     <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.nSGSTP}</TableCell>
-                                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>&#8377;{item.nSGST}</TableCell>
+                                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.nSGST}</TableCell>
                                                     <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.nCGSTP}</TableCell>
-                                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>&#8377;{item.nCGST}</TableCell>
+                                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.nCGST}</TableCell>
                                                     <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.nIGSTP}</TableCell>
-                                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>&#8377;{item.nIGST}</TableCell>
-                                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>&#8377;{item.nTax}</TableCell>
-                                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>&#8377;{item.nTotalAmt}</TableCell>
+                                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.nIGST}</TableCell>
+                                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.nTax}</TableCell>
+                                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.nTotalAmt}</TableCell>
 
 
                                                 </TableRow>

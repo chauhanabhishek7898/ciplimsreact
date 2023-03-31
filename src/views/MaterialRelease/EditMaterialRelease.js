@@ -330,12 +330,43 @@ function EditMaterialRelease() {
 
     }
     const changePlantValue = (value) => {
-        setnPId(value.value)
-        setPlantDetail(value.label)
-        getExpiryDatesforMaterialRelease(value.value, nMId == '' ? 0 : nMId)
-        setError({
-            plant: ''
-        })
+        confirmAlert({
+            title: 'Alert !!',
+            closeOnClickOutside: false,
+            message: 'You are going to change the Plant of this transaction. In case you change it, all the below selections done will be removed. Do you still want to proceed ?',
+            buttons: [
+                {
+                    label: 'Yes',
+                    onClick: () => {
+                        setnPId(value.value)
+                        setPlantDetail(value.label)
+                        getExpiryDatesforMaterialRelease(value.value, nMId == '' ? 0 : nMId)
+                        setError({
+                            plant: ''
+                        })
+                        setnMId('')
+                        setMaterialDetail('')
+                        setexpireDateValue('')
+                        setRequiredQty('')
+                        setReleasedQty('')
+                        setLeftQty('')
+                        setLeftStockQty('')
+                        setnQty('')
+                        setvUOM('')
+                        setbtnType('')
+                        setPODetails([])
+
+                    },
+                },
+                {
+                    label: 'No',
+                    onClick: () => {
+                        return null
+                    },
+                },
+            ]
+        });
+       
     }
     const changeBOMValue = (value) => {
         setnBId(value.value)
