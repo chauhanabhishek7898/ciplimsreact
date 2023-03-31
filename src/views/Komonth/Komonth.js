@@ -1462,10 +1462,12 @@ const muiStyles = {
         },
     },
     select: {
+
         "& .MuiSelect-select": {
             padding: '3px 14px',
             fontSize: '12px'
-        },
+        }, 
+        
 
     },
     InputLabels: {
@@ -1478,7 +1480,8 @@ const muiStyles = {
             backgroundColor: 'green',
             zIndex: '1'
         }
-    }
+    },
+   
 
 };
 export default KOMONTH
