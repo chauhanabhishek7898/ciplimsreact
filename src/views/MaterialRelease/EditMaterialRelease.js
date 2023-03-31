@@ -181,6 +181,7 @@ function EditMaterialRelease() {
     const [firstRecord, setfirstRecord] = useState(false)
     const [editFirstFrom, setEditFirstFrom] = useState(false)
     const [dateandactiveDisable, setdateandactiveDisable] = useState(true)
+    const [EditId, setEditId] = useState('')
     useEffect(() => {
         const userId = localStorage.getItem("nUserId")
         setnLoggedInUserId(userId)
@@ -253,7 +254,7 @@ function EditMaterialRelease() {
             setBtActive(res.GRNMaster[0].btActive)
             setvBatchNoDisable(true)
             getBOMMaterialsQty_2(res.GRNMaster[0].nBId, res.GRNMaster[0].nBOMUnit)
-
+            setEditId(null)
         })
 
     }
@@ -515,7 +516,6 @@ function EditMaterialRelease() {
     // }
     const validateformPoDetial = () => {
         if (nMId == '' || nMId == undefined) {
-            alert(1)
             setError({
                 MaterialDetail: 'Select Item *'
             })
@@ -543,102 +543,104 @@ function EditMaterialRelease() {
 
     }
 
-    const addKoMonthDate = () => {
+    // const addKoMonthDate = () => {
 
-        if (btnType == 'edit') {
-            confirmAlert({
-                title: 'Alert !!',
-                message: 'Do you want Edit this Material ?',
-                closeOnClickOutside: false,
-                buttons: [
-                    {
-                        label: 'Yes',
-                        onClick: () => {
-                            const indexToUpdate = PODetails.findIndex((todo) => todo.id == id);
-                            let poMasteerDetail = [...PODetails]
+    //     if (btnType == 'edit') {
+    //         confirmAlert({
+    //             title: 'Alert !!',
+    //             message: 'Do you want Edit this Material ?',
+    //             closeOnClickOutside: false,
+    //             buttons: [
+    //                 {
+    //                     label: 'Yes',
+    //                     onClick: () => {
+    //                         const indexToUpdate = PODetails.findIndex((todo) => todo.id == id);
+    //                         let poMasteerDetail = [...PODetails]
 
-                            // setPODetails(complaintDetail)
-                            poMasteerDetail[indexToUpdate].id = id,
-                                poMasteerDetail[indexToUpdate].nMId = parseInt(nMId),
-                                poMasteerDetail[indexToUpdate].MaterialDetail = MaterialDetail,
-                                poMasteerDetail[indexToUpdate].nQtyAccepted = parseFloat(nQtyAccepted == '' ? 0 : nQtyAccepted),
-                                poMasteerDetail[indexToUpdate].nQtyRejected = parseFloat(nQtyRejected == '' ? 0 : nQtyRejected),
-                                poMasteerDetail[indexToUpdate].vUOM = vUOM,
-                                poMasteerDetail[indexToUpdate].TotalQty = parseFloat(nAmt == '' ? 0 : nAmt),
-                                poMasteerDetail[indexToUpdate].dtExpDate = parseDateToStringSubmit(new Date(dtExpDate)),
-                                poMasteerDetail[indexToUpdate].dtExpDate2 = dtExpDate,
+    //                         // setPODetails(complaintDetail)
+    //                         poMasteerDetail[indexToUpdate].id = id,
+    //                             poMasteerDetail[indexToUpdate].nMId = parseInt(nMId),
+    //                             poMasteerDetail[indexToUpdate].MaterialDetail = MaterialDetail,
+    //                             poMasteerDetail[indexToUpdate].nQtyAccepted = parseFloat(nQtyAccepted == '' ? 0 : nQtyAccepted),
+    //                             poMasteerDetail[indexToUpdate].nQtyRejected = parseFloat(nQtyRejected == '' ? 0 : nQtyRejected),
+    //                             poMasteerDetail[indexToUpdate].vUOM = vUOM,
+    //                             poMasteerDetail[indexToUpdate].TotalQty = parseFloat(nAmt == '' ? 0 : nAmt),
+    //                             poMasteerDetail[indexToUpdate].dtExpDate = parseDateToStringSubmit(new Date(dtExpDate)),
+    //                             poMasteerDetail[indexToUpdate].dtExpDate2 = dtExpDate,
 
-                                setPODetails(poMasteerDetail)
-                            setbtnType('')
-                            setnMId('')
-                            setMaterialDetail('')
-                            setdtExpDate(new Date(Date.now()))
-                            setnAmt('')
-                            setnQtyAccepted('')
-                            setnQtyRejected('')
+    //                             setPODetails(poMasteerDetail)
+    //                         setbtnType('')
+    //                         setnMId('')
+    //                         setMaterialDetail('')
+    //                         setdtExpDate(new Date(Date.now()))
+    //                         setnAmt('')
+    //                         setnQtyAccepted('')
+    //                         setnQtyRejected('')
+    //                         setEditId(null)
 
-                        }
-                    },
-                    {
-                        label: 'No',
-                        onClick: () => { return null }
-                    }
-                ]
-            });
+    //                     }
+    //                 },
+    //                 {
+    //                     label: 'No',
+    //                     onClick: () => { return null }
+    //                 }
+    //             ]
+    //         });
 
-        } else {
-            confirmAlert({
-                title: 'Alert !!',
-                message: 'Do you want Add this Material ?',
-                closeOnClickOutside: false,
-                buttons: [
-                    {
-                        label: 'Yes',
-                        onClick: () => {
-                            if (validateformPoDetial() == true) {
-                                let poMasteerDetail = [...PODetails]
-                                let findnMId = poMasteerDetail.find(e => e.nMId == nMId && e.dtExpDate == parseDateToStringSubmit(new Date(dtExpDate)))
-                                if (findnMId) {
-                                    toast.success("Material with this expiry date is already Added.")
-                                } else {
-                                    poMasteerDetail.push({
-                                        id: new Date().getUTCMilliseconds(),
-                                        nMId: parseInt(nMId),
-                                        MaterialDetail: MaterialDetail,
-                                        nQtyAccepted: parseFloat(nQtyAccepted == '' ? 0 : nQtyAccepted),
-                                        nQtyRejected: parseFloat(nQtyRejected == '' ? 0 : nQtyRejected),
-                                        vUOM: vUOM,
-                                        TotalQty: parseFloat(nAmt == '' ? 0 : nAmt),
-                                        dtExpDate: parseDateToStringSubmit(new Date(dtExpDate)),
-                                        dtExpDate2: dtExpDate,
+    //     } else {
+    //         confirmAlert({
+    //             title: 'Alert !!',
+    //             message: 'Do you want Add this Material ?',
+    //             closeOnClickOutside: false,
+    //             buttons: [
+    //                 {
+    //                     label: 'Yes',
+    //                     onClick: () => {
+    //                         if (validateformPoDetial() == true) {
+    //                             let poMasteerDetail = [...PODetails]
+    //                             let findnMId = poMasteerDetail.find(e => e.nMId == nMId && e.dtExpDate == parseDateToStringSubmit(new Date(dtExpDate)))
+    //                             if (findnMId) {
+    //                                 toast.success("Material with this expiry date is already Added.")
+    //                             } else {
+    //                                 poMasteerDetail.push({
+    //                                     id: new Date().getUTCMilliseconds(),
+    //                                     nMId: parseInt(nMId),
+    //                                     MaterialDetail: MaterialDetail,
+    //                                     nQtyAccepted: parseFloat(nQtyAccepted == '' ? 0 : nQtyAccepted),
+    //                                     nQtyRejected: parseFloat(nQtyRejected == '' ? 0 : nQtyRejected),
+    //                                     vUOM: vUOM,
+    //                                     TotalQty: parseFloat(nAmt == '' ? 0 : nAmt),
+    //                                     dtExpDate: parseDateToStringSubmit(new Date(dtExpDate)),
+    //                                     dtExpDate2: dtExpDate,
 
-                                    })
+    //                                 })
 
-                                    setPODetails(poMasteerDetail)
-                                    submit
-                                    // setnMId('')
-                                    // setMaterialDetail('')
-                                    // setdtExpDate(new Date(Date.now()))
-                                    // setnAmt('')
-                                    // setnQtyAccepted('')
-                                    // setnQtyRejected('')
-
-
-                                }
-                            }
-
-                        }
-                    },
-                    {
-                        label: 'No',
-                        onClick: () => { return null }
-                    }
-                ]
-            });
+    //                                 setPODetails(poMasteerDetail)
+    //                                 submit
+    //                                 // setnMId('')
+    //                                 // setMaterialDetail('')
+    //                                 // setdtExpDate(new Date(Date.now()))
+    //                                 // setnAmt('')
+    //                                 // setnQtyAccepted('')
+    //                                 // setnQtyRejected('')
+    //                                 setEditId(null)
 
 
-        }
-    }
+    //                             }
+    //                         }
+
+    //                     }
+    //                 },
+    //                 {
+    //                     label: 'No',
+    //                     onClick: () => { return null }
+    //                 }
+    //             ]
+    //         });
+
+
+    //     }
+    // }
     const validateform = () => {
         if (nPId == '') {
             setError({
@@ -820,6 +822,7 @@ function EditMaterialRelease() {
                                             setReleasedQty('')
                                             setLeftStockQty('')
                                             setLeftQty('')
+                                            setEditId(null)
                                             // navigate('/EnterOpeningStock')
 
                                         }
@@ -886,6 +889,7 @@ function EditMaterialRelease() {
         setbtnType('edit')
         setEditDsable(true)
         setId(item.id)
+        setEditId(item.id)
         setnMId(item.nMId)
         setMaterialDetail(item.MaterialDetail)
         getExpiryDatesforMaterialRelease(nPId, item.nMId)
@@ -986,6 +990,7 @@ function EditMaterialRelease() {
         setReleasedQty('')
         setLeftStockQty('')
         setLeftQty('')
+        setEditId(null)
         setbtnType('')
     }
     const openDateAndActive=()=>{
@@ -1503,7 +1508,7 @@ function EditMaterialRelease() {
 
                                             {PODetails.map((item, index) => {
                                                 return (
-                                                    <TableRow key={index}>
+                                                    <TableRow key={index} style={item.id==EditId?{background:'rgba(239,30,44,0.15)'}:{background:'#fff'}}>
                                                         <TableCell component="th" scope="row">{index + 1}.</TableCell>
                                                         <TableCell align="center">
                                                             <div style={{ display: 'flex', justifyContent: 'center' }}>

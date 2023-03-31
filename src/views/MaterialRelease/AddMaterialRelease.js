@@ -17,7 +17,7 @@ import { MaterialMaster_SelectAll_ActiveLikeSearch } from '../MaterialMaster/Mat
 import { PlantMaster_SelectAll_ActiveLikeSearch } from '../PlantMaster/PlantMasterService'
 import { VendorMaster_SelectAll_ActiveLikeSearch, VendorMaster_SelectAll_Active } from '../VenderForm/VenderFormService'
 import { GetPODetails, GetPOByPOId } from '../PurchaseOrder/POMasterService'
-import { MaterialRelease_Insert, GetPODetailsLIkeSearch, GetBOMMaterialsQty, GetExpiryDatesforMaterialRelease, GetMaterialforRelease, GetBatchNoDetails } from './MaterialReleaseService'
+import { MaterialRelease_Insert, GetPODetailsLIkeSearch, GetBOMMaterialsQty, GetExpiryDatesforMaterialRelease, GetMaterialforRelease, GetBatchNoDetails, GetMaterialforReleaseForEdit } from './MaterialReleaseService'
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import InputLabel from '@mui/material/InputLabel';
@@ -51,6 +51,7 @@ import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
 import HomeIcon from '@mui/icons-material/Home';
 import InfoIcon from '@mui/icons-material/Info';
 import CloseIcon from '@mui/icons-material/Close';
+import ReplayIcon from '@mui/icons-material/Replay';
 function AddMaterialRelease() {
     const navigate = useNavigate();
     const [modalIsOpen, setIsOpen] = React.useState(false);
@@ -173,7 +174,8 @@ function AddMaterialRelease() {
     const [TableShow, setTableShow] = useState(false)
     const [firstRecord, setfirstRecord] = useState(false)
     const [BomDisable, setBomDisable] = useState(false)
-
+    const [EditId, setEditId] = useState('')
+    const [FirstTimeAdd, setFirstTimeAdd] = React.useState(true);
     useEffect(() => {
         const userId = localStorage.getItem("nUserId")
         setnLoggedInUserId(userId)
@@ -314,12 +316,43 @@ function AddMaterialRelease() {
 
     }
     const changePlantValue = (value) => {
-        setnPId(value.value)
-        setPlantDetail(value.label)
-        getExpiryDatesforMaterialRelease(value.value, nMId == '' ? 0 : nMId)
-        setError({
-            plant: ''
-        })
+        if (FirstTimeAdd == true) {
+            setnPId(value.value)
+            setPlantDetail(value.label)
+            getExpiryDatesforMaterialRelease(value.value, nMId == '' ? 0 : nMId)
+            setError({
+                plant: ''
+            })
+            setFirstTimeAdd(false)
+        } else {
+            confirmAlert({
+                title: 'Alert !!',
+                closeOnClickOutside: false,
+                message: 'You are going to change the Plant of this transaction. In case you change it, all the below selections done will be removed. Do you still want to proceed ?',
+                buttons: [
+                    {
+                        label: 'Yes',
+                        onClick: () => {
+                            setnPId(value.value)
+                            setPlantDetail(value.label)
+                            getExpiryDatesforMaterialRelease(value.value, nMId == '' ? 0 : nMId)
+                            setError({
+                                plant: ''
+                            })
+                            setPODetails([])
+
+                        },
+                    },
+                    {
+                        label: 'No',
+                        onClick: () => {
+                            return null
+                        },
+                    },
+                ]
+            });
+
+        }
     }
     const changeBOMValue = (value) => {
         setnBId(value.value)
@@ -374,20 +407,20 @@ function AddMaterialRelease() {
         setvBatchNo(value)
         setTimeout(() => {
             if (value == '' || value == undefined) {
-              console.log('1')
-            }else{
+                console.log('1')
+            } else {
                 setTimeout(() => {
                     GetBatchNoDetails(value).then(res => {
                         console.log('response', res)
                         // setExpireDate(res)
-                        if(res?.length>0){
+                        if (res?.length > 0) {
                             setnBId(res[0].nBId)
                             setBomDetail(res[0].vBOMName)
                             setnBOMUnit(res[0].nBOMUnit)
                             setnPId(res[0].nPId)
                             setPlantDetail(res[0].PlantDetail)
                             setBomDisable(true)
-                        }else{
+                        } else {
                             setBomDisable(false)
                             setnBId('')
                             setBomDetail('')
@@ -397,7 +430,7 @@ function AddMaterialRelease() {
                         }
                     })
                 }, 1000)
-            }  
+            }
         }, 2000)
     }
     const handleexpireDateChange = (e) => {
@@ -408,20 +441,20 @@ function AddMaterialRelease() {
             buttons: [
                 {
                     label: 'Yes',
-                    onClick: () => { 
+                    onClick: () => {
                         setexpireDateValue(e.target.value)
                         getMaterialforRelease(nPId, nMId, e.target.value, nBId, nBOMUnit, vBatchNo)
-                     },
-                }, 
-                 {
+                    },
+                },
+                {
                     label: 'No',
-                    onClick: () => { 
-                       return null
-                     },
+                    onClick: () => {
+                        return null
+                    },
                 },
             ]
         });
-       
+
     }
     const getMaterialforRelease = (PId, MId, expireDate, Bid, BOMUnit, BatchNo) => {
         GetMaterialforRelease(PId, MId, expireDate, Bid, BOMUnit, BatchNo).then(res => {
@@ -450,7 +483,7 @@ function AddMaterialRelease() {
                             buttons: [
                                 {
                                     label: 'Ok',
-                                    onClick: () => { setnQty('')  },
+                                    onClick: () => { setnQty('') },
                                 },
                             ]
                         });
@@ -494,7 +527,6 @@ function AddMaterialRelease() {
     // }
     const validateformPoDetial = () => {
         if (nMId == '' || nMId == undefined) {
-            alert(1)
             setError({
                 MaterialDetail: 'Select Item *'
             })
@@ -624,17 +656,17 @@ function AddMaterialRelease() {
                 plant: 'Select PO No. *'
             })
             return false
-        }else if (nBId == '' || nBId == undefined) {
+        } else if (nBId == '' || nBId == undefined) {
             setError({
                 BomDetail: 'Select Material *'
             })
             return false
-        }else if (nMId == '' || nMId == undefined) {
+        } else if (nMId == '' || nMId == undefined) {
             setError({
                 MaterialDetail: 'Select Material *'
             })
             return false
-        }else if (expireDateValue == '' || expireDateValue == undefined) {
+        } else if (expireDateValue == '' || expireDateValue == undefined) {
             setError({
                 expireDate: 'Select Exp Date *'
             })
@@ -646,15 +678,12 @@ function AddMaterialRelease() {
 
     }
     const submit = () => {
-        let expDateFind= PODetails.find(e=>e.nMId==nMId&&e.ExpDate==expireDateValue)
-        if(expDateFind){
-            toast.success("Material with this Expiry Date is already Added.")
-        }else{
+        if (btnType == 'edit') {
             if (validateform() == true) {
                 // if (PODetails.length > 0) {
-    
-    
-    
+
+
+
                 // } else {
                 //     confirmAlert({
                 //         title: 'Alert !!',
@@ -675,10 +704,10 @@ function AddMaterialRelease() {
                         {
                             label: 'Yes',
                             onClick: () => {
-    
+
                                 setLoader(true)
                                 const POMasterData = [{
-                                    nGRNId: firstRecord==false?0:nGRNId,
+                                    nGRNId: nGRNId,
                                     nPId: nPId,
                                     nBId: nBId,
                                     nBOMUnit: nBOMUnit,
@@ -688,30 +717,45 @@ function AddMaterialRelease() {
                                     nLoggedInUserId: parseInt(nLoggedInUserId)
                                 }]
                                 const POMasterDataDtails = [{
-                                    nGRNId: firstRecord==false?0:nGRNId,
+                                    nGRNId: nGRNId,
                                     nMId: nMId,
                                     nQTYOut: nQty,
                                     dtExpDate: expireDateValue
                                 }]
                                 let GRNOrder = {}
                                 GRNOrder.GRNMaster = POMasterData,
-                                GRNOrder.GRNDetails = POMasterDataDtails
+                                    GRNOrder.GRNDetails = POMasterDataDtails
                                 console.log('PurchaseOrder', GRNOrder)
                                 MaterialRelease_Insert(GRNOrder).then(res => {
                                     if (res) {
-                                        setPODetails(res)
+                                        let count = Object.keys(res).length
+                                        let data = res
+                                        for (var i = 0; i < count; i++) {
+                                            let counts = i
+                                            res[i].id = counts
+                                        }
+                                        setPODetails(data)
                                         setBomDisable(true)
                                         setnGRNId(res[0].nGRNId),
-                                        setLoader(false)
+                                            setLoader(false)
                                         toast.success("Record Added Successfully !!")
                                         setfirstRecord(true)
-                                        setMaterialDetail('')
                                         setnMId('')
+                                        setMaterialDetail('')
+                                        setexpireDateValue('')
+                                        setRequiredQty('')
+                                        setReleasedQty('')
+                                        setLeftQty('')
+                                        setLeftStockQty('')
+                                        setnQty('')
+                                        setvUOM('')
+                                        setEditId(null)
+                                        setbtnType('')
                                         // navigate('/EnterOpeningStock')
-    
+
                                     }
                                 })
-    
+
                             }
                         },
                         {
@@ -720,9 +764,182 @@ function AddMaterialRelease() {
                         }
                     ]
                 });
-    
+
             }
+        } else {
+            let expDateFind = PODetails.find(e => e.nMId == nMId && e.ExpDate == expireDateValue)
+            if (expDateFind) {
+                toast.success("Material with this Expiry Date is already Added.")
+            } else {
+                if (validateform() == true) {
+                    // if (PODetails.length > 0) {
+
+
+
+                    // } else {
+                    //     confirmAlert({
+                    //         title: 'Alert !!',
+                    //         message: 'Please Add at least one Material.',
+                    //         buttons: [
+                    //             {
+                    //                 label: 'Ok',
+                    //                 onClick: () => { return null },
+                    //             },
+                    //         ]
+                    //     });
+                    // }
+                    confirmAlert({
+                        title: 'Alert !!',
+                        message: 'Do you want Proceed ?',
+                        closeOnClickOutside: false,
+                        buttons: [
+                            {
+                                label: 'Yes',
+                                onClick: () => {
+
+                                    setLoader(true)
+                                    const POMasterData = [{
+                                        nGRNId: nGRNId,
+                                        nPId: nPId,
+                                        nBId: nBId,
+                                        nBOMUnit: nBOMUnit,
+                                        vBatchNo: vBatchNo,
+                                        btActive: true,
+                                        dtGRNDate: parseDateToStringSubmit(new Date(startDate)),
+                                        nLoggedInUserId: parseInt(nLoggedInUserId)
+                                    }]
+                                    const POMasterDataDtails = [{
+                                        nGRNId: nGRNId,
+                                        nMId: nMId,
+                                        nQTYOut: nQty,
+                                        dtExpDate: expireDateValue
+                                    }]
+                                    let GRNOrder = {}
+                                    GRNOrder.GRNMaster = POMasterData,
+                                        GRNOrder.GRNDetails = POMasterDataDtails
+                                    console.log('PurchaseOrder', GRNOrder)
+                                    MaterialRelease_Insert(GRNOrder).then(res => {
+                                        if (res) {
+                                            setPODetails(res)
+                                            setBomDisable(true)
+                                            setnGRNId(res[0].nGRNId),
+                                            setLoader(false)
+                                            toast.success("Record Added Successfully !!")
+                                            setfirstRecord(true)
+                                            setnMId('')
+                                            setMaterialDetail('')
+                                            setexpireDateValue('')
+                                            setRequiredQty('')
+                                            setReleasedQty('')
+                                            setLeftQty('')
+                                            setLeftStockQty('')
+                                            setnQty('')
+                                            setvUOM('')
+                                            setEditId(null)
+                                            setbtnType('')
+                                            // navigate('/EnterOpeningStock')
+
+                                        }
+                                    })
+
+                                }
+                            },
+                            {
+                                label: 'No',
+                                onClick: () => { return null }
+                            }
+                        ]
+                    });
+
+                }
+            }
+
         }
+        // let expDateFind = PODetails.find(e => e.nMId == nMId && e.ExpDate == expireDateValue)
+        // if (expDateFind) {
+        //     toast.success("Material with this Expiry Date is already Added.")
+        // } else {
+        //     if (validateform() == true) {
+        //         // if (PODetails.length > 0) {
+
+
+
+        //         // } else {
+        //         //     confirmAlert({
+        //         //         title: 'Alert !!',
+        //         //         message: 'Please Add at least one Material.',
+        //         //         buttons: [
+        //         //             {
+        //         //                 label: 'Ok',
+        //         //                 onClick: () => { return null },
+        //         //             },
+        //         //         ]
+        //         //     });
+        //         // }
+        //         confirmAlert({
+        //             title: 'Alert !!',
+        //             message: 'Do you want Proceed ?',
+        //             closeOnClickOutside: false,
+        //             buttons: [
+        //                 {
+        //                     label: 'Yes',
+        //                     onClick: () => {
+
+        //                         setLoader(true)
+        //                         const POMasterData = [{
+        //                             nGRNId: firstRecord == false ? 0 : nGRNId,
+        //                             nPId: nPId,
+        //                             nBId: nBId,
+        //                             nBOMUnit: nBOMUnit,
+        //                             vBatchNo: vBatchNo,
+        //                             btActive: true,
+        //                             dtGRNDate: parseDateToStringSubmit(new Date(startDate)),
+        //                             nLoggedInUserId: parseInt(nLoggedInUserId)
+        //                         }]
+        //                         const POMasterDataDtails = [{
+        //                             nGRNId: firstRecord == false ? 0 : nGRNId,
+        //                             nMId: nMId,
+        //                             nQTYOut: nQty,
+        //                             dtExpDate: expireDateValue
+        //                         }]
+        //                         let GRNOrder = {}
+        //                         GRNOrder.GRNMaster = POMasterData,
+        //                             GRNOrder.GRNDetails = POMasterDataDtails
+        //                         console.log('PurchaseOrder', GRNOrder)
+        //                         MaterialRelease_Insert(GRNOrder).then(res => {
+        //                             if (res) {
+        //                                 setPODetails(res)
+        //                                 setBomDisable(true)
+        //                                 setnGRNId(res[0].nGRNId),
+        //                                     setLoader(false)
+        //                                 toast.success("Record Added Successfully !!")
+        //                                 setfirstRecord(true)
+        //                                 setnMId('')
+        //                                 setMaterialDetail('')
+        //                                 setexpireDateValue('')
+        //                                 setRequiredQty('')
+        //                                 setReleasedQty('')
+        //                                 setLeftQty('')
+        //                                 setLeftStockQty('')
+        //                                 setnQty('')
+        //                                 setvUOM('')
+        //                                 setEditId(null)
+        //                                 // navigate('/EnterOpeningStock')
+
+        //                             }
+        //                         })
+
+        //                     }
+        //                 },
+        //                 {
+        //                     label: 'No',
+        //                     onClick: () => { return null }
+        //                 }
+        //             ]
+        //         });
+
+        //     }
+        // }
 
 
     }
@@ -756,6 +973,7 @@ function AddMaterialRelease() {
     const editItem = (item) => {
         setbtnType('edit')
         setId(item.id)
+        setEditId(item.id)
         setnMId(item.nMId)
         setMaterialDetail(item.MaterialDetail)
         getExpiryDatesforMaterialRelease(nPId, item.nMId)
@@ -764,7 +982,21 @@ function AddMaterialRelease() {
         setnQtyRejected(item.nQtyRejected)
         setnAmt(item.TotalQty)
         setvUOM(item.vUOM)
+        getMaterialforReleaseForEdit(nPId, item.nMId, item.ExpDate, nBId, nBOMUnit, vBatchNo, item.nQTYOut)
 
+    }
+    const getMaterialforReleaseForEdit = (PId, MId, expireDate, Bid, BOMUnit, BatchNo, nOutQty) => {
+
+        GetMaterialforReleaseForEdit(PId, MId, expireDate, Bid, BOMUnit, BatchNo, nOutQty).then(res => {
+            console.log('response', res)
+            // setExpireDate(res)
+            setRequiredQty(res[0].RequiredQty)
+            setReleasedQty(res[0].ReleasedQty)
+            setLeftStockQty(res[0].LeftStockQty)
+            setLeftQty(res[0].LeftQty)
+            setnQty(res[0].ReleasedQty)
+
+        })
     }
     const goback = () => {
         confirmAlert({
@@ -782,7 +1014,19 @@ function AddMaterialRelease() {
                 }
             ]
         });
-
+    }
+    const refreshbtn = () => {
+        setEditId(null)
+        setnMId('')
+        setMaterialDetail('')
+        setexpireDateValue('')
+        setRequiredQty('')
+        setReleasedQty('')
+        setLeftQty('')
+        setLeftStockQty('')
+        setnQty('')
+        setvUOM('')
+        setbtnType('')
     }
     return (
         <div className='citymasterContainer'>
@@ -845,7 +1089,7 @@ function AddMaterialRelease() {
                             {errorText.plant != '' ? <p className='error'>{errorText.plant}</p> : null}
                         </FormControl>
                     </Box>
-                    
+
                     <Box sx={{ width: '32%', marginTop: 2 }} >
                         <FormControl fullWidth className='input'>
                             {/* <InputLabel required id="demo-simple-select-label">Plant</InputLabel>npm  */}
@@ -1054,7 +1298,6 @@ function AddMaterialRelease() {
                                 {expireDate.map((item, index) => {
                                     return (
                                         <MenuItem value={item.ExpDate} key={index}>{item.ExpDate}</MenuItem>
-
                                     )
                                 })
 
@@ -1171,7 +1414,7 @@ function AddMaterialRelease() {
                             {errorText.date != '' ? <p className='error'>{errorText.date}</p> : null}
                         </FormControl>
                     </Box> */}
-                    <div>
+                    <div style={{width: '100%',}}>
                         {firstRecord == true ?
                             <div>
                                 {loader == true ?
@@ -1181,11 +1424,16 @@ function AddMaterialRelease() {
                                     </CButton>
                                     :
                                     // <button type="submit" className='submitbtn' onClick={submit}>Submit</button>
-                                    <button title='Add&Submit' className='addbtn' onClick={handleSubmit(submit)}><AddIcon fontSize='large' /></button>
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                                        <button title='Add&Submit' className='addbtn' onClick={handleSubmit(submit)}>{btnType=='edit'?'Update':<AddIcon fontSize='large' />}</button>
+
+                                        <button title='Refresh' className='addbtn' onClick={refreshbtn}><ReplayIcon fontSize='large' /></button>
+                                    </div>
+
                                 }
                             </div>
                             :
-                            <div>
+                            <div >
                                 {loader == true ?
                                     <CButton disabled className='addbtn'>
                                         <CSpinner component="span" size="sm" aria-hidden="true" />
@@ -1193,7 +1441,11 @@ function AddMaterialRelease() {
                                     </CButton>
                                     :
                                     // <button type="submit" className='submitbtn' onClick={submit}>Submit</button>
-                                    <button title='Submit' className='addbtn' onClick={handleSubmit(submit)}>Submit</button>
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: 10,justifyContent:'space-between',width: '100%', }}>
+                                        <button title='Add&Submit' className='addbtn' onClick={handleSubmit(submit)}>Submit</button>
+
+                                        <button title='Refresh' className='addbtn' onClick={refreshbtn}><ReplayIcon fontSize='large' /></button>
+                                    </div>
                                 }
                             </div>
                         }
@@ -1223,13 +1475,12 @@ function AddMaterialRelease() {
 
                                             {PODetails.map((item, index) => {
                                                 return (
-                                                    <TableRow key={index}>
+                                                    <TableRow key={index} style={item.id==EditId?{background:'rgba(239,30,44,0.15)'}:{background:'#fff'}}>
                                                         <TableCell component="th" scope="row">{index + 1}.</TableCell>
                                                         <TableCell align="center">
-                                                            <div style={{ display: 'flex', justifyContent: 'center' }}>
+                                                            <div style={{ display: 'flex', justifyContent: 'space-between'}}>
                                                                 <button className='deletbtn' title='Delete' onClick={() => deleteItem(item.id)}><DeleteIcon size={20} color='red' /></button>
                                                                 <button className='deletbtn' title='Edit' onClick={() => editItem(item)}><BorderColorIcon size={20} color='#000' /></button>
-
                                                             </div>
 
                                                         </TableCell>
@@ -1239,7 +1490,7 @@ function AddMaterialRelease() {
                                                         <TableCell align="left">{item.BalanceQuantity}</TableCell> */}
                                                         <TableCell align="left">{item.ExpDate}</TableCell>
                                                         <TableCell align="left">{item.nQTYOut}</TableCell>
-                                                        
+
 
                                                     </TableRow>
                                                 )

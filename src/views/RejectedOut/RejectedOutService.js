@@ -53,6 +53,13 @@ export function GetBalStockForRejection(nPId,nMId,dtExpDate) {
         return response;
     })
 }
+export function GetBalStockForRejectionDuringEdit(nGRNId,nPId,nMId,dtExpDate) {
+    let apiUrl = environment.apiUrl;
+    let url = `${apiUrl}/GRNMaster/GetBalStockForRejectionDuringEdit/${nGRNId}/${nPId}/${nMId}/${dtExpDate}`
+    return get(url).then(response => {
+        return response;
+    })
+}
 export function POMasterPost(data,file) {
     let apiUrl = environment.apiUrl;
     const formData = new FormData();
@@ -71,9 +78,9 @@ export function Drain_Insert(data) {
         return response;
     })
 }
-export function AdditionalIn_Update(data) {
+export function DRAIN_Update(data) {
     let apiUrl = environment.apiUrl;
-    let url = `${apiUrl}/GRNMaster/AdditionalIn_Update`
+    let url = `${apiUrl}/GRNMaster/DRAIN_Update`
     return put(url, data).then(response => {
         return response;
     })
