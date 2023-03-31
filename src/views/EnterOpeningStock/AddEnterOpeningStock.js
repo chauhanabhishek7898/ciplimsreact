@@ -49,7 +49,7 @@ import BorderColorIcon from '@mui/icons-material/BorderColor';
 import { confirmAlert } from 'react-confirm-alert'; // Import
 import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
 import HomeIcon from '@mui/icons-material/Home';
-
+import ReplayIcon from '@mui/icons-material/Replay';
 function AddEnterOpeningStock() {
     const navigate = useNavigate();
     const [modalIsOpen, setIsOpen] = React.useState(false);
@@ -158,7 +158,8 @@ function AddEnterOpeningStock() {
     const [nGrandTotal, setnGrandTotal] = useState('')
     const [nNetTotalAmt, setnNetTotalAmt] = useState('')
     const [vUOM, setvUOM] = useState('')
-
+    const [EditId, setEditId] = useState('')
+    const [FirstTimeAdd, setFirstTimeAdd] = React.useState(true);
     useEffect(() => {
         const userId = localStorage.getItem("nUserId")
         setnLoggedInUserId(userId)
@@ -299,11 +300,50 @@ function AddEnterOpeningStock() {
 
     }
     const changePlantValue = (value) => {
-        setnPOId(value.value)
-        setPlantDetail(value.label)
-        setError({
-            plant: ''
-        })
+       
+        if (FirstTimeAdd == true) {
+            setnPOId(value.value)
+            setPlantDetail(value.label)
+            setError({
+                plant: ''
+            })
+            setFirstTimeAdd(false)
+        } else {
+            confirmAlert({
+                title: 'Alert !!',
+                closeOnClickOutside: false,
+                message: 'You are going to change the Plant of this transaction. In case you change it, all the below selections done will be removed. Do you still want to proceed ?',
+                buttons: [
+                    {
+                        label: 'Yes',
+                        onClick: () => {
+                            setnPOId(value.value)
+                            setPlantDetail(value.label)
+                            setError({
+                                plant: ''
+                            })
+                            setnMId('')
+                            setMaterialDetail('')
+                            setdtExpDate(new Date(Date.now()))
+                            setnQtyAccepted('')
+                            setnQtyRejected('')
+                            setnAmt('')
+                            setvUOM('')
+                            setEditId(null)
+                            setPODetails([])
+
+                        },
+                    },
+                    {
+                        label: 'No',
+                        onClick: () => {
+                            return null
+                        },
+                    },
+                ]
+            });
+
+        }
     }
     const changeVendorMasterValue = (value) => {
         setnVId(value.value)
@@ -410,6 +450,8 @@ function AddEnterOpeningStock() {
                             setnAmt('')
                             setnQtyAccepted('')
                             setnQtyRejected('')
+                            setvUOM('')
+                            setEditId(null)
 
                         }
                     },
@@ -454,7 +496,8 @@ function AddEnterOpeningStock() {
                                     setnAmt('')
                                     setnQtyAccepted('')
                                     setnQtyRejected('')
-
+                                    setvUOM('')
+                                    setEditId(null)
 
                                 }
                             }
@@ -571,6 +614,7 @@ function AddEnterOpeningStock() {
     const editItem = (item) => {
         setbtnType('edit')
         setId(item.id)
+        setEditId(item.id)
         setnMId(item.nMId)
         setMaterialDetail(item.MaterialDetail)
         setdtExpDate(item.dtExpDate2)
@@ -597,6 +641,17 @@ function AddEnterOpeningStock() {
             ]
         });
 
+    }
+    const refreshbtn = () => {
+        setEditId(null)
+        setnMId('')
+        setMaterialDetail('')
+        setdtExpDate(new Date(Date.now()))
+        setnQtyAccepted('')
+        setnQtyRejected('')
+        setnAmt('')
+        setvUOM('')
+        setbtnType('')
     }
     return (
         <div className='citymasterContainer'>
@@ -820,8 +875,10 @@ function AddEnterOpeningStock() {
                             {errorText.date != '' ? <p className='error'>{errorText.date}</p> : null}
                         </FormControl>
                     </Box>
-                    <div>
-                        <button title='Add' className='addbtn' onClick={addKoMonthDate}><AddIcon fontSize='large' /></button>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 10, justifyContent: 'space-between', width: '100%', }}>
+                        <button title='Add' className='addbtn' onClick={addKoMonthDate}>{btnType == 'edit' ? 'Update' : <AddIcon fontSize='large' />}</button>
+
+                        <button title='Refresh' className='addbtn' onClick={refreshbtn}><ReplayIcon fontSize='large' /></button>
                     </div>
                 </div>
                 <div className='tablecenter'>
@@ -849,7 +906,7 @@ function AddEnterOpeningStock() {
 
                                             {PODetails.map((item, index) => {
                                                 return (
-                                                    <TableRow key={index}>
+                                                    <TableRow key={index} style={item.id==EditId?{background:'rgba(239,30,44,0.15)'}:{background:'#fff'}}>
                                                         <TableCell component="th" scope="row">{index + 1}.</TableCell>
                                                         <TableCell align="center">
                                                             <div style={{ display: 'flex', justifyContent: 'center' }}>

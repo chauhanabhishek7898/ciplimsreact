@@ -339,6 +339,16 @@ function AddMaterialRelease() {
                             setError({
                                 plant: ''
                             })
+                            setnMId('')
+                            setMaterialDetail('')
+                            setexpireDateValue('')
+                            setRequiredQty('')
+                            setReleasedQty('')
+                            setLeftQty('')
+                            setLeftStockQty('')
+                            setnQty('')
+                            setvUOM('')
+                            setbtnType('')
                             setPODetails([])
 
                         },

@@ -47,6 +47,7 @@ import BorderColorIcon from '@mui/icons-material/BorderColor';
 import { confirmAlert } from 'react-confirm-alert'; // Import
 import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
 import HomeIcon from '@mui/icons-material/Home';
+import ReplayIcon from '@mui/icons-material/Replay';
 function AddPurchaseOrder() {
     const navigate = useNavigate();
     const [modalIsOpen, setIsOpen] = React.useState(false);
@@ -121,6 +122,8 @@ function AddPurchaseOrder() {
     const [btnType, setbtnType] = useState('')
     const [imgpreview, setimgPreview] = useState(false)
     const imageRef = useRef(null)
+    const [EditId, setEditId] = useState('')
+    const [FirstTimeAdd, setFirstTimeAdd] = React.useState(true);
     const [alert, setAlert] = React.useState({
         type: 'error',
         text: 'This is a alert message',
@@ -215,13 +218,59 @@ function AddPurchaseOrder() {
 
     }
     const changePlantValue = (value) => {
-        setnPId(value.value)
-        setPlantDetail(value.label)
-        setCostCentre(value.vCostCentre)
-        setProfitCentre(value.vProfitCentre)
-        setError({
-            plant: ''
-        })
+        if (FirstTimeAdd == true) {
+            setnPId(value.value)
+            setPlantDetail(value.label)
+            setCostCentre(value.vCostCentre)
+            setProfitCentre(value.vProfitCentre)
+            setError({
+                plant: ''
+            })
+            setFirstTimeAdd(false)
+        } else {
+            confirmAlert({
+                title: 'Alert !!',
+                closeOnClickOutside: false,
+                message: 'You are going to change the Plant of this transaction. In case you change it, all the below selections done will be removed. Do you still want to proceed ?',
+                buttons: [
+                    {
+                        label: 'Yes',
+                        onClick: () => {
+                            setnPId(value.value)
+                            setPlantDetail(value.label)
+                            setCostCentre(value.vCostCentre)
+                            setProfitCentre(value.vProfitCentre)
+                            setError({
+                                plant: ''
+                            })
+                            setnMId('')
+                            setMaterialDetail('')
+                            setnQty('')
+                            setnRate('')
+                            setnAmt('')
+                            setnSGSTP('')
+                            setnSGST('')
+                            setnCGSTP('')
+                            setnCGST('')
+                            setnIGSTP('')
+                            setnIGST('')
+                            setnTax('')
+                            setnTotalAmt('')
+                            setEditId(null)
+                            setPODetails([])
+
+                        },
+                    },
+                    {
+                        label: 'No',
+                        onClick: () => {
+                            return null
+                        },
+                    },
+                ]
+            });
+
+        }
     }
     const changeVendorMasterValue = (value) => {
         setnVId(value.value)
@@ -250,36 +299,36 @@ function AddPurchaseOrder() {
     const calculateAmount = (value, type) => {
         if (type == 'nQty') {
             setnQty(value)
-            let amount = parseInt(value==''?0:value) * parseInt(nRate==''?0:nRate) 
-            setnAmt(parseInt(amount==''?0:amount))
-            setnTotalAmt(parseInt(amount==''?0:amount))
+            let amount = parseInt(value == '' ? 0 : value) * parseInt(nRate == '' ? 0 : nRate)
+            setnAmt(parseInt(amount == '' ? 0 : amount))
+            setnTotalAmt(parseInt(amount == '' ? 0 : amount))
         }
         if (type == 'nRate') {
             setnRate(value)
-            let amount = parseInt(value==''?0:value) * parseInt(nQty==''?0:nQty)
-            setnAmt(parseInt(amount==''?0:amount))
-            setnTotalAmt(parseInt(amount==''?0:amount))
+            let amount = parseInt(value == '' ? 0 : value) * parseInt(nQty == '' ? 0 : nQty)
+            setnAmt(parseInt(amount == '' ? 0 : amount))
+            setnTotalAmt(parseInt(amount == '' ? 0 : amount))
         }
         if (type == 'nSGSTP') {
             setnSGSTP(value)
-            let amount = parseInt(value==''?0:value) *  parseInt(nAmt==''?0:nAmt) / 100
-            setnSGST(parseInt(amount==''?0:amount))
-            setnTax(parseInt(amount==''?0:amount) + parseInt(nCGST==''?0:nCGST) + parseInt(nIGST==''?0:nIGST))
-            setnTotalAmt( parseInt(nCGST==''?0:nCGST) + parseInt(nIGST==''?0:nIGST) + parseInt(nAmt==''?0:nAmt) + parseInt(amount==''?0:amount))
+            let amount = parseInt(value == '' ? 0 : value) * parseInt(nAmt == '' ? 0 : nAmt) / 100
+            setnSGST(parseInt(amount == '' ? 0 : amount))
+            setnTax(parseInt(amount == '' ? 0 : amount) + parseInt(nCGST == '' ? 0 : nCGST) + parseInt(nIGST == '' ? 0 : nIGST))
+            setnTotalAmt(parseInt(nCGST == '' ? 0 : nCGST) + parseInt(nIGST == '' ? 0 : nIGST) + parseInt(nAmt == '' ? 0 : nAmt) + parseInt(amount == '' ? 0 : amount))
         }
         if (type == 'nCGSTP') {
             setnCGSTP(value)
-            let amount = parseInt(value==''?0:value) *  parseInt(nAmt==''?0:nAmt) / 100
-            setnCGST(parseInt(amount==''?0:amount))
-            setnTax(parseInt(nSGST==''?0:nSGST) + parseInt(nIGST==''?0:nIGST) + parseInt(amount==''?0:amount))
-            setnTotalAmt(parseInt(nSGST==''?0:nSGST) + parseInt(nIGST==''?0:nIGST) +  parseInt(nAmt==''?0:nAmt) + parseInt(amount==''?0:amount))
+            let amount = parseInt(value == '' ? 0 : value) * parseInt(nAmt == '' ? 0 : nAmt) / 100
+            setnCGST(parseInt(amount == '' ? 0 : amount))
+            setnTax(parseInt(nSGST == '' ? 0 : nSGST) + parseInt(nIGST == '' ? 0 : nIGST) + parseInt(amount == '' ? 0 : amount))
+            setnTotalAmt(parseInt(nSGST == '' ? 0 : nSGST) + parseInt(nIGST == '' ? 0 : nIGST) + parseInt(nAmt == '' ? 0 : nAmt) + parseInt(amount == '' ? 0 : amount))
         }
         if (type == 'nIGSTP') {
             setnIGSTP(value)
-            let amount = parseInt(value==''?0:value) * parseInt(nAmt) / 100
-            setnIGST(parseInt(amount==''?0:amount))
-            setnTax(parseInt(nSGST == '' ? 0 : nSGST) + parseInt(nCGST == '' ? 0 : nCGST) + parseInt(amount==''?0:amount))
-            setnTotalAmt(parseInt(nSGST==''?0:nSGST) +parseInt(nCGST == '' ? 0 : nCGST) + parseInt(nAmt) + parseInt(amount==''?0:amount))
+            let amount = parseInt(value == '' ? 0 : value) * parseInt(nAmt) / 100
+            setnIGST(parseInt(amount == '' ? 0 : amount))
+            setnTax(parseInt(nSGST == '' ? 0 : nSGST) + parseInt(nCGST == '' ? 0 : nCGST) + parseInt(amount == '' ? 0 : amount))
+            setnTotalAmt(parseInt(nSGST == '' ? 0 : nSGST) + parseInt(nCGST == '' ? 0 : nCGST) + parseInt(nAmt) + parseInt(amount == '' ? 0 : amount))
         }
     }
     const validateformPoDetial = () => {
@@ -351,6 +400,7 @@ function AddPurchaseOrder() {
                             setnIGST('')
                             setnTax('')
                             setnTotalAmt('')
+                            setEditId(null)
                             setMaterialMaster([])
 
                         }
@@ -372,10 +422,10 @@ function AddPurchaseOrder() {
                             label: 'Yes',
                             onClick: () => {
                                 let poMasteerDetail = [...PODetails]
-                                let findnMId=poMasteerDetail.find(e=>e.nMId==nMId)
-                                if(findnMId){
+                                let findnMId = poMasteerDetail.find(e => e.nMId == nMId)
+                                if (findnMId) {
                                     toast.success("Item is already Added")
-                                }else{
+                                } else {
                                     poMasteerDetail.push({
                                         id: new Date().getUTCMilliseconds(),
                                         nMId: parseInt(nMId),
@@ -407,6 +457,7 @@ function AddPurchaseOrder() {
                                     setnIGST('')
                                     setnTax('')
                                     setnTotalAmt('')
+                                    setEditId(null)
                                     setMaterialMaster([])
                                 }
 
@@ -537,6 +588,7 @@ function AddPurchaseOrder() {
     const editItem = (item) => {
         setbtnType('edit')
         setId(item.id)
+        setEditId(item.id)
         setnMId(item.nMId)
         setMaterialDetail(item.vMId)
         setnQty(item.nQty)
@@ -570,6 +622,23 @@ function AddPurchaseOrder() {
         });
 
     }
+    const refreshbtn = () => {
+        setEditId(null)
+        setnMId('')
+        setMaterialDetail('')
+        setnQty('')
+        setnRate('')
+        setnAmt('')
+        setnSGSTP('')
+        setnSGST('')
+        setnCGSTP('')
+        setnCGST('')
+        setnIGSTP('')
+        setnIGST('')
+        setnTax('')
+        setnTotalAmt('')
+        setbtnType('')
+    }
     return (
         <div className='citymasterContainer'>
             <div className='dateFilter-2'>
@@ -577,7 +646,7 @@ function AddPurchaseOrder() {
                     <Box sx={{ width: '11%' }} >
                         <FormControl fullWidth className='input'>
                             <TextField
-                            sx={muiStyles.input}
+                                sx={muiStyles.input}
                                 value={vPONo}
                                 onChange={e => setvPONo(e.target.value)}
                                 required id="outlined-basic"
@@ -610,7 +679,7 @@ function AddPurchaseOrder() {
                     <Box sx={{ width: '34%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
-                            sx={muiStyles.input}
+                                sx={muiStyles.input}
                                 value={vPODesc}
                                 onChange={e => setvPODesc(e.target.value)}
                                 id="outlined-basic"
@@ -627,7 +696,7 @@ function AddPurchaseOrder() {
                         <FormControl fullWidth className='input'>
                             {/* <InputLabel required id="demo-simple-select-label">Plant</InputLabel>npm  */}
                             <Autocomplete
-                            sx={muiStyles.autoCompleate}
+                                sx={muiStyles.autoCompleate}
                                 disablePortal
                                 id="combo-box-demo"
                                 options={PlantMaster}
@@ -648,7 +717,7 @@ function AddPurchaseOrder() {
                     <Box sx={{ width: '11%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
-                            sx={muiStyles.input}
+                                sx={muiStyles.input}
                                 value={String(CostCentre == undefined ? '' : CostCentre)}
                                 // onChange={e => setBrandName(e.target.value)}
                                 id="outlined-basic"
@@ -665,7 +734,7 @@ function AddPurchaseOrder() {
                     <Box sx={{ width: '11%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
-                            sx={muiStyles.input}
+                                sx={muiStyles.input}
                                 value={String(ProfitCentre == undefined ? '' : ProfitCentre)}
                                 // onChange={e => setBrandName(e.target.value)} 
                                 id="outlined-basic"
@@ -682,7 +751,7 @@ function AddPurchaseOrder() {
                     <Box sx={{ width: '7%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
-                            sx={muiStyles.input}
+                                sx={muiStyles.input}
                                 value={vGLCode}
                                 onChange={e => setvGLCode(e.target.value)}
                                 id="outlined-basic"
@@ -701,7 +770,7 @@ function AddPurchaseOrder() {
                         <FormControl fullWidth className='input'>
                             <InputLabel id="demo-simple-select-label" sx={muiStyles.InputLabels}>Business</InputLabel>
                             <Select
-                            sx={muiStyles.select}
+                                sx={muiStyles.select}
                                 style={{ width: '100%', }}
                                 labelId="demo-simple-select-label"
                                 id="demo-simple-select"
@@ -731,7 +800,7 @@ function AddPurchaseOrder() {
                         <FormControl fullWidth className='input'>
                             {/* <InputLabel required id="demo-simple-select-label">Vendor</InputLabel> */}
                             <Autocomplete
-                            sx={muiStyles.autoCompleate}
+                                sx={muiStyles.autoCompleate}
                                 disablePortal
                                 id="combo-box-demo"
                                 options={VendorMaster}
@@ -751,7 +820,7 @@ function AddPurchaseOrder() {
                     <Box sx={{ width: '37.5%' }} >
                         <FormControl fullWidth className='input'>
                             <TextField
-                            sx={muiStyles.input}
+                                sx={muiStyles.input}
                                 value={vRemarks}
                                 onChange={e => setvRemarks(e.target.value)}
                                 id="outlined-basic"
@@ -792,7 +861,7 @@ function AddPurchaseOrder() {
                         <FormControl fullWidth className='input'>
                             {/* <InputLabel required id="demo-simple-select-label">Item</InputLabel> */}
                             <Autocomplete
-                            sx={muiStyles.autoCompleate}
+                                sx={muiStyles.autoCompleate}
                                 disablePortal
                                 id="combo-box-demo"
                                 options={MaterialMaster}
@@ -820,7 +889,7 @@ function AddPurchaseOrder() {
                     <Box sx={{ width: '5%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
-                            sx={muiStyles.input}
+                                sx={muiStyles.input}
                                 value={nRate}
                                 onChange={e => calculateAmount(e.target.value, 'nRate')}
                                 required id="outlined-basic"
@@ -828,7 +897,7 @@ function AddPurchaseOrder() {
                                 variant="outlined"
                                 name='rate'
                                 type="number" inputProps={{ min: 4, max: 10 }}
-                            
+
                             // error={Boolean(errors.rate)}
                             // helperText={errors.rate?.message}
                             />
@@ -838,7 +907,7 @@ function AddPurchaseOrder() {
                     <Box sx={{ width: '6%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
-                            sx={muiStyles.input}
+                                sx={muiStyles.input}
                                 value={nQty}
                                 onChange={e => calculateAmount(e.target.value, 'nQty')}
                                 required id="outlined-basic"
@@ -856,7 +925,7 @@ function AddPurchaseOrder() {
                     <Box sx={{ width: '6%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
-                            sx={muiStyles.input}
+                                sx={muiStyles.input}
                                 value={nAmt}
                                 onChange={e => setnAmt(e.target.value)}
                                 id="outlined-basic"
@@ -874,7 +943,7 @@ function AddPurchaseOrder() {
                     <Box sx={{ width: '6.5%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
-                            sx={muiStyles.input}
+                                sx={muiStyles.input}
                                 value={nSGSTP}
                                 onChange={e => calculateAmount(e.target.value, 'nSGSTP')}
                                 id="outlined-basic"
@@ -891,7 +960,7 @@ function AddPurchaseOrder() {
                     <Box sx={{ width: '5%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
-                            sx={muiStyles.input}
+                                sx={muiStyles.input}
                                 value={nSGST}
                                 onChange={e => setnSGST(e.target.value)}
                                 id="outlined-basic"
@@ -909,7 +978,7 @@ function AddPurchaseOrder() {
                     <Box sx={{ width: '6.5%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
-                            sx={muiStyles.input}
+                                sx={muiStyles.input}
                                 value={nCGSTP}
                                 onChange={e => calculateAmount(e.target.value, 'nCGSTP')}
                                 id="outlined-basic"
@@ -926,7 +995,7 @@ function AddPurchaseOrder() {
                     <Box sx={{ width: '5%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
-                            sx={muiStyles.input}
+                                sx={muiStyles.input}
                                 value={nCGST}
                                 onChange={e => setnCGST(e.target.value)}
                                 id="outlined-basic"
@@ -944,7 +1013,7 @@ function AddPurchaseOrder() {
                     <Box sx={{ width: '6.5%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
-                            sx={muiStyles.input}
+                                sx={muiStyles.input}
                                 value={nIGSTP}
                                 onChange={e => calculateAmount(e.target.value, 'nIGSTP')}
                                 id="outlined-basic"
@@ -961,7 +1030,7 @@ function AddPurchaseOrder() {
                     <Box sx={{ width: '5%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
-                            sx={muiStyles.input}
+                                sx={muiStyles.input}
                                 value={nIGST}
                                 onChange={e => setnIGST(e.target.value)}
                                 id="outlined-basic"
@@ -979,7 +1048,7 @@ function AddPurchaseOrder() {
                     <Box sx={{ width: '6%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
-                            sx={muiStyles.input}
+                                sx={muiStyles.input}
                                 value={nTax}
                                 onChange={e => setnTax(e.target.value)}
                                 id="outlined-basic"
@@ -997,7 +1066,7 @@ function AddPurchaseOrder() {
                     <Box sx={{ width: '9%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
-                            sx={muiStyles.input}
+                                sx={muiStyles.input}
                                 value={nTotalAmt}
                                 onChange={e => setnTotalAmt(e.target.value)}
                                 required id="outlined-basic"
@@ -1012,9 +1081,12 @@ function AddPurchaseOrder() {
                             />
                         </FormControl>
                     </Box>
-                    <div>
-                        <button title='Add' className='addbtn' onClick={addKoMonthDate}><AddIcon fontSize='large' /></button>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 10, justifyContent: 'space-between', width: '100%', }}>
+                        <button title='Add' className='addbtn' onClick={addKoMonthDate}>{btnType == 'edit' ? 'Update' : <AddIcon fontSize='large' />}</button>
+
+                        <button title='Refresh' className='addbtn' onClick={refreshbtn}><ReplayIcon fontSize='large' /></button>
                     </div>
+          
                 </div>
                 <div className='tablecenter'>
                     {PODetails.length > 0 ?
@@ -1025,45 +1097,43 @@ function AddPurchaseOrder() {
                                         <TableRow>
                                             <TableCell scope="row">SN.</TableCell>
                                             <TableCell align="center">Action</TableCell>
-                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>Material Name</TableCell>
-                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>Quantity</TableCell>
-                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>Rate</TableCell>
-                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>Amount</TableCell>
-                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>SGST in %</TableCell>
-                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>SGST </TableCell>
-                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>CGST  in %</TableCell>
-                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>CGST</TableCell>
-                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>IGST in %</TableCell>
-                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>IGST</TableCell>
-                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>Total Tax</TableCell>
-                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>Total Amount</TableCell>
+                                            <TableCell align="left" style={{ whiteSpace: 'nowrap' }}>Material Name</TableCell>
+                                            <TableCell align="left" style={{ whiteSpace: 'nowrap' }}>Quantity</TableCell>
+                                            <TableCell align="left" style={{ whiteSpace: 'nowrap' }}>Rate</TableCell>
+                                            <TableCell align="left" style={{ whiteSpace: 'nowrap' }}>Amount</TableCell>
+                                            <TableCell align="left" style={{ whiteSpace: 'nowrap' }}>SGST %</TableCell>
+                                            <TableCell align="left" style={{ whiteSpace: 'nowrap' }}>SGST </TableCell>
+                                            <TableCell align="left" style={{ whiteSpace: 'nowrap' }}>CGST %</TableCell>
+                                            <TableCell align="left" style={{ whiteSpace: 'nowrap' }}>CGST</TableCell>
+                                            <TableCell align="left" style={{ whiteSpace: 'nowrap' }}>IGST %</TableCell>
+                                            <TableCell align="left" style={{ whiteSpace: 'nowrap' }}>IGST</TableCell>
+                                            <TableCell align="left" style={{ whiteSpace: 'nowrap' }}>Total Tax</TableCell>
+                                            <TableCell align="left" style={{ whiteSpace: 'nowrap' }}>Total Amount</TableCell>
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
 
                                         {PODetails.map((item, index) => {
                                             return (
-                                                <TableRow key={index}>
+                                                <TableRow key={index} style={item.id==EditId?{background:'rgba(239,30,44,0.15)'}:{background:'#fff'}}>
                                                     <TableCell component="th" scope="row">{index + 1}.</TableCell>
                                                     <TableCell align="center">
                                                         <button className='deletbtn' title='Delete' onClick={() => deleteItem(item.id)}><DeleteIcon size={20} color='red' /></button>
                                                         <button className='deletbtn' title='Edit' onClick={() => editItem(item)}><BorderColorIcon size={20} color='#000' /></button>
 
                                                     </TableCell>
-                                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vMId}</TableCell>
-                                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.nQty}</TableCell>
-                                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>&#8377;{item.nRate}</TableCell>
-                                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>&#8377;{item.nAmt}</TableCell>
-                                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.nSGSTP}</TableCell>
-                                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>&#8377;{item.nSGST}</TableCell>
-                                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.nCGSTP}</TableCell>
-                                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>&#8377;{item.nCGST}</TableCell>
-                                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.nIGSTP}</TableCell>
-                                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>&#8377;{item.nIGST}</TableCell>
-                                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>&#8377;{item.nTax}</TableCell>
-                                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>&#8377;{item.nTotalAmt}</TableCell>
-
-
+                                                    <TableCell align="left" style={{ whiteSpace: 'nowrap' }}>{item.vMId}</TableCell>
+                                                    <TableCell align="left" style={{ whiteSpace: 'nowrap' }}>{item.nQty}</TableCell>
+                                                    <TableCell align="left" style={{ whiteSpace: 'nowrap' }}>{item.nRate}</TableCell>
+                                                    <TableCell align="left" style={{ whiteSpace: 'nowrap' }}>{item.nAmt}</TableCell>
+                                                    <TableCell align="left" style={{ whiteSpace: 'nowrap' }}>{item.nSGSTP}</TableCell>
+                                                    <TableCell align="left" style={{ whiteSpace: 'nowrap' }}>{item.nSGST}</TableCell>
+                                                    <TableCell align="left" style={{ whiteSpace: 'nowrap' }}>{item.nCGSTP}</TableCell>
+                                                    <TableCell align="left" style={{ whiteSpace: 'nowrap' }}>{item.nCGST}</TableCell>
+                                                    <TableCell align="left" style={{ whiteSpace: 'nowrap' }}>{item.nIGSTP}</TableCell>
+                                                    <TableCell align="left" style={{ whiteSpace: 'nowrap' }}>{item.nIGST}</TableCell>
+                                                    <TableCell align="left" style={{ whiteSpace: 'nowrap' }}>{item.nTax}</TableCell>
+                                                    <TableCell align="left" style={{ whiteSpace: 'nowrap' }}>{item.nTotalAmt}</TableCell>
                                                 </TableRow>
                                             )
                                         })

@@ -49,6 +49,7 @@ import { confirmAlert } from 'react-confirm-alert'; // Import
 import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
 import { imageUrl } from 'src/coreservices/environment';
 import HomeIcon from '@mui/icons-material/Home';
+import ReplayIcon from '@mui/icons-material/Replay';
 function EditGRNReceived() {
     const navigate = useNavigate();
     const location = useLocation();
@@ -162,6 +163,7 @@ function EditGRNReceived() {
     const [vPOFilePathFile, setvPOFilePathFile] = React.useState({});
     const [monthmodalIsOpen, setmonthmodalIsOpen] = React.useState(false);
     const [GrnData, setGrnData] = React.useState([]);
+    const [EditId, setEditId] = useState('')
     useEffect(() => {
         const userId = localStorage.getItem("nUserId")
         setnLoggedInUserId(userId)
@@ -282,6 +284,7 @@ function EditGRNReceived() {
             }
             setAllTotalAmount(datas)
             getMaterialMasterForGRN_SelectAll_ActiveLikeSearch(res.GRNMaster[0].nPOId,'')
+            setEditId(null)
         })
     }
 
@@ -655,6 +658,7 @@ function EditGRNReceived() {
             setnGrandTotal('')
             setnNetTotalAmt('')
             setBalanceQuantity('')
+            setEditId(null)
         } else {
             if (validateformPoDetial() == true) {
                 let poMasteerDetail = [...PODetails]
@@ -720,6 +724,7 @@ function EditGRNReceived() {
                     setnGrandTotal('')
                     setnNetTotalAmt('')
                     setBalanceQuantity('')
+                    setEditId(null)
 
                 }
 
@@ -856,6 +861,7 @@ function EditGRNReceived() {
         setbtnType('edit')
         console.log('item.id', item.id)
         setId(item.id)
+        setEditId(item.id)
         setnMId(item.nMId)
         setMaterialDetail(item.MaterialDetail)
         setnQty(item.POQty)
@@ -900,6 +906,32 @@ function EditGRNReceived() {
     const closeModal=()=>{
         setmonthmodalIsOpen(false)
         navigate('/GRNReceived')
+    }
+    const refreshbtn = () => {
+        setEditId(null)
+        setnMId('')
+        setMaterialDetail('')
+        setnQty('')
+        setBalanceQuantity('')
+        setnRate('')
+        setnAmt('')
+        setnSGSTP('')
+        setnSGST('')
+        setnCGSTP('')
+        setnCGST('')
+        setnIGSTP('')
+        setnIGST('')
+        setnTax('')
+        setnGrandTotal('')
+        setdtMfgDate(new Date(Date.now()))
+        setdtExpDate(new Date(Date.now()))
+        setnFreight('')
+        setnPoQtyAccepted('')
+        setnQtyAccepted('')
+        setnQtyRejected('')
+        setvBusiness('')
+        setnNetTotalAmt('')
+        setbtnType('')
     }
     return (
         <div className='citymasterContainer'>
@@ -1612,8 +1644,10 @@ function EditGRNReceived() {
                             />
                         </FormControl>
                     </Box>
-                    <div>
-                        <button title='Add' className='addbtn' onClick={addKoMonthDate}><AddIcon fontSize='large' /></button>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 10, justifyContent: 'space-between', width: '100%', }}>
+                        <button title='Add' className='addbtn' onClick={addKoMonthDate}>{btnType=='edit'?'Update':<AddIcon fontSize='large' />}</button>
+
+                        <button title='Refresh' className='addbtn' onClick={refreshbtn}><ReplayIcon fontSize='large' /></button>
                     </div>
                 </div>
                 <div className='tablecenter'>
@@ -1651,7 +1685,7 @@ function EditGRNReceived() {
 
                                         {PODetails.map((item, index) => {
                                             return (
-                                                <TableRow key={index}>
+                                                <TableRow key={index} style={item.id == EditId ? { background: 'rgba(239,30,44,0.15)' } : { background: '#fff' }}>
                                                     <TableCell component="th" scope="row">{index + 1}.</TableCell>
                                                     <TableCell align="center">
                                                         <div style={{ display: 'flex', }}>
