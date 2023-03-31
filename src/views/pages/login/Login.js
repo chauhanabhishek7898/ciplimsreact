@@ -80,6 +80,13 @@ const Login = () => {
             <CRow className="justify-content-center">
               <CCol md={8}>
                 <CCardGroup>
+                <CCard className="text-white  py-5" style={{ width: '44%',background:'#ef1e2c' }}>
+                    <CCardBody className="text-center" style={{display: 'flex',justifyContent: 'center',alignItems: 'center'}}>
+                      <div>
+                        <h style={{fontSize:65}}>IMS</h>
+                      </div>
+                    </CCardBody>
+                  </CCard>
                   <CCard className="p-4">
                     <CCardBody>
                       <CForm>
@@ -114,37 +121,22 @@ const Login = () => {
                             </CCol>
                             :
                             <CCol xs={6}>
-                              <CButton  style={{background:'#ef1e2c',color:"#fff",border:'none'}} className="px-4" onClick={login}>
+                              <CButton type='button' style={{background:'#ef1e2c',color:"#fff",border:'none'}} className="px-4"  onClick={login}>
                                 Login
                               </CButton>
                             </CCol>
                           }
 
-                          <CCol xs={6} className="text-right">
+                          {/* <CCol xs={6} className="text-right">
                             <CButton color="link" className="px-0">
                               Forgot password?
                             </CButton>
-                          </CCol>
+                          </CCol> */}
                         </CRow>
                       </CForm>
                     </CCardBody>
                   </CCard>
-                  <CCard className="text-white  py-5" style={{ width: '44%',background:'#ef1e2c' }}>
-                    <CCardBody className="text-center">
-                      <div>
-                        <h2>Sign up</h2>
-                        <p>
-                          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                          tempor incididunt ut labore et dolore magna aliqua.
-                        </p>
-                        <Link to="/register">
-                          <CButton style={{background:'#fff',color:"#000",border:'none'}} className="mt-3" active tabIndex={-1}>
-                            Register Now!
-                          </CButton>
-                        </Link>
-                      </div>
-                    </CCardBody>
-                  </CCard>
+                 
                 </CCardGroup>
               </CCol>
             </CRow>

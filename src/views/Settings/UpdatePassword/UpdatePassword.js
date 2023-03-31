@@ -9,6 +9,10 @@ import { UserChangePassword_Update } from '../SettingsApi'
 function UpdatePassword() {
     const [vPassword, setvPassword] = React.useState('');
     const [confirmvPassword, setconfirmvPassword] = React.useState('');
+    const [Error, setError] = React.useState({
+        pass:'',
+        confpass:''
+    });
     const [nUserId, setnUserId] = React.useState('');
     const [loader, setLoader] = React.useState(false);
     const { register, handleSubmit, control, errors } = useForm();
@@ -17,21 +21,41 @@ function UpdatePassword() {
         const userId = localStorage.getItem("nUserId")
         setnUserId(userId)
     }, [])
+    const validate=()=>{
 
-    const submit = () => {
-        setLoader(true)
-        let data = {
-            nUserId: parseInt(nUserId),
-            vPassword: vPassword
-        }
-        UserChangePassword_Update(data).then(res => {
-            if (res) {
-                toast.success(res)
-                setLoader(false)
-                setvPassword('')
-                setconfirmvPassword('')
+        if(vPassword==''){
+            setError({
+                pass:'Enter Passwords '
             }
-        })
+                )
+            return false
+        }else if(confirmvPassword!=vPassword){
+            setError({
+                confpass:'Passwords do not match'
+            })
+            return false
+        }else{
+            return true
+        }
+    }
+    const submit = () => {
+        if(validate()==true){
+            setLoader(true)
+            let data = {
+                nUserId: parseInt(nUserId),
+                vPassword: vPassword
+            }
+            UserChangePassword_Update(data).then(res => {
+                if (res) {
+                    toast.success(res)
+                    setLoader(false)
+                    setvPassword('')
+                    setconfirmvPassword('')
+                    setError('')
+                }
+            })
+
+        }
     }
     return (
         <div className='citymasterContainer'>
@@ -46,11 +70,9 @@ function UpdatePassword() {
                     value={vPassword}
                     name='vPassword'
                     onChange={e => setvPassword(e.target.value)}
-                    inputRef={register({ required: "New Password is required.*", })}
-                    error={Boolean(errors.vPassword)}
-                    helperText={errors.vPassword?.message}
+                   
                 />
-                    
+                    {Error.pass!=''?<p style={{color:'red',fontSize:10}}>{Error.pass}</p>:null}
                 </div>
                 <div className='emailInput mt-4'>
                 <TextField
@@ -62,18 +84,8 @@ function UpdatePassword() {
                     value={confirmvPassword}
                     name='confirmvPassword'
                     onChange={e => setconfirmvPassword(e.target.value)}
-                    inputRef={register(
-                        // { required: "Confirm Password is required.*" },
-                        {
-                        validate: value =>
-                          value === vPassword.current || "The passwords do not match"
-                      }
-                      )}
-                    
-                    error={Boolean(errors.confirmvPassword)}
-                    helperText={errors.confirmvPassword?.message}
                 />
-                    
+                    {Error.confpass!=''?<p style={{color:'red',fontSize:10}}>{Error.confpass}</p>:null}
                 </div>
             </div>
             <div>
@@ -83,7 +95,7 @@ function UpdatePassword() {
                         Loading...
                     </CButton>
                     :
-                    <button type="submit" className='submitbtn' onClick={handleSubmit(submit)}>Update</button>
+                    <button type="submit" className='submitbtn' onClick={submit}>Update</button>
                 }
 
             </div>
