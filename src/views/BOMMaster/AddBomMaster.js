@@ -613,7 +613,7 @@ function AddBomMaster() {
                             // error={Boolean(errors.Quantity)}
                             // helperText={errors.Quantity?.message}
                             />
-                            {errorText.Quan != '' ? <p className='error'>{errorText.Quan}</p> : null}
+                            {/* {errorText.Quan != '' ? <p className='error'>{errorText.Quan}</p> : null} */}
                         </FormControl>
                     </Box>
                     <Box sx={{ width: '18%' }} >
