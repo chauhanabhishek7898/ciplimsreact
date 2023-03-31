@@ -45,6 +45,7 @@ import BorderColorIcon from '@mui/icons-material/BorderColor';
 import { confirmAlert } from 'react-confirm-alert'; // Import
 import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
 import HomeIcon from '@mui/icons-material/Home';
+import { imageUrl } from 'src/coreservices/environment';
 function EditBomMaster() {
     const navigate = useNavigate();
     const location = useLocation();
@@ -666,7 +667,7 @@ function EditBomMaster() {
                             // error={Boolean(errors.Quantity)}
                             // helperText={errors.Quantity?.message}
                             />
-                            {errorText.Quan != '' ? <p className='error'>{errorText.Quan}</p> : null}
+                            {/* {errorText.Quan != '' ? <p className='error'>{errorText.Quan}</p> : null} */}
                         </FormControl>
                     </Box>
                     <Box sx={{ width: '6%' }} >
