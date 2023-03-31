@@ -28,15 +28,15 @@ import ExportExcel from 'src/shareFunction/Excelexport';
 import CircularProgress from '@mui/joy/CircularProgress';
 function VenderForm() {
     // <TableCell scope="row">SN.</TableCell>
-    // <TableCell align="left">Vendor Code</TableCell>
-    // <TableCell align="left">Vendor Name</TableCell>
-    // <TableCell align="left">Vendor Address</TableCell>
-    // <TableCell align="left">Contact Person</TableCell>
-    // <TableCell align="left">Mobile No</TableCell>
-    // <TableCell align="left">Email Id</TableCell>
-    // <TableCell align="left">GST No</TableCell>
-    // <TableCell align="left">Remarks</TableCell>
-    // <TableCell align="left">Status</TableCell>
+    // <TableCell align="left" style={{whiteSpace:'nowrap'}}>Vendor Code</TableCell>
+    // <TableCell align="left" style={{whiteSpace:'nowrap'}}>Vendor Name</TableCell>
+    // <TableCell align="left" style={{whiteSpace:'nowrap'}}>Vendor Address</TableCell>
+    // <TableCell align="left" style={{whiteSpace:'nowrap'}}>Contact Person</TableCell>
+    // <TableCell align="left" style={{whiteSpace:'nowrap'}}>Mobile No</TableCell>
+    // <TableCell align="left" style={{whiteSpace:'nowrap'}}>Email Id</TableCell>
+    // <TableCell align="left" style={{whiteSpace:'nowrap'}}>GST No</TableCell>
+    // <TableCell align="left" style={{whiteSpace:'nowrap'}}>Remarks</TableCell>
+    // <TableCell align="left" style={{whiteSpace:'nowrap'}}>Status</TableCell>
 
     let Heading = [['SN.', 'Vendor Code', 'Vendor Name', 'Vendor Address', 'Contact Person', 'Mobile No', 'Email Id', 'GST No', 'Remarks', 'Status']];
 
@@ -216,9 +216,10 @@ function VenderForm() {
                     <HighlightOffIcon fontSize='large' onClick={() => setIsOpen(false)} />
                 </div>
                 <div className='displayflexend'>
-                    <Box sx={{ width: '30%' }} >
+                    <Box sx={{ width: '15%' }} >
                         <FormControl fullWidth className='input'>
                             <TextField
+                                sx={muiStyles.input}
                                 value={vVendorCode}
                                 onChange={e => setvVendorCode(e.target.value)}
                                 id="outlined-basic"
@@ -232,9 +233,10 @@ function VenderForm() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '30%' }} >
+                    <Box sx={{ width: '15%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
+                            sx={muiStyles.input}
                                 value={vVendorName}
                                 onChange={e => setvVendorName(e.target.value)}
                                 id="outlined-basic"
@@ -248,24 +250,11 @@ function VenderForm() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '30%', marginTop: 2 }} >
+                    
+                    <Box sx={{ width: '17%', marginTop: 2 }} >
                         <FormControl fullWidth className='input'>
                             <TextField
-                                value={vVendorAddress}
-                                onChange={e => setvVendorAddress(e.target.value)}
-                                id="outlined-basic"
-                                label="Vendor Address"
-                                variant="outlined"
-                            // name='vVendorAddress'
-                            // inputRef={register({ required: "Vendor Address is required.*", })}
-                            // error={Boolean(errors.vVendorAddress)}
-                            // helperText={errors.vVendorAddress?.message}
-                            />
-                        </FormControl>
-                    </Box>
-                    <Box sx={{ width: '30%', marginTop: 2 }} >
-                        <FormControl fullWidth className='input'>
-                            <TextField
+                            sx={muiStyles.input}
                                 value={vContactPerson}
                                 onChange={e => setvContactPerson(e.target.value)}
                                 id="outlined-basic"
@@ -278,9 +267,10 @@ function VenderForm() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '30%', marginTop: 2 }} >
+                    <Box sx={{ width: '15%', marginTop: 2 }} >
                         <FormControl fullWidth className='input'>
                             <TextField
+                            sx={muiStyles.input}
                                 value={vMobileNo}
                                 onChange={e => setvMobileNo(e.target.value)}
                                 id="outlined-basic"
@@ -293,9 +283,10 @@ function VenderForm() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '30%', marginTop: 2 }} >
+                    <Box sx={{ width: '32%', marginTop: 2 }} >
                         <FormControl fullWidth className='input'>
                             <TextField
+                            sx={muiStyles.input}
                                 value={vEmailId}
                                 onChange={e => setvEmailId(e.target.value)}
                                 id="outlined-basic"
@@ -308,9 +299,26 @@ function VenderForm() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '30%', marginTop: 2 }}>
+                    <Box sx={{ width: '100%', marginTop: 2 }} >
                         <FormControl fullWidth className='input'>
                             <TextField
+                            sx={muiStyles.input}
+                                value={vVendorAddress}
+                                onChange={e => setvVendorAddress(e.target.value)}
+                                id="outlined-basic"
+                                label="Vendor Address"
+                                variant="outlined"
+                            // name='vVendorAddress'
+                            // inputRef={register({ required: "Vendor Address is required.*", })}
+                            // error={Boolean(errors.vVendorAddress)}
+                            // helperText={errors.vVendorAddress?.message}
+                            />
+                        </FormControl>
+                    </Box>
+                    <Box sx={{ width: '32%', marginTop: 2 }}>
+                        <FormControl fullWidth className='input'>
+                            <TextField
+                            sx={muiStyles.input}
                                 value={vGSTNo}
                                 onChange={e => setvGSTNo(e.target.value)}
                                 id="outlined-basic"
@@ -323,9 +331,11 @@ function VenderForm() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '65%', marginTop: 2 }}>
+
+                    <Box sx={{ width: '65.2%', marginTop: 2 }}>
                         <FormControl fullWidth className='input'>
                             <TextField
+                            sx={muiStyles.input}
                                 value={vRemarks}
                                 onChange={e => setvRemarks(e.target.value)}
                                 id="outlined-basic"
@@ -377,16 +387,16 @@ function VenderForm() {
                             <TableHead>
                                 <TableRow>
                                     {/* <TableCell scope="row">SN.</TableCell> */}
-                                    <TableCell align="left">Edit</TableCell>
-                                    <TableCell align="left">Status</TableCell>
-                                    <TableCell align="left">Vendor Code</TableCell>
-                                    <TableCell align="left">Vendor Name</TableCell>
-                                    <TableCell align="left">Address</TableCell>
-                                    <TableCell align="left">Contact Person</TableCell>
-                                    <TableCell align="left">Mobile No</TableCell>
-                                    <TableCell align="left">Email Id</TableCell>
-                                    <TableCell align="left">GST No</TableCell>
-                                    <TableCell align="left">Remarks</TableCell>
+                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Edit</TableCell>
+                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Status</TableCell>
+                                    <TableCell align="left"style={{whiteSpace:'nowrap'}}>Vendor Code</TableCell>
+                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Vendor Name</TableCell>
+                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Address</TableCell>
+                                    <TableCell align="left"style={{whiteSpace:'nowrap'}}>Contact Person</TableCell>
+                                    <TableCell align="left"style={{whiteSpace:'nowrap'}}>Mobile No</TableCell>
+                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Email Id</TableCell>
+                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>GST No</TableCell>
+                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Remarks</TableCell>
                                 </TableRow>
                             </TableHead>
                             {vendorData?.length>0?
@@ -395,16 +405,16 @@ function VenderForm() {
                                     return (
                                         <TableRow key={index}>
                                             {/* <TableCell component="th" scope="row">{index + 1}.</TableCell> */}
-                                            <TableCell align="left"><div onClick={() => openmodale(item, 'Update')}><BorderColorIcon size={20} color='#000' /></div></TableCell>
-                                            <TableCell align="left">{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
-                                            <TableCell align="left">{item.vVendorCode}</TableCell>
-                                            <TableCell align="left">{item.vVendorName}</TableCell>
-                                            <TableCell align="left">{item.vVendorAddress}</TableCell>
-                                            <TableCell align="left">{item.vContactPerson}</TableCell>
-                                            <TableCell align="left">{item.vMobileNo}</TableCell>
-                                            <TableCell align="left">{item.vEmailId}</TableCell>
-                                            <TableCell align="left">{item.vGSTNo}</TableCell>
-                                            <TableCell align="left">{item.vRemarks}</TableCell>
+                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}><div onClick={() => openmodale(item, 'Update')}><BorderColorIcon size={20} color='#000' /></div></TableCell>
+                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
+                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vVendorCode}</TableCell>
+                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vVendorName}</TableCell>
+                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vVendorAddress}</TableCell>
+                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vContactPerson}</TableCell>
+                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vMobileNo}</TableCell>
+                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vEmailId}</TableCell>
+                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vGSTNo}</TableCell>
+                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vRemarks}</TableCell>
                                         </TableRow>
                                     )
                                 })
@@ -444,5 +454,97 @@ const customStyles = {
         transform: 'translate(-50%, -50%)',
         width: '50%',
     },
+};
+const muiStyles = {
+    content: {
+        top: '50%',
+        left: '50%',
+        right: 'auto',
+        bottom: 'auto',
+        marginRight: '-50%',
+        transform: 'translate(-50%, -50%)',
+        width: '50%',
+    },
+    date: {
+        "& .MuiInputBase-root": {
+            "& input": {
+                padding: '5px 14px',
+                fontSize: '13px'
+            }
+        },
+        "& .MuiFormLabel-root": {
+            fontSize: '13px',
+            lineHeight: '0',
+            top: '4.6px',
+            overflow: 'visible',
+            background: '#fff',
+            zIndex: '1'
+        },
+        "& label.Mui-focused": {
+            top: '5px',
+            background: '#fff',
+            zIndex: '1'
+
+        },
+    },
+    autoCompleate: {
+        "& .MuiOutlinedInput-root": {
+            padding: '0px',
+            "& .MuiAutocomplete-input": {
+                padding: '5px 14px',
+                fontSize: '13px'
+            }
+
+        },
+        "& .MuiFormLabel-root": {
+            fontSize: '13px',
+            lineHeight: '0',
+            top: '-4px',
+            overflow: 'visible',
+        },
+        "& label.Mui-focused": {
+            top: '5px',
+            backgroundColor: '#fff',
+            zIndex: '1'
+        },
+    },
+    input: {
+        "& .MuiOutlinedInput-root": {
+            "& input": {
+                padding: '6px 14px',
+                fontSize: '12px'
+            }
+        },
+        "& .MuiFormLabel-root": {
+            fontSize: '13px',
+            lineHeight: '0',
+            top: '-4px',
+            overflow: 'visible',
+        },
+        "& label.Mui-focused": {
+            top: '5px',
+            backgroundColor: 'green',
+            zIndex: '1'
+        },
+    },
+    select: {
+        "& .MuiSelect-select": {
+            padding: '3px 14px',
+            fontSize: '12px'
+        },
+
+    },
+    InputLabels: {
+        fontSize: '13px',
+        lineHeight: '0',
+        top: '-4px',
+        overflow: 'visible',
+        "&.Mui-focused": {
+            top: '5px',
+            backgroundColor: 'green',
+            zIndex: '1'
+        }
+    }
+
 };
 export default VenderForm

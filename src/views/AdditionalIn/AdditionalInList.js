@@ -174,7 +174,7 @@ function AdditionalInList() {
                                         value={fromDate}
                                         onChange={handleChangeFromedate}
                                         maxDate={new Date(Date.now())}
-                                        renderInput={(params) => <TextField {...params} />}
+                                        renderInput={(params) => <TextField sx={muiStyles.date}{...params} />}
 
                                     />
                                 </Stack>
@@ -189,7 +189,7 @@ function AdditionalInList() {
                                         value={toDate}
                                         onChange={handleChangeTodate}
                                         maxDate={new Date(Date.now())}
-                                        renderInput={(params) => <TextField {...params} />}
+                                        renderInput={(params) => <TextField sx={muiStyles.date}{...params} />}
 
                                     />
                                 </Stack>
@@ -199,6 +199,7 @@ function AdditionalInList() {
                         <Box sx={{ width: '28%' }} >
                             <FormControl fullWidth className='input' >
                                 <TextField
+                                sx={muiStyles.input}
                                     value={vGenric}
                                     onChange={e => setvGenric(e.target.value)}
                                     id="outlined-basic"
@@ -223,12 +224,12 @@ function AdditionalInList() {
                                 <TableRow>
                                     {/* <TableCell scope="row" style={{width:'2%'}}>SN.</TableCell> */}
                                     <TableCell align="center">Edit</TableCell>
-                                    <TableCell align="left">Status</TableCell>
-                                    <TableCell align="left">Reference No</TableCell>
-                                    <TableCell align="left">Batch No</TableCell>
-                                    <TableCell align="left">Plant Detail</TableCell>
-                                    <TableCell align="left">Dated</TableCell>
-                                    <TableCell align="left">Remarks</TableCell>
+                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Status</TableCell>
+                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Reference No</TableCell>
+                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Batch No</TableCell>
+                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Plant Detail</TableCell>
+                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Dated</TableCell>
+                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Remarks</TableCell>
 
                                 </TableRow>
                             </TableHead>
@@ -239,12 +240,12 @@ function AdditionalInList() {
                                             <TableRow key={index}>
                                                 {/* <TableCell component="th" scope="row">{index + 1}.</TableCell> */}
                                                 <TableCell align="center"><button className='deletbtn' title='Edit' onClick={() => handleDetail(item.nGRNId)}><BorderColorIcon size={20} color='#000' /></button></TableCell>
-                                                <TableCell align="left">{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
-                                                <TableCell align="left">{item.AINo}</TableCell>
-                                                <TableCell align="left">{item.vBatchNo}</TableCell>
-                                                <TableCell align="left">{item.PlantDetail}</TableCell>
-                                                <TableCell align="left">{item.Dated}</TableCell>
-                                                <TableCell align="left">{item.vRemarks}</TableCell>
+                                                <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
+                                                <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.AINo}</TableCell>
+                                                <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vBatchNo}</TableCell>
+                                                <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.PlantDetail}</TableCell>
+                                                <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.Dated}</TableCell>
+                                                <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vRemarks}</TableCell>
 
                                             </TableRow>
                                         )
@@ -288,6 +289,97 @@ const customStyles = {
         width: '80%',
     },
 };
+const muiStyles = {
+    content: {
+        top: '50%',
+        left: '50%',
+        right: 'auto',
+        bottom: 'auto',
+        marginRight: '-50%',
+        transform: 'translate(-50%, -50%)',
+        width: '50%',
+    },
+    date: {
+        "& .MuiInputBase-root": {
+            "& input": {
+                padding: '5px 14px',
+                fontSize: '13px'
+            }
+        },
+        "& .MuiFormLabel-root": {
+            fontSize: '13px',
+            lineHeight: '0',
+            top: '4.6px',
+            overflow: 'visible',
+            background: '#fff',
+            zIndex: '1'
+        },
+        "& label.Mui-focused": {
+            top: '5px',
+            background: '#fff',
+            zIndex: '1'
 
+        },
+    },
+    autoCompleate: {
+        "& .MuiOutlinedInput-root": {
+            padding: '0px',
+            "& .MuiAutocomplete-input": {
+                padding: '5px 14px',
+                fontSize: '13px'
+            }
+
+        },
+        "& .MuiFormLabel-root": {
+            fontSize: '13px',
+            lineHeight: '0',
+            top: '-4px',
+            overflow: 'visible',
+        },
+        "& label.Mui-focused": {
+            top: '5px',
+            backgroundColor: '#fff',
+            zIndex: '1'
+        },
+    },
+    input: {
+        "& .MuiOutlinedInput-root": {
+            "& input": {
+                padding: '6px 14px',
+                fontSize: '12px'
+            }
+        },
+        "& .MuiFormLabel-root": {
+            fontSize: '13px',
+            lineHeight: '0',
+            top: '-4px',
+            overflow: 'visible',
+        },
+        "& label.Mui-focused": {
+            top: '5px',
+            backgroundColor: 'green',
+            zIndex: '1'
+        },
+    },
+    select: {
+        "& .MuiSelect-select": {
+            padding: '3px 14px',
+            fontSize: '12px'
+        },
+
+    },
+    InputLabels: {
+        fontSize: '13px',
+        lineHeight: '0',
+        top: '-4px',
+        overflow: 'visible',
+        "&.Mui-focused": {
+            top: '5px',
+            backgroundColor: 'green',
+            zIndex: '1'
+        }
+    }
+
+};
 
 export default AdditionalInList

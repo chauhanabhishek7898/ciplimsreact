@@ -1043,7 +1043,7 @@ function AddMaterialRelease() {
                                         required
                                         disabled={BomDisable}
                                         onChange={handleChangeStartdate}
-                                        renderInput={(params) => <TextField {...params} />}
+                                        renderInput={(params) => <TextField sx={muiStyles.date}{...params} />}
                                     />
                                 </Stack>
                             </LocalizationProvider>
@@ -1053,6 +1053,7 @@ function AddMaterialRelease() {
                     <Box sx={{ width: '15%', marginTop: 1 }} >
                         <FormControl fullWidth className='input'>
                             <TextField
+                            sx={muiStyles.input}
                                 value={vBatchNo}
                                 onChange={e => getBatchNoDetails(e.target.value)}
                                 id="outlined-basic"
@@ -1070,6 +1071,7 @@ function AddMaterialRelease() {
                         <FormControl fullWidth className='input'>
                             {/* <InputLabel required id="demo-simple-select-label">Plant</InputLabel>npm  */}
                             <Autocomplete
+                            sx={muiStyles.autoCompleate}
                                 disablePortal
                                 id="combo-box-demo"
                                 options={PlantMaster}
@@ -1094,6 +1096,7 @@ function AddMaterialRelease() {
                         <FormControl fullWidth className='input'>
                             {/* <InputLabel required id="demo-simple-select-label">Plant</InputLabel>npm  */}
                             <Autocomplete
+                            sx={muiStyles.autoCompleate}
                                 disablePortal
                                 id="combo-box-demo"
                                 options={BOMMaster}
@@ -1115,6 +1118,7 @@ function AddMaterialRelease() {
                     <Box sx={{ width: '7%', marginTop: 1 }} >
                         <FormControl fullWidth className='input'>
                             <TextField
+                            sx={muiStyles.input}
                                 value={nBOMUnit}
                                 onChange={e => changeBOMMaterialsQtyValue(e.target.value)}
                                 id="outlined-basic"
@@ -1168,10 +1172,10 @@ function AddMaterialRelease() {
                                             <TableHead>
                                                 <TableRow>
                                                     <TableCell scope="row" style={{ width: '2%' }} >SN.</TableCell>
-                                                    <TableCell align="left">Material Name</TableCell>
-                                                    <TableCell align="left">UOM</TableCell>
-                                                    <TableCell align="left">Qty</TableCell>
-                                                    <TableCell align="left">Required Qty</TableCell>
+                                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Material Name</TableCell>
+                                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>UOM</TableCell>
+                                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Qty</TableCell>
+                                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Required Qty</TableCell>
                                                 </TableRow>
                                             </TableHead>
                                             <TableBody>
@@ -1179,10 +1183,10 @@ function AddMaterialRelease() {
                                                     return (
                                                         <TableRow key={index}>
                                                             <TableCell component="th" scope="row">{index + 1}.</TableCell>
-                                                            <TableCell align="left">{item.MaterialDetail}</TableCell>
-                                                            <TableCell align="left">{item.vUOM}</TableCell>
-                                                            <TableCell align="left">{item.nQty}</TableCell>
-                                                            <TableCell align="left">{item.RequiredQty}</TableCell>
+                                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.MaterialDetail}</TableCell>
+                                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vUOM}</TableCell>
+                                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.nQty}</TableCell>
+                                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.RequiredQty}</TableCell>
                                                         </TableRow>
                                                     )
                                                 })
@@ -1209,6 +1213,7 @@ function AddMaterialRelease() {
                         <FormControl fullWidth className='input'>
                             {/* <InputLabel required id="demo-simple-select-label">Item</InputLabel>  */}
                             <Autocomplete
+                            sx={muiStyles.autoCompleate}
                                 disablePortal
                                 id="combo-box-demo"
                                 options={MaterialMaster}
@@ -1271,6 +1276,7 @@ function AddMaterialRelease() {
                     <Box sx={{ width: '5%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
+                            sx={muiStyles.input}
                                 value={vUOM}
                                 // onChange={e => setnAmt(e.target.value)}
                                 id="outlined-basic"
@@ -1286,8 +1292,9 @@ function AddMaterialRelease() {
                     </Box>
                     <Box sx={{ width: '8%' }}>
                         <FormControl fullWidth className='input'>
-                            <InputLabel id="demo-simple-select-label" required>Exp Date</InputLabel>
+                            <InputLabel id="demo-simple-select-label" required sx={muiStyles.InputLabels}>Exp Date</InputLabel>
                             <Select
+                            sx={muiStyles.select}
                                 style={{ width: '100%', }}
                                 labelId="demo-simple-select-label"
                                 id="demo-simple-select"
@@ -1311,6 +1318,7 @@ function AddMaterialRelease() {
                     <Box sx={{ width: '12%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
+                            sx={muiStyles.input}
                                 value={RequiredQty}
                                 onChange={e => setRequiredQty(e.target.value)}
                                 required id="outlined-basic"
@@ -1329,6 +1337,7 @@ function AddMaterialRelease() {
                     <Box sx={{ width: '12%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
+                            sx={muiStyles.input}
                                 value={ReleasedQty}
                                 onChange={e => setReleasedQty(e.target.value)}
                                 required id="outlined-basic"
@@ -1349,6 +1358,7 @@ function AddMaterialRelease() {
                     <Box sx={{ width: '11%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
+                            sx={muiStyles.input}
                                 value={LeftQty}
                                 onChange={e => setLeftQty(e.target.value)}
                                 id="outlined-basic"
@@ -1366,6 +1376,7 @@ function AddMaterialRelease() {
                     <Box sx={{ width: '10%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
+                            sx={muiStyles.input}
                                 value={LeftStockQty}
                                 onChange={e => setLeftStockQty(e.target.value)}
                                 id="outlined-basic"
@@ -1383,6 +1394,7 @@ function AddMaterialRelease() {
                     <Box sx={{ width: '10%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
+                            sx={muiStyles.input}
                                 value={nQty}
                                 onChange={e => onChangenQty(e.target.value)}
                                 id="outlined-basic"
@@ -1461,12 +1473,12 @@ function AddMaterialRelease() {
                                         <TableRow>
                                             <TableCell scope="row" style={{ width: '2%' }} >SN.</TableCell>
                                             <TableCell align="center">Action</TableCell>
-                                            {/* <TableCell align="left">Ref No</TableCell> */}
-                                            {/* <TableCell align="left">PO Qty</TableCell>
-                                            <TableCell align="left">Balance QTY</TableCell> */}
-                                            <TableCell align="left">Material Detail</TableCell>
-                                            <TableCell align="left">Exp Date</TableCell>
-                                            <TableCell align="left">Qty Released</TableCell>
+                                            {/* <TableCell align="left" style={{whiteSpace:'nowrap'}}>Ref No</TableCell> */}
+                                            {/* <TableCell align="left" style={{whiteSpace:'nowrap'}}>PO Qty</TableCell>
+                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>Balance QTY</TableCell> */}
+                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>Material Detail</TableCell>
+                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>Exp Date</TableCell>
+                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>Qty Released</TableCell>
                                         </TableRow>
                                     </TableHead>
                                     {PODetails?.length > 0 ?
@@ -1484,12 +1496,12 @@ function AddMaterialRelease() {
                                                             </div>
 
                                                         </TableCell>
-                                                        {/* <TableCell align="left">{item.RefNo}</TableCell> */}
-                                                        <TableCell align="left">{item.MaterialDetail}</TableCell>
-                                                        {/* <TableCell align="left">{item.nQty}</TableCell>
-                                                        <TableCell align="left">{item.BalanceQuantity}</TableCell> */}
-                                                        <TableCell align="left">{item.ExpDate}</TableCell>
-                                                        <TableCell align="left">{item.nQTYOut}</TableCell>
+                                                        {/* <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.RefNo}</TableCell> */}
+                                                        <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.MaterialDetail}</TableCell>
+                                                        {/* <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.nQty}</TableCell>
+                                                        <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.BalanceQuantity}</TableCell> */}
+                                                        <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.ExpDate}</TableCell>
+                                                        <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.nQTYOut}</TableCell>
 
 
                                                     </TableRow>
@@ -1502,7 +1514,7 @@ function AddMaterialRelease() {
 
                                         <TableBody>
                                             <TableRow>
-                                                <TableCell align="left">No Record</TableCell>
+                                                <TableCell align="left" style={{whiteSpace:'nowrap'}}>No Record</TableCell>
                                             </TableRow>
                                         </TableBody>
                                     }
@@ -1550,4 +1562,96 @@ function AddMaterialRelease() {
         </div>
     )
 }
+const muiStyles = {
+    content: {
+        top: '50%',
+        left: '50%',
+        right: 'auto',
+        bottom: 'auto',
+        marginRight: '-50%',
+        transform: 'translate(-50%, -50%)',
+        width: '50%',
+    },
+    date: {
+        "& .MuiInputBase-root": {
+            "& input": {
+                padding: '5px 14px',
+                fontSize: '13px'
+            }
+        },
+        "& .MuiFormLabel-root": {
+            fontSize: '13px',
+            lineHeight: '0',
+            top: '4.6px',
+            overflow: 'visible',
+            background: '#fff',
+            zIndex: '1'
+        },
+        "& label.Mui-focused": {
+            top: '5px',
+            background: '#fff',
+            zIndex: '1'
+
+        },
+    },
+    autoCompleate: {
+        "& .MuiOutlinedInput-root": {
+            padding: '0px',
+            "& .MuiAutocomplete-input": {
+                padding: '5px 14px',
+                fontSize: '13px'
+            }
+
+        },
+        "& .MuiFormLabel-root": {
+            fontSize: '13px',
+            lineHeight: '0',
+            top: '-4px',
+            overflow: 'visible',
+        },
+        "& label.Mui-focused": {
+            top: '5px',
+            backgroundColor: '#fff',
+            zIndex: '1'
+        },
+    },
+    input: {
+        "& .MuiOutlinedInput-root": {
+            "& input": {
+                padding: '6px 14px',
+                fontSize: '12px'
+            }
+        },
+        "& .MuiFormLabel-root": {
+            fontSize: '13px',
+            lineHeight: '0',
+            top: '-4px',
+            overflow: 'visible',
+        },
+        "& label.Mui-focused": {
+            top: '5px',
+            backgroundColor: 'green',
+            zIndex: '1'
+        },
+    },
+    select: {
+        "& .MuiSelect-select": {
+            padding: '3px 14px',
+            fontSize: '12px'
+        },
+
+    },
+    InputLabels: {
+        fontSize: '13px',
+        lineHeight: '0',
+        top: '-4px',
+        overflow: 'visible',
+        "&.Mui-focused": {
+            top: '5px',
+            backgroundColor: 'green',
+            zIndex: '1'
+        }
+    }
+
+};
 export default AddMaterialRelease

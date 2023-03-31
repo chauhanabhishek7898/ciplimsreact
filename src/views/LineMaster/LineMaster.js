@@ -226,10 +226,11 @@ function LineMaster() {
                     <div><span className='title'>Line Master</span></div>
                     <HighlightOffIcon fontSize='large' onClick={() => setIsOpen(false)} />
                 </div>
-                <div className='displayflexend'>
+                <div className='displayflexend mt-4' >
                     <Box sx={{ width: '49%' }} >
                         <FormControl fullWidth className='input'>
                             <TextField
+                            sx={muiStyles.input}
                                 value={lineName}
                                 onChange={e => setlineName(e.target.value)}
                                 required id="outlined-basic"
@@ -245,6 +246,7 @@ function LineMaster() {
                     <Box sx={{ width: '49%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
+                            sx={muiStyles.input}
                                 value={lineDescription}
                                 onChange={e => setlineDescription(e.target.value)}
                                  id="outlined-basic"
@@ -260,8 +262,9 @@ function LineMaster() {
 
                     <Box sx={{ width: '49%', marginTop: 2 }}>
                         <FormControl fullWidth className='input'>
-                            <InputLabel required id="demo-simple-select-label">Plant Name </InputLabel>
+                            <InputLabel required id="demo-simple-select-label" sx={muiStyles.InputLabels}>Plant Name </InputLabel>
                             <Select
+                            sx={muiStyles.select}
                                 style={{ width: '100%', }}
                                 labelId="demo-simple-select-label"
                                 id="demo-simple-select"
@@ -324,11 +327,11 @@ function LineMaster() {
                             <TableHead>
                                 <TableRow>
                                     {/* <TableCell scope="row">SN.</TableCell> */}
-                                    <TableCell align="left">Edit</TableCell>
-                                    <TableCell align="left">Status</TableCell>
-                                    <TableCell align="left">Line Name</TableCell>
-                                    <TableCell align="left">Line Description</TableCell>
-                                    <TableCell align="left">Plant Detail</TableCell>
+                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Edit</TableCell>
+                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Status</TableCell>
+                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Line Name</TableCell>
+                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Line Description</TableCell>
+                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Plant Detail</TableCell>
                                 </TableRow>
                             </TableHead>
                             {lineData?.length?
@@ -337,11 +340,11 @@ function LineMaster() {
                                     return (
                                         <TableRow >
                                             {/* <TableCell component="th" scope="row">{index + 1}.</TableCell> */}
-                                            <TableCell align="left"><div onClick={() => openmodale(item, 'Update')}><BorderColorIcon size={20} color='#000' /></div></TableCell>
-                                            <TableCell align="left">{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
-                                            <TableCell align="left">{item.vLineName}</TableCell>
-                                            <TableCell align="left">{item.vLineDescription}</TableCell>
-                                            <TableCell align="left">{item.PlantDetail}</TableCell>
+                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}><div onClick={() => openmodale(item, 'Update')}><BorderColorIcon size={20} color='#000' /></div></TableCell>
+                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
+                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vLineName}</TableCell>
+                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vLineDescription}</TableCell>
+                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.PlantDetail}</TableCell>
                                         </TableRow>
                                     )
                                 })
@@ -384,5 +387,97 @@ const customStyles = {
         transform: 'translate(-50%, -50%)',
         width: '50%',
     },
+};
+const muiStyles = {
+    content: {
+        top: '50%',
+        left: '50%',
+        right: 'auto',
+        bottom: 'auto',
+        marginRight: '-50%',
+        transform: 'translate(-50%, -50%)',
+        width: '50%',
+    },
+    date: {
+        "& .MuiInputBase-root": {
+            "& input": {
+                padding: '5px 14px',
+                fontSize: '13px'
+            }
+        },
+        "& .MuiFormLabel-root": {
+            fontSize: '13px',
+            lineHeight: '0',
+            top: '4.6px',
+            overflow: 'visible',
+            background: '#fff',
+            zIndex: '1'
+        },
+        "& label.Mui-focused": {
+            top: '5px',
+            background: '#fff',
+            zIndex: '1'
+
+        },
+    },
+    autoCompleate: {
+        "& .MuiOutlinedInput-root": {
+            padding: '0px',
+            "& .MuiAutocomplete-input": {
+                padding: '5px 14px',
+                fontSize: '13px'
+            }
+
+        },
+        "& .MuiFormLabel-root": {
+            fontSize: '13px',
+            lineHeight: '0',
+            top: '-4px',
+            overflow: 'visible',
+        },
+        "& label.Mui-focused": {
+            top: '5px',
+            backgroundColor: '#fff',
+            zIndex: '1'
+        },
+    },
+    input: {
+        "& .MuiOutlinedInput-root": {
+            "& input": {
+                padding: '6px 14px',
+                fontSize: '12px'
+            }
+        },
+        "& .MuiFormLabel-root": {
+            fontSize: '13px',
+            lineHeight: '0',
+            top: '-4px',
+            overflow: 'visible',
+        },
+        "& label.Mui-focused": {
+            top: '5px',
+            backgroundColor: 'green',
+            zIndex: '1'
+        },
+    },
+    select: {
+        "& .MuiSelect-select": {
+            padding: '3px 14px',
+            fontSize: '12px'
+        },
+
+    },
+    InputLabels: {
+        fontSize: '13px',
+        lineHeight: '0',
+        top: '-4px',
+        overflow: 'visible',
+        "&.Mui-focused": {
+            top: '5px',
+            backgroundColor: 'green',
+            zIndex: '1'
+        }
+    }
+
 };
 export default LineMaster

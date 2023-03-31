@@ -180,10 +180,11 @@ function GodownMaster() {
                     <div><span className='title'>Godown Code</span></div>
                     <HighlightOffIcon fontSize='large' onClick={() => setIsOpen(false)} />
                 </div>
-                <div className='displayflexend'>
+                <div className='displayflexend mt-4'>
                     <Box sx={{ width: '32.5%' }} >
                         <FormControl fullWidth className='input'>
                             <TextField
+                            sx={muiStyles.input}
                                 value={vGCode}
                                 onChange={e => setvGCode(e.target.value)}
                                 required id="outlined-basic"
@@ -199,6 +200,7 @@ function GodownMaster() {
                     <Box sx={{ width: '32.5%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
+                            sx={muiStyles.input}
                                 value={vGName}
                                 onChange={e => setvGName(e.target.value)}
                                 required id="outlined-basic"
@@ -214,6 +216,7 @@ function GodownMaster() {
                     <Box sx={{ width: '32.5%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
+                            sx={muiStyles.input}
                                 value={vGAddress}
                                 onChange={e => setvGAddress(e.target.value)}
                                 required id="outlined-basic"
@@ -225,6 +228,7 @@ function GodownMaster() {
                     <Box sx={{ width: '32.5%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
+                            sx={muiStyles.input}
                                 value={vContactPerson}
                                 onChange={e => setvContactPerson(e.target.value)}
                                 required id="outlined-basic"
@@ -236,6 +240,7 @@ function GodownMaster() {
                     <Box sx={{ width: '32.5%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
+                            sx={muiStyles.input}
                                 value={vContactNo}
                                 onChange={e => setvContactNo(e.target.value)}
                                 required id="outlined-basic"
@@ -248,6 +253,7 @@ function GodownMaster() {
                     <Box sx={{ width: '32.5%', marginTop: 2 }}>
                         <FormControl fullWidth className='input'>
                             <TextField
+                            sx={muiStyles.input}
                                 value={vRemarks}
                                 onChange={e => setvRemarks(e.target.value)}
                                 id="outlined-basic"
@@ -295,14 +301,14 @@ function GodownMaster() {
                             <TableHead>
                                 <TableRow>
                                     {/* <TableCell scope="row">SN.</TableCell> */}
-                                    <TableCell align="left">Edit</TableCell>
-                                    <TableCell align="left">Status</TableCell>
-                                    <TableCell align="left">Godown Code</TableCell>
-                                    <TableCell align="left">Godown Name</TableCell>
-                                    <TableCell align="left">Godown Address</TableCell>
-                                    <TableCell align="left">Godown Contact Person</TableCell>
-                                    <TableCell align="left">Godown Contact No</TableCell>
-                                    <TableCell align="left">Remarks</TableCell>
+                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Edit</TableCell>
+                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Status</TableCell>
+                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Godown Code</TableCell>
+                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Godown Name</TableCell>
+                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Godown Address</TableCell>
+                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Godown Contact Person</TableCell>
+                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Godown Contact No</TableCell>
+                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Remarks</TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
@@ -310,14 +316,14 @@ function GodownMaster() {
                                     return (
                                         <TableRow key={index}>
                                             {/* <TableCell component="th" scope="row">{index + 1}.</TableCell> */}
-                                            <TableCell align="left"><div onClick={() => openmodale(item, 'Update')}><BorderColorIcon size={20} color='#000' /></div></TableCell>
-                                            <TableCell align="left">{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
-                                            <TableCell align="left">{item.vGCode}</TableCell>
-                                            <TableCell align="left">{item.vGName}</TableCell>
-                                            <TableCell align="left">{item.vGAddress}</TableCell>
-                                            <TableCell align="left">{item.vContactPerson}</TableCell>
-                                            <TableCell align="left">{item.vContactNo}</TableCell>
-                                            <TableCell align="left">{item.vRemarks}</TableCell>
+                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}><div onClick={() => openmodale(item, 'Update')}><BorderColorIcon size={20} color='#000' /></div></TableCell>
+                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
+                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vGCode}</TableCell>
+                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vGName}</TableCell>
+                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vGAddress}</TableCell>
+                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vContactPerson}</TableCell>
+                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vContactNo}</TableCell>
+                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vRemarks}</TableCell>
                                         </TableRow>
                                     )
                                 })
@@ -353,5 +359,96 @@ const customStyles = {
         width: '70%',
     },
 };
+const muiStyles = {
+    content: {
+        top: '50%',
+        left: '50%',
+        right: 'auto',
+        bottom: 'auto',
+        marginRight: '-50%',
+        transform: 'translate(-50%, -50%)',
+        width: '50%',
+    },
+    date: {
+        "& .MuiInputBase-root": {
+            "& input": {
+                padding: '5px 14px',
+                fontSize: '13px'
+            }
+        },
+        "& .MuiFormLabel-root": {
+            fontSize: '13px',
+            lineHeight: '0',
+            top: '4.6px',
+            overflow: 'visible',
+            background: '#fff',
+            zIndex: '1'
+        },
+        "& label.Mui-focused": {
+            top: '5px',
+            background: '#fff',
+            zIndex: '1'
 
+        },
+    },
+    autoCompleate: {
+        "& .MuiOutlinedInput-root": {
+            padding: '0px',
+            "& .MuiAutocomplete-input": {
+                padding: '5px 14px',
+                fontSize: '13px'
+            }
+
+        },
+        "& .MuiFormLabel-root": {
+            fontSize: '13px',
+            lineHeight: '0',
+            top: '-4px',
+            overflow: 'visible',
+        },
+        "& label.Mui-focused": {
+            top: '5px',
+            backgroundColor: '#fff',
+            zIndex: '1'
+        },
+    },
+    input: {
+        "& .MuiOutlinedInput-root": {
+            "& input": {
+                padding: '6px 14px',
+                fontSize: '12px'
+            }
+        },
+        "& .MuiFormLabel-root": {
+            fontSize: '13px',
+            lineHeight: '0',
+            top: '-4px',
+            overflow: 'visible',
+        },
+        "& label.Mui-focused": {
+            top: '5px',
+            backgroundColor: 'green',
+            zIndex: '1'
+        },
+    },
+    select: {
+        "& .MuiSelect-select": {
+            padding: '3px 14px',
+            fontSize: '12px'
+        },
+
+    },
+    InputLabels: {
+        fontSize: '13px',
+        lineHeight: '0',
+        top: '-4px',
+        overflow: 'visible',
+        "&.Mui-focused": {
+            top: '5px',
+            backgroundColor: 'green',
+            zIndex: '1'
+        }
+    }
+
+};
 export default GodownMaster

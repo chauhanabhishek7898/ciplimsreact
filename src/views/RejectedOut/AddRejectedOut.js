@@ -50,8 +50,26 @@ import { confirmAlert } from 'react-confirm-alert'; // Import
 import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
 import HomeIcon from '@mui/icons-material/Home';
 import ReplayIcon from '@mui/icons-material/Replay';
+import { makeStyles } from "@material-ui/core/styles";
+const useStyles = makeStyles({
+    select: {
+        "&:before": {
+            // normal
+            borderBottom: "1px solid orange"
+        },
+        "&:after": {
+            // focused
+            borderBottom: `3px solid green`
+        },
+        "&:hover:not(.Mui-disabled):not(.Mui-focused):not(.Mui-error):before": {
+            // hover
+            borderBottom: `2px solid purple`
+        }
+    }
+});
 function AddRejectedOut() {
     const navigate = useNavigate();
+    const classes = useStyles();
     const [modalIsOpen, setIsOpen] = React.useState(false);
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -304,7 +322,7 @@ function AddRejectedOut() {
 
     }
     const changePlantValue = (value) => {
-        if(FirstTimeAdd==true){
+        if (FirstTimeAdd == true) {
             setnPId(value.value)
             setPlantDetail(value.label)
             getExpDateForRejection(value.value, nMId == '' ? 0 : nMId)
@@ -312,7 +330,7 @@ function AddRejectedOut() {
                 plant: ''
             })
             setFirstTimeAdd(false)
-        }else{
+        } else {
             confirmAlert({
                 title: 'Alert !!',
                 closeOnClickOutside: false,
@@ -328,7 +346,7 @@ function AddRejectedOut() {
                                 plant: ''
                             })
                             setPODetails([])
-                         
+
                         },
                     },
                     {
@@ -752,6 +770,7 @@ function AddRejectedOut() {
                             <LocalizationProvider dateAdapter={AdapterDayjs} >
                                 <Stack spacing={3} >
                                     <DesktopDatePicker
+
                                         label="Date *"
                                         inputFormat="DD-MM-YYYY"
                                         value={startDate}
@@ -761,25 +780,7 @@ function AddRejectedOut() {
                                         onChange={handleChangeStartdate}
                                         renderInput={(params) => <TextField
                                             {...params}
-                                            sx={{
-                                                "& .MuiInputBase-root": {
-                                                    "& input": {
-                                                        padding: '5px 14px',
-                                                        fontSize: '13px'
-                                                    }
-                                                },
-                                                ".MuiFormLabel-root": {
-                                                    fontSize: '13px',
-                                                    lineHeight: '0',
-                                                    top: '4.6px',
-                                                    overflow: 'visible',
-                                                },
-                                                "label.Mui-focused": {
-                                                    top: '5px',
-                                                    backgroundColor: '#fff',
-                                                    zIndex: '10000'
-                                                },
-                                            }}
+                                            sx={muiStyles.date}
                                         />}
                                     />
                                 </Stack>
@@ -807,6 +808,7 @@ function AddRejectedOut() {
                         <FormControl fullWidth className='input'>
                             {/* <InputLabel required id="demo-simple-select-label">Plant</InputLabel>npm  */}
                             <Autocomplete
+                                sx={muiStyles.autoCompleate}
                                 disablePortal
                                 id="combo-box-demo"
                                 options={PlantMaster}
@@ -820,27 +822,7 @@ function AddRejectedOut() {
                                     // setInputValue(newInputValue);
                                     console.log('newInputValue', newInputValue)
                                 }}
-                                sx={{
-                                    "& .MuiOutlinedInput-root": {
-                                        padding: '0px',
-                                        "& .MuiAutocomplete-input": {
-                                            padding: '5px 14px',
-                                            fontSize: '13px'
-                                        }
 
-                                    },
-                                    ".MuiFormLabel-root": {
-                                        fontSize: '13px',
-                                        lineHeight: '0',
-                                        top: '-4px',
-                                        overflow: 'visible',
-                                    },
-                                    "label.Mui-focused": {
-                                        top: '5px',
-                                        backgroundColor: '#fff',
-                                        zIndex: '10000'
-                                    },
-                                }}
                                 renderInput={(params) => <TextField {...params} label="Search Plant " required />}
                             />
                             {errorText.plant != '' ? <p className='error'>{errorText.plant}</p> : null}
@@ -849,31 +831,13 @@ function AddRejectedOut() {
                     <Box sx={{ width: '40%', marginTop: 1 }} >
                         <FormControl fullWidth className='input'>
                             <TextField
+                                sx={muiStyles.input}
                                 value={vRemarks}
                                 onChange={e => setvRemarks(e.target.value)}
                                 id="outlined-basic"
                                 label="Remarks"
                                 variant="outlined"
                                 name='Remarks'
-                                sx={{
-                                    "& .MuiOutlinedInput-root": {
-                                        "& input": {
-                                            padding: '6px 14px',
-                                            fontSize: '12px'
-                                        }
-                                    },
-                                    ".MuiFormLabel-root": {
-                                        fontSize: '13px',
-                                        lineHeight: '0',
-                                        top: '-4px',
-                                        overflow: 'visible',
-                                    },
-                                    "label.Mui-focused": {
-                                        top: '5px',
-                                        backgroundColor: 'green',
-                                        zIndex: '10000'
-                                    },
-                                }}
                             // inputRef={register({ required: "Remarks is required.", })}
                             // error={Boolean(errors.brandCode)}
                             // helperText={errors.brandCode?.message}
@@ -891,6 +855,7 @@ function AddRejectedOut() {
                         <FormControl fullWidth className='input'>
                             {/* <InputLabel required id="demo-simple-select-label">Item</InputLabel>  */}
                             <Autocomplete
+                                sx={muiStyles.autoCompleate}
                                 disablePortal
                                 id="combo-box-demo"
                                 options={MaterialMaster}
@@ -953,6 +918,7 @@ function AddRejectedOut() {
                     <Box sx={{ width: '11%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
+                                sx={muiStyles.input}
                                 value={vUOM}
                                 // onChange={e => setnAmt(e.target.value)}
                                 id="outlined-basic"
@@ -968,8 +934,9 @@ function AddRejectedOut() {
                     </Box>
                     <Box sx={{ width: '8%' }}>
                         <FormControl fullWidth className='input'>
-                            <InputLabel id="demo-simple-select-label" required>Exp Date</InputLabel>
+                            <InputLabel id="demo-simple-select-label" htmlFor="age-simple" required sx={muiStyles.InputLabels}>Exp Date</InputLabel>
                             <Select
+                                sx={muiStyles.select}
                                 style={{ width: '100%', }}
                                 labelId="demo-simple-select-label"
                                 id="demo-simple-select"
@@ -994,6 +961,7 @@ function AddRejectedOut() {
                     <Box sx={{ width: '11%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
+                                sx={muiStyles.input}
                                 value={LeftQty}
                                 onChange={e => setLeftQty(e.target.value)}
                                 id="outlined-basic"
@@ -1028,6 +996,7 @@ function AddRejectedOut() {
                     <Box sx={{ width: '12%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
+                                sx={muiStyles.input}
                                 value={nQty}
                                 onChange={e => onChangenQty(e.target.value)}
                                 required id="outlined-basic"
@@ -1058,13 +1027,13 @@ function AddRejectedOut() {
                                         <TableRow>
                                             <TableCell scope="row" style={{ width: '2%' }} >SN.</TableCell>
                                             <TableCell align="center">Action</TableCell>
-                                            <TableCell align="left">Material Name</TableCell>
-                                            {/* <TableCell align="left">PO Qty</TableCell>
-                                            <TableCell align="left">Balance QTY</TableCell> */}
-                                            <TableCell align="left">UOM</TableCell>
-                                            <TableCell align="left">Exp Date</TableCell>
-                                            {/* <TableCell align="left">Bal Qty </TableCell> */}
-                                            <TableCell align="left">Qty</TableCell>
+                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>Material Name</TableCell>
+                                            {/* <TableCell align="left" style={{whiteSpace:'nowrap'}}>PO Qty</TableCell>
+                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>Balance QTY</TableCell> */}
+                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>UOM</TableCell>
+                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>Exp Date</TableCell>
+                                            {/* <TableCell align="left" style={{whiteSpace:'nowrap'}}>Bal Qty </TableCell> */}
+                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>Qty</TableCell>
 
                                         </TableRow>
                                     </TableHead>
@@ -1084,13 +1053,13 @@ function AddRejectedOut() {
                                                             </div>
 
                                                         </TableCell>
-                                                        <TableCell align="left">{item.MaterialDetail}</TableCell>
-                                                        {/* <TableCell align="left">{item.nQty}</TableCell>
-                                                        <TableCell align="left">{item.BalanceQuantity}</TableCell> */}
-                                                        <TableCell align="left">{item.vUOM}</TableCell>
-                                                        <TableCell align="left">{item.dtExpDate}</TableCell>
-                                                        {/* <TableCell align="left">{item.LeftQty}</TableCell> */}
-                                                        <TableCell align="left">{item.nQTYOut}</TableCell>
+                                                        <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.MaterialDetail}</TableCell>
+                                                        {/* <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.nQty}</TableCell>
+                                                        <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.BalanceQuantity}</TableCell> */}
+                                                        <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vUOM}</TableCell>
+                                                        <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.dtExpDate}</TableCell>
+                                                        {/* <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.LeftQty}</TableCell> */}
+                                                        <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.nQTYOut}</TableCell>
 
                                                     </TableRow>
                                                 )
@@ -1102,7 +1071,7 @@ function AddRejectedOut() {
 
                                         <TableBody>
                                             <TableRow>
-                                                <TableCell align="left">No Record</TableCell>
+                                                <TableCell align="left" style={{whiteSpace:'nowrap'}}>No Record</TableCell>
                                             </TableRow>
                                         </TableBody>
                                     }
@@ -1143,7 +1112,7 @@ function AddRejectedOut() {
 
             <Modal
                 isOpen={monthmodalIsOpen}
-                style={customStyles}
+                style={muiStyles}
                 contentLabel="Example Modal"
                 ariaHideApp={false}
             >
@@ -1162,11 +1131,11 @@ function AddRejectedOut() {
                                             <TableHead>
                                                 <TableRow>
                                                     <TableCell scope="row">SN.</TableCell>
-                                                    <TableCell align="left">Plant Detail</TableCell>
-                                                    <TableCell align="left">Material Name</TableCell>
-                                                    <TableCell align="left">Exp Date</TableCell>
-                                                    <TableCell align="left">Bal Stock</TableCell>
-                                                    <TableCell align="left">Input Qty</TableCell>
+                                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Plant Detail</TableCell>
+                                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Material Name</TableCell>
+                                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Exp Date</TableCell>
+                                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Bal Stock</TableCell>
+                                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Input Qty</TableCell>
 
                                                 </TableRow>
                                             </TableHead>
@@ -1178,11 +1147,11 @@ function AddRejectedOut() {
                                                         <TableRow key={index}>
 
                                                             <TableCell component="th" scope="row">{index + 1}.</TableCell>
-                                                            <TableCell align="left">{item.PlantDetail}</TableCell>
-                                                            <TableCell align="left">{item.MaterialDetail}</TableCell>
-                                                            <TableCell align="left">{item.dtExpDate}</TableCell>
-                                                            <TableCell align="left">{item.BalanceStockQty}</TableCell>
-                                                            <TableCell align="left">{item.nQTYOut}</TableCell>
+                                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.PlantDetail}</TableCell>
+                                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.MaterialDetail}</TableCell>
+                                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.dtExpDate}</TableCell>
+                                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.BalanceStockQty}</TableCell>
+                                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.nQTYOut}</TableCell>
                                                         </TableRow>
                                                     )
                                                 })
@@ -1203,12 +1172,11 @@ function AddRejectedOut() {
 
                     </div>
                 </div>
-
             </Modal >
         </div>
     )
 }
-const customStyles = {
+const muiStyles = {
     content: {
         top: '50%',
         left: '50%',
@@ -1218,5 +1186,88 @@ const customStyles = {
         transform: 'translate(-50%, -50%)',
         width: '50%',
     },
+    date: {
+        "& .MuiInputBase-root": {
+            "& input": {
+                padding: '5px 14px',
+                fontSize: '13px'
+            }
+        },
+        "& .MuiFormLabel-root": {
+            fontSize: '13px',
+            lineHeight: '0',
+            top: '4.6px',
+            overflow: 'visible',
+            background: '#fff',
+            zIndex: '1'
+        },
+        "& label.Mui-focused": {
+            top: '5px',
+            background: '#fff',
+            zIndex: '1'
+
+        },
+    },
+    autoCompleate: {
+        "& .MuiOutlinedInput-root": {
+            padding: '0px',
+            "& .MuiAutocomplete-input": {
+                padding: '5px 14px',
+                fontSize: '13px'
+            }
+
+        },
+        "& .MuiFormLabel-root": {
+            fontSize: '13px',
+            lineHeight: '0',
+            top: '-4px',
+            overflow: 'visible',
+        },
+        "& label.Mui-focused": {
+            top: '5px',
+            backgroundColor: '#fff',
+            zIndex: '1'
+        },
+    },
+    input: {
+        "& .MuiOutlinedInput-root": {
+            "& input": {
+                padding: '6px 14px',
+                fontSize: '12px'
+            }
+        },
+        "& .MuiFormLabel-root": {
+            fontSize: '13px',
+            lineHeight: '0',
+            top: '-4px',
+            overflow: 'visible',
+        },
+        "& label.Mui-focused": {
+            top: '5px',
+            backgroundColor: 'green',
+            zIndex: '1'
+        },
+    },
+    select: {
+        "& .MuiSelect-select": {
+            padding: '3px 14px',
+            fontSize: '12px'
+        },
+
+    },
+    InputLabels: {
+        fontSize: '13px',
+        lineHeight: '0',
+        top: '-4px',
+        overflow: 'visible',
+        "&.Mui-focused": {
+            top: '5px',
+            backgroundColor: 'green',
+            zIndex: '1'
+        }
+    }
+
 };
+
+
 export default AddRejectedOut

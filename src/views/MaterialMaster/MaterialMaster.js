@@ -334,10 +334,11 @@ function MaterialMaster() {
                     <HighlightOffIcon fontSize='large' onClick={() => setIsOpen(false)} />
                 </div>
 
-                <div className='displayflexend'>
+                <div className='displayflexend mt-4'>
                     <Box sx={{ width: '24%' }} >
                         <FormControl fullWidth className='input'>
                             <TextField
+                            sx={muiStyles.input}
                                 value={vMCode}
                                 onChange={e => setvMCode(e.target.value)}
                                 required id="outlined-basic"
@@ -353,6 +354,7 @@ function MaterialMaster() {
                     <Box sx={{ width: '24%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
+                            sx={muiStyles.input}
                                 value={vMName}
                                 onChange={e => setvMName(e.target.value)}
                                 required id="outlined-basic"
@@ -369,8 +371,9 @@ function MaterialMaster() {
 
                     <Box sx={{ width: '24%', marginTop: 2 }}>
                         <FormControl fullWidth className='input'>
-                            <InputLabel required id="demo-simple-select-label">Category</InputLabel>
+                            <InputLabel required id="demo-simple-select-label" sx={muiStyles.InputLabels}>Category</InputLabel>
                             <Select
+                            sx={muiStyles.select}
                                 style={{ width: '100%', }}
                                 labelId="demo-simple-select-label"
                                 id="demo-simple-select"
@@ -398,8 +401,9 @@ function MaterialMaster() {
 
                     <Box sx={{ width: '24%', marginTop: 2 }}>
                         <FormControl fullWidth className='input'>
-                            <InputLabel required id="demo-simple-select-label">Material Type</InputLabel>
+                            <InputLabel required id="demo-simple-select-label" sx={muiStyles.InputLabels}>Material Type</InputLabel>
                             <Select
+                            sx={muiStyles.select}
                                 style={{ width: '100%', }}
                                 labelId="demo-simple-select-label"
                                 id="demo-simple-select"
@@ -427,8 +431,9 @@ function MaterialMaster() {
 
                     <Box sx={{ width: '24%', marginTop: 2 }}>
                         <FormControl fullWidth className='input'>
-                            <InputLabel required id="demo-simple-select-label">UOM</InputLabel>
+                            <InputLabel required id="demo-simple-select-label" sx={muiStyles.InputLabels}>UOM</InputLabel>
                             <Select
+                            sx={muiStyles.select}
                                 style={{ width: '100%', }}
                                 labelId="demo-simple-select-label"
                                 id="demo-simple-select"
@@ -457,6 +462,7 @@ function MaterialMaster() {
                     <Box sx={{ width: '24%' }} >
                         <FormControl fullWidth className='input'>
                             <TextField
+                            sx={muiStyles.input}
                                 value={vHSNCode}
                                 onChange={e => setvHSNCode(e.target.value)}
                                 id="outlined-basic"
@@ -472,6 +478,7 @@ function MaterialMaster() {
                     <Box sx={{ width: '49.5%', marginTop: 2 }} >
                         <FormControl fullWidth className='input' >
                             <TextField
+                            sx={muiStyles.input}
                                 value={vRemarks}
                                 onChange={e => setvRemarks(e.target.value)}
                                 id="outlined-basic"
@@ -598,15 +605,15 @@ function MaterialMaster() {
                                 <TableHead>
                                     <TableRow>
                                         {/* <TableCell scope="row">SN.</TableCell> */}
-                                        <TableCell align="left">Edit</TableCell>
-                                        <TableCell align="left">Status</TableCell>
-                                        <TableCell align="left">Material Code</TableCell>
-                                        <TableCell align="left">Material Name</TableCell>
-                                        <TableCell align="left">Category</TableCell>
-                                        <TableCell align="left">Material Type</TableCell>
-                                        <TableCell align="left">UOM</TableCell>
-                                        <TableCell align="left">HSN Code</TableCell>
-                                        <TableCell align="left">Remarks</TableCell>
+                                        <TableCell align="left" style={{whiteSpace:'nowrap'}}>Edit</TableCell>
+                                        <TableCell align="left" style={{whiteSpace:'nowrap'}}>Status</TableCell>
+                                        <TableCell align="left" style={{whiteSpace:'nowrap'}}>Material Code</TableCell>
+                                        <TableCell align="left" style={{whiteSpace:'nowrap'}}>Material Name</TableCell>
+                                        <TableCell align="left" style={{whiteSpace:'nowrap'}}>Category</TableCell>
+                                        <TableCell align="left" style={{whiteSpace:'nowrap'}}>Material Type</TableCell>
+                                        <TableCell align="left" style={{whiteSpace:'nowrap'}}>UOM</TableCell>
+                                        <TableCell align="left" style={{whiteSpace:'nowrap'}}>HSN Code</TableCell>
+                                        <TableCell align="left" style={{whiteSpace:'nowrap'}}>Remarks</TableCell>
                                     </TableRow>
                                 </TableHead>
                                
@@ -616,15 +623,15 @@ function MaterialMaster() {
                                             return (
                                                 <TableRow hover role="checkbox" tabIndex={-1} key={index}>
                                                       {/* <TableCell component="th" scope="row">{index + 1}.</TableCell> */}
-                                                    <TableCell align="left"><div onClick={() => openmodale(item, 'Update')}><BorderColorIcon size={20} color='#000' /></div></TableCell>
-                                                    <TableCell align="left">{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
-                                                    <TableCell align="left">{item.vMCode}</TableCell>
-                                                    <TableCell align="left">{item.vMName}</TableCell>
-                                                    <TableCell align="left">{item.vCategory}</TableCell>
-                                                    <TableCell align="left">{item.vMaterialType}</TableCell>
-                                                    <TableCell align="left">{item.vUOM}</TableCell>
-                                                    <TableCell align="left">{item.vHSNCode}</TableCell>
-                                                    <TableCell align="left">{item.vRemarks}</TableCell>
+                                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}><div onClick={() => openmodale(item, 'Update')}><BorderColorIcon size={20} color='#000' /></div></TableCell>
+                                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
+                                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vMCode}</TableCell>
+                                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vMName}</TableCell>
+                                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vCategory}</TableCell>
+                                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vMaterialType}</TableCell>
+                                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vUOM}</TableCell>
+                                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vHSNCode}</TableCell>
+                                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vRemarks}</TableCell>
                                                 </TableRow>
                                             );
                                         })}
@@ -671,5 +678,97 @@ const customStyles = {
         transform: 'translate(-50%, -50%)',
         width: '70%',
     },
+};
+const muiStyles = {
+    content: {
+        top: '50%',
+        left: '50%',
+        right: 'auto',
+        bottom: 'auto',
+        marginRight: '-50%',
+        transform: 'translate(-50%, -50%)',
+        width: '50%',
+    },
+    date: {
+        "& .MuiInputBase-root": {
+            "& input": {
+                padding: '5px 14px',
+                fontSize: '13px'
+            }
+        },
+        "& .MuiFormLabel-root": {
+            fontSize: '13px',
+            lineHeight: '0',
+            top: '4.6px',
+            overflow: 'visible',
+            background: '#fff',
+            zIndex: '1'
+        },
+        "& label.Mui-focused": {
+            top: '5px',
+            background: '#fff',
+            zIndex: '1'
+
+        },
+    },
+    autoCompleate: {
+        "& .MuiOutlinedInput-root": {
+            padding: '0px',
+            "& .MuiAutocomplete-input": {
+                padding: '5px 14px',
+                fontSize: '13px'
+            }
+
+        },
+        "& .MuiFormLabel-root": {
+            fontSize: '13px',
+            lineHeight: '0',
+            top: '-4px',
+            overflow: 'visible',
+        },
+        "& label.Mui-focused": {
+            top: '5px',
+            backgroundColor: '#fff',
+            zIndex: '1'
+        },
+    },
+    input: {
+        "& .MuiOutlinedInput-root": {
+            "& input": {
+                padding: '6px 14px',
+                fontSize: '12px'
+            }
+        },
+        "& .MuiFormLabel-root": {
+            fontSize: '13px',
+            lineHeight: '0',
+            top: '-4px',
+            overflow: 'visible',
+        },
+        "& label.Mui-focused": {
+            top: '5px',
+            backgroundColor: 'green',
+            zIndex: '1'
+        },
+    },
+    select: {
+        "& .MuiSelect-select": {
+            padding: '3px 14px',
+            fontSize: '12px'
+        },
+
+    },
+    InputLabels: {
+        fontSize: '13px',
+        lineHeight: '0',
+        top: '-4px',
+        overflow: 'visible',
+        "&.Mui-focused": {
+            top: '5px',
+            backgroundColor: 'green',
+            zIndex: '1'
+        }
+    }
+
 };
 export default MaterialMaster

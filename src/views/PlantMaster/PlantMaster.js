@@ -28,12 +28,12 @@ import ExportExcel from 'src/shareFunction/Excelexport';
 import CircularProgress from '@mui/joy/CircularProgress';
 function PlantMaster() {
     {/* <TableCell scope="row">SN.</TableCell>
-                                    <TableCell align="left">Plant Code</TableCell>
-                                    <TableCell align="left">Plant Name</TableCell>
-                                    <TableCell align="left">Plant Address</TableCell>
-                                    <TableCell align="left">Profit Centre</TableCell>
-                                    <TableCell align="left">Cost Centre</TableCell>
-                                    <TableCell align="left">Status</TableCell> */}
+                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Plant Code</TableCell>
+                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Plant Name</TableCell>
+                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Plant Address</TableCell>
+                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Profit Centre</TableCell>
+                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Cost Centre</TableCell>
+                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Status</TableCell> */}
 
     let Heading = [['SN.', 'Plant Code', 'Plant Name', 'Plant Address', 'Profit Centre', 'Cost Centre', 'Status']];
 
@@ -204,6 +204,7 @@ function PlantMaster() {
                     <Box sx={{ width: '30%' }} >
                         <FormControl fullWidth className='input'>
                             <TextField
+                            sx={muiStyles.input}
                                 id="outlined-basic"
                                 label="Enter Plant Code"
                                 required
@@ -220,6 +221,7 @@ function PlantMaster() {
                     <Box sx={{ width: '30%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
+                            sx={muiStyles.input}
                                 id="outlined-basic"
                                 label="Enter Plant Name"
                                 variant="outlined"
@@ -234,9 +236,10 @@ function PlantMaster() {
                         </FormControl>
                     </Box>
 
-                    <Box sx={{ width: '17%', marginTop: 2 }} >
+                    <Box sx={{ width: '18.8%', marginTop: 2 }} >
                         <FormControl fullWidth className='input'>
                             <TextField
+                            sx={muiStyles.input}
                                 id="outlined-basic"
                                 label="Profit Centre"
                                 variant="outlined"
@@ -249,9 +252,10 @@ function PlantMaster() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '16.5%', marginTop: 2 }} >
+                    <Box sx={{ width: '18.8%', marginTop: 2 }} >
                         <FormControl fullWidth className='input'>
                             <TextField
+                            sx={muiStyles.input}
                                 id="outlined-basic"
                                 label="Cost Centre"
                                 variant="outlined"
@@ -267,6 +271,7 @@ function PlantMaster() {
                     <Box sx={{ width: '100%', marginTop: 2 }} >
                         <FormControl fullWidth className='input'>
                             <TextField
+                            sx={muiStyles.input}
                                 id="outlined-basic"
                                 label="Plant Address"
                                 variant="outlined"
@@ -318,13 +323,13 @@ function PlantMaster() {
                             <TableHead>
                                 <TableRow>
                                     {/* <TableCell scope="row">SN.</TableCell> */}
-                                    <TableCell align="left">Edit</TableCell>
-                                    <TableCell align="left">Status</TableCell>
-                                    <TableCell align="left">Plant Code</TableCell>
-                                    <TableCell align="left">Plant Name</TableCell>
-                                    <TableCell align="left">Plant Address</TableCell>
-                                    <TableCell align="left">Profit Centre</TableCell>
-                                    <TableCell align="left">Cost Centre</TableCell>
+                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Edit</TableCell>
+                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Status</TableCell>
+                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Plant Code</TableCell>
+                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Plant Name</TableCell>
+                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Plant Address</TableCell>
+                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Profit Centre</TableCell>
+                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Cost Centre</TableCell>
                                 </TableRow>
                             </TableHead>
                             {plantData?.length>0?
@@ -333,13 +338,13 @@ function PlantMaster() {
                                     return (
                                         <TableRow >
                                             {/* <TableCell component="th" scope="row">{index + 1}.</TableCell> */}
-                                            <TableCell align="left"><div onClick={() => openmodale(item, 'Update')}><BorderColorIcon size={20} color='#000' /></div></TableCell>
-                                            <TableCell align="left">{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
-                                            <TableCell align="left">{item.vPlantCode}</TableCell>
-                                            <TableCell align="left">{item.vPlantName}</TableCell>
-                                            <TableCell align="left">{item.vPlantAddress}</TableCell>
-                                            <TableCell align="left">{item.vProfitCentre}</TableCell>
-                                            <TableCell align="left">{item.vCostCentre}</TableCell>
+                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}><div onClick={() => openmodale(item, 'Update')}><BorderColorIcon size={20} color='#000' /></div></TableCell>
+                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
+                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vPlantCode}</TableCell>
+                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vPlantName}</TableCell>
+                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vPlantAddress}</TableCell>
+                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vProfitCentre}</TableCell>
+                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vCostCentre}</TableCell>
                                         </TableRow>
                                     )
                                 })
@@ -380,5 +385,97 @@ const customStyles = {
         transform: 'translate(-50%, -50%)',
         width: '80%',
     },
+};
+const muiStyles = {
+    content: {
+        top: '50%',
+        left: '50%',
+        right: 'auto',
+        bottom: 'auto',
+        marginRight: '-50%',
+        transform: 'translate(-50%, -50%)',
+        width: '50%',
+    },
+    date: {
+        "& .MuiInputBase-root": {
+            "& input": {
+                padding: '5px 14px',
+                fontSize: '13px'
+            }
+        },
+        "& .MuiFormLabel-root": {
+            fontSize: '13px',
+            lineHeight: '0',
+            top: '4.6px',
+            overflow: 'visible',
+            background: '#fff',
+            zIndex: '1'
+        },
+        "& label.Mui-focused": {
+            top: '5px',
+            background: '#fff',
+            zIndex: '1'
+
+        },
+    },
+    autoCompleate: {
+        "& .MuiOutlinedInput-root": {
+            padding: '0px',
+            "& .MuiAutocomplete-input": {
+                padding: '5px 14px',
+                fontSize: '13px'
+            }
+
+        },
+        "& .MuiFormLabel-root": {
+            fontSize: '13px',
+            lineHeight: '0',
+            top: '-4px',
+            overflow: 'visible',
+        },
+        "& label.Mui-focused": {
+            top: '5px',
+            backgroundColor: '#fff',
+            zIndex: '1'
+        },
+    },
+    input: {
+        "& .MuiOutlinedInput-root": {
+            "& input": {
+                padding: '6px 14px',
+                fontSize: '12px'
+            }
+        },
+        "& .MuiFormLabel-root": {
+            fontSize: '13px',
+            lineHeight: '0',
+            top: '-4px',
+            overflow: 'visible',
+        },
+        "& label.Mui-focused": {
+            top: '5px',
+            backgroundColor: 'green',
+            zIndex: '1'
+        },
+    },
+    select: {
+        "& .MuiSelect-select": {
+            padding: '3px 14px',
+            fontSize: '12px'
+        },
+
+    },
+    InputLabels: {
+        fontSize: '13px',
+        lineHeight: '0',
+        top: '-4px',
+        overflow: 'visible',
+        "&.Mui-focused": {
+            top: '5px',
+            backgroundColor: 'green',
+            zIndex: '1'
+        }
+    }
+
 };
 export default PlantMaster

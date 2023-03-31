@@ -234,13 +234,13 @@ function PackMaster() {
                             <TableHead>
                                 <TableRow>
                                     {/* <TableCell scope="row">SN.</TableCell> */}
-                                    <TableCell align="left">Edit</TableCell>
-                                    <TableCell align="left">Status</TableCell>
-                                    <TableCell align="left">Pack Code</TableCell>
-                                    <TableCell align="left">Pack Name</TableCell>
-                                    <TableCell align="left">Unit</TableCell>
-                                    <TableCell align="left">Pack Product</TableCell>
-                                    <TableCell align="left">Pack Cases</TableCell>
+                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Edit</TableCell>
+                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Status</TableCell>
+                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Pack Code</TableCell>
+                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Pack Name</TableCell>
+                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Unit</TableCell>
+                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Pack Product</TableCell>
+                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Pack Cases</TableCell>
                                 </TableRow>
                             </TableHead>
                             {packData?.length>0?
@@ -249,13 +249,13 @@ function PackMaster() {
                                     return (
                                         <TableRow >
                                             {/* <TableCell component="th" scope="row">{index + 1}.</TableCell> */}
-                                            <TableCell align="left"><div onClick={() => openmodale(item, 'Update')}><BorderColorIcon size={20} color='#000' /></div></TableCell>
-                                            <TableCell align="left">{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
-                                            <TableCell align="left">{item.vPackCode}</TableCell>
-                                            <TableCell align="left">{item.vPackName}</TableCell>
-                                            <TableCell align="left">{item.vUnit}</TableCell>
-                                            <TableCell align="left">{item.vPackProduct}</TableCell>
-                                            <TableCell align="left">{item.vPackCases}</TableCell>
+                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}><div onClick={() => openmodale(item, 'Update')}><BorderColorIcon size={20} color='#000' /></div></TableCell>
+                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
+                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vPackCode}</TableCell>
+                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vPackName}</TableCell>
+                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vUnit}</TableCell>
+                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vPackProduct}</TableCell>
+                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vPackCases}</TableCell>
 
                                         </TableRow>
                                     )
@@ -292,10 +292,11 @@ function PackMaster() {
                     <div><span className='title'>Pack Master</span></div>
                     <HighlightOffIcon fontSize='large' onClick={() => setIsOpen(false)} />
                 </div>
-                <div className='displayflexend'>
-                    <Box sx={{ width: '30%' }} >
+                <div className='displayflexend mt-4'>
+                    <Box sx={{ width: '32%' }} >
                         <FormControl fullWidth className='input'>
                             <TextField
+                            sx={muiStyles.input}
                                 value={packCode}
                                 onChange={e => setpackCode(e.target.value)}
                                 id="outlined-basic"
@@ -309,9 +310,10 @@ function PackMaster() {
 
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '30%' }} >
+                    <Box sx={{ width: '32%' }} >
                         <FormControl fullWidth className='input' >
                             <TextField
+                            sx={muiStyles.input}
                                 value={packName}
                                 onChange={e => setpackName(e.target.value)}
                                 id="outlined-basic"
@@ -324,9 +326,10 @@ function PackMaster() {
                                 helperText={errors.packName?.message} />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '30%', marginTop: 2 }}>
+                    <Box sx={{ width: '32%', marginTop: 2 }}>
                         <FormControl fullWidth className='input' >
                             <TextField
+                            sx={muiStyles.input}
                                 value={unitid}
                                 onChange={e => setUnitid(e.target.value)}
                                 id="outlined-basic"
@@ -364,9 +367,10 @@ function PackMaster() {
                         </FormControl> */}
                         {/* <div className='error'>{error} </div> */}
                     </Box>
-                    <Box sx={{ width: '48%', marginTop: 2 }} >
+                    <Box sx={{ width: '49%', marginTop: 2 }} >
                         <FormControl fullWidth className='input'>
                             <TextField
+                            sx={muiStyles.input}
                                 value={packProduct}
                                 onChange={e => setpackProduct(e.target.value)}
                                 id="outlined-basic"
@@ -378,9 +382,10 @@ function PackMaster() {
                                 helperText={errors.packProduct?.message} />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '48%', marginTop: 2 }} >
+                    <Box sx={{ width: '48.4%', marginTop: 2 }} >
                         <FormControl fullWidth className='input'>
                             <TextField
+                            sx={muiStyles.input}
                                 value={packCases}
                                 onChange={e => setpackCases(e.target.value)}
                                 id="outlined-basic"
@@ -423,5 +428,97 @@ const customStyles = {
         transform: 'translate(-50%, -50%)',
         width: '50%',
     },
+};
+const muiStyles = {
+    content: {
+        top: '50%',
+        left: '50%',
+        right: 'auto',
+        bottom: 'auto',
+        marginRight: '-50%',
+        transform: 'translate(-50%, -50%)',
+        width: '50%',
+    },
+    date: {
+        "& .MuiInputBase-root": {
+            "& input": {
+                padding: '5px 14px',
+                fontSize: '13px'
+            }
+        },
+        "& .MuiFormLabel-root": {
+            fontSize: '13px',
+            lineHeight: '0',
+            top: '4.6px',
+            overflow: 'visible',
+            background: '#fff',
+            zIndex: '1'
+        },
+        "& label.Mui-focused": {
+            top: '5px',
+            background: '#fff',
+            zIndex: '1'
+
+        },
+    },
+    autoCompleate: {
+        "& .MuiOutlinedInput-root": {
+            padding: '0px',
+            "& .MuiAutocomplete-input": {
+                padding: '5px 14px',
+                fontSize: '13px'
+            }
+
+        },
+        "& .MuiFormLabel-root": {
+            fontSize: '13px',
+            lineHeight: '0',
+            top: '-4px',
+            overflow: 'visible',
+        },
+        "& label.Mui-focused": {
+            top: '5px',
+            backgroundColor: '#fff',
+            zIndex: '1'
+        },
+    },
+    input: {
+        "& .MuiOutlinedInput-root": {
+            "& input": {
+                padding: '6px 14px',
+                fontSize: '12px'
+            }
+        },
+        "& .MuiFormLabel-root": {
+            fontSize: '13px',
+            lineHeight: '0',
+            top: '-4px',
+            overflow: 'visible',
+        },
+        "& label.Mui-focused": {
+            top: '5px',
+            backgroundColor: 'green',
+            zIndex: '1'
+        },
+    },
+    select: {
+        "& .MuiSelect-select": {
+            padding: '3px 14px',
+            fontSize: '12px'
+        },
+
+    },
+    InputLabels: {
+        fontSize: '13px',
+        lineHeight: '0',
+        top: '-4px',
+        overflow: 'visible',
+        "&.Mui-focused": {
+            top: '5px',
+            backgroundColor: 'green',
+            zIndex: '1'
+        }
+    }
+
 };
 export default PackMaster
