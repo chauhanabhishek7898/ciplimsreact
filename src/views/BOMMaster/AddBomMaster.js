@@ -736,7 +736,7 @@ const muiStyles = {
         "& .MuiFormLabel-root": {
             fontSize: '13px',
             top: '-13px',
-            backgroundColor: '#fff',
+            backgroundColor: 'transparent',
             zIndex: '1'
         },
         "& label.Mui-focused": {
@@ -755,7 +755,7 @@ const muiStyles = {
         },
         "& .MuiFormLabel-root": {
             fontSize: '13px',
-            backgroundColor: '#fff',
+            backgroundColor: 'transparent',
             top: '-13px',
           
         },
@@ -773,7 +773,7 @@ const muiStyles = {
         "& .MuiFormLabel-root": {
             fontSize: '13px',
             top: '-13px',  
-            backgroundColor: '#fff',
+            backgroundColor: 'transparent',
         },
         "& label.Mui-focused": {
             zIndex: '1'
@@ -791,7 +791,7 @@ const muiStyles = {
     InputLabels: {
         fontSize: '13px',
         top: '-13px',
-        backgroundColor: '#fff',
+        backgroundColor: 'transparent',
         "&.Mui-focused": {
             zIndex: '1'
         }
