@@ -115,8 +115,13 @@ function AddGRNReceived() {
     const [errorText, setError] = React.useState({
         plant: '',
         vendor: '',
+        grndate: '',
         date: '',
-        endDate: '',
+        inDate: '',
+        gtDate: '',
+        prDate: '',
+        mfDate: '',
+        exDate: '',
         MaterialDetail: '',
         Quan: '',
         amount: '',
@@ -526,7 +531,6 @@ function AddGRNReceived() {
     }
     const validateformPoDetial = () => {
         if (nMId == '' || nMId == undefined) {
-            alert(1)
             setError({
                 MaterialDetail: 'Select Item *'
             })
@@ -544,6 +548,16 @@ function AddGRNReceived() {
         } else if (nRate == '' || nRate == undefined) {
             setError({
                 amount: 'Enter Rate *'
+            })
+            return false
+        }else if (parseDateToString(new Date(dtMfgDate))?.length != 10) {
+            setError({
+                mfDate: 'Invaild Date *'
+            })
+            return false
+        }else if (parseDateToString(new Date(dtExpDate))?.length != 10) {
+            setError({
+                exDate: 'Invaild Date *'
             })
             return false
         }
@@ -775,6 +789,26 @@ function AddGRNReceived() {
                 plant: 'Select PO No. *'
             })
             return false
+        }else if (parseDateToString(new Date(startDate))?.length != 10) {
+            setError({
+                sdate: 'Invaild Date *'
+            })
+            return false
+        }else if (parseDateToString(new Date(endDate))?.length != 10) {
+            setError({
+                edate: 'Invaild Date *'
+            })
+            return false
+        }else if (parseDateToString(new Date(dtGateEntryDate))?.length != 10) {
+            setError({
+                gtDate: 'Invaild Date *'
+            })
+            return false
+        }else if (parseDateToString(new Date(dtPaymentReceiveDate))?.length != 10) {
+            setError({
+                prDate: 'Invaild Date *'
+            })
+            return false
         } else {
             setError('')
             return true
@@ -990,7 +1024,7 @@ function AddGRNReceived() {
                                     />
                                 </Stack>
                             </LocalizationProvider>
-                            {errorText.date != '' ? <p className='error'>{errorText.date}</p> : null}
+                            {errorText.sdate != '' ? <p className='error'>{errorText.sdate}</p> : null}
                         </FormControl>
                     </Box>
                     <Box sx={{ width: '11%' }} >
@@ -1008,7 +1042,7 @@ function AddGRNReceived() {
                                     />
                                 </Stack>
                             </LocalizationProvider>
-                            {errorText.date != '' ? <p className='error'>{errorText.date}</p> : null}
+                            {errorText.edate != '' ? <p className='error'>{errorText.edate}</p> : null}
                         </FormControl>
                     </Box>
                     <Box sx={{ width: '8%' }} >
@@ -1132,7 +1166,7 @@ function AddGRNReceived() {
                                     />
                                 </Stack>
                             </LocalizationProvider>
-                            {errorText.date != '' ? <p className='error'>{errorText.date}</p> : null}
+                            {errorText.gtDate != '' ? <p className='error'>{errorText.gtDate}</p> : null}
                         </FormControl>
                     </Box>
                     {/* <Box sx={{ width: '10%', marginTop: 2 }}>
@@ -1210,7 +1244,7 @@ function AddGRNReceived() {
                                     />
                                 </Stack>
                             </LocalizationProvider>
-                            {errorText.date != '' ? <p className='error'>{errorText.date}</p> : null}
+                            {errorText.prDate != '' ? <p className='error'>{errorText.prDate}</p> : null}
                         </FormControl>
                     </Box>
                     {/* <Box sx={{ width: '23%', marginTop: 2 }}>
@@ -1435,7 +1469,7 @@ function AddGRNReceived() {
                                     />
                                 </Stack>
                             </LocalizationProvider>
-                            {errorText.date != '' ? <p className='error'>{errorText.date}</p> : null}
+                            {errorText.mfDate != '' ? <p className='error'>{errorText.mfDate}</p> : null}
                         </FormControl>
                     </Box>
                     <Box sx={{ width: '11.5%' }} >
@@ -1453,7 +1487,7 @@ function AddGRNReceived() {
                                     />
                                 </Stack>
                             </LocalizationProvider>
-                            {errorText.date != '' ? <p className='error'>{errorText.date}</p> : null}
+                            {errorText.exDate != '' ? <p className='error'>{errorText.exDate}</p> : null}
                         </FormControl>
                     </Box>
 

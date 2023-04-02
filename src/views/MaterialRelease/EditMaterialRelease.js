@@ -693,6 +693,11 @@ function EditMaterialRelease() {
                 expireDate: 'Select Exp Date *'
             })
             return false
+        }else if (parseDateToString(new Date(startDate))?.length != 10) {
+            setError({
+                date: 'Invaild Date *'
+            })
+            return false
         } else {
             setError('')
             return true
