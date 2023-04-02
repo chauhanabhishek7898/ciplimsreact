@@ -517,14 +517,12 @@ const muiStyles = {
         },
         "& .MuiFormLabel-root": {
             fontSize: '13px',
-            lineHeight: '0',
-            top: '-4px',
+            top: '-13px',
             overflow: 'visible',
+            backgroundColor:'#fff'
         },
         "& label.Mui-focused": {
-            top: '5px',
-            backgroundColor: 'green',
-            zIndex: '1'
+            zIndex: '1',
         },
     },
     select: {

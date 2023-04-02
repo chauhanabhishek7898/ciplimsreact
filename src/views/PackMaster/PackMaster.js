@@ -448,15 +448,11 @@ const muiStyles = {
         },
         "& .MuiFormLabel-root": {
             fontSize: '13px',
-            lineHeight: '0',
-            top: '4.6px',
-            overflow: 'visible',
-            background: '#fff',
+            top: '-13px',
+            backgroundColor: '#fff',
             zIndex: '1'
         },
         "& label.Mui-focused": {
-            top: '5px',
-            background: '#fff',
             zIndex: '1'
 
         },
@@ -472,13 +468,11 @@ const muiStyles = {
         },
         "& .MuiFormLabel-root": {
             fontSize: '13px',
-            lineHeight: '0',
-            top: '-4px',
-            overflow: 'visible',
+            backgroundColor: '#fff',
+            top: '-13px',
+          
         },
         "& label.Mui-focused": {
-            top: '5px',
-            backgroundColor: '#fff',
             zIndex: '1'
         },
     },
@@ -491,34 +485,31 @@ const muiStyles = {
         },
         "& .MuiFormLabel-root": {
             fontSize: '13px',
-            lineHeight: '0',
-            top: '-4px',
-            overflow: 'visible',
+            top: '-13px',  
+            backgroundColor: '#fff',
         },
         "& label.Mui-focused": {
-            top: '5px',
-            backgroundColor: 'green',
             zIndex: '1'
         },
     },
     select: {
+
         "& .MuiSelect-select": {
             padding: '3px 14px',
             fontSize: '12px'
-        },
+        }, 
+        
 
     },
     InputLabels: {
         fontSize: '13px',
-        lineHeight: '0',
-        top: '-4px',
-        overflow: 'visible',
+        top: '-13px',
+        backgroundColor: '#fff',
         "&.Mui-focused": {
-            top: '5px',
-            backgroundColor: 'green',
             zIndex: '1'
         }
-    }
+    },
+   
 
 };
 export default PackMaster
