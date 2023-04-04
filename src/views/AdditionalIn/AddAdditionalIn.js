@@ -510,6 +510,11 @@ function AddAdditionalIn() {
                 plant: 'Select Plant . *'
             })
             return false
+        }else if (parseDateToString(new Date(startDate))?.length != 10) {
+            setError({
+                date: 'Invaild Date *'
+            })
+            return false
         } else {
             setError('')
             return true
@@ -1009,15 +1014,11 @@ const muiStyles = {
         },
         "& .MuiFormLabel-root": {
             fontSize: '13px',
-            lineHeight: '0',
-            top: '4.6px',
-            overflow: 'visible',
-            background: '#fff',
+            top: '-13px',
+            backgroundColor: 'transparent',
             zIndex: '1'
         },
         "& label.Mui-focused": {
-            top: '5px',
-            background: '#fff',
             zIndex: '1'
 
         },
@@ -1033,13 +1034,11 @@ const muiStyles = {
         },
         "& .MuiFormLabel-root": {
             fontSize: '13px',
-            lineHeight: '0',
-            top: '-4px',
-            overflow: 'visible',
+            backgroundColor: 'transparent',
+            top: '-13px',
+          
         },
         "& label.Mui-focused": {
-            top: '5px',
-            backgroundColor: '#fff',
             zIndex: '1'
         },
     },
@@ -1052,34 +1051,31 @@ const muiStyles = {
         },
         "& .MuiFormLabel-root": {
             fontSize: '13px',
-            lineHeight: '0',
-            top: '-4px',
-            overflow: 'visible',
+            top: '-13px',  
+            backgroundColor: 'transparent',
         },
         "& label.Mui-focused": {
-            top: '5px',
-            backgroundColor: 'green',
             zIndex: '1'
         },
     },
     select: {
+
         "& .MuiSelect-select": {
             padding: '3px 14px',
             fontSize: '12px'
-        },
+        }, 
+        
 
     },
     InputLabels: {
         fontSize: '13px',
-        lineHeight: '0',
-        top: '-4px',
-        overflow: 'visible',
+        top: '-13px',
+        backgroundColor: 'transparent',
         "&.Mui-focused": {
-            top: '5px',
-            backgroundColor: 'green',
             zIndex: '1'
         }
-    }
+    },
+   
 
 };
 export default AddAdditionalIn

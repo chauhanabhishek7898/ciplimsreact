@@ -116,8 +116,13 @@ function EditGRNReceived() {
     const [errorText, setError] = React.useState({
         plant: '',
         vendor: '',
+        grndate: '',
         date: '',
-        endDate: '',
+        inDate: '',
+        gtDate: '',
+        prDate: '',
+        mfDate: '',
+        exDate: '',
         MaterialDetail: '',
         Quan: '',
         amount: '',
@@ -581,6 +586,16 @@ function EditGRNReceived() {
                 amount: 'Enter Rate *'
             })
             return false
+        }else if (parseDateToString(new Date(dtMfgDate))?.length != 10) {
+            setError({
+                mfDate: 'Invaild Date *'
+            })
+            return false
+        }else if (parseDateToString(new Date(dtExpDate))?.length != 10) {
+            setError({
+                exDate: 'Invaild Date *'
+            })
+            return false
         }
         else {
             setError({
@@ -746,6 +761,26 @@ function EditGRNReceived() {
         } else if (nPOId == '') {
             setError({
                 plant: 'Select PO No. *'
+            })
+            return false
+        }else if (parseDateToString(new Date(startDate))?.length != 10) {
+            setError({
+                sdate: 'Invaild Date *'
+            })
+            return false
+        }else if (parseDateToString(new Date(endDate))?.length != 10) {
+            setError({
+                edate: 'Invaild Date *'
+            })
+            return false
+        }else if (parseDateToString(new Date(dtGateEntryDate))?.length != 10) {
+            setError({
+                gtDate: 'Invaild Date *'
+            })
+            return false
+        }else if (parseDateToString(new Date(dtPaymentReceiveDate))?.length != 10) {
+            setError({
+                prDate: 'Invaild Date *'
             })
             return false
         } else {
@@ -968,7 +1003,7 @@ function EditGRNReceived() {
                                     />
                                 </Stack>
                             </LocalizationProvider>
-                            {errorText.date != '' ? <p className='error'>{errorText.date}</p> : null}
+                            {errorText.sdate != '' ? <p className='error'>{errorText.sdate}</p> : null}
                         </FormControl>
                     </Box>
                     <Box sx={{ width: '11%' }} >
@@ -986,7 +1021,7 @@ function EditGRNReceived() {
                                     />
                                 </Stack>
                             </LocalizationProvider>
-                            {errorText.date != '' ? <p className='error'>{errorText.date}</p> : null}
+                            {errorText.edate != '' ? <p className='error'>{errorText.edate}</p> : null}
                         </FormControl>
                     </Box>
                     <Box sx={{ width: '8%' }} >
@@ -1111,7 +1146,7 @@ function EditGRNReceived() {
                                     />
                                 </Stack>
                             </LocalizationProvider>
-                            {errorText.date != '' ? <p className='error'>{errorText.date}</p> : null}
+                            {errorText.gtDate != '' ? <p className='error'>{errorText.gtDate}</p> : null}
                         </FormControl>
                     </Box>
                     {/* <Box sx={{ width: '10%', marginTop: 2 }}>
@@ -1189,7 +1224,7 @@ function EditGRNReceived() {
                                     />
                                 </Stack>
                             </LocalizationProvider>
-                            {errorText.date != '' ? <p className='error'>{errorText.date}</p> : null}
+                            {errorText.prDate != '' ? <p className='error'>{errorText.prDate}</p> : null}
                         </FormControl>
                     </Box>
                     {/* <Box sx={{ width: '23%', marginTop: 2 }}>
@@ -1425,7 +1460,7 @@ function EditGRNReceived() {
                                     />
                                 </Stack>
                             </LocalizationProvider>
-                            {errorText.date != '' ? <p className='error'>{errorText.date}</p> : null}
+                            {errorText.mfDate != '' ? <p className='error'>{errorText.mfDate}</p> : null}
                         </FormControl>
                     </Box>
                     <Box sx={{ width: '12%' }} >
@@ -1443,7 +1478,7 @@ function EditGRNReceived() {
                                     />
                                 </Stack>
                             </LocalizationProvider>
-                            {errorText.date != '' ? <p className='error'>{errorText.date}</p> : null}
+                            {errorText.exDate != '' ? <p className='error'>{errorText.exDate}</p> : null}
                         </FormControl>
                     </Box>
 
@@ -1868,15 +1903,11 @@ const muiStyles = {
         },
         "& .MuiFormLabel-root": {
             fontSize: '13px',
-            lineHeight: '0',
-            top: '4.6px',
-            overflow: 'visible',
-            background: '#fff',
+            top: '-13px',
+            backgroundColor: 'transparent',
             zIndex: '1'
         },
         "& label.Mui-focused": {
-            top: '5px',
-            background: '#fff',
             zIndex: '1'
 
         },
@@ -1892,13 +1923,11 @@ const muiStyles = {
         },
         "& .MuiFormLabel-root": {
             fontSize: '13px',
-            lineHeight: '0',
-            top: '-4px',
-            overflow: 'visible',
+            backgroundColor: 'transparent',
+            top: '-13px',
+          
         },
         "& label.Mui-focused": {
-            top: '5px',
-            backgroundColor: '#fff',
             zIndex: '1'
         },
     },
@@ -1911,34 +1940,31 @@ const muiStyles = {
         },
         "& .MuiFormLabel-root": {
             fontSize: '13px',
-            lineHeight: '0',
-            top: '-4px',
-            overflow: 'visible',
+            top: '-13px',  
+            backgroundColor: 'transparent',
         },
         "& label.Mui-focused": {
-            top: '5px',
-            backgroundColor: 'green',
             zIndex: '1'
         },
     },
     select: {
+
         "& .MuiSelect-select": {
             padding: '3px 14px',
             fontSize: '12px'
-        },
+        }, 
+        
 
     },
     InputLabels: {
         fontSize: '13px',
-        lineHeight: '0',
-        top: '-4px',
-        overflow: 'visible',
+        top: '-13px',
+        backgroundColor: 'transparent',
         "&.Mui-focused": {
-            top: '5px',
-            backgroundColor: 'green',
             zIndex: '1'
         }
-    }
+    },
+   
 
 };
 export default EditGRNReceived
