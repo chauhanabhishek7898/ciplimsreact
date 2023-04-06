@@ -165,7 +165,7 @@ function EnterOpeningStockList() {
 
                 <Paper sx={{ width: '100%', overflow: 'hidden' }}>
                     <div className='displayflexend-2'>
-                        <Box sx={{ width: '28%' }} >
+                        <Box  className='inputBox-23'>
                             {/* <LocalizationProvider dateAdapter={AdapterDayjs} >
                                 <Stack spacing={3} >
                                     <DesktopDatePicker
@@ -180,7 +180,7 @@ function EnterOpeningStockList() {
                                 </Stack>
                             </LocalizationProvider> */}
                         </Box>
-                        <Box sx={{ width: '28%' }} >
+                        <Box className='inputBox-23' >
                             {/* <LocalizationProvider dateAdapter={AdapterDayjs} >
                                 <Stack spacing={3}>
                                     <DesktopDatePicker
@@ -196,7 +196,7 @@ function EnterOpeningStockList() {
                             </LocalizationProvider> */}
                         </Box>
 
-                        <Box sx={{ width: '28%' }} >
+                        <Box className='inputBox-24'>
                             <FormControl fullWidth className='input' >
                                 <TextField
                                 sx={muiStyles.input}
@@ -211,7 +211,7 @@ function EnterOpeningStockList() {
 
                         </Box>
 
-                        <Box sx={{ width: '10%' }} >
+                        <Box className='inputBox-25'>
                             <button className='applybtn' onClick={getPODetails}>Apply</button>
 
                         </Box>

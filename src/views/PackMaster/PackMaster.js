@@ -216,7 +216,7 @@ function PackMaster() {
 
                     <div className='exportandfilter'>
                         <ExportExcel excelData={packData} Heading={Heading} fileName={'Pack_Master'} />
-                        <Box sx={{ width: '65%' }} >
+                        <Box className='searchbox' >
                             <SearchBar
                                 value={searched}
                                 onChange={(searchVal) => requestSearch(searchVal)}
@@ -249,7 +249,7 @@ function PackMaster() {
                                     return (
                                         <TableRow >
                                             {/* <TableCell component="th" scope="row">{index + 1}.</TableCell> */}
-                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}><div onClick={() => openmodale(item, 'Update')}><BorderColorIcon size={20} color='#000' /></div></TableCell>
+                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}><div onClick={() => openmodale(item, 'Update')} className='editbtn'><BorderColorIcon size={20} color='#000' /></div></TableCell>
                                             <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
                                             <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vPackCode}</TableCell>
                                             <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vPackName}</TableCell>
@@ -293,7 +293,7 @@ function PackMaster() {
                     <HighlightOffIcon fontSize='large' onClick={() => setIsOpen(false)} />
                 </div>
                 <div className='displayflexend mt-4'>
-                    <Box sx={{ width: '32%' }} >
+                    <Box className='inputBox-15' >
                         <FormControl fullWidth className='input'>
                             <TextField
                             sx={muiStyles.input}
@@ -310,7 +310,7 @@ function PackMaster() {
 
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '32%' }} >
+                    <Box  className='inputBox-15' >
                         <FormControl fullWidth className='input' >
                             <TextField
                             sx={muiStyles.input}
@@ -326,7 +326,7 @@ function PackMaster() {
                                 helperText={errors.packName?.message} />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '32%', marginTop: 2 }}>
+                    <Box className='inputBox-15'>
                         <FormControl fullWidth className='input' >
                             <TextField
                             sx={muiStyles.input}
@@ -367,7 +367,7 @@ function PackMaster() {
                         </FormControl> */}
                         {/* <div className='error'>{error} </div> */}
                     </Box>
-                    <Box sx={{ width: '49%', marginTop: 2 }} >
+                    <Box className='inputBox-14'>
                         <FormControl fullWidth className='input'>
                             <TextField
                             sx={muiStyles.input}
@@ -382,7 +382,7 @@ function PackMaster() {
                                 helperText={errors.packProduct?.message} />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '48.4%', marginTop: 2 }} >
+                    <Box className='inputBox-16'>
                         <FormControl fullWidth className='input'>
                             <TextField
                             sx={muiStyles.input}

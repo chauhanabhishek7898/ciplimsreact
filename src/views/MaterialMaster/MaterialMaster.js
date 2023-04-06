@@ -335,7 +335,7 @@ function MaterialMaster() {
                 </div>
 
                 <div className='displayflexend mt-4'>
-                    <Box sx={{ width: '24%' }} >
+                    <Box className='inputBox-6'>
                         <FormControl fullWidth className='input'>
                             <TextField
                             sx={muiStyles.input}
@@ -351,7 +351,7 @@ function MaterialMaster() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '24%' }} >
+                    <Box className='inputBox-6' >
                         <FormControl fullWidth className='input' >
                             <TextField
                             sx={muiStyles.input}
@@ -369,7 +369,7 @@ function MaterialMaster() {
                     </Box>
 
 
-                    <Box sx={{ width: '24%', marginTop: 2 }}>
+                    <Box className='inputBox-6'>
                         <FormControl fullWidth className='input'>
                             <InputLabel required id="demo-simple-select-label" sx={muiStyles.InputLabels}>Category</InputLabel>
                             <Select
@@ -399,7 +399,7 @@ function MaterialMaster() {
                         </FormControl>
                     </Box>
 
-                    <Box sx={{ width: '24%', marginTop: 2 }}>
+                    <Box className='inputBox-6'>
                         <FormControl fullWidth className='input'>
                             <InputLabel required id="demo-simple-select-label" sx={muiStyles.InputLabels}>Material Type</InputLabel>
                             <Select
@@ -429,7 +429,7 @@ function MaterialMaster() {
                         </FormControl>
                     </Box>
 
-                    <Box sx={{ width: '24%', marginTop: 2 }}>
+                    <Box className='inputBox-6'>
                         <FormControl fullWidth className='input'>
                             <InputLabel required id="demo-simple-select-label" sx={muiStyles.InputLabels}>UOM</InputLabel>
                             <Select
@@ -459,7 +459,7 @@ function MaterialMaster() {
 
 
 
-                    <Box sx={{ width: '24%' }} >
+                    <Box className='inputBox-6' >
                         <FormControl fullWidth className='input'>
                             <TextField
                             sx={muiStyles.input}
@@ -475,7 +475,7 @@ function MaterialMaster() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '49.5%', marginTop: 2 }} >
+                    <Box className='inputBox-18'>
                         <FormControl fullWidth className='input' >
                             <TextField
                             sx={muiStyles.input}
@@ -587,7 +587,7 @@ function MaterialMaster() {
                     <Paper sx={{ width: '100%', overflow: 'hidden' }}>
                         <div className='exportandfilter'>
                             <ExportExcel excelData={brandData} Heading={Heading} fileName={'Material_Master'} />
-                            <Box sx={{ width: '68%' }} >
+                            <Box className='searchbox'>
                                 <SearchBar
                                     value={searched}
                                     onChange={(searchVal) => requestSearch(searchVal)}
@@ -623,7 +623,7 @@ function MaterialMaster() {
                                             return (
                                                 <TableRow hover role="checkbox" tabIndex={-1} key={index}>
                                                       {/* <TableCell component="th" scope="row">{index + 1}.</TableCell> */}
-                                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}><div onClick={() => openmodale(item, 'Update')}><BorderColorIcon size={20} color='#000' /></div></TableCell>
+                                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}><div onClick={() => openmodale(item, 'Update')} className='editbtn'><BorderColorIcon size={20} color='#000' /></div></TableCell>
                                                     <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
                                                     <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vMCode}</TableCell>
                                                     <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vMName}</TableCell>

@@ -201,7 +201,7 @@ function PlantMaster() {
                     <HighlightOffIcon fontSize='large' onClick={() => setIsOpen(false)} />
                 </div>
                 <div className='displayflexend'>
-                    <Box sx={{ width: '30%' }} >
+                    <Box className='inputBox-12' >
                         <FormControl fullWidth className='input'>
                             <TextField
                             sx={muiStyles.input}
@@ -218,7 +218,7 @@ function PlantMaster() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '30%' }} >
+                    <Box className='inputBox-12' >
                         <FormControl fullWidth className='input' >
                             <TextField
                             sx={muiStyles.input}
@@ -236,7 +236,7 @@ function PlantMaster() {
                         </FormControl>
                     </Box>
 
-                    <Box sx={{ width: '18.8%', marginTop: 2 }} >
+                    <Box className='inputBox-13' >
                         <FormControl fullWidth className='input'>
                             <TextField
                             sx={muiStyles.input}
@@ -252,7 +252,7 @@ function PlantMaster() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '18.8%', marginTop: 2 }} >
+                    <Box  className='inputBox-13' >
                         <FormControl fullWidth className='input'>
                             <TextField
                             sx={muiStyles.input}
@@ -305,7 +305,7 @@ function PlantMaster() {
 
                     <div className='exportandfilter'>
                         <ExportExcel excelData={plantData} Heading={Heading} fileName={'Plant_Master'} />
-                        <Box sx={{ width: '65%' }} >
+                        <Box className='searchbox'>
                             <SearchBar
                                 value={searched}
                                 onChange={(searchVal) => requestSearch(searchVal)}
@@ -338,7 +338,7 @@ function PlantMaster() {
                                     return (
                                         <TableRow >
                                             {/* <TableCell component="th" scope="row">{index + 1}.</TableCell> */}
-                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}><div onClick={() => openmodale(item, 'Update')}><BorderColorIcon size={20} color='#000' /></div></TableCell>
+                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}><div onClick={() => openmodale(item, 'Update')} className='editbtn'><BorderColorIcon size={20} color='#000' /></div></TableCell>
                                             <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
                                             <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vPlantCode}</TableCell>
                                             <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vPlantName}</TableCell>

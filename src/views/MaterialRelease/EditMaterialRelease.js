@@ -39,7 +39,7 @@ import Stack from '@mui/material/Stack';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
-import { parseDateToString, parseDateToStringSubmit } from '../../coreservices/Date';
+import { parseDateToString, parseDateToStringSubmit,parseTimeToStringSubmit } from '../../coreservices/Date';
 import { useNavigate, useLocation } from "react-router-dom";
 import Autocomplete from '@mui/material/Autocomplete';
 import { number } from 'prop-types';
@@ -53,6 +53,7 @@ import InfoIcon from '@mui/icons-material/Info';
 import CloseIcon from '@mui/icons-material/Close';
 import ReplayIcon from '@mui/icons-material/Replay';
 import { display } from '@mui/system';
+import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 function EditMaterialRelease() {
     const navigate = useNavigate();
     const location = useLocation();
@@ -182,6 +183,7 @@ function EditMaterialRelease() {
     const [editFirstFrom, setEditFirstFrom] = useState(false)
     const [dateandactiveDisable, setdateandactiveDisable] = useState(true)
     const [EditId, setEditId] = useState('')
+    const [CrruntTime, setCrruntTime] = React.useState(dayjs(startDates));
     useEffect(() => {
         const userId = localStorage.getItem("nUserId")
         setnLoggedInUserId(userId)
@@ -244,6 +246,9 @@ function EditMaterialRelease() {
             }
             setPODetails(data)
             setStartDate(new Date(res.GRNMaster[0].dtGRNDate))
+            let startTime = new Date(`${new Date().toDateString()} ${res.GRNMaster[0].vTime}`)
+            console.log('time',startTime)
+            setCrruntTime(startTime)
             setnPId(res.GRNMaster[0].nPId)
             setPlantDetail(res.GRNMaster[0].PlantDetail)
             setnBId(res.GRNMaster[0].nBId)
@@ -740,6 +745,7 @@ function EditMaterialRelease() {
                                     nBOMUnit: nBOMUnit,
                                     vBatchNo: vBatchNo,
                                     btActive: true,
+                                    vTime: parseTimeToStringSubmit(new Date(CrruntTime)),
                                     dtGRNDate: parseDateToStringSubmit(new Date(startDate)),
                                     nLoggedInUserId: parseInt(nLoggedInUserId)
                                 }]
@@ -772,6 +778,7 @@ function EditMaterialRelease() {
                                         setReleasedQty('')
                                         setLeftStockQty('')
                                         setLeftQty('')
+                                        setEditId(null)
                                         // navigate('/EnterOpeningStock')
 
                                     }
@@ -826,6 +833,7 @@ function EditMaterialRelease() {
                                         nBOMUnit: nBOMUnit,
                                         vBatchNo: vBatchNo,
                                         btActive: true,
+                                        vTime: parseTimeToStringSubmit(new Date(CrruntTime)),
                                         dtGRNDate: parseDateToStringSubmit(new Date(startDate)),
                                         nLoggedInUserId: parseInt(nLoggedInUserId)
                                     }]
@@ -1062,6 +1070,7 @@ function EditMaterialRelease() {
                         let data = {
                             nGRNId: nGRNId,
                             dtGRNDate: parseDateToStringSubmit(new Date(startDate)),
+                            vTime: parseTimeToStringSubmit(new Date(CrruntTime)),
                             btActive: btActive
                         }
                         ReleasedMaterialMaster_Update(data).then(res => {
@@ -1111,6 +1120,22 @@ function EditMaterialRelease() {
                             {errorText.date != '' ? <p className='error'>{errorText.date}</p> : null}
                         </FormControl>
                     </Box>
+                    <Box sx={{ width: '9%' }} >
+                        <FormControl fullWidth className='input' >
+                            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                <TimePicker
+                                    label="Select Time"
+                                    value={CrruntTime}
+                                    ampm={false}
+                                    onChange={(newValue) => {
+                                        setCrruntTime(newValue);
+                                    }}
+                                    renderInput={(params) => <TextField sx={muiStyles.date} {...params} />}
+                                />
+                            </LocalizationProvider>
+                            {/* {errorText.date != '' ? <p className='error'>{errorText.date}</p> : null} */}
+                        </FormControl>
+                    </Box>
                     <Box sx={{ width: '15%', marginTop: 1, position: 'relative' }} >
                         <FormControl fullWidth className='input'>
                             <TextField
@@ -1118,7 +1143,7 @@ function EditMaterialRelease() {
                                 value={vBatchNo}
                                 onChange={e => getBatchNoDetails(e.target.value)}
                                 id="outlined-basic"
-                                label="Batch No"
+                                label="Doc No"
                                 variant="outlined"
                                 name='BatchNo'
                                 disabled={vBatchNoDisable}

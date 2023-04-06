@@ -30,6 +30,7 @@ import CircularProgress from '@mui/joy/CircularProgress';
 
 function BrandMaster() {
     let Heading = [['SN.', ' Brand Code', 'Brand Name', 'Status']];
+   
     const [modalIsOpen, setIsOpen] = React.useState(false);
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -56,6 +57,7 @@ function BrandMaster() {
     }
     useEffect(() => {
         getBrandMaster_SelectAll()
+     
     }, [])
     const getBrandMaster_SelectAll = () => {
         setLoader2(true)
@@ -183,7 +185,7 @@ function BrandMaster() {
                     <HighlightOffIcon fontSize='large' onClick={() => setIsOpen(false)} />
                 </div>
                 <div className='displayflexend mt-4'>
-                    <Box sx={{ width: '48%' }} >
+                    <Box className='inputBox-11'>
                         <FormControl fullWidth className='input'>
                             <TextField
                             sx={muiStyles.input}
@@ -199,7 +201,7 @@ function BrandMaster() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '48%' }} >
+                    <Box className='inputBox-11' >
                         <FormControl fullWidth className='input' >
                             <TextField
                             sx={muiStyles.input}
@@ -235,7 +237,7 @@ function BrandMaster() {
                 <Paper sx={{ width: '100%', overflow: 'hidden' }}>
                     <div className='exportandfilter'>
                     <ExportExcel excelData={brandData} Heading={Heading} fileName={'Brand_Master'}/>
-                    <Box sx={{ width: '68%' }} >
+                    <Box className='searchbox' >
                     <SearchBar
                         value={searched}
                         onChange={(searchVal) => requestSearch(searchVal)}
@@ -265,7 +267,7 @@ function BrandMaster() {
                                       return (
                                           <TableRow key={index}>
                                               {/* <TableCell component="th" scope="row">{index + 1}.</TableCell> */}
-                                              <TableCell align="left" style={{whiteSpace:'nowrap'}}><div onClick={() => openmodale(item, 'Update')}><BorderColorIcon size={20} color='#000' /></div></TableCell>
+                                              <TableCell align="left" style={{whiteSpace:'nowrap'}}><div onClick={() => openmodale(item, 'Update')} className='editbtn'><BorderColorIcon size={20} color='#000' /></div></TableCell>
                                               <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vBrandCode}</TableCell>
                                               <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vBrandName}</TableCell>
                                               <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>

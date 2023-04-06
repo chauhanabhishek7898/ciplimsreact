@@ -216,7 +216,7 @@ function VenderForm() {
                     <HighlightOffIcon fontSize='large' onClick={() => setIsOpen(false)} />
                 </div>
                 <div className='displayflexend'>
-                    <Box sx={{ width: '15%' }} >
+                    <Box  className='inputBox-1'>
                         <FormControl fullWidth className='input'>
                             <TextField
                                 sx={muiStyles.input}
@@ -233,7 +233,7 @@ function VenderForm() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '15%' }} >
+                    <Box className='inputBox-1' >
                         <FormControl fullWidth className='input' >
                             <TextField
                             sx={muiStyles.input}
@@ -251,7 +251,7 @@ function VenderForm() {
                         </FormControl>
                     </Box>
                     
-                    <Box sx={{ width: '17%', marginTop: 2 }} >
+                    <Box className='inputBox-2' >
                         <FormControl fullWidth className='input'>
                             <TextField
                             sx={muiStyles.input}
@@ -267,7 +267,7 @@ function VenderForm() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '15%', marginTop: 2 }} >
+                    <Box className='inputBox-1'  >
                         <FormControl fullWidth className='input'>
                             <TextField
                             sx={muiStyles.input}
@@ -283,7 +283,7 @@ function VenderForm() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '32%', marginTop: 2 }} >
+                    <Box className='inputBox-3'  >
                         <FormControl fullWidth className='input'>
                             <TextField
                             sx={muiStyles.input}
@@ -299,7 +299,7 @@ function VenderForm() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '100%', marginTop: 2 }} >
+                    <Box className='inputBox-4' >
                         <FormControl fullWidth className='input'>
                             <TextField
                             sx={muiStyles.input}
@@ -315,7 +315,7 @@ function VenderForm() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '32%', marginTop: 2 }}>
+                    <Box className='inputBox-3'>
                         <FormControl fullWidth className='input'>
                             <TextField
                             sx={muiStyles.input}
@@ -332,7 +332,7 @@ function VenderForm() {
                         </FormControl>
                     </Box>
 
-                    <Box sx={{ width: '65.2%', marginTop: 2 }}>
+                    <Box className='inputBox-5'>
                         <FormControl fullWidth className='input'>
                             <TextField
                             sx={muiStyles.input}
@@ -369,7 +369,7 @@ function VenderForm() {
 
                     <div className='exportandfilter'>
                         <ExportExcel excelData={vendorData} Heading={Heading} fileName={'Vendor_Master'} />
-                        <Box sx={{ width: '65%' }} >
+                        <Box className='searchbox'>
                             <SearchBar
                                 value={searched}
                                 onChange={(searchVal) => requestSearch(searchVal)}
@@ -405,7 +405,7 @@ function VenderForm() {
                                     return (
                                         <TableRow key={index}>
                                             {/* <TableCell component="th" scope="row">{index + 1}.</TableCell> */}
-                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}><div onClick={() => openmodale(item, 'Update')}><BorderColorIcon size={20} color='#000' /></div></TableCell>
+                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}><div onClick={() => openmodale(item, 'Update')} className='editbtn'><BorderColorIcon size={20} color='#000' /></div></TableCell>
                                             <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
                                             <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vVendorCode}</TableCell>
                                             <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vVendorName}</TableCell>
@@ -533,6 +533,11 @@ const muiStyles = {
         backgroundColor: 'transparent',
         "&.Mui-focused": {
             zIndex: '1'
+        }
+    },
+    search:{
+        '&. MuiBox-root':{
+            width: '67%',
         }
     },
    

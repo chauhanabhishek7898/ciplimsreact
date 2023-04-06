@@ -228,7 +228,7 @@ function UnitMaster() {
                 <Paper sx={{ width: '100%', overflow: 'hidden' }}>
                 <div className='exportandfilter'>
                             <ExportExcel excelData={unitData} Heading={Heading} fileName={'Unit_Master'} />
-                            <Box sx={{ width: '65%' }} >
+                            <Box className='searchbox' >
                                 <SearchBar
                                     value={searched}
                                     onChange={(searchVal) => requestSearch(searchVal)}
@@ -259,7 +259,7 @@ function UnitMaster() {
                                     return (
                                         <TableRow key={index}>
                                             {/* <TableCell component="th" scope="row">{index + 1}.</TableCell> */}
-                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}><div onClick={() => openmodale(item, 'Update')}><BorderColorIcon size={20} color='#000' /></div></TableCell>
+                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}><div onClick={() => openmodale(item, 'Update')} className='editbtn'><BorderColorIcon size={20} color='#000' /></div></TableCell>
                                             <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vUnitName}</TableCell>
                                             <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
                                         </TableRow>

@@ -677,7 +677,7 @@ function EditEnterOpeningStock() {
         <div className='citymasterContainer'>
             <div className='dateFilter-2'>
                 <div className='displayflexend'>
-                <Box sx={{ width: '11.5%' }} >
+                <Box className='inputBox-26' >
                         <FormControl fullWidth className='input' >
                             <LocalizationProvider dateAdapter={AdapterDayjs} >
                                 <Stack spacing={3} >
@@ -695,7 +695,7 @@ function EditEnterOpeningStock() {
                             {errorText.date != '' ? <p className='error'>{errorText.date}</p> : null}
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '39%', marginTop: 2 }} >
+                    <Box className='inputBox-27' >
                         <FormControl fullWidth className='input'>
                             {/* <InputLabel required id="demo-simple-select-label">Plant</InputLabel>npm  */}
                             <Autocomplete
@@ -718,7 +718,7 @@ function EditEnterOpeningStock() {
                             {errorText.plant != '' ? <p className='error'>{errorText.plant}</p> : null}
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '41%', marginTop: 1 }} >
+                    <Box className='inputBox-28' >
                         <FormControl fullWidth className='input'>
                             <TextField
                             sx={muiStyles.input}
@@ -741,7 +741,7 @@ function EditEnterOpeningStock() {
             </div>
             <div className='databox'>
                 <div className='data-form-box'>
-                    <Box sx={{ width: '25%' }} >
+                    <Box className='inputBox-29' >
                         <FormControl fullWidth className='input'>
                             {/* <InputLabel required id="demo-simple-select-label">Item</InputLabel>  */}
                             <Autocomplete
@@ -805,7 +805,7 @@ function EditEnterOpeningStock() {
                             {errorText.Quan != '' ? <p className='error'>{errorText.Quan}</p> : null}
                         </FormControl>
                     </Box> */}
-                     <Box sx={{ width: '11%' }} >
+                     <Box className='inputBox-30' >
                         <FormControl fullWidth className='input' >
                             <TextField
                             sx={muiStyles.input}
@@ -822,7 +822,7 @@ function EditEnterOpeningStock() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '12%' }} >
+                    <Box className='inputBox-31' >
                         <FormControl fullWidth className='input' >
                             <TextField
                             sx={muiStyles.input}
@@ -840,7 +840,7 @@ function EditEnterOpeningStock() {
                             {errorText.QuanAccept != '' ? <p className='error'>{errorText.QuanAccept}</p> : null}
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '12%' }} >
+                    <Box className='inputBox-31' >
                         <FormControl fullWidth className='input' >
                             <TextField
                             sx={muiStyles.input}
@@ -859,7 +859,7 @@ function EditEnterOpeningStock() {
                         </FormControl>
                     </Box>
 
-                    <Box sx={{ width: '11%' }} >
+                    <Box className='inputBox-30' >
                         <FormControl fullWidth className='input' >
                             <TextField
                             sx={muiStyles.input}
@@ -877,7 +877,7 @@ function EditEnterOpeningStock() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '11.5%' }} >
+                    <Box className='inputBox-26' >
                         <FormControl fullWidth className='input' >
                             <LocalizationProvider dateAdapter={AdapterDayjs} >
                                 <Stack spacing={3} >

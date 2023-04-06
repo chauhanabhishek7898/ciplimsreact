@@ -181,7 +181,7 @@ function GodownMaster() {
                     <HighlightOffIcon fontSize='large' onClick={() => setIsOpen(false)} />
                 </div>
                 <div className='displayflexend mt-4'>
-                    <Box sx={{ width: '32.5%' }} >
+                    <Box className='inputBox-17' >
                         <FormControl fullWidth className='input'>
                             <TextField
                             sx={muiStyles.input}
@@ -197,7 +197,7 @@ function GodownMaster() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '32.5%' }} >
+                    <Box className='inputBox-17'>
                         <FormControl fullWidth className='input' >
                             <TextField
                             sx={muiStyles.input}
@@ -213,7 +213,7 @@ function GodownMaster() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '32.5%' }} >
+                    <Box className='inputBox-17' >
                         <FormControl fullWidth className='input' >
                             <TextField
                             sx={muiStyles.input}
@@ -225,7 +225,7 @@ function GodownMaster() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '32.5%' }} >
+                    <Box className='inputBox-17' >
                         <FormControl fullWidth className='input' >
                             <TextField
                             sx={muiStyles.input}
@@ -237,7 +237,7 @@ function GodownMaster() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '32.5%' }} >
+                    <Box className='inputBox-17' >
                         <FormControl fullWidth className='input' >
                             <TextField
                             sx={muiStyles.input}
@@ -250,7 +250,7 @@ function GodownMaster() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '32.5%', marginTop: 2 }}>
+                    <Box className='inputBox-17'>
                         <FormControl fullWidth className='input'>
                             <TextField
                             sx={muiStyles.input}
@@ -283,7 +283,7 @@ function GodownMaster() {
                 <Paper sx={{ width: '100%', overflow: 'hidden' }}>
                     <div className='exportandfilter'>
                     <ExportExcel excelData={brandData} Heading={Heading} fileName={'Godown_Master'}/>
-                    <Box sx={{ width: '68%' }} >
+                    <Box className='searchbox' >
                     <SearchBar
                         value={searched}
                         onChange={(searchVal) => requestSearch(searchVal)}
@@ -316,7 +316,7 @@ function GodownMaster() {
                                     return (
                                         <TableRow key={index}>
                                             {/* <TableCell component="th" scope="row">{index + 1}.</TableCell> */}
-                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}><div onClick={() => openmodale(item, 'Update')}><BorderColorIcon size={20} color='#000' /></div></TableCell>
+                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}><div onClick={() => openmodale(item, 'Update')} className='editbtn'><BorderColorIcon size={20} color='#000' /></div></TableCell>
                                             <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
                                             <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vGCode}</TableCell>
                                             <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vGName}</TableCell>

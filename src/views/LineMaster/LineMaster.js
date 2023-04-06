@@ -227,7 +227,7 @@ function LineMaster() {
                     <HighlightOffIcon fontSize='large' onClick={() => setIsOpen(false)} />
                 </div>
                 <div className='displayflexend mt-4' >
-                    <Box sx={{ width: '49%' }} >
+                    <Box className='inputBox-14' >
                         <FormControl fullWidth className='input'>
                             <TextField
                             sx={muiStyles.input}
@@ -243,7 +243,7 @@ function LineMaster() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '49%' }} >
+                    <Box className='inputBox-14' >
                         <FormControl fullWidth className='input' >
                             <TextField
                             sx={muiStyles.input}
@@ -260,7 +260,7 @@ function LineMaster() {
                         </FormControl>
                     </Box>
 
-                    <Box sx={{ width: '49%', marginTop: 2 }}>
+                    <Box className='inputBox-14'>
                         <FormControl fullWidth className='input'>
                             <InputLabel required id="demo-simple-select-label" sx={muiStyles.InputLabels}>Plant Name </InputLabel>
                             <Select
@@ -309,7 +309,7 @@ function LineMaster() {
 
                     <div className='exportandfilter'>
                         <ExportExcel excelData={lineData} Heading={Heading} fileName={'Line_Master'} />
-                        <Box sx={{ width: '65%' }} >
+                        <Box className='searchbox' >
                             <SearchBar
                                 value={searched}
                                 onChange={(searchVal) => requestSearch(searchVal)}
@@ -340,7 +340,7 @@ function LineMaster() {
                                     return (
                                         <TableRow >
                                             {/* <TableCell component="th" scope="row">{index + 1}.</TableCell> */}
-                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}><div onClick={() => openmodale(item, 'Update')}><BorderColorIcon size={20} color='#000' /></div></TableCell>
+                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}><div onClick={() => openmodale(item, 'Update')} className='editbtn'><BorderColorIcon size={20} color='#000' /></div></TableCell>
                                             <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
                                             <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vLineName}</TableCell>
                                             <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vLineDescription}</TableCell>

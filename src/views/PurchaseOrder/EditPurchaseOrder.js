@@ -690,7 +690,7 @@ function EditPurchaseOrder() {
         <div className='citymasterContainer'>
             <div className='dateFilter-2'>
                 <div className='displayflexend'>
-                    <Box sx={{ width: '11%' }} >
+                    <Box className='inputBox-30' >
                         <FormControl fullWidth className='input'>
                             <TextField
                             sx={muiStyles.input}
@@ -706,7 +706,7 @@ function EditPurchaseOrder() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '11%' }} >
+                    <Box className='inputBox-30' >
                         <FormControl fullWidth className='input' >
                             <LocalizationProvider dateAdapter={AdapterDayjs} >
                                 <Stack spacing={3} >
@@ -723,7 +723,7 @@ function EditPurchaseOrder() {
                             {errorText.date != '' ? <p className='error'>{errorText.date}</p> : null}
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '34%' }} >
+                    <Box className='inputBox-32' >
                         <FormControl fullWidth className='input' >
                             <TextField
                             sx={muiStyles.input}
@@ -739,7 +739,7 @@ function EditPurchaseOrder() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '18%', marginTop: 2 }} >
+                    <Box className='inputBox-22'>
                         <FormControl fullWidth className='input'>
                             {/* <InputLabel required id="demo-simple-select-label">Plant</InputLabel>npm  */}
                             <Autocomplete
@@ -761,7 +761,7 @@ function EditPurchaseOrder() {
                             {errorText.plant != '' ? <p className='error'>{errorText.plant}</p> : null}
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '11%' }} >
+                    <Box className='inputBox-30' >
                         <FormControl fullWidth className='input' >
                             <TextField
                             sx={muiStyles.input}
@@ -778,7 +778,7 @@ function EditPurchaseOrder() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '11%' }} >
+                    <Box className='inputBox-30' >
                         <FormControl fullWidth className='input' >
                             <TextField
                             sx={muiStyles.input}
@@ -795,7 +795,7 @@ function EditPurchaseOrder() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '7%' }} >
+                    <Box className='inputBox-33' >
                         <FormControl fullWidth className='input' >
                             <TextField
                             sx={muiStyles.input}
@@ -813,7 +813,7 @@ function EditPurchaseOrder() {
                     </Box>
 
 
-                    <Box sx={{ width: '10%', marginTop: 2 }}>
+                    <Box className='inputBox-25'>
                         <FormControl fullWidth className='input'>
                             <InputLabel id="demo-simple-select-label" sx={muiStyles.InputLabels}>Business</InputLabel>
                             <Select
@@ -843,7 +843,7 @@ function EditPurchaseOrder() {
                         </FormControl>
                     </Box>
 
-                    <Box sx={{ width: '23%', marginTop: 2 }}>
+                    <Box className='inputBox-9'>
                         <FormControl fullWidth className='input'>
                             {/* <InputLabel required id="demo-simple-select-label">Vendor</InputLabel> */}
                             <Autocomplete
@@ -864,7 +864,7 @@ function EditPurchaseOrder() {
                             {errorText.vendor != '' ? <p className='error'>{errorText.vendor}</p> : null}
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '37.5%' }} >
+                    <Box className='inputBox-34' >
                         <FormControl fullWidth className='input'>
                             <TextField
                             sx={muiStyles.input}
@@ -882,7 +882,7 @@ function EditPurchaseOrder() {
                     </Box>
 
 
-                    <Box sx={{ width: '13%' }} >
+                    <Box className='inputBox-8' >
                         <div >
                             <InputLabel id="demo-simple-select-label" style={{ marginTop: 5, marginBottom: 5 }}>Attach PO</InputLabel>
                             <input type="file" name='vPOFilePath' onChange={imageFile} hidden ref={imageRef} />
@@ -916,7 +916,7 @@ function EditPurchaseOrder() {
             </div>
             <div className='databox'>
                 <div className='data-form-box'>
-                    <Box sx={{ width: '22%' }} >
+                    <Box className='inputBox-20' >
                         <FormControl fullWidth className='input'>
                             {/* <InputLabel required id="demo-simple-select-label">Item</InputLabel> */}
                             <Autocomplete
@@ -944,7 +944,7 @@ function EditPurchaseOrder() {
                             null
 
                         } */}
-                    <Box sx={{ width: '5%' }} >
+                    <Box className='inputBox-35'>
                         <FormControl fullWidth className='input' >
                             <TextField
                             sx={muiStyles.input}
@@ -962,7 +962,7 @@ function EditPurchaseOrder() {
                             {errorText.amount != '' ? <p className='error'>{errorText.amount}</p> : null}
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '6%' }} >
+                    <Box className='inputBox-36' >
                         <FormControl fullWidth className='input' >
                             <TextField
                             sx={muiStyles.input}
@@ -981,7 +981,7 @@ function EditPurchaseOrder() {
                         </FormControl>
                     </Box>
 
-                    <Box sx={{ width: '6%' }} >
+                    <Box className='inputBox-36'>
                         <FormControl fullWidth className='input' >
                             <TextField
                             sx={muiStyles.input}
@@ -999,7 +999,7 @@ function EditPurchaseOrder() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '6.5%' }} >
+                    <Box className='inputBox-36' >
                         <FormControl fullWidth className='input' >
                             <TextField
                             sx={muiStyles.input}
@@ -1016,7 +1016,7 @@ function EditPurchaseOrder() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '5%' }} >
+                    <Box className='inputBox-35' >
                         <FormControl fullWidth className='input' >
                             <TextField
                             sx={muiStyles.input}
@@ -1034,7 +1034,7 @@ function EditPurchaseOrder() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '6.5%' }} >
+                    <Box className='inputBox-36' >
                         <FormControl fullWidth className='input' >
                             <TextField
                             sx={muiStyles.input}
@@ -1051,7 +1051,7 @@ function EditPurchaseOrder() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '5%' }} >
+                    <Box className='inputBox-35'>
                         <FormControl fullWidth className='input' >
                             <TextField
                             sx={muiStyles.input}
@@ -1069,7 +1069,7 @@ function EditPurchaseOrder() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '6.5%' }} >
+                    <Box className='inputBox-36' >
                         <FormControl fullWidth className='input' >
                             <TextField
                             sx={muiStyles.input}
@@ -1086,7 +1086,7 @@ function EditPurchaseOrder() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '5%' }} >
+                    <Box className='inputBox-35' >
                         <FormControl fullWidth className='input' >
                             <TextField
                             sx={muiStyles.input}
@@ -1104,7 +1104,7 @@ function EditPurchaseOrder() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '6%' }} >
+                    <Box className='inputBox-21' >
                         <FormControl fullWidth className='input' >
                             <TextField
                             sx={muiStyles.input}
@@ -1122,7 +1122,7 @@ function EditPurchaseOrder() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '9%' }} >
+                    <Box className='inputBox-37'>
                         <FormControl fullWidth className='input' >
                             <TextField
                             sx={muiStyles.input}

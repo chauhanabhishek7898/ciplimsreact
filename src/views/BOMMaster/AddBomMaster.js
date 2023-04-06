@@ -443,7 +443,7 @@ function AddBomMaster() {
         <div className='citymasterContainer'>
             <div className='dateFilter-2'>
                 <div className='displayflexend'>
-                    <Box sx={{ width: '18%' }} >
+                    <Box className='inputBox-22' >
                         <FormControl fullWidth className='input'>
                             <TextField
                             sx={muiStyles.input}
@@ -459,7 +459,7 @@ function AddBomMaster() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '30%', marginTop: 2 }} >
+                    <Box className='inputBox-12' >
                         <FormControl fullWidth className='input'>
                             {/* <InputLabel required id="demo-simple-select-label">Plant</InputLabel>npm  */}
                             <Autocomplete
@@ -481,7 +481,7 @@ function AddBomMaster() {
                             {errorText.plant != '' ? <p className='error'>{errorText.plant}</p> : null}
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '30%', marginTop: 2 }}>
+                    <Box className='inputBox-12'>
                         <FormControl fullWidth className='input'>
                             {/* <InputLabel required id="demo-simple-select-label">Vendor</InputLabel> */}
                             <Autocomplete
@@ -502,7 +502,7 @@ function AddBomMaster() {
                             {errorText.vendor != '' ? <p className='error'>{errorText.vendor}</p> : null}
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '18%' }} >
+                    <Box className='inputBox-22' >
                         <FormControl fullWidth className='input'>
                             <TextField
                             sx={muiStyles.input}
@@ -518,7 +518,7 @@ function AddBomMaster() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '18%' }} >
+                    <Box className='inputBox-22' >
                         <FormControl fullWidth className='input'>
                             <TextField
                             sx={muiStyles.input}
@@ -534,7 +534,7 @@ function AddBomMaster() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '59.5%' }} >
+                    <Box className='inputBox-19' >
                         <FormControl fullWidth className='input'>
                             <TextField
                             sx={muiStyles.input}
@@ -552,7 +552,7 @@ function AddBomMaster() {
                     </Box>
 
 
-                    <Box sx={{ width: '13%' }} >
+                    <Box className='inputBox-8' >
                         <div >
                             <InputLabel id="demo-simple-select-label" style={{ marginTop: 5, marginBottom: 5 }}>Attach BOM </InputLabel>
                             <input type="file" name='vPOFilePath' onChange={imageFile} hidden ref={imageRef} />
@@ -574,7 +574,7 @@ function AddBomMaster() {
             </div>
             <div className='databox'>
                 <div className='data-form-box'>
-                    <Box sx={{ width: '22%' }} >
+                    <Box className='inputBox-20' >
                         <FormControl fullWidth className='input'>
                             {/* <InputLabel required id="demo-simple-select-label">Item</InputLabel> */}
                             <Autocomplete
@@ -598,7 +598,7 @@ function AddBomMaster() {
                     </Box>
 
                     
-                    <Box sx={{ width: '6%' }} >
+                    <Box className='inputBox-21' >
                         <FormControl fullWidth className='input' >
                             <TextField
                             sx={muiStyles.input}
@@ -616,7 +616,7 @@ function AddBomMaster() {
                             {/* {errorText.Quan != '' ? <p className='error'>{errorText.Quan}</p> : null} */}
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '18%' }} >
+                    <Box className='inputBox-22' >
                         <FormControl fullWidth className='input' >
                             <TextField
                             sx={muiStyles.input}
