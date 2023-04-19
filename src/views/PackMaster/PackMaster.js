@@ -214,9 +214,10 @@ function PackMaster() {
             <div className='tablecenter'>
                 <Paper sx={{ width: '100%' }}>
 
-                    <div className='exportandfilter'>
+                    <div className='exportandfilter mt-2'>
                         <ExportExcel excelData={packData} Heading={Heading} fileName={'Pack_Master'} />
-                        <Box sx={{ width: '65%' }} >
+                        <div className='filterbox'>
+                        <Box className='searchbox' >
                             <SearchBar
                                 value={searched}
                                 onChange={(searchVal) => requestSearch(searchVal)}
@@ -224,23 +225,25 @@ function PackMaster() {
                             />
 
                         </Box>
-                        <FormGroup >
-                            <FormControlLabel control={<Checkbox checked={onlyActive} value={onlyActive} onChange={checkedonlyActive} />} label="Only Active Data" />
+                        <FormGroup className='activeonly'>
+                            <FormControlLabel style={{marginRight:0}} control={<Checkbox checked={onlyActive} value={onlyActive} onChange={checkedonlyActive} />} label="Only Active Data" />
                         </FormGroup>
+
+                        </div>
                     </div>
 
-                    <TableContainer sx={{ maxHeight: 440 }}>
+                    <TableContainer sx={{ maxHeight: 440,paddingLeft:1.5,paddingRight:1.5 }}>
                         <Table stickyHeader aria-label="sticky table">
                             <TableHead>
                                 <TableRow>
                                     {/* <TableCell scope="row">SN.</TableCell> */}
-                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Edit</TableCell>
-                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Status</TableCell>
-                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Pack Code</TableCell>
-                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Pack Name</TableCell>
-                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Unit</TableCell>
-                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Pack Product</TableCell>
-                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Pack Cases</TableCell>
+                                    <TableCell align="left" sx={muiStyles.tableHead}>Edit</TableCell>
+                                    <TableCell align="left" sx={muiStyles.tableHead}>Status</TableCell>
+                                    <TableCell align="left" sx={muiStyles.tableHead}>Pack Code</TableCell>
+                                    <TableCell align="left" sx={muiStyles.tableHead}>Pack Name</TableCell>
+                                    <TableCell align="left" sx={muiStyles.tableHead}>Unit</TableCell>
+                                    <TableCell align="left" sx={muiStyles.tableHead}>Pack Product</TableCell>
+                                    <TableCell align="left" sx={muiStyles.tableHead}>Pack Cases</TableCell>
                                 </TableRow>
                             </TableHead>
                             {packData?.length>0?
@@ -249,13 +252,13 @@ function PackMaster() {
                                     return (
                                         <TableRow >
                                             {/* <TableCell component="th" scope="row">{index + 1}.</TableCell> */}
-                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}><div onClick={() => openmodale(item, 'Update')}><BorderColorIcon size={20} color='#000' /></div></TableCell>
-                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
-                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vPackCode}</TableCell>
-                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vPackName}</TableCell>
-                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vUnit}</TableCell>
-                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vPackProduct}</TableCell>
-                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vPackCases}</TableCell>
+                                            <TableCell align="left" sx={muiStyles.tableBody}><div onClick={() => openmodale(item, 'Update')} className='editbtn'><BorderColorIcon size={20} color='#000' /></div></TableCell>
+                                            <TableCell align="left" sx={muiStyles.tableBody}>{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
+                                            <TableCell align="left" sx={muiStyles.tableBody}>{item.vPackCode}</TableCell>
+                                            <TableCell align="left" sx={muiStyles.tableBody}>{item.vPackName}</TableCell>
+                                            <TableCell align="left" sx={muiStyles.tableBody}>{item.vUnit}</TableCell>
+                                            <TableCell align="left" sx={muiStyles.tableBody}>{item.vPackProduct}</TableCell>
+                                            <TableCell align="left" sx={muiStyles.tableBody}>{item.vPackCases}</TableCell>
 
                                         </TableRow>
                                     )
@@ -293,7 +296,7 @@ function PackMaster() {
                     <HighlightOffIcon fontSize='large' onClick={() => setIsOpen(false)} />
                 </div>
                 <div className='displayflexend mt-4'>
-                    <Box sx={{ width: '32%' }} >
+                    <Box className='inputBox-15' >
                         <FormControl fullWidth className='input'>
                             <TextField
                             sx={muiStyles.input}
@@ -310,7 +313,7 @@ function PackMaster() {
 
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '32%' }} >
+                    <Box  className='inputBox-15' >
                         <FormControl fullWidth className='input' >
                             <TextField
                             sx={muiStyles.input}
@@ -326,7 +329,7 @@ function PackMaster() {
                                 helperText={errors.packName?.message} />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '32%', marginTop: 2 }}>
+                    <Box className='inputBox-15'>
                         <FormControl fullWidth className='input' >
                             <TextField
                             sx={muiStyles.input}
@@ -367,7 +370,7 @@ function PackMaster() {
                         </FormControl> */}
                         {/* <div className='error'>{error} </div> */}
                     </Box>
-                    <Box sx={{ width: '49%', marginTop: 2 }} >
+                    <Box className='inputBox-14'>
                         <FormControl fullWidth className='input'>
                             <TextField
                             sx={muiStyles.input}
@@ -382,7 +385,7 @@ function PackMaster() {
                                 helperText={errors.packProduct?.message} />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '48.4%', marginTop: 2 }} >
+                    <Box className='inputBox-16'>
                         <FormControl fullWidth className='input'>
                             <TextField
                             sx={muiStyles.input}
@@ -400,7 +403,7 @@ function PackMaster() {
                 </div>
                 <div className='displayflexend-2'>
                     <FormGroup >
-                        <FormControlLabel control={<Checkbox defaultChecked={btActive} value={btActive} onChange={e => setBtActive(e.target.checked)} />} label="Active" disabled={disabled} />
+                        <FormControlLabel style={{marginRight:0}} control={<Checkbox defaultChecked={btActive} value={btActive} onChange={e => setBtActive(e.target.checked)} />} label="Active" disabled={disabled} />
                     </FormGroup>
 
                     {loader == true ?
@@ -442,13 +445,14 @@ const muiStyles = {
     date: {
         "& .MuiInputBase-root": {
             "& input": {
-                padding: '5px 14px',
+                padding: '6px 6px',
                 fontSize: '13px'
             }
         },
         "& .MuiFormLabel-root": {
             fontSize: '13px',
             top: '-13px',
+            left:'-10px',
             backgroundColor: 'transparent',
             zIndex: '1'
         },
@@ -456,12 +460,16 @@ const muiStyles = {
             zIndex: '1'
 
         },
+        '& .MuiInputAdornment-root':{
+            position: 'absolute',
+            right: '10px'
+        }
     },
     autoCompleate: {
         "& .MuiOutlinedInput-root": {
             padding: '0px',
             "& .MuiAutocomplete-input": {
-                padding: '5px 14px',
+                padding: '6px 6px',
                 fontSize: '13px'
             }
 
@@ -470,6 +478,7 @@ const muiStyles = {
             fontSize: '13px',
             backgroundColor: 'transparent',
             top: '-13px',
+            left:'-10px',
           
         },
         "& label.Mui-focused": {
@@ -479,13 +488,14 @@ const muiStyles = {
     input: {
         "& .MuiOutlinedInput-root": {
             "& input": {
-                padding: '6px 14px',
+                padding: '6px',
                 fontSize: '12px'
             }
         },
         "& .MuiFormLabel-root": {
             fontSize: '13px',
-            top: '-13px',  
+            top: '-13px',
+            left:'-10px',  
             backgroundColor: 'transparent',
         },
         "& label.Mui-focused": {
@@ -495,7 +505,7 @@ const muiStyles = {
     select: {
 
         "& .MuiSelect-select": {
-            padding: '3px 14px',
+            padding: '3px',
             fontSize: '12px'
         }, 
         
@@ -504,9 +514,37 @@ const muiStyles = {
     InputLabels: {
         fontSize: '13px',
         top: '-13px',
+        left:'-10px',
         backgroundColor: 'transparent',
         "&.Mui-focused": {
             zIndex: '1'
+        }
+    },
+    tableBox: {
+        "&.MuiTableContainer-root": {
+            width: '100%',
+            maxHeight: '440px',
+            padding: '0px 16px',
+        },
+    },
+    tableHead: {
+        "&.MuiTableCell-root": {
+            padding: '8px',
+            fontWeight:'bold'
+        }
+    },
+    tableBody: {
+        "&.MuiTableCell-root": {
+            padding: '8px',
+            fontSize:'14px',
+            lineHeight: '39px'
+        }
+    },
+    checkboxLabel: {
+        "&.MuiFormControlLabel-root": {
+            "&.MuiTypography-root": {
+                fontSize:'14px'
+            }
         }
     },
    

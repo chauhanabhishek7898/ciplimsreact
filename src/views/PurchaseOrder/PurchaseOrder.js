@@ -160,13 +160,13 @@ function PurchaseOrder() {
             null
 
             }
-            <Link to="/AddPurchaseOrder" className='addbtn_2'><AddIcon fontSize='large' /></Link>
+            <Link to="/AddPurchaseOrder" className='addbtn_2'><AddIcon fontSize='large' /> <span className='addFont'>Add</span></Link>
 
             <div className='tablecenter'>
                
-                <Paper sx={{ width: '100%', overflow: 'hidden' }}>
-                    <div className='displayflexend-2'>
-                <Box sx={{ width: '28%' }} >
+                <Paper sx={{ width: '100%', overflow: 'hidden',paddingTop:1 }}>
+            <div className='displayflexend-2 mt-3'>
+                <Box  className='inputBox-24' >
                     <LocalizationProvider dateAdapter={AdapterDayjs} >
                         <Stack spacing={3} >
                             <DesktopDatePicker
@@ -180,7 +180,7 @@ function PurchaseOrder() {
                         </Stack>
                     </LocalizationProvider>
                 </Box>
-                <Box sx={{ width: '28%' }} >
+                <Box className='inputBox-24' >
                     <LocalizationProvider dateAdapter={AdapterDayjs} >
                         <Stack spacing={3}>
                             <DesktopDatePicker
@@ -195,7 +195,7 @@ function PurchaseOrder() {
                     </LocalizationProvider>
                 </Box>
 
-                <Box sx={{ width: '28%' }} >
+                <Box className='inputBox-24' >
                     <FormControl fullWidth className='input' >
                         <TextField
                         sx={muiStyles.input}
@@ -210,7 +210,7 @@ function PurchaseOrder() {
 
                 </Box>
                 
-                <Box sx={{ width: '10%' }} >
+                <Box className='inputBox-25' >
                    <button className='applybtn' onClick={getPODetails}>Apply</button>
 
                 </Box>
@@ -222,19 +222,19 @@ function PurchaseOrder() {
                             <TableHead>
                                 <TableRow>
                                     {/* <TableCell scope="row">SN.</TableCell> */}
-                                    <TableCell align="center">Edit</TableCell>
-                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Status</TableCell>
-                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>PO No</TableCell>
-                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>PO Dated</TableCell>
-                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>PO Description</TableCell>
-                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Plant Detail</TableCell>
-                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Cost Centre</TableCell>
-                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Profit Centre</TableCell>
-                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>GL Code</TableCell>
-                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Business</TableCell>
-                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Vendor Detail</TableCell>
-                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Remarks</TableCell>
-                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>PO Copy</TableCell>
+                                    <TableCell align="center" sx={muiStyles.tableHead}>Edit</TableCell>
+                                    <TableCell align="left" sx={muiStyles.tableHead}>Status</TableCell>
+                                    <TableCell align="left" sx={muiStyles.tableHead}>PO No</TableCell>
+                                    <TableCell align="left" sx={muiStyles.tableHead}>PO Dated</TableCell>
+                                    <TableCell align="left" sx={muiStyles.tableHead}>PO Description</TableCell>
+                                    <TableCell align="left" sx={muiStyles.tableHead}>Plant Detail</TableCell>
+                                    <TableCell align="left" sx={muiStyles.tableHead}>Cost Centre</TableCell>
+                                    <TableCell align="left" sx={muiStyles.tableHead}>Profit Centre</TableCell>
+                                    <TableCell align="left" sx={muiStyles.tableHead}>GL Code</TableCell>
+                                    <TableCell align="left" sx={muiStyles.tableHead}>Business</TableCell>
+                                    <TableCell align="left" sx={muiStyles.tableHead}>Vendor Detail</TableCell>
+                                    <TableCell align="left" sx={muiStyles.tableHead}>Remarks</TableCell>
+                                    <TableCell align="left" sx={muiStyles.tableHead}>PO Copy</TableCell>
                                     
                                 </TableRow>
                             </TableHead>
@@ -244,19 +244,19 @@ function PurchaseOrder() {
                                     return (
                                         <TableRow key={index}>
                                             {/* <TableCell component="th" scope="row">{index + 1}.</TableCell> */}
-                                            <TableCell align="center"><button className='deletbtn' title='Edit' onClick={() =>handleDetail(item.nPOId) }><BorderColorIcon size={20} color='#000' /></button></TableCell>
-                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
-                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vPONo}</TableCell>
-                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.PODated}</TableCell>
-                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vPODesc}</TableCell>
-                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.PlantDetail}</TableCell>
-                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vCostCentre}</TableCell>
-                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vProfitCentre}</TableCell>
-                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vGLCode}</TableCell>
-                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vBusiness}</TableCell>
-                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.VendorDetail}</TableCell>
-                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vRemarks}</TableCell>
-                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}> <a href={imageUrl+'/'+item.vPOFilePath} target="_blank" rel="noopener noreferrer" style={{ marginLeft: 10 }}>{item.vPOFilePath!=null&&item.vPOFilePath!=''?'PO Copy':null}</a> </TableCell>
+                                            <TableCell align="center" sx={muiStyles.tableBody}><button className='deletbtn' title='Edit' onClick={() =>handleDetail(item.nPOId) }><BorderColorIcon size={20} color='#000' /></button></TableCell>
+                                            <TableCell align="left" sx={muiStyles.tableBody}>{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
+                                            <TableCell align="left" sx={muiStyles.tableBody}>{item.vPONo}</TableCell>
+                                            <TableCell align="left" sx={muiStyles.tableBody}>{item.PODated}</TableCell>
+                                            <TableCell align="left" sx={muiStyles.tableBody}>{item.vPODesc}</TableCell>
+                                            <TableCell align="left" sx={muiStyles.tableBody}>{item.PlantDetail}</TableCell>
+                                            <TableCell align="left" sx={muiStyles.tableBody}>{item.vCostCentre}</TableCell>
+                                            <TableCell align="left" sx={muiStyles.tableBody}>{item.vProfitCentre}</TableCell>
+                                            <TableCell align="left" sx={muiStyles.tableBody}>{item.vGLCode}</TableCell>
+                                            <TableCell align="left" sx={muiStyles.tableBody}>{item.vBusiness}</TableCell>
+                                            <TableCell align="left" sx={muiStyles.tableBody}>{item.VendorDetail}</TableCell>
+                                            <TableCell align="left" sx={muiStyles.tableBody}>{item.vRemarks}</TableCell>
+                                            <TableCell align="left" sx={muiStyles.tableBody}> <a href={imageUrl+'/'+item.vPOFilePath} target="_blank" rel="noopener noreferrer" style={{ marginLeft: 10 }}>{item.vPOFilePath!=null&&item.vPOFilePath!=''?'PO Copy':null}</a> </TableCell>
  
                                         </TableRow>
                                     )
@@ -313,83 +313,109 @@ const muiStyles = {
     date: {
         "& .MuiInputBase-root": {
             "& input": {
-                padding: '5px 14px',
+                padding: '6px 6px',
                 fontSize: '13px'
             }
         },
         "& .MuiFormLabel-root": {
             fontSize: '13px',
-            lineHeight: '0',
-            top: '4.6px',
-            overflow: 'visible',
-            background: '#fff',
+            top: '-13px',
+            left:'-10px',
+            backgroundColor: 'transparent',
             zIndex: '1'
         },
         "& label.Mui-focused": {
-            top: '5px',
-            background: '#fff',
             zIndex: '1'
 
         },
+        '& .MuiInputAdornment-root':{
+            position: 'absolute',
+            right: '10px'
+        }
     },
     autoCompleate: {
         "& .MuiOutlinedInput-root": {
             padding: '0px',
             "& .MuiAutocomplete-input": {
-                padding: '5px 14px',
+                padding: '6px 6px',
                 fontSize: '13px'
             }
 
         },
         "& .MuiFormLabel-root": {
             fontSize: '13px',
-            lineHeight: '0',
-            top: '-4px',
-            overflow: 'visible',
+            backgroundColor: 'transparent',
+            top: '-13px',
+            left:'-10px',
+          
         },
         "& label.Mui-focused": {
-            top: '5px',
-            backgroundColor: '#fff',
             zIndex: '1'
         },
     },
     input: {
         "& .MuiOutlinedInput-root": {
             "& input": {
-                padding: '6px 14px',
+                padding: '6px',
                 fontSize: '12px'
             }
         },
         "& .MuiFormLabel-root": {
             fontSize: '13px',
-            lineHeight: '0',
-            top: '-4px',
-            overflow: 'visible',
+            top: '-13px',
+            left:'-10px',  
+            backgroundColor: 'transparent',
         },
         "& label.Mui-focused": {
-            top: '5px',
-            backgroundColor: 'green',
             zIndex: '1'
         },
     },
     select: {
+
         "& .MuiSelect-select": {
-            padding: '3px 14px',
+            padding: '3px',
             fontSize: '12px'
-        },
+        }, 
+        
 
     },
     InputLabels: {
         fontSize: '13px',
-        lineHeight: '0',
-        top: '-4px',
-        overflow: 'visible',
+        top: '-13px',
+        left:'-10px',
+        backgroundColor: 'transparent',
         "&.Mui-focused": {
-            top: '5px',
-            backgroundColor: 'green',
             zIndex: '1'
         }
-    }
+    },
+    tableBox: {
+        "&.MuiTableContainer-root": {
+            width: '100%',
+            maxHeight: '440px',
+            padding: '0px 16px',
+        },
+    },
+    tableHead: {
+        "&.MuiTableCell-root": {
+            padding: '8px',
+            fontWeight:'bold'
+        }
+    },
+    tableBody: {
+        "&.MuiTableCell-root": {
+            padding: '8px',
+            fontSize:'14px',
+            lineHeight: '39px'
+        }
+    },
+    checkboxLabel: {
+        "&.MuiFormControlLabel-root": {
+            "&.MuiTypography-root": {
+                fontSize:'14px'
+            }
+        }
+    },
+   
 
 };
 

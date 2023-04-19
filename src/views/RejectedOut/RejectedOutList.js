@@ -46,7 +46,7 @@ function RejectedOutList() {
     const navigate = useNavigate();
     const [modalIsOpen, setIsOpen] = React.useState(false);
     const [page, setPage] = React.useState(0);
-    const [rowsPerPage, setRowsPerPage] = React.useState(10);
+    const [rowsPerPage, setRowsPerPage] = React.useState(5);
     const [brandData, setBrandData] = React.useState([]);
     const [loader, setLoader] = React.useState(false);
     const [nBid, setnBid] = React.useState(0);
@@ -160,13 +160,13 @@ function RejectedOutList() {
             null
 
             }
-            <Link to="/AddRejectedOut" className='addbtn_2'><AddIcon fontSize='large' /></Link>
+            <Link to="/AddRejectedOut" className='addbtn_2'><AddIcon fontSize='large' /> <span className='addFont'>Add</span></Link>
 
             <div className='tablecenter'>
 
-                <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+                <Paper sx={{ width: '100%', overflow: 'hidden',paddingTop:1 }}>
                     <div className='displayflexend-2'>
-                        <Box sx={{ width: '28%' }} >
+                        <Box className='inputBox-24'>
                             <LocalizationProvider dateAdapter={AdapterDayjs} >
                                 <Stack spacing={3} >
                                     <DesktopDatePicker
@@ -181,7 +181,7 @@ function RejectedOutList() {
                                 </Stack>
                             </LocalizationProvider>
                         </Box>
-                        <Box sx={{ width: '28%' }} >
+                        <Box className='inputBox-24'>
                             <LocalizationProvider dateAdapter={AdapterDayjs} >
                                 <Stack spacing={3}>
                                     <DesktopDatePicker
@@ -197,7 +197,7 @@ function RejectedOutList() {
                             </LocalizationProvider>
                         </Box>
 
-                        <Box sx={{ width: '28%' }} >
+                        <Box className='inputBox-24' >
                             <FormControl fullWidth className='input' >
                                 <TextField
                                 sx={muiStyles.input}
@@ -212,7 +212,7 @@ function RejectedOutList() {
 
                         </Box>
 
-                        <Box sx={{ width: '10%' }} >
+                        <Box className='inputBox-25'>
                             <button className='applybtn' onClick={getPODetails}>Apply</button>
 
                         </Box>
@@ -224,12 +224,12 @@ function RejectedOutList() {
                             <TableHead>
                                 <TableRow>
                                     {/* <TableCell scope="row" style={{width:'2%'}}>SN.</TableCell> */}
-                                    <TableCell align="center">Edit</TableCell>
-                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Status</TableCell>
-                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Reference No</TableCell>
-                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Plant Detail</TableCell>
-                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Dated</TableCell>
-                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Remarks</TableCell>
+                                    <TableCell align="center" sx={muiStyles.tableHead}>Edit</TableCell>
+                                    <TableCell align="left"  sx={muiStyles.tableHead}>Status</TableCell>
+                                    <TableCell align="left"  sx={muiStyles.tableHead}>Reference No</TableCell>
+                                    <TableCell align="left"  sx={muiStyles.tableHead}>Plant Detail</TableCell>
+                                    <TableCell align="left"  sx={muiStyles.tableHead}>Dated</TableCell>
+                                    <TableCell align="left"  sx={muiStyles.tableHead}>Remarks</TableCell>
 
                                 </TableRow>
                             </TableHead>
@@ -239,12 +239,12 @@ function RejectedOutList() {
                                         return (
                                             <TableRow key={index}>
                                                 {/* <TableCell component="th" scope="row">{index + 1}.</TableCell> */}
-                                                <TableCell align="center"><button className='deletbtn' title='Edit' onClick={() => handleDetail(item.nGRNId)}><BorderColorIcon size={20} color='#000' /></button></TableCell>
-                                                <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
-                                                <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.DRNo}</TableCell>
-                                                <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.PlantDetail}</TableCell>
-                                                <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.Dated}</TableCell>
-                                                <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vRemarks}</TableCell>
+                                                <TableCell align="center"sx={muiStyles.tableBody}><button className='deletbtn' title='Edit' onClick={() => handleDetail(item.nGRNId)}><BorderColorIcon size={20} color='#000' /></button></TableCell>
+                                                <TableCell align="left" sx={muiStyles.tableBody}>{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
+                                                <TableCell align="left" sx={muiStyles.tableBody}>{item.DRNo}</TableCell>
+                                                <TableCell align="left" sx={muiStyles.tableBody}>{item.PlantDetail}</TableCell>
+                                                <TableCell align="left" sx={muiStyles.tableBody}>{item.Dated}</TableCell>
+                                                <TableCell align="left" sx={muiStyles.tableBody}>{item.vRemarks}</TableCell>
 
                                             </TableRow>
                                         )
@@ -262,7 +262,7 @@ function RejectedOutList() {
                         </Table>
                     </TableContainer>
                     <TablePagination
-                        rowsPerPageOptions={[10, 25, 100]}
+                        rowsPerPageOptions={[5,10, 25, 100]}
                         component="div"
                         count={brandData.length}
                         rowsPerPage={rowsPerPage}
@@ -301,83 +301,109 @@ const muiStyles = {
     date: {
         "& .MuiInputBase-root": {
             "& input": {
-                padding: '5px 14px',
+                padding: '6px 6px',
                 fontSize: '13px'
             }
         },
         "& .MuiFormLabel-root": {
             fontSize: '13px',
-            lineHeight: '0',
-            top: '4.6px',
-            overflow: 'visible',
-            background: '#fff',
+            top: '-13px',
+            left:'-10px',
+            backgroundColor: 'transparent',
             zIndex: '1'
         },
         "& label.Mui-focused": {
-            top: '5px',
-            background: '#fff',
             zIndex: '1'
 
         },
+        '& .MuiInputAdornment-root':{
+            position: 'absolute',
+            right: '10px'
+        }
     },
     autoCompleate: {
         "& .MuiOutlinedInput-root": {
             padding: '0px',
             "& .MuiAutocomplete-input": {
-                padding: '5px 14px',
+                padding: '6px 6px',
                 fontSize: '13px'
             }
 
         },
         "& .MuiFormLabel-root": {
             fontSize: '13px',
-            lineHeight: '0',
-            top: '-4px',
-            overflow: 'visible',
+            backgroundColor: 'transparent',
+            top: '-13px',
+            left:'-10px',
+          
         },
         "& label.Mui-focused": {
-            top: '5px',
-            backgroundColor: '#fff',
             zIndex: '1'
         },
     },
     input: {
         "& .MuiOutlinedInput-root": {
             "& input": {
-                padding: '6px 14px',
+                padding: '6px',
                 fontSize: '12px'
             }
         },
         "& .MuiFormLabel-root": {
             fontSize: '13px',
-            lineHeight: '0',
-            top: '-4px',
-            overflow: 'visible',
+            top: '-13px',
+            left:'-10px',  
+            backgroundColor: 'transparent',
         },
         "& label.Mui-focused": {
-            top: '5px',
-            backgroundColor: 'green',
             zIndex: '1'
         },
     },
     select: {
+
         "& .MuiSelect-select": {
-            padding: '3px 14px',
+            padding: '3px',
             fontSize: '12px'
-        },
+        }, 
+        
 
     },
     InputLabels: {
         fontSize: '13px',
-        lineHeight: '0',
-        top: '-4px',
-        overflow: 'visible',
+        top: '-13px',
+        left:'-10px',
+        backgroundColor: 'transparent',
         "&.Mui-focused": {
-            top: '5px',
-            backgroundColor: 'green',
             zIndex: '1'
         }
-    }
+    },
+    tableBox: {
+        "&.MuiTableContainer-root": {
+            width: '100%',
+            maxHeight: '440px',
+            padding: '0px 16px',
+        },
+    },
+    tableHead: {
+        "&.MuiTableCell-root": {
+            padding: '8px',
+            fontWeight:'bold'
+        }
+    },
+    tableBody: {
+        "&.MuiTableCell-root": {
+            padding: '8px',
+            fontSize:'14px',
+            lineHeight: '39px'
+        }
+    },
+    checkboxLabel: {
+        "&.MuiFormControlLabel-root": {
+            "&.MuiTypography-root": {
+                fontSize:'14px'
+            }
+        }
+    },
+   
 
 };
 export default RejectedOutList

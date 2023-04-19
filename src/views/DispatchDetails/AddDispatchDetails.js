@@ -12,12 +12,12 @@ import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import Paper from '@mui/material/Paper';
 import { BrandMaster_SelectAll, BrandMasterPost, BrandMasterPut, } from '../BrandMaster/BrandMasterService'
-import { UnitMaster_SelectAll } from '../PackMaster/PackMasterService'
+import { PackMaster_SelectAll_ActiveLikeSearch } from '../PackMaster/PackMasterService'
 import { MaterialMaster_SelectAll_ActiveLikeSearch } from '../MaterialMaster/MaterialMasterService'
 import { PlantMaster_SelectAll_ActiveLikeSearch } from '../PlantMaster/PlantMasterService'
-import { VendorMaster_SelectAll_ActiveLikeSearch, VendorMaster_SelectAll_Active } from '../VenderForm/VenderFormService'
+import { BrandMaster_SelectAll_ActiveLikeSearch } from '../BrandMaster/BrandMasterService'
 import { GetPODetails, GetPOByPOId } from '../PurchaseOrder/POMasterService'
-import { OpeningStock_Update, GetPODetailsLIkeSearch, GetGRNByGRNId } from './EnterOpeningStockService'
+import { DispatchMasterPost, GetPODetailsLIkeSearch } from './DispatchDetailsService'
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import InputLabel from '@mui/material/InputLabel';
@@ -40,7 +40,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import { parseDateToString, parseDateToStringSubmit } from '../../coreservices/Date';
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Autocomplete from '@mui/material/Autocomplete';
 import { number } from 'prop-types';
 import { Navigation } from '@coreui/coreui';
@@ -50,48 +50,17 @@ import { confirmAlert } from 'react-confirm-alert'; // Import
 import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
 import HomeIcon from '@mui/icons-material/Home';
 import ReplayIcon from '@mui/icons-material/Replay';
-function EditEnterOpeningStock() {
+function AddDispatchDetails() {
     const navigate = useNavigate();
-    const location = useLocation();
-    let nGRNId = location.state.nGRNId
-    const [modalIsOpen, setIsOpen] = React.useState(false);
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
-    const [brandData, setBrandData] = React.useState([]);
-    const [MaterialMaster, setMaterialMaster] = React.useState([]);
     const [PlantMaster, setPlantMaster] = React.useState([]);
-    const [VendorMaster, setVendorMaster] = React.useState([]);
     const [loader, setLoader] = React.useState(false);
-    const [nBid, setnBid] = React.useState(0);
     const [id, setId] = React.useState(0);
     const [nPId, setnPId] = React.useState('');
     const [PlantDetail, setPlantDetail] = React.useState('');
-
-    const [vPONo, setvPONo] = React.useState('');
-    const [vPODesc, setvPODesc] = React.useState('');
-    const [CostCentre, setCostCentre] = React.useState('');
-    const [ProfitCentre, setProfitCentre] = React.useState('');
-    const [vGLCode, setvGLCode] = React.useState('');
-    const [vBusiness, setvBusiness] = React.useState('');
-    const [nVId, setnVId] = React.useState('');
-    const [VendorDetail, setVendorDetail] = React.useState('');
-    const [nMId, setnMId] = React.useState('');
-    const [MaterialDetail, setMaterialDetail] = React.useState('');
-
     const [vRemarks, setvRemarks] = React.useState('');
     const [vPOFilePath, setvPOFilePath] = React.useState('');
-    const [nQty, setnQty] = React.useState('');
-    const [nRate, setnRate] = React.useState('');
-    const [nAmt, setnAmt] = React.useState('');
-    const [nSGSTP, setnSGSTP] = React.useState('');
-    const [nSGST, setnSGST] = React.useState('');
-    const [nCGSTP, setnCGSTP] = React.useState('');
-    const [nCGST, setnCGST] = React.useState('');
-    const [nIGSTP, setnIGSTP] = React.useState('');
-    const [nIGST, setnIGST] = React.useState('');
-    const [nTax, setnTax] = React.useState('');
-    const [nTotalAmt, setnTotalAmt] = React.useState('');
-
     const [btActive, setBtActive] = React.useState(true);
     const [disabled, setdisabled] = React.useState(true)
     const { register, handleSubmit, control, errors } = useForm();
@@ -102,32 +71,24 @@ function EditEnterOpeningStock() {
     let fromDates = new Date(Date.now())
     fromDates.setDate(fromDates.getDate() - 7)
     let toDates = new Date(Date.now())
-    const [fromDate, setFromdate] = React.useState(dayjs(fromDates));
-    const [toDate, setTodate] = React.useState(dayjs(toDates));
     let startDates = new Date(Date.now())
     let endDates = new Date(Date.now())
     const [startDate, setStartDate] = React.useState(dayjs(startDates));
-    const [endDate, setEndDate] = React.useState(dayjs(endDates));
-    const [dtGateEntryDate, setdtGateEntryDate] = React.useState(dayjs(endDates));
-    const [dtPaymentReceiveDate, setdtPaymentReceiveDate] = React.useState(dayjs(endDates));
     const [PODetails, setPODetails] = React.useState([]);
-    const [weekNumberId, setWeekNumberId] = React.useState('');
     const [nLoggedInUserId, setnLoggedInUserId] = React.useState('');
     const [errorText, setError] = React.useState({
         plant: '',
         vendor: '',
         date: '',
-        endDate: '',
-        MaterialDetail: '',
-        Quan: '',
-        amount: '',
-        QuanAccept: '',
-        QuanReject: '',
-        Freight: '',
+        brand:'',
+        pack:'',
+        dom:'',
+        bbd:'',
+        qSold:'',
+        batchno:'',
+        salesreturn:''
 
     });
-    const [unitid, setUnitid] = React.useState('');
-    const [selectedFile, setSelectedFile] = useState()
     const [preview, setPreview] = useState('')
     const [btnType, setbtnType] = useState('')
     const [imgpreview, setimgPreview] = useState(false)
@@ -137,88 +98,53 @@ function EditEnterOpeningStock() {
         text: 'This is a alert message',
         show: false
     })
-    const [vMId, setvMId] = useState('')
     const [vVehicleNo, setvVehicleNo] = useState('')
     const [vInvoiceNo, setvInvoiceNo] = useState('')
-    const [vTransportName, setvTransportName] = useState('')
     const [nPOId, setnPOId] = useState('')
     const [vLorryRecNo, setvLorryRecNo] = useState('')
     const [vEWayBillNo, setvEWayBillNo] = useState('')
     const [vBatchNo, setvBatchNo] = useState('')
-    const [btCOAReceived, setbtCOAReceived] = useState(false)
-    const [vGRNCopyFilePath, setvGRNCopyFilePath] = useState('')
-    const [vCourierToCCIPL, setvCourierToCCIPL] = useState('')
-    const [vCourierDocketNo, setvCourierDocketNo] = useState('')
-    const [nPoQtyAccepted, setnPoQtyAccepted] = useState('')
-    const [BalanceQuantity, setBalanceQuantity] = useState('')
-    const [AllTotalAmount, setAllTotalAmount] = useState('')
-    const [nQtyAccepted, setnQtyAccepted] = useState('')
-    const [nQtyRejected, setnQtyRejected] = useState('')
-    const [dtMfgDate, setdtMfgDate] = useState(dayjs(startDates))
-    const [dtExpDate, setdtExpDate] = useState(dayjs(startDates))
-    const [nFreight, setnFreight] = useState('')
-    const [nGrandTotal, setnGrandTotal] = useState('')
-    const [nNetTotalAmt, setnNetTotalAmt] = useState('')
-    const [vUOM, setvUOM] = useState('')
+    
     const [EditId, setEditId] = useState('')
+    const [vShipToLocation, setvShipToLocation] = useState('')
+    const [vTransporterName, setvTransporterName] = useState('')
+    const [vVehicleCapacity, setvVehicleCapacity] = useState('')
+    const [vMATCOAFilePath, setvMATCOAFilePath] = useState('')
+    const [vBrand, setvBrand] = useState('')
+    const [vPack, setvPack] = useState('')
+    const [nQtySold, setnQtySold] = useState('')
+    const [nSalesReturn, setnSalesReturn] = useState('')
+    const [BrandMaster, setBrandMaster] = useState([])
+    const [PackMaster, setPackMaster] = useState([])
+    const [PackLabel, setPackLabel] = useState('')
+    const [BrandLabel, setBrandLabel] = useState('')
+    const [nPackId, setnPackId] = useState('')
+    const [nBrandId, setnBrandId] = useState('')
+    const [dtDOM, setdtDOM] = useState(dayjs(startDates))
+    const [dtBBD, setdtBBD] = useState(dayjs(startDates))
+    const [FirstTimeAdd, setFirstTimeAdd] = React.useState(true);
+
+
     useEffect(() => {
         const userId = localStorage.getItem("nUserId")
         setnLoggedInUserId(userId)
     }, [])
-    const handleChangePackUnit = (event) => {
-        setvBusiness(event.target.value);
-        let item = MaterialMaster.find(e => e.nMId == event.target.value)
-        setId(item.id)
-        setnMId(item.nMId)
-        setvMId(item.MaterialDetail)
-        setMaterialDetail(item.MaterialDetail)
-        setnQty(item.nQty)
-        setnPoQtyAccepted(item.nQty)
-        setBalanceQuantity(item.BalanceQuantity)
-        setnRate(item.nRate)
-        setnAmt(item.nAmt)
-        setnSGSTP(item.nSGSTP)
-        setnSGST(item.nSGST)
-        setnCGSTP(item.nCGSTP)
-        setnCGST(item.nCGST)
-        setnIGSTP(item.nIGSTP)
-        setnIGST(item.nIGST)
-        setnTax(item.nTax)
-        setnGrandTotal(item.nTotalAmt)
-        setnNetTotalAmt(parseInt(item.nTotalAmt))
-    };
+    
     const handleChangeStartdate = (newValue) => {
         setStartDate(newValue);
         setError({
             date: ''
         })
     };
-    const handleChangeEndtdate = (newValue) => {
-        setEndDate(newValue);
+   
+    const handleChangedtDOMDate = (newValue) => {
+        setdtDOM(newValue);
         setError({
             date: ''
         })
     };
-    const handleChangedtGateEntryDate = (newValue) => {
-        setdtGateEntryDate(newValue);
-        setError({
-            date: ''
-        })
-    };
-    const handleChangedtdtPaymentReceiveDate = (newValue) => {
-        setdtPaymentReceiveDate(newValue);
-        setError({
-            date: ''
-        })
-    };
-    const handleChangedtMfgDate = (newValue) => {
-        setdtMfgDate(newValue);
-        setError({
-            date: ''
-        })
-    };
-    const handleChangedtExpDate = (newValue) => {
-        setdtExpDate(newValue);
+    const handleChangedtBBDDate = (newValue) => {
+        setdtBBD(newValue);
         setError({
             date: ''
         })
@@ -230,35 +156,8 @@ function EditEnterOpeningStock() {
         setRowsPerPage(+event.target.value);
         setPage(0);
     };
-    useEffect(() => {
-        getGRNByGRNId()
-    }, [])
-    const getGRNByGRNId = () => {
-        GetGRNByGRNId(parseInt(nGRNId)).then(res => {
-            let count = Object.keys(res.GRNDetail).length
-            let data = res.GRNDetail
-            for (var i = 0; i < count; i++) {
-                let counts = i
-                res.GRNDetail[i].id = counts
-                res.GRNDetail[i].dtExpDate = parseDateToStringSubmit(new Date(res.GRNDetail[i].ExpDate))
-            }
-            // console.log('data',data)
-            setPODetails(data)
-            setEndDate(res.GRNMaster[0].Dated)
-            setnPOId(res.GRNMaster[0].nPId)
-            setPlantDetail(res.GRNMaster[0].PlantDetail)
-            setvUOM(res.GRNMaster[0].vUOM)
-            setEditId(null)
-            setStartDate(parseDateToString(res.GRNMaster[0].dtGRNDate))
 
-            setBtActive(res.GRNMaster[0].btActive)
-            setvRemarks(res.GRNMaster[0].vRemarks)
-            
-        })
-    }
     const plantMaster_SelectAll_ActiveLikeSearch = (vGeneric) => {
-
-
         PlantMaster_SelectAll_ActiveLikeSearch(vGeneric == undefined || vGeneric == '' ? null : vGeneric.target.value).then(res => {
             console.log('response', res)
 
@@ -273,107 +172,86 @@ function EditEnterOpeningStock() {
             setPlantMaster(data)
         })
     }
-    const getPODetails = (vGeneric) => {
-        if (vGeneric != '') {
-            vGeneric = vGeneric.target.value
-        } else {
-            vGeneric = null
-        }
-        GetPODetailsLIkeSearch(vGeneric).then(res => {
+
+    const packMaster_SelectAll_ActiveLikeSearch = (vGeneric) => {
+        PackMaster_SelectAll_ActiveLikeSearch(vGeneric == undefined || vGeneric == '' ? null : vGeneric.target.value).then(res => {
             let count = Object.keys(res).length
             let data = []
             for (var i = 0; i < count; i++) {
                 data.push({
-                    value: res[i].nPOId,
-                    label: res[i].PODetail,
-                })
-
-            }
-            setPlantMaster(data)
-        })
-    }
-    const getPOByPOId = (nPOId) => {
-        GetPOByPOId(nPOId).then(res => {
-            console.log('response', res)
-            // let count = Object.keys(res.PODetail).length
-            // let data = []
-            // for (var i = 0; i < count; i++) {
-            //     data.push({
-            //         value: res[i].nMId,
-            //         label: res[i].MatDetail,
-            //     })
-
-            // }
-            setMaterialMaster(res.PODetail)
-
-        })
-
-    }
-    const materialMaster_SelectAll_ActiveLikeSearch = (vGeneric) => {
-        MaterialMaster_SelectAll_ActiveLikeSearch(vGeneric == undefined || vGeneric == '' ? null : vGeneric.target.value).then(res => {
-            let count = Object.keys(res).length
-            let data = []
-            for (var i = 0; i < count; i++) {
-                data.push({
-                    value: res[i].nMId,
-                    label: res[i].MaterialDetail,
-                    vUOM: res[i].vUOM,
+                    value: res[i].nPId,
+                    label: res[i].vPackName,
                     // label: res[i].MaterialDetail,       
                 })
             }
-            setMaterialMaster(data)
+            setPackMaster(data)
+        })
+
+    }
+    const brandMaster_SelectAll_ActiveLikeSearch = (vGeneric) => {
+        BrandMaster_SelectAll_ActiveLikeSearch(vGeneric == undefined || vGeneric == '' ? null : vGeneric.target.value).then(res => {
+            let count = Object.keys(res).length
+            let data = []
+            for (var i = 0; i < count; i++) {
+                data.push({
+                    value: res[i].nBId,
+                    label: res[i].BrandDetail,
+                    // label: res[i].MaterialDetail,       
+                })
+            }
+            setBrandMaster(data)
         })
 
     }
     const changePlantValue = (value) => {
-        confirmAlert({
-            title: 'Alert !!',
-            closeOnClickOutside: false,
-            message: 'You are going to change the Plant of this transaction. In case you change it, all the below selections done will be removed. Do you still want to proceed ?',
-            buttons: [
-                {
-                    label: 'Yes',
-                    onClick: () => {
-                        setnPOId(value.value)
-                        setPlantDetail(value.label)
-                        setError({
-                            plant: ''
-                        })
-                        setnMId('')
-                        setMaterialDetail('')
-                        setdtExpDate(new Date(Date.now()))
-                        setnQtyAccepted('')
-                        setnQtyRejected('')
-                        setnAmt('')
-                        setvUOM('')
-                        setEditId(null)
-                        setPODetails([])
+        if (FirstTimeAdd == true) {
+            setnPId(value.value)
+            setPlantDetail(value.label)
+            setError({
+                plant: ''
+            })
+            setFirstTimeAdd(false)
+        } else {
+            confirmAlert({
+                title: 'Alert !!',
+                closeOnClickOutside: false,
+                message: 'You are going to change the Plant of this transaction. In case you change it, all the below selections done will be removed. Do you still want to proceed ?',
+                buttons: [
+                    {
+                        label: 'Yes',
+                        onClick: () => {
+                            setnPOId(value.value)
+                            setPlantDetail(value.label)
+                            setError({
+                                plant: ''
+                            })
+                            setPODetails([])
 
+                        },
                     },
-                },
-                {
-                    label: 'No',
-                    onClick: () => {
-                        return null
+                    {
+                        label: 'No',
+                        onClick: () => {
+                            return null
+                        },
                     },
-                },
-            ]
-        });
+                ]
+            });
+
+        }
     }
-    const changeVendorMasterValue = (value) => {
-        setnVId(value.value)
-        setVendorDetail(value.label)
-        setError({
-            vendor: ''
-        })
+
+    const changepackMasterValue = (value) => {
+        setnPackId(value.value)
+        setPackLabel(value.label)
+        setvPack(value.label)
+        setError('')
     }
-    const changeMaterialMasterValue = (value) => {
-        setnMId(value.value)
-        setMaterialDetail(value.label)
-        setvUOM(value.vUOM)
-        setError({
-            MaterialDetail: ''
-        })
+    const changebrandMasterValue = (value) => {
+        setnBrandId(value.value)
+        setBrandLabel(value.label)
+        setvBrand(value.label)
+        setError('')
     }
     const imageFile = (event) => {
         setvPOFilePath(event.target.files[0])
@@ -385,53 +263,52 @@ function EditEnterOpeningStock() {
             setimgPreview(false)
         }
     }
-    const calculateAmount = (value, type) => {
 
-        if (type == 'nQtyAccepted') {
-            setnQtyAccepted(value)
-            setnAmt(0)
-            let amount = parseFloat(value == '' ? 0 : value) + parseFloat(nQtyRejected == '' ? 0 : nQtyRejected)
-            setnAmt(parseFloat(amount))
-
-        }
-
-        if (type == 'nQtyRejected') {
-            setnQtyRejected(value)
-            let amount = parseFloat(value == '' ? 0 : value) + parseFloat(nQtyAccepted == '' ? 0 : nQtyAccepted)
-            setnAmt(parseFloat(amount))
-
-        }
-
-    }
     const validateformPoDetial = () => {
-        if (nMId == '' || nMId == undefined) {
+        if (vBrand == '' || vBrand == undefined) {
             
             setError({
-                MaterialDetail: 'Select Item *'
+                brand: 'Select Brand *'
             })
             return false
-        } else if (nQtyAccepted == '' || nQtyAccepted == undefined) {
+        } else if (vPack == '' || vPack == undefined) {
             setError({
-                QuanAccept: 'Enter Qty Accepted *'
+                pack: 'Select Pack *'
             })
             return false
-        } else if (nQtyRejected == '' || nQtyRejected == undefined) {
+        }else if (nQtySold == '' || nQtySold == undefined) {
             setError({
-                QuanReject: 'Enter Qty Rejected *'
+                qSold: 'Enteer Qty Sold *'
+            })
+            return false
+        } else if (vBatchNo == '' || vBatchNo == undefined) {
+            setError({
+                batchno: 'Enteer Batch No *'
+            })
+            return false
+        } else if (parseDateToString(new Date(dtDOM))?.length != 10 ) {
+            setError({
+                dom: 'Invaild Time *'
+            })
+            return false
+        } else if (parseDateToString(new Date(dtBBD))?.length != 10 ) {
+            setError({
+                bbd: 'Invaild Time *'
+            })
+            return false
+        }else if (nSalesReturn == '' || nSalesReturn == undefined ) {
+            setError({
+                salesreturn: 'Enteer Sales Return *'
             })
             return false
         }
         else {
-            setError({
-                QuanReject: '',
-                MaterialDetail: '',
-                QuanAccept: '',
-                amount: '',
-            })
+            setError('')
             return true
         }
-
+  
     }
+  
 
     const addKoMonthDate = () => {
 
@@ -448,25 +325,28 @@ function EditEnterOpeningStock() {
 
                             // setPODetails(complaintDetail)
                             poMasteerDetail[indexToUpdate].id = id,
-                                poMasteerDetail[indexToUpdate].nMId = parseInt(nMId),
-                                poMasteerDetail[indexToUpdate].MaterialDetail = MaterialDetail,
-                                poMasteerDetail[indexToUpdate].vUOM = vUOM,
-                                poMasteerDetail[indexToUpdate].nQtyAccepted = parseFloat(nQtyAccepted == '' ? 0 : nQtyAccepted),
-                                poMasteerDetail[indexToUpdate].nQtyRejected = parseFloat(nQtyRejected == '' ? 0 : nQtyRejected),
-                                poMasteerDetail[indexToUpdate].TotalQty = parseFloat(nAmt == '' ? 0 : nAmt),
-                                poMasteerDetail[indexToUpdate].dtExpDate = parseDateToStringSubmit(new Date(dtExpDate)),
-                                poMasteerDetail[indexToUpdate].ExpDate = dtExpDate,
+                                poMasteerDetail[indexToUpdate].vBrand = vBrand,
+                                poMasteerDetail[indexToUpdate].vPack = vPack,
+                                poMasteerDetail[indexToUpdate].nQtySold = parseInt(nQtySold == '' ? 0 : nQtySold),
+                                poMasteerDetail[indexToUpdate].vBatchNo = vBatchNo,
+                                poMasteerDetail[indexToUpdate].dtDOM = parseDateToStringSubmit(new Date(dtDOM)),
+                                poMasteerDetail[indexToUpdate].dtBBD = parseDateToStringSubmit(new Date(dtBBD)),
+                                poMasteerDetail[indexToUpdate].nSalesReturn = parseFloat(nSalesReturn == '' ? 0 : nSalesReturn),
 
                                 setPODetails(poMasteerDetail)
-                            setbtnType('')
-                            setnMId('')
-                            setMaterialDetail('')
-                            setdtExpDate(new Date(Date.now()))
-                            setnAmt('')
-                            setnQtyAccepted('')
-                            setnQtyRejected('')
-                            setvUOM('')
+                            setnBrandId('')
+                            setBrandLabel('')
+                            setBrandLabel('')
+                            setnPackId('')
+                            setPackLabel('')
+                            setvPack('')
+                            setnQtySold('')
+                            setnSalesReturn('')
+                            setvBatchNo('')
+                            setdtDOM(new Date(Date.now()))
+                            setdtBBD(new Date(Date.now()))
                             setEditId(null)
+
                         }
                     },
                     {
@@ -479,41 +359,44 @@ function EditEnterOpeningStock() {
         } else {
             confirmAlert({
                 title: 'Alert !!',
-                message: 'Do you want Add this Material ?',
+                message: 'Do you want Add this ?',
                 buttons: [
                     {
                         label: 'Yes',
                         onClick: () => {
                             if (validateformPoDetial() == true) {
+                               
+                                // let findnMId = poMasteerDetail.find(e => e.nMId == nMId && e.dtExpDate == parseDateToStringSubmit(new Date(dtExpDate)))
+                                // if (findnMId) {
+                                //     toast.success("Material with this expiry date is already Added.")
+                                // } else {
+                                // }
                                 let poMasteerDetail = [...PODetails]
-                                let findnMId = poMasteerDetail.find(e => e.nMId == nMId&&e.dtExpDate == parseDateToStringSubmit(new Date(dtExpDate)))
-                                if (findnMId) {
-                                    toast.success("Material with this expiry date is already Added.")
-                                } else {
-                                    poMasteerDetail.push({
-                                        id: new Date().getUTCMilliseconds(),
-                                        nMId: parseInt(nMId),
-                                        MaterialDetail: MaterialDetail,
-                                        vUOM: vUOM,
-                                        nQtyAccepted: parseFloat(nQtyAccepted == '' ? 0 : nQtyAccepted),
-                                        nQtyRejected: parseFloat(nQtyRejected == '' ? 0 : nQtyRejected),
-                                        TotalQty: parseFloat(nAmt == '' ? 0 : nAmt),
-                                        dtExpDate: parseDateToStringSubmit(new Date(dtExpDate)),
-                                        ExpDate: dtExpDate,
-
-                                    })
-
-                                    setPODetails(poMasteerDetail)
-                                    setnMId('')
-                                    setMaterialDetail('')
-                                    setdtExpDate(new Date(Date.now()))
-                                    setnAmt('')
-                                    setnQtyAccepted('')
-                                    setnQtyRejected('')
-                                    setvUOM('')
-                                    setEditId(null)
-
-                                }
+                                poMasteerDetail.push({
+                                    id: new Date().getUTCMilliseconds(),
+                                    vBrand: vBrand,
+                                    vPack: vPack,
+                                    nQtySold: parseInt(nQtySold == '' ? 0 : nQtySold),
+                                    vBatchNo: vBatchNo,
+                                    dtDOM: parseDateToStringSubmit(new Date(dtDOM)),
+                                    dtBBD: parseDateToStringSubmit(new Date(dtBBD)),
+                                    nSalesReturn: nSalesReturn,
+                                })
+    
+                                setPODetails(poMasteerDetail)
+                                setnBrandId('')
+                                setBrandLabel('')
+                                setBrandLabel('')
+                                setnPackId('')
+                                setPackLabel('')
+                                setvPack('')
+                                setnQtySold('')
+                                setnSalesReturn('')
+                                setvBatchNo('')
+                                setdtDOM(new Date(Date.now()))
+                                setdtBBD(new Date(Date.now()))
+                                setEditId(null)
+                               
                             }
 
                         }
@@ -529,21 +412,21 @@ function EditEnterOpeningStock() {
         }
     }
     const validateform = () => {
-        if (nPOId == '') {
-            setError({
-                plant: 'Select PO No. *'
-            })
-            return false
-        }else if (parseDateToString(new Date(startDate))?.length != 10) {
+        if ( parseDateToString(new Date(startDate))?.length != 10) {
             setError({
                 date: 'Invaild Date *'
+            })
+            return false
+        } else if (nPId == '') {
+            
+            setError({
+                plant: 'Select Plant . *'
             })
             return false
         } else {
             setError('')
             return true
         }
-
     }
     const submit = () => {
         if (validateform() == true) {
@@ -557,26 +440,32 @@ function EditEnterOpeningStock() {
                             onClick: () => {
                                 setLoader(true)
                                 const POMasterData = [{
-                                    nGRNId: nGRNId,
-                                    nPId: nPOId,
-                                    dtGRNDate: parseDateToStringSubmit(new Date(startDate)),
+                                    nPId: nPId,
+                                    vInvoiceNo: vInvoiceNo,
+                                    dtDated: parseDateToStringSubmit(new Date(startDate)),
+                                    vEWayBillNo: vEWayBillNo,
+                                    vShipToLocation: vShipToLocation,
+                                    vTransporterName: vTransporterName,
+                                    vVehicleCapacity: vVehicleCapacity,
+                                    vVehicleNo: vVehicleNo,
+                                    vMATCOAFilePath: '',
                                     vRemarks: vRemarks,
                                     btActive: true,
                                     nLoggedInUserId: parseInt(nLoggedInUserId)
                                 }]
                                 let GRNOrder = {}
-                                GRNOrder.GRNMaster = POMasterData,
-                                    GRNOrder.GRNDetails = PODetails
+                                GRNOrder.DispatchMaster = POMasterData,
+                                GRNOrder.DispatchDetails = PODetails
                                 console.log('PurchaseOrder', GRNOrder)
-                                OpeningStock_Update(GRNOrder).then(res => {
+                                DispatchMasterPost(GRNOrder, vPOFilePath).then(res => {
                                     if (res) {
                                         setLoader(false)
-                                        toast.success("Record Updated Successfully !!")
-                                        navigate('/EnterOpeningStock')
-
+                                        toast.success("Record Added Successfully !!")
+                                        navigate('/DispatchDetails')
+    
                                     }
                                 })
-
+    
                             }
                         },
                         {
@@ -585,8 +474,8 @@ function EditEnterOpeningStock() {
                         }
                     ]
                 });
-
-
+    
+    
             } else {
                 confirmAlert({
                     title: 'Alert !!',
@@ -599,10 +488,7 @@ function EditEnterOpeningStock() {
                     ]
                 });
             }
-
         }
-
-
     }
     const deleteItem = (ids) => {
         confirmAlert({
@@ -635,13 +521,14 @@ function EditEnterOpeningStock() {
         setbtnType('edit')
         setId(item.id)
         setEditId(item.id)
-        setnMId(item.nMId)
-        setMaterialDetail(item.MaterialDetail)
-        setdtExpDate(item.ExpDate)
-        setnQtyAccepted(item.nQtyAccepted)
-        setnQtyRejected(item.nQtyRejected)
-        setvUOM(item.vUOM)
-        setnAmt(item.TotalQty)
+        setBrandLabel(item.vBrand)
+        setPackLabel(item.vPack)
+        setnQtySold(item.nQtySold)
+        setvBatchNo(item.vBatchNo)
+        setdtDOM(item.dtDOM)
+        setdtBBD(item.dtBBD)
+        setnSalesReturn(item.nSalesReturn)
+        
 
     }
     const goback = () => {
@@ -652,7 +539,7 @@ function EditEnterOpeningStock() {
             buttons: [
                 {
                     label: 'Yes',
-                    onClick: () => { navigate('/EnterOpeningStock') },
+                    onClick: () => { navigate('/DispatchDetails') },
                 },
                 {
                     label: 'No',
@@ -662,22 +549,24 @@ function EditEnterOpeningStock() {
         });
 
     }
+    
     const refreshbtn = () => {
         setEditId(null)
-        setnMId('')
-        setMaterialDetail('')
-        setdtExpDate(new Date(Date.now()))
-        setnQtyAccepted('')
-        setnQtyRejected('')
-        setnAmt('')
-        setvUOM('')
+        setEditId('')
+        setBrandLabel('')
+        setPackLabel('')
+        setnQtySold('')
+        setvBatchNo('')
+        setdtDOM(new Date(Date.now()))
+        setdtBBD(new Date(Date.now()))
+        setnSalesReturn('')
         setbtnType('')
     }
     return (
         <div className='citymasterContainer'>
             <div className='dateFilter-2'>
                 <div className='displayflexend mt-2'>
-                <Box className='inputBox-26' >
+                    <Box className='inputBox-26'>
                         <FormControl fullWidth className='input' >
                             <LocalizationProvider dateAdapter={AdapterDayjs} >
                                 <Stack spacing={3} >
@@ -688,18 +577,19 @@ function EditEnterOpeningStock() {
                                         required
                                         maxDate={startDates}
                                         onChange={handleChangeStartdate}
-                                        renderInput={(params) => <TextField sx={muiStyles.date} {...params} />}
+                                        renderInput={(params) => <TextField sx={muiStyles.date}{...params} />}
                                     />
                                 </Stack>
                             </LocalizationProvider>
                             {errorText.date != '' ? <p className='error'>{errorText.date}</p> : null}
                         </FormControl>
                     </Box>
-                    <Box className='inputBox-27' >
+
+                    <Box className='inputBox-27'>
                         <FormControl fullWidth className='input'>
                             {/* <InputLabel required id="demo-simple-select-label">Plant</InputLabel>npm  */}
                             <Autocomplete
-                            sx={muiStyles.autoCompleate}
+                                sx={muiStyles.autoCompleate}
                                 disablePortal
                                 id="combo-box-demo"
                                 options={PlantMaster}
@@ -713,15 +603,117 @@ function EditEnterOpeningStock() {
                                     // setInputValue(newInputValue);
                                     console.log('newInputValue', newInputValue)
                                 }}
-                                renderInput={(params) => <TextField {...params} label="Search Plant" required />}
+                                renderInput={(params) => <TextField {...params} label="Search Plant " required />}
                             />
                             {errorText.plant != '' ? <p className='error'>{errorText.plant}</p> : null}
                         </FormControl>
                     </Box>
-                    <Box className='inputBox-28' >
+                    <Box className='inputBox-1'>
                         <FormControl fullWidth className='input'>
                             <TextField
-                            sx={muiStyles.input}
+                                sx={muiStyles.input}
+                                value={vInvoiceNo}
+                                onChange={e => setvInvoiceNo(e.target.value)}
+                                id="outlined-basic"
+                                label="Invoice No"
+                                variant="outlined"
+                                name='InvoiceNo'
+                                required
+                                inputRef={register({ required: "Batch No is required.", })}
+                                error={Boolean(errors.InvoiceNo)}
+                                helperText={errors.InvoiceNo?.message}
+                            />
+                        </FormControl>
+                    </Box>
+                    <Box className='inputBox-1' >
+                        <FormControl fullWidth className='input'>
+                            <TextField
+                                sx={muiStyles.input}
+                                value={vEWayBillNo}
+                                onChange={e => setvEWayBillNo(e.target.value)}
+                                id="outlined-basic"
+                                label="EWay Bill No"
+                                variant="outlined"
+                                name='vEWayBillNo'
+                                required
+                                inputRef={register({ required: "EWay Bill No is required.", })}
+                                error={Boolean(errors.vEWayBillNo)}
+                                helperText={errors.vEWayBillNo?.message}
+                            />
+                        </FormControl>
+                    </Box>
+                    <Box className='inputBox-1' >
+                        <FormControl fullWidth className='input'>
+                            <TextField
+                                sx={muiStyles.input}
+                                value={vShipToLocation}
+                                onChange={e => setvShipToLocation(e.target.value)}
+                                id="outlined-basic"
+                                label="Ship To Location"
+                                variant="outlined"
+                                name='vShipToLocation'
+                                required
+                                inputRef={register({ required: "Ship To Location is required.", })}
+                                error={Boolean(errors.vShipToLocation)}
+                                helperText={errors.vShipToLocation?.message}
+                            />
+                        </FormControl>
+                    </Box>
+                    <Box className='inputBox-1' >
+                        <FormControl fullWidth className='input'>
+                            <TextField
+                                sx={muiStyles.input}
+                                value={vTransporterName}
+                                onChange={e => setvTransporterName(e.target.value)}
+                                id="outlined-basic"
+                                label="Transporter Name"
+                                variant="outlined"
+                                name='vTransporterName'
+                                required
+                                inputRef={register({ required: "Transporter Name is required.", })}
+                                error={Boolean(errors.vTransporterName)}
+                                helperText={errors.vTransporterName?.message}
+                            />
+                        </FormControl>
+                    </Box>
+                    <Box className='inputBox-1' >
+                        <FormControl fullWidth className='input'>
+                            <TextField
+                                sx={muiStyles.input}
+                                value={vVehicleCapacity}
+                                onChange={e => setvVehicleCapacity(e.target.value)}
+                                id="outlined-basic"
+                                label="Vehicle Capacity"
+                                variant="outlined"
+                                name='vVehicleCapacity'
+                                required
+                                inputRef={register({ required: "Vehicle Capacity is required.", })}
+                                error={Boolean(errors.vVehicleCapacity)}
+                                helperText={errors.vVehicleCapacity?.message}
+                            />
+                        </FormControl>
+                    </Box>
+                    <Box className='inputBox-1' >
+                        <FormControl fullWidth className='input'>
+                            <TextField
+                                sx={muiStyles.input}
+                                value={vVehicleNo}
+                                onChange={e => setvVehicleNo(e.target.value)}
+                                id="outlined-basic"
+                                label="Vehicle No"
+                                variant="outlined"
+                                name='vVehicleNo'
+                                required
+                                inputRef={register({ required: "Vehicle No is required.", })}
+                                error={Boolean(errors.vVehicleNo)}
+                                helperText={errors.vVehicleNo?.message}
+                            />
+                        </FormControl>
+                    </Box>
+                    <Box className='inputBox-3'>
+                        <FormControl fullWidth className='input'>
+                            <TextField
+                                sx={muiStyles.input}
                                 value={vRemarks}
                                 onChange={e => setvRemarks(e.target.value)}
                                 id="outlined-basic"
@@ -734,33 +726,70 @@ function EditEnterOpeningStock() {
                             />
                         </FormControl>
                     </Box>
+                    <Box className='inputBox-8' >
+                        <div style={{position:'relative'}}>
+                            <InputLabel id="demo-simple-select-label" style={{ marginTop: 5, marginBottom: 5,fontSize: 10,position: 'absolute',top: -23}}>Attach MATCOA </InputLabel>
+                            <input type="file" name='vPOFilePath' onChange={imageFile} hidden ref={imageRef} />
+                            <div style={{ flexDirection: 'row' }}>
+                                <button onClick={() => imageRef.current.click()} className='choosebtn'>Choose File</button>
+                                {imgpreview != false ?
+                                    <a href={preview} target="_blank" rel="noopener noreferrer" style={{ marginLeft: 10 }}>MATCOA Copy</a>
+                                    : null
+                                }
+
+                            </div>
+                        </div>
+
+                    </Box>
                     <FormGroup >
-                        <FormControlLabel style={{marginRight:0}} control={<Checkbox checked={btActive} value={btActive} onChange={e => setBtActive(e.target.checked)} />} label="Active" />
+                        <FormControlLabel style={{marginRight:0}} control={<Checkbox defaultChecked={btActive} value={btActive} onChange={e => setBtActive(e.target.checked)} />} label="Active" disabled={disabled} />
                     </FormGroup>
                 </div>
             </div>
             <div className='databox'>
                 <div className='data-form-box mt-2'>
-                    <Box className='inputBox-29' >
+                    <Box className='inputBox-29'>
                         <FormControl fullWidth className='input'>
                             {/* <InputLabel required id="demo-simple-select-label">Item</InputLabel>  */}
                             <Autocomplete
-                            sx={muiStyles.autoCompleate}
+                                sx={muiStyles.autoCompleate}
                                 disablePortal
                                 id="combo-box-demo"
-                                options={MaterialMaster}
-                                value={MaterialDetail}
+                                options={BrandMaster}
+                                value={BrandLabel}
                                 // inputValue={MaterialDetail}
-                                onChange={(event, value) => changeMaterialMasterValue(value)}
-                                onKeyDown={newInputValue => materialMaster_SelectAll_ActiveLikeSearch(newInputValue)}
+                                onChange={(event, value) => changebrandMasterValue(value)}
+                                onKeyDown={newInputValue => brandMaster_SelectAll_ActiveLikeSearch(newInputValue)}
                                 onInputChange={(event, newInputValue) => {
                                     // setInputValue(newInputValue);
                                     // materialMaster_SelectAll_ActiveLikeSearch()
                                     console.log('newInputValue', newInputValue)
                                 }}
-                                renderInput={(params) => <TextField {...params} label="Search Material" required />}
+                                renderInput={(params) => <TextField {...params} label="Search Brand" required />}
                             />
-                            {errorText.MaterialDetail != '' ? <p className='error'>{errorText.MaterialDetail}</p> : null}
+                            {errorText.brand != '' ? <p className='error'>{errorText.brand}</p> : null}
+                        </FormControl>
+                    </Box>
+                    <Box className='inputBox-29' >
+                        <FormControl fullWidth className='input'>
+                            {/* <InputLabel required id="demo-simple-select-label">Item</InputLabel>  */}
+                            <Autocomplete
+                                sx={muiStyles.autoCompleate}
+                                disablePortal
+                                id="combo-box-demo"
+                                options={PackMaster}
+                                value={PackLabel}
+                                // inputValue={MaterialDetail}
+                                onChange={(event, value) => changepackMasterValue(value)}
+                                onKeyDown={newInputValue => packMaster_SelectAll_ActiveLikeSearch(newInputValue)}
+                                onInputChange={(event, newInputValue) => {
+                                    // setInputValue(newInputValue);
+                                    // materialMaster_SelectAll_ActiveLikeSearch()
+                                    console.log('newInputValue', newInputValue)
+                                }}
+                                renderInput={(params) => <TextField {...params} label="Search Pack" required />}
+                            />
+                            {errorText.pack != '' ? <p className='error'>{errorText.pack}</p> : null}
                         </FormControl>
                     </Box>
 
@@ -805,93 +834,92 @@ function EditEnterOpeningStock() {
                             {errorText.Quan != '' ? <p className='error'>{errorText.Quan}</p> : null}
                         </FormControl>
                     </Box> */}
-                     <Box className='inputBox-30' >
-                        <FormControl fullWidth className='input' >
-                            <TextField
-                            sx={muiStyles.input}
-                                value={vUOM}
-                                // onChange={e => setnAmt(e.target.value)}
-                                id="outlined-basic"
-                                label="UOM"
-                                variant="outlined"
-                                name='Amount'
-                                disabled={true}
-                            // inputRef={register({ required: "Amount is required.*", })}
-                            // error={Boolean(errors.Amount)}
-                            // helperText={errors.Amount?.message}
-                            />
-                        </FormControl>
-                    </Box>
-                    <Box className='inputBox-31' >
-                        <FormControl fullWidth className='input' >
-                            <TextField
-                            sx={muiStyles.input}
-                                value={nQtyAccepted}
-                                onChange={e => calculateAmount(e.target.value, 'nQtyAccepted')}
-                                required id="outlined-basic"
-                                label="Quantity Accepted"
-                                variant="outlined"
-                                name='Quantity'
-                                type="number" inputProps={{ min: 4, max: 10 }}
-                            // inputRef={register({ required: "Quantity is required.*", })}
-                            // error={Boolean(errors.Quantity)}
-                            // helperText={errors.Quantity?.message}
-                            />
-                            {errorText.QuanAccept != '' ? <p className='error'>{errorText.QuanAccept}</p> : null}
-                        </FormControl>
-                    </Box>
-                    <Box className='inputBox-31' >
-                        <FormControl fullWidth className='input' >
-                            <TextField
-                            sx={muiStyles.input}
-                                value={nQtyRejected}
-                                onChange={e => calculateAmount(e.target.value, 'nQtyRejected')}
-                                required id="outlined-basic"
-                                label="Quantity Rejected"
-                                variant="outlined"
-                                name='Quantity'
-                                type="number" inputProps={{ min: 4, max: 10 }}
-                            // inputRef={register({ required: "Quantity is required.*", })}
-                            // error={Boolean(errors.Quantity)}
-                            // helperText={errors.Quantity?.message}
-                            />
-                            {errorText.QuanReject != '' ? <p className='error'>{errorText.QuanReject}</p> : null}
-                        </FormControl>
-                    </Box>
-
                     <Box className='inputBox-30' >
                         <FormControl fullWidth className='input' >
                             <TextField
-                            sx={muiStyles.input}
-                                value={nAmt}
-                                onChange={e => setnAmt(e.target.value)}
+                                sx={muiStyles.input}
+                                value={nQtySold}
+                                onChange={e => setnQtySold(e.target.value)}
                                 id="outlined-basic"
-                                label="Total Qty"
+                                label="Qty Sold"
                                 variant="outlined"
-                                name='Amount'
-                                type="number" inputProps={{ min: 4, max: 1000000000000000000000000000000 }}
-                                disabled={true}
-                            // inputRef={register({ required: "Amount is required.*", })}
-                            // error={Boolean(errors.Amount)}
-                            // helperText={errors.Amount?.message}
+                                name='nQtySold'
+                                type="number" inputProps={{ min: 4, max: 10 }}          
+                                // inputRef={register({ required: "Qty Sold is required.*", })}
+                                // error={Boolean(errors.nQtySold)}
+                                // helperText={errors.nQtySold?.message}
                             />
+                              {errorText.qSold != '' ? <p className='error'>{errorText.qSold}</p> : null}
                         </FormControl>
                     </Box>
-                    <Box className='inputBox-26' >
+                    <Box className='inputBox-31' >
+                        <FormControl fullWidth className='input' >
+                            <TextField
+                                sx={muiStyles.input}
+                                value={vBatchNo}
+                                onChange={e => setvBatchNo(e.target.value)}
+                                required id="outlined-basic"
+                                label="Batch No"
+                                variant="outlined"
+                                name='vBatchNo'
+                                // type="number" inputProps={{ min: 4, max: 10 }}
+                                // inputRef={register({ required: "Batch No is required.*", })}
+                                // error={Boolean(errors.vBatchNo)}
+                                // helperText={errors.vBatchNo?.message}
+                            />
+                            {errorText.batchno != '' ? <p className='error'>{errorText.batchno}</p> : null}
+                        </FormControl>
+                    </Box>
+                    <Box className='inputBox-43' >
                         <FormControl fullWidth className='input' >
                             <LocalizationProvider dateAdapter={AdapterDayjs} >
                                 <Stack spacing={3} >
                                     <DesktopDatePicker
-                                        label="Expire Date *"
+                                        label="DOM Date *"
                                         inputFormat="DD-MM-YYYY"
-                                        value={dtExpDate}
+                                        value={dtDOM}
                                         required
-                                        onChange={handleChangedtExpDate}
+                                        onChange={handleChangedtDOMDate}
                                         renderInput={(params) => <TextField sx={muiStyles.date}{...params} />}
                                     />
                                 </Stack>
                             </LocalizationProvider>
-                            {errorText.date != '' ? <p className='error'>{errorText.date}</p> : null}
+                            {errorText.dom != '' ? <p className='error'>{errorText.dom}</p> : null}
+                        </FormControl>
+                    </Box>
+                    <Box className='inputBox-43' >
+                        <FormControl fullWidth className='input' >
+                            <LocalizationProvider dateAdapter={AdapterDayjs} >
+                                <Stack spacing={3} >
+                                    <DesktopDatePicker
+                                        label="BBD Date *"
+                                        inputFormat="DD-MM-YYYY"
+                                        value={dtBBD}
+                                        required
+                                        onChange={handleChangedtBBDDate}
+                                        renderInput={(params) => <TextField sx={muiStyles.date}{...params} />}
+                                    />
+                                </Stack>
+                            </LocalizationProvider>
+                            {errorText.bbd != '' ? <p className='error'>{errorText.bbd}</p> : null}
+                        </FormControl>
+                    </Box>
+                    <Box className='inputBox-31' >
+                        <FormControl fullWidth className='input' >
+                            <TextField
+                                sx={muiStyles.input}
+                                value={nSalesReturn}
+                                onChange={e => setnSalesReturn(e.target.value)}
+                                required id="outlined-basic"
+                                label="Sales Return"
+                                variant="outlined"
+                                name='nSalesReturn'
+                                type="number" inputProps={{ min: 4, max: 10 }}
+                                // inputRef={register({ required: "Sales Return is required.*", })}
+                                // error={Boolean(errors.nSalesReturn)}
+                                // helperText={errors.nSalesReturn?.message}
+                            />
+                               {errorText.salesreturn != '' ? <p className='error'>{errorText.salesreturn}</p> : null}
                         </FormControl>
                     </Box>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 10, justifyContent: 'space-between',marginBottom:10 }}>
@@ -909,14 +937,15 @@ function EditEnterOpeningStock() {
                                         <TableRow>
                                             <TableCell scope="row" style={{ width: '2%' }} >SN.</TableCell>
                                             <TableCell align="center">Action</TableCell>
-                                            <TableCell align="left" >Material Name</TableCell>
+                                            <TableCell align="left" style={{ whiteSpace: 'nowrap' }}>Brand</TableCell>
                                             {/* <TableCell align="left" >PO Qty</TableCell>
                                             <TableCell align="left" >Balance QTY</TableCell> */}
-                                            <TableCell align="left" >UOM</TableCell>
-                                            <TableCell align="left" >Qty Accepted</TableCell>
-                                            <TableCell align="left" >Qty Rejected</TableCell>
-                                            <TableCell align="left" >Total Qty</TableCell>
-                                            <TableCell align="left" >Exp Date</TableCell>
+                                            <TableCell align="left" style={{ whiteSpace: 'nowrap' }}>Pack</TableCell>
+                                            <TableCell align="left" style={{ whiteSpace: 'nowrap' }}>Qty Sold</TableCell>
+                                            <TableCell align="left" style={{ whiteSpace: 'nowrap' }}>Batch No</TableCell>
+                                            <TableCell align="left" style={{ whiteSpace: 'nowrap' }}>DOM Date</TableCell>
+                                            <TableCell align="left" style={{ whiteSpace: 'nowrap' }}>BBD Date</TableCell>
+                                            <TableCell align="left" style={{ whiteSpace: 'nowrap' }}>Sales Return</TableCell>
                                         </TableRow>
                                     </TableHead>
                                     {PODetails?.length > 0 ?
@@ -925,7 +954,7 @@ function EditEnterOpeningStock() {
 
                                             {PODetails.map((item, index) => {
                                                 return (
-                                                    <TableRow key={index} style={item.id==EditId?{background:'rgba(239,30,44,0.15)'}:{background:'#fff'}}>
+                                                    <TableRow key={index} style={item.id == EditId ? { background: 'rgba(239,30,44,0.15)' } : { background: '#fff' }}>
                                                         <TableCell component="th" scope="row">{index + 1}.</TableCell>
                                                         <TableCell align="center">
                                                             <div style={{ display: 'flex', justifyContent: 'center' }}>
@@ -935,14 +964,15 @@ function EditEnterOpeningStock() {
                                                             </div>
 
                                                         </TableCell>
-                                                        <TableCell align="left" >{item.MaterialDetail}</TableCell>
+                                                        <TableCell align="left" style={{ whiteSpace: 'nowrap' }}>{item.vBrand}</TableCell>
                                                         {/* <TableCell align="left" >{item.nQty}</TableCell>
                                                         <TableCell align="left" >{item.BalanceQuantity}</TableCell> */}
-                                                        <TableCell align="left" >{item.vUOM}</TableCell>
-                                                        <TableCell align="left" >{item.nQtyAccepted}</TableCell>
-                                                        <TableCell align="left" >{item.nQtyRejected}</TableCell>
-                                                        <TableCell align="left" >{item.TotalQty}</TableCell>
-                                                        <TableCell align="left" >{parseDateToString(new Date(item.ExpDate))}</TableCell>
+                                                        <TableCell align="left" style={{ whiteSpace: 'nowrap' }}>{item.vPack}</TableCell>
+                                                        <TableCell align="left" style={{ whiteSpace: 'nowrap' }}>{item.nQtySold}</TableCell>
+                                                        <TableCell align="left" style={{ whiteSpace: 'nowrap' }}>{item.vBatchNo}</TableCell>
+                                                        <TableCell align="left" style={{ whiteSpace: 'nowrap' }}>{parseDateToString(new Date(item.dtDOM))}</TableCell>
+                                                        <TableCell align="left" style={{ whiteSpace: 'nowrap' }}>{parseDateToString(new Date(item.dtBBD))}</TableCell>
+                                                        <TableCell align="left" style={{ whiteSpace: 'nowrap' }}>{item.nSalesReturn}</TableCell>
 
                                                     </TableRow>
                                                 )
@@ -954,7 +984,7 @@ function EditEnterOpeningStock() {
 
                                         <TableBody>
                                             <TableRow>
-                                                <TableCell align="left" >No Record</TableCell>
+                                                <TableCell align="left" style={{ whiteSpace: 'nowrap' }}>No Record</TableCell>
                                             </TableRow>
                                         </TableBody>
                                     }
@@ -1088,4 +1118,5 @@ const muiStyles = {
    
 
 };
-export default EditEnterOpeningStock
+
+export default AddDispatchDetails

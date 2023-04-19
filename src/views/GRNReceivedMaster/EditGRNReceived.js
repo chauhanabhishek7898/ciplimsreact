@@ -971,8 +971,8 @@ function EditGRNReceived() {
     return (
         <div className='citymasterContainer'>
             <div className='dateFilter-2'>
-                <div className='displayflexend'>
-                    <Box sx={{ width: '11%' }} >
+                <div className='displayflexend mb-2'>
+                    <Box className='inputBox-30' >
                         <FormControl fullWidth className='input'>
                             <TextField
                             sx={muiStyles.input}
@@ -988,7 +988,7 @@ function EditGRNReceived() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '11%' }} >
+                    <Box className='inputBox-30' >
                         <FormControl fullWidth className='input' >
                             <LocalizationProvider dateAdapter={AdapterDayjs} >
                                 <Stack spacing={3} >
@@ -1006,7 +1006,7 @@ function EditGRNReceived() {
                             {errorText.sdate != '' ? <p className='error'>{errorText.sdate}</p> : null}
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '11%' }} >
+                    <Box className='inputBox-30' >
                         <FormControl fullWidth className='input' >
                             <LocalizationProvider dateAdapter={AdapterDayjs} >
                                 <Stack spacing={3} >
@@ -1024,7 +1024,7 @@ function EditGRNReceived() {
                             {errorText.edate != '' ? <p className='error'>{errorText.edate}</p> : null}
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '8%' }} >
+                    <Box className='inputBox-38' >
                         <FormControl fullWidth className='input' >
                             <TextField
                             sx={muiStyles.input}
@@ -1040,7 +1040,7 @@ function EditGRNReceived() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '20%' }} >
+                    <Box className='inputBox-39' >
                         <FormControl fullWidth className='input' >
                             <TextField
                             sx={muiStyles.input}
@@ -1056,7 +1056,7 @@ function EditGRNReceived() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '34%', marginTop: 2 }} >
+                    <Box className='inputBox-32' >
                         <FormControl fullWidth className='input'>
                             {/* <InputLabel required id="demo-simple-select-label">Plant</InputLabel>npm  */}
                             <Autocomplete
@@ -1080,7 +1080,7 @@ function EditGRNReceived() {
                             {errorText.plant != '' ? <p className='error'>{errorText.plant}</p> : null}
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '8%' }} >
+                    <Box className='inputBox-38' >
                         <FormControl fullWidth className='input' >
                             <TextField
                             sx={muiStyles.input}
@@ -1097,7 +1097,7 @@ function EditGRNReceived() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '7%' }} >
+                    <Box className='inputBox-33' >
                         <FormControl fullWidth className='input' >
                             <TextField
                             sx={muiStyles.input}
@@ -1114,7 +1114,7 @@ function EditGRNReceived() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '7%' }} >
+                    <Box className='inputBox-33' >
                         <FormControl fullWidth className='input' >
                             <TextField
                             sx={muiStyles.input}
@@ -1131,7 +1131,7 @@ function EditGRNReceived() {
                         </FormControl>
                     </Box>
 
-                    <Box sx={{ width: '11%' }} >
+                    <Box className='inputBox-30' >
                         <FormControl fullWidth className='input' >
                             <LocalizationProvider dateAdapter={AdapterDayjs} >
                                 <Stack spacing={3} >
@@ -1177,7 +1177,7 @@ function EditGRNReceived() {
                             </Select>
                         </FormControl>
                     </Box> */}
-                    <Box sx={{ width: '9%' }} >
+                    <Box className='inputBox-37' >
                         <FormControl fullWidth className='input'>
                             <TextField
                             sx={muiStyles.input}
@@ -1193,7 +1193,7 @@ function EditGRNReceived() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '10%' }} >
+                    <Box className='inputBox-25' >
                         <FormControl fullWidth className='input'>
                             <TextField
                             sx={muiStyles.input}
@@ -1209,7 +1209,7 @@ function EditGRNReceived() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '11%' }} >
+                    <Box className='inputBox-30' >
                         <FormControl fullWidth className='input' >
                             <LocalizationProvider dateAdapter={AdapterDayjs} >
                                 <Stack spacing={3} >
@@ -1247,7 +1247,7 @@ function EditGRNReceived() {
                             {errorText.vendor != '' ? <p  className='error'>{errorText.vendor}</p> : null}
                         </FormControl>
                     </Box> */}
-                    <Box sx={{ width: '29%', marginTop: 1 }} >
+                    <Box className='inputBox-40' >
                         <FormControl fullWidth className='input'>
                             <TextField
                             sx={muiStyles.input}
@@ -1265,8 +1265,8 @@ function EditGRNReceived() {
                     </Box>
                     <div style={{ display: 'flex', width: '100%', alignItems: 'flex-end', gap: 18 }}>
                         <Box sx={{ width: '10%' }} >
-                            <div >
-                                <InputLabel id="demo-simple-select-label" style={{ marginTop: 5, marginBottom: 5 }}>Attach GRN</InputLabel>
+                            <div style={{position:'relative'}}>
+                                <InputLabel id="demo-simple-select-label" style={{ marginTop: 5, marginBottom: 5,fontSize: 10,position: 'absolute',top: -23}}>Attach GRN</InputLabel>
                                 <input type="file" name='vPOFilePath' onChange={imageFile} hidden ref={imageRef} />
                                 <div style={{ display: 'flex' }}>
                                     <button onClick={() => imageRef.current.click()} className='choosebtn'>Choose File</button>
@@ -1291,17 +1291,17 @@ function EditGRNReceived() {
 
                         </Box>
                         <FormGroup >
-                            <FormControlLabel control={<Checkbox checked={btCOAReceived} value={btCOAReceived} onChange={e => setbtCOAReceived(e.target.checked)} />} label="COA Received" />
+                            <FormControlLabel style={{marginRight:0}} control={<Checkbox checked={btCOAReceived} value={btCOAReceived} onChange={e => setbtCOAReceived(e.target.checked)} />} label="COA Received" />
                         </FormGroup>
                         <FormGroup >
-                            <FormControlLabel control={<Checkbox checked={btActive} value={btActive} onChange={e => setBtActive(e.target.checked)} />} label="Active" />
+                            <FormControlLabel style={{marginRight:0}} control={<Checkbox checked={btActive} value={btActive} onChange={e => setBtActive(e.target.checked)} />} label="Active" />
                         </FormGroup>
                     </div>
                 </div>
             </div>
             <div className='databox'>
-                <div className='data-form-box'>
-                <Box sx={{ width: '25%' }} >
+                <div className='data-form-box-2 mt-2'>
+                <Box className='inputBox-29' >
                         <FormControl fullWidth className='input'>
                             <Autocomplete
                             sx={muiStyles.autoCompleate}
@@ -1353,7 +1353,7 @@ function EditGRNReceived() {
                             null
 
                         } */}
-                    <Box sx={{ width: '7%' }} >
+                    <Box className='inputBox-33' >
                         <FormControl fullWidth className='input' >
                             <TextField
                             sx={muiStyles.input}
@@ -1372,7 +1372,7 @@ function EditGRNReceived() {
                             {errorText.Quan != '' ? <p className='error'>{errorText.Quan}</p> : null}
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '7%' }} >
+                    <Box className='inputBox-33' >
                         <FormControl fullWidth className='input' >
                             <TextField
                             sx={muiStyles.input}
@@ -1391,7 +1391,7 @@ function EditGRNReceived() {
                             {errorText.Quan != '' ? <p className='error'>{errorText.Quan}</p> : null}
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '12%' }} >
+                    <Box className='inputBox-31' >
                         <FormControl fullWidth className='input' >
                             <TextField
                             sx={muiStyles.input}
@@ -1409,7 +1409,7 @@ function EditGRNReceived() {
                             {errorText.QuanAccept != '' ? <p className='error'>{errorText.QuanAccept}</p> : null}
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '12%' }} >
+                    <Box className='inputBox-31' >
                         <FormControl fullWidth className='input' >
                             <TextField
                             sx={muiStyles.input}
@@ -1427,7 +1427,7 @@ function EditGRNReceived() {
                             {errorText.QuanReject != '' ? <p className='error'>{errorText.QuanReject}</p> : null}
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '5%' }} >
+                    <Box className='inputBox-33' >
                         <FormControl fullWidth className='input' >
                             <TextField
                             sx={muiStyles.input}
@@ -1445,7 +1445,7 @@ function EditGRNReceived() {
                             {errorText.amount != '' ? <p className='error'>{errorText.amount}</p> : null}
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '12%' }} >
+                    <Box className='inputBox-26' >
                         <FormControl fullWidth className='input' >
                             <LocalizationProvider dateAdapter={AdapterDayjs} >
                                 <Stack spacing={3} >
@@ -1463,7 +1463,7 @@ function EditGRNReceived() {
                             {errorText.mfDate != '' ? <p className='error'>{errorText.mfDate}</p> : null}
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '12%' }} >
+                    <Box className='inputBox-26' >
                         <FormControl fullWidth className='input' >
                             <LocalizationProvider dateAdapter={AdapterDayjs} >
                                 <Stack spacing={3} >
@@ -1483,7 +1483,7 @@ function EditGRNReceived() {
                     </Box>
 
 
-                    <Box sx={{ width: '8%' }} >
+                    <Box className='inputBox-38' >
                         <FormControl fullWidth className='input' >
                             <TextField
                             sx={muiStyles.input}
@@ -1501,7 +1501,7 @@ function EditGRNReceived() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '6%' }} >
+                    <Box className='inputBox-21' >
                         <FormControl fullWidth className='input' >
                             <TextField
                             sx={muiStyles.input}
@@ -1518,7 +1518,7 @@ function EditGRNReceived() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '5%' }} >
+                    <Box className='inputBox-35' >
                         <FormControl fullWidth className='input' >
                             <TextField
                             sx={muiStyles.input}
@@ -1536,7 +1536,7 @@ function EditGRNReceived() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '6%' }} >
+                    <Box className='inputBox-21' >
                         <FormControl fullWidth className='input' >
                             <TextField
                             sx={muiStyles.input}
@@ -1553,7 +1553,7 @@ function EditGRNReceived() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '5%' }} >
+                    <Box className='inputBox-35' >
                         <FormControl fullWidth className='input' >
                             <TextField
                             sx={muiStyles.input}
@@ -1571,7 +1571,7 @@ function EditGRNReceived() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '6%' }} >
+                    <Box className='inputBox-21' >
                         <FormControl fullWidth className='input' >
                             <TextField
                             sx={muiStyles.input}
@@ -1588,7 +1588,7 @@ function EditGRNReceived() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '5%' }} >
+                    <Box className='inputBox-35' >
                         <FormControl fullWidth className='input' >
                             <TextField
                             sx={muiStyles.input}
@@ -1606,7 +1606,7 @@ function EditGRNReceived() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '7%' }} >
+                    <Box className='inputBox-33' >
                         <FormControl fullWidth className='input' >
                             <TextField
                             sx={muiStyles.input}
@@ -1624,7 +1624,7 @@ function EditGRNReceived() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '8%' }} >
+                    <Box className='inputBox-38' >
                         <FormControl fullWidth className='input' >
                             <TextField
                             sx={muiStyles.input}
@@ -1642,7 +1642,7 @@ function EditGRNReceived() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '5%' }} >
+                    <Box className='inputBox-35' >
                         <FormControl fullWidth className='input' >
                             <TextField
                             sx={muiStyles.input}
@@ -1661,7 +1661,7 @@ function EditGRNReceived() {
                             {/* {errorText.Freight != '' ? <p className='error'>{errorText.Freight}</p> : null} */}
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '9%' }} >
+                    <Box className='inputBox-37' >
                         <FormControl fullWidth className='input' >
                             <TextField
                             sx={muiStyles.input}
@@ -1679,7 +1679,7 @@ function EditGRNReceived() {
                             />
                         </FormControl>
                     </Box>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 10, justifyContent: 'space-between', width: '100%', }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 10, justifyContent: 'space-between',marginBottom:10 }}>
                         <button title='Add' className='addbtn' onClick={addKoMonthDate}>{btnType=='edit'?'Update':<AddIcon fontSize='large' />}</button>
 
                         <button title='Refresh' className='addbtn' onClick={refreshbtn}><ReplayIcon fontSize='large' /></button>
@@ -1687,33 +1687,33 @@ function EditGRNReceived() {
                 </div>
                 <div className='tablecenter'>
                     {PODetails.length > 0 ?
-                        <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+                        <Paper sx={{ width: '100%', overflow: 'hidden',paddingTop:1 }}>
                             <TableContainer sx={{ maxHeight: 440 }}>
                                 <Table stickyHeader aria-label="sticky table">
                                     <TableHead>
                                         <TableRow>
                                             <TableCell scope="row">SN.</TableCell>
                                             <TableCell align="center">Action</TableCell>
-                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>Material Name</TableCell>
-                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>PO Qty</TableCell>
-                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>Balance Qty</TableCell>
-                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>Qty Accepted</TableCell>
-                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>Qty Rejected</TableCell>
-                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>Total Qty</TableCell>
-                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>Rate</TableCell>
-                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>Mfg Date</TableCell>
-                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>Exp Date</TableCell>
-                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>Total Amount</TableCell>
-                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>SGST (%)</TableCell>
-                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>SGST </TableCell>
-                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>CGST (%)</TableCell>
-                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>CGST</TableCell>
-                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>IGST (%)</TableCell>
-                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>IGST</TableCell>
-                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>Total Tax</TableCell>
-                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>Grand Total</TableCell>
-                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>Freight</TableCell>
-                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>Net Total Amt</TableCell>
+                                            <TableCell align="left" >Material Name</TableCell>
+                                            <TableCell align="left" >PO Qty</TableCell>
+                                            <TableCell align="left" >Balance Qty</TableCell>
+                                            <TableCell align="left" >Qty Accepted</TableCell>
+                                            <TableCell align="left" >Qty Rejected</TableCell>
+                                            <TableCell align="left" >Total Qty</TableCell>
+                                            <TableCell align="left" >Rate</TableCell>
+                                            <TableCell align="left" >Mfg Date</TableCell>
+                                            <TableCell align="left" >Exp Date</TableCell>
+                                            <TableCell align="left" >Total Amount</TableCell>
+                                            <TableCell align="left" >SGST (%)</TableCell>
+                                            <TableCell align="left" >SGST </TableCell>
+                                            <TableCell align="left" >CGST (%)</TableCell>
+                                            <TableCell align="left" >CGST</TableCell>
+                                            <TableCell align="left" >IGST (%)</TableCell>
+                                            <TableCell align="left" >IGST</TableCell>
+                                            <TableCell align="left" >Total Tax</TableCell>
+                                            <TableCell align="left" >Grand Total</TableCell>
+                                            <TableCell align="left" >Freight</TableCell>
+                                            <TableCell align="left" >Net Total Amt</TableCell>
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
@@ -1730,26 +1730,26 @@ function EditGRNReceived() {
                                                         </div>
 
                                                     </TableCell>
-                                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.MaterialDetail}</TableCell>
-                                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.POQty}</TableCell>
-                                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.BalanceQuantity}</TableCell>
-                                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.nQtyAccepted}</TableCell>
-                                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.nQtyRejected}</TableCell>
-                                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.nQtyAccepted + item.nQtyRejected}</TableCell>
-                                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.nRate}</TableCell>
-                                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>{parseDateToString(new Date(item.dtMfgDate))}</TableCell>
-                                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>{parseDateToString(new Date(item.dtExpDate))}</TableCell>
-                                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.nTotalAmount}</TableCell>
-                                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.nSGSTP}</TableCell>
-                                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.nSGST}</TableCell>
-                                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.nCGSTP}</TableCell>
-                                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.nCGST}</TableCell>
-                                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.nIGSTP}</TableCell>
-                                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.nIGST}</TableCell>
-                                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.nTax}</TableCell>
-                                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.nGrandTotal}</TableCell>
-                                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.nFreight}</TableCell>
-                                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.nNetTotalAmt}</TableCell>
+                                                    <TableCell align="left" >{item.MaterialDetail}</TableCell>
+                                                    <TableCell align="left" >{item.POQty}</TableCell>
+                                                    <TableCell align="left" >{item.BalanceQuantity}</TableCell>
+                                                    <TableCell align="left" >{item.nQtyAccepted}</TableCell>
+                                                    <TableCell align="left" >{item.nQtyRejected}</TableCell>
+                                                    <TableCell align="left" >{item.nQtyAccepted + item.nQtyRejected}</TableCell>
+                                                    <TableCell align="left" >{item.nRate}</TableCell>
+                                                    <TableCell align="left" >{parseDateToString(new Date(item.dtMfgDate))}</TableCell>
+                                                    <TableCell align="left" >{parseDateToString(new Date(item.dtExpDate))}</TableCell>
+                                                    <TableCell align="left" >{item.nTotalAmount}</TableCell>
+                                                    <TableCell align="left" >{item.nSGSTP}</TableCell>
+                                                    <TableCell align="left" >{item.nSGST}</TableCell>
+                                                    <TableCell align="left" >{item.nCGSTP}</TableCell>
+                                                    <TableCell align="left" >{item.nCGST}</TableCell>
+                                                    <TableCell align="left" >{item.nIGSTP}</TableCell>
+                                                    <TableCell align="left" >{item.nIGST}</TableCell>
+                                                    <TableCell align="left" >{item.nTax}</TableCell>
+                                                    <TableCell align="left" >{item.nGrandTotal}</TableCell>
+                                                    <TableCell align="left" >{item.nFreight}</TableCell>
+                                                    <TableCell align="left" >{item.nNetTotalAmt}</TableCell>
 
 
                                                 </TableRow>
@@ -1819,17 +1819,17 @@ function EditGRNReceived() {
                        <div><p className='errormasg'>OOPS !!, For this selected Transaction, Input Quantity is greater than Balance Left Quantity. Please try again with appropriate inputs.</p></div>
                         <div className='tablecenter'>
                             {GrnData.length > 0 ?
-                                <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+                                <Paper sx={{ width: '100%', overflow: 'hidden',paddingTop:1 }}>
                                     <TableContainer sx={{ maxHeight: 440 }}>
                                         <Table stickyHeader aria-label="sticky table">
                                             <TableHead>
                                                 <TableRow>
                                                     <TableCell scope="row">SN.</TableCell>
-                                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>PO No</TableCell>
-                                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Material Name</TableCell>
-                                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Qty</TableCell>
-                                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Bal Qty</TableCell>
-                                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Input Qty</TableCell>
+                                                    <TableCell align="left" >PO No</TableCell>
+                                                    <TableCell align="left" >Material Name</TableCell>
+                                                    <TableCell align="left" >Qty</TableCell>
+                                                    <TableCell align="left" >Bal Qty</TableCell>
+                                                    <TableCell align="left" >Input Qty</TableCell>
 
                                                 </TableRow>
                                             </TableHead>
@@ -1841,11 +1841,11 @@ function EditGRNReceived() {
                                                         <TableRow key={index}>
 
                                                             <TableCell component="th" scope="row">{index + 1}.</TableCell>
-                                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vPONo}</TableCell>
-                                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.MaterialDetail}</TableCell>
-                                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.nQty}</TableCell>
-                                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.BalanceQty}</TableCell>
-                                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.SelectedQty}</TableCell>
+                                                            <TableCell align="left" >{item.vPONo}</TableCell>
+                                                            <TableCell align="left" >{item.MaterialDetail}</TableCell>
+                                                            <TableCell align="left" >{item.nQty}</TableCell>
+                                                            <TableCell align="left" >{item.BalanceQty}</TableCell>
+                                                            <TableCell align="left" >{item.SelectedQty}</TableCell>
                                                         </TableRow>
                                                     )
                                                 })
@@ -1897,13 +1897,14 @@ const muiStyles = {
     date: {
         "& .MuiInputBase-root": {
             "& input": {
-                padding: '5px 14px',
+                padding: '6px 6px',
                 fontSize: '13px'
             }
         },
         "& .MuiFormLabel-root": {
             fontSize: '13px',
             top: '-13px',
+            left:'-10px',
             backgroundColor: 'transparent',
             zIndex: '1'
         },
@@ -1911,12 +1912,16 @@ const muiStyles = {
             zIndex: '1'
 
         },
+        '& .MuiInputAdornment-root':{
+            position: 'absolute',
+            right: '10px'
+        }
     },
     autoCompleate: {
         "& .MuiOutlinedInput-root": {
             padding: '0px',
             "& .MuiAutocomplete-input": {
-                padding: '5px 14px',
+                padding: '6px 6px',
                 fontSize: '13px'
             }
 
@@ -1925,6 +1930,7 @@ const muiStyles = {
             fontSize: '13px',
             backgroundColor: 'transparent',
             top: '-13px',
+            left:'-10px',
           
         },
         "& label.Mui-focused": {
@@ -1934,13 +1940,14 @@ const muiStyles = {
     input: {
         "& .MuiOutlinedInput-root": {
             "& input": {
-                padding: '6px 14px',
+                padding: '6px',
                 fontSize: '12px'
             }
         },
         "& .MuiFormLabel-root": {
             fontSize: '13px',
-            top: '-13px',  
+            top: '-13px',
+            left:'-10px',  
             backgroundColor: 'transparent',
         },
         "& label.Mui-focused": {
@@ -1950,7 +1957,7 @@ const muiStyles = {
     select: {
 
         "& .MuiSelect-select": {
-            padding: '3px 14px',
+            padding: '3px',
             fontSize: '12px'
         }, 
         
@@ -1959,6 +1966,7 @@ const muiStyles = {
     InputLabels: {
         fontSize: '13px',
         top: '-13px',
+        left:'-10px',
         backgroundColor: 'transparent',
         "&.Mui-focused": {
             zIndex: '1'

@@ -30,12 +30,12 @@ const Login = () => {
   const [loader, setLoader] = React.useState(false);
   useEffect(() => {
     const vUserName = localStorage.getItem("vUserName")
-    if (vUserName) {
+    const token = localStorage.getItem("token")
+    if (vUserName&&token) {
       setDashboard(true)
     } else {
       setDashboard(false)
     }
-    console.log('vUserName', vUserName)
 
   }, [])
   const login = () => {
@@ -80,7 +80,7 @@ const Login = () => {
             <CRow className="justify-content-center">
               <CCol md={8}>
                 <CCardGroup>
-                <CCard className="text-white  py-5" style={{ width: '44%',background:'#ef1e2c' }}>
+                <CCard className="text-white loginBox py-5" style={{background:'#ef1e2c' }}>
                     <CCardBody className="text-center" style={{display: 'flex',justifyContent: 'center',alignItems: 'center'}}>
                       <div>
                         <h style={{fontSize:65}}>IMS</h>

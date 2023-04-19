@@ -992,8 +992,8 @@ function AddGRNReceived() {
     return (
         <div className='citymasterContainer'>
             <div className='dateFilter-2'>
-                <div className='displayflexend'>
-                    <Box sx={{ width: '11%' }} >
+                <div className='displayflexend mt-2'>
+                    <Box className='inputBox-30' >
                         <FormControl fullWidth className='input'>
                             <TextField
                                 sx={muiStyles.input}
@@ -1009,7 +1009,7 @@ function AddGRNReceived() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '11%' }} >
+                    <Box className='inputBox-30' >
                         <FormControl fullWidth className='input' >
                             <LocalizationProvider dateAdapter={AdapterDayjs} >
                                 <Stack spacing={3} >
@@ -1027,7 +1027,7 @@ function AddGRNReceived() {
                             {errorText.sdate != '' ? <p className='error'>{errorText.sdate}</p> : null}
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '11%' }} >
+                    <Box className='inputBox-30' >
                         <FormControl fullWidth className='input' >
                             <LocalizationProvider dateAdapter={AdapterDayjs} >
                                 <Stack spacing={3} >
@@ -1045,7 +1045,7 @@ function AddGRNReceived() {
                             {errorText.edate != '' ? <p className='error'>{errorText.edate}</p> : null}
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '8%' }} >
+                    <Box className='inputBox-38' >
                         <FormControl fullWidth className='input' >
                             <TextField
                                 sx={muiStyles.input}
@@ -1061,7 +1061,7 @@ function AddGRNReceived() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '20%' }} >
+                    <Box className='inputBox-39' >
                         <FormControl fullWidth className='input' >
                             <TextField
                                 sx={muiStyles.input}
@@ -1077,7 +1077,7 @@ function AddGRNReceived() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '34%', marginTop: 2 }} >
+                    <Box className='inputBox-32'>
                         <FormControl fullWidth className='input'>
                             {/* <InputLabel required id="demo-simple-select-label">Plant</InputLabel>npm  */}
                             <Autocomplete
@@ -1100,7 +1100,7 @@ function AddGRNReceived() {
                             {errorText.plant != '' ? <p className='error'>{errorText.plant}</p> : null}
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '8%' }} >
+                    <Box className='inputBox-38' >
                         <FormControl fullWidth className='input' >
                             <TextField
                                 sx={muiStyles.input}
@@ -1117,7 +1117,7 @@ function AddGRNReceived() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '7%' }} >
+                    <Box className='inputBox-33'>
                         <FormControl fullWidth className='input' >
                             <TextField
                                 sx={muiStyles.input}
@@ -1134,7 +1134,7 @@ function AddGRNReceived() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '7%' }} >
+                    <Box className='inputBox-33'>
                         <FormControl fullWidth className='input' >
                             <TextField
                                 sx={muiStyles.input}
@@ -1151,7 +1151,7 @@ function AddGRNReceived() {
                         </FormControl>
                     </Box>
 
-                    <Box sx={{ width: '11%' }} >
+                    <Box className='inputBox-30'>
                         <FormControl fullWidth className='input' >
                             <LocalizationProvider dateAdapter={AdapterDayjs} >
                                 <Stack spacing={3} >
@@ -1197,7 +1197,7 @@ function AddGRNReceived() {
                             </Select>
                         </FormControl>
                     </Box> */}
-                    <Box sx={{ width: '9%' }} >
+                    <Box className='inputBox-37'>
                         <FormControl fullWidth className='input'>
                             <TextField
                                 sx={muiStyles.input}
@@ -1213,7 +1213,7 @@ function AddGRNReceived() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '10%' }} >
+                    <Box className='inputBox-25' >
                         <FormControl fullWidth className='input'>
                             <TextField
                                 sx={muiStyles.input}
@@ -1229,7 +1229,7 @@ function AddGRNReceived() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '11%' }} >
+                    <Box className='inputBox-30'>
                         <FormControl fullWidth className='input' >
                             <LocalizationProvider dateAdapter={AdapterDayjs} >
                                 <Stack spacing={3} >
@@ -1267,7 +1267,7 @@ function AddGRNReceived() {
                             {errorText.vendor != '' ? <p  className='error'>{errorText.vendor}</p> : null}
                         </FormControl>
                     </Box> */}
-                    <Box sx={{ width: '28%', marginTop: 1 }} >
+                    <Box className='inputBox-40'>
                         <FormControl fullWidth className='input'>
                             <TextField
                                 sx={muiStyles.input}
@@ -1285,9 +1285,9 @@ function AddGRNReceived() {
                     </Box>
 
                     <div style={{ display: 'flex', width: '100%', alignItems: 'flex-end', gap: 18 }}>
-                        <Box sx={{ width: '10%' }} >
-                            <div >
-                                <InputLabel id="demo-simple-select-label" style={{ marginTop: 5, marginBottom: 5 }}>Attach GRN</InputLabel>
+                        <Box className='inputBox-25'>
+                            <div style={{position:'relative'}}>
+                                <InputLabel id="demo-simple-select-label" style={{ marginTop: 5, marginBottom: 5,fontSize: 10,position: 'absolute',top: -23}}>Attach GRN</InputLabel>
                                 <input type="file" name='vPOFilePath' onChange={imageFile} hidden ref={imageRef} />
                                 <div style={{ flexDirection: 'row' }}>
                                     <button onClick={() => imageRef.current.click()} className='choosebtn'>Choose File</button>
@@ -1301,17 +1301,17 @@ function AddGRNReceived() {
 
                         </Box>
                         <FormGroup >
-                            <FormControlLabel control={<Checkbox defaultChecked={btCOAReceived} value={btCOAReceived} onChange={e => setbtCOAReceived(e.target.checked)} />} label="COA Received" />
+                            <FormControlLabel style={{marginRight:0}} control={<Checkbox defaultChecked={btCOAReceived} value={btCOAReceived} onChange={e => setbtCOAReceived(e.target.checked)} />} label="COA Received" />
                         </FormGroup>
                         <FormGroup >
-                            <FormControlLabel control={<Checkbox defaultChecked={btActive} value={btActive} onChange={e => setBtActive(e.target.checked)} />} label="Active" disabled={disabled} />
+                            <FormControlLabel style={{marginRight:0}} control={<Checkbox defaultChecked={btActive} value={btActive} onChange={e => setBtActive(e.target.checked)} />} label="Active" disabled={disabled} />
                         </FormGroup>
                     </div>
                 </div>
             </div>
             <div className='databox'>
-                <div className='data-form-box'>
-                    <Box sx={{ width: '25%' }} >
+                <div className='data-form-box-2 mt-2'>
+                    <Box className='inputBox-29'>
                         <FormControl fullWidth className='input'>
                             <Autocomplete
                                 sx={muiStyles.autoCompleate}
@@ -1363,7 +1363,7 @@ function AddGRNReceived() {
                             null
 
                         } */}
-                    <Box sx={{ width: '7%' }} >
+                    <Box className='inputBox-33'>
                         <FormControl fullWidth className='input' >
                             <TextField
                                 sx={muiStyles.input}
@@ -1381,7 +1381,7 @@ function AddGRNReceived() {
                             {errorText.Quan != '' ? <p className='error'>{errorText.Quan}</p> : null}
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '7%' }} >
+                    <Box className='inputBox-33' >
                         <FormControl fullWidth className='input' >
                             <TextField
                                 sx={muiStyles.input}
@@ -1400,7 +1400,7 @@ function AddGRNReceived() {
                             {errorText.Quan != '' ? <p className='error'>{errorText.Quan}</p> : null}
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '12%' }} >
+                    <Box className='inputBox-31'>
                         <FormControl fullWidth className='input' >
                             <TextField
                                 sx={muiStyles.input}
@@ -1418,7 +1418,7 @@ function AddGRNReceived() {
                             {errorText.QuanAccept != '' ? <p className='error'>{errorText.QuanAccept}</p> : null}
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '12%' }} >
+                    <Box className='inputBox-31' >
                         <FormControl fullWidth className='input' >
                             <TextField
                                 sx={muiStyles.input}
@@ -1436,7 +1436,7 @@ function AddGRNReceived() {
                             {errorText.QuanReject != '' ? <p className='error'>{errorText.QuanReject}</p> : null}
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '7%' }} >
+                    <Box className='inputBox-33'>
                         <FormControl fullWidth className='input' >
                             <TextField
                                 sx={muiStyles.input}
@@ -1454,7 +1454,7 @@ function AddGRNReceived() {
                             {errorText.amount != '' ? <p className='error'>{errorText.amount}</p> : null}
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '11.5%' }} >
+                    <Box className='inputBox-26'>
                         <FormControl fullWidth className='input' >
                             <LocalizationProvider dateAdapter={AdapterDayjs} >
                                 <Stack spacing={3} >
@@ -1472,7 +1472,7 @@ function AddGRNReceived() {
                             {errorText.mfDate != '' ? <p className='error'>{errorText.mfDate}</p> : null}
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '11.5%' }} >
+                    <Box className='inputBox-26' >
                         <FormControl fullWidth className='input' >
                             <LocalizationProvider dateAdapter={AdapterDayjs} >
                                 <Stack spacing={3} >
@@ -1492,7 +1492,7 @@ function AddGRNReceived() {
                     </Box>
 
 
-                    <Box sx={{ width: '8%' }} >
+                    <Box className='inputBox-38' >
                         <FormControl fullWidth className='input' >
                             <TextField
                                 sx={muiStyles.input}
@@ -1510,7 +1510,7 @@ function AddGRNReceived() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '6%' }} >
+                    <Box className='inputBox-21' >
                         <FormControl fullWidth className='input' >
                             <TextField
                                 sx={muiStyles.input}
@@ -1527,7 +1527,7 @@ function AddGRNReceived() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '5%' }} >
+                    <Box className='inputBox-35'>
                         <FormControl fullWidth className='input' >
                             <TextField
                                 sx={muiStyles.input}
@@ -1545,7 +1545,7 @@ function AddGRNReceived() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '6%' }} >
+                    <Box className='inputBox-21'>
                         <FormControl fullWidth className='input' >
                             <TextField
                                 sx={muiStyles.input}
@@ -1562,7 +1562,7 @@ function AddGRNReceived() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '5%' }} >
+                    <Box className='inputBox-35'>
                         <FormControl fullWidth className='input' >
                             <TextField
                                 sx={muiStyles.input}
@@ -1580,7 +1580,7 @@ function AddGRNReceived() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '6%' }} >
+                    <Box className='inputBox-21'>
                         <FormControl fullWidth className='input' >
                             <TextField
                                 sx={muiStyles.input}
@@ -1597,7 +1597,7 @@ function AddGRNReceived() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '5%' }} >
+                    <Box className='inputBox-35'>
                         <FormControl fullWidth className='input' >
                             <TextField
                                 sx={muiStyles.input}
@@ -1615,7 +1615,7 @@ function AddGRNReceived() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '7%' }} >
+                    <Box className='inputBox-33'>
                         <FormControl fullWidth className='input' >
                             <TextField
                                 sx={muiStyles.input}
@@ -1633,7 +1633,7 @@ function AddGRNReceived() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '8%' }} >
+                    <Box className='inputBox-38'>
                         <FormControl fullWidth className='input' >
                             <TextField
                                 sx={muiStyles.input}
@@ -1651,7 +1651,7 @@ function AddGRNReceived() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '5%' }} >
+                    <Box className='inputBox-35'>
                         <FormControl fullWidth className='input' >
                             <TextField
                                 sx={muiStyles.input}
@@ -1670,7 +1670,7 @@ function AddGRNReceived() {
                             {/* {errorText.Freight != '' ? <p className='error'>{errorText.Freight}</p> : null} */}
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '9%' }} >
+                    <Box className='inputBox-37'>
                         <FormControl fullWidth className='input' >
                             <TextField
                                 sx={muiStyles.input}
@@ -1688,7 +1688,7 @@ function AddGRNReceived() {
                             />
                         </FormControl>
                     </Box>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 10, justifyContent: 'space-between', width: '100%', }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 10, justifyContent: 'space-between',marginBottom:10 }}>
                         <button title='Add' className='addbtn' onClick={addKoMonthDate}>{btnType=='edit'?'Update':<AddIcon fontSize='large' />}</button>
 
                         <button title='Refresh' className='addbtn' onClick={refreshbtn}><ReplayIcon fontSize='large' /></button>
@@ -1699,7 +1699,7 @@ function AddGRNReceived() {
                 </div>
                 <div className='tablecenter'>
                     {PODetails.length > 0 ?
-                        <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+                        <Paper sx={{ width: '100%', overflow: 'hidden',paddingTop:1 }}>
                             <TableContainer sx={{ maxHeight: 440 }}>
                                 <Table stickyHeader aria-label="sticky table">
                                     <TableHead>
@@ -1839,7 +1839,7 @@ function AddGRNReceived() {
                         <div><p className='errormasg'>OOPS !!, For this selected Transaction, Input Quantity is greater than Balance Left Quantity. Please try again with appropriate inputs.</p></div>
                         <div className='tablecenter'>
                             {GrnData.length > 0 ?
-                                <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+                                <Paper sx={{ width: '100%', overflow: 'hidden',paddingTop:1 }}>
                                     <TableContainer sx={{ maxHeight: 440 }}>
                                         <Table stickyHeader aria-label="sticky table">
                                             <TableHead>
@@ -1915,13 +1915,14 @@ const muiStyles = {
     date: {
         "& .MuiInputBase-root": {
             "& input": {
-                padding: '5px 14px',
+                padding: '6px 6px',
                 fontSize: '13px'
             }
         },
         "& .MuiFormLabel-root": {
             fontSize: '13px',
             top: '-13px',
+            left:'-10px',
             backgroundColor: 'transparent',
             zIndex: '1'
         },
@@ -1929,12 +1930,16 @@ const muiStyles = {
             zIndex: '1'
 
         },
+        '& .MuiInputAdornment-root':{
+            position: 'absolute',
+            right: '10px'
+        }
     },
     autoCompleate: {
         "& .MuiOutlinedInput-root": {
             padding: '0px',
             "& .MuiAutocomplete-input": {
-                padding: '5px 14px',
+                padding: '6px 6px',
                 fontSize: '13px'
             }
 
@@ -1943,6 +1948,7 @@ const muiStyles = {
             fontSize: '13px',
             backgroundColor: 'transparent',
             top: '-13px',
+            left:'-10px',
           
         },
         "& label.Mui-focused": {
@@ -1952,13 +1958,14 @@ const muiStyles = {
     input: {
         "& .MuiOutlinedInput-root": {
             "& input": {
-                padding: '6px 14px',
+                padding: '6px',
                 fontSize: '12px'
             }
         },
         "& .MuiFormLabel-root": {
             fontSize: '13px',
-            top: '-13px',  
+            top: '-13px',
+            left:'-10px',  
             backgroundColor: 'transparent',
         },
         "& label.Mui-focused": {
@@ -1968,7 +1975,7 @@ const muiStyles = {
     select: {
 
         "& .MuiSelect-select": {
-            padding: '3px 14px',
+            padding: '3px',
             fontSize: '12px'
         }, 
         
@@ -1977,6 +1984,7 @@ const muiStyles = {
     InputLabels: {
         fontSize: '13px',
         top: '-13px',
+        left:'-10px',
         backgroundColor: 'transparent',
         "&.Mui-focused": {
             zIndex: '1'

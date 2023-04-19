@@ -5,403 +5,985 @@
 // .sidebar-brand{
 //     background: green;
 // }
-.container-xxl{
-  max-width: 1644px ;
+.container-xxl {
+  max-width: 1644px;
 }
-p{
-    margin-bottom: 0;
+
+p {
+  margin-bottom: 0;
 }
-.ReactModal__Overlay--after-open{
-    z-index: 10000000 !important;
+
+.ReactModal__Overlay--after-open {
+  z-index: 10000000 !important;
 }
-.dateFilter{
-    background-color: #fff;
-    display: flex;
-    padding-top: 10px;
-    min-height: 99px;
-    align-items: center;
-    padding-left: 10px;
-    border-radius: 5px;
-    box-shadow: 0 0 6px 0 rgba($color: #000000, $alpha: 0.2);
-    .date{
-        margin-right: 15px;
-    }
+
+.dateFilter {
+  background-color: #fff;
+  display: flex;
+  padding-top: 10px;
+  min-height: 99px;
+  align-items: center;
+  padding-left: 10px;
+  border-radius: 5px;
+  box-shadow: 0 0 6px 0 rgba($color: #000000, $alpha: 0.2);
+  gap: 10px;
+
+  @media only screen and (max-width: 1080px) {
+    flex-wrap: wrap;
+    gap: 20px 10px;
+    padding-top: 20px;
+    padding-bottom: 10px;
+  }
+
 
 }
-.dateFilter-2{
-    background-color: #fff;
-    display: flex;
-    padding: 10px;
-    min-height: 99px;
-    align-items: center;
-    border-radius: 5px;
-    box-shadow: 0 0 6px 0 rgba($color: #000000, $alpha: 0.2);
-    .date{
-        margin-right: 15px;
+
+.date {
+  margin-right: 15px;
+  width: 44%;
+
+  @media only screen and (max-width: 480px) {
+    width: 44%;
+  }
+}
+
+.date-2 {
+  margin-right: 15px;
+  width: 15%;
+
+  @media only screen and (max-width: 480px) {
+    width: 44%;
+  }
+}
+
+.dateFilter-2 {
+  background-color: #fff;
+  display: flex;
+  padding: 10px;
+  min-height: 99px;
+  align-items: center;
+  border-radius: 5px;
+  box-shadow: 0 0 6px 0 rgba($color: #000000, $alpha: 0.2);
+  padding-top: 25px;
+
+  @media only screen and (max-width: 1080px) {
+    flex-wrap: wrap;
+    gap: 10px 10px
+  }
+
+  .date {
+    margin-right: 15px;
+    width: 44%;
+
+    @media only screen and (max-width: 480px) {
+      width: 44%;
     }
+  }
 
 }
+
 // .css-1sumxir-MuiFormLabel-root-MuiInputLabel-root{
 //     top: -4px !important;
 //     background: #fff !important;
 // }
 .css-y8ay40-MuiTableCell-root {
   font-weight: bold !important;
-  white-space:nowrap
+  // white-space: nowrap
 }
+
 .css-dwuj3p-MuiTableCell-root {
   font-weight: bold !important;
-  white-space:nowrap
+  // white-space: nowrap
 }
-.css-1ex1afd-MuiTableCell-root{
-  white-space:nowrap
-}
-.databox{
-    background-color: #fff;
-    margin-top: 10px;
-    padding: 20px;
-    border-radius: 5px;
-    box-shadow: 0 0 6px 0 rgba($color: #000000, $alpha: 0.2);
-    .tablecenter{
-        margin-top: 20px;
-    }
-    .data-form-box{
-        display: flex;
-        align-items: center;
-        // justify-content: space-between;
-        flex-wrap: wrap;
-        gap: 28px 15px;
-        margin-top: 3px;
-    }
-}
-.addbtn{
-    border: none;
-    padding: 5px;
-    width: 100px;
-    height: 34px;
+
+// .css-1ex1afd-MuiTableCell-root {
+//   white-space: nowrap
+// }
+
+.databox {
+  background-color: #fff;
+  margin-bottom: 10px;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 0 6px 0 rgba($color: #000000, $alpha: 0.2);
+  margin-top: 10px;
+
+  .tablecenter {
+    margin-top: 20px;
+  }
+
+  .data-form-box {
     display: flex;
-    justify-content: center;
     align-items: center;
-    border-radius: 5px;
-    color: #fff;
-    background-color: #ef1e2c;
-    margin-top: -6px;
-}
-.addbtn_2{
-    border: none;
-    padding: 5px;
-    width: 100px;
-    height: 62px;
+    // justify-content: space-between;
+    // flex-wrap: wrap;
+    gap: 28px 15px;
+    margin-top: 3px;
+    flex-wrap: wrap;
+
+    @media only screen and (max-width: 1367px) {
+      flex-wrap: wrap;
+    }
+     @media only screen and (max-width: 768px) {
+      flex-wrap: wrap;
+    }
+  }
+
+  .data-form-box-2 {
     display: flex;
-    justify-content: center;
     align-items: center;
-    border-radius: 5px;
-    color: #fff;
-    background-color: #ef1e2c;
-    margin-bottom: 10px;
+    // justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 28px 15px;
+    margin-top: 3px;
+
+    @media only screen and (max-width: 768px) {
+      flex-wrap: wrap;
+    }
+  }
 }
-.input{
-    position: relative;
+
+.addbtn {
+  border: none;
+  padding: 5px;
+  width: 50px;
+  height: 34px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  color: #fff;
+  background-color: #ef1e2c;
+  margin-top: -6px;
+  svg{
+    font-size: 25px;
+  }
 }
-.error{
-    // position: absolute;
-    font-size: 12px;
-    color: red;
-    
+
+.addbtn_2 {
+  border: none;
+  padding: 5px;
+  width: 100px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50px;
+  color: #fff;
+  background-color: #ef1e2c;
+  margin-bottom: 10px;
+  text-decoration: none;
+  svg{
+    font-size: 25px;
+  }
 }
-.sidebar-nav .nav-group.show{
-  background: #ef1e2c;
+
+.addFont{
+  font-size: 13px;
 }
-.sidebar-nav{
-    font-size: 13px;
+.input {
+  position: relative;
 }
-.simplebar-content{
-  .nav-item{
-    .nav-link{
+
+.error {
+  // position: absolute;
+  font-size: 12px;
+  color: red;
+
+}
+
+.sidebar-nav .nav-group.show {
+  background: #c01a29;
+}
+
+.sidebar-nav {
+  font-size: 13px;
+}
+
+.simplebar-content {
+  .nav-item {
+    .nav-link {
       color: #fff !important;
-        padding: 10px 15px;
+      padding: 10px 15px;
+      background:'#e54253'
+      
     }
+  }
 }
-}
-.simplebar-wrapper{
-    .nav-group-items{
-        .nav-link{
-            color: #fff !important;
-            padding: 10px;
-        }
+
+.simplebar-wrapper {
+  .nav-group-items {
+    .nav-link {
+      color: #fff !important;
+      padding: 5px;
+      margin-left: 12px;
     }
+  }
 }
-.nav-group-toggle{
-    color: #fff !important;
+
+.nav-group-toggle {
+  color: #fff !important;
 }
-.sidebar.sidebar-fixed{
-    background-color: #ef1e2c;
+
+.sidebar.sidebar-fixed {
+  background-color: #ef1e2c;
 }
 
 //  abhishek start
 .App {
-    text-align: center;
-  }
-  
-  .App-logo {
-    height: 40vmin;
-    pointer-events: none;
-  }
-  
-  @media (prefers-reduced-motion: no-preference) {
-    .App-logo {
-      animation: App-logo-spin infinite 20s linear;
-    }
-  }
-  
-  .App-header {
-    background-color: #282c34;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    font-size: calc(10px + 2vmin);
-    color: white;
-  }
-  
-  .App-link {
-    color: #61dafb;
-  }
-  
-  .in-body{
-    padding: 10px;
-  background-color: blue;
-  }
-  .links{
-    list-style: none;
-    display: flex;
-    justify-content: space-between;
-  }
-  .linkli{
-    margin-right: 10px;
-    margin-right: 10px;
-    padding-top: 0px;
-    color: #fff;
-  }
-  
-  .content {
-    top: 50%;
-    left: 50%;
-    right: auto;
-    bottom: auto;
-    margin-right: -50%;
-    transform: translate(-50%, -50%)
-  }
-  .tablecenter{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    margin-bottom: 10px;
-  }
-  .inputsbox{
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 10px;
-    flex-wrap: wrap;
-  }
-  .formefield{
-    margin: 10px;
-    flex-wrap: wrap;
-  }
-  .input{
-    width: 48%;
-    padding: 8px;
-  }
-  .displayright{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 10px;
-  }
-  .displaystart{
-    display: flex;
-    align-items: center;
-    justify-content:  space-between;
-    margin-bottom: 10px;
-  }
-  .displayflex{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    width: 100%;
-  } 
-  .displayflex-2{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    width: 100%;
-    margin-top: 10px;
-  }
-  .displayflexbaseline{
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    flex-wrap: wrap;
-  }
-  .displayflexend{
-    display: flex;
-    align-items: flex-end;
-    // justify-content: space-between;
-    flex-wrap: wrap;
-    margin-top: 10px;
-    gap: 20px 10px;
-    width: 100%;
-
-  }
-  .displayflexend-2{
-    display: flex;
-    align-items: flex-end;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    margin-top: 10px;
-    margin-left: 10px;
-  }
-  .displayflexendmodal{
-    display: flex;
-    align-items: flex-end;
-    justify-content:  flex-end;
-    flex-wrap: wrap;
-    margin-top: 10px;
-  }
-  .title{
-    font-size: 22px;
-    font-weight: 500;
-  }
-  .ReactModal__Overlay--after-open{
-    z-index: 1040 !important;
-  }
-  // .css-10nakn3-MuiModal-root-MuiPopover-root-MuiMenu-root{
-  //   z-index: 10000000 !important;
-  // }
-  .submitbtn{
-    border: none;
-    background-color: #ef1e2c;
-    color: #fff;
-    width: 150px;
-    height: 40px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 50px;
-    font-size: 13px;
-    .icon{
-      margin-right: 5px;
-    }
-  
-  }
-  .submitbtn-2{
-    border: none;
-    background-color: green;
-    color: #fff;
-    width: 150px;
-    height: 40px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 50px;
-    font-size: 13px;
-    .icon{
-      margin-right: 5px;
-    }
-  
-  }
-  .errormasg{
-    font-size: 16px;
-    margin-bottom: 10px;
-    font-weight: 500;
-    color: red;
-  }
-  //   abhishek end
-
-  .emailInput{
-    width: 33%;
-    margin-bottom: 10px;
-  }
-  .exportandfilter{
-    display:flex ;
-    justify-content: space-between;
-    align-items: center;
-    padding: 5px 15px;
-  }
-  .alertButton{
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-  }
-  .editModel{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-  }
-  .editModel-2{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    flex-direction: column;
-  }
-  .alertmsg{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 50px ;
-  }
-  .alertYes,.alertno{
-    border: none;
-    background-color: #ef1e2c;
-    color: #fff;
-    width: 80px;
-    height: 40px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 50px;
-  }
-  .updateko{
-    border: none;
-    background-color: #ef1e2c;
-    color: #fff;
-    width: 120px;
-    height: 40px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 50px;
-  }
-  .alertno{
-    background-color: #ccc;
-    margin-left: 10px;
-  }
-  .tableview{
-    display: flex;
-    align-items: center;
-    flex-direction: row !important;
-  }
-  .css-j204z7-MuiFormControlLabel-root .MuiFormControlLabel-label {
-    font-size: 13px;
+  text-align: center;
 }
-.break{
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+.in-body {
+  padding: 10px;
+  background-color: blue;
+}
+
+.links {
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+}
+
+.linkli {
+  margin-right: 10px;
+  margin-right: 10px;
+  padding-top: 0px;
+  color: #fff;
+}
+
+.content {
+  top: 50%;
+  left: 50%;
+  right: auto;
+  bottom: auto;
+  margin-right: -50%;
+  transform: translate(-50%, -50%)
+}
+
+.tablecenter {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.inputsbox {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+}
+
+.formefield {
+  margin: 10px;
+  flex-wrap: wrap;
+}
+
+.input {
+  width: 48%;
+  padding: 8px;
+}
+
+.displayright {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.displaystart {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.displayflex {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.displayflex-2 {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.displayflexbaseline {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.displayflexend {
+  display: flex;
+  align-items: flex-end;
+  // justify-content: space-between;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+  gap: 20px 10px;
+  width: 100%;
+
+}
+
+.displayflexend-2 {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin: 15px 10px;
+}
+
+.displayflexendmodal {
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+
+.title {
+  font-size: 22px;
+  font-weight: 500;
+}
+
+.ReactModal__Overlay--after-open {
+  z-index: 1040 !important;
+}
+
+// .css-10nakn3-MuiModal-root-MuiPopover-root-MuiMenu-root{
+//   z-index: 10000000 !important;
+// }
+.submitbtn {
+  border: none;
+  background-color: #ef1e2c;
+  color: #fff;
+  width: 150px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50px;
+  font-size: 13px;
+
+  .icon {
+    margin-right: 5px;
+  }
+
+}
+
+.submitbtn-2 {
+  border: none;
+  background-color: green;
+  color: #fff;
+  width: 150px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50px;
+  font-size: 13px;
+
+  .icon {
+    margin-right: 5px;
+  }
+
+}
+
+.errormasg {
+  font-size: 16px;
+  margin-bottom: 10px;
+  font-weight: 500;
+  color: red;
+}
+
+//   abhishek end
+
+.emailInput {
+  width: 33%;
+  margin-bottom: 10px;
+
+  @media only screen and (max-width: 1080px) {
+    width: 100%;
+
+  }
+}
+
+.exportandfilter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 15px;
+
+  @media only screen and (max-width: 1080px) {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 10px 10px;
+
+  }
+}
+
+.searchbox {
+  width: 100%;  
+  @media only screen and (max-width: 1080px) {
+    width: 100%;
+
+  }
+}
+.filterbox{
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+}
+.activeonly{
+  width: 58%;
+  display: flex;
+  align-items: flex-end;
+}
+.tableBox{
+  padding: 0 5px;
+}
+
+.inputBox-1 {
+  width: 15%;
+  margin-bottom: 10px;
+
+  @media only screen and (max-width: 1080px) {
+    width: 100%;
+
+  }
+}
+
+.inputBox-2 {
+  width: 17%;
+  margin-bottom: 10px;
+
+  @media only screen and (max-width: 1080px) {
+    width: 100%;
+
+  }
+}
+
+.inputBox-3 {
+  width: 32%;
+  margin-bottom: 10px;
+
+  @media only screen and (max-width: 1367px) {
+    width: 31%;
+
+  }
+   @media only screen and (max-width: 1080px) {
+    width: 100%;
+
+  }
+}
+
+.inputBox-4 {
+  width: 100%;
+  margin-bottom: 10px;
+
+  @media only screen and (max-width: 1080px) {
+    width: 100%;
+
+  }
+}
+
+.inputBox-5 {
+  width: 65.2%;
+  margin-bottom: 10px;
+
+  @media only screen and (max-width: 1080px) {
+    width: 100%;
+
+  }
+}
+
+.inputBox-6 {
+  width: 24%;
+  margin-bottom: 10px;
+
+  @media only screen and (max-width: 1080px) {
+    width: 100%;
+
+  }
+}
+
+.inputBox-7 {
+  width: 10%;
+  margin-bottom: 10px;
+
+  @media only screen and (max-width: 1080px) {
+    width: 100%;
+
+  }
+}
+
+.inputBox-8 {
+  width: 13%;
+  margin-bottom: 10px;
+
+  @media only screen and (max-width: 1080px) {
+    width: 47%;
+
+  }
+}
+
+.inputBox-9 {
+  width: 23%;
+  margin-bottom: 10px;
+
+  @media only screen and (max-width: 1080px) {
+    width: 100%;
+
+  }
+}
+
+.inputBox-10 {
+  width: 18%;
+  margin-bottom: 10px;
+
+  @media only screen and (max-width: 1080px) {
+    width: 47%;
+
+  }
+}
+
+.inputBox-11 {
+  width: 48%;
+  margin-bottom: 10px;
+
+  @media only screen and (max-width: 1080px) {
+    width: 100%;
+
+  }
+}
+
+.inputBox-12 {
+  width: 30%;
+  margin-bottom: 10px;
+
+  @media only screen and (max-width: 1367px) {
+    width: 29%;
+
+  }
+  @media only screen and (max-width: 1080px) {
+    width: 100%;
+
+  }
+}
+
+.inputBox-13 {
+  width: 18.8%;
+  margin-bottom: 10px;
+
+  @media only screen and (max-width: 1080px) {
+    width: 100%;
+
+  }
+}
+
+.inputBox-14 {
+  width: 49%;
+  margin-bottom: 10px;
+
+  @media only screen and (max-width: 1080px) {
+    width: 100%;
+
+  }
+}
+
+.inputBox-15 {
+  width: 32%;
+  margin-bottom: 10px;
+
+  @media only screen and (max-width: 1080px) {
+    width: 100%;
+
+  }
+}
+
+.inputBox-16 {
+  width: 48.4%;
+  margin-bottom: 10px;
+
+  @media only screen and (max-width: 1080px) {
+    width: 100%;
+
+  }
+}
+
+.inputBox-17 {
+  width: 32.5%;
+  margin-bottom: 10px;
+
+  @media only screen and (max-width: 1080px) {
+    width: 100%;
+
+  }
+}
+
+.inputBox-18 {
+  width: 49.5%;
+  margin-bottom: 10px;
+
+  @media only screen and (max-width: 1080px) {
+    width: 100%;
+
+  }
+}
+
+.inputBox-19 {
+  width: 59.5%;
+  margin-bottom: 10px;
+
+  @media only screen and (max-width: 1080px) {
+    width: 100%;
+
+  }
+}
+
+.inputBox-20 {
+  width: 22%;
+  margin-bottom: 10px;
+
+  @media only screen and (max-width: 1080px) {
+    width: 100%;
+
+  }
+}
+
+.inputBox-21 {
+  width: 6%;
+  margin-bottom: 10px;
+
+  @media only screen and (max-width: 1080px) {
+    width: 100%;
+
+  }
+}
+
+.inputBox-22 {
+  width: 18%;
+  margin-bottom: 10px;
+
+  @media only screen and (max-width: 1080px) {
+    width: 100%;
+
+  }
+}
+
+.inputBox-23 {
+  width: 28%;
+  margin-bottom: 10px;
+
+  @media only screen and (max-width: 1080px) {
+    display: none;
+
+  }
+}
+
+.inputBox-24 {
+  width: 28%;
+  margin-bottom: 10px;
+
+  @media only screen and (max-width: 1080px) {
+    width: 98%;
+    margin-bottom: 20px;
+  }
+}
+
+.inputBox-25 {
+  width: 10%;
+  margin-bottom: 10px;
+
+  @media only screen and (max-width: 1080px) {
+    width: 100%;
+  }
+}
+
+.inputBox-26 {
+  width: 11.5%;
+  margin-bottom: 10px;
+
+  @media only screen and (max-width: 1080px) {
+    width: 100%;
+  }
+}
+
+.inputBox-27 {
+  width: 39%;
+  margin-bottom: 10px;
+
+  @media only screen and (max-width: 1080px) {
+    width: 100%;
+  }
+}
+
+.inputBox-28 {
+  width: 41%;
+  margin-bottom: 10px;
+
+  @media only screen and (max-width: 1080px) {
+    width: 100%;
+  }
+}
+
+.inputBox-29 {
+  width: 25%;
+  margin-bottom: 10px;
+
+  @media only screen and (max-width: 1080px) {
+    width: 100%;
+  }
+}
+
+.inputBox-30 {
+  width: 11%;
+  margin-bottom: 10px;
+
+  @media only screen and (max-width: 1080px) {
+    width: 100%;
+  }
+}
+
+.inputBox-31 {
+  width: 12%;
+  margin-bottom: 10px;
+
+  @media only screen and (max-width: 1080px) {
+    width: 100%;
+  }
+}
+
+.inputBox-32 {
+  width: 34%;
+  margin-bottom: 10px;
+
+  @media only screen and (max-width: 1080px) {
+    width: 100%;
+  }
+}
+
+.inputBox-33 {
+  width: 7%;
+  margin-bottom: 10px;
+
+  @media only screen and (max-width: 1080px) {
+    width: 100%;
+  }
+}
+
+.inputBox-34 {
+  width: 37.5%;
+  margin-bottom: 10px;
+
+  @media only screen and (max-width: 1080px) {
+    width: 100%;
+  }
+}
+
+.inputBox-35 {
+  width: 5%;
+  margin-bottom: 10px;
+
+  @media only screen and (max-width: 1080px) {
+    width: 100%;
+  }
+}
+
+.inputBox-36 {
+  width: 6.5%;
+  margin-bottom: 10px;
+
+  @media only screen and (max-width: 1080px) {
+    width: 100%;
+  }
+}
+
+.inputBox-37 {
+  width: 9%;
+  margin-bottom: 10px;
+
+  @media only screen and (max-width: 1080px) {
+    width: 100%;
+  }
+}
+
+.inputBox-38 {
+  width: 8%;
+  margin-bottom: 10px;
+
+  @media only screen and (max-width: 1080px) {
+    width: 100%;
+  }
+}
+
+.inputBox-39 {
+  width: 20%;
+  margin-bottom: 10px;
+
+  @media only screen and (max-width: 1080px) {
+    width: 100%;
+  }
+}
+
+.inputBox-40 {
+  width: 28%;
+  margin-bottom: 10px;
+
+  @media only screen and (max-width: 1080px) {
+    width: 100%;
+  }
+}
+
+.inputBox-41 {
+  width: 25%;
+  margin-bottom: 10px;
+
+  @media only screen and (max-width: 1080px) {
+    width: 100%;
+  }
+}
+
+.inputBox-42 {
+  width: 40%;
+  margin-bottom: 10px;
+
+  @media only screen and (max-width: 1080px) {
+    width: 100%;
+  }
+}
+.inputBox-43 {
+  width: 18.5%;
+  margin-bottom: 10px;
+
+  @media only screen and (max-width: 1080px) {
+    width: 100%;
+  }
+}
+
+
+.alertButton {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.editModel {
+  display: flex;
+  // justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 25px 15px;
+}
+
+.editModel-2 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  flex-direction: column;
+}
+
+.alertmsg {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 50px;
+}
+
+.alertYes,
+.alertno {
+  border: none;
+  background-color: #ef1e2c;
+  color: #fff;
+  width: 80px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50px;
+}
+
+.updateko {
+  border: none;
+  background-color: #ef1e2c;
+  color: #fff;
+  width: 120px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50px;
+}
+
+.alertno {
+  background-color: #ccc;
+  margin-left: 10px;
+}
+
+.tableview {
+  display: flex;
+  align-items: center;
+  flex-direction: row !important;
+}
+
+.css-j204z7-MuiFormControlLabel-root .MuiFormControlLabel-label {
+  font-size: 13px;
+}
+
+.break {
   flex-basis: 100%;
   margin: 10px 0;
 }
+
 .css-1anqmj6-MuiPopper-root-MuiPickersPopper-root {
   z-index: 100000000 !important;
 }
+
 .ReactModal__Content {
   top: 50% !important;
   left: 50% !important;
 }
-.choosebtn{
+
+.choosebtn {
   border: none;
   padding: 4px 10px;
   background: #f00;
@@ -410,21 +992,30 @@ p{
   font-size: 13px;
 
 }
+
 .deletbtn {
   border: none;
-    background:transparent;
+  background: transparent;
+  cursor: pointer;
 }
-svg.MuiSvgIcon-root.MuiSvgIcon-colorRed.MuiSvgIcon-fontSizeMedium.css-i4bv87-MuiSvgIcon-root{
+
+.editbtn {
+  cursor: pointer;
+}
+
+svg.MuiSvgIcon-root.MuiSvgIcon-colorRed.MuiSvgIcon-fontSizeMedium.css-i4bv87-MuiSvgIcon-root {
   color: red;
 }
-.applybtn{
+
+.applybtn {
   border: none;
-  width: 130px;
+  width: 100%;
   height: 34px;
   border-radius: 5px;
   background: #ef1e2c;
   color: #fff;
 }
+
 /* Works for Chrome, Safari, Edge, Opera */
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
@@ -436,21 +1027,24 @@ input::-webkit-inner-spin-button {
 input[type="number"] {
   -moz-appearance: textfield;
 }
-.progressBox{
+
+.progressBox {
   width: 100%;
-  background: rgba(0,0,0,0.5);
+  background: rgba(0, 0, 0, 0.5);
   position: absolute;
   height: 100%;
   z-index: 1000000;
   top: 0;
   left: 0;
-  .progressInner{
+
+  .progressInner {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
   }
 }
+
 // .css-14s5rfu-MuiFormLabel-root-MuiInputLabel-root{
 //   font-size: 13px !important;
 //   line-height: 0 !important;
@@ -469,26 +1063,31 @@ input[type="number"] {
 //   padding: 0px !important;
 //   font-size: 13px !important;
 // }
-.css-hfutr2-MuiSvgIcon-root-MuiSelect-icon{
+.css-hfutr2-MuiSvgIcon-root-MuiSelect-icon {
   top: calc(50% - 0.6em) !important;
 }
-.MuiMenu-list .MuiButtonBase-root{
+
+.MuiMenu-list .MuiButtonBase-root {
   border-bottom: 1px solid #ccc !important;
   width: 100% !important;
   padding-left: 10px !important;
   justify-content: flex-start !important;
   font-size: 13px !important;
-  &:last-child{
-    border-bottom:none !important
+
+  &:last-child {
+    border-bottom: none !important
   }
 }
-.MuiAutocomplete-popper{
+
+.MuiAutocomplete-popper {
   font-size: 12px !important;
 }
-.css-9npbnl-MuiFormLabel-root-MuiInputLabel-root{
+
+.css-9npbnl-MuiFormLabel-root-MuiInputLabel-root {
   font-size: 13px !important;
 }
-.infobtn{
+
+.infobtn {
   border: none;
   background: green;
   border-radius: 100px;
@@ -498,15 +1097,46 @@ input[type="number"] {
   justify-content: center;
   align-items: center;
 }
-.updatebtnbox{
+
+.updatebtnbox {
   position: absolute;
   right: 5px;
   top: -2px;
-  .updatebtn{
+
+  .updatebtn {
     border: none;
     font-size: 12px;
     background: #f01d2c;
     color: #fff;
     border-radius: 5px;
   }
+}
+
+.loginBox {
+  width: 44%;
+
+  @media only screen and (max-width: 576px) {
+    width: 100%;
+
+  }
+}
+.citymasterContainers{
+  background: #fff;
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-left: 10px;
+  box-shadow: 0 0 6px 0 rgba($color: #000000, $alpha: 0.2);
+  border-radius: 5px;
+}
+.citymasterContainer-2{
+  background: #fff;
+  height: 150px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-left: 10px;
+  box-shadow: 0 0 6px 0 rgba($color: #000000, $alpha: 0.2);
+  border-radius: 5px;
 }

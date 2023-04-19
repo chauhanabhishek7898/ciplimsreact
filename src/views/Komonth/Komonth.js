@@ -8,7 +8,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import TablePagination from '@mui/material/TablePagination';
 import Paper from '@mui/material/Paper';
-import { KOMonthMaster, KOMonth_SelectAll, KOMonth_SelectAllMonthView, KOMonth_SelectAllWeekWise, KOMonthMasterPut,KOMonthMaster_Update } from './Komonthapi'
+import { KOMonthMaster, KOMonth_SelectAll, KOMonth_SelectAllMonthView, KOMonth_SelectAllWeekWise, KOMonthMasterPut, KOMonthMaster_Update } from './Komonthapi'
 import TextField from '@mui/material/TextField';
 import Select from '@mui/material/Select';
 import Box from '@mui/material/Box';
@@ -41,6 +41,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import CircularProgress from '@mui/joy/CircularProgress';
 function KOMONTH() {
     const [modalIsOpen, setIsOpen] = React.useState(false);
+    const [modalIsOpen2, setIsOpen2] = React.useState(false);
     const [weekmodalIsOpen, setweekmodalIsOpen] = React.useState(false);
     const [monthmodalIsOpen, setmonthmodalIsOpen] = React.useState(false);
     const [page, setPage] = React.useState(0);
@@ -54,6 +55,20 @@ function KOMONTH() {
     const [nKOYear, setnKOYear] = React.useState('');
     const [nDays, setnDays] = React.useState('');
     const [error, setError] = React.useState('');
+    const [errorText, setErrorText] = React.useState({
+        sDate: '',
+        eDate: '',
+        wsDate: '',
+        weDate: '',
+        koMonths: '',
+        weekno: '',
+        editsDate: '',
+        editeDate: '',
+        editwsDate: '',
+        editweDate: '',
+        editkoMonths: '',
+        editweekno: ''
+    });
     let fromDates = new Date(Date.now())
     fromDates.setDate(fromDates.getDate() - 7)
     let toDates = new Date(Date.now())
@@ -79,6 +94,34 @@ function KOMONTH() {
         setnDays('')
         setFromdate(null)
         setTodate(null)
+    }
+    const refreshdate2 = () => {
+        setIsOpen2(false)
+        setWeekNumberId('')
+        setStartDate(null)
+        setEndDate(null)     
+    }
+    const hidesetweekmodalIsOpen=()=>{
+        setweekmodalIsOpen(false)
+        setvKOMonth('')
+        setnKOYear('')
+        setnDays('')
+        setFromdate(null)
+        setTodate(null)
+        setWeekNumberId('')
+        setStartDate(null)
+        setEndDate(null) 
+    }
+    const hidesetmonthmodalIsOpen=()=>{
+        setmonthmodalIsOpen(false)
+        setvKOMonth('')
+        setnKOYear('')
+        setnDays('')
+        setFromdate(null)
+        setTodate(null)
+        setWeekNumberId('')
+        setStartDate(null)
+        setEndDate(null) 
     }
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
@@ -122,41 +165,78 @@ function KOMONTH() {
         }
     }
     const validateform = () => {
-        if (weekNumberId == '') {
-            console.log('Select Week Number')
-            setError('Select Week Number' + '' + '*')
+        if (vKOMonth == '' || vKOMonth == undefined) {
+            console.log('1')
+            setError({
+                koMonths: 'Select KO Month *'
+            })
+            return false
+        } else if (fromDate == '' || fromDate == undefined) {
+            console.log('2')
+            setErrorText({
+                sDate: 'Select Start Date *'
+            })
+            return false
+        } else if (toDate == '' || toDate == undefined) {
+            console.log('3')
+            setErrorText({
+                eDate: 'Select End Date *'
+            })
+            return false
+        } else if (weekNumberId == '' || weekNumberId == undefined) {
+            console.log('4')
+            setErrorText({
+                weekno: 'Select Week Number'
+            })
+            return false
+        } else if (startDate == '' || startDate == undefined) {
+            console.log('5')
+            setErrorText({
+                wsDate: 'Select Week Start Date *'
+            })
+            return false
+        } else if (endDate == '' || endDate == undefined) {
+            console.log('6')
+            setErrorText({
+                weDate: 'Select Week End Date *'
+            })
             return false
         } else {
-            setError('')
+            console.log('7')
+            setErrorText('')
             return true
         }
     }
-    
 
-    const submit = (alldata) => {
-        setLoader(true)
-        let data = {
-            nKOId: nKOId == null ? 0 : nKOId,
-            vKOMonth: alldata.vKOMonth,
-            nKOYear: nKOYear,
-            nDays: nDays,
-            dtStartDate: parseDateToStringSubmit(new Date(alldata.fromDate)),
-            dtEndDate: parseDateToStringSubmit(new Date(alldata.toDate)),
-            vWeekNo: alldata.weekNumberId,
-            dtWStartDate: parseDateToStringSubmit(new Date(alldata.startDate)),
-            dtWEndDate: parseDateToStringSubmit(new Date(alldata.endDate)),
-        }
-        console.log('data', data)
-        KOMonthMaster(data).then(res => {
-            if (res) {
-                toast.success("Record Added Successfully !!")
-                setLoader(false)
-                setWeekNumberId('')
-                setStartDate(null)
-                setEndDate(null)
-                getKOMonth_SelectAll()
+
+    const submit = () => {
+        if (validateform() == true) {
+            setLoader(true)
+            let data = {
+                nKOId: nKOId == null ? 0 : nKOId,
+                vKOMonth: vKOMonth,
+                nKOYear: nKOYear,
+                nDays: nDays,
+                dtStartDate: parseDateToStringSubmit(new Date(fromDate)),
+                dtEndDate: parseDateToStringSubmit(new Date(toDate)),
+                vWeekNo: weekNumberId,
+                dtWStartDate: parseDateToStringSubmit(new Date(startDate)),
+                dtWEndDate: parseDateToStringSubmit(new Date(endDate)),
             }
-        })
+            console.log('data', data)
+            KOMonthMaster(data).then(res => {
+                if (res) {
+                    toast.success("Record Added Successfully !!")
+                    setLoader(false)
+                    setWeekNumberId('')
+                    setStartDate(null)
+                    setEndDate(null)
+                    setErrorText('')
+                    getKOMonth_SelectAll()
+                }
+            })
+
+        }
     }
     useEffect(() => {
         getKOMonth_SelectAll()
@@ -184,7 +264,7 @@ function KOMONTH() {
     let updateBtn = false
     // const openmodale = (item, type) => {
     //     if (type == 'Update') {
-    //         alert(1)
+    //         
     //         setDisable(true)
     //         setvKOMonth(item.vKOMonth)
     //         setnKOYear(item.nKOYear)
@@ -259,74 +339,112 @@ function KOMONTH() {
         setWeekNumberId(item.vWeekNo)
         setStartDate(dayjs(item.dtWStartDate))
         setEndDate(dayjs(item.dtWEndDate))
-
+    }
+    const validateupdateWeekform = () => {
+        if (weekNumberId == '') {
+            setError({
+                editweekno: 'Select Week Number'
+            })
+            return false
+        } else if (startDate != '' || startDate != undefined) {
+            setErrorText({
+                editwsDate: 'Select Week Start Date *'
+            })
+            return false
+        } else if (endDate != '' || endDate != undefined) {
+            setErrorText({
+                editweDate: 'Select Week End Date *'
+            })
+            return false
+        } else {
+            setErrorText('')
+            return true
+        }
     }
     const updateWeekData = () => {
-        setLoader(true)
-        let data = {
-            nKOWId: nKOWId,
-            vWeekNo: weekNumberId,
-            dtWStartDate: parseDateToStringSubmit(new Date(startDate)),
-            dtWEndDate: parseDateToStringSubmit(new Date(endDate)),
-        }
-        console.log('data', data)
-        KOMonthMasterPut(data).then(res=>{
-            if(res){
-                toast.success("Record Added Successfully !!")
-                setLoader(false)
-                setweekmodalIsOpen(false)
-                getKOMonth_SelectAll()
+        if (validateupdateWeekform() == true) {
+            setLoader(true)
+            let data = {
+                nKOWId: nKOWId,
+                vWeekNo: weekNumberId,
+                dtWStartDate: parseDateToStringSubmit(new Date(startDate)),
+                dtWEndDate: parseDateToStringSubmit(new Date(endDate)),
             }
-        })
+            console.log('data', data)
+            KOMonthMasterPut(data).then(res => {
+                if (res) {
+                    toast.success("Record Added Successfully !!")
+                    setLoader(false)
+                    setweekmodalIsOpen(false)
+                    setErrorText('')
+                    getKOMonth_SelectAll()
+                }
+            })
+
+        }
+    }
+    const validateupdateMonthform = () => {
+        if (vKOMonth != '' || vKOMonth != undefined) {
+            setErrorText({
+                editkoMonths: 'Select KO Month *'
+            })
+            return false
+        } else if (fromDate != '' || fromDate != undefined) {
+            setErrorText({
+                editsDate: 'Select Start Date *'
+            })
+            return false
+        } else if (toDate != '' || toDate != undefined) {
+            setErrorText({
+                editeDate: 'Select End Date *'
+            })
+            return false
+        } else {
+            setErrorText('')
+            return true
+        }
     }
     const updateMonthData = () => {
-        setLoader(true)
-        let data = {
-            nKOId: nKOId,
-            vKOMonth: vKOMonth,
-            nKOYear:nKOYear,
-            nDays:nDays,
-            dtStartDate: parseDateToStringSubmit(new Date(fromDate)),
-            dtEndDate: parseDateToStringSubmit(new Date(toDate)),
-        }
-        console.log('data', data)
-        KOMonthMaster_Update(data).then(res=>{
-            if(res){
-                toast.success("Record Added Successfully !!")
-                setLoader(false)
-                setmonthmodalIsOpen(false)
-                getKOMonth_SelectAllMonthView()
+        if (validateupdateMonthform() == true) {
+            setLoader(true)
+            let data = {
+                nKOId: nKOId,
+                vKOMonth: vKOMonth,
+                nKOYear: nKOYear,
+                nDays: nDays,
+                dtStartDate: parseDateToStringSubmit(new Date(fromDate)),
+                dtEndDate: parseDateToStringSubmit(new Date(toDate)),
             }
-        })
+            console.log('data', data)
+            KOMonthMaster_Update(data).then(res => {
+                if (res) {
+                    toast.success("Record Added Successfully !!")
+                    setLoader(false)
+                    setmonthmodalIsOpen(false)
+                    setErrorText('')
+                    getKOMonth_SelectAllMonthView()
+                }
+            })
+        }
     }
     return (
         <div className='citymasterContainer'>
             {/* <button className='addbtn' onClick={openmodale}>Add</button> */}
-            {loader2==true?
-            <div className='progressBox'>
-                <div className='progressInner'>
-                    <CircularProgress />
+            {loader2 == true ?
+                <div className='progressBox'>
+                    <div className='progressInner'>
+                        <CircularProgress />
+                    </div>
                 </div>
-            </div>
-            :
-            null
+                :
+                null
 
             }
             <div className='dateFilter'>
-                <div className='date'>
-                    <Box sx={{ width: '100%' }}>
-                        <FormControl fullWidth error={Boolean(errors.nKOYear)}>
-                            <InputLabel id="demo-simple-select-label" sx={muiStyles.InputLabels}>KO Month<span >*</span></InputLabel>
-                            {/* <Select
-                            style={{ width: 130, }}
-                            labelId="demo-simple-select-label"
-                            id="demo-simple-select"
-                            value={vKOMonth}
-                            label="KO Month"
-                            onChange={handleChangevKOMonth}
-                            readOnly={disable}
-                            
-                        >
+                <Box sx={{ width: '100%' }}>
+                    <FormControl fullWidth required>
+                        <InputLabel id="demo-simple-select-label" sx={muiStyles.InputLabels}>KO Month</InputLabel>
+                        <Select value={vKOMonth} sx={muiStyles.select} onChange={handleChangevKOMonth} readOnly={disable}>
                             <MenuItem value={'JAN'}>JAN</MenuItem>
                             <MenuItem value={'FEB'}>FEB</MenuItem>
                             <MenuItem value={'MAR'}>MAR</MenuItem>
@@ -339,143 +457,95 @@ function KOMONTH() {
                             <MenuItem value={'OCT'}>OCT</MenuItem>
                             <MenuItem value={'NOV'}>NOV</MenuItem>
                             <MenuItem value={'DEC'}>DEC</MenuItem>
-                        </Select> */}
-                            <Controller
-                                render={(props) => (
-                                    <Select value={props.value} sx={muiStyles.select} onChange={props.onChange} style={{ width: 130, }} readOnly={disable}>
-                                        <MenuItem value={'JAN'}>JAN</MenuItem>
-                                        <MenuItem value={'FEB'}>FEB</MenuItem>
-                                        <MenuItem value={'MAR'}>MAR</MenuItem>
-                                        <MenuItem value={'APR'}>APR</MenuItem>
-                                        <MenuItem value={'MAY'}>MAY</MenuItem>
-                                        <MenuItem value={'JUN'}>JUN</MenuItem>
-                                        <MenuItem value={'JUL'}>JUL</MenuItem>
-                                        <MenuItem value={'AUG'}>AUG</MenuItem>
-                                        <MenuItem value={'SEP'}>SEP</MenuItem>
-                                        <MenuItem value={'OCT'}>OCT</MenuItem>
-                                        <MenuItem value={'NOV'}>NOV</MenuItem>
-                                        <MenuItem value={'DEC'}>DEC</MenuItem>
-                                    </Select>
-                                )}
-                                name="vKOMonth"
-                                control={control}
-                                defaultValue={vKOMonth}
-                                rules={{
-                                    required: "Select KO Month *",
-                                }}
-                            />
-                            <FormHelperText>{errors.vKOMonth?.message}</FormHelperText>
-                        </FormControl>
-                    </Box>
+                        </Select>
 
-                </div>
-                <div className='date'>
-                    <Box sx={{ width: '100%' }} >
-                        <FormControl fullWidth className='input'>
-                            <TextField
+                    </FormControl>
+                    {errorText.koMonths != '' ? <p className='error'>{errorText.koMonths}</p> : null}
+                </Box>
+
+                <Box sx={{ width: '100%' }} >
+                    <FormControl fullWidth className='input'>
+                        <TextField
                             sx={muiStyles.input}
-                                value={nKOYear}
-                                onChange={e => setnKOYear(e.target.value)}
-                                required id="outlined-basic"
-                                label="KO Year"
-                                variant="outlined"
+                            value={nKOYear}
+                            onChange={e => setnKOYear(e.target.value)}
+                            required id="outlined-basic"
+                            label="KO Year"
+                            variant="outlined"
 
-                                name='nKOYear'
-                                inputRef={register({ required: "KO Year is required *", })}
-                                error={Boolean(errors.nKOYear)}
-                                helperText={errors.nKOYear?.message}
-                                disabled={disable}
-                            />
-                        </FormControl>
-                    </Box>
-
-                </div>
-                <div className='date'>
-                    <Box sx={{ width: '100%' }} >
-                        <FormControl fullWidth className='input'>
-                            <TextField
-                            sx={muiStyles.input}
-                                value={nDays}
-                                onChange={e => setnDays(e.target.value)}
-                                required id="outlined-basic"
-                                label="Days"
-                                variant="outlined"
-                                name='nDays'
-                                inputRef={register({ required: "Days is required *", })}
-                                error={Boolean(errors.nDays)}
-                                helperText={errors.nDays?.message}
-                                disabled={disable}
-                            />
-                        </FormControl>
-                    </Box>
-
-                </div>
-                <div className='date'>
-                    <FormControl error={Boolean(errors.fromDate)} required>
-                        <Controller
-                            render={(props) => (
-                                <LocalizationProvider dateAdapter={AdapterDayjs} >
-                                    <Stack spacing={3} >
-                                        <DesktopDatePicker
-                                            label={'Start Date *'}
-                                            inputFormat="DD-MM-YYYY"
-                                            value={props.value}
-                                            onChange={props.onChange}
-                                            renderInput={(params) => <TextField sx={muiStyles.date} {...params} />}
-                                            disabled={disable}
-                                        />
-                                    </Stack>
-                                </LocalizationProvider>
-                            )}
-                            name="fromDate"
-                            control={control}
-                            defaultValue={fromDate}
-                            rules={{
-                                required: "Select Start Date *",
-                            }}
+                            name='nKOYear'
+                            inputRef={register({ required: "KO Year is required *", })}
+                            error={Boolean(errors.nKOYear)}
+                            helperText={errors.nKOYear?.message}
+                            disabled={disable}
                         />
-                        <FormHelperText>{errors.fromDate?.message}</FormHelperText>
+                    </FormControl>
+                </Box>
+
+                <Box sx={{ width: '100%' }} >
+                    <FormControl fullWidth className='input'>
+                        <TextField
+                            sx={muiStyles.input}
+                            value={nDays}
+                            onChange={e => setnDays(e.target.value)}
+                            required id="outlined-basic"
+                            label="Days"
+                            variant="outlined"
+                            name='nDays'
+                            inputRef={register({ required: "Days is required *", })}
+                            error={Boolean(errors.nDays)}
+                            helperText={errors.nDays?.message}
+                            disabled={disable}
+                        />
+                    </FormControl>
+                </Box>
+
+                <Box sx={{ width: '100%' }}>
+                    <FormControl fullWidth required>
+                        <LocalizationProvider dateAdapter={AdapterDayjs} >
+                            <Stack spacing={3} >
+                                <DesktopDatePicker
+                                    label={'Start Date *'}
+                                    inputFormat="DD-MM-YYYY"
+                                    value={fromDate}
+                                    onChange={handleChangeFromedate}
+                                    renderInput={(params) => <TextField sx={muiStyles.date} {...params} />}
+                                    disabled={disable}
+                                />
+                            </Stack>
+                        </LocalizationProvider>
+                        {errorText.sDate != '' ? <p className='error'>{errorText.sDate}</p> : null}
                     </FormControl>
 
-                </div>
-                <div className='date'>
-                    <FormControl error={Boolean(errors.toDate)} required>
-                        <Controller
-                            render={(props) => (
-                                <LocalizationProvider dateAdapter={AdapterDayjs} >
-                                    <Stack spacing={3}>
-                                        <DesktopDatePicker
-                                            label="End Date *"
-                                            inputFormat="DD-MM-YYYY"
-                                            value={props.value}
-                                            onChange={props.onChange}
-                                            renderInput={(params) => <TextField sx={muiStyles.date} {...params} />}
-                                            disabled={disable}
-                                        />
-                                    </Stack>
-                                </LocalizationProvider>
-                            )}
-                            name="toDate"
-                            control={control}
-                            defaultValue={toDate}
-                            rules={{
-                                required: "Select End Date *",
-                            }}
-                        />
-                        <FormHelperText>{errors.toDate?.message}</FormHelperText>
+                </Box>
+                <Box sx={{ width: '100%' }}>
+                    <FormControl fullWidth required>
+                        <LocalizationProvider dateAdapter={AdapterDayjs} >
+                            <Stack spacing={3}>
+                                <DesktopDatePicker
+                                    label="End Date *"
+                                    inputFormat="DD-MM-YYYY"
+                                    value={toDate}
+                                    onChange={handleChangeTodate}
+                                    renderInput={(params) => <TextField sx={muiStyles.date} {...params} />}
+                                    disabled={disable}
+                                />
+                            </Stack>
+                        </LocalizationProvider>
+
+                        {errorText.eDate != '' ? <p className='error'>{errorText.eDate}</p> : null}
                     </FormControl>
 
-
-                </div>
+                </Box>
                 <div className='date'>
                     <button title='Refresh' disabled={disable} className='addbtn' onClick={() => setIsOpen(true)}><RefreshIcon fontSize='large' /></button>
 
                 </div>
             </div>
             <div className='databox'>
-                <div className='data-form-box'>
-                    <Box sx={{ width: '15%' }}>
-                        <FormControl fullWidth className='input' error={Boolean(errors.nKOYear)}>
+                <div className='data-form-box mt-2'>
+                    <Box sx={{ width: '100%' }}>
+                        <FormControl fullWidth className='input' >
                             <InputLabel id="demo-simple-select-label" sx={muiStyles.InputLabels}>Week Number <span>*</span></InputLabel>
                             {/* <Select
                                 style={{ width: '100%', }}
@@ -491,83 +561,54 @@ function KOMONTH() {
                                 <MenuItem value={'W4'}>W4</MenuItem>
                                 <MenuItem value={'W5'}>W5</MenuItem>
                             </Select> */}
-                            <Controller
-                                render={(props) => (
-                                    <Select value={props.value} sx={muiStyles.select} onChange={props.onChange} >
-                                        <MenuItem value={'W1'}>W1</MenuItem>
-                                        <MenuItem value={'W2'}>W2</MenuItem>
-                                        <MenuItem value={'W3'}>W3</MenuItem>
-                                        <MenuItem value={'W4'}>W4</MenuItem>
-                                        <MenuItem value={'W5'}>W5</MenuItem>
-                                    </Select>
-                                )}
-                                name="weekNumberId"
-                                control={control}
-                                defaultValue={weekNumberId}
-                                rules={{
-                                    required: "Select Week Number *.",
-                                }}
-                            />
-                            <FormHelperText>{errors.weekNumberId?.message}</FormHelperText>
+                            <Select value={weekNumberId} sx={muiStyles.select} onChange={handleChange} >
+                                <MenuItem value={'W1'}>W1</MenuItem>
+                                <MenuItem value={'W2'}>W2</MenuItem>
+                                <MenuItem value={'W3'}>W3</MenuItem>
+                                <MenuItem value={'W4'}>W4</MenuItem>
+                                <MenuItem value={'W5'}>W5</MenuItem>
+                            </Select>
+                            {errorText.weekno != '' ? <p className='error'>{errorText.weekno}</p> : null}
                         </FormControl>
-                        <div className='error'>{error} </div>
+
                     </Box>
 
-                    <div className='date'>
-                        <FormControl error={Boolean(errors.startDate)} required>
-                            <Controller
-                                render={(props) => (
-                                    <LocalizationProvider dateAdapter={AdapterDayjs} >
-                                        <Stack spacing={3} >
-                                            <DesktopDatePicker
-                                                label="Week Start Date *"
-                                                inputFormat="DD-MM-YYYY"
-                                                value={props.value}
-                                                onChange={props.onChange}
-                                                renderInput={(params) => <TextField sx={muiStyles.date} {...params} />}
-                                            />
-                                        </Stack>
-                                    </LocalizationProvider>
-                                )}
-                                name="startDate"
-                                control={control}
-                                defaultValue={startDate}
-                                rules={{
-                                    required: "Select Week Start Date *",
-                                }}
-                            />
-                            <FormHelperText>{errors.startDate?.message}</FormHelperText>
+                    <Box sx={{ width: '100%' }}>
+
+                        <FormControl fullWidth required>
+                            <LocalizationProvider dateAdapter={AdapterDayjs} >
+                                <Stack spacing={3} >
+                                    <DesktopDatePicker
+                                        label="Week Start Date *"
+                                        inputFormat="DD-MM-YYYY"
+                                        value={startDate}
+                                        onChange={handleChangeStartdate}
+                                        renderInput={(params) => <TextField sx={muiStyles.date} {...params} />}
+                                    />
+                                </Stack>
+                            </LocalizationProvider>
+
+                            {errorText.wsDate != '' ? <p className='error'>{errorText.wsDate}</p> : null}
+                        </FormControl>
+                    </Box>
+
+                    <Box sx={{ width: '100%' }}>
+                        <FormControl fullWidth required>
+                            <LocalizationProvider dateAdapter={AdapterDayjs} >
+                                <Stack spacing={3}>
+                                    <DesktopDatePicker
+                                        label="Week End Date *"
+                                        inputFormat="DD-MM-YYYY"
+                                        value={endDate}
+                                        onChange={handleChangeEnddate}
+                                        renderInput={(params) => <TextField sx={muiStyles.date} {...params} />}
+                                    />
+                                </Stack>
+                            </LocalizationProvider>
+                            {errorText.weDate != '' ? <p className='error'>{errorText.weDate}</p> : null}
                         </FormControl>
 
-
-                    </div>
-                    <div className='date'>
-                        <FormControl error={Boolean(errors.endDate)} required>
-                            <Controller
-                                render={(props) => (
-                                    <LocalizationProvider dateAdapter={AdapterDayjs} >
-                                        <Stack spacing={3}>
-                                            <DesktopDatePicker
-                                                label="Week End Date *"
-                                                inputFormat="DD-MM-YYYY"
-                                                value={props.value}
-                                                onChange={props.onChange}
-                                                renderInput={(params) => <TextField sx={muiStyles.date} {...params} />}
-                                            />
-                                        </Stack>
-                                    </LocalizationProvider>
-                                )}
-                                name="endDate"
-                                control={control}
-                                defaultValue={endDate}
-                                rules={{
-                                    required: "Select Week End Date *",
-                                }}
-                            />
-                            <FormHelperText>{errors.endDate?.message}</FormHelperText>
-                        </FormControl>
-
-                    </div>
+                    </Box>
 
                     {loader == true ?
                         <CButton disabled className='addbtn'>
@@ -584,6 +625,10 @@ function KOMONTH() {
 
                         </div>
                     }
+                    <div className='date'>
+                        <button title='Refresh' disabled={disable} className='addbtn' onClick={() => setIsOpen2(true)}><RefreshIcon fontSize='large' /></button>
+
+                    </div>
                 </div>
                 <div >
                     <FormControl>
@@ -596,30 +641,30 @@ function KOMONTH() {
                             value={tableView}
                             onChange={(e) => onchangeTableView(e)}
                         >
-                            <FormControlLabel value="WeekView" control={<Radio />} label="Week View" />
-                            <FormControlLabel value="MonthView" control={<Radio />} label="Month View" />
+                            <FormControlLabel style={{marginRight:0}} value="WeekView" control={<Radio />} label="Week View" />
+                            <FormControlLabel style={{marginRight:0}} value="MonthView" control={<Radio />} label="Month View" />
 
                         </RadioGroup>
                     </FormControl>
                 </div>
                 <div className='tablecenter'>
                     {koMonthData.length > 0 ?
-                        <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+                        <Paper sx={{ width: '100%', overflow: 'hidden',paddingTop:1 }}>
                             <TableContainer sx={{ maxHeight: 440 }}>
                                 <Table stickyHeader aria-label="sticky table">
                                     {tableView == 'MonthView' ?
                                         <TableHead>
                                             <TableRow>
                                                 {/* <TableCell scope="row">SN.</TableCell> */}
-                                                <TableCell align="left" style={{whiteSpace:'nowrap'}}>Edit</TableCell>
-                                                <TableCell align="left" style={{whiteSpace:'nowrap'}}>KO Month</TableCell>
-                                                <TableCell align="left" style={{whiteSpace:'nowrap'}}>KO Year</TableCell>
-                                                <TableCell align="left" style={{whiteSpace:'nowrap'}}>Days</TableCell>
-                                                <TableCell align="left" style={{whiteSpace:'nowrap'}}>From Date</TableCell>
-                                                <TableCell align="left" style={{whiteSpace:'nowrap'}}>To Date </TableCell>
-                                                {/* <TableCell align="left" style={{whiteSpace:'nowrap'}}>Week Number</TableCell>
-                                                <TableCell align="left" style={{whiteSpace:'nowrap'}}>Start Date</TableCell>
-                                                <TableCell align="left" style={{whiteSpace:'nowrap'}}>End Date</TableCell> */}
+                                                <TableCell align="left" style={{ whiteSpace: 'nowrap' }}>Edit</TableCell>
+                                                <TableCell align="left" style={{ whiteSpace: 'nowrap' }}>KO Month</TableCell>
+                                                <TableCell align="left" style={{ whiteSpace: 'nowrap' }}>KO Year</TableCell>
+                                                <TableCell align="left" style={{ whiteSpace: 'nowrap' }}>Days</TableCell>
+                                                <TableCell align="left" style={{ whiteSpace: 'nowrap' }}>From Date</TableCell>
+                                                <TableCell align="left" style={{ whiteSpace: 'nowrap' }}>To Date </TableCell>
+                                                {/* <TableCell align="left" >Week Number</TableCell>
+                                                <TableCell align="left" >Start Date</TableCell>
+                                                <TableCell align="left" >End Date</TableCell> */}
 
                                             </TableRow>
                                         </TableHead>
@@ -627,15 +672,15 @@ function KOMONTH() {
                                         <TableHead>
                                             <TableRow>
                                                 {/* <TableCell scope="row">SN.</TableCell> */}
-                                                <TableCell align="left" style={{whiteSpace:'nowrap'}}>Edit</TableCell>
-                                                <TableCell align="left" style={{whiteSpace:'nowrap'}}>KO Month</TableCell>
-                                                <TableCell align="left" style={{whiteSpace:'nowrap'}}>KO Year</TableCell>
-                                                <TableCell align="left" style={{whiteSpace:'nowrap'}}>Days</TableCell>
-                                                <TableCell align="left" style={{whiteSpace:'nowrap'}}>From Date</TableCell>
-                                                <TableCell align="left" style={{whiteSpace:'nowrap'}}>To Date </TableCell>
-                                                <TableCell align="left" style={{whiteSpace:'nowrap'}}>Week Number</TableCell>
-                                                <TableCell align="left" style={{whiteSpace:'nowrap'}}>Start Date</TableCell>
-                                                <TableCell align="left" style={{whiteSpace:'nowrap'}}>End Date</TableCell>
+                                                <TableCell align="left" style={{ whiteSpace: 'nowrap' }}>Edit</TableCell>
+                                                <TableCell align="left" style={{ whiteSpace: 'nowrap' }}>KO Month</TableCell>
+                                                <TableCell align="left" style={{ whiteSpace: 'nowrap' }}>KO Year</TableCell>
+                                                <TableCell align="left" style={{ whiteSpace: 'nowrap' }}>Days</TableCell>
+                                                <TableCell align="left" style={{ whiteSpace: 'nowrap' }}>From Date</TableCell>
+                                                <TableCell align="left" style={{ whiteSpace: 'nowrap' }}>To Date </TableCell>
+                                                <TableCell align="left" style={{ whiteSpace: 'nowrap' }}>Week Number</TableCell>
+                                                <TableCell align="left" style={{ whiteSpace: 'nowrap' }}>Start Date</TableCell>
+                                                <TableCell align="left" style={{ whiteSpace: 'nowrap' }}>End Date</TableCell>
 
                                             </TableRow>
                                         </TableHead>
@@ -644,21 +689,21 @@ function KOMONTH() {
                                     {tableView == 'MonthView' ?
                                         <TableBody>
 
-                                            {koMonthData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((item,index) => {
+                                            {koMonthData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((item, index) => {
                                                 return (
 
                                                     <TableRow key={index}>
 
                                                         {/* <TableCell component="th" scope="row">{index + 1}.</TableCell> */}
-                                                        <TableCell align="left" style={{whiteSpace:'nowrap'}}><div onClick={() => openMonthModel(item)}><BorderColorIcon size={20} color='#000' /></div></TableCell>
-                                                        <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vKOMonth}</TableCell>
-                                                        <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.nKOYear}</TableCell>
-                                                        <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.nDays}</TableCell>
-                                                        <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.dtStartDt}</TableCell>
-                                                        <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.dtEndDt}</TableCell>
-                                                        {/* <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vWeekNo}</TableCell>
-                                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.dtWStartDt}</TableCell>
-                                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.dtWEndDt}</TableCell> */}
+                                                        <TableCell align="left" style={{ whiteSpace: 'nowrap' }}><div onClick={() => openMonthModel(item)} className='editbtn'><BorderColorIcon size={20} color='#000' /></div></TableCell>
+                                                        <TableCell align="left" style={{ whiteSpace: 'nowrap' }}>{item.vKOMonth}</TableCell>
+                                                        <TableCell align="left" style={{ whiteSpace: 'nowrap' }}>{item.nKOYear}</TableCell>
+                                                        <TableCell align="left" style={{ whiteSpace: 'nowrap' }}>{item.nDays}</TableCell>
+                                                        <TableCell align="left" style={{ whiteSpace: 'nowrap' }}>{item.dtStartDt}</TableCell>
+                                                        <TableCell align="left" style={{ whiteSpace: 'nowrap' }}>{item.dtEndDt}</TableCell>
+                                                        {/* <TableCell align="left" >{item.vWeekNo}</TableCell>
+                                                    <TableCell align="left" >{item.dtWStartDt}</TableCell>
+                                                    <TableCell align="left" >{item.dtWEndDt}</TableCell> */}
                                                     </TableRow>
                                                 )
                                             })
@@ -669,21 +714,21 @@ function KOMONTH() {
                                         :
                                         <TableBody>
 
-                                            {koMonthData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((item,index) => {
+                                            {koMonthData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((item, index) => {
                                                 return (
 
                                                     <TableRow key={index}>
 
                                                         {/* <TableCell component="th" scope="row">{index + 1}.</TableCell> */}
-                                                        <TableCell align="left" style={{whiteSpace:'nowrap'}}><div onClick={() => openWeekModel(item)}><BorderColorIcon size={20} color='#000' /></div></TableCell>
-                                                        <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vKOMonth}</TableCell>
-                                                        <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.nKOYear}</TableCell>
-                                                        <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.nDays}</TableCell>
-                                                        <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.dtStartDt}</TableCell>
-                                                        <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.dtEndDt}</TableCell>
-                                                        <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vWeekNo}</TableCell>
-                                                        <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.dtWStartDt}</TableCell>
-                                                        <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.dtWEndDt}</TableCell>
+                                                        <TableCell align="left" style={{ whiteSpace: 'nowrap' }}><div onClick={() => openWeekModel(item)} className='editbtn'><BorderColorIcon size={20} color='#000' /></div></TableCell>
+                                                        <TableCell align="left" style={{ whiteSpace: 'nowrap' }}>{item.vKOMonth}</TableCell>
+                                                        <TableCell align="left" style={{ whiteSpace: 'nowrap' }}>{item.nKOYear}</TableCell>
+                                                        <TableCell align="left" style={{ whiteSpace: 'nowrap' }}>{item.nDays}</TableCell>
+                                                        <TableCell align="left" style={{ whiteSpace: 'nowrap' }}>{item.dtStartDt}</TableCell>
+                                                        <TableCell align="left" style={{ whiteSpace: 'nowrap' }}>{item.dtEndDt}</TableCell>
+                                                        <TableCell align="left" style={{ whiteSpace: 'nowrap' }}>{item.vWeekNo}</TableCell>
+                                                        <TableCell align="left" style={{ whiteSpace: 'nowrap' }}>{item.dtWStartDt}</TableCell>
+                                                        <TableCell align="left" style={{ whiteSpace: 'nowrap' }}>{item.dtWEndDt}</TableCell>
                                                     </TableRow>
                                                 )
                                             })
@@ -731,6 +776,24 @@ function KOMONTH() {
                 </div>
             </Modal >
             <Modal
+                isOpen={modalIsOpen2}
+                style={customStyles}
+                contentLabel="Example Modal"
+                ariaHideApp={false}
+            >
+                <div className='displayright'>
+                    <div><span className='title'>Alert !!</span></div>
+                    <HighlightOffIcon fontSize='large' onClick={() => setIsOpen2(false)} />
+                </div>
+                <div className='alertmsg'><p>Do you want to Clear the fields?</p></div>
+                <div className='alertButton' >
+
+                    <button type="submit" className='alertYes' onClick={refreshdate2}>Yes</button>
+                    <button type="submit" className='alertno' onClick={() => setIsOpen2(false)}>No</button>
+
+                </div>
+            </Modal >
+            <Modal
                 isOpen={weekmodalIsOpen}
                 style={customStylesWeek}
                 contentLabel="Example Modal"
@@ -738,119 +801,79 @@ function KOMONTH() {
             >
                 <div className='displayright '>
                     <div><span className='title'>KO Week Update</span></div>
-                    <HighlightOffIcon fontSize='large' onClick={() => setweekmodalIsOpen(false)} />
+                    <HighlightOffIcon fontSize='large' onClick={hidesetweekmodalIsOpen} />
                 </div>
                 <div className='mt-4'>
                     <div className='editModel'>
-                       
-                            <Box sx={{ width: '25%' }}>
-                                <FormControl fullWidth error={Boolean(errors.nKOYear)} className='input'>
-                                    <InputLabel id="demo-simple-select-label" sx={muiStyles.InputLabels}>KO Month <span >*</span></InputLabel>
-                                    <Select
+
+                        <Box className='inputBox-6'>
+                            <FormControl fullWidth className='input' required>
+                                <InputLabel id="demo-simple-select-label" sx={muiStyles.InputLabels}>KO Month</InputLabel>
+                                <Select
                                     sx={muiStyles.select}
-                                        labelId="demo-simple-select-label"
-                                        id="demo-simple-select"
-                                        value={vKOMonth}
-                                        label="KO Month"
-                                        onChange={handleChangevKOMonth}
-                                        readOnly={monthDisable}
-                                    >
-                                        <MenuItem value={'JAN'}>JAN</MenuItem>
-                                        <MenuItem value={'FEB'}>FEB</MenuItem>
-                                        <MenuItem value={'MAR'}>MAR</MenuItem>
-                                        <MenuItem value={'APR'}>APR</MenuItem>
-                                        <MenuItem value={'MAY'}>MAY</MenuItem>
-                                        <MenuItem value={'JUN'}>JUN</MenuItem>
-                                        <MenuItem value={'JUL'}>JUL</MenuItem>
-                                        <MenuItem value={'AUG'}>AUG</MenuItem>
-                                        <MenuItem value={'SEP'}>SEP</MenuItem>
-                                        <MenuItem value={'OCT'}>OCT</MenuItem>
-                                        <MenuItem value={'NOV'}>NOV</MenuItem>
-                                        <MenuItem value={'DEC'}>DEC</MenuItem>
-                                    </Select>
-                                    {/* <Controller
-                                        render={(props) => (
-                                            <Select value={props.value} onChange={props.onChange} style={{ width: 130, }} readOnly={monthDisable}>
-                                                <MenuItem value={'JAN'}>JAN</MenuItem>
-                                                <MenuItem value={'FEB'}>FEB</MenuItem>
-                                                <MenuItem value={'MAR'}>MAR</MenuItem>
-                                                <MenuItem value={'APR'}>APR</MenuItem>
-                                                <MenuItem value={'MAY'}>MAY</MenuItem>
-                                                <MenuItem value={'JUN'}>JUN</MenuItem>
-                                                <MenuItem value={'JUL'}>JUL</MenuItem>
-                                                <MenuItem value={'AUG'}>AUG</MenuItem>
-                                                <MenuItem value={'SEP'}>SEP</MenuItem>
-                                                <MenuItem value={'OCT'}>OCT</MenuItem>
-                                                <MenuItem value={'NOV'}>NOV</MenuItem>
-                                                <MenuItem value={'DEC'}>DEC</MenuItem>
-                                            </Select>
-                                        )}
-                                        name="vKOMonth"
-                                        control={control}
-                                        defaultValue={vKOMonth}
-                                        rules={{
-                                            required: "Select KO Month *",
-                                        }}
-                                    /> */}
-                                    <FormHelperText>{errors.vKOMonth?.message}</FormHelperText>
-                                </FormControl>
-                            </Box>
+                                    labelId="demo-simple-select-label"
+                                    id="demo-simple-select"
+                                    value={vKOMonth}
+                                    label="KO Month"
+                                    onChange={handleChangevKOMonth}
+                                    readOnly={monthDisable}
+                                >
+                                    <MenuItem value={'JAN'}>JAN</MenuItem>
+                                    <MenuItem value={'FEB'}>FEB</MenuItem>
+                                    <MenuItem value={'MAR'}>MAR</MenuItem>
+                                    <MenuItem value={'APR'}>APR</MenuItem>
+                                    <MenuItem value={'MAY'}>MAY</MenuItem>
+                                    <MenuItem value={'JUN'}>JUN</MenuItem>
+                                    <MenuItem value={'JUL'}>JUL</MenuItem>
+                                    <MenuItem value={'AUG'}>AUG</MenuItem>
+                                    <MenuItem value={'SEP'}>SEP</MenuItem>
+                                    <MenuItem value={'OCT'}>OCT</MenuItem>
+                                    <MenuItem value={'NOV'}>NOV</MenuItem>
+                                    <MenuItem value={'DEC'}>DEC</MenuItem>
+                                </Select>
+                                {errorText.editkoMonths != '' ? <p className='error'>{errorText.editkoMonths}</p> : null}
+                            </FormControl>
+                        </Box>
 
-                       
-                        <div className='date'>
-                            <Box sx={{ width: '100%' }} >
-                                <FormControl fullWidth className='input'>
-                                    <TextField
+
+                        <Box className='inputBox-7' >
+                            <FormControl fullWidth className='input'>
+                                <TextField
                                     sx={muiStyles.input}
-                                        value={nKOYear}
-                                        onChange={e => setnKOYear(e.target.value)}
-                                        required id="outlined-basic"
-                                        label="KO Year"
-                                        variant="outlined"
+                                    value={nKOYear}
+                                    onChange={e => setnKOYear(e.target.value)}
+                                    required id="outlined-basic"
+                                    label="KO Year"
+                                    variant="outlined"
 
-                                        name='nKOYear'
-                                        inputRef={register({ required: "KO Year is required *", })}
-                                        error={Boolean(errors.nKOYear)}
-                                        helperText={errors.nKOYear?.message}
-                                        disabled={monthDisable}
-                                    />
-                                </FormControl>
-                            </Box>
+                                    name='nKOYears'
+                                    inputRef={register({ required: "KO Year is required *", })}
+                                    error={Boolean(errors.nKOYears)}
+                                    helperText={errors.nKOYears?.message}
+                                    disabled={monthDisable}
+                                />
+                            </FormControl>
+                        </Box>
 
-                        </div>
-                        <div className='date'>
-                            <Box sx={{ width: '100%' }} >
-                                <FormControl fullWidth className='input'>
-                                    <TextField
+                        <Box className='inputBox-7'>
+                            <FormControl fullWidth className='input'>
+                                <TextField
                                     sx={muiStyles.input}
-                                        value={nDays}
-                                        onChange={e => setnDays(e.target.value)}
-                                        required id="outlined-basic"
-                                        label="Days"
-                                        variant="outlined"
-                                        name='nDays'
-                                        inputRef={register({ required: "Days is required *", })}
-                                        error={Boolean(errors.nDays)}
-                                        helperText={errors.nDays?.message}
-                                        disabled={monthDisable}
-                                    />
-                                </FormControl>
-                            </Box>
-
-                        </div>
-                        <div className='date'>
-                            <FormControl error={Boolean(errors.fromDate)} required>
-                                {/* <Controller
-                                    render={(props) => (
-                                        
-                                    )}
-                                    name="fromDate"
-                                    control={control}
-                                    defaultValue={fromDate}
-                                    rules={{
-                                        required: "Select Start Date *",
-                                    }}
-                                /> */}
+                                    value={nDays}
+                                    onChange={e => setnDays(e.target.value)}
+                                    required id="outlined-basic"
+                                    label="Days"
+                                    variant="outlined"
+                                    name='nDayss'
+                                    inputRef={register({ required: "Days is required *", })}
+                                    error={Boolean(errors.nDayss)}
+                                    helperText={errors.nDayss?.message}
+                                    disabled={monthDisable}
+                                />
+                            </FormControl>
+                        </Box>
+                        <Box className='inputBox-8'>
+                            <FormControl fullWidth required>
                                 <LocalizationProvider dateAdapter={AdapterDayjs} >
                                     <Stack spacing={3} >
                                         <DesktopDatePicker
@@ -863,23 +886,12 @@ function KOMONTH() {
                                         />
                                     </Stack>
                                 </LocalizationProvider>
-                                <FormHelperText>{errors.fromDate?.message}</FormHelperText>
+                                {errorText.editsDate != '' ? <p className='error'>{errorText.editsDate}</p> : null}
                             </FormControl>
 
-                        </div>
-                        <div className='date'>
-                            <FormControl error={Boolean(errors.toDate)} required>
-                                {/* <Controller
-                                    render={(props) => (
-                                        
-                                    )}
-                                    name="toDate"
-                                    control={control}
-                                    defaultValue={toDate}
-                                    rules={{
-                                        required: "Select End Date *",
-                                    }}
-                                /> */}
+                        </Box>
+                        <Box className='inputBox-8'>
+                            <FormControl fullWidth required>
                                 <LocalizationProvider dateAdapter={AdapterDayjs} >
                                     <Stack spacing={3}>
                                         <DesktopDatePicker
@@ -892,122 +904,69 @@ function KOMONTH() {
                                         />
                                     </Stack>
                                 </LocalizationProvider>
-                                <FormHelperText>{errors.toDate?.message}</FormHelperText>
+                                {errorText.editeDate != '' ? <p className='error'>{errorText.editeDate}</p> : null}
                             </FormControl>
 
+                        </Box>
 
-                        </div>
-                        <div className='break'> </div>
-                            <Box sx={{ width: '25%' }}>
-                                <FormControl fullWidth error={Boolean(errors.nKOYear)} >
-                                    <InputLabel id="demo-simple-select-label" sx={muiStyles.InputLabels}>Week Number <span>*</span></InputLabel>
-                                    <Select
+                        <Box className='inputBox-9'>
+                            <FormControl fullWidth required >
+                                <InputLabel id="demo-simple-select-label" sx={muiStyles.InputLabels}>Week Number</InputLabel>
+                                <Select
                                     sx={muiStyles.select}
-                                        style={{ width: '100%', }}
-                                        labelId="demo-simple-select-label"
-                                        id="demo-simple-select"
-                                        value={weekNumberId}
-                                        label="Week Number"
-                                        onChange={handleChange}
-                                    >
-                                        <MenuItem value={'W1'}>W1</MenuItem>
-                                        <MenuItem value={'W2'}>W2</MenuItem>
-                                        <MenuItem value={'W3'}>W3</MenuItem>
-                                        <MenuItem value={'W4'}>W4</MenuItem>
-                                        <MenuItem value={'W5'}>W5</MenuItem>
-                                    </Select>
-                                    {/* <Controller
-                                        render={(props) => (
-                                            <Select value={props.value} onChange={props.onChange} style={{ width: 170, }} >
-                                                <MenuItem value={'W1'}>W1</MenuItem>
-                                                <MenuItem value={'W2'}>W2</MenuItem>
-                                                <MenuItem value={'W3'}>W3</MenuItem>
-                                                <MenuItem value={'W4'}>W4</MenuItem>
-                                                <MenuItem value={'W5'}>W5</MenuItem>
-                                            </Select>
-                                        )}
-                                        name="weekNumberId"
-                                        control={control}
-                                        defaultValue={weekNumberId}
-                                        rules={{
-                                            required: "Select Week Number *.",
-                                        }}
-                                    /> */}
-                                    <FormHelperText>{errors.weekNumberId?.message}</FormHelperText>
-                                </FormControl>
-                                <div className='error'>{error} </div>
-                            </Box>
+                                    style={{ width: '100%', }}
+                                    labelId="demo-simple-select-label"
+                                    id="demo-simple-select"
+                                    value={weekNumberId}
+                                    label="Week Number"
+                                    onChange={handleChange}
+                                >
+                                    <MenuItem value={'W1'}>W1</MenuItem>
+                                    <MenuItem value={'W2'}>W2</MenuItem>
+                                    <MenuItem value={'W3'}>W3</MenuItem>
+                                    <MenuItem value={'W4'}>W4</MenuItem>
+                                    <MenuItem value={'W5'}>W5</MenuItem>
+                                </Select>
+                                {errorText.editweekno != '' ? <p className='error'>{errorText.editweekno}</p> : null}
+                            </FormControl>
+                            <div className='error'>{error} </div>
+                        </Box>
 
-                        <div className='date'>
-                            <Box sx={{ width: '100%' }}>
-                                <FormControl error={Boolean(errors.startDate)} required>
-                                    {/* <Controller
-                                        render={(props) => (
-                                            
-                                        )}
-                                        name="startDate"
-                                        control={control}
-                                        defaultValue={startDate}
-                                        rules={{
-                                            required: "Select Week Start Date *",
-                                        }}
-                                    /> */}
-                                    <LocalizationProvider dateAdapter={AdapterDayjs} >
-                                        <Stack spacing={3} >
-                                            <DesktopDatePicker
-                                                label="Week Start Date *"
-                                                inputFormat="DD-MM-YYYY"
-                                                value={startDate}
-                                                onChange={handleChangeStartdate}
-                                                renderInput={(params) => <TextField sx={muiStyles.date} {...params} />}
-                                            />
-                                        </Stack>
-                                    </LocalizationProvider>
-                                    <FormHelperText>{errors.startDate?.message}</FormHelperText>
-                                </FormControl>
+                        <Box className='inputBox-10'>
+                            <FormControl fullWidth required>
+                                <LocalizationProvider dateAdapter={AdapterDayjs} sx={{ width: '100%', }}>
+                                    <Stack spacing={3} >
+                                        <DesktopDatePicker
+                                            label="Week Start Date *"
+                                            inputFormat="DD-MM-YYYY"
+                                            value={startDate}
+                                            onChange={handleChangeStartdate}
+                                            renderInput={(params) => <TextField sx={muiStyles.date} {...params} />}
+                                        />
+                                    </Stack>
+                                </LocalizationProvider>
+                                {errorText.editwsDate != '' ? <p className='error'>{errorText.editwsDate}</p> : null}
+                            </FormControl>
 
-                            </Box>
-                        </div>
-                        <div className='date'>
-                            <Box sx={{ width: '100%' }}>
-                                <FormControl error={Boolean(errors.endDate)} required>
-                                    {/* <Controller
-                                        render={(props) => (
-                                            
-                                        )}
-                                        name="endDate"
-                                        control={control}
-                                        defaultValue={endDate}
-                                        rules={{
-                                            required: "Select Week End Date *",
-                                        }}
-                                    /> */}
-                                    <LocalizationProvider dateAdapter={AdapterDayjs} >
-                                        <Stack spacing={3}>
-                                            <DesktopDatePicker
-                                                label="Week End Date *"
-                                                inputFormat="DD-MM-YYYY"
-                                                value={endDate}
-                                                onChange={handleChangeEnddate}
-                                                renderInput={(params) => <TextField sx={muiStyles.date} {...params} />}
-                                            />
-                                        </Stack>
-                                    </LocalizationProvider>
-                                    <FormHelperText>{errors.endDate?.message}</FormHelperText>
-                                </FormControl>
+                        </Box>
 
-                            </Box>
+                        <Box className='inputBox-10'>
+                            <FormControl fullWidth required >
+                                <LocalizationProvider dateAdapter={AdapterDayjs} sx={{ width: '100%', }}>
+                                    <Stack spacing={3}>
+                                        <DesktopDatePicker
+                                            label="Week End Date *"
+                                            inputFormat="DD-MM-YYYY"
+                                            value={endDate}
+                                            onChange={handleChangeEnddate}
+                                            renderInput={(params) => <TextField sx={muiStyles.date} {...params} />}
+                                        />
+                                    </Stack>
+                                </LocalizationProvider>
+                                {errorText.editweDate != '' ? <p className='error'>{errorText.editweDate}</p> : null}
+                            </FormControl>
 
-                        </div>
-                        <div className='date'>
-                            <Box sx={{ width: 340 }}></Box>
-                        </div>
-
-                        <div >
-
-
-
-                        </div>
+                        </Box>
                     </div>
                 </div>
                 {loader == true ?
@@ -1032,117 +991,79 @@ function KOMONTH() {
             >
                 <div className='displayright'>
                     <div><span className='title'>KO Month Update</span></div>
-                    <HighlightOffIcon fontSize='large' onClick={() => setmonthmodalIsOpen(false)} />
+                    <HighlightOffIcon fontSize='large' onClick={hidesetmonthmodalIsOpen} />
                 </div>
                 <div className='mt-4'>
                     <div className='editModel'>
-                            <Box sx={{ width: '25%' }}>
-                                <FormControl fullWidth error={Boolean(errors.nKOYear)}>
-                                    <InputLabel id="demo-simple-select-label" sx={muiStyles.InputLabels}>KO Month <span >*</span></InputLabel>
-                                    <Select
+                        <Box className='inputBox-6'>
+                            <FormControl fullWidth required>
+                                <InputLabel id="demo-simple-select-label" sx={muiStyles.InputLabels}>KO Month</InputLabel>
+                                <Select
                                     sx={muiStyles.select}
-                                        labelId="demo-simple-select-label"
-                                        id="demo-simple-select"
-                                        value={vKOMonth}
-                                        label="KO Month"
-                                        onChange={handleChangevKOMonth}
-                                        readOnly={disable}
+                                    labelId="demo-simple-select-label"
+                                    id="demo-simple-select"
+                                    value={vKOMonth}
+                                    label="KO Month"
+                                    onChange={handleChangevKOMonth}
+                                    readOnly={disable}
 
-                                    >
-                                        <MenuItem value={'JAN'}>JAN</MenuItem>
-                                        <MenuItem value={'FEB'}>FEB</MenuItem>
-                                        <MenuItem value={'MAR'}>MAR</MenuItem>
-                                        <MenuItem value={'APR'}>APR</MenuItem>
-                                        <MenuItem value={'MAY'}>MAY</MenuItem>
-                                        <MenuItem value={'JUN'}>JUN</MenuItem>
-                                        <MenuItem value={'JUL'}>JUL</MenuItem>
-                                        <MenuItem value={'AUG'}>AUG</MenuItem>
-                                        <MenuItem value={'SEP'}>SEP</MenuItem>
-                                        <MenuItem value={'OCT'}>OCT</MenuItem>
-                                        <MenuItem value={'NOV'}>NOV</MenuItem>
-                                        <MenuItem value={'DEC'}>DEC</MenuItem>
-                                    </Select>
-                                    {/* <Controller
-                                        render={(props) => (
-                                            <Select value={props.value} onChange={props.onChange} style={{ width: 130, }}>
-                                                <MenuItem value={'JAN'}>JAN</MenuItem>
-                                                <MenuItem value={'FEB'}>FEB</MenuItem>
-                                                <MenuItem value={'MAR'}>MAR</MenuItem>
-                                                <MenuItem value={'APR'}>APR</MenuItem>
-                                                <MenuItem value={'MAY'}>MAY</MenuItem>
-                                                <MenuItem value={'JUN'}>JUN</MenuItem>
-                                                <MenuItem value={'JUL'}>JUL</MenuItem>
-                                                <MenuItem value={'AUG'}>AUG</MenuItem>
-                                                <MenuItem value={'SEP'}>SEP</MenuItem>
-                                                <MenuItem value={'OCT'}>OCT</MenuItem>
-                                                <MenuItem value={'NOV'}>NOV</MenuItem>
-                                                <MenuItem value={'DEC'}>DEC</MenuItem>
-                                            </Select>
-                                        )}
-                                        name="vKOMonth"
-                                        control={control}
-                                        defaultValue={vKOMonth}
-                                        rules={{
-                                            required: "Select KO Month *",
-                                        }}
-                                    /> */}
-                                    <FormHelperText>{errors.vKOMonth?.message}</FormHelperText>
-                                </FormControl>
-                            </Box>
-                        <div className='date'>
-                            <Box sx={{ width: '100%' }} >
-                                <FormControl fullWidth className='input'>
-                                    <TextField
+                                >
+                                    <MenuItem value={'JAN'}>JAN</MenuItem>
+                                    <MenuItem value={'FEB'}>FEB</MenuItem>
+                                    <MenuItem value={'MAR'}>MAR</MenuItem>
+                                    <MenuItem value={'APR'}>APR</MenuItem>
+                                    <MenuItem value={'MAY'}>MAY</MenuItem>
+                                    <MenuItem value={'JUN'}>JUN</MenuItem>
+                                    <MenuItem value={'JUL'}>JUL</MenuItem>
+                                    <MenuItem value={'AUG'}>AUG</MenuItem>
+                                    <MenuItem value={'SEP'}>SEP</MenuItem>
+                                    <MenuItem value={'OCT'}>OCT</MenuItem>
+                                    <MenuItem value={'NOV'}>NOV</MenuItem>
+                                    <MenuItem value={'DEC'}>DEC</MenuItem>
+                                </Select>
+
+                                {errorText.editkoMonths != '' ? <p className='error'>{errorText.editkoMonths}</p> : null}
+                            </FormControl>
+                        </Box>
+                        <Box className='inputBox-7' >
+                            <FormControl fullWidth className='input'>
+                                <TextField
                                     sx={muiStyles.input}
-                                        value={nKOYear}
-                                        onChange={e => setnKOYear(e.target.value)}
-                                        required id="outlined-basic"
-                                        label="KO Year"
-                                        variant="outlined"
+                                    value={nKOYear}
+                                    onChange={e => setnKOYear(e.target.value)}
+                                    required id="outlined-basic"
+                                    label="KO Year"
+                                    variant="outlined"
 
-                                        name='nKOYear'
-                                        inputRef={register({ required: "KO Year is required *", })}
-                                        error={Boolean(errors.nKOYear)}
-                                        helperText={errors.nKOYear?.message}
+                                    name='nKOYears'
+                                    inputRef={register({ required: "KO Year is required *", })}
+                                    error={Boolean(errors.nKOYears)}
+                                    helperText={errors.nKOYears?.message}
 
-                                    />
-                                </FormControl>
-                            </Box>
+                                />
+                            </FormControl>
+                        </Box>
 
-                        </div>
-                        <div className='date'>
-                            <Box sx={{ width: '100%' }} >
-                                <FormControl fullWidth className='input'>
-                                    <TextField
+                        <Box className='inputBox-7' >
+                            <FormControl fullWidth className='input'>
+                                <TextField
                                     sx={muiStyles.input}
-                                        value={nDays}
-                                        onChange={e => setnDays(e.target.value)}
-                                        required id="outlined-basic"
-                                        label="Days"
-                                        variant="outlined"
-                                        name='nDays'
-                                        inputRef={register({ required: "Days is required *", })}
-                                        error={Boolean(errors.nDays)}
-                                        helperText={errors.nDays?.message}
-                                    />
-                                </FormControl>
-                            </Box>
+                                    value={nDays}
+                                    onChange={e => setnDays(e.target.value)}
+                                    required id="outlined-basic"
+                                    label="Days"
+                                    variant="outlined"
+                                    name='nDayss'
+                                    inputRef={register({ required: "Days is required *", })}
+                                    error={Boolean(errors.nDayss)}
+                                    helperText={errors.nDayss?.message}
+                                />
+                            </FormControl>
+                        </Box>
 
-                        </div>
-                        <div className='date'>
-                            <FormControl error={Boolean(errors.fromDate)} required>
-                                {/* <Controller
-                                    render={(props) => (
-                                        
-                                    )}
-                                    name="fromDate"
-                                    control={control}
-                                    defaultValue={fromDate}
-                                    rules={{
-                                        required: "Select Start Date *",
-                                    }}
-                                /> */}
-                                <LocalizationProvider dateAdapter={AdapterDayjs} >
+                        <Box className='inputBox-8'>
+                            <FormControl fullWidth required>
+                                <LocalizationProvider dateAdapter={AdapterDayjs} sx={{ width: '100%', }}>
                                     <Stack spacing={3} >
                                         <DesktopDatePicker
                                             label={'Start Date *'}
@@ -1153,24 +1074,13 @@ function KOMONTH() {
                                         />
                                     </Stack>
                                 </LocalizationProvider>
-                                <FormHelperText>{errors.fromDate?.message}</FormHelperText>
+                                {errorText.editsDate != '' ? <p className='error'>{errorText.editsDate}</p> : null}
                             </FormControl>
 
-                        </div>
-                        <div className='date'>
-                            <FormControl error={Boolean(errors.toDate)} required>
-                                {/* <Controller
-                                    render={(props) => (
-                                        
-                                    )}
-                                    name="toDate"
-                                    control={control}
-                                    defaultValue={toDate}
-                                    rules={{
-                                        required: "Select End Date *",
-                                    }}
-                                /> */}
-                                <LocalizationProvider dateAdapter={AdapterDayjs} >
+                        </Box>
+                        <Box className='inputBox-8'>
+                            <FormControl fullWidth required>
+                                <LocalizationProvider dateAdapter={AdapterDayjs} sx={{ width: '100%', }}>
                                     <Stack spacing={3}>
                                         <DesktopDatePicker
                                             label="End Date *"
@@ -1181,133 +1091,88 @@ function KOMONTH() {
                                         />
                                     </Stack>
                                 </LocalizationProvider>
-                                <FormHelperText>{errors.toDate?.message}</FormHelperText>
+                                {errorText.editeDate != '' ? <p className='error'>{errorText.editeDate}</p> : null}
                             </FormControl>
 
 
-                        </div>
-                        <div className='break'> </div>
-                            <Box sx={{ width: '25%' }}>
-                                <FormControl fullWidth error={Boolean(errors.nKOYear)} >
-                                    <InputLabel id="demo-simple-select-label" sx={muiStyles.InputLabels}>Week Number <span>*</span></InputLabel>
-                                    <Select
+                        </Box>
+                        <Box className='inputBox-9'>
+                            <FormControl fullWidth required >
+                                <InputLabel id="demo-simple-select-label" sx={muiStyles.InputLabels}>Week Number</InputLabel>
+                                <Select
                                     sx={muiStyles.select}
-                                        style={{ width: '100%', }}
-                                        labelId="demo-simple-select-label"
-                                        id="demo-simple-select"
-                                        value={weekNumberId}
-                                        label="Week Number"
-                                        onChange={handleChange}
-                                        readOnly={WeekDisable}
-                                    >
-                                        <MenuItem value={'W1'}>W1</MenuItem>
-                                        <MenuItem value={'W2'}>W2</MenuItem>
-                                        <MenuItem value={'W3'}>W3</MenuItem>
-                                        <MenuItem value={'W4'}>W4</MenuItem>
-                                        <MenuItem value={'W5'}>W5</MenuItem>
-                                    </Select>
-                                    {/* <Controller
-                                        render={(props) => (
-                                            <Select value={props.value} onChange={props.onChange} style={{ width: 170, }} readOnly={WeekDisable}>
-                                                <MenuItem value={'W1'}>W1</MenuItem>
-                                                <MenuItem value={'W2'}>W2</MenuItem>
-                                                <MenuItem value={'W3'}>W3</MenuItem>
-                                                <MenuItem value={'W4'}>W4</MenuItem>
-                                                <MenuItem value={'W5'}>W5</MenuItem>
-                                            </Select>
-                                        )}
-                                        name="weekNumberId"
-                                        control={control}
-                                        defaultValue={weekNumberId}
-                                        rules={{
-                                            required: "Select Week Number *.",
-                                        }}
-                                    /> */}
-                                    <FormHelperText>{errors.weekNumberId?.message}</FormHelperText>
-                                </FormControl>
-                                <div className='error'>{error} </div>
-                            </Box>
+                                    style={{ width: '100%', }}
+                                    labelId="demo-simple-select-label"
+                                    id="demo-simple-select"
+                                    value={weekNumberId}
+                                    label="Week Number"
+                                    onChange={handleChange}
+                                    readOnly={WeekDisable}
+                                >
+                                    <MenuItem value={'W1'}>W1</MenuItem>
+                                    <MenuItem value={'W2'}>W2</MenuItem>
+                                    <MenuItem value={'W3'}>W3</MenuItem>
+                                    <MenuItem value={'W4'}>W4</MenuItem>
+                                    <MenuItem value={'W5'}>W5</MenuItem>
+                                </Select>
 
-                        <div className='date'>
-                            <Box sx={{ width: '100%' }}>
-                                <FormControl error={Boolean(errors.startDate)} required>
-                                    {/* <Controller
-                                        render={(props) => (
-                                            
-                                        )}
-                                        name="startDate"
-                                        control={control}
-                                        defaultValue={startDate}
-                                        rules={{
-                                            required: "Select Week Start Date *",
-                                        }}
-                                    /> */}
-                                    <LocalizationProvider dateAdapter={AdapterDayjs} >
-                                        <Stack spacing={3} >
-                                            <DesktopDatePicker
-                                                label="Week Start Date *"
-                                                inputFormat="DD-MM-YYYY"
-                                                value={startDate}
-                                                onChange={handleChangeStartdate}
-                                                renderInput={(params) => <TextField sx={muiStyles.date} {...params} />}
-                                                disabled={WeekDisable}
-                                            />
-                                        </Stack>
-                                    </LocalizationProvider>
-                                    <FormHelperText>{errors.startDate?.message}</FormHelperText>
-                                </FormControl>
+                                {errorText.editweekno != '' ? <p className='error'>{errorText.editweekno}</p> : null}
+                            </FormControl>
+                        </Box>
 
-                            </Box>
-                        </div>
-                        <div className='date'>
-                            <Box sx={{ width: '100%' }}>
-                                <FormControl error={Boolean(errors.endDate)} required>
-                                    {/* <Controller
-                                        render={(props) => (
-                                            
-                                        )}
-                                        name="endDate"
-                                        control={control}
-                                        defaultValue={endDate}
-                                        rules={{
-                                            required: "Select Week End Date *",
-                                        }}
-                                    /> */}
-                                    <LocalizationProvider dateAdapter={AdapterDayjs} >
-                                        <Stack spacing={3}>
-                                            <DesktopDatePicker
-                                                label="Week End Date *"
-                                                inputFormat="DD-MM-YYYY"
-                                                value={endDate}
-                                                onChange={handleChangeEnddate}
-                                                renderInput={(params) => <TextField sx={muiStyles.date} {...params} />}
-                                                disabled={WeekDisable}
-                                            />
-                                        </Stack>
-                                    </LocalizationProvider>
-                                    <FormHelperText>{errors.endDate?.message}</FormHelperText>
-                                </FormControl>
+                        <Box className='inputBox-10'>
+                            <FormControl fullWidth required>
+                                <LocalizationProvider dateAdapter={AdapterDayjs} >
+                                    <Stack spacing={3} >
+                                        <DesktopDatePicker
+                                            label="Week Start Date *"
+                                            inputFormat="DD-MM-YYYY"
+                                            value={startDate}
+                                            onChange={handleChangeStartdate}
+                                            renderInput={(params) => <TextField sx={muiStyles.date} {...params} />}
+                                            disabled={WeekDisable}
+                                        />
+                                    </Stack>
+                                </LocalizationProvider>
+                                {errorText.editwsDate != '' ? <p className='error'>{errorText.editwsDate}</p> : null}
+                            </FormControl>
 
-                            </Box>
+                        </Box>
 
-                        </div>
-                        <div className='date'>
-                            <Box sx={{ width: 340 }}></Box>
-                        </div>
+                        <Box className='inputBox-10'>
+                            <FormControl error={Boolean(errors.endDate)} required>
+                                <LocalizationProvider dateAdapter={AdapterDayjs} >
+                                    <Stack spacing={3}>
+                                        <DesktopDatePicker
+                                            label="Week End Date *"
+                                            inputFormat="DD-MM-YYYY"
+                                            value={endDate}
+                                            onChange={handleChangeEnddate}
+                                            renderInput={(params) => <TextField sx={muiStyles.date} {...params} />}
+                                            disabled={WeekDisable}
+                                        />
+                                    </Stack>
+                                </LocalizationProvider>
+                                {errorText.editweDate != '' ? <p className='error'>{errorText.editweDate}</p> : null}
+                            </FormControl>
+
+                        </Box>
+
+
                         <div className='break'>
 
                         </div>
                         <div className='tablecenter'>
                             {koMonthData.length > 0 ?
-                                <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+                                <Paper sx={{ width: '100%', overflow: 'hidden',paddingTop:1 }}>
                                     <TableContainer sx={{ maxHeight: 440 }}>
                                         <Table stickyHeader aria-label="sticky table">
                                             <TableHead>
                                                 <TableRow>
                                                     <TableCell scope="row">SN.</TableCell>
-                                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Week Number</TableCell>
-                                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Start Date</TableCell>
-                                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>End Date</TableCell>
+                                                    <TableCell align="left" style={{ whiteSpace: 'nowrap' }}>Week Number</TableCell>
+                                                    <TableCell align="left" style={{ whiteSpace: 'nowrap' }}>Start Date</TableCell>
+                                                    <TableCell align="left" style={{ whiteSpace: 'nowrap' }}>End Date</TableCell>
 
                                                 </TableRow>
                                             </TableHead>
@@ -1319,9 +1184,9 @@ function KOMONTH() {
                                                         <TableRow key={index}>
 
                                                             <TableCell component="th" scope="row">{index + 1}.</TableCell>
-                                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vWeekNo}</TableCell>
-                                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.dtWEndDt}</TableCell>
-                                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.dtWEndDt}</TableCell>
+                                                            <TableCell align="left" style={{ whiteSpace: 'nowrap' }}>{item.vWeekNo}</TableCell>
+                                                            <TableCell align="left" style={{ whiteSpace: 'nowrap' }}>{item.dtWEndDt}</TableCell>
+                                                            <TableCell align="left" style={{ whiteSpace: 'nowrap' }}>{item.dtWEndDt}</TableCell>
                                                         </TableRow>
                                                     )
                                                 })
@@ -1348,7 +1213,7 @@ function KOMONTH() {
                             }
 
                         </div>
-                       
+
                     </div>
                 </div>
                 {loader == true ?
@@ -1402,13 +1267,14 @@ const muiStyles = {
     date: {
         "& .MuiInputBase-root": {
             "& input": {
-                padding: '5px 14px',
+                padding: '6px 6px',
                 fontSize: '13px'
             }
         },
         "& .MuiFormLabel-root": {
             fontSize: '13px',
             top: '-13px',
+            left:'-10px',
             backgroundColor: 'transparent',
             zIndex: '1'
         },
@@ -1416,12 +1282,16 @@ const muiStyles = {
             zIndex: '1'
 
         },
+        '& .MuiInputAdornment-root':{
+            position: 'absolute',
+            right: '10px'
+        }
     },
     autoCompleate: {
         "& .MuiOutlinedInput-root": {
             padding: '0px',
             "& .MuiAutocomplete-input": {
-                padding: '5px 14px',
+                padding: '6px 6px',
                 fontSize: '13px'
             }
 
@@ -1430,6 +1300,7 @@ const muiStyles = {
             fontSize: '13px',
             backgroundColor: 'transparent',
             top: '-13px',
+            left:'-10px',
           
         },
         "& label.Mui-focused": {
@@ -1439,13 +1310,14 @@ const muiStyles = {
     input: {
         "& .MuiOutlinedInput-root": {
             "& input": {
-                padding: '6px 14px',
+                padding: '6px',
                 fontSize: '12px'
             }
         },
         "& .MuiFormLabel-root": {
             fontSize: '13px',
-            top: '-13px',  
+            top: '-13px',
+            left:'-10px',  
             backgroundColor: 'transparent',
         },
         "& label.Mui-focused": {
@@ -1455,7 +1327,7 @@ const muiStyles = {
     select: {
 
         "& .MuiSelect-select": {
-            padding: '3px 14px',
+            padding: '3px',
             fontSize: '12px'
         }, 
         
@@ -1464,6 +1336,7 @@ const muiStyles = {
     InputLabels: {
         fontSize: '13px',
         top: '-13px',
+        left:'-10px',
         backgroundColor: 'transparent',
         "&.Mui-focused": {
             zIndex: '1'

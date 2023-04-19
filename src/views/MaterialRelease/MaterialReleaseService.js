@@ -74,6 +74,13 @@ export function GetMaterialforReleaseForEdit(nPId,nMId,dtExpDate,nBId,nBOMUnit,v
         return response;
     })
 }
+export function GetCurrentDBTime() {
+    let apiUrl = environment.apiUrl;
+    let url = `${apiUrl}/Utility/GetCurrentDBTime/`
+    return get(url).then(response => {
+        return response;
+    })
+}
 export function POMasterPost(data,file) {
     let apiUrl = environment.apiUrl;
     const formData = new FormData();

@@ -211,11 +211,9 @@ function EditPurchaseOrder() {
                 setimgPreview(false)
             }
             if (res.POMaster[0].btActive == true) {
-                console.log('1')
                 setBtActive(true)
             } else {
                 setBtActive(false)
-                console.log('2')
             }
             setEditId(null)
         })
@@ -689,8 +687,8 @@ function EditPurchaseOrder() {
     return (
         <div className='citymasterContainer'>
             <div className='dateFilter-2'>
-                <div className='displayflexend'>
-                    <Box sx={{ width: '11%' }} >
+                <div className='displayflexend mt-2'>
+                    <Box className='inputBox-30' >
                         <FormControl fullWidth className='input'>
                             <TextField
                             sx={muiStyles.input}
@@ -706,7 +704,7 @@ function EditPurchaseOrder() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '11%' }} >
+                    <Box className='inputBox-30' >
                         <FormControl fullWidth className='input' >
                             <LocalizationProvider dateAdapter={AdapterDayjs} >
                                 <Stack spacing={3} >
@@ -723,7 +721,7 @@ function EditPurchaseOrder() {
                             {errorText.date != '' ? <p className='error'>{errorText.date}</p> : null}
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '34%' }} >
+                    <Box className='inputBox-32' >
                         <FormControl fullWidth className='input' >
                             <TextField
                             sx={muiStyles.input}
@@ -739,7 +737,7 @@ function EditPurchaseOrder() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '18%', marginTop: 2 }} >
+                    <Box className='inputBox-22'>
                         <FormControl fullWidth className='input'>
                             {/* <InputLabel required id="demo-simple-select-label">Plant</InputLabel>npm  */}
                             <Autocomplete
@@ -761,7 +759,7 @@ function EditPurchaseOrder() {
                             {errorText.plant != '' ? <p className='error'>{errorText.plant}</p> : null}
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '11%' }} >
+                    <Box className='inputBox-30' >
                         <FormControl fullWidth className='input' >
                             <TextField
                             sx={muiStyles.input}
@@ -778,7 +776,7 @@ function EditPurchaseOrder() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '11%' }} >
+                    <Box className='inputBox-30' >
                         <FormControl fullWidth className='input' >
                             <TextField
                             sx={muiStyles.input}
@@ -795,7 +793,7 @@ function EditPurchaseOrder() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '7%' }} >
+                    <Box className='inputBox-33' >
                         <FormControl fullWidth className='input' >
                             <TextField
                             sx={muiStyles.input}
@@ -813,7 +811,7 @@ function EditPurchaseOrder() {
                     </Box>
 
 
-                    <Box sx={{ width: '10%', marginTop: 2 }}>
+                    <Box className='inputBox-25'>
                         <FormControl fullWidth className='input'>
                             <InputLabel id="demo-simple-select-label" sx={muiStyles.InputLabels}>Business</InputLabel>
                             <Select
@@ -843,7 +841,7 @@ function EditPurchaseOrder() {
                         </FormControl>
                     </Box>
 
-                    <Box sx={{ width: '23%', marginTop: 2 }}>
+                    <Box className='inputBox-9'>
                         <FormControl fullWidth className='input'>
                             {/* <InputLabel required id="demo-simple-select-label">Vendor</InputLabel> */}
                             <Autocomplete
@@ -864,7 +862,7 @@ function EditPurchaseOrder() {
                             {errorText.vendor != '' ? <p className='error'>{errorText.vendor}</p> : null}
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '37.5%' }} >
+                    <Box className='inputBox-32' >
                         <FormControl fullWidth className='input'>
                             <TextField
                             sx={muiStyles.input}
@@ -882,9 +880,9 @@ function EditPurchaseOrder() {
                     </Box>
 
 
-                    <Box sx={{ width: '13%' }} >
-                        <div >
-                            <InputLabel id="demo-simple-select-label" style={{ marginTop: 5, marginBottom: 5 }}>Attach PO</InputLabel>
+                    <Box className='inputBox-8' >
+                        <div style={{position:'relative'}}>
+                            <InputLabel id="demo-simple-select-label" style={{ marginTop: 5, marginBottom: 5,fontSize: 10,position: 'absolute',top: -23}}>Attach PO</InputLabel>
                             <input type="file" name='vPOFilePath' onChange={imageFile} hidden ref={imageRef} />
                             <div style={{ flexDirection: 'row', display: 'flex' }}>
                                 <button onClick={() => imageRef.current.click()} className='choosebtn'>Choose File</button>
@@ -910,13 +908,13 @@ function EditPurchaseOrder() {
 
                     </Box>
                     <FormGroup >
-                        <FormControlLabel control={<Checkbox checked={btActive} value={btActive} onChange={e => setBtActive(e.target.checked)} />} label="Active" />
+                        <FormControlLabel style={{marginRight:0}} control={<Checkbox checked={btActive} value={btActive} onChange={e => setBtActive(e.target.checked)} />} label="Active" />
                     </FormGroup>
                 </div>
             </div>
             <div className='databox'>
-                <div className='data-form-box'>
-                    <Box sx={{ width: '22%' }} >
+                <div className='data-form-box mt-2'>
+                    <Box className='inputBox-20' >
                         <FormControl fullWidth className='input'>
                             {/* <InputLabel required id="demo-simple-select-label">Item</InputLabel> */}
                             <Autocomplete
@@ -944,7 +942,7 @@ function EditPurchaseOrder() {
                             null
 
                         } */}
-                    <Box sx={{ width: '5%' }} >
+                    <Box className='inputBox-35'>
                         <FormControl fullWidth className='input' >
                             <TextField
                             sx={muiStyles.input}
@@ -962,7 +960,7 @@ function EditPurchaseOrder() {
                             {errorText.amount != '' ? <p className='error'>{errorText.amount}</p> : null}
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '6%' }} >
+                    <Box className='inputBox-36' >
                         <FormControl fullWidth className='input' >
                             <TextField
                             sx={muiStyles.input}
@@ -981,7 +979,7 @@ function EditPurchaseOrder() {
                         </FormControl>
                     </Box>
 
-                    <Box sx={{ width: '6%' }} >
+                    <Box className='inputBox-36'>
                         <FormControl fullWidth className='input' >
                             <TextField
                             sx={muiStyles.input}
@@ -999,7 +997,7 @@ function EditPurchaseOrder() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '6.5%' }} >
+                    <Box className='inputBox-36' >
                         <FormControl fullWidth className='input' >
                             <TextField
                             sx={muiStyles.input}
@@ -1016,7 +1014,7 @@ function EditPurchaseOrder() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '5%' }} >
+                    <Box className='inputBox-35' >
                         <FormControl fullWidth className='input' >
                             <TextField
                             sx={muiStyles.input}
@@ -1034,7 +1032,7 @@ function EditPurchaseOrder() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '6.5%' }} >
+                    <Box className='inputBox-36' >
                         <FormControl fullWidth className='input' >
                             <TextField
                             sx={muiStyles.input}
@@ -1051,7 +1049,7 @@ function EditPurchaseOrder() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '5%' }} >
+                    <Box className='inputBox-35'>
                         <FormControl fullWidth className='input' >
                             <TextField
                             sx={muiStyles.input}
@@ -1069,7 +1067,7 @@ function EditPurchaseOrder() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '6.5%' }} >
+                    <Box className='inputBox-36' >
                         <FormControl fullWidth className='input' >
                             <TextField
                             sx={muiStyles.input}
@@ -1086,7 +1084,7 @@ function EditPurchaseOrder() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '5%' }} >
+                    <Box className='inputBox-35' >
                         <FormControl fullWidth className='input' >
                             <TextField
                             sx={muiStyles.input}
@@ -1104,7 +1102,7 @@ function EditPurchaseOrder() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '6%' }} >
+                    <Box className='inputBox-21' >
                         <FormControl fullWidth className='input' >
                             <TextField
                             sx={muiStyles.input}
@@ -1122,7 +1120,7 @@ function EditPurchaseOrder() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '9%' }} >
+                    <Box className='inputBox-33'>
                         <FormControl fullWidth className='input' >
                             <TextField
                             sx={muiStyles.input}
@@ -1140,7 +1138,7 @@ function EditPurchaseOrder() {
                             />
                         </FormControl>
                     </Box>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 10, justifyContent: 'space-between', width: '100%', }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 10, justifyContent: 'space-between',marginBottom:10 }}>
                         <button title='Add' className='addbtn' onClick={addKoMonthDate}>{btnType == 'edit' ? 'Update' : <AddIcon fontSize='large' />}</button>
 
                         <button title='Refresh' className='addbtn' onClick={refreshbtn}><ReplayIcon fontSize='large' /></button>
@@ -1148,25 +1146,25 @@ function EditPurchaseOrder() {
                 </div>
                 <div className='tablecenter'>
                     {PODetails.length > 0 ?
-                        <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+                        <Paper sx={{ width: '100%', overflow: 'hidden',paddingTop:1 }}>
                             <TableContainer sx={{ maxHeight: 440 }}>
                                 <Table stickyHeader aria-label="sticky table">
                                     <TableHead>
                                         <TableRow>
                                             <TableCell scope="row">SN.</TableCell>
                                             <TableCell align="center">Action</TableCell>
-                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>Material Name</TableCell>
-                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>Quantity</TableCell>
-                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>Rate</TableCell>
-                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>Amount</TableCell>
-                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>SGST (%)</TableCell>
-                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>SGST </TableCell>
-                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>CGST (%)</TableCell>
-                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>CGST</TableCell>
-                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>IGST (%)</TableCell>
-                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>IGST</TableCell>
-                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>Total Tax</TableCell>
-                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>Total Amount</TableCell>
+                                            <TableCell align="left" >Material Name</TableCell>
+                                            <TableCell align="left" >Quantity</TableCell>
+                                            <TableCell align="left" >Rate</TableCell>
+                                            <TableCell align="left" >Amount</TableCell>
+                                            <TableCell align="left" >SGST (%)</TableCell>
+                                            <TableCell align="left" >SGST </TableCell>
+                                            <TableCell align="left" >CGST (%)</TableCell>
+                                            <TableCell align="left" >CGST</TableCell>
+                                            <TableCell align="left" >IGST (%)</TableCell>
+                                            <TableCell align="left" >IGST</TableCell>
+                                            <TableCell align="left" >Total Tax</TableCell>
+                                            <TableCell align="left" >Total Amount</TableCell>
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
@@ -1180,18 +1178,18 @@ function EditPurchaseOrder() {
                                                         <button className='deletbtn' title='Edit' onClick={() => editItem(item)}><BorderColorIcon size={20} color='#000' /></button>
 
                                                     </TableCell>
-                                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.MaterialDetail}</TableCell>
-                                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.nQty}</TableCell>
-                                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.nRate}</TableCell>
-                                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.nAmt}</TableCell>
-                                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.nSGSTP}</TableCell>
-                                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.nSGST}</TableCell>
-                                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.nCGSTP}</TableCell>
-                                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.nCGST}</TableCell>
-                                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.nIGSTP}</TableCell>
-                                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.nIGST}</TableCell>
-                                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.nTax}</TableCell>
-                                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.nTotalAmt}</TableCell>
+                                                    <TableCell align="left" >{item.MaterialDetail}</TableCell>
+                                                    <TableCell align="left" >{item.nQty}</TableCell>
+                                                    <TableCell align="left" >{item.nRate}</TableCell>
+                                                    <TableCell align="left" >{item.nAmt}</TableCell>
+                                                    <TableCell align="left" >{item.nSGSTP}</TableCell>
+                                                    <TableCell align="left" >{item.nSGST}</TableCell>
+                                                    <TableCell align="left" >{item.nCGSTP}</TableCell>
+                                                    <TableCell align="left" >{item.nCGST}</TableCell>
+                                                    <TableCell align="left" >{item.nIGSTP}</TableCell>
+                                                    <TableCell align="left" >{item.nIGST}</TableCell>
+                                                    <TableCell align="left" >{item.nTax}</TableCell>
+                                                    <TableCell align="left" >{item.nTotalAmt}</TableCell>
 
 
                                                 </TableRow>
@@ -1254,13 +1252,14 @@ const muiStyles = {
     date: {
         "& .MuiInputBase-root": {
             "& input": {
-                padding: '5px 14px',
+                padding: '6px 6px',
                 fontSize: '13px'
             }
         },
         "& .MuiFormLabel-root": {
             fontSize: '13px',
             top: '-13px',
+            left:'-10px',
             backgroundColor: 'transparent',
             zIndex: '1'
         },
@@ -1268,12 +1267,16 @@ const muiStyles = {
             zIndex: '1'
 
         },
+        '& .MuiInputAdornment-root':{
+            position: 'absolute',
+            right: '10px'
+        }
     },
     autoCompleate: {
         "& .MuiOutlinedInput-root": {
             padding: '0px',
             "& .MuiAutocomplete-input": {
-                padding: '5px 14px',
+                padding: '6px 6px',
                 fontSize: '13px'
             }
 
@@ -1282,6 +1285,7 @@ const muiStyles = {
             fontSize: '13px',
             backgroundColor: 'transparent',
             top: '-13px',
+            left:'-10px',
           
         },
         "& label.Mui-focused": {
@@ -1291,13 +1295,14 @@ const muiStyles = {
     input: {
         "& .MuiOutlinedInput-root": {
             "& input": {
-                padding: '6px 14px',
+                padding: '6px',
                 fontSize: '12px'
             }
         },
         "& .MuiFormLabel-root": {
             fontSize: '13px',
-            top: '-13px',  
+            top: '-13px',
+            left:'-10px',  
             backgroundColor: 'transparent',
         },
         "& label.Mui-focused": {
@@ -1307,7 +1312,7 @@ const muiStyles = {
     select: {
 
         "& .MuiSelect-select": {
-            padding: '3px 14px',
+            padding: '3px',
             fontSize: '12px'
         }, 
         
@@ -1316,6 +1321,7 @@ const muiStyles = {
     InputLabels: {
         fontSize: '13px',
         top: '-13px',
+        left:'-10px',
         backgroundColor: 'transparent',
         "&.Mui-focused": {
             zIndex: '1'

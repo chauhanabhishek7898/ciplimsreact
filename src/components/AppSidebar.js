@@ -29,8 +29,10 @@ import {
   // cilSpeedometer,
   cilStar,
 } from '@coreui/icons'
+import { useNavigate } from "react-router-dom";
 const AppSidebar = () => {
   const dispatch = useDispatch()
+  const navigate = useNavigate();
   const unfoldable = useSelector((state) => state.sidebarUnfoldable)
   const sidebarShow = useSelector((state) => state.sidebarShow)
   const [navigationData, setNavigationData] = React.useState([]);
@@ -38,8 +40,7 @@ const AppSidebar = () => {
     getProfileDetails()
   }, [])
   const getProfileDetails = () => {
-    GetProfileDetails(1).then(response => {
-      console.log('response',response)
+    GetProfileDetails(localStorage.getItem('nUserId')).then(response => {
       const nav = []
       let pageId = 0
       response.TAB2.forEach(item => {
@@ -75,11 +76,17 @@ const AppSidebar = () => {
           // console.log('pageId',pageId)
           
         }
-        
        })
       //  console.log('subNav',subNav)
       setNavigationData(nav)
     })
+  }
+  const gotoLogin=()=>{
+    if(localStorage.getItem('token')==null||localStorage.getItem('token')==undefined){
+      navigate('/login')
+      window.location.reload(false);
+    }
+    
   }
   return (
     <CSidebar
@@ -92,10 +99,10 @@ const AppSidebar = () => {
     >
       <CSidebarBrand className="d-none d-md-flex" to="/">
         <div>
-        <img style={{width: 133}} src={require('../assets/brand/template.png')} />
+        <img style={{width: 133}} src={require('../assets/brand/logos.png')} />
         </div>
       </CSidebarBrand>
-      <CSidebarNav>
+      <CSidebarNav onClick={gotoLogin}>
         <SimpleBar>
           <AppSidebarNav items={navigationData} />
         </SimpleBar>

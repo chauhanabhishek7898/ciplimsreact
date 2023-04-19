@@ -39,7 +39,7 @@ import Stack from '@mui/material/Stack';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
-import { parseDateToString, parseDateToStringSubmit } from '../../coreservices/Date';
+import { parseDateToString, parseDateToStringSubmit,parseTimeToStringSubmit } from '../../coreservices/Date';
 import { useNavigate, useLocation } from "react-router-dom";
 import Autocomplete from '@mui/material/Autocomplete';
 import { number } from 'prop-types';
@@ -53,6 +53,7 @@ import InfoIcon from '@mui/icons-material/Info';
 import CloseIcon from '@mui/icons-material/Close';
 import ReplayIcon from '@mui/icons-material/Replay';
 import { display } from '@mui/system';
+import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 function EditMaterialRelease() {
     const navigate = useNavigate();
     const location = useLocation();
@@ -182,6 +183,7 @@ function EditMaterialRelease() {
     const [editFirstFrom, setEditFirstFrom] = useState(false)
     const [dateandactiveDisable, setdateandactiveDisable] = useState(true)
     const [EditId, setEditId] = useState('')
+    const [CrruntTime, setCrruntTime] = React.useState(dayjs(startDates));
     useEffect(() => {
         const userId = localStorage.getItem("nUserId")
         setnLoggedInUserId(userId)
@@ -244,6 +246,9 @@ function EditMaterialRelease() {
             }
             setPODetails(data)
             setStartDate(new Date(res.GRNMaster[0].dtGRNDate))
+            let startTime = new Date(`${new Date().toDateString()} ${res.GRNMaster[0].vTime}`)
+            console.log('time',startTime)
+            setCrruntTime(startTime)
             setnPId(res.GRNMaster[0].nPId)
             setPlantDetail(res.GRNMaster[0].PlantDetail)
             setnBId(res.GRNMaster[0].nBId)
@@ -740,6 +745,7 @@ function EditMaterialRelease() {
                                     nBOMUnit: nBOMUnit,
                                     vBatchNo: vBatchNo,
                                     btActive: true,
+                                    vTime: parseTimeToStringSubmit(new Date(CrruntTime)),
                                     dtGRNDate: parseDateToStringSubmit(new Date(startDate)),
                                     nLoggedInUserId: parseInt(nLoggedInUserId)
                                 }]
@@ -772,6 +778,7 @@ function EditMaterialRelease() {
                                         setReleasedQty('')
                                         setLeftStockQty('')
                                         setLeftQty('')
+                                        setEditId(null)
                                         // navigate('/EnterOpeningStock')
 
                                     }
@@ -826,6 +833,7 @@ function EditMaterialRelease() {
                                         nBOMUnit: nBOMUnit,
                                         vBatchNo: vBatchNo,
                                         btActive: true,
+                                        vTime: parseTimeToStringSubmit(new Date(CrruntTime)),
                                         dtGRNDate: parseDateToStringSubmit(new Date(startDate)),
                                         nLoggedInUserId: parseInt(nLoggedInUserId)
                                     }]
@@ -1062,6 +1070,7 @@ function EditMaterialRelease() {
                         let data = {
                             nGRNId: nGRNId,
                             dtGRNDate: parseDateToStringSubmit(new Date(startDate)),
+                            vTime: parseTimeToStringSubmit(new Date(CrruntTime)),
                             btActive: btActive
                         }
                         ReleasedMaterialMaster_Update(data).then(res => {
@@ -1092,8 +1101,8 @@ function EditMaterialRelease() {
     return (
         <div className='citymasterContainer'>
             <div className='dateFilter-2'>
-                <div className='displayflexend'>
-                    <Box sx={{ width: '11%' }} >
+                <div className='displayflexend mt-2'>
+                    <Box className='inputBox-30'  >
                         <FormControl fullWidth className='input' >
                             <LocalizationProvider dateAdapter={AdapterDayjs} >
                                 <Stack spacing={3} >
@@ -1111,14 +1120,30 @@ function EditMaterialRelease() {
                             {errorText.date != '' ? <p className='error'>{errorText.date}</p> : null}
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '15%', marginTop: 1, position: 'relative' }} >
+                    <Box className='inputBox-38' >
+                        <FormControl fullWidth className='input' >
+                            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                <TimePicker
+                                    label="Select Time"
+                                    value={CrruntTime}
+                                    ampm={false}
+                                    onChange={(newValue) => {
+                                        setCrruntTime(newValue);
+                                    }}
+                                    renderInput={(params) => <TextField sx={muiStyles.date} {...params} />}
+                                />
+                            </LocalizationProvider>
+                            {/* {errorText.date != '' ? <p className='error'>{errorText.date}</p> : null} */}
+                        </FormControl>
+                    </Box>
+                    <Box className='inputBox-1' style={{position: 'relative'}}>
                         <FormControl fullWidth className='input'>
                             <TextField
                             sx={muiStyles.input}
                                 value={vBatchNo}
                                 onChange={e => getBatchNoDetails(e.target.value)}
                                 id="outlined-basic"
-                                label="Batch No"
+                                label="Doc No"
                                 variant="outlined"
                                 name='BatchNo'
                                 disabled={vBatchNoDisable}
@@ -1138,7 +1163,7 @@ function EditMaterialRelease() {
 
                         }
                     </Box>
-                    <Box sx={{ width: '28%', marginTop: 2 }} >
+                    <Box className='inputBox-12' >
                         <FormControl fullWidth className='input'>
                             {/* <InputLabel required id="demo-simple-select-label">Plant</InputLabel>npm  */}
                             <Autocomplete
@@ -1163,7 +1188,7 @@ function EditMaterialRelease() {
                         </FormControl>
                     </Box>
 
-                    <Box sx={{ width: '28%', marginTop: 2 }} >
+                    <Box className='inputBox-3' >
                         <FormControl fullWidth className='input'>
                             {/* <InputLabel required id="demo-simple-select-label">Plant</InputLabel>npm  */}
                             <Autocomplete
@@ -1186,7 +1211,7 @@ function EditMaterialRelease() {
                             {errorText.BomDetail != '' ? <p className='error'>{errorText.BomDetail}</p> : null}
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '7%', marginTop: 1 }} >
+                    <Box className='inputBox-33' >
                         <FormControl fullWidth className='input'>
                             <TextField
                             sx={muiStyles.input}
@@ -1219,7 +1244,7 @@ function EditMaterialRelease() {
                         </FormControl>
                     </Box> */}
                     <FormGroup >
-                        <FormControlLabel control={<Checkbox checked={btActive} value={btActive} onChange={e => setBtActive(e.target.checked)} />} label="Active" disabled={dateandactiveDisable} />
+                        <FormControlLabel style={{marginRight:0}} control={<Checkbox checked={btActive} value={btActive} onChange={e => setBtActive(e.target.checked)} />} label="Active" disabled={dateandactiveDisable} />
                     </FormGroup>
                     <div style={{ width: '100%', display: 'flex', justifyContent: 'flex-end' }}>
 
@@ -1250,16 +1275,16 @@ function EditMaterialRelease() {
                     {TableShow == true ?
                         <div className='tablecenter'>
                             {BOMMaterialsQty.length > 0 ?
-                                <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+                                <Paper sx={{ width: '100%', overflow: 'hidden',paddingTop:1 }}>
                                     <TableContainer sx={{ maxHeight: 440 }}>
                                         <Table stickyHeader aria-label="sticky table">
                                             <TableHead>
                                                 <TableRow>
                                                     <TableCell scope="row" style={{ width: '2%' }} >SN.</TableCell>
-                                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Material Name</TableCell>
-                                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>UOM</TableCell>
-                                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Qty</TableCell>
-                                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Required Qty</TableCell>
+                                                    <TableCell align="left" >Material Name</TableCell>
+                                                    <TableCell align="left" >UOM</TableCell>
+                                                    <TableCell align="left" >Qty</TableCell>
+                                                    <TableCell align="left" >Required Qty</TableCell>
                                                 </TableRow>
                                             </TableHead>
                                             <TableBody>
@@ -1267,10 +1292,10 @@ function EditMaterialRelease() {
                                                     return (
                                                         <TableRow key={index}>
                                                             <TableCell component="th" scope="row">{index + 1}.</TableCell>
-                                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.MaterialDetail}</TableCell>
-                                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vUOM}</TableCell>
-                                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.nQty}</TableCell>
-                                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.RequiredQty}</TableCell>
+                                                            <TableCell align="left" >{item.MaterialDetail}</TableCell>
+                                                            <TableCell align="left" >{item.vUOM}</TableCell>
+                                                            <TableCell align="left" >{item.nQty}</TableCell>
+                                                            <TableCell align="left" >{item.RequiredQty}</TableCell>
                                                         </TableRow>
                                                     )
                                                 })
@@ -1292,8 +1317,8 @@ function EditMaterialRelease() {
                 </div>
             </div>
             <div className='databox'>
-                <div className='data-form-box'>
-                    <Box sx={{ width: '25%' }} >
+                <div className='data-form-box mt-2'>
+                    <Box className='inputBox-41' >
                         <FormControl fullWidth className='input'>
                             {/* <InputLabel required id="demo-simple-select-label">Item</InputLabel>  */}
                             <Autocomplete
@@ -1357,7 +1382,7 @@ function EditMaterialRelease() {
                             {errorText.Quan != '' ? <p className='error'>{errorText.Quan}</p> : null}
                         </FormControl>
                     </Box> */}
-                    <Box sx={{ width: '5%' }} >
+                    <Box className='inputBox-35' >
                         <FormControl fullWidth className='input' >
                             <TextField
                             sx={muiStyles.input}
@@ -1374,7 +1399,7 @@ function EditMaterialRelease() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '8%' }}>
+                    <Box className='inputBox-38'>
                         <FormControl fullWidth className='input'>
                             <InputLabel id="demo-simple-select-label" required sx={muiStyles.InputLabels}>Exp Date</InputLabel>
                             <Select
@@ -1401,7 +1426,7 @@ function EditMaterialRelease() {
                         </FormControl>
 
                     </Box>
-                    <Box sx={{ width: '12%' }} >
+                    <Box className='inputBox-31' >
                         <FormControl fullWidth className='input' >
                             <TextField
                             sx={muiStyles.input}
@@ -1420,7 +1445,7 @@ function EditMaterialRelease() {
                             {/* {errorText.QuanAccept != '' ? <p className='error'>{errorText.QuanAccept}</p> : null} */}
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '12%' }} >
+                    <Box className='inputBox-31' >
                         <FormControl fullWidth className='input' >
                             <TextField
                             sx={muiStyles.input}
@@ -1441,7 +1466,7 @@ function EditMaterialRelease() {
                     </Box>
 
 
-                    <Box sx={{ width: '11%' }} >
+                    <Box className='inputBox-30' >
                         <FormControl fullWidth className='input' >
                             <TextField
                             sx={muiStyles.input}
@@ -1459,7 +1484,7 @@ function EditMaterialRelease() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '10%' }} >
+                    <Box className='inputBox-25' >
                         <FormControl fullWidth className='input' >
                             <TextField
                             sx={muiStyles.input}
@@ -1477,7 +1502,7 @@ function EditMaterialRelease() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '10%' }} >
+                    <Box className='inputBox-25' >
                         <FormControl fullWidth className='input' >
                             <TextField
                             sx={muiStyles.input}
@@ -1512,7 +1537,7 @@ function EditMaterialRelease() {
                             {errorText.date != '' ? <p className='error'>{errorText.date}</p> : null}
                         </FormControl>
                     </Box> */}
-                    <div style={{ width: '100%', }}>
+                    <div >
                         {/* {firstRecord == true ?
                             <div>
                                 
@@ -1527,8 +1552,8 @@ function EditMaterialRelease() {
                             </CButton>
                             :
                             // <button type="submit" className='submitbtn' onClick={submit}>Submit</button>
-                            <div style={{ display: 'flex', alignItems: 'center', gap: 10, justifyContent: 'space-between', width: '100%', }}>
-                                <button title='Add&Submit' className='addbtn' onClick={handleSubmit(submit)}>{btnType == 'edit' ? 'Update' : <AddIcon fontSize='large' />}</button>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: 10, justifyContent: 'space-between', width: '100%',marginBottom:10 }}>
+                                <button title='Add&Submit' className='addbtn' style={{fontSize:11}}  onClick={handleSubmit(submit)}>{btnType == 'edit' ? 'Update' : <AddIcon fontSize='large' />}</button>
                                 <button title='Clear' className='addbtn' onClick={clearFeaild}><ReplayIcon fontSize='large' /></button>
                             </div>
                         }
@@ -1537,17 +1562,17 @@ function EditMaterialRelease() {
                 </div>
                 <div className='tablecenter'>
                     {PODetails.length > 0 ?
-                        <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+                        <Paper sx={{ width: '100%', overflow: 'hidden',paddingTop:1 }}>
                             <TableContainer sx={{ maxHeight: 440 }}>
                                 <Table stickyHeader aria-label="sticky table">
                                     <TableHead>
                                         <TableRow>
                                             <TableCell scope="row" style={{ width: '2%' }} >SN.</TableCell>
                                             <TableCell align="center">Action</TableCell>
-                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>Material Detail</TableCell>
-                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>UOM</TableCell>
-                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>Exp Date</TableCell>
-                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>Qty Released</TableCell>
+                                            <TableCell align="left" >Material Detail</TableCell>
+                                            <TableCell align="left" >UOM</TableCell>
+                                            <TableCell align="left" >Exp Date</TableCell>
+                                            <TableCell align="left" >Qty Released</TableCell>
                                         </TableRow>
                                     </TableHead>
                                     {PODetails?.length > 0 ?
@@ -1566,12 +1591,12 @@ function EditMaterialRelease() {
                                                             </div>
 
                                                         </TableCell>
-                                                        {/* <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.RefNo}</TableCell> */}
-                                                        <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.MaterialDetail}</TableCell>
-                                                        <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vUOM}</TableCell>
+                                                        {/* <TableCell align="left" >{item.RefNo}</TableCell> */}
+                                                        <TableCell align="left" >{item.MaterialDetail}</TableCell>
+                                                        <TableCell align="left" >{item.vUOM}</TableCell>
 
-                                                        <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.ExpDate}</TableCell>
-                                                        <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.nQTYOut}</TableCell>
+                                                        <TableCell align="left" >{item.ExpDate}</TableCell>
+                                                        <TableCell align="left" >{item.nQTYOut}</TableCell>
 
 
                                                     </TableRow>
@@ -1584,7 +1609,7 @@ function EditMaterialRelease() {
 
                                         <TableBody>
                                             <TableRow>
-                                                <TableCell align="left" style={{whiteSpace:'nowrap'}}>No Record</TableCell>
+                                                <TableCell align="left" >No Record</TableCell>
                                             </TableRow>
                                         </TableBody>
                                     }
@@ -1645,13 +1670,14 @@ const muiStyles = {
     date: {
         "& .MuiInputBase-root": {
             "& input": {
-                padding: '5px 14px',
+                padding: '6px 6px',
                 fontSize: '13px'
             }
         },
         "& .MuiFormLabel-root": {
             fontSize: '13px',
             top: '-13px',
+            left:'-10px',
             backgroundColor: 'transparent',
             zIndex: '1'
         },
@@ -1659,12 +1685,16 @@ const muiStyles = {
             zIndex: '1'
 
         },
+        '& .MuiInputAdornment-root':{
+            position: 'absolute',
+            right: '10px'
+        }
     },
     autoCompleate: {
         "& .MuiOutlinedInput-root": {
             padding: '0px',
             "& .MuiAutocomplete-input": {
-                padding: '5px 14px',
+                padding: '6px 6px',
                 fontSize: '13px'
             }
 
@@ -1673,6 +1703,7 @@ const muiStyles = {
             fontSize: '13px',
             backgroundColor: 'transparent',
             top: '-13px',
+            left:'-10px',
           
         },
         "& label.Mui-focused": {
@@ -1682,13 +1713,14 @@ const muiStyles = {
     input: {
         "& .MuiOutlinedInput-root": {
             "& input": {
-                padding: '6px 14px',
+                padding: '6px',
                 fontSize: '12px'
             }
         },
         "& .MuiFormLabel-root": {
             fontSize: '13px',
-            top: '-13px',  
+            top: '-13px',
+            left:'-10px',  
             backgroundColor: 'transparent',
         },
         "& label.Mui-focused": {
@@ -1698,7 +1730,7 @@ const muiStyles = {
     select: {
 
         "& .MuiSelect-select": {
-            padding: '3px 14px',
+            padding: '3px',
             fontSize: '12px'
         }, 
         
@@ -1707,6 +1739,7 @@ const muiStyles = {
     InputLabels: {
         fontSize: '13px',
         top: '-13px',
+        left:'-10px',
         backgroundColor: 'transparent',
         "&.Mui-focused": {
             zIndex: '1'

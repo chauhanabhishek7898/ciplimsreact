@@ -390,7 +390,6 @@ function AddEnterOpeningStock() {
     }
     const validateformPoDetial = () => {
         if (nMId == '' || nMId == undefined) {
-            alert(1)
             setError({
                 MaterialDetail: 'Select Item *'
             })
@@ -661,8 +660,8 @@ function AddEnterOpeningStock() {
     return (
         <div className='citymasterContainer'>
             <div className='dateFilter-2'>
-                <div className='displayflexend'>
-                <Box sx={{ width: '11.5%' }} >
+                <div className='displayflexend mt-2'>
+                <Box className='inputBox-26' >
                         <FormControl fullWidth className='input' >
                             <LocalizationProvider dateAdapter={AdapterDayjs} >
                                 <Stack spacing={3} >
@@ -680,7 +679,7 @@ function AddEnterOpeningStock() {
                             {errorText.date != '' ? <p className='error'>{errorText.date}</p> : null}
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '39%', marginTop: 2 }} >
+                    <Box className='inputBox-27' >
                         <FormControl fullWidth className='input'>
                             {/* <InputLabel required id="demo-simple-select-label">Plant</InputLabel>npm  */}
                             <Autocomplete
@@ -703,7 +702,7 @@ function AddEnterOpeningStock() {
                             {errorText.plant != '' ? <p className='error'>{errorText.plant}</p> : null}
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '41%', marginTop: 1 }} >
+                    <Box className='inputBox-28'>
                         <FormControl fullWidth className='input'>
                             <TextField
                             sx={muiStyles.input}
@@ -720,13 +719,13 @@ function AddEnterOpeningStock() {
                         </FormControl>
                     </Box>
                     <FormGroup >
-                        <FormControlLabel control={<Checkbox defaultChecked={btActive} value={btActive} onChange={e => setBtActive(e.target.checked)} />} label="Active" disabled={disabled} />
+                        <FormControlLabel style={{marginRight:0}} control={<Checkbox defaultChecked={btActive} value={btActive} onChange={e => setBtActive(e.target.checked)} />} label="Active" disabled={disabled} />
                     </FormGroup>
                 </div>
             </div>
             <div className='databox'>
-                <div className='data-form-box'>
-                    <Box sx={{ width: '25%' }} >
+                <div className='data-form-box mt-2'>
+                    <Box  className='inputBox-29' >
                         <FormControl fullWidth className='input'>
                             {/* <InputLabel required id="demo-simple-select-label">Item</InputLabel>  */}
                             <Autocomplete
@@ -790,7 +789,7 @@ function AddEnterOpeningStock() {
                             {errorText.Quan != '' ? <p className='error'>{errorText.Quan}</p> : null}
                         </FormControl>
                     </Box> */}
-                     <Box sx={{ width: '11%' }} >
+                     <Box className='inputBox-30'>
                         <FormControl fullWidth className='input' >
                             <TextField
                             sx={muiStyles.input}
@@ -807,7 +806,7 @@ function AddEnterOpeningStock() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '12%' }} >
+                    <Box className='inputBox-31'>
                         <FormControl fullWidth className='input' >
                             <TextField
                             sx={muiStyles.input}
@@ -825,7 +824,7 @@ function AddEnterOpeningStock() {
                             {errorText.QuanAccept != '' ? <p className='error'>{errorText.QuanAccept}</p> : null}
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '12%' }} >
+                    <Box className='inputBox-31'>
                         <FormControl fullWidth className='input' >
                             <TextField
                             sx={muiStyles.input}
@@ -845,7 +844,7 @@ function AddEnterOpeningStock() {
                     </Box>
 
                    
-                    <Box sx={{ width: '11%' }} >
+                    <Box className='inputBox-30' >
                         <FormControl fullWidth className='input' >
                             <TextField
                             sx={muiStyles.input}
@@ -863,7 +862,7 @@ function AddEnterOpeningStock() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '11.5%' }} >
+                    <Box className='inputBox-26' >
                         <FormControl fullWidth className='input' >
                             <LocalizationProvider dateAdapter={AdapterDayjs} >
                                 <Stack spacing={3} >
@@ -880,7 +879,7 @@ function AddEnterOpeningStock() {
                             {errorText.date != '' ? <p className='error'>{errorText.date}</p> : null}
                         </FormControl>
                     </Box>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 10, justifyContent: 'space-between', width: '100%', }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 10, justifyContent: 'space-between',marginBottom:10 }}>
                         <button title='Add' className='addbtn' onClick={addKoMonthDate}>{btnType == 'edit' ? 'Update' : <AddIcon fontSize='large' />}</button>
 
                         <button title='Refresh' className='addbtn' onClick={refreshbtn}><ReplayIcon fontSize='large' /></button>
@@ -888,21 +887,21 @@ function AddEnterOpeningStock() {
                 </div>
                 <div className='tablecenter'>
                     {PODetails.length > 0 ?
-                        <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+                        <Paper sx={{ width: '100%', overflow: 'hidden',paddingTop:1 }}>
                             <TableContainer sx={{ maxHeight: 440 }}>
                                 <Table stickyHeader aria-label="sticky table">
                                     <TableHead>
                                         <TableRow>
                                             <TableCell scope="row" style={{ width: '2%' }} >SN.</TableCell>
                                             <TableCell align="center">Action</TableCell>
-                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>Material Name</TableCell>
-                                            {/* <TableCell align="left" style={{whiteSpace:'nowrap'}}>PO Qty</TableCell>
-                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>Balance QTY</TableCell> */}
-                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>UOM</TableCell>
-                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>Qty Accepted</TableCell>
-                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>Qty Rejected</TableCell>
-                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>Total Qty</TableCell>
-                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>Exp Date</TableCell>
+                                            <TableCell align="left" >Material Name</TableCell>
+                                            {/* <TableCell align="left" >PO Qty</TableCell>
+                                            <TableCell align="left" >Balance QTY</TableCell> */}
+                                            <TableCell align="left" >UOM</TableCell>
+                                            <TableCell align="left" >Qty Accepted</TableCell>
+                                            <TableCell align="left" >Qty Rejected</TableCell>
+                                            <TableCell align="left" >Total Qty</TableCell>
+                                            <TableCell align="left" >Exp Date</TableCell>
                                         </TableRow>
                                     </TableHead>
                                     {PODetails?.length > 0 ?
@@ -921,14 +920,14 @@ function AddEnterOpeningStock() {
                                                             </div>
 
                                                         </TableCell>
-                                                        <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.MaterialDetail}</TableCell>
-                                                        {/* <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.nQty}</TableCell>
-                                                        <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.BalanceQuantity}</TableCell> */}
-                                                        <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vUOM}</TableCell>
-                                                        <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.nQtyAccepted}</TableCell>
-                                                        <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.nQtyRejected}</TableCell>
-                                                        <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.TotalQty}</TableCell>
-                                                        <TableCell align="left" style={{whiteSpace:'nowrap'}}>{parseDateToString(new Date(item.dtExpDate2))}</TableCell>
+                                                        <TableCell align="left" >{item.MaterialDetail}</TableCell>
+                                                        {/* <TableCell align="left" >{item.nQty}</TableCell>
+                                                        <TableCell align="left" >{item.BalanceQuantity}</TableCell> */}
+                                                        <TableCell align="left" >{item.vUOM}</TableCell>
+                                                        <TableCell align="left" >{item.nQtyAccepted}</TableCell>
+                                                        <TableCell align="left" >{item.nQtyRejected}</TableCell>
+                                                        <TableCell align="left" >{item.TotalQty}</TableCell>
+                                                        <TableCell align="left" >{parseDateToString(new Date(item.dtExpDate2))}</TableCell>
 
                                                     </TableRow>
                                                 )
@@ -940,7 +939,7 @@ function AddEnterOpeningStock() {
 
                                         <TableBody>
                                             <TableRow>
-                                                <TableCell align="left" style={{whiteSpace:'nowrap'}}>No Record</TableCell>
+                                                <TableCell align="left" >No Record</TableCell>
                                             </TableRow>
                                         </TableBody>
                                     }
@@ -996,13 +995,14 @@ const muiStyles = {
     date: {
         "& .MuiInputBase-root": {
             "& input": {
-                padding: '5px 14px',
+                padding: '6px 6px',
                 fontSize: '13px'
             }
         },
         "& .MuiFormLabel-root": {
             fontSize: '13px',
             top: '-13px',
+            left:'-10px',
             backgroundColor: 'transparent',
             zIndex: '1'
         },
@@ -1010,12 +1010,16 @@ const muiStyles = {
             zIndex: '1'
 
         },
+        '& .MuiInputAdornment-root':{
+            position: 'absolute',
+            right: '10px'
+        }
     },
     autoCompleate: {
         "& .MuiOutlinedInput-root": {
             padding: '0px',
             "& .MuiAutocomplete-input": {
-                padding: '5px 14px',
+                padding: '6px 6px',
                 fontSize: '13px'
             }
 
@@ -1024,6 +1028,7 @@ const muiStyles = {
             fontSize: '13px',
             backgroundColor: 'transparent',
             top: '-13px',
+            left:'-10px',
           
         },
         "& label.Mui-focused": {
@@ -1033,13 +1038,14 @@ const muiStyles = {
     input: {
         "& .MuiOutlinedInput-root": {
             "& input": {
-                padding: '6px 14px',
+                padding: '6px',
                 fontSize: '12px'
             }
         },
         "& .MuiFormLabel-root": {
             fontSize: '13px',
-            top: '-13px',  
+            top: '-13px',
+            left:'-10px',  
             backgroundColor: 'transparent',
         },
         "& label.Mui-focused": {
@@ -1049,7 +1055,7 @@ const muiStyles = {
     select: {
 
         "& .MuiSelect-select": {
-            padding: '3px 14px',
+            padding: '3px',
             fontSize: '12px'
         }, 
         
@@ -1058,6 +1064,7 @@ const muiStyles = {
     InputLabels: {
         fontSize: '13px',
         top: '-13px',
+        left:'-10px',
         backgroundColor: 'transparent',
         "&.Mui-focused": {
             zIndex: '1'

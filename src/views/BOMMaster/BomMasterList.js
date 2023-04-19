@@ -35,17 +35,17 @@ import Stack from '@mui/material/Stack';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
-import { parseDateToString,parseDateToStringSubmit } from '../../coreservices/Date';
+import { parseDateToString, parseDateToStringSubmit } from '../../coreservices/Date';
 import { useNavigate, Link } from "react-router-dom";
 import * as environment from '../../coreservices/environment'
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import CircularProgress from '@mui/joy/CircularProgress';
 function BomMasterList() {
-    let imageUrl=environment.imageUrl
+    let imageUrl = environment.imageUrl
     const navigate = useNavigate();
     const [modalIsOpen, setIsOpen] = React.useState(false);
     const [page, setPage] = React.useState(0);
-    const [rowsPerPage, setRowsPerPage] = React.useState(10);
+    const [rowsPerPage, setRowsPerPage] = React.useState(5);
     const [brandData, setBrandData] = React.useState([]);
     const [loader, setLoader] = React.useState(false);
     const [nBid, setnBid] = React.useState(0);
@@ -97,10 +97,10 @@ function BomMasterList() {
     const getPODetails = () => {
         setLoader(true)
         let vGenrics
-        if(vGenric==''||vGenric==undefined){
-            vGenrics=null
-        }else{
-            vGenrics=vGenric
+        if (vGenric == '' || vGenric == undefined) {
+            vGenrics = null
+        } else {
+            vGenrics = vGenric
         }
         GetBOMDetails(vGenrics).then(response => {
             console.log(response)
@@ -142,32 +142,32 @@ function BomMasterList() {
         })
     }
 
-   const handleDetail = (nBId) => {
-     
+    const handleDetail = (nBId) => {
+
         navigate('/EditBomMaster', { state: { nBId } });
-      }
+    }
 
     return (
         <div className='citymasterContainer'>
             {/* <button  title='Add' onClick={routeChange}><AddIcon fontSize='large' /></button> */}
-            {loader==true?
-            <div className='progressBox'>
-                <div className='progressInner'>
-                    <CircularProgress />
+            {loader == true ?
+                <div className='progressBox'>
+                    <div className='progressInner'>
+                        <CircularProgress />
+                    </div>
                 </div>
-            </div>
-            :
-            null
+                :
+                null
 
             }
-            <Link to="/AddBomMaster" className='addbtn_2'><AddIcon fontSize='large' /></Link>
+            <Link to="/AddBomMaster" className='addbtn_2'><AddIcon fontSize='large' /> <span className='addFont'>Add</span></Link>
 
             <div className='tablecenter'>
-               
-                <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+
+                <Paper sx={{ width: '100%', overflow: 'hidden', paddingTop: 1 }}>
                     <div className='displayflexend-2'>
-                <Box sx={{ width: '28%' }} >
-                    {/* <LocalizationProvider dateAdapter={AdapterDayjs} >
+                        <Box sx={{ width: '28%' }} >
+                            {/* <LocalizationProvider dateAdapter={AdapterDayjs} >
                         <Stack spacing={3} >
                             <DesktopDatePicker
                                 label={'Start Date *'}
@@ -179,9 +179,9 @@ function BomMasterList() {
                             />
                         </Stack>
                     </LocalizationProvider> */}
-                </Box>
-                <Box sx={{ width: '28%' }} >
-                    {/* <LocalizationProvider dateAdapter={AdapterDayjs} >
+                        </Box>
+                        <Box sx={{ width: '28%' }} >
+                            {/* <LocalizationProvider dateAdapter={AdapterDayjs} >
                         <Stack spacing={3}>
                             <DesktopDatePicker
                                 label="End Date *"
@@ -193,68 +193,67 @@ function BomMasterList() {
                             />
                         </Stack>
                     </LocalizationProvider> */}
-                </Box>
+                        </Box>
 
-                <Box sx={{ width: '28%' }} >
-                    <FormControl fullWidth className='input' >
-                        <TextField
-                        sx={muiStyles.input}
-                            value={vGenric}
-                            onChange={e => setvGenric(e.target.value)}
-                            id="outlined-basic"
-                            label="Search.."
-                            variant="outlined"
-                            name='vPODesc'
-                        />
-                    </FormControl>
+                        <Box sx={{ width: '28%' }} >
+                            <FormControl fullWidth className='input' >
+                                <TextField
+                                    sx={muiStyles.input}
+                                    value={vGenric}
+                                    onChange={e => setvGenric(e.target.value)}
+                                    id="outlined-basic"
+                                    label="Search.."
+                                    variant="outlined"
+                                    name='vPODesc'
+                                />
+                            </FormControl>
 
-                </Box>
-                
-                <Box sx={{ width: '10%' }} >
-                   <button className='applybtn' onClick={getPODetails}>Apply</button>
+                        </Box>
 
-                </Box>
+                        <Box sx={{ width: '10%' }} >
+                            <button className='applybtn' onClick={getPODetails}>Apply</button>
+
+                        </Box>
 
                     </div>
 
-                    <TableContainer sx={{ maxHeight: 440 }}>
+                    <TableContainer sx={{ maxHeight: 440,paddingLeft:1.5,paddingRight:1.5 }}>
                         <Table stickyHeader aria-label="sticky table">
                             <TableHead>
                                 <TableRow>
                                     {/* <TableCell scope="row">SN.</TableCell> */}
-                                    <TableCell align="center">Edit</TableCell>
-                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Status</TableCell>
-                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>BOM No</TableCell>
-                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Brand</TableCell>
-                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Pack</TableCell>
-                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>BOM Name</TableCell>
-                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Unit</TableCell>
-                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Remarks</TableCell>
-                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>BOM Copy</TableCell>
-                                    
+                                    <TableCell align="left" sx={muiStyles.tableHead} >Edit</TableCell>
+                                    <TableCell align="left" sx={muiStyles.tableHead} >Status</TableCell>
+                                    <TableCell align="left" sx={muiStyles.tableHead} >BOM No</TableCell>
+                                    <TableCell align="left" sx={muiStyles.tableHead} >Brand</TableCell>
+                                    <TableCell align="left" sx={muiStyles.tableHead} >Pack</TableCell>
+                                    <TableCell align="left" sx={muiStyles.tableHead} >BOM Name</TableCell>
+                                    <TableCell align="left" sx={muiStyles.tableHead} >Unit</TableCell>
+                                    <TableCell align="left" sx={muiStyles.tableHead} >Remarks</TableCell>
+                                    <TableCell align="left" sx={muiStyles.tableHead} >BOM Copy</TableCell>
+
                                 </TableRow>
                             </TableHead>
-                            {brandData?.length>0?
-                            <TableBody>
-                                {brandData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((item,index) => {
-                                    return (
-                                        <TableRow key={index}>
-                                            {/* <TableCell component="th" scope="row">{index + 1}.</TableCell> */}
-                                            <TableCell align="center"><button className='deletbtn' title='Edit' onClick={() =>handleDetail(item.nBId) }><BorderColorIcon size={20} color='#000' /></button></TableCell>
-                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
-                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vBOMNo}</TableCell>
-                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vBrand}</TableCell>
-                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vPack}</TableCell>
-                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vBOMName}</TableCell>
-                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vUnit}</TableCell>
-                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vRemarks}</TableCell>
-                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}> <a href={imageUrl+'/'+item.vBOMCopyFilePath} target="_blank" rel="noopener noreferrer" style={{ marginLeft: 10 }}>{item.vBOMCopyFilePath!=null&&item.vBOMCopyFilePath!=''?'BOM Copy':null}</a> </TableCell>
- 
-                                        </TableRow>
-                                    )
-                                })
-                                }
-                            </TableBody>
+                            {brandData?.length > 0 ?
+                                <TableBody>
+                                    {brandData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((item, index) => {
+                                        return (
+                                            <TableRow key={index}>
+                                                {/* <TableCell component="th" scope="row">{index + 1}.</TableCell> */}
+                                                <TableCell align="left" sx={muiStyles.tableBody}><div className='editbtn' title='Edit' onClick={() => handleDetail(item.nBId)}><BorderColorIcon size={20} color='#000' /></div></TableCell>
+                                                <TableCell align="left" sx={muiStyles.tableBody}>{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
+                                                <TableCell align="left" sx={muiStyles.tableBody}>{item.vBOMNo}</TableCell>
+                                                <TableCell align="left" sx={muiStyles.tableBody}>{item.vBrand}</TableCell>
+                                                <TableCell align="left" sx={muiStyles.tableBody}>{item.vPack}</TableCell>
+                                                <TableCell align="left" sx={muiStyles.tableBody}>{item.vBOMName}</TableCell>
+                                                <TableCell align="left" sx={muiStyles.tableBody}>{item.vUnit}</TableCell>
+                                                <TableCell align="left" sx={muiStyles.tableBody}>{item.vRemarks}</TableCell>
+                                                <TableCell align="left" sx={muiStyles.tableBody}> <a href={imageUrl + '/' + item.vBOMCopyFilePath} target="_blank" rel="noopener noreferrer" style={{ marginLeft: 10 }}>{item.vBOMCopyFilePath != null && item.vBOMCopyFilePath != '' ? 'BOM Copy' : null}</a> </TableCell>
+                                            </TableRow>
+                                        )
+                                    })
+                                    }
+                                </TableBody>
                                 :
                                 <TableBody>
                                     <TableRow>
@@ -265,7 +264,7 @@ function BomMasterList() {
                         </Table>
                     </TableContainer>
                     <TablePagination
-                        rowsPerPageOptions={[10, 25, 100]}
+                        rowsPerPageOptions={[5,10, 25, 100]}
                         component="div"
                         count={brandData.length}
                         rowsPerPage={rowsPerPage}
@@ -304,83 +303,108 @@ const muiStyles = {
     date: {
         "& .MuiInputBase-root": {
             "& input": {
-                padding: '5px 14px',
+                padding: '6px 6px',
                 fontSize: '13px'
             }
         },
         "& .MuiFormLabel-root": {
             fontSize: '13px',
-            lineHeight: '0',
-            top: '4.6px',
-            overflow: 'visible',
-            background: '#fff',
+            top: '-13px',
+            left: '-10px',
+            backgroundColor: 'transparent',
             zIndex: '1'
         },
         "& label.Mui-focused": {
-            top: '5px',
-            background: '#fff',
             zIndex: '1'
 
         },
+        '& .MuiInputAdornment-root': {
+            position: 'absolute',
+            right: '10px'
+        }
     },
     autoCompleate: {
         "& .MuiOutlinedInput-root": {
             padding: '0px',
             "& .MuiAutocomplete-input": {
-                padding: '5px 14px',
+                padding: '6px 6px',
                 fontSize: '13px'
             }
 
         },
         "& .MuiFormLabel-root": {
             fontSize: '13px',
-            lineHeight: '0',
-            top: '-4px',
-            overflow: 'visible',
+            backgroundColor: 'transparent',
+            top: '-13px',
+            left: '-10px',
+
         },
         "& label.Mui-focused": {
-            top: '5px',
-            backgroundColor: '#fff',
             zIndex: '1'
         },
     },
     input: {
         "& .MuiOutlinedInput-root": {
             "& input": {
-                padding: '6px 14px',
+                padding: '6px',
                 fontSize: '12px'
             }
         },
         "& .MuiFormLabel-root": {
             fontSize: '13px',
-            lineHeight: '0',
-            top: '-4px',
-            overflow: 'visible',
+            top: '-13px',
+            left: '-10px',
+            backgroundColor: 'transparent',
         },
         "& label.Mui-focused": {
-            top: '5px',
-            backgroundColor: 'green',
             zIndex: '1'
         },
     },
     select: {
+
         "& .MuiSelect-select": {
-            padding: '3px 14px',
+            padding: '3px',
             fontSize: '12px'
         },
+
 
     },
     InputLabels: {
         fontSize: '13px',
-        lineHeight: '0',
-        top: '-4px',
-        overflow: 'visible',
+        top: '-13px',
+        left: '-10px',
+        backgroundColor: 'transparent',
         "&.Mui-focused": {
-            top: '5px',
-            backgroundColor: 'green',
             zIndex: '1'
         }
-    }
+    },
+    tableBox: {
+        "&.MuiTableContainer-root": {
+            width: '100%',
+            maxHeight: '440px',
+            padding: '0px 16px',
+        },
+    },
+    tableHead: {
+        "&.MuiTableCell-root": {
+            padding: '8px',
+            fontWeight: 'bold'
+        }
+    },
+    tableBody: {
+        "&.MuiTableCell-root": {
+            padding: '8px',
+            fontSize: '14px'
+        }
+    },
+    checkboxLabel: {
+        "&.MuiFormControlLabel-root": {
+            "&.MuiTypography-root": {
+                fontSize: '14px'
+            }
+        }
+    },
+
 
 };
 export default BomMasterList
