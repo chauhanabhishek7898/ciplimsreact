@@ -322,7 +322,7 @@ function MaterialMaster() {
                 null
 
             }
-            <button className='addbtn_2' onClick={() => openmodale(null, 'Submit')} title='Add'  ><AddIcon fontSize='large' /></button>
+            <button className='addbtn_2' onClick={() => openmodale(null, 'Submit')} title='Add'  ><AddIcon fontSize='large' /> <span className='addFont'>Add</span></button>
             <Modal
                 isOpen={modalIsOpen}
                 style={customStyles}
@@ -489,7 +489,7 @@ function MaterialMaster() {
                         </FormControl>
                     </Box>
                     <FormGroup >
-                        <FormControlLabel control={<Checkbox defaultChecked={btActive} value={btActive} onChange={e => setBtActive(e.target.checked)} />} label="Active" disabled={disabled} />
+                        <FormControlLabel style={{marginRight:0}} control={<Checkbox defaultChecked={btActive} value={btActive} onChange={e => setBtActive(e.target.checked)} />} label="Active" disabled={disabled} />
                     </FormGroup>
                 </div>
                 <div className='displayflexendmodal'>
@@ -503,7 +503,7 @@ function MaterialMaster() {
                     }
                 </div>
             </Modal >
-            <div className='databox'>
+            <div>
                 {/* <div className='data-form-box'>
                     <Box sx={{ width: '20%' }} >
                         <FormControl fullWidth className='input' >
@@ -584,9 +584,10 @@ function MaterialMaster() {
                     </div>
                 </div> */}
                 <div className='tablecenter'>
-                    <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+                    <Paper sx={{ width: '100%', overflow: 'hidden',paddingTop:1 }}>
                         <div className='exportandfilter'>
                             <ExportExcel excelData={brandData} Heading={Heading} fileName={'Material_Master'} />
+                            <div className='filterbox'>
                             <Box className='searchbox'>
                                 <SearchBar
                                     value={searched}
@@ -595,25 +596,27 @@ function MaterialMaster() {
                                 />
 
                             </Box>
-                            <FormGroup >
-                                <FormControlLabel control={<Checkbox checked={onlyActive} value={onlyActive} onChange={checkedonlyActive} />} label="Only Active Data" />
+                            <FormGroup className='activeonly'>
+                                <FormControlLabel style={{marginRight:0}} control={<Checkbox checked={onlyActive} value={onlyActive} onChange={checkedonlyActive} />} label="Only Active Data" />
                             </FormGroup>
+
+                            </div>
                         </div>
 
-                        <TableContainer sx={{ maxHeight: 440 }}>
+                        <TableContainer sx={{ maxHeight: 440,paddingLeft:1.5,paddingRight:1.5 }}>
                             <Table stickyHeader aria-label="sticky table">
                                 <TableHead>
                                     <TableRow>
                                         {/* <TableCell scope="row">SN.</TableCell> */}
-                                        <TableCell align="left" style={{whiteSpace:'nowrap'}}>Edit</TableCell>
-                                        <TableCell align="left" style={{whiteSpace:'nowrap'}}>Status</TableCell>
-                                        <TableCell align="left" style={{whiteSpace:'nowrap'}}>Material Code</TableCell>
-                                        <TableCell align="left" style={{whiteSpace:'nowrap'}}>Material Name</TableCell>
-                                        <TableCell align="left" style={{whiteSpace:'nowrap'}}>Category</TableCell>
-                                        <TableCell align="left" style={{whiteSpace:'nowrap'}}>Material Type</TableCell>
-                                        <TableCell align="left" style={{whiteSpace:'nowrap'}}>UOM</TableCell>
-                                        <TableCell align="left" style={{whiteSpace:'nowrap'}}>HSN Code</TableCell>
-                                        <TableCell align="left" style={{whiteSpace:'nowrap'}}>Remarks</TableCell>
+                                        <TableCell align="left" sx={muiStyles.tableHead}>Edit</TableCell>
+                                        <TableCell align="left" sx={muiStyles.tableHead}>Status</TableCell>
+                                        <TableCell align="left" sx={muiStyles.tableHead}>Material Code</TableCell>
+                                        <TableCell align="left" sx={muiStyles.tableHead}>Material Name</TableCell>
+                                        <TableCell align="left" sx={muiStyles.tableHead}>Category</TableCell>
+                                        <TableCell align="left" sx={muiStyles.tableHead}>Material Type</TableCell>
+                                        <TableCell align="left" sx={muiStyles.tableHead}>UOM</TableCell>
+                                        <TableCell align="left" sx={muiStyles.tableHead}>HSN Code</TableCell>
+                                        <TableCell align="left" sx={muiStyles.tableHead}>Remarks</TableCell>
                                     </TableRow>
                                 </TableHead>
                                
@@ -623,15 +626,15 @@ function MaterialMaster() {
                                             return (
                                                 <TableRow hover role="checkbox" tabIndex={-1} key={index}>
                                                       {/* <TableCell component="th" scope="row">{index + 1}.</TableCell> */}
-                                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}><div onClick={() => openmodale(item, 'Update')} className='editbtn'><BorderColorIcon size={20} color='#000' /></div></TableCell>
-                                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
-                                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vMCode}</TableCell>
-                                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vMName}</TableCell>
-                                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vCategory}</TableCell>
-                                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vMaterialType}</TableCell>
-                                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vUOM}</TableCell>
-                                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vHSNCode}</TableCell>
-                                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vRemarks}</TableCell>
+                                                    <TableCell align="left" sx={muiStyles.tableBody}><div onClick={() => openmodale(item, 'Update')} className='editbtn'><BorderColorIcon size={20} color='#000' /></div></TableCell>
+                                                    <TableCell align="left" sx={muiStyles.tableBody}>{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
+                                                    <TableCell align="left" sx={muiStyles.tableBody}>{item.vMCode}</TableCell>
+                                                    <TableCell align="left" sx={muiStyles.tableBody}>{item.vMName}</TableCell>
+                                                    <TableCell align="left" sx={muiStyles.tableBody}>{item.vCategory}</TableCell>
+                                                    <TableCell align="left" sx={muiStyles.tableBody}>{item.vMaterialType}</TableCell>
+                                                    <TableCell align="left" sx={muiStyles.tableBody}>{item.vUOM}</TableCell>
+                                                    <TableCell align="left" sx={muiStyles.tableBody}>{item.vHSNCode}</TableCell>
+                                                    <TableCell align="left" sx={muiStyles.tableBody}>{item.vRemarks}</TableCell>
                                                 </TableRow>
                                             );
                                         })}
@@ -692,13 +695,14 @@ const muiStyles = {
     date: {
         "& .MuiInputBase-root": {
             "& input": {
-                padding: '5px 14px',
+                padding: '6px 6px',
                 fontSize: '13px'
             }
         },
         "& .MuiFormLabel-root": {
             fontSize: '13px',
             top: '-13px',
+            left:'-10px',
             backgroundColor: 'transparent',
             zIndex: '1'
         },
@@ -706,12 +710,16 @@ const muiStyles = {
             zIndex: '1'
 
         },
+        '& .MuiInputAdornment-root':{
+            position: 'absolute',
+            right: '10px'
+        }
     },
     autoCompleate: {
         "& .MuiOutlinedInput-root": {
             padding: '0px',
             "& .MuiAutocomplete-input": {
-                padding: '5px 14px',
+                padding: '6px 6px',
                 fontSize: '13px'
             }
 
@@ -720,6 +728,7 @@ const muiStyles = {
             fontSize: '13px',
             backgroundColor: 'transparent',
             top: '-13px',
+            left:'-10px',
           
         },
         "& label.Mui-focused": {
@@ -729,13 +738,14 @@ const muiStyles = {
     input: {
         "& .MuiOutlinedInput-root": {
             "& input": {
-                padding: '6px 14px',
+                padding: '6px',
                 fontSize: '12px'
             }
         },
         "& .MuiFormLabel-root": {
             fontSize: '13px',
-            top: '-13px',  
+            top: '-13px',
+            left:'-10px',  
             backgroundColor: 'transparent',
         },
         "& label.Mui-focused": {
@@ -745,7 +755,7 @@ const muiStyles = {
     select: {
 
         "& .MuiSelect-select": {
-            padding: '3px 14px',
+            padding: '3px',
             fontSize: '12px'
         }, 
         
@@ -754,9 +764,37 @@ const muiStyles = {
     InputLabels: {
         fontSize: '13px',
         top: '-13px',
+        left:'-10px',
         backgroundColor: 'transparent',
         "&.Mui-focused": {
             zIndex: '1'
+        }
+    },
+    tableBox: {
+        "&.MuiTableContainer-root": {
+            width: '100%',
+            maxHeight: '440px',
+            padding: '0px 16px',
+        },
+    },
+    tableHead: {
+        "&.MuiTableCell-root": {
+            padding: '8px',
+            fontWeight:'bold'
+        }
+    },
+    tableBody: {
+        "&.MuiTableCell-root": {
+            padding: '8px',
+            fontSize:'14px',
+            lineHeight: '39px'
+        }
+    },
+    checkboxLabel: {
+        "&.MuiFormControlLabel-root": {
+            "&.MuiTypography-root": {
+                fontSize:'14px'
+            }
         }
     },
    

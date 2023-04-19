@@ -397,7 +397,7 @@ function EditAdditionalIn() {
     }
     const validateformPoDetial = () => {
         if (nMId == '' || nMId == undefined) {
-            alert(1)
+            
             setError({
                 MaterialDetail: 'Select Item *'
             })
@@ -668,8 +668,8 @@ function EditAdditionalIn() {
     return (
         <div className='citymasterContainer'>
             <div className='dateFilter-2'>
-                <div className='displayflexend'>
-                <Box sx={{ width: '11.5%' }} >
+                <div className='displayflexend mt-2'>
+                <Box className='inputBox-26'>
                         <FormControl fullWidth className='input' >
                             <LocalizationProvider dateAdapter={AdapterDayjs} >
                                 <Stack spacing={3} >
@@ -687,7 +687,7 @@ function EditAdditionalIn() {
                             {errorText.date != '' ? <p className='error'>{errorText.date}</p> : null}
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '15%', marginTop: 1 }} >
+                    <Box className='inputBox-1' >
                         <FormControl fullWidth className='input'>
                             <TextField
                             sx={muiStyles.input}
@@ -704,7 +704,7 @@ function EditAdditionalIn() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '39%', marginTop: 2 }} >
+                    <Box className='inputBox-15' >
                         <FormControl fullWidth className='input'>
                             {/* <InputLabel required id="demo-simple-select-label">Plant</InputLabel>npm  */}
                             <Autocomplete
@@ -727,7 +727,7 @@ function EditAdditionalIn() {
                             {errorText.plant != '' ? <p className='error'>{errorText.plant}</p> : null}
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '32%', marginTop: 1 }} >
+                    <Box className='inputBox-15' >
                         <FormControl fullWidth className='input'>
                             <TextField
                             sx={muiStyles.input}
@@ -744,13 +744,13 @@ function EditAdditionalIn() {
                         </FormControl>
                     </Box>
                     <FormGroup >
-                        <FormControlLabel control={<Checkbox checked={btActive} value={btActive} onChange={e => setBtActive(e.target.checked)} />} label="Active" />
+                        <FormControlLabel style={{marginRight:0}} control={<Checkbox checked={btActive} value={btActive} onChange={e => setBtActive(e.target.checked)} />} label="Active" />
                     </FormGroup>
                 </div>
             </div>
             <div className='databox'>
-                <div className='data-form-box'>
-                    <Box sx={{ width: '25%' }} >
+                <div className='data-form-box mt-2'>
+                    <Box className='inputBox-29' >
                         <FormControl fullWidth className='input'>
                             {/* <InputLabel required id="demo-simple-select-label">Item</InputLabel>  */}
                             <Autocomplete
@@ -772,49 +772,7 @@ function EditAdditionalIn() {
                             {errorText.MaterialDetail != '' ? <p className='error'>{errorText.MaterialDetail}</p> : null}
                         </FormControl>
                     </Box>
-
-                    {/* {errorText != '' ?
-                            <p style={{ color: 'red' }}>{errorText}</p>
-                            :
-                            null
-
-                        } */}
-                    {/* <Box sx={{ width: '7%' }} >
-                        <FormControl fullWidth className='input' >
-                            <TextField
-                                value={nQty}
-                                // onChange={e => calculateAmount(e.target.value,'nQty')}
-                                required id="outlined-basic"
-                                label="PO Qty"
-                                variant="outlined"
-                                name='Quantity'
-                                type="number" inputProps={{ min: 4, max: 10 }}
-                            // inputRef={register({ required: "Quantity is required.*", })}
-                            // error={Boolean(errors.Quantity)}
-                            // helperText={errors.Quantity?.message}
-                            />
-                            {errorText.Quan != '' ? <p className='error'>{errorText.Quan}</p> : null}
-                        </FormControl>
-                    </Box> */}
-                    {/* <Box sx={{ width: '7%' }} >
-                        <FormControl fullWidth className='input' >
-                            <TextField
-                                value={BalanceQuantity}
-                                // onChange={e => calculateAmount(e.target.value,'nQty')}
-                                id="outlined-basic"
-                                label="Balance Qty"
-                                variant="outlined"
-                                name='BalanceQuantity'
-                                type="number" inputProps={{ min: 4, max: 10 }}
-                                disabled={true}
-                            // inputRef={register({ required: "Quantity is required.*", })}
-                            // error={Boolean(errors.Quantity)}
-                            // helperText={errors.Quantity?.message}
-                            />
-                            {errorText.Quan != '' ? <p className='error'>{errorText.Quan}</p> : null}
-                        </FormControl>
-                    </Box> */}
-                     <Box sx={{ width: '11%' }} >
+                     <Box className='inputBox-30'>
                         <FormControl fullWidth className='input' >
                             <TextField
                             sx={muiStyles.input}
@@ -831,7 +789,7 @@ function EditAdditionalIn() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '12%' }} >
+                    <Box className='inputBox-31' >
                         <FormControl fullWidth className='input' >
                             <TextField
                             sx={muiStyles.input}
@@ -849,7 +807,7 @@ function EditAdditionalIn() {
                             {errorText.QuanAccept != '' ? <p className='error'>{errorText.QuanAccept}</p> : null}
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '12%' }} >
+                    <Box className='inputBox-31' >
                         <FormControl fullWidth className='input' >
                             <TextField
                             sx={muiStyles.input}
@@ -868,7 +826,7 @@ function EditAdditionalIn() {
                         </FormControl>
                     </Box>
 
-                    <Box sx={{ width: '11%' }} >
+                    <Box className='inputBox-31' >
                         <FormControl fullWidth className='input' >
                             <TextField
                             sx={muiStyles.input}
@@ -886,7 +844,7 @@ function EditAdditionalIn() {
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ width: '11.5%' }} >
+                    <Box className='inputBox-26' >
                         <FormControl fullWidth className='input' >
                             <LocalizationProvider dateAdapter={AdapterDayjs} >
                                 <Stack spacing={3} >
@@ -903,7 +861,7 @@ function EditAdditionalIn() {
                             {errorText.date != '' ? <p className='error'>{errorText.date}</p> : null}
                         </FormControl>
                     </Box>
-                    <div style={{display:'flex',alignItems:'center',gap:10,justifyContent:'space-between',width: '100%',}}>
+                    <div style={{display:'flex',alignItems:'center',gap:10,justifyContent:'space-between',marginBottom:10}}>
                         <button title='Add' className='addbtn' onClick={addKoMonthDate}>{btnType=='edit'?'Update':<AddIcon fontSize='large' />}</button>
                         
                         <button title='Refresh' className='addbtn' onClick={refreshbtn}><ReplayIcon fontSize='large' /></button>
@@ -911,21 +869,21 @@ function EditAdditionalIn() {
                 </div>
                 <div className='tablecenter'>
                     {PODetails.length > 0 ?
-                        <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+                        <Paper sx={{ width: '100%', overflow: 'hidden',paddingTop:1 }}>
                             <TableContainer sx={{ maxHeight: 440 }}>
                                 <Table stickyHeader aria-label="sticky table">
                                     <TableHead>
                                         <TableRow>
                                             <TableCell scope="row" style={{ width: '2%' }} >SN.</TableCell>
                                             <TableCell align="center">Action</TableCell>
-                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>Material Name</TableCell>
-                                            {/* <TableCell align="left" style={{whiteSpace:'nowrap'}}>PO Qty</TableCell>
-                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>Balance QTY</TableCell> */}
-                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>UOM</TableCell>
-                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>Qty Accepted</TableCell>
-                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>Qty Rejected</TableCell>
-                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>Total Qty</TableCell>
-                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>Exp Date</TableCell>
+                                            <TableCell align="left" >Material Name</TableCell>
+                                            {/* <TableCell align="left" >PO Qty</TableCell>
+                                            <TableCell align="left" >Balance QTY</TableCell> */}
+                                            <TableCell align="left" >UOM</TableCell>
+                                            <TableCell align="left" >Qty Accepted</TableCell>
+                                            <TableCell align="left" >Qty Rejected</TableCell>
+                                            <TableCell align="left" >Total Qty</TableCell>
+                                            <TableCell align="left" >Exp Date</TableCell>
                                         </TableRow>
                                     </TableHead>
                                     {PODetails?.length > 0 ?
@@ -944,14 +902,14 @@ function EditAdditionalIn() {
                                                             </div>
 
                                                         </TableCell>
-                                                        <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.MaterialDetail}</TableCell>
-                                                        {/* <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.nQty}</TableCell>
-                                                        <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.BalanceQuantity}</TableCell> */}
-                                                        <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vUOM}</TableCell>
-                                                        <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.nQtyAccepted}</TableCell>
-                                                        <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.nQtyRejected}</TableCell>
-                                                        <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.TotalQty}</TableCell>
-                                                        <TableCell align="left" style={{whiteSpace:'nowrap'}}>{parseDateToString(new Date(item.ExpDate))}</TableCell>
+                                                        <TableCell align="left" >{item.MaterialDetail}</TableCell>
+                                                        {/* <TableCell align="left" >{item.nQty}</TableCell>
+                                                        <TableCell align="left" >{item.BalanceQuantity}</TableCell> */}
+                                                        <TableCell align="left" >{item.vUOM}</TableCell>
+                                                        <TableCell align="left" >{item.nQtyAccepted}</TableCell>
+                                                        <TableCell align="left" >{item.nQtyRejected}</TableCell>
+                                                        <TableCell align="left" >{item.TotalQty}</TableCell>
+                                                        <TableCell align="left" >{parseDateToString(new Date(item.ExpDate))}</TableCell>
 
                                                     </TableRow>
                                                 )
@@ -963,7 +921,7 @@ function EditAdditionalIn() {
 
                                         <TableBody>
                                             <TableRow>
-                                                <TableCell align="left" style={{whiteSpace:'nowrap'}}>No Record</TableCell>
+                                                <TableCell align="left" >No Record</TableCell>
                                             </TableRow>
                                         </TableBody>
                                     }
@@ -1019,13 +977,14 @@ const muiStyles = {
     date: {
         "& .MuiInputBase-root": {
             "& input": {
-                padding: '5px 14px',
+                padding: '6px 6px',
                 fontSize: '13px'
             }
         },
         "& .MuiFormLabel-root": {
             fontSize: '13px',
             top: '-13px',
+            left:'-10px',
             backgroundColor: 'transparent',
             zIndex: '1'
         },
@@ -1033,12 +992,16 @@ const muiStyles = {
             zIndex: '1'
 
         },
+        '& .MuiInputAdornment-root':{
+            position: 'absolute',
+            right: '10px'
+        }
     },
     autoCompleate: {
         "& .MuiOutlinedInput-root": {
             padding: '0px',
             "& .MuiAutocomplete-input": {
-                padding: '5px 14px',
+                padding: '6px 6px',
                 fontSize: '13px'
             }
 
@@ -1047,6 +1010,7 @@ const muiStyles = {
             fontSize: '13px',
             backgroundColor: 'transparent',
             top: '-13px',
+            left:'-10px',
           
         },
         "& label.Mui-focused": {
@@ -1056,13 +1020,14 @@ const muiStyles = {
     input: {
         "& .MuiOutlinedInput-root": {
             "& input": {
-                padding: '6px 14px',
+                padding: '6px',
                 fontSize: '12px'
             }
         },
         "& .MuiFormLabel-root": {
             fontSize: '13px',
-            top: '-13px',  
+            top: '-13px',
+            left:'-10px',  
             backgroundColor: 'transparent',
         },
         "& label.Mui-focused": {
@@ -1072,7 +1037,7 @@ const muiStyles = {
     select: {
 
         "& .MuiSelect-select": {
-            padding: '3px 14px',
+            padding: '3px',
             fontSize: '12px'
         }, 
         
@@ -1081,6 +1046,7 @@ const muiStyles = {
     InputLabels: {
         fontSize: '13px',
         top: '-13px',
+        left:'-10px',
         backgroundColor: 'transparent',
         "&.Mui-focused": {
             zIndex: '1'

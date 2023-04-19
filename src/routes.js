@@ -1,6 +1,7 @@
 import React from 'react'
 
 const Dashboard = React.lazy(() => import('./views/dashboard/Dashboard'))
+const Login = React.lazy(() => import('./views/pages/login/Login'))
 const Komonth = React.lazy(() => import('./views/Komonth/Komonth'))
 const UnitMaster = React.lazy(() => import('./views/UnitMaster/UnitMaster'))
 const MaterialMaster = React.lazy(() => import('./views/MaterialMaster/MaterialMaster'))
@@ -27,6 +28,12 @@ const RejectedOutList = React.lazy(() => import('./views/RejectedOut/RejectedOut
 const AddRejectedOut = React.lazy(() => import('./views/RejectedOut/AddRejectedOut'))
 const EditRejectedOut = React.lazy(() => import('./views/RejectedOut/EditRejectedOut'))
 const CurrentStockStatus = React.lazy(() => import('./views/CurrentStockStatus/CurrentStockStatus'))
+const ProductionDetailsList = React.lazy(() => import('./views/ProductionDetails/ProductionDetailsList'))
+const AddProductionDetails = React.lazy(() => import('./views/ProductionDetails/AddProductionDetails'))
+const EditProductionDetails = React.lazy(() => import('./views/ProductionDetails/EditProductionDetails'))
+const DispatchDetailsList = React.lazy(() => import('./views/DispatchDetails/DispatchDetailsList'))
+const AddDispatchDetails = React.lazy(() => import('./views/DispatchDetails/AddDispatchDetails'))
+const EditDispatchDetails = React.lazy(() => import('./views/DispatchDetails/EditDispatchDetails'))
 
 const VenderForm = React.lazy(() => import('./views/VenderForm/VenderForm'))
 const BrandMaster = React.lazy(() => import('./views/BrandMaster/BrandMaster'))
@@ -39,6 +46,7 @@ const UpdatePassword = React.lazy(() => import('./views/Settings/UpdatePassword/
 
 const routes = [
   { path: '/', exact: true, name: 'Home' },
+  //  { path:"/login", name:"Login", element:Login },
   { path: '/dashboard', name: 'Dashboard', element: Dashboard },
   { path: '/KOMonth', name: 'Ko Month', element: Komonth, exact: true },
   { path: '/UnitMaster', name: 'Unit Master', element: UnitMaster, exact: true },
@@ -74,6 +82,12 @@ const routes = [
   { path: '/AddRejectedOut', name: 'Add Rejected Out', element: AddRejectedOut, exact: true },
   { path: '/EditRejectedOut', name: 'Edit Rejected Out', element: EditRejectedOut, exact: true },
   { path: '/CurrentStockStatus', name: 'Current Stock Status', element: CurrentStockStatus, exact: true },
+  { path: '/ProductionDetails', name: 'Production Details ', element: ProductionDetailsList, exact: true },
+  { path: '/AddProductionDetails', name: 'Add Production Details ', element: AddProductionDetails, exact: true },
+  { path: '/EditProductionDetails', name: 'Edit Production Details ', element: EditProductionDetails, exact: true },
+  { path: '/DispatchDetails', name: 'Dispatch Details ', element: DispatchDetailsList, exact: true },
+  { path: '/AddDispatchDetails', name: 'Add Dispatch Details ', element: AddDispatchDetails, exact: true },
+  { path: '/EditDispatchDetails', name: 'Edit Dispatch Details ', element: EditDispatchDetails, exact: true },
 ]
 
 export default routes

@@ -264,7 +264,7 @@ function KOMONTH() {
     let updateBtn = false
     // const openmodale = (item, type) => {
     //     if (type == 'Update') {
-    //         alert(1)
+    //         
     //         setDisable(true)
     //         setvKOMonth(item.vKOMonth)
     //         setnKOYear(item.nKOYear)
@@ -543,7 +543,7 @@ function KOMONTH() {
                 </div>
             </div>
             <div className='databox'>
-                <div className='data-form-box'>
+                <div className='data-form-box mt-2'>
                     <Box sx={{ width: '100%' }}>
                         <FormControl fullWidth className='input' >
                             <InputLabel id="demo-simple-select-label" sx={muiStyles.InputLabels}>Week Number <span>*</span></InputLabel>
@@ -641,15 +641,15 @@ function KOMONTH() {
                             value={tableView}
                             onChange={(e) => onchangeTableView(e)}
                         >
-                            <FormControlLabel value="WeekView" control={<Radio />} label="Week View" />
-                            <FormControlLabel value="MonthView" control={<Radio />} label="Month View" />
+                            <FormControlLabel style={{marginRight:0}} value="WeekView" control={<Radio />} label="Week View" />
+                            <FormControlLabel style={{marginRight:0}} value="MonthView" control={<Radio />} label="Month View" />
 
                         </RadioGroup>
                     </FormControl>
                 </div>
                 <div className='tablecenter'>
                     {koMonthData.length > 0 ?
-                        <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+                        <Paper sx={{ width: '100%', overflow: 'hidden',paddingTop:1 }}>
                             <TableContainer sx={{ maxHeight: 440 }}>
                                 <Table stickyHeader aria-label="sticky table">
                                     {tableView == 'MonthView' ?
@@ -662,9 +662,9 @@ function KOMONTH() {
                                                 <TableCell align="left" style={{ whiteSpace: 'nowrap' }}>Days</TableCell>
                                                 <TableCell align="left" style={{ whiteSpace: 'nowrap' }}>From Date</TableCell>
                                                 <TableCell align="left" style={{ whiteSpace: 'nowrap' }}>To Date </TableCell>
-                                                {/* <TableCell align="left" style={{whiteSpace:'nowrap'}}>Week Number</TableCell>
-                                                <TableCell align="left" style={{whiteSpace:'nowrap'}}>Start Date</TableCell>
-                                                <TableCell align="left" style={{whiteSpace:'nowrap'}}>End Date</TableCell> */}
+                                                {/* <TableCell align="left" >Week Number</TableCell>
+                                                <TableCell align="left" >Start Date</TableCell>
+                                                <TableCell align="left" >End Date</TableCell> */}
 
                                             </TableRow>
                                         </TableHead>
@@ -701,9 +701,9 @@ function KOMONTH() {
                                                         <TableCell align="left" style={{ whiteSpace: 'nowrap' }}>{item.nDays}</TableCell>
                                                         <TableCell align="left" style={{ whiteSpace: 'nowrap' }}>{item.dtStartDt}</TableCell>
                                                         <TableCell align="left" style={{ whiteSpace: 'nowrap' }}>{item.dtEndDt}</TableCell>
-                                                        {/* <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vWeekNo}</TableCell>
-                                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.dtWStartDt}</TableCell>
-                                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.dtWEndDt}</TableCell> */}
+                                                        {/* <TableCell align="left" >{item.vWeekNo}</TableCell>
+                                                    <TableCell align="left" >{item.dtWStartDt}</TableCell>
+                                                    <TableCell align="left" >{item.dtWEndDt}</TableCell> */}
                                                     </TableRow>
                                                 )
                                             })
@@ -1164,7 +1164,7 @@ function KOMONTH() {
                         </div>
                         <div className='tablecenter'>
                             {koMonthData.length > 0 ?
-                                <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+                                <Paper sx={{ width: '100%', overflow: 'hidden',paddingTop:1 }}>
                                     <TableContainer sx={{ maxHeight: 440 }}>
                                         <Table stickyHeader aria-label="sticky table">
                                             <TableHead>
@@ -1267,13 +1267,14 @@ const muiStyles = {
     date: {
         "& .MuiInputBase-root": {
             "& input": {
-                padding: '5px 14px',
+                padding: '6px 6px',
                 fontSize: '13px'
             }
         },
         "& .MuiFormLabel-root": {
             fontSize: '13px',
             top: '-13px',
+            left:'-10px',
             backgroundColor: 'transparent',
             zIndex: '1'
         },
@@ -1281,12 +1282,16 @@ const muiStyles = {
             zIndex: '1'
 
         },
+        '& .MuiInputAdornment-root':{
+            position: 'absolute',
+            right: '10px'
+        }
     },
     autoCompleate: {
         "& .MuiOutlinedInput-root": {
             padding: '0px',
             "& .MuiAutocomplete-input": {
-                padding: '5px 14px',
+                padding: '6px 6px',
                 fontSize: '13px'
             }
 
@@ -1295,7 +1300,8 @@ const muiStyles = {
             fontSize: '13px',
             backgroundColor: 'transparent',
             top: '-13px',
-
+            left:'-10px',
+          
         },
         "& label.Mui-focused": {
             zIndex: '1'
@@ -1304,13 +1310,14 @@ const muiStyles = {
     input: {
         "& .MuiOutlinedInput-root": {
             "& input": {
-                padding: '6px 14px',
+                padding: '6px',
                 fontSize: '12px'
             }
         },
         "& .MuiFormLabel-root": {
             fontSize: '13px',
             top: '-13px',
+            left:'-10px',  
             backgroundColor: 'transparent',
         },
         "& label.Mui-focused": {
@@ -1320,21 +1327,22 @@ const muiStyles = {
     select: {
 
         "& .MuiSelect-select": {
-            padding: '3px 14px',
+            padding: '3px',
             fontSize: '12px'
-        },
-
+        }, 
+        
 
     },
     InputLabels: {
         fontSize: '13px',
         top: '-13px',
+        left:'-10px',
         backgroundColor: 'transparent',
         "&.Mui-focused": {
             zIndex: '1'
         }
     },
-
+   
 
 };
 export default KOMONTH

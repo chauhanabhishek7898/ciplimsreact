@@ -13,10 +13,10 @@ import {
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import { cilBell, cilEnvelopeOpen, cilList, cilMenu } from '@coreui/icons'
-
+import { CImage } from '@coreui/react'
 import { AppBreadcrumb } from './index'
 import { AppHeaderDropdown } from './header/index'
-import { logo } from 'src/assets/brand/logo'
+
 import { useNavigate } from "react-router-dom";
 const AppHeader = () => {
   const dispatch = useDispatch()
@@ -33,7 +33,9 @@ const AppHeader = () => {
           <CIcon icon={cilMenu} size="lg" />
         </CHeaderToggler>
         <CHeaderBrand className="mx-auto d-md-none" to="/">
-          <CIcon icon={logo} height={48} alt="Logo" />
+        <div>
+        <img style={{width: 133}} src={require('../assets/brand/logosmobile.png')} />
+        </div>
         </CHeaderBrand>
         <CHeaderNav className="d-none d-md-flex me-auto">
           <CNavItem>

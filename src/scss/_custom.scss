@@ -27,28 +27,33 @@ p {
   border-radius: 5px;
   box-shadow: 0 0 6px 0 rgba($color: #000000, $alpha: 0.2);
   gap: 10px;
+
   @media only screen and (max-width: 1080px) {
-   flex-wrap: wrap;
-   gap:20px 10px;
-   padding-top: 20px;
-   padding-bottom: 10px;
+    flex-wrap: wrap;
+    gap: 20px 10px;
+    padding-top: 20px;
+    padding-bottom: 10px;
   }
-  
+
 
 }
+
 .date {
   margin-right: 15px;
   width: 44%;
+
   @media only screen and (max-width: 480px) {
     width: 44%;
-   }
+  }
 }
+
 .date-2 {
   margin-right: 15px;
   width: 15%;
+
   @media only screen and (max-width: 480px) {
     width: 44%;
-   }
+  }
 }
 
 .dateFilter-2 {
@@ -59,16 +64,20 @@ p {
   align-items: center;
   border-radius: 5px;
   box-shadow: 0 0 6px 0 rgba($color: #000000, $alpha: 0.2);
+  padding-top: 25px;
+
   @media only screen and (max-width: 1080px) {
     flex-wrap: wrap;
-    gap:10px 10px
-   }
+    gap: 10px 10px
+  }
+
   .date {
     margin-right: 15px;
     width: 44%;
+
     @media only screen and (max-width: 480px) {
       width: 44%;
-     }
+    }
   }
 
 }
@@ -79,24 +88,25 @@ p {
 // }
 .css-y8ay40-MuiTableCell-root {
   font-weight: bold !important;
-  white-space: nowrap
+  // white-space: nowrap
 }
 
 .css-dwuj3p-MuiTableCell-root {
   font-weight: bold !important;
-  white-space: nowrap
+  // white-space: nowrap
 }
 
-.css-1ex1afd-MuiTableCell-root {
-  white-space: nowrap
-}
+// .css-1ex1afd-MuiTableCell-root {
+//   white-space: nowrap
+// }
 
 .databox {
   background-color: #fff;
-  margin-top: 10px;
+  margin-bottom: 10px;
   padding: 20px;
   border-radius: 5px;
   box-shadow: 0 0 6px 0 rgba($color: #000000, $alpha: 0.2);
+  margin-top: 10px;
 
   .tablecenter {
     margin-top: 20px;
@@ -109,16 +119,34 @@ p {
     // flex-wrap: wrap;
     gap: 28px 15px;
     margin-top: 3px;
+    flex-wrap: wrap;
+
+    @media only screen and (max-width: 1367px) {
+      flex-wrap: wrap;
+    }
+     @media only screen and (max-width: 768px) {
+      flex-wrap: wrap;
+    }
+  }
+
+  .data-form-box-2 {
+    display: flex;
+    align-items: center;
+    // justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 28px 15px;
+    margin-top: 3px;
+
     @media only screen and (max-width: 768px) {
       flex-wrap: wrap;
-     }
+    }
   }
 }
 
 .addbtn {
   border: none;
   padding: 5px;
-  width: 100px;
+  width: 50px;
   height: 34px;
   display: flex;
   justify-content: center;
@@ -127,22 +155,32 @@ p {
   color: #fff;
   background-color: #ef1e2c;
   margin-top: -6px;
+  svg{
+    font-size: 25px;
+  }
 }
 
 .addbtn_2 {
   border: none;
   padding: 5px;
   width: 100px;
-  height: 62px;
+  height: 30px;
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 5px;
+  border-radius: 50px;
   color: #fff;
   background-color: #ef1e2c;
   margin-bottom: 10px;
+  text-decoration: none;
+  svg{
+    font-size: 25px;
+  }
 }
 
+.addFont{
+  font-size: 13px;
+}
 .input {
   position: relative;
 }
@@ -155,7 +193,7 @@ p {
 }
 
 .sidebar-nav .nav-group.show {
-  background: #ef1e2c;
+  background: #c01a29;
 }
 
 .sidebar-nav {
@@ -167,6 +205,8 @@ p {
     .nav-link {
       color: #fff !important;
       padding: 10px 15px;
+      background:'#e54253'
+      
     }
   }
 }
@@ -175,7 +215,8 @@ p {
   .nav-group-items {
     .nav-link {
       color: #fff !important;
-      padding: 10px;
+      padding: 5px;
+      margin-left: 12px;
     }
   }
 }
@@ -299,7 +340,7 @@ p {
   justify-content: space-between;
   flex-wrap: wrap;
   width: 100%;
-  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 .displayflexbaseline {
@@ -314,7 +355,7 @@ p {
   align-items: flex-end;
   // justify-content: space-between;
   flex-wrap: wrap;
-  margin-top: 10px;
+  margin-bottom: 10px;
   gap: 20px 10px;
   width: 100%;
 
@@ -333,7 +374,7 @@ p {
   align-items: flex-end;
   justify-content: flex-end;
   flex-wrap: wrap;
-  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 .title {
@@ -396,6 +437,11 @@ p {
 .emailInput {
   width: 33%;
   margin-bottom: 10px;
+
+  @media only screen and (max-width: 1080px) {
+    width: 100%;
+
+  }
 }
 
 .exportandfilter {
@@ -403,6 +449,7 @@ p {
   justify-content: space-between;
   align-items: center;
   padding: 5px 15px;
+
   @media only screen and (max-width: 1080px) {
     align-items: flex-start;
     flex-direction: column;
@@ -410,287 +457,453 @@ p {
 
   }
 }
-.searchbox{
-  width: 67%;
+
+.searchbox {
+  width: 100%;  
   @media only screen and (max-width: 1080px) {
     width: 100%;
 
   }
 }
-.inputBox-1{
+.filterbox{
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+}
+.activeonly{
+  width: 58%;
+  display: flex;
+  align-items: flex-end;
+}
+.tableBox{
+  padding: 0 5px;
+}
+
+.inputBox-1 {
   width: 15%;
+  margin-bottom: 10px;
+
   @media only screen and (max-width: 1080px) {
     width: 100%;
 
   }
 }
-.inputBox-2{
+
+.inputBox-2 {
   width: 17%;
-  margin-top: 5px;
+  margin-bottom: 10px;
+
   @media only screen and (max-width: 1080px) {
     width: 100%;
 
   }
 }
-.inputBox-3{
+
+.inputBox-3 {
   width: 32%;
-  margin-top: 5px;
-  @media only screen and (max-width: 1080px) {
+  margin-bottom: 10px;
+
+  @media only screen and (max-width: 1367px) {
+    width: 31%;
+
+  }
+   @media only screen and (max-width: 1080px) {
     width: 100%;
 
   }
 }
-.inputBox-4{
+
+.inputBox-4 {
   width: 100%;
-  margin-top: 5px;
+  margin-bottom: 10px;
+
   @media only screen and (max-width: 1080px) {
     width: 100%;
 
   }
 }
-.inputBox-5{
+
+.inputBox-5 {
   width: 65.2%;
-  margin-top: 5px;
+  margin-bottom: 10px;
+
   @media only screen and (max-width: 1080px) {
     width: 100%;
 
   }
 }
-.inputBox-6{
+
+.inputBox-6 {
   width: 24%;
+  margin-bottom: 10px;
+
   @media only screen and (max-width: 1080px) {
     width: 100%;
 
   }
 }
-.inputBox-7{
+
+.inputBox-7 {
   width: 10%;
+  margin-bottom: 10px;
+
   @media only screen and (max-width: 1080px) {
     width: 100%;
 
   }
 }
-.inputBox-8{
+
+.inputBox-8 {
   width: 13%;
+  margin-bottom: 10px;
+
   @media only screen and (max-width: 1080px) {
     width: 47%;
 
   }
 }
-.inputBox-9{
+
+.inputBox-9 {
   width: 23%;
+  margin-bottom: 10px;
+
   @media only screen and (max-width: 1080px) {
     width: 100%;
 
   }
 }
-.inputBox-10{
+
+.inputBox-10 {
   width: 18%;
+  margin-bottom: 10px;
+
   @media only screen and (max-width: 1080px) {
     width: 47%;
 
   }
 }
-.inputBox-11{
+
+.inputBox-11 {
   width: 48%;
+  margin-bottom: 10px;
+
   @media only screen and (max-width: 1080px) {
     width: 100%;
 
   }
 }
-.inputBox-12{
+
+.inputBox-12 {
   width: 30%;
+  margin-bottom: 10px;
+
+  @media only screen and (max-width: 1367px) {
+    width: 29%;
+
+  }
   @media only screen and (max-width: 1080px) {
     width: 100%;
 
   }
 }
-.inputBox-13{
+
+.inputBox-13 {
   width: 18.8%;
+  margin-bottom: 10px;
+
   @media only screen and (max-width: 1080px) {
     width: 100%;
 
   }
 }
-.inputBox-14{
+
+.inputBox-14 {
   width: 49%;
+  margin-bottom: 10px;
+
   @media only screen and (max-width: 1080px) {
     width: 100%;
 
   }
 }
-.inputBox-15{
+
+.inputBox-15 {
   width: 32%;
+  margin-bottom: 10px;
+
   @media only screen and (max-width: 1080px) {
     width: 100%;
 
   }
 }
-.inputBox-16{
+
+.inputBox-16 {
   width: 48.4%;
+  margin-bottom: 10px;
+
   @media only screen and (max-width: 1080px) {
     width: 100%;
 
   }
 }
-.inputBox-17{
+
+.inputBox-17 {
   width: 32.5%;
+  margin-bottom: 10px;
+
   @media only screen and (max-width: 1080px) {
     width: 100%;
 
   }
 }
-.inputBox-18{
+
+.inputBox-18 {
   width: 49.5%;
+  margin-bottom: 10px;
+
   @media only screen and (max-width: 1080px) {
     width: 100%;
 
   }
 }
-.inputBox-19{
+
+.inputBox-19 {
   width: 59.5%;
+  margin-bottom: 10px;
+
   @media only screen and (max-width: 1080px) {
     width: 100%;
 
   }
 }
-.inputBox-20{
+
+.inputBox-20 {
   width: 22%;
+  margin-bottom: 10px;
+
   @media only screen and (max-width: 1080px) {
     width: 100%;
 
   }
 }
-.inputBox-21{
+
+.inputBox-21 {
   width: 6%;
+  margin-bottom: 10px;
+
   @media only screen and (max-width: 1080px) {
     width: 100%;
 
   }
 }
-.inputBox-22{
+
+.inputBox-22 {
   width: 18%;
+  margin-bottom: 10px;
+
   @media only screen and (max-width: 1080px) {
     width: 100%;
 
   }
 }
-.inputBox-23{
+
+.inputBox-23 {
   width: 28%;
+  margin-bottom: 10px;
+
   @media only screen and (max-width: 1080px) {
-   display: none;
+    display: none;
 
   }
 }
-.inputBox-24{
+
+.inputBox-24 {
   width: 28%;
+  margin-bottom: 10px;
+
   @media only screen and (max-width: 1080px) {
-   width: 98%;
-   margin-bottom: 20px;
+    width: 98%;
+    margin-bottom: 20px;
   }
 }
-.inputBox-25{
+
+.inputBox-25 {
   width: 10%;
+  margin-bottom: 10px;
+
   @media only screen and (max-width: 1080px) {
-   width: 100%;
+    width: 100%;
   }
 }
-.inputBox-26{
+
+.inputBox-26 {
   width: 11.5%;
+  margin-bottom: 10px;
+
   @media only screen and (max-width: 1080px) {
-   width: 100%;
+    width: 100%;
   }
 }
-.inputBox-27{
+
+.inputBox-27 {
   width: 39%;
+  margin-bottom: 10px;
+
   @media only screen and (max-width: 1080px) {
-   width: 100%;
+    width: 100%;
   }
 }
-.inputBox-28{
+
+.inputBox-28 {
   width: 41%;
+  margin-bottom: 10px;
+
   @media only screen and (max-width: 1080px) {
-   width: 100%;
+    width: 100%;
   }
 }
-.inputBox-29{
+
+.inputBox-29 {
   width: 25%;
+  margin-bottom: 10px;
+
   @media only screen and (max-width: 1080px) {
-   width: 100%;
+    width: 100%;
   }
 }
-.inputBox-30{
+
+.inputBox-30 {
   width: 11%;
+  margin-bottom: 10px;
+
   @media only screen and (max-width: 1080px) {
-   width: 100%;
+    width: 100%;
   }
 }
-.inputBox-31{
+
+.inputBox-31 {
   width: 12%;
+  margin-bottom: 10px;
+
   @media only screen and (max-width: 1080px) {
-   width: 100%;
+    width: 100%;
   }
 }
-.inputBox-32{
+
+.inputBox-32 {
   width: 34%;
+  margin-bottom: 10px;
+
   @media only screen and (max-width: 1080px) {
-   width: 100%;
+    width: 100%;
   }
 }
-.inputBox-33{
+
+.inputBox-33 {
   width: 7%;
+  margin-bottom: 10px;
+
   @media only screen and (max-width: 1080px) {
-   width: 100%;
+    width: 100%;
   }
 }
-.inputBox-34{
+
+.inputBox-34 {
   width: 37.5%;
+  margin-bottom: 10px;
+
   @media only screen and (max-width: 1080px) {
-   width: 100%;
+    width: 100%;
   }
 }
-.inputBox-35{
+
+.inputBox-35 {
   width: 5%;
+  margin-bottom: 10px;
+
   @media only screen and (max-width: 1080px) {
-   width: 100%;
+    width: 100%;
   }
 }
-.inputBox-36{
+
+.inputBox-36 {
   width: 6.5%;
+  margin-bottom: 10px;
+
   @media only screen and (max-width: 1080px) {
-   width: 100%;
+    width: 100%;
   }
 }
-.inputBox-37{
+
+.inputBox-37 {
   width: 9%;
+  margin-bottom: 10px;
+
   @media only screen and (max-width: 1080px) {
-   width: 100%;
+    width: 100%;
   }
 }
-.inputBox-38{
+
+.inputBox-38 {
   width: 8%;
+  margin-bottom: 10px;
+
   @media only screen and (max-width: 1080px) {
-   width: 100%;
+    width: 100%;
   }
 }
-.inputBox-39{
+
+.inputBox-39 {
   width: 20%;
+  margin-bottom: 10px;
+
   @media only screen and (max-width: 1080px) {
-   width: 100%;
+    width: 100%;
   }
 }
-.inputBox-40{
+
+.inputBox-40 {
   width: 28%;
+  margin-bottom: 10px;
+
   @media only screen and (max-width: 1080px) {
-   width: 100%;
+    width: 100%;
   }
 }
+
+.inputBox-41 {
+  width: 25%;
+  margin-bottom: 10px;
+
+  @media only screen and (max-width: 1080px) {
+    width: 100%;
+  }
+}
+
+.inputBox-42 {
+  width: 40%;
+  margin-bottom: 10px;
+
+  @media only screen and (max-width: 1080px) {
+    width: 100%;
+  }
+}
+.inputBox-43 {
+  width: 18.5%;
+  margin-bottom: 10px;
+
+  @media only screen and (max-width: 1080px) {
+    width: 100%;
+  }
+}
+
 
 .alertButton {
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 .editModel {
@@ -785,6 +998,7 @@ p {
   background: transparent;
   cursor: pointer;
 }
+
 .editbtn {
   cursor: pointer;
 }
@@ -900,8 +1114,29 @@ input[type="number"] {
 
 .loginBox {
   width: 44%;
+
   @media only screen and (max-width: 576px) {
     width: 100%;
 
   }
+}
+.citymasterContainers{
+  background: #fff;
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-left: 10px;
+  box-shadow: 0 0 6px 0 rgba($color: #000000, $alpha: 0.2);
+  border-radius: 5px;
+}
+.citymasterContainer-2{
+  background: #fff;
+  height: 150px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-left: 10px;
+  box-shadow: 0 0 6px 0 rgba($color: #000000, $alpha: 0.2);
+  border-radius: 5px;
 }

@@ -24,6 +24,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { CButton, CSpinner } from '@coreui/react';
 import SearchBar from "material-ui-search-bar";
 import ExportExcel from 'src/shareFunction/Excelexport';
+import CircularProgress from '@mui/joy/CircularProgress';
 function GodownMaster() {
     let Heading = [['SN.','Godown Code','Godown Name','Godown Address','Godown Contact Person','Godown Contact No','Remarks','Status']];
     const [modalIsOpen, setIsOpen] = React.useState(false);
@@ -32,6 +33,7 @@ function GodownMaster() {
     const [brandData, setBrandData] = React.useState([]);
     const [masterbrandData, setMasterBrandData] = React.useState([]);
     const [loader, setLoader] = React.useState(false);
+    const [loader2, setLoader2] = React.useState(false);
     const [nGId, setnGId] = React.useState(0);
     const [btActive, setBtActive] = React.useState(true);
     const [vGCode, setvGCode] = React.useState("");
@@ -57,14 +59,17 @@ function GodownMaster() {
         GodownMaster_SelectAllGet()
     }, [])
     const GodownMaster_SelectAllGet = () => {
+        setLoader2(true)
         GodownMaster_SelectAll().then(response => {
             if (checkedData == true) {
                 let activeData = response.filter(e => e.btActive == true)
                 setBrandData(activeData)
                 setMasterBrandData(activeData)
+                setLoader2(false)
             } else {
                 setBrandData(response)
                 setMasterBrandData(response)
+                setLoader2(false)
 
             }
         })
@@ -168,6 +173,16 @@ function GodownMaster() {
 
     return (
         <div className='citymasterContainer'>
+                {loader2==true?
+            <div className='progressBox'>
+                <div className='progressInner'>
+                    <CircularProgress />
+                </div>
+            </div>
+            :
+            null
+
+            }
             <button className='addbtn_2' onClick={() => openmodale(null, 'Submit')} title='Add'  ><AddIcon fontSize='large' /></button>
             <Modal
                 isOpen={modalIsOpen}
@@ -266,7 +281,7 @@ function GodownMaster() {
                 </div>
                 <div className='displayflexend-2'>
                     <FormGroup >
-                        <FormControlLabel control={<Checkbox defaultChecked={btActive} onChange={e => setBtActive(e.target.checked)} />} label="Active" disabled={disabled} />
+                        <FormControlLabel style={{marginRight:0}} control={<Checkbox defaultChecked={btActive} onChange={e => setBtActive(e.target.checked)} />} label="Active" disabled={disabled} />
                     </FormGroup>
 
                     {loader == true ?
@@ -280,7 +295,7 @@ function GodownMaster() {
                 </div>
             </Modal >
             <div className='tablecenter'>
-                <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+                <Paper sx={{ width: '100%', overflow: 'hidden',paddingTop:1 }}>
                     <div className='exportandfilter'>
                     <ExportExcel excelData={brandData} Heading={Heading} fileName={'Godown_Master'}/>
                     <Box className='searchbox' >
@@ -292,23 +307,23 @@ function GodownMaster() {
 
                         </Box>
                         <FormGroup >
-                        <FormControlLabel control={<Checkbox checked={onlyActive} value={onlyActive} onChange={checkedonlyActive} />} label="Only Active Data" />
+                        <FormControlLabel style={{marginRight:0}} control={<Checkbox checked={onlyActive} value={onlyActive} onChange={checkedonlyActive} />} label="Only Active Data" />
                     </FormGroup>
                     </div>
 
-                    <TableContainer sx={{ maxHeight: 440 }}>
+                    <TableContainer sx={{ maxHeight: 440,paddingLeft:1.5,paddingRight:1.5  }}>
                         <Table stickyHeader aria-label="sticky table" >
                             <TableHead>
                                 <TableRow>
                                     {/* <TableCell scope="row">SN.</TableCell> */}
-                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Edit</TableCell>
-                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Status</TableCell>
-                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Godown Code</TableCell>
-                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Godown Name</TableCell>
-                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Godown Address</TableCell>
-                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Godown Contact Person</TableCell>
-                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Godown Contact No</TableCell>
-                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Remarks</TableCell>
+                                    <TableCell align="left" sx={muiStyles.tableHead}>Edit</TableCell>
+                                    <TableCell align="left" sx={muiStyles.tableHead}>Status</TableCell>
+                                    <TableCell align="left" sx={muiStyles.tableHead}>Godown Code</TableCell>
+                                    <TableCell align="left" sx={muiStyles.tableHead}>Godown Name</TableCell>
+                                    <TableCell align="left" sx={muiStyles.tableHead}>Godown Address</TableCell>
+                                    <TableCell align="left" sx={muiStyles.tableHead}>Godown Contact Person</TableCell>
+                                    <TableCell align="left" sx={muiStyles.tableHead}>Godown Contact No</TableCell>
+                                    <TableCell align="left" sx={muiStyles.tableHead}>Remarks</TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
@@ -316,14 +331,14 @@ function GodownMaster() {
                                     return (
                                         <TableRow key={index}>
                                             {/* <TableCell component="th" scope="row">{index + 1}.</TableCell> */}
-                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}><div onClick={() => openmodale(item, 'Update')} className='editbtn'><BorderColorIcon size={20} color='#000' /></div></TableCell>
-                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
-                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vGCode}</TableCell>
-                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vGName}</TableCell>
-                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vGAddress}</TableCell>
-                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vContactPerson}</TableCell>
-                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vContactNo}</TableCell>
-                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vRemarks}</TableCell>
+                                            <TableCell align="left" sx={muiStyles.tableBody}><div onClick={() => openmodale(item, 'Update')} className='editbtn'><BorderColorIcon size={20} color='#000' /></div></TableCell>
+                                            <TableCell align="left" sx={muiStyles.tableBody}>{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
+                                            <TableCell align="left" sx={muiStyles.tableBody}>{item.vGCode}</TableCell>
+                                            <TableCell align="left" sx={muiStyles.tableBody}>{item.vGName}</TableCell>
+                                            <TableCell align="left" sx={muiStyles.tableBody}>{item.vGAddress}</TableCell>
+                                            <TableCell align="left" sx={muiStyles.tableBody}>{item.vContactPerson}</TableCell>
+                                            <TableCell align="left" sx={muiStyles.tableBody}>{item.vContactNo}</TableCell>
+                                            <TableCell align="left" sx={muiStyles.tableBody}>{item.vRemarks}</TableCell>
                                         </TableRow>
                                     )
                                 })
@@ -372,13 +387,14 @@ const muiStyles = {
     date: {
         "& .MuiInputBase-root": {
             "& input": {
-                padding: '5px 14px',
+                padding: '6px 6px',
                 fontSize: '13px'
             }
         },
         "& .MuiFormLabel-root": {
             fontSize: '13px',
             top: '-13px',
+            left:'-10px',
             backgroundColor: 'transparent',
             zIndex: '1'
         },
@@ -386,12 +402,16 @@ const muiStyles = {
             zIndex: '1'
 
         },
+        '& .MuiInputAdornment-root':{
+            position: 'absolute',
+            right: '10px'
+        }
     },
     autoCompleate: {
         "& .MuiOutlinedInput-root": {
             padding: '0px',
             "& .MuiAutocomplete-input": {
-                padding: '5px 14px',
+                padding: '6px 6px',
                 fontSize: '13px'
             }
 
@@ -400,6 +420,7 @@ const muiStyles = {
             fontSize: '13px',
             backgroundColor: 'transparent',
             top: '-13px',
+            left:'-10px',
           
         },
         "& label.Mui-focused": {
@@ -409,13 +430,14 @@ const muiStyles = {
     input: {
         "& .MuiOutlinedInput-root": {
             "& input": {
-                padding: '6px 14px',
+                padding: '6px',
                 fontSize: '12px'
             }
         },
         "& .MuiFormLabel-root": {
             fontSize: '13px',
-            top: '-13px',  
+            top: '-13px',
+            left:'-10px',  
             backgroundColor: 'transparent',
         },
         "& label.Mui-focused": {
@@ -425,7 +447,7 @@ const muiStyles = {
     select: {
 
         "& .MuiSelect-select": {
-            padding: '3px 14px',
+            padding: '3px',
             fontSize: '12px'
         }, 
         
@@ -434,9 +456,37 @@ const muiStyles = {
     InputLabels: {
         fontSize: '13px',
         top: '-13px',
+        left:'-10px',
         backgroundColor: 'transparent',
         "&.Mui-focused": {
             zIndex: '1'
+        }
+    },
+    tableBox: {
+        "&.MuiTableContainer-root": {
+            width: '100%',
+            maxHeight: '440px',
+            padding: '0px 16px',
+        },
+    },
+    tableHead: {
+        "&.MuiTableCell-root": {
+            padding: '8px',
+            fontWeight:'bold'
+        }
+    },
+    tableBody: {
+        "&.MuiTableCell-root": {
+            padding: '8px',
+            fontSize:'14px',
+            lineHeight: '39px'
+        }
+    },
+    checkboxLabel: {
+        "&.MuiFormControlLabel-root": {
+            "&.MuiTypography-root": {
+                fontSize:'14px'
+            }
         }
     },
    

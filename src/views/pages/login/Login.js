@@ -30,12 +30,12 @@ const Login = () => {
   const [loader, setLoader] = React.useState(false);
   useEffect(() => {
     const vUserName = localStorage.getItem("vUserName")
-    if (vUserName) {
+    const token = localStorage.getItem("token")
+    if (vUserName&&token) {
       setDashboard(true)
     } else {
       setDashboard(false)
     }
-    console.log('vUserName', vUserName)
 
   }, [])
   const login = () => {

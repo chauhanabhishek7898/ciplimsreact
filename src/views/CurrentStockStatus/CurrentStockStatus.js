@@ -33,7 +33,7 @@ function CurrentStockStatus() {
     let Heading = [['SN.','Plant Detail',' Material Detail','UOM','Category',' Material Type','Exp Date','Aeging','Balance Stock']];
     const [modalIsOpen, setIsOpen] = React.useState(false);
     const [page, setPage] = React.useState(0);
-    const [rowsPerPage, setRowsPerPage] = React.useState(10);
+    const [rowsPerPage, setRowsPerPage] = React.useState(5);
     const [brandData, setBrandData] = React.useState([]);
     const [masterbrandData, setMasterBrandData] = React.useState([]);
     const [loader, setLoader] = React.useState(false);
@@ -199,9 +199,9 @@ function CurrentStockStatus() {
             null
             }
             <div className='tablecenter'>
-                <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+                <Paper sx={{ width: '100%', overflow: 'hidden',paddingTop:1 }}>
                 <div className='displayflexend-2'>
-                        <Box sx={{ width: '28%' }} >
+                        <Box className='inputBox-24' >
                         <FormControl fullWidth className='input'>
                             {/* <InputLabel required id="demo-simple-select-label">Plant</InputLabel>npm  */}
                             <Autocomplete
@@ -224,7 +224,7 @@ function CurrentStockStatus() {
                             {/* {errorText.plant != '' ? <p className='error'>{errorText.plant}</p> : null} */}
                         </FormControl>
                         </Box>
-                        <Box sx={{ width: '28%' }} >
+                        <Box className='inputBox-24' >
                         <FormControl fullWidth className='input'>
                             {/* <InputLabel required id="demo-simple-select-label">Item</InputLabel>  */}
                             <Autocomplete
@@ -247,7 +247,7 @@ function CurrentStockStatus() {
                         </FormControl>
                         </Box>
 
-                        <Box sx={{ width: '28%' }} >
+                        <Box className='inputBox-24'>
                             <FormControl fullWidth className='input' >
                                 <TextField
                                    sx={muiStyles.input}
@@ -262,7 +262,7 @@ function CurrentStockStatus() {
 
                         </Box>
 
-                        <Box sx={{ width: '10%' }} >
+                        <Box className='inputBox-25'>
                             <button className='applybtn' onClick={()=>getBrandMaster_SelectAll(nPId,nMId)}>Apply</button>
                         </Box>
 
@@ -278,7 +278,7 @@ function CurrentStockStatus() {
 
                         </Box> */}
                         <FormGroup >
-                        {/* <FormControlLabel control={<Checkbox checked={onlyActive} value={onlyActive} onChange={checkedonlyActive} />} label="Only Active Data" /> */}
+                        {/* <FormControlLabel style={{marginRight:0}} control={<Checkbox checked={onlyActive} value={onlyActive} onChange={checkedonlyActive} />} label="Only Active Data" /> */}
                     </FormGroup>
                     </div>
 
@@ -287,17 +287,17 @@ function CurrentStockStatus() {
                             <TableHead>
                                 <TableRow>
                                     {/* <TableCell scope="row">SN.</TableCell> */}
-                                    {/* <TableCell align="left" style={{whiteSpace:'nowrap'}}>Edit</TableCell> */}
-                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Plant Detail</TableCell>
-                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Material Detail</TableCell>
-                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>UOM</TableCell>
-                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Category</TableCell>
-                                    {/* <TableCell align="left" style={{whiteSpace:'nowrap'}}>HSN Code</TableCell> */}
-                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Material Type</TableCell>
-                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Exp Date</TableCell>
-                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Aeging</TableCell>
-                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Balance Stock</TableCell>
-                                    {/* <TableCell align="left" style={{whiteSpace:'nowrap'}}>Status</TableCell> */}
+                                    {/* <TableCell align="left" >Edit</TableCell> */}
+                                    <TableCell align="left" >Plant Detail</TableCell>
+                                    <TableCell align="left" >Material Detail</TableCell>
+                                    <TableCell align="left" >UOM</TableCell>
+                                    <TableCell align="left" >Category</TableCell>
+                                    {/* <TableCell align="left" >HSN Code</TableCell> */}
+                                    <TableCell align="left" >Material Type</TableCell>
+                                    <TableCell align="left" >Exp Date</TableCell>
+                                    <TableCell align="left" >Aeging</TableCell>
+                                    <TableCell align="left" >Balance Stock</TableCell>
+                                    {/* <TableCell align="left" >Status</TableCell> */}
                                 </TableRow>
                             </TableHead>
                             {brandData?.length>0?
@@ -306,17 +306,17 @@ function CurrentStockStatus() {
                                       return (
                                           <TableRow key={index}>
                                               {/* <TableCell component="th" scope="row">{index + 1}.</TableCell> */}
-                                              {/* <TableCell align="left" style={{whiteSpace:'nowrap'}}><div onClick={() => openmodale(item, 'Update')}><BorderColorIcon size={20} color='#000' /></div></TableCell> */}
-                                              <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.PlantDetail}</TableCell>
-                                              <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.MaterialDetail}</TableCell>
-                                              <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vUOM}</TableCell>
-                                              <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vCategory}</TableCell>
-                                              {/* <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vHSNCode}</TableCell> */}
-                                              <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vMaterialType}</TableCell>
-                                              <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.ExpDate}</TableCell>
-                                              <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.Aeging}</TableCell>
-                                              <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.BalanceStock}</TableCell>
-                                              {/* <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell> */}
+                                              {/* <TableCell align="left" ><div onClick={() => openmodale(item, 'Update')}><BorderColorIcon size={20} color='#000' /></div></TableCell> */}
+                                              <TableCell align="left" >{item.PlantDetail}</TableCell>
+                                              <TableCell align="left" >{item.MaterialDetail}</TableCell>
+                                              <TableCell align="left" >{item.vUOM}</TableCell>
+                                              <TableCell align="left" >{item.vCategory}</TableCell>
+                                              {/* <TableCell align="left" >{item.vHSNCode}</TableCell> */}
+                                              <TableCell align="left" >{item.vMaterialType}</TableCell>
+                                              <TableCell align="left" >{item.ExpDate}</TableCell>
+                                              <TableCell align="left" >{item.Aeging}</TableCell>
+                                              <TableCell align="left" >{item.BalanceStock}</TableCell>
+                                              {/* <TableCell align="left" >{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell> */}
                                           </TableRow>
                                       )
                                   })
@@ -333,7 +333,7 @@ function CurrentStockStatus() {
                         </Table>
                     </TableContainer>
                     <TablePagination
-                        rowsPerPageOptions={[10, 25, 100]}
+                        rowsPerPageOptions={[5,10, 25, 100]}
                         component="div"
                         count={brandData.length}
                         rowsPerPage={rowsPerPage}
@@ -362,34 +362,40 @@ const muiStyles = {
     date: {
         "& .MuiInputBase-root": {
             "& input": {
-                padding: '5px 14px',
+                padding: '6px 6px',
                 fontSize: '13px'
             }
         },
         "& .MuiFormLabel-root": {
             fontSize: '13px',
             top: '-13px',
-            backgroundColor: '#fff',
+            left:'-10px',
+            backgroundColor: 'transparent',
             zIndex: '1'
         },
         "& label.Mui-focused": {
             zIndex: '1'
 
         },
+        '& .MuiInputAdornment-root':{
+            position: 'absolute',
+            right: '10px'
+        }
     },
     autoCompleate: {
         "& .MuiOutlinedInput-root": {
             padding: '0px',
             "& .MuiAutocomplete-input": {
-                padding: '5px 14px',
+                padding: '6px 6px',
                 fontSize: '13px'
             }
 
         },
         "& .MuiFormLabel-root": {
             fontSize: '13px',
-            backgroundColor: '#fff',
+            backgroundColor: 'transparent',
             top: '-13px',
+            left:'-10px',
           
         },
         "& label.Mui-focused": {
@@ -399,14 +405,15 @@ const muiStyles = {
     input: {
         "& .MuiOutlinedInput-root": {
             "& input": {
-                padding: '6px 14px',
+                padding: '6px',
                 fontSize: '12px'
             }
         },
         "& .MuiFormLabel-root": {
             fontSize: '13px',
-            top: '-13px',  
-            backgroundColor: '#fff',
+            top: '-13px',
+            left:'-10px',  
+            backgroundColor: 'transparent',
         },
         "& label.Mui-focused": {
             zIndex: '1'
@@ -415,7 +422,7 @@ const muiStyles = {
     select: {
 
         "& .MuiSelect-select": {
-            padding: '3px 14px',
+            padding: '3px',
             fontSize: '12px'
         }, 
         
@@ -424,9 +431,37 @@ const muiStyles = {
     InputLabels: {
         fontSize: '13px',
         top: '-13px',
-        backgroundColor: '#fff',
+        left:'-10px',
+        backgroundColor: 'transparent',
         "&.Mui-focused": {
             zIndex: '1'
+        }
+    },
+    tableBox: {
+        "&.MuiTableContainer-root": {
+            width: '100%',
+            maxHeight: '440px',
+            padding: '0px 16px',
+        },
+    },
+    tableHead: {
+        "&.MuiTableCell-root": {
+            padding: '8px',
+            fontWeight:'bold'
+        }
+    },
+    tableBody: {
+        "&.MuiTableCell-root": {
+            padding: '8px',
+            fontSize:'14px',
+            lineHeight: '39px'
+        }
+    },
+    checkboxLabel: {
+        "&.MuiFormControlLabel-root": {
+            "&.MuiTypography-root": {
+                fontSize:'14px'
+            }
         }
     },
    

@@ -12,7 +12,7 @@ import MenuItem from '@mui/material/MenuItem';
 import Paper from '@mui/material/Paper';
 import { BrandMaster_SelectAll, BrandMasterPost, BrandMasterPut } from '../BrandMaster/BrandMasterService'
 import { UnitMaster_SelectAll } from '../PackMaster/PackMasterService'
-import { GetGRNDetails } from './GRNReceivedService'
+import { GetDispatchDetails,GetAdditionalInDetails } from './DispatchDetailsService'
 
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
@@ -40,7 +40,8 @@ import { useNavigate, Link } from "react-router-dom";
 import * as environment from '../../coreservices/environment'
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import CircularProgress from '@mui/joy/CircularProgress';
-function GRNReceivedList() {
+
+function DispatchDetailsList() {
     let imageUrl = environment.imageUrl
     const navigate = useNavigate();
     const [modalIsOpen, setIsOpen] = React.useState(false);
@@ -102,7 +103,7 @@ function GRNReceivedList() {
         } else {
             vGenrics = vGenric
         }
-        GetGRNDetails(parseDateToStringSubmit(new Date(fromDate)), parseDateToStringSubmit(new Date(toDate)), vGenrics).then(response => {
+        GetDispatchDetails(parseDateToStringSubmit(new Date(fromDate)),parseDateToStringSubmit(new Date(toDate)),vGenrics).then(response => {
             console.log(response)
             setBrandData(response)
             setLoader(false)
@@ -142,9 +143,8 @@ function GRNReceivedList() {
         })
     }
 
-    const handleDetail = (nGRNId) => {
-
-        navigate('/EditGRNReceived', { state: { nGRNId } });
+    const handleDetail = (nDSId) => {
+        navigate('/EditDispatchDetails', { state: { nDSId } });
     }
 
     return (
@@ -160,7 +160,7 @@ function GRNReceivedList() {
             null
 
             }
-            <Link to="/AddGRNReceived" className='addbtn_2'><AddIcon fontSize='large' /> <span className='addFont'>Add</span></Link>
+            <Link to="/AddDispatchDetails" className='addbtn_2'><AddIcon fontSize='large' /><span className='addFont'>Add</span></Link>
 
             <div className='tablecenter'>
 
@@ -175,7 +175,7 @@ function GRNReceivedList() {
                                         value={fromDate}
                                         onChange={handleChangeFromedate}
                                         maxDate={new Date(Date.now())}
-                                        renderInput={(params) => <TextField sx={muiStyles.date} {...params} />}
+                                        renderInput={(params) => <TextField sx={muiStyles.date}{...params} />}
 
                                     />
                                 </Stack>
@@ -190,7 +190,7 @@ function GRNReceivedList() {
                                         value={toDate}
                                         onChange={handleChangeTodate}
                                         maxDate={new Date(Date.now())}
-                                        renderInput={(params) => <TextField sx={muiStyles.date} {...params} />}
+                                        renderInput={(params) => <TextField sx={muiStyles.date}{...params} />}
 
                                     />
                                 </Stack>
@@ -212,7 +212,7 @@ function GRNReceivedList() {
 
                         </Box>
 
-                        <Box className='inputBox-25' >
+                        <Box className='inputBox-25'>
                             <button className='applybtn' onClick={getPODetails}>Apply</button>
 
                         </Box>
@@ -223,25 +223,20 @@ function GRNReceivedList() {
                         <Table stickyHeader aria-label="sticky table">
                             <TableHead>
                                 <TableRow>
-                                    {/* <TableCell scope="row">SN.</TableCell> */}
-                                    <TableCell align="center" sx={muiStyles.tableHead}>Edit</TableCell>
-                                    <TableCell align="left" sx={muiStyles.tableHead}>Status</TableCell>
-                                    <TableCell align="left" sx={muiStyles.tableHead}>Invoice No.</TableCell>
-                                    <TableCell align="left" sx={muiStyles.tableHead}>GRN Date</TableCell>
-                                    <TableCell align="left" sx={muiStyles.tableHead}>Inv Date</TableCell>
-                                    <TableCell align="left" sx={muiStyles.tableHead}>Vehicle No.</TableCell>
-                                    <TableCell align="left" sx={muiStyles.tableHead}>Transport Name</TableCell>
-                                    <TableCell align="left" sx={muiStyles.tableHead}>PO No.</TableCell>
-                                    <TableCell align="left" sx={muiStyles.tableHead}>Lorry Rec No.</TableCell>
-                                    <TableCell align="left" sx={muiStyles.tableHead}>EWay Bill No.</TableCell>
-                                    <TableCell align="left" sx={muiStyles.tableHead}>Batch No.</TableCell>
-                                    <TableCell align="left" sx={muiStyles.tableHead}>Is COA Received</TableCell>
-                                    <TableCell align="left" sx={muiStyles.tableHead}>GRN Copy</TableCell>
-                                    <TableCell align="left" sx={muiStyles.tableHead}>Gate Entry Date</TableCell>
-                                    <TableCell align="left" sx={muiStyles.tableHead}>Courier To CCIPL</TableCell>
-                                    <TableCell align="left" sx={muiStyles.tableHead}>Courier Docket No</TableCell>
-                                    <TableCell align="left" sx={muiStyles.tableHead}>Payment Receive Date</TableCell>
-                                    <TableCell align="left" sx={muiStyles.tableHead}>Remarks</TableCell>
+                                    {/* <TableCell scope="row" style={{width:'2%'}}>SN.</TableCell> */}
+                                    <TableCell align="center"sx={muiStyles.tableHead} >Edit</TableCell>
+                                    <TableCell align="left" sx={muiStyles.tableHead} >Status</TableCell>
+                                    <TableCell align="left" sx={muiStyles.tableHead} >Reference No</TableCell>
+                                    <TableCell align="left" sx={muiStyles.tableHead} >Dated</TableCell>
+                                    <TableCell align="left" sx={muiStyles.tableHead} >Plant Detail</TableCell>
+                                    <TableCell align="left" sx={muiStyles.tableHead} >Invoice No</TableCell>
+                                    <TableCell align="left" sx={muiStyles.tableHead} >EWay Bill No</TableCell>
+                                    <TableCell align="left" sx={muiStyles.tableHead} >Ship To Location</TableCell>
+                                    <TableCell align="left" sx={muiStyles.tableHead} >Transporter Name</TableCell>
+                                    <TableCell align="left" sx={muiStyles.tableHead} >Vehicle Capacity</TableCell>
+                                    <TableCell align="left" sx={muiStyles.tableHead} >Vehicle No</TableCell>
+                                    <TableCell align="left" sx={muiStyles.tableHead} >Remarks</TableCell>
+                                    <TableCell align="left" sx={muiStyles.tableHead} >MATCOA Copy</TableCell>
 
                                 </TableRow>
                             </TableHead>
@@ -251,25 +246,19 @@ function GRNReceivedList() {
                                         return (
                                             <TableRow key={index}>
                                                 {/* <TableCell component="th" scope="row">{index + 1}.</TableCell> */}
-                                                <TableCell align="center"sx={muiStyles.tableBody}><button className='deletbtn' title='Edit' onClick={() => handleDetail(item.nGRNId)}><BorderColorIcon size={20} color='#000' /></button></TableCell>
-                                                <TableCell align="left" sx={muiStyles.tableBody}>{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
-                                                <TableCell align="left" sx={muiStyles.tableBody}>{item.vInvoiceNo}</TableCell>
-                                                <TableCell align="left" sx={muiStyles.tableBody}>{item.GRNDate}</TableCell>
-                                                <TableCell align="left" sx={muiStyles.tableBody}>{item.InvDate}</TableCell>
-                                                <TableCell align="left" sx={muiStyles.tableBody}>{item.vVehicleNo}</TableCell>
-                                                <TableCell align="left" sx={muiStyles.tableBody}>{item.vTransportName}</TableCell>
-                                                <TableCell align="left" sx={muiStyles.tableBody}>{item.vPONo}</TableCell>
-                                                <TableCell align="left" sx={muiStyles.tableBody}>{item.vLorryRecNo}</TableCell>
-                                                <TableCell align="left" sx={muiStyles.tableBody}>{item.vEWayBillNo}</TableCell>
-                                                <TableCell align="left" sx={muiStyles.tableBody}>{item.vBatchNo}</TableCell>
-                                                <TableCell align="left" sx={muiStyles.tableBody}>{item.btCOAReceived === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
-                                                <TableCell align="left" sx={muiStyles.tableBody}> <a href={imageUrl + '/' + item.vGRNCopyFilePath} target="_blank" rel="noopener noreferrer" style={{ marginLeft: 10 }}>{item.vGRNCopyFilePath != null && item.vGRNCopyFilePath != '' ? 'GRN Copy' : null}</a> </TableCell>
-                                                <TableCell align="left" sx={muiStyles.tableBody}>{parseDateToString(new Date(item.dtGateEntryDate))}</TableCell>
-                                                <TableCell align="left" sx={muiStyles.tableBody}>{item.vCourierToCCIPL}</TableCell>
-                                                <TableCell align="left" sx={muiStyles.tableBody}>{item.vCourierDocketNo}</TableCell>
-                                                <TableCell align="left" sx={muiStyles.tableBody}>{parseDateToString(new Date(item.dtPaymentReceiveDate))}</TableCell>
-                                                <TableCell align="left" sx={muiStyles.tableBody}>{item.vRemarks}</TableCell>
-
+                                                <TableCell align="center"sx={muiStyles.tableBody} ><button className='deletbtn' title='Edit' onClick={() => handleDetail(item.nDSId)}><BorderColorIcon size={20} color='#000' /></button></TableCell>
+                                                <TableCell align="left" sx={muiStyles.tableBody} >{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
+                                                <TableCell align="left" sx={muiStyles.tableBody} >{item.vDSId}</TableCell>
+                                                <TableCell align="left" sx={muiStyles.tableBody} >{item.Dated}</TableCell>
+                                                <TableCell align="left" sx={muiStyles.tableBody} >{item.PlantDetail}</TableCell>
+                                                <TableCell align="left" sx={muiStyles.tableBody} >{item.vInvoiceNo}</TableCell>
+                                                <TableCell align="left" sx={muiStyles.tableBody} >{item.vEWayBillNo}</TableCell>
+                                                <TableCell align="left" sx={muiStyles.tableBody} >{item.vShipToLocation}</TableCell>
+                                                <TableCell align="left" sx={muiStyles.tableBody} >{item.vTransporterName}</TableCell>
+                                                <TableCell align="left" sx={muiStyles.tableBody} >{item.vVehicleCapacity}</TableCell>
+                                                <TableCell align="left" sx={muiStyles.tableBody} >{item.vVehicleNo}</TableCell>
+                                                <TableCell align="left" sx={muiStyles.tableBody} >{item.vRemarks}</TableCell>
+                                                <TableCell align="left" sx={muiStyles.tableBody} > <a href={imageUrl+'/'+item.vPOFilePath} target="_blank" rel="noopener noreferrer" style={{ marginLeft: 10 }}>{item.vMATCOAFilePath!=null&&item.vMATCOAFilePath!=''?'MATCOA Copy':null}</a> </TableCell>
                                             </TableRow>
                                         )
                                     })
@@ -278,7 +267,7 @@ function GRNReceivedList() {
                                 :
                                 <TableBody>
                                     <TableRow>
-                                        <TableCell align="center" colSpan={17}>No Record</TableCell>
+                                        <TableCell align="center" colSpan={13}>No Record</TableCell>
                                     </TableRow>
                                 </TableBody>
 
@@ -430,4 +419,5 @@ const muiStyles = {
    
 
 };
-export default GRNReceivedList
+
+export default DispatchDetailsList

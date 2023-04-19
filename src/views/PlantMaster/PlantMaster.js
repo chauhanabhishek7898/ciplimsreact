@@ -28,12 +28,12 @@ import ExportExcel from 'src/shareFunction/Excelexport';
 import CircularProgress from '@mui/joy/CircularProgress';
 function PlantMaster() {
     {/* <TableCell scope="row">SN.</TableCell>
-                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Plant Code</TableCell>
-                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Plant Name</TableCell>
-                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Plant Address</TableCell>
-                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Profit Centre</TableCell>
-                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Cost Centre</TableCell>
-                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Status</TableCell> */}
+                                    <TableCell align="left" >Plant Code</TableCell>
+                                    <TableCell align="left" >Plant Name</TableCell>
+                                    <TableCell align="left" >Plant Address</TableCell>
+                                    <TableCell align="left" >Profit Centre</TableCell>
+                                    <TableCell align="left" >Cost Centre</TableCell>
+                                    <TableCell align="left" >Status</TableCell> */}
 
     let Heading = [['SN.', 'Plant Code', 'Plant Name', 'Plant Address', 'Profit Centre', 'Cost Centre', 'Status']];
 
@@ -189,7 +189,7 @@ function PlantMaster() {
             null
 
             }
-            <button className='addbtn_2' onClick={() => openmodale(null, 'Submit')} title='Add' ><AddIcon fontSize='large' /></button>
+            <button className='addbtn_2' onClick={() => openmodale(null, 'Submit')} title='Add' ><AddIcon fontSize='large' /> <span className='addFont'>Add</span></button>
             <Modal
                 isOpen={modalIsOpen}
                 style={customStyles}
@@ -200,7 +200,7 @@ function PlantMaster() {
                     <div><span className='title'>Plant Master</span></div>
                     <HighlightOffIcon fontSize='large' onClick={() => setIsOpen(false)} />
                 </div>
-                <div className='displayflexend'>
+                <div className='displayflexend mt-4'>
                     <Box className='inputBox-12' >
                         <FormControl fullWidth className='input'>
                             <TextField
@@ -287,7 +287,7 @@ function PlantMaster() {
                 </div>
                 <div className='displayflexend-2'>
                     <FormGroup >
-                        <FormControlLabel control={<Checkbox defaultChecked={btActive} value={btActive} onChange={e => setbtActive(e.target.checked)} />} label="Active" disabled={disabled} />
+                        <FormControlLabel style={{marginRight:0}} control={<Checkbox defaultChecked={btActive} value={btActive} onChange={e => setbtActive(e.target.checked)} />} label="Active" disabled={disabled} />
                     </FormGroup>
                     {loader == true ?
                         <CButton disabled className='submitbtn'>
@@ -301,10 +301,11 @@ function PlantMaster() {
                 </div>
             </Modal >
             <div className='tablecenter'>
-                <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+                <Paper sx={{ width: '100%', overflow: 'hidden',paddingTop:1 }}>
 
                     <div className='exportandfilter'>
                         <ExportExcel excelData={plantData} Heading={Heading} fileName={'Plant_Master'} />
+                        <div className='filterbox'>
                         <Box className='searchbox'>
                             <SearchBar
                                 value={searched}
@@ -313,9 +314,11 @@ function PlantMaster() {
                             />
 
                         </Box>
-                        <FormGroup >
-                            <FormControlLabel control={<Checkbox checked={onlyActive} value={onlyActive} onChange={checkedonlyActive} />} label="Only Active Data" />
+                        <FormGroup className='activeonly'>
+                            <FormControlLabel style={{marginRight:0}} control={<Checkbox checked={onlyActive} value={onlyActive} onChange={checkedonlyActive} />} label="Only Active Data" />
                         </FormGroup>
+
+                        </div>
                     </div>
 
                     <TableContainer sx={{ maxHeight: 440 }}>
@@ -323,28 +326,28 @@ function PlantMaster() {
                             <TableHead>
                                 <TableRow>
                                     {/* <TableCell scope="row">SN.</TableCell> */}
-                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Edit</TableCell>
-                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Status</TableCell>
-                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Plant Code</TableCell>
-                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Plant Name</TableCell>
-                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Plant Address</TableCell>
-                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Profit Centre</TableCell>
-                                    <TableCell align="left" style={{whiteSpace:'nowrap'}}>Cost Centre</TableCell>
+                                    <TableCell align="left" sx={muiStyles.tableHead}>Edit</TableCell>
+                                    <TableCell align="left" sx={muiStyles.tableHead}>Status</TableCell>
+                                    <TableCell align="left" sx={muiStyles.tableHead}>Plant Code</TableCell>
+                                    <TableCell align="left" sx={muiStyles.tableHead}>Plant Name</TableCell>
+                                    <TableCell align="left" sx={muiStyles.tableHead}>Plant Address</TableCell>
+                                    <TableCell align="left" sx={muiStyles.tableHead}>Profit Centre</TableCell>
+                                    <TableCell align="left" sx={muiStyles.tableHead}>Cost Centre</TableCell>
                                 </TableRow>
                             </TableHead>
                             {plantData?.length>0?
                             <TableBody>
                                 {plantData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((item,index) => {
                                     return (
-                                        <TableRow >
+                                        <TableRow key={index}>
                                             {/* <TableCell component="th" scope="row">{index + 1}.</TableCell> */}
-                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}><div onClick={() => openmodale(item, 'Update')} className='editbtn'><BorderColorIcon size={20} color='#000' /></div></TableCell>
-                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
-                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vPlantCode}</TableCell>
-                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vPlantName}</TableCell>
-                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vPlantAddress}</TableCell>
-                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vProfitCentre}</TableCell>
-                                            <TableCell align="left" style={{whiteSpace:'nowrap'}}>{item.vCostCentre}</TableCell>
+                                            <TableCell align="left" sx={muiStyles.tableBody}><div onClick={() => openmodale(item, 'Update')} className='editbtn'><BorderColorIcon size={20} color='#000' /></div></TableCell>
+                                            <TableCell align="left" sx={muiStyles.tableBody}>{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
+                                            <TableCell align="left" sx={muiStyles.tableBody}>{item.vPlantCode}</TableCell>
+                                            <TableCell align="left" sx={muiStyles.tableBody}>{item.vPlantName}</TableCell>
+                                            <TableCell align="left" sx={muiStyles.tableBody}>{item.vPlantAddress}</TableCell>
+                                            <TableCell align="left" sx={muiStyles.tableBody}>{item.vProfitCentre}</TableCell>
+                                            <TableCell align="left" sx={muiStyles.tableBody}>{item.vCostCentre}</TableCell>
                                         </TableRow>
                                     )
                                 })
@@ -399,13 +402,14 @@ const muiStyles = {
     date: {
         "& .MuiInputBase-root": {
             "& input": {
-                padding: '5px 14px',
+                padding: '6px 6px',
                 fontSize: '13px'
             }
         },
         "& .MuiFormLabel-root": {
             fontSize: '13px',
             top: '-13px',
+            left:'-10px',
             backgroundColor: 'transparent',
             zIndex: '1'
         },
@@ -413,12 +417,16 @@ const muiStyles = {
             zIndex: '1'
 
         },
+        '& .MuiInputAdornment-root':{
+            position: 'absolute',
+            right: '10px'
+        }
     },
     autoCompleate: {
         "& .MuiOutlinedInput-root": {
             padding: '0px',
             "& .MuiAutocomplete-input": {
-                padding: '5px 14px',
+                padding: '6px 6px',
                 fontSize: '13px'
             }
 
@@ -427,6 +435,7 @@ const muiStyles = {
             fontSize: '13px',
             backgroundColor: 'transparent',
             top: '-13px',
+            left:'-10px',
           
         },
         "& label.Mui-focused": {
@@ -436,13 +445,14 @@ const muiStyles = {
     input: {
         "& .MuiOutlinedInput-root": {
             "& input": {
-                padding: '6px 14px',
+                padding: '6px',
                 fontSize: '12px'
             }
         },
         "& .MuiFormLabel-root": {
             fontSize: '13px',
-            top: '-13px',  
+            top: '-13px',
+            left:'-10px',  
             backgroundColor: 'transparent',
         },
         "& label.Mui-focused": {
@@ -452,7 +462,7 @@ const muiStyles = {
     select: {
 
         "& .MuiSelect-select": {
-            padding: '3px 14px',
+            padding: '3px',
             fontSize: '12px'
         }, 
         
@@ -461,9 +471,37 @@ const muiStyles = {
     InputLabels: {
         fontSize: '13px',
         top: '-13px',
+        left:'-10px',
         backgroundColor: 'transparent',
         "&.Mui-focused": {
             zIndex: '1'
+        }
+    },
+    tableBox: {
+        "&.MuiTableContainer-root": {
+            width: '100%',
+            maxHeight: '440px',
+            padding: '0px 16px',
+        },
+    },
+    tableHead: {
+        "&.MuiTableCell-root": {
+            padding: '8px',
+            fontWeight:'bold'
+        }
+    },
+    tableBody: {
+        "&.MuiTableCell-root": {
+            padding: '8px',
+            fontSize:'14px',
+            lineHeight: '39px'
+        }
+    },
+    checkboxLabel: {
+        "&.MuiFormControlLabel-root": {
+            "&.MuiTypography-root": {
+                fontSize:'14px'
+            }
         }
     },
    

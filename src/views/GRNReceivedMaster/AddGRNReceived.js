@@ -992,7 +992,7 @@ function AddGRNReceived() {
     return (
         <div className='citymasterContainer'>
             <div className='dateFilter-2'>
-                <div className='displayflexend'>
+                <div className='displayflexend mt-2'>
                     <Box className='inputBox-30' >
                         <FormControl fullWidth className='input'>
                             <TextField
@@ -1077,7 +1077,7 @@ function AddGRNReceived() {
                             />
                         </FormControl>
                     </Box>
-                    <Box className='inputBox-34'>
+                    <Box className='inputBox-32'>
                         <FormControl fullWidth className='input'>
                             {/* <InputLabel required id="demo-simple-select-label">Plant</InputLabel>npm  */}
                             <Autocomplete
@@ -1286,8 +1286,8 @@ function AddGRNReceived() {
 
                     <div style={{ display: 'flex', width: '100%', alignItems: 'flex-end', gap: 18 }}>
                         <Box className='inputBox-25'>
-                            <div >
-                                <InputLabel id="demo-simple-select-label" style={{ marginTop: 5, marginBottom: 5 }}>Attach GRN</InputLabel>
+                            <div style={{position:'relative'}}>
+                                <InputLabel id="demo-simple-select-label" style={{ marginTop: 5, marginBottom: 5,fontSize: 10,position: 'absolute',top: -23}}>Attach GRN</InputLabel>
                                 <input type="file" name='vPOFilePath' onChange={imageFile} hidden ref={imageRef} />
                                 <div style={{ flexDirection: 'row' }}>
                                     <button onClick={() => imageRef.current.click()} className='choosebtn'>Choose File</button>
@@ -1301,16 +1301,16 @@ function AddGRNReceived() {
 
                         </Box>
                         <FormGroup >
-                            <FormControlLabel control={<Checkbox defaultChecked={btCOAReceived} value={btCOAReceived} onChange={e => setbtCOAReceived(e.target.checked)} />} label="COA Received" />
+                            <FormControlLabel style={{marginRight:0}} control={<Checkbox defaultChecked={btCOAReceived} value={btCOAReceived} onChange={e => setbtCOAReceived(e.target.checked)} />} label="COA Received" />
                         </FormGroup>
                         <FormGroup >
-                            <FormControlLabel control={<Checkbox defaultChecked={btActive} value={btActive} onChange={e => setBtActive(e.target.checked)} />} label="Active" disabled={disabled} />
+                            <FormControlLabel style={{marginRight:0}} control={<Checkbox defaultChecked={btActive} value={btActive} onChange={e => setBtActive(e.target.checked)} />} label="Active" disabled={disabled} />
                         </FormGroup>
                     </div>
                 </div>
             </div>
             <div className='databox'>
-                <div className='data-form-box'>
+                <div className='data-form-box-2 mt-2'>
                     <Box className='inputBox-29'>
                         <FormControl fullWidth className='input'>
                             <Autocomplete
@@ -1688,7 +1688,7 @@ function AddGRNReceived() {
                             />
                         </FormControl>
                     </Box>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 10, justifyContent: 'space-between', width: '100%', }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 10, justifyContent: 'space-between',marginBottom:10 }}>
                         <button title='Add' className='addbtn' onClick={addKoMonthDate}>{btnType=='edit'?'Update':<AddIcon fontSize='large' />}</button>
 
                         <button title='Refresh' className='addbtn' onClick={refreshbtn}><ReplayIcon fontSize='large' /></button>
@@ -1699,7 +1699,7 @@ function AddGRNReceived() {
                 </div>
                 <div className='tablecenter'>
                     {PODetails.length > 0 ?
-                        <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+                        <Paper sx={{ width: '100%', overflow: 'hidden',paddingTop:1 }}>
                             <TableContainer sx={{ maxHeight: 440 }}>
                                 <Table stickyHeader aria-label="sticky table">
                                     <TableHead>
@@ -1839,7 +1839,7 @@ function AddGRNReceived() {
                         <div><p className='errormasg'>OOPS !!, For this selected Transaction, Input Quantity is greater than Balance Left Quantity. Please try again with appropriate inputs.</p></div>
                         <div className='tablecenter'>
                             {GrnData.length > 0 ?
-                                <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+                                <Paper sx={{ width: '100%', overflow: 'hidden',paddingTop:1 }}>
                                     <TableContainer sx={{ maxHeight: 440 }}>
                                         <Table stickyHeader aria-label="sticky table">
                                             <TableHead>
@@ -1915,13 +1915,14 @@ const muiStyles = {
     date: {
         "& .MuiInputBase-root": {
             "& input": {
-                padding: '5px 14px',
+                padding: '6px 6px',
                 fontSize: '13px'
             }
         },
         "& .MuiFormLabel-root": {
             fontSize: '13px',
             top: '-13px',
+            left:'-10px',
             backgroundColor: 'transparent',
             zIndex: '1'
         },
@@ -1929,12 +1930,16 @@ const muiStyles = {
             zIndex: '1'
 
         },
+        '& .MuiInputAdornment-root':{
+            position: 'absolute',
+            right: '10px'
+        }
     },
     autoCompleate: {
         "& .MuiOutlinedInput-root": {
             padding: '0px',
             "& .MuiAutocomplete-input": {
-                padding: '5px 14px',
+                padding: '6px 6px',
                 fontSize: '13px'
             }
 
@@ -1943,6 +1948,7 @@ const muiStyles = {
             fontSize: '13px',
             backgroundColor: 'transparent',
             top: '-13px',
+            left:'-10px',
           
         },
         "& label.Mui-focused": {
@@ -1952,13 +1958,14 @@ const muiStyles = {
     input: {
         "& .MuiOutlinedInput-root": {
             "& input": {
-                padding: '6px 14px',
+                padding: '6px',
                 fontSize: '12px'
             }
         },
         "& .MuiFormLabel-root": {
             fontSize: '13px',
-            top: '-13px',  
+            top: '-13px',
+            left:'-10px',  
             backgroundColor: 'transparent',
         },
         "& label.Mui-focused": {
@@ -1968,7 +1975,7 @@ const muiStyles = {
     select: {
 
         "& .MuiSelect-select": {
-            padding: '3px 14px',
+            padding: '3px',
             fontSize: '12px'
         }, 
         
@@ -1977,6 +1984,7 @@ const muiStyles = {
     InputLabels: {
         fontSize: '13px',
         top: '-13px',
+        left:'-10px',
         backgroundColor: 'transparent',
         "&.Mui-focused": {
             zIndex: '1'
