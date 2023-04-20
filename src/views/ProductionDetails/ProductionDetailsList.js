@@ -224,8 +224,7 @@ function ProductionDetailsList() {
                           <TableHead>
                               <TableRow>
                                   {/* <TableCell scope="row" style={{width:'2%'}}>SN.</TableCell> */}
-                                  <TableCell align="center"sx={muiStyles.tableHead}>Edit</TableCell>
-                                  <TableCell align="left" sx={muiStyles.tableHead}>Status</TableCell>
+
                                   <TableCell align="left" sx={muiStyles.tableHead}>Reference No</TableCell>
                                   <TableCell align="left" sx={muiStyles.tableHead}>Dated</TableCell>
                                   <TableCell align="left" sx={muiStyles.tableHead}>Plant Detail</TableCell>
@@ -245,6 +244,10 @@ function ProductionDetailsList() {
                                   <TableCell align="left" sx={muiStyles.tableHead}>MFG Date</TableCell>
                                   <TableCell align="left" sx={muiStyles.tableHead}>Remarks</TableCell>
 
+                                  <TableCell align="left" sx={muiStyles.tableHead}>Status</TableCell>
+                                  <TableCell align="center"sx={muiStyles.tableHead}>Edit</TableCell>
+
+
                               </TableRow>
                           </TableHead>
                           {brandData?.length > 0 ?
@@ -253,8 +256,7 @@ function ProductionDetailsList() {
                                       return (
                                           <TableRow key={index}>
                                               {/* <TableCell component="th" scope="row">{index + 1}.</TableCell> */}
-                                              <TableCell align="center"sx={muiStyles.tableBody}><button className='deletbtn' title='Edit' onClick={() => handleDetail(item.nPDId)}><BorderColorIcon size={20} color='#000' /></button></TableCell>
-                                              <TableCell align="left" sx={muiStyles.tableBody}>{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
+
                                               <TableCell align="left" sx={muiStyles.tableBody}>{item.vPDId}</TableCell>
                                               <TableCell align="left" sx={muiStyles.tableBody}>{item.Dated}</TableCell>
                                               <TableCell align="left" sx={muiStyles.tableBody}>{item.PlantDetail}</TableCell>
@@ -273,6 +275,9 @@ function ProductionDetailsList() {
                                               <TableCell align="left" sx={muiStyles.tableBody}>{item.BBD}</TableCell>
                                               <TableCell align="left" sx={muiStyles.tableBody}>{item.MFGDate}</TableCell>
                                               <TableCell align="left" sx={muiStyles.tableBody}>{item.vRemarks}</TableCell>
+
+                                              <TableCell align="left" sx={muiStyles.tableBody}>{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
+                                              <TableCell align="center"sx={muiStyles.tableBody}><button className='deletbtn' title='Edit' onClick={() => handleDetail(item.nPDId)}><BorderColorIcon size={20} color='#000' /></button></TableCell>
 
                                           </TableRow>
                                       )

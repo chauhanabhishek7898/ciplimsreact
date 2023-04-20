@@ -608,8 +608,7 @@ function MaterialMaster() {
                                 <TableHead>
                                     <TableRow>
                                         {/* <TableCell scope="row">SN.</TableCell> */}
-                                        <TableCell align="left" sx={muiStyles.tableHead}>Edit</TableCell>
-                                        <TableCell align="left" sx={muiStyles.tableHead}>Status</TableCell>
+
                                         <TableCell align="left" sx={muiStyles.tableHead}>Material Code</TableCell>
                                         <TableCell align="left" sx={muiStyles.tableHead}>Material Name</TableCell>
                                         <TableCell align="left" sx={muiStyles.tableHead}>Category</TableCell>
@@ -617,6 +616,10 @@ function MaterialMaster() {
                                         <TableCell align="left" sx={muiStyles.tableHead}>UOM</TableCell>
                                         <TableCell align="left" sx={muiStyles.tableHead}>HSN Code</TableCell>
                                         <TableCell align="left" sx={muiStyles.tableHead}>Remarks</TableCell>
+
+                                        <TableCell align="left" sx={muiStyles.tableHead}>Status</TableCell>
+                                        <TableCell align="left" sx={muiStyles.tableHead}>Edit</TableCell>
+
                                     </TableRow>
                                 </TableHead>
                                
@@ -626,8 +629,7 @@ function MaterialMaster() {
                                             return (
                                                 <TableRow hover role="checkbox" tabIndex={-1} key={index}>
                                                       {/* <TableCell component="th" scope="row">{index + 1}.</TableCell> */}
-                                                    <TableCell align="left" sx={muiStyles.tableBody}><div onClick={() => openmodale(item, 'Update')} className='editbtn'><BorderColorIcon size={20} color='#000' /></div></TableCell>
-                                                    <TableCell align="left" sx={muiStyles.tableBody}>{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
+
                                                     <TableCell align="left" sx={muiStyles.tableBody}>{item.vMCode}</TableCell>
                                                     <TableCell align="left" sx={muiStyles.tableBody}>{item.vMName}</TableCell>
                                                     <TableCell align="left" sx={muiStyles.tableBody}>{item.vCategory}</TableCell>
@@ -635,6 +637,10 @@ function MaterialMaster() {
                                                     <TableCell align="left" sx={muiStyles.tableBody}>{item.vUOM}</TableCell>
                                                     <TableCell align="left" sx={muiStyles.tableBody}>{item.vHSNCode}</TableCell>
                                                     <TableCell align="left" sx={muiStyles.tableBody}>{item.vRemarks}</TableCell>
+
+                                                    <TableCell align="left" sx={muiStyles.tableBody}>{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
+                                                    <TableCell align="left" sx={muiStyles.tableBody}><div onClick={() => openmodale(item, 'Update')} className='editbtn'><BorderColorIcon size={20} color='#000' /></div></TableCell>
+
                                                 </TableRow>
                                             );
                                         })}

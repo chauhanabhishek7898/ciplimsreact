@@ -251,9 +251,10 @@ function UnitMaster() {
                             <TableHead>
                                 <TableRow>
                                     {/* <TableCell scope="row">SN.</TableCell> */}
-                                    <TableCell align="left" sx={muiStyles.tableHead}>Edit</TableCell>
                                     <TableCell align="left" sx={muiStyles.tableHead}>Unit Name</TableCell>
                                     <TableCell align="left" sx={muiStyles.tableHead}>Status</TableCell>
+                                    <TableCell align="left" sx={muiStyles.tableHead}>Edit</TableCell>
+
                                 </TableRow>
                             </TableHead>
                             {unitData?.length>0?
@@ -262,9 +263,10 @@ function UnitMaster() {
                                     return (
                                         <TableRow key={index}>
                                             {/* <TableCell component="th" scope="row">{index + 1}.</TableCell> */}
-                                            <TableCell align="left" sx={muiStyles.tableBody}><div onClick={() => openmodale(item, 'Update')} className='editbtn'><BorderColorIcon size={20} color='#000' /></div></TableCell>
                                             <TableCell align="left" sx={muiStyles.tableBody}>{item.vUnitName}</TableCell>
                                             <TableCell align="left" sx={muiStyles.tableBody}>{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
+                                            <TableCell align="left" sx={muiStyles.tableBody}><div onClick={() => openmodale(item, 'Update')} className='editbtn'><BorderColorIcon size={20} color='#000' /></div></TableCell>
+
                                         </TableRow>
                                     )
                                 })

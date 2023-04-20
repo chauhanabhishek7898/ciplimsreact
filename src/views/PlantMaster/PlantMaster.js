@@ -326,13 +326,16 @@ function PlantMaster() {
                             <TableHead>
                                 <TableRow>
                                     {/* <TableCell scope="row">SN.</TableCell> */}
-                                    <TableCell align="left" sx={muiStyles.tableHead}>Edit</TableCell>
-                                    <TableCell align="left" sx={muiStyles.tableHead}>Status</TableCell>
+
                                     <TableCell align="left" sx={muiStyles.tableHead}>Plant Code</TableCell>
                                     <TableCell align="left" sx={muiStyles.tableHead}>Plant Name</TableCell>
                                     <TableCell align="left" sx={muiStyles.tableHead}>Plant Address</TableCell>
                                     <TableCell align="left" sx={muiStyles.tableHead}>Profit Centre</TableCell>
                                     <TableCell align="left" sx={muiStyles.tableHead}>Cost Centre</TableCell>
+
+                                    <TableCell align="left" sx={muiStyles.tableHead}>Status</TableCell>
+                                    <TableCell align="left" sx={muiStyles.tableHead}>Edit</TableCell>
+
                                 </TableRow>
                             </TableHead>
                             {plantData?.length>0?
@@ -341,13 +344,16 @@ function PlantMaster() {
                                     return (
                                         <TableRow key={index}>
                                             {/* <TableCell component="th" scope="row">{index + 1}.</TableCell> */}
-                                            <TableCell align="left" sx={muiStyles.tableBody}><div onClick={() => openmodale(item, 'Update')} className='editbtn'><BorderColorIcon size={20} color='#000' /></div></TableCell>
-                                            <TableCell align="left" sx={muiStyles.tableBody}>{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
+
                                             <TableCell align="left" sx={muiStyles.tableBody}>{item.vPlantCode}</TableCell>
                                             <TableCell align="left" sx={muiStyles.tableBody}>{item.vPlantName}</TableCell>
                                             <TableCell align="left" sx={muiStyles.tableBody}>{item.vPlantAddress}</TableCell>
                                             <TableCell align="left" sx={muiStyles.tableBody}>{item.vProfitCentre}</TableCell>
                                             <TableCell align="left" sx={muiStyles.tableBody}>{item.vCostCentre}</TableCell>
+
+                                            <TableCell align="left" sx={muiStyles.tableBody}>{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
+                                            <TableCell align="left" sx={muiStyles.tableBody}><div onClick={() => openmodale(item, 'Update')} className='editbtn'><BorderColorIcon size={20} color='#000' /></div></TableCell>
+
                                         </TableRow>
                                     )
                                 })

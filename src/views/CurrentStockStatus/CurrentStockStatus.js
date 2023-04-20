@@ -286,18 +286,14 @@ function CurrentStockStatus() {
                         <Table stickyHeader aria-label="sticky table" >
                             <TableHead>
                                 <TableRow>
-                                    {/* <TableCell scope="row">SN.</TableCell> */}
-                                    {/* <TableCell align="left" >Edit</TableCell> */}
                                     <TableCell align="left" >Plant Detail</TableCell>
                                     <TableCell align="left" >Material Detail</TableCell>
                                     <TableCell align="left" >UOM</TableCell>
                                     <TableCell align="left" >Category</TableCell>
-                                    {/* <TableCell align="left" >HSN Code</TableCell> */}
                                     <TableCell align="left" >Material Type</TableCell>
                                     <TableCell align="left" >Exp Date</TableCell>
                                     <TableCell align="left" >Aeging</TableCell>
                                     <TableCell align="left" >Balance Stock</TableCell>
-                                    {/* <TableCell align="left" >Status</TableCell> */}
                                 </TableRow>
                             </TableHead>
                             {brandData?.length>0?
@@ -305,18 +301,14 @@ function CurrentStockStatus() {
                                   {brandData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((item,index) => {
                                       return (
                                           <TableRow key={index}>
-                                              {/* <TableCell component="th" scope="row">{index + 1}.</TableCell> */}
-                                              {/* <TableCell align="left" ><div onClick={() => openmodale(item, 'Update')}><BorderColorIcon size={20} color='#000' /></div></TableCell> */}
                                               <TableCell align="left" >{item.PlantDetail}</TableCell>
                                               <TableCell align="left" >{item.MaterialDetail}</TableCell>
                                               <TableCell align="left" >{item.vUOM}</TableCell>
                                               <TableCell align="left" >{item.vCategory}</TableCell>
-                                              {/* <TableCell align="left" >{item.vHSNCode}</TableCell> */}
                                               <TableCell align="left" >{item.vMaterialType}</TableCell>
                                               <TableCell align="left" >{item.ExpDate}</TableCell>
                                               <TableCell align="left" >{item.Aeging}</TableCell>
                                               <TableCell align="left" >{item.BalanceStock}</TableCell>
-                                              {/* <TableCell align="left" >{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell> */}
                                           </TableRow>
                                       )
                                   })

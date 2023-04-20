@@ -112,7 +112,7 @@ function VenderForm() {
     const getVendorMaster_SelectAll = () => {
         setLoader2(true)
         VendorMaster_SelectAll().then(response => {
-          
+
             if (checkedData == true) {
                 let activeData = response.filter(e => e.btActive == true)
                 setVendorData(activeData)
@@ -173,7 +173,7 @@ function VenderForm() {
         if (buttonName == 'Submit') {
             VendorMasterPost(vendor).then(res => {
                 if (res) {
-                  
+
                     toast.success("Record Added Successfully !!")
                     setLoader(false)
                     setIsOpen(false)
@@ -193,14 +193,14 @@ function VenderForm() {
     }
     return (
         <div className='citymasterContainer'>
-              {loader2==true?
-            <div className='progressBox'>
-                <div className='progressInner'>
-                    <CircularProgress />
+            {loader2 == true ?
+                <div className='progressBox'>
+                    <div className='progressInner'>
+                        <CircularProgress />
+                    </div>
                 </div>
-            </div>
-            :
-            null
+                :
+                null
 
             }
             <button className='addbtn_2' onClick={() => openmodale(null, 'Submit')} title='Add'><AddIcon fontSize='large' /><span className='addFont'>Add</span></button>
@@ -209,14 +209,14 @@ function VenderForm() {
                 style={customStyles}
                 ariaHideApp={false}
                 contentLabel="Example Modal"
-                
+
             >
                 <div className='displayright mb-4'>
                     <div><span className='title'>Vendor Master</span></div>
                     <HighlightOffIcon fontSize='large' onClick={() => setIsOpen(false)} />
                 </div>
                 <div className='displayflexend'>
-                    <Box  className='inputBox-1'>
+                    <Box className='inputBox-1'>
                         <FormControl fullWidth className='input'>
                             <TextField
                                 sx={muiStyles.input}
@@ -236,7 +236,7 @@ function VenderForm() {
                     <Box className='inputBox-1' >
                         <FormControl fullWidth className='input' >
                             <TextField
-                            sx={muiStyles.input}
+                                sx={muiStyles.input}
                                 value={vVendorName}
                                 onChange={e => setvVendorName(e.target.value)}
                                 id="outlined-basic"
@@ -250,11 +250,11 @@ function VenderForm() {
                             />
                         </FormControl>
                     </Box>
-                    
+
                     <Box className='inputBox-2' >
                         <FormControl fullWidth className='input'>
                             <TextField
-                            sx={muiStyles.input}
+                                sx={muiStyles.input}
                                 value={vContactPerson}
                                 onChange={e => setvContactPerson(e.target.value)}
                                 id="outlined-basic"
@@ -270,7 +270,7 @@ function VenderForm() {
                     <Box className='inputBox-1'  >
                         <FormControl fullWidth className='input'>
                             <TextField
-                            sx={muiStyles.input}
+                                sx={muiStyles.input}
                                 value={vMobileNo}
                                 onChange={e => setvMobileNo(e.target.value)}
                                 id="outlined-basic"
@@ -286,7 +286,7 @@ function VenderForm() {
                     <Box className='inputBox-3'  >
                         <FormControl fullWidth className='input'>
                             <TextField
-                            sx={muiStyles.input}
+                                sx={muiStyles.input}
                                 value={vEmailId}
                                 onChange={e => setvEmailId(e.target.value)}
                                 id="outlined-basic"
@@ -302,7 +302,7 @@ function VenderForm() {
                     <Box className='inputBox-4' >
                         <FormControl fullWidth className='input'>
                             <TextField
-                            sx={muiStyles.input}
+                                sx={muiStyles.input}
                                 value={vVendorAddress}
                                 onChange={e => setvVendorAddress(e.target.value)}
                                 id="outlined-basic"
@@ -318,16 +318,16 @@ function VenderForm() {
                     <Box className='inputBox-3'>
                         <FormControl fullWidth className='input'>
                             <TextField
-                            sx={muiStyles.input}
+                                sx={muiStyles.input}
                                 value={vGSTNo}
                                 onChange={e => setvGSTNo(e.target.value)}
                                 id="outlined-basic"
                                 label="GST No"
                                 variant="outlined"
                                 name='vGSTNo'
-                                // inputRef={register({ required: "GST No is required.*", })}
-                                // error={Boolean(errors.vGSTNo)}
-                                // helperText={errors.vGSTNo?.message}
+                            // inputRef={register({ required: "GST No is required.*", })}
+                            // error={Boolean(errors.vGSTNo)}
+                            // helperText={errors.vGSTNo?.message}
                             />
                         </FormControl>
                     </Box>
@@ -335,7 +335,7 @@ function VenderForm() {
                     <Box className='inputBox-5'>
                         <FormControl fullWidth className='input'>
                             <TextField
-                            sx={muiStyles.input}
+                                sx={muiStyles.input}
                                 value={vRemarks}
                                 onChange={e => setvRemarks(e.target.value)}
                                 id="outlined-basic"
@@ -351,7 +351,7 @@ function VenderForm() {
                 </div>
                 <div className='displayflexend-2'>
                     <FormGroup >
-                        <FormControlLabel style={{marginRight:0}} control={<Checkbox defaultChecked={btActive} value={btActive} onChange={e => setbtActive(e.target.checked)} />} label="Active" disabled={disabled} />
+                        <FormControlLabel style={{ marginRight: 0 }} control={<Checkbox defaultChecked={btActive} value={btActive} onChange={e => setbtActive(e.target.checked)} />} label="Active" disabled={disabled} />
                     </FormGroup>
 
                     {loader == true ?
@@ -365,23 +365,23 @@ function VenderForm() {
                 </div>
             </Modal >
             <div className='tablecenter'>
-                <Paper sx={{ width: '100%', overflow: 'hidden',paddingTop:1 }}>
+                <Paper sx={{ width: '100%', overflow: 'hidden', paddingTop: 1 }}>
 
                     <div className='exportandfilter'>
                         <ExportExcel excelData={vendorData} Heading={Heading} fileName={'Vendor_Master'} />
                         <div className='filterbox'>
-                        <Box className='searchbox'>
-                            <SearchBar
-                                value={searched}
-                                onChange={(searchVal) => requestSearch(searchVal)}
-                                onCancelSearch={() => cancelSearch()}
-                            />
+                            <Box className='searchbox'>
+                                <SearchBar
+                                    value={searched}
+                                    onChange={(searchVal) => requestSearch(searchVal)}
+                                    onCancelSearch={() => cancelSearch()}
+                                />
 
-                        </Box>
-                        <FormGroup className='activeonly'>
-                            <FormControlLabel  style={{marginRight:0,fontSize:10}} control={<Checkbox checked={onlyActive} value={onlyActive} onChange={checkedonlyActive} />} label={'Only Active Data'} />
-                        </FormGroup>
-                            
+                            </Box>
+                            <FormGroup className='activeonly'>
+                                <FormControlLabel style={{ marginRight: 0, fontSize: 10 }} control={<Checkbox checked={onlyActive} value={onlyActive} onChange={checkedonlyActive} />} label={'Only Active Data'} />
+                            </FormGroup>
+
                         </div>
                     </div>
 
@@ -390,8 +390,7 @@ function VenderForm() {
                             <TableHead>
                                 <TableRow>
                                     {/* <TableCell scope="row">SN.</TableCell> */}
-                                    <TableCell align="left" sx={muiStyles.tableHead} >Edit</TableCell>
-                                    <TableCell align="left" sx={muiStyles.tableHead}>Status</TableCell>
+
                                     <TableCell align="left" sx={muiStyles.tableHead}>Vendor Code</TableCell>
                                     <TableCell align="left" sx={muiStyles.tableHead}>Vendor Name</TableCell>
                                     <TableCell align="left" sx={muiStyles.tableHead}>Address</TableCell>
@@ -400,35 +399,42 @@ function VenderForm() {
                                     <TableCell align="left" sx={muiStyles.tableHead}>Email Id</TableCell>
                                     <TableCell align="left" sx={muiStyles.tableHead}>GST No</TableCell>
                                     <TableCell align="left" sx={muiStyles.tableHead}>Remarks</TableCell>
+
+                                    <TableCell align="left" sx={muiStyles.tableHead}>Status</TableCell>
+                                    <TableCell align="left" sx={muiStyles.tableHead} >Edit</TableCell>
+
                                 </TableRow>
                             </TableHead>
-                            {vendorData?.length>0?
-                            <TableBody>
-                                {vendorData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((item,index) => {
-                                    return (
-                                        <TableRow key={index}>
-                                            {/* <TableCell component="th" scope="row">{index + 1}.</TableCell> */}
-                                            <TableCell align="left" sx={muiStyles.tableBody}><div onClick={() => openmodale(item, 'Update')} className='editbtn'><BorderColorIcon size={20} color='#000' /></div></TableCell>
-                                            <TableCell align="left" sx={muiStyles.tableBody}>{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
-                                            <TableCell align="left" sx={muiStyles.tableBody}>{item.vVendorCode}</TableCell>
-                                            <TableCell align="left" sx={muiStyles.tableBody}>{item.vVendorName}</TableCell>
-                                            <TableCell align="left" sx={muiStyles.tableBody}>{item.vVendorAddress}</TableCell>
-                                            <TableCell align="left" sx={muiStyles.tableBody}>{item.vContactPerson}</TableCell>
-                                            <TableCell align="left" sx={muiStyles.tableBody}>{item.vMobileNo}</TableCell>
-                                            <TableCell align="left" sx={muiStyles.tableBody}>{item.vEmailId}</TableCell>
-                                            <TableCell align="left" sx={muiStyles.tableBody}>{item.vGSTNo}</TableCell>
-                                            <TableCell align="left" sx={muiStyles.tableBody}>{item.vRemarks}</TableCell>
-                                        </TableRow>
-                                    )
-                                })
-                                }
-                            </TableBody>
-                             :
-                             <TableBody>
-                                <TableRow>
-                                    <TableCell align="center" colSpan={11}>No Record</TableCell>
-                                </TableRow>
-                            </TableBody>   
+                            {vendorData?.length > 0 ?
+                                <TableBody>
+                                    {vendorData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((item, index) => {
+                                        return (
+                                            <TableRow key={index}>
+                                                {/* <TableCell component="th" scope="row">{index + 1}.</TableCell> */}
+
+                                                <TableCell align="left" sx={muiStyles.tableBody}>{item.vVendorCode}</TableCell>
+                                                <TableCell align="left" sx={muiStyles.tableBody}>{item.vVendorName}</TableCell>
+                                                <TableCell align="left" sx={muiStyles.tableBody}>{item.vVendorAddress}</TableCell>
+                                                <TableCell align="left" sx={muiStyles.tableBody}>{item.vContactPerson}</TableCell>
+                                                <TableCell align="left" sx={muiStyles.tableBody}>{item.vMobileNo}</TableCell>
+                                                <TableCell align="left" sx={muiStyles.tableBody}>{item.vEmailId}</TableCell>
+                                                <TableCell align="left" sx={muiStyles.tableBody}>{item.vGSTNo}</TableCell>
+                                                <TableCell align="left" sx={muiStyles.tableBody}>{item.vRemarks}</TableCell>
+
+                                                <TableCell align="left" sx={muiStyles.tableBody}>{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
+                                                <TableCell align="left" sx={muiStyles.tableBody}><div onClick={() => openmodale(item, 'Update')} className='editbtn'><BorderColorIcon size={20} color='#000' /></div></TableCell>
+
+                                            </TableRow>
+                                        )
+                                    })
+                                    }
+                                </TableBody>
+                                :
+                                <TableBody>
+                                    <TableRow>
+                                        <TableCell align="center" colSpan={11}>No Record</TableCell>
+                                    </TableRow>
+                                </TableBody>
                             }
                         </Table>
                     </TableContainer>
@@ -478,7 +484,7 @@ const muiStyles = {
         "& .MuiFormLabel-root": {
             fontSize: '13px',
             top: '-13px',
-            left:'-10px',
+            left: '-10px',
             backgroundColor: 'transparent',
             zIndex: '1'
         },
@@ -486,7 +492,7 @@ const muiStyles = {
             zIndex: '1'
 
         },
-        '& .MuiInputAdornment-root':{
+        '& .MuiInputAdornment-root': {
             position: 'absolute',
             right: '10px'
         }
@@ -504,8 +510,8 @@ const muiStyles = {
             fontSize: '13px',
             backgroundColor: 'transparent',
             top: '-13px',
-            left:'-10px',
-          
+            left: '-10px',
+
         },
         "& label.Mui-focused": {
             zIndex: '1'
@@ -521,7 +527,7 @@ const muiStyles = {
         "& .MuiFormLabel-root": {
             fontSize: '13px',
             top: '-13px',
-            left:'-10px',  
+            left: '-10px',
             backgroundColor: 'transparent',
         },
         "& label.Mui-focused": {
@@ -533,14 +539,14 @@ const muiStyles = {
         "& .MuiSelect-select": {
             padding: '3px',
             fontSize: '12px'
-        }, 
-        
+        },
+
 
     },
     InputLabels: {
         fontSize: '13px',
         top: '-13px',
-        left:'-10px',
+        left: '-10px',
         backgroundColor: 'transparent',
         "&.Mui-focused": {
             zIndex: '1'
@@ -556,24 +562,24 @@ const muiStyles = {
     tableHead: {
         "&.MuiTableCell-root": {
             padding: '8px',
-            fontWeight:'bold'
+            fontWeight: 'bold'
         }
     },
     tableBody: {
         "&.MuiTableCell-root": {
             padding: '8px',
-            fontSize:'14px',
+            fontSize: '14px',
             // lineHeight: '39px'
         }
     },
     checkboxLabel: {
         "&.MuiFormControlLabel-root": {
             "&.MuiTypography-root": {
-                fontSize:'14px'
+                fontSize: '14px'
             }
         }
     },
-   
+
 
 };
 export default VenderForm

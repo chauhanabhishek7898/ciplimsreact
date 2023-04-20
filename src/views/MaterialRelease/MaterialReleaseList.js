@@ -223,14 +223,17 @@ function MaterialReleaseList() {
                             <TableHead>
                                 <TableRow>
                                     {/* <TableCell scope="row" style={{width:'2%'}}>SN.</TableCell> */}
-                                    <TableCell align="center" sx={muiStyles.tableHead}>Edit</TableCell>
-                                    <TableCell align="left" sx={muiStyles.tableHead}>Status</TableCell>
+
                                     <TableCell align="left" sx={muiStyles.tableHead}>Ref No</TableCell>
                                     <TableCell align="left" sx={muiStyles.tableHead}>Batch No</TableCell>
                                     <TableCell align="left" sx={muiStyles.tableHead}>Date</TableCell>
                                     <TableCell align="left" sx={muiStyles.tableHead}>Plant Detail</TableCell>
                                     <TableCell align="left" sx={muiStyles.tableHead}>BOM Detail</TableCell>
                                     <TableCell align="left" sx={muiStyles.tableHead}>BOM Unit</TableCell>
+
+                                    <TableCell align="left" sx={muiStyles.tableHead}>Status</TableCell>
+                                    <TableCell align="center" sx={muiStyles.tableHead}>Edit</TableCell>
+
                                     {/* <TableCell align="left" >Remarks</TableCell> */}
 
                                 </TableRow>
@@ -241,14 +244,17 @@ function MaterialReleaseList() {
                                         return (
                                             <TableRow key={index}>
                                                 {/* <TableCell component="th" scope="row">{index + 1}.</TableCell> */}
-                                                <TableCell align="center"sx={muiStyles.tableBody}><button className='deletbtn' title='Edit' onClick={() => handleDetail(item.nGRNId)}><BorderColorIcon size={20} color='#000' /></button></TableCell>
-                                                <TableCell align="left" sx={muiStyles.tableBody}>{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
+
                                                 <TableCell align="left" sx={muiStyles.tableBody}>{item.vInvoiceNo}</TableCell>
                                                 <TableCell align="left" sx={muiStyles.tableBody}>{item.vBatchNo}</TableCell>
                                                 <TableCell align="left" sx={muiStyles.tableBody}>{item.GRNDate}</TableCell>
                                                 <TableCell align="left" sx={muiStyles.tableBody}>{item.PlantDetail}</TableCell>
                                                 <TableCell align="left" sx={muiStyles.tableBody}>{item.vBOMName}</TableCell>
                                                 <TableCell align="left" sx={muiStyles.tableBody}>{item.nBOMUnit}</TableCell>
+
+                                                <TableCell align="left" sx={muiStyles.tableBody}>{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
+                                                <TableCell align="center"sx={muiStyles.tableBody}><button className='deletbtn' title='Edit' onClick={() => handleDetail(item.nGRNId)}><BorderColorIcon size={20} color='#000' /></button></TableCell>
+
                                                 {/* <TableCell align="left" >{item.vRemarks}</TableCell> */}
                                             </TableRow>
                                         )

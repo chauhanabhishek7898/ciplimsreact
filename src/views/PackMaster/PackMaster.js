@@ -237,13 +237,16 @@ function PackMaster() {
                             <TableHead>
                                 <TableRow>
                                     {/* <TableCell scope="row">SN.</TableCell> */}
-                                    <TableCell align="left" sx={muiStyles.tableHead}>Edit</TableCell>
-                                    <TableCell align="left" sx={muiStyles.tableHead}>Status</TableCell>
+  
                                     <TableCell align="left" sx={muiStyles.tableHead}>Pack Code</TableCell>
                                     <TableCell align="left" sx={muiStyles.tableHead}>Pack Name</TableCell>
                                     <TableCell align="left" sx={muiStyles.tableHead}>Unit</TableCell>
                                     <TableCell align="left" sx={muiStyles.tableHead}>Pack Product</TableCell>
                                     <TableCell align="left" sx={muiStyles.tableHead}>Pack Cases</TableCell>
+
+                                    <TableCell align="left" sx={muiStyles.tableHead}>Status</TableCell>
+                                    <TableCell align="left" sx={muiStyles.tableHead}>Edit</TableCell>
+
                                 </TableRow>
                             </TableHead>
                             {packData?.length>0?
@@ -252,13 +255,15 @@ function PackMaster() {
                                     return (
                                         <TableRow >
                                             {/* <TableCell component="th" scope="row">{index + 1}.</TableCell> */}
-                                            <TableCell align="left" sx={muiStyles.tableBody}><div onClick={() => openmodale(item, 'Update')} className='editbtn'><BorderColorIcon size={20} color='#000' /></div></TableCell>
-                                            <TableCell align="left" sx={muiStyles.tableBody}>{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
+
                                             <TableCell align="left" sx={muiStyles.tableBody}>{item.vPackCode}</TableCell>
                                             <TableCell align="left" sx={muiStyles.tableBody}>{item.vPackName}</TableCell>
                                             <TableCell align="left" sx={muiStyles.tableBody}>{item.vUnit}</TableCell>
                                             <TableCell align="left" sx={muiStyles.tableBody}>{item.vPackProduct}</TableCell>
                                             <TableCell align="left" sx={muiStyles.tableBody}>{item.vPackCases}</TableCell>
+
+                                            <TableCell align="left" sx={muiStyles.tableBody}>{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
+                                            <TableCell align="left" sx={muiStyles.tableBody}><div onClick={() => openmodale(item, 'Update')} className='editbtn'><BorderColorIcon size={20} color='#000' /></div></TableCell>
 
                                         </TableRow>
                                     )

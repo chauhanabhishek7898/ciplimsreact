@@ -224,8 +224,7 @@ function GRNReceivedList() {
                             <TableHead>
                                 <TableRow>
                                     {/* <TableCell scope="row">SN.</TableCell> */}
-                                    <TableCell align="center" sx={muiStyles.tableHead}>Edit</TableCell>
-                                    <TableCell align="left" sx={muiStyles.tableHead}>Status</TableCell>
+                             
                                     <TableCell align="left" sx={muiStyles.tableHead}>Invoice No.</TableCell>
                                     <TableCell align="left" sx={muiStyles.tableHead}>GRN Date</TableCell>
                                     <TableCell align="left" sx={muiStyles.tableHead}>Inv Date</TableCell>
@@ -243,6 +242,9 @@ function GRNReceivedList() {
                                     <TableCell align="left" sx={muiStyles.tableHead}>Payment Receive Date</TableCell>
                                     <TableCell align="left" sx={muiStyles.tableHead}>Remarks</TableCell>
 
+                                    <TableCell align="left" sx={muiStyles.tableHead}>Status</TableCell>
+                                    <TableCell align="center" sx={muiStyles.tableHead}>Edit</TableCell>
+
                                 </TableRow>
                             </TableHead>
                             {brandData?.length > 0 ?
@@ -251,8 +253,7 @@ function GRNReceivedList() {
                                         return (
                                             <TableRow key={index}>
                                                 {/* <TableCell component="th" scope="row">{index + 1}.</TableCell> */}
-                                                <TableCell align="center"sx={muiStyles.tableBody}><button className='deletbtn' title='Edit' onClick={() => handleDetail(item.nGRNId)}><BorderColorIcon size={20} color='#000' /></button></TableCell>
-                                                <TableCell align="left" sx={muiStyles.tableBody}>{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
+
                                                 <TableCell align="left" sx={muiStyles.tableBody}>{item.vInvoiceNo}</TableCell>
                                                 <TableCell align="left" sx={muiStyles.tableBody}>{item.GRNDate}</TableCell>
                                                 <TableCell align="left" sx={muiStyles.tableBody}>{item.InvDate}</TableCell>
@@ -269,6 +270,10 @@ function GRNReceivedList() {
                                                 <TableCell align="left" sx={muiStyles.tableBody}>{item.vCourierDocketNo}</TableCell>
                                                 <TableCell align="left" sx={muiStyles.tableBody}>{parseDateToString(new Date(item.dtPaymentReceiveDate))}</TableCell>
                                                 <TableCell align="left" sx={muiStyles.tableBody}>{item.vRemarks}</TableCell>
+
+                                                <TableCell align="left" sx={muiStyles.tableBody}>{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
+                                                <TableCell align="center"sx={muiStyles.tableBody}><button className='deletbtn' title='Edit' onClick={() => handleDetail(item.nGRNId)}><BorderColorIcon size={20} color='#000' /></button></TableCell>
+
 
                                             </TableRow>
                                         )

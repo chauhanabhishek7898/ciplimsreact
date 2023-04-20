@@ -316,14 +316,17 @@ function GodownMaster() {
                             <TableHead>
                                 <TableRow>
                                     {/* <TableCell scope="row">SN.</TableCell> */}
-                                    <TableCell align="left" sx={muiStyles.tableHead}>Edit</TableCell>
-                                    <TableCell align="left" sx={muiStyles.tableHead}>Status</TableCell>
+
                                     <TableCell align="left" sx={muiStyles.tableHead}>Godown Code</TableCell>
                                     <TableCell align="left" sx={muiStyles.tableHead}>Godown Name</TableCell>
                                     <TableCell align="left" sx={muiStyles.tableHead}>Godown Address</TableCell>
                                     <TableCell align="left" sx={muiStyles.tableHead}>Godown Contact Person</TableCell>
                                     <TableCell align="left" sx={muiStyles.tableHead}>Godown Contact No</TableCell>
                                     <TableCell align="left" sx={muiStyles.tableHead}>Remarks</TableCell>
+
+                                    <TableCell align="left" sx={muiStyles.tableHead}>Status</TableCell>
+                                    <TableCell align="left" sx={muiStyles.tableHead}>Edit</TableCell>
+
                                 </TableRow>
                             </TableHead>
                             <TableBody>
@@ -331,14 +334,17 @@ function GodownMaster() {
                                     return (
                                         <TableRow key={index}>
                                             {/* <TableCell component="th" scope="row">{index + 1}.</TableCell> */}
-                                            <TableCell align="left" sx={muiStyles.tableBody}><div onClick={() => openmodale(item, 'Update')} className='editbtn'><BorderColorIcon size={20} color='#000' /></div></TableCell>
-                                            <TableCell align="left" sx={muiStyles.tableBody}>{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
+ 
                                             <TableCell align="left" sx={muiStyles.tableBody}>{item.vGCode}</TableCell>
                                             <TableCell align="left" sx={muiStyles.tableBody}>{item.vGName}</TableCell>
                                             <TableCell align="left" sx={muiStyles.tableBody}>{item.vGAddress}</TableCell>
                                             <TableCell align="left" sx={muiStyles.tableBody}>{item.vContactPerson}</TableCell>
                                             <TableCell align="left" sx={muiStyles.tableBody}>{item.vContactNo}</TableCell>
                                             <TableCell align="left" sx={muiStyles.tableBody}>{item.vRemarks}</TableCell>
+
+                                            <TableCell align="left" sx={muiStyles.tableBody}>{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
+                                            <TableCell align="left" sx={muiStyles.tableBody}><div onClick={() => openmodale(item, 'Update')} className='editbtn'><BorderColorIcon size={20} color='#000' /></div></TableCell>
+
                                         </TableRow>
                                     )
                                 })
