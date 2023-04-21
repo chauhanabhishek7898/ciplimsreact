@@ -99,7 +99,7 @@ const AppSidebar = () => {
     >
       <CSidebarBrand className="d-none d-md-flex" to="/">
         <div>
-        <img style={{width: 133}} src={require('../assets/brand/logos.png')} />
+        <img style={{width: 190,height:28}} src={require('../assets/brand/IMSLogoWhite.png')} />
         </div>
       </CSidebarBrand>
       <CSidebarNav onClick={gotoLogin}>
@@ -107,10 +107,10 @@ const AppSidebar = () => {
           <AppSidebarNav items={navigationData} />
         </SimpleBar>
       </CSidebarNav>
-      <CSidebarToggler
+      {/* <CSidebarToggler
         className="d-none d-lg-flex"
         onClick={() => dispatch({ type: 'set', sidebarUnfoldable: !unfoldable })}
-      />
+      /> */}
     </CSidebar>
   )
 }

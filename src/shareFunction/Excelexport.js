@@ -22,7 +22,7 @@ const exportToExcel= ()=>{
 }
     return(
         <div>
-            <button type="submit" className='submitbtn' onClick={exportToExcel}><FileDownloadIcon fontSize='small' className='icon'/>Export Excel</button>
+            <button type="submit" className='submitbtn_exp' onClick={exportToExcel}><FileDownloadIcon  fontSize='medium' className='icon'/>Export Excel</button>
         </div>
     )
 }

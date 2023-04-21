@@ -99,9 +99,9 @@ function KOMONTH() {
         setIsOpen2(false)
         setWeekNumberId('')
         setStartDate(null)
-        setEndDate(null)     
+        setEndDate(null)
     }
-    const hidesetweekmodalIsOpen=()=>{
+    const hidesetweekmodalIsOpen = () => {
         setweekmodalIsOpen(false)
         setvKOMonth('')
         setnKOYear('')
@@ -110,9 +110,9 @@ function KOMONTH() {
         setTodate(null)
         setWeekNumberId('')
         setStartDate(null)
-        setEndDate(null) 
+        setEndDate(null)
     }
-    const hidesetmonthmodalIsOpen=()=>{
+    const hidesetmonthmodalIsOpen = () => {
         setmonthmodalIsOpen(false)
         setvKOMonth('')
         setnKOYear('')
@@ -121,7 +121,7 @@ function KOMONTH() {
         setTodate(null)
         setWeekNumberId('')
         setStartDate(null)
-        setEndDate(null) 
+        setEndDate(null)
     }
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
@@ -641,38 +641,35 @@ function KOMONTH() {
                             value={tableView}
                             onChange={(e) => onchangeTableView(e)}
                         >
-                            <FormControlLabel style={{marginRight:0}} value="WeekView" control={<Radio />} label="Week View" />
-                            <FormControlLabel style={{marginRight:0}} value="MonthView" control={<Radio />} label="Month View" />
-
+                            <FormControlLabel style={{ marginRight: 0 }} value="WeekView" control={<Radio />} label="Week View" />
+                            <FormControlLabel style={{ marginLeft: 10 }} value="MonthView" control={<Radio />} label="Month View" />
                         </RadioGroup>
                     </FormControl>
                 </div>
                 <div className='tablecenter'>
                     {koMonthData.length > 0 ?
-                        <Paper sx={{ width: '100%', overflow: 'hidden',paddingTop:1 }}>
+                        <Paper sx={{ width: '100%', overflow: 'hidden', paddingTop: 1 }}>
                             <TableContainer sx={{ maxHeight: 440 }}>
                                 <Table stickyHeader aria-label="sticky table">
                                     {tableView == 'MonthView' ?
                                         <TableHead>
                                             <TableRow>
                                                 {/* <TableCell scope="row">SN.</TableCell> */}
-                                                <TableCell align="left" style={{ whiteSpace: 'nowrap' }}>Edit</TableCell>
                                                 <TableCell align="left" style={{ whiteSpace: 'nowrap' }}>KO Month</TableCell>
                                                 <TableCell align="left" style={{ whiteSpace: 'nowrap' }}>KO Year</TableCell>
                                                 <TableCell align="left" style={{ whiteSpace: 'nowrap' }}>Days</TableCell>
                                                 <TableCell align="left" style={{ whiteSpace: 'nowrap' }}>From Date</TableCell>
                                                 <TableCell align="left" style={{ whiteSpace: 'nowrap' }}>To Date </TableCell>
+                                                <TableCell align="left" style={{ whiteSpace: 'nowrap' }}>Edit</TableCell>
                                                 {/* <TableCell align="left" >Week Number</TableCell>
                                                 <TableCell align="left" >Start Date</TableCell>
                                                 <TableCell align="left" >End Date</TableCell> */}
-
                                             </TableRow>
                                         </TableHead>
                                         :
                                         <TableHead>
                                             <TableRow>
                                                 {/* <TableCell scope="row">SN.</TableCell> */}
-                                                <TableCell align="left" style={{ whiteSpace: 'nowrap' }}>Edit</TableCell>
                                                 <TableCell align="left" style={{ whiteSpace: 'nowrap' }}>KO Month</TableCell>
                                                 <TableCell align="left" style={{ whiteSpace: 'nowrap' }}>KO Year</TableCell>
                                                 <TableCell align="left" style={{ whiteSpace: 'nowrap' }}>Days</TableCell>
@@ -681,26 +678,22 @@ function KOMONTH() {
                                                 <TableCell align="left" style={{ whiteSpace: 'nowrap' }}>Week Number</TableCell>
                                                 <TableCell align="left" style={{ whiteSpace: 'nowrap' }}>Start Date</TableCell>
                                                 <TableCell align="left" style={{ whiteSpace: 'nowrap' }}>End Date</TableCell>
-
+                                                <TableCell align="left" style={{ whiteSpace: 'nowrap' }}>Edit</TableCell>
                                             </TableRow>
                                         </TableHead>
-
                                     }
                                     {tableView == 'MonthView' ?
                                         <TableBody>
-
                                             {koMonthData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((item, index) => {
                                                 return (
-
                                                     <TableRow key={index}>
-
                                                         {/* <TableCell component="th" scope="row">{index + 1}.</TableCell> */}
-                                                        <TableCell align="left" style={{ whiteSpace: 'nowrap' }}><div onClick={() => openMonthModel(item)} className='editbtn'><BorderColorIcon size={20} color='#000' /></div></TableCell>
                                                         <TableCell align="left" style={{ whiteSpace: 'nowrap' }}>{item.vKOMonth}</TableCell>
                                                         <TableCell align="left" style={{ whiteSpace: 'nowrap' }}>{item.nKOYear}</TableCell>
                                                         <TableCell align="left" style={{ whiteSpace: 'nowrap' }}>{item.nDays}</TableCell>
                                                         <TableCell align="left" style={{ whiteSpace: 'nowrap' }}>{item.dtStartDt}</TableCell>
                                                         <TableCell align="left" style={{ whiteSpace: 'nowrap' }}>{item.dtEndDt}</TableCell>
+                                                        <TableCell align="left" style={{ whiteSpace: 'nowrap' }}><div onClick={() => openMonthModel(item)} className='editbtn'><BorderColorIcon size={20} color='#000' /></div></TableCell>
                                                         {/* <TableCell align="left" >{item.vWeekNo}</TableCell>
                                                     <TableCell align="left" >{item.dtWStartDt}</TableCell>
                                                     <TableCell align="left" >{item.dtWEndDt}</TableCell> */}
@@ -708,19 +701,13 @@ function KOMONTH() {
                                                 )
                                             })
                                             }
-
-
                                         </TableBody>
                                         :
                                         <TableBody>
-
                                             {koMonthData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((item, index) => {
                                                 return (
-
                                                     <TableRow key={index}>
-
                                                         {/* <TableCell component="th" scope="row">{index + 1}.</TableCell> */}
-                                                        <TableCell align="left" style={{ whiteSpace: 'nowrap' }}><div onClick={() => openWeekModel(item)} className='editbtn'><BorderColorIcon size={20} color='#000' /></div></TableCell>
                                                         <TableCell align="left" style={{ whiteSpace: 'nowrap' }}>{item.vKOMonth}</TableCell>
                                                         <TableCell align="left" style={{ whiteSpace: 'nowrap' }}>{item.nKOYear}</TableCell>
                                                         <TableCell align="left" style={{ whiteSpace: 'nowrap' }}>{item.nDays}</TableCell>
@@ -729,12 +716,11 @@ function KOMONTH() {
                                                         <TableCell align="left" style={{ whiteSpace: 'nowrap' }}>{item.vWeekNo}</TableCell>
                                                         <TableCell align="left" style={{ whiteSpace: 'nowrap' }}>{item.dtWStartDt}</TableCell>
                                                         <TableCell align="left" style={{ whiteSpace: 'nowrap' }}>{item.dtWEndDt}</TableCell>
+                                                        <TableCell align="left" style={{ whiteSpace: 'nowrap' }}><div onClick={() => openWeekModel(item)} className='editbtn'><BorderColorIcon size={20} color='#000' /></div></TableCell>
                                                     </TableRow>
                                                 )
                                             })
                                             }
-
-
                                         </TableBody>
                                     }
                                 </Table>
@@ -748,13 +734,10 @@ function KOMONTH() {
                                 onPageChange={handleChangePage}
                                 onRowsPerPageChange={handleChangeRowsPerPage}
                             />
-
                         </Paper>
                         :
                         null
-
                     }
-
                 </div>
             </div>
             <Modal
@@ -769,10 +752,8 @@ function KOMONTH() {
                 </div>
                 <div className='alertmsg'><p>Do you want to Clear the fields?</p></div>
                 <div className='alertButton' >
-
                     <button type="submit" className='alertYes' onClick={refreshdate}>Yes</button>
                     <button type="submit" className='alertno' onClick={() => setIsOpen(false)}>No</button>
-
                 </div>
             </Modal >
             <Modal
@@ -787,10 +768,8 @@ function KOMONTH() {
                 </div>
                 <div className='alertmsg'><p>Do you want to Clear the fields?</p></div>
                 <div className='alertButton' >
-
                     <button type="submit" className='alertYes' onClick={refreshdate2}>Yes</button>
                     <button type="submit" className='alertno' onClick={() => setIsOpen2(false)}>No</button>
-
                 </div>
             </Modal >
             <Modal
@@ -1136,9 +1115,7 @@ function KOMONTH() {
                                 </LocalizationProvider>
                                 {errorText.editwsDate != '' ? <p className='error'>{errorText.editwsDate}</p> : null}
                             </FormControl>
-
                         </Box>
-
                         <Box className='inputBox-10'>
                             <FormControl error={Boolean(errors.endDate)} required>
                                 <LocalizationProvider dateAdapter={AdapterDayjs} >
@@ -1155,16 +1132,12 @@ function KOMONTH() {
                                 </LocalizationProvider>
                                 {errorText.editweDate != '' ? <p className='error'>{errorText.editweDate}</p> : null}
                             </FormControl>
-
                         </Box>
-
-
                         <div className='break'>
-
                         </div>
                         <div className='tablecenter'>
                             {koMonthData.length > 0 ?
-                                <Paper sx={{ width: '100%', overflow: 'hidden',paddingTop:1 }}>
+                                <Paper sx={{ width: '100%', overflow: 'hidden', paddingTop: 1 }}>
                                     <TableContainer sx={{ maxHeight: 440 }}>
                                         <Table stickyHeader aria-label="sticky table">
                                             <TableHead>
@@ -1173,16 +1146,12 @@ function KOMONTH() {
                                                     <TableCell align="left" style={{ whiteSpace: 'nowrap' }}>Week Number</TableCell>
                                                     <TableCell align="left" style={{ whiteSpace: 'nowrap' }}>Start Date</TableCell>
                                                     <TableCell align="left" style={{ whiteSpace: 'nowrap' }}>End Date</TableCell>
-
                                                 </TableRow>
                                             </TableHead>
                                             <TableBody>
-
                                                 {weekData.map((item, index) => {
                                                     return (
-
                                                         <TableRow key={index}>
-
                                                             <TableCell component="th" scope="row">{index + 1}.</TableCell>
                                                             <TableCell align="left" style={{ whiteSpace: 'nowrap' }}>{item.vWeekNo}</TableCell>
                                                             <TableCell align="left" style={{ whiteSpace: 'nowrap' }}>{item.dtWEndDt}</TableCell>
@@ -1191,29 +1160,14 @@ function KOMONTH() {
                                                     )
                                                 })
                                                 }
-
-
                                             </TableBody>
                                         </Table>
                                     </TableContainer>
-                                    {/* <TablePagination
-                                rowsPerPageOptions={[10, 25, 100]}
-                                component="div"
-                                count={koMonthData.length}
-                                rowsPerPage={rowsPerPage}
-                                page={page}
-                                onPageChange={handleChangePage}
-                                onRowsPerPageChange={handleChangeRowsPerPage}
-                            /> */}
-
                                 </Paper>
                                 :
                                 null
-
                             }
-
                         </div>
-
                     </div>
                 </div>
                 {loader == true ?
@@ -1274,7 +1228,7 @@ const muiStyles = {
         "& .MuiFormLabel-root": {
             fontSize: '13px',
             top: '-13px',
-            left:'-10px',
+            left: '-10px',
             backgroundColor: 'transparent',
             zIndex: '1'
         },
@@ -1282,7 +1236,7 @@ const muiStyles = {
             zIndex: '1'
 
         },
-        '& .MuiInputAdornment-root':{
+        '& .MuiInputAdornment-root': {
             position: 'absolute',
             right: '10px'
         }
@@ -1300,8 +1254,8 @@ const muiStyles = {
             fontSize: '13px',
             backgroundColor: 'transparent',
             top: '-13px',
-            left:'-10px',
-          
+            left: '-10px',
+
         },
         "& label.Mui-focused": {
             zIndex: '1'
@@ -1317,7 +1271,7 @@ const muiStyles = {
         "& .MuiFormLabel-root": {
             fontSize: '13px',
             top: '-13px',
-            left:'-10px',  
+            left: '-10px',
             backgroundColor: 'transparent',
         },
         "& label.Mui-focused": {
@@ -1329,20 +1283,20 @@ const muiStyles = {
         "& .MuiSelect-select": {
             padding: '3px',
             fontSize: '12px'
-        }, 
-        
+        },
+
 
     },
     InputLabels: {
         fontSize: '13px',
         top: '-13px',
-        left:'-10px',
+        left: '-10px',
         backgroundColor: 'transparent',
         "&.Mui-focused": {
             zIndex: '1'
         }
     },
-   
+
 
 };
 export default KOMONTH

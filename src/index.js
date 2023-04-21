@@ -6,6 +6,8 @@ import App from './App'
 import reportWebVitals from './reportWebVitals'
 import { Provider } from 'react-redux'
 import store from './store'
+import 'react-tooltip/dist/react-tooltip.css'
+
 import {BrowserRouter} from 'react-router-dom'
 createRoot(document.getElementById('root')).render(
   <Provider store={store}>

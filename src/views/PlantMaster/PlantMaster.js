@@ -315,7 +315,7 @@ function PlantMaster() {
 
                         </Box>
                         <FormGroup className='activeonly'>
-                            <FormControlLabel style={{marginRight:0}} control={<Checkbox checked={onlyActive} value={onlyActive} onChange={checkedonlyActive} />} label="Only Active Data" />
+                            <FormControlLabel style={{marginRight:0}} control={<Checkbox checked={onlyActive} value={onlyActive} onChange={checkedonlyActive} />} label="Active Data" />
                         </FormGroup>
 
                         </div>
