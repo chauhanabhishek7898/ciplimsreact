@@ -8,7 +8,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import TablePagination from '@mui/material/TablePagination';
 import Paper from '@mui/material/Paper';
-import {GodownMasterPost,GodownMasterPut,GodownMaster_SelectAll } from './GodownMasterService'
+import { GodownMasterPost, GodownMasterPut, GodownMaster_SelectAll } from './GodownMasterService'
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import FormControl from '@mui/material/FormControl';
@@ -27,7 +27,7 @@ import ExportExcel from 'src/shareFunction/Excelexport';
 import CircularProgress from '@mui/joy/CircularProgress';
 import { TbEdit } from "react-icons/tb";
 function GodownMaster() {
-    let Heading = [['SN.','Godown Code','Godown Name','Godown Address','Godown Contact Person','Godown Contact No','Remarks','Status']];
+    let Heading = [['SN.', 'Godown Code', 'Godown Name', 'Godown Address', 'Godown Contact Person', 'Godown Contact No', 'Remarks', 'Status']];
     const [modalIsOpen, setIsOpen] = React.useState(false);
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -80,7 +80,7 @@ function GodownMaster() {
 
         if (searchedVal.length > 0) {
             const filteredRows = brandData.filter((row) => {
-                return row.vGCode.toLowerCase().includes(searchedVal.toLowerCase()) || row.vGName.toLowerCase().includes(searchedVal.toLowerCase())|| row.vGAddress.toLowerCase().includes(searchedVal.toLowerCase());
+                return row.vGCode.toLowerCase().includes(searchedVal.toLowerCase()) || row.vGName.toLowerCase().includes(searchedVal.toLowerCase()) || row.vGAddress.toLowerCase().includes(searchedVal.toLowerCase());
             });
             setBrandData(filteredRows);
         } else {
@@ -174,19 +174,19 @@ function GodownMaster() {
 
     return (
         <div className='citymasterContainer'>
-                {loader2==true?
-            <div className='progressBox'>
-                <div className='progressInner'>
-                    <CircularProgress />
+            {loader2 == true ?
+                <div className='progressBox'>
+                    <div className='progressInner'>
+                        <CircularProgress />
+                    </div>
                 </div>
-            </div>
-            :
-            null
+                :
+                null
 
             }
-                   <div className='add_export'>
+            <div className='add_export'>
                 <button className='submitbtn_exp' onClick={() => openmodale(null, 'Submit')} title='Add'  ><AddIcon fontSize='large' /> <span className='addFont'>Add</span></button>
-                <ExportExcel excelData={brandData} Heading={Heading} fileName={'Godown_Master'}/>
+                <ExportExcel excelData={brandData} Heading={Heading} fileName={'Godown_Master'} />
             </div>
             {/* <button className='addbtn_2' onClick={() => openmodale(null, 'Submit')} title='Add'  ><AddIcon fontSize='large' /></button> */}
             <Modal
@@ -194,7 +194,7 @@ function GodownMaster() {
                 style={customStyles}
                 contentLabel="Example Modal"
                 ariaHideApp={false}
-                
+
             >
                 <div className='displayright'>
                     <div><span className='title'>Godown Code</span></div>
@@ -204,7 +204,7 @@ function GodownMaster() {
                     <Box className='inputBox-17' >
                         <FormControl fullWidth className='input'>
                             <TextField
-                            sx={muiStyles.input}
+                                sx={muiStyles.input}
                                 value={vGCode}
                                 onChange={e => setvGCode(e.target.value)}
                                 required id="outlined-basic"
@@ -220,7 +220,7 @@ function GodownMaster() {
                     <Box className='inputBox-17'>
                         <FormControl fullWidth className='input' >
                             <TextField
-                            sx={muiStyles.input}
+                                sx={muiStyles.input}
                                 value={vGName}
                                 onChange={e => setvGName(e.target.value)}
                                 required id="outlined-basic"
@@ -236,7 +236,7 @@ function GodownMaster() {
                     <Box className='inputBox-17' >
                         <FormControl fullWidth className='input' >
                             <TextField
-                            sx={muiStyles.input}
+                                sx={muiStyles.input}
                                 value={vGAddress}
                                 onChange={e => setvGAddress(e.target.value)}
                                 required id="outlined-basic"
@@ -248,7 +248,7 @@ function GodownMaster() {
                     <Box className='inputBox-17' >
                         <FormControl fullWidth className='input' >
                             <TextField
-                            sx={muiStyles.input}
+                                sx={muiStyles.input}
                                 value={vContactPerson}
                                 onChange={e => setvContactPerson(e.target.value)}
                                 required id="outlined-basic"
@@ -260,20 +260,20 @@ function GodownMaster() {
                     <Box className='inputBox-17' >
                         <FormControl fullWidth className='input' >
                             <TextField
-                            sx={muiStyles.input}
+                                sx={muiStyles.input}
                                 value={vContactNo}
                                 onChange={e => setvContactNo(e.target.value)}
                                 required id="outlined-basic"
                                 label="Godown Contact No"
                                 variant="outlined"
-                                
+
                             />
                         </FormControl>
                     </Box>
                     <Box className='inputBox-17'>
                         <FormControl fullWidth className='input'>
                             <TextField
-                            sx={muiStyles.input}
+                                sx={muiStyles.input}
                                 value={vRemarks}
                                 onChange={e => setvRemarks(e.target.value)}
                                 id="outlined-basic"
@@ -286,7 +286,7 @@ function GodownMaster() {
                 </div>
                 <div className='displayflexend-2'>
                     <FormGroup >
-                        <FormControlLabel style={{marginRight:0}} control={<Checkbox defaultChecked={btActive} onChange={e => setBtActive(e.target.checked)} />} label="Active" disabled={disabled} />
+                        <FormControlLabel style={{ marginRight: 0 }} control={<Checkbox defaultChecked={btActive} onChange={e => setBtActive(e.target.checked)} />} label="Active" disabled={disabled} />
                     </FormGroup>
 
                     {loader == true ?
@@ -300,24 +300,27 @@ function GodownMaster() {
                 </div>
             </Modal >
             <div className='tablecenter'>
-                <Paper sx={{ width: '100%', overflow: 'hidden',paddingTop:1 }}>
+                <Paper sx={{ width: '100%', overflow: 'hidden', paddingTop: 1 }}>
                     <div className='exportandfilter'>
-             
-                   
-                    <Box className='searchbox' >
-                    <SearchBar
-                        value={searched}
-                        onChange={(searchVal) => requestSearch(searchVal)}
-                        onCancelSearch={() => cancelSearch()}
-                    />
 
-                        </Box>
-                        <FormGroup >
-                        <FormControlLabel style={{marginRight:0}} control={<Checkbox checked={onlyActive} value={onlyActive} onChange={checkedonlyActive} />} label="Active Data" />
-                    </FormGroup>
+                        <div className='filterbox'>
+
+                            <Box className='searchbox' >
+                                <SearchBar
+                                    value={searched}
+                                    onChange={(searchVal) => requestSearch(searchVal)}
+                                    onCancelSearch={() => cancelSearch()}
+                                />
+
+                            </Box>
+                            <FormGroup className='activeonly'>
+                                <FormControlLabel style={{ marginRight: 0 }} control={<Checkbox checked={onlyActive} value={onlyActive} onChange={checkedonlyActive} />} label="Active Data" />
+                            </FormGroup>
+                        </div>
+
                     </div>
 
-                    <TableContainer sx={{ maxHeight: 440,paddingLeft:1.5,paddingRight:1.5  }}>
+                    <TableContainer sx={{ maxHeight: 440, paddingLeft: 1.5, paddingRight: 1.5 }}>
                         <Table stickyHeader aria-label="sticky table" >
                             <TableHead>
                                 <TableRow>
@@ -340,7 +343,7 @@ function GodownMaster() {
                                     return (
                                         <TableRow key={index}>
                                             {/* <TableCell component="th" scope="row">{index + 1}.</TableCell> */}
- 
+
                                             <TableCell align="left" sx={muiStyles.tableBody}>{item.vGCode}</TableCell>
                                             <TableCell align="left" sx={muiStyles.tableBody}>{item.vGName}</TableCell>
                                             <TableCell align="left" sx={muiStyles.tableBody}>{item.vGAddress}</TableCell>
@@ -406,7 +409,7 @@ const muiStyles = {
         "& .MuiFormLabel-root": {
             fontSize: '13px',
             top: '-13px',
-            left:'-10px',
+            left: '-10px',
             backgroundColor: 'transparent',
             zIndex: '1'
         },
@@ -414,7 +417,7 @@ const muiStyles = {
             zIndex: '1'
 
         },
-        '& .MuiInputAdornment-root':{
+        '& .MuiInputAdornment-root': {
             position: 'absolute',
             right: '10px'
         }
@@ -432,8 +435,8 @@ const muiStyles = {
             fontSize: '13px',
             backgroundColor: 'transparent',
             top: '-13px',
-            left:'-10px',
-          
+            left: '-10px',
+
         },
         "& label.Mui-focused": {
             zIndex: '1'
@@ -449,7 +452,7 @@ const muiStyles = {
         "& .MuiFormLabel-root": {
             fontSize: '13px',
             top: '-13px',
-            left:'-10px',  
+            left: '-10px',
             backgroundColor: 'transparent',
         },
         "& label.Mui-focused": {
@@ -461,14 +464,14 @@ const muiStyles = {
         "& .MuiSelect-select": {
             padding: '3px',
             fontSize: '12px'
-        }, 
-        
+        },
+
 
     },
     InputLabels: {
         fontSize: '13px',
         top: '-13px',
-        left:'-10px',
+        left: '-10px',
         backgroundColor: 'transparent',
         "&.Mui-focused": {
             zIndex: '1'
@@ -484,24 +487,24 @@ const muiStyles = {
     tableHead: {
         "&.MuiTableCell-root": {
             padding: '8px',
-            fontWeight:'bold'
+            fontWeight: 'bold'
         }
     },
     tableBody: {
         "&.MuiTableCell-root": {
             padding: '8px',
-            fontSize:'14px',
+            fontSize: '14px',
             lineHeight: '39px'
         }
     },
     checkboxLabel: {
         "&.MuiFormControlLabel-root": {
             "&.MuiTypography-root": {
-                fontSize:'14px'
+                fontSize: '14px'
             }
         }
     },
-   
+
 
 };
 export default GodownMaster

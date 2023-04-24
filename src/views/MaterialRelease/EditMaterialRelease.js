@@ -1568,11 +1568,12 @@ function EditMaterialRelease() {
                                     <TableHead>
                                         <TableRow>
                                             <TableCell scope="row" style={{ width: '2%' }} >SN.</TableCell>
-                                            <TableCell align="center">Action</TableCell>
+                                            
                                             <TableCell align="left" >Material Detail</TableCell>
                                             <TableCell align="left" >UOM</TableCell>
                                             <TableCell align="left" >Exp Date</TableCell>
                                             <TableCell align="left" >Qty Released</TableCell>
+                                            <TableCell align="center">Action</TableCell>
                                         </TableRow>
                                     </TableHead>
                                     {PODetails?.length > 0 ?
@@ -1583,6 +1584,13 @@ function EditMaterialRelease() {
                                                 return (
                                                     <TableRow key={index} style={item.id==EditId?{background:'rgba(239,30,44,0.15)'}:{background:'#fff'}}>
                                                         <TableCell component="th" scope="row">{index + 1}.</TableCell>
+                                                       
+                                                        {/* <TableCell align="left" >{item.RefNo}</TableCell> */}
+                                                        <TableCell align="left" >{item.MaterialDetail}</TableCell>
+                                                        <TableCell align="left" >{item.vUOM}</TableCell>
+
+                                                        <TableCell align="left" >{item.ExpDate}</TableCell>
+                                                        <TableCell align="left" >{item.nQTYOut}</TableCell>
                                                         <TableCell align="center">
                                                             <div style={{ display: 'flex', justifyContent: 'center' }}>
                                                                 <button className='deletbtn' title='Delete' onClick={() => deleteItem(item.nGRNId, item.nMId, item.ExpDate, item.nQTYOut)}><DeleteIcon size={20} color='red' /></button>
@@ -1591,13 +1599,6 @@ function EditMaterialRelease() {
                                                             </div>
 
                                                         </TableCell>
-                                                        {/* <TableCell align="left" >{item.RefNo}</TableCell> */}
-                                                        <TableCell align="left" >{item.MaterialDetail}</TableCell>
-                                                        <TableCell align="left" >{item.vUOM}</TableCell>
-
-                                                        <TableCell align="left" >{item.ExpDate}</TableCell>
-                                                        <TableCell align="left" >{item.nQTYOut}</TableCell>
-
 
                                                     </TableRow>
                                                 )

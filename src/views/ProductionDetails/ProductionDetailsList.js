@@ -40,7 +40,7 @@ import { useNavigate, Link } from "react-router-dom";
 import * as environment from '../../coreservices/environment'
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import CircularProgress from '@mui/joy/CircularProgress';
-
+import { TbEdit } from "react-icons/tb";
 function ProductionDetailsList() {
     let imageUrl = environment.imageUrl
     const navigate = useNavigate();
@@ -279,7 +279,7 @@ function ProductionDetailsList() {
                                                 <TableCell align="left" sx={muiStyles.tableBody}>{item.vRemarks}</TableCell>
 
                                                 <TableCell align="left" sx={muiStyles.tableBody}>{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
-                                                <TableCell align="center" sx={muiStyles.tableBody}><button className='deletbtn' title='Edit' onClick={() => handleDetail(item.nPDId)}><BorderColorIcon size={20} color='#000' /></button></TableCell>
+                                                <TableCell align="center" sx={muiStyles.tableBody}><button className='deletbtn' title='Edit' onClick={() => handleDetail(item.nPDId)}><TbEdit size={20} color='#000' /></button></TableCell>
 
                                             </TableRow>
                                         )

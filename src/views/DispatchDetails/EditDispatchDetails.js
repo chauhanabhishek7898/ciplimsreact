@@ -993,7 +993,7 @@ function EditDispatchDetails() {
                                   <TableHead>
                                       <TableRow>
                                           <TableCell scope="row" style={{ width: '2%' }} >SN.</TableCell>
-                                          <TableCell align="center">Action</TableCell>
+                                     
                                           <TableCell align="left" style={{ whiteSpace: 'nowrap' }}>Brand</TableCell>
                                           {/* <TableCell align="left" >PO Qty</TableCell>
                                           <TableCell align="left" >Balance QTY</TableCell> */}
@@ -1003,6 +1003,7 @@ function EditDispatchDetails() {
                                           <TableCell align="left" style={{ whiteSpace: 'nowrap' }}>DOM Date</TableCell>
                                           <TableCell align="left" style={{ whiteSpace: 'nowrap' }}>BBD Date</TableCell>
                                           <TableCell align="left" style={{ whiteSpace: 'nowrap' }}>Sales Return</TableCell>
+                                          <TableCell align="center">Action</TableCell>
                                       </TableRow>
                                   </TableHead>
                                   {PODetails?.length > 0 ?
@@ -1013,14 +1014,7 @@ function EditDispatchDetails() {
                                               return (
                                                   <TableRow key={index} style={item.id == EditId ? { background: 'rgba(239,30,44,0.15)' } : { background: '#fff' }}>
                                                       <TableCell component="th" scope="row">{index + 1}.</TableCell>
-                                                      <TableCell align="center">
-                                                          <div style={{ display: 'flex', justifyContent: 'center' }}>
-                                                              <button className='deletbtn' title='Delete' onClick={() => deleteItem(item.id)}><DeleteIcon size={20} color='red' /></button>
-                                                              <button className='deletbtn' title='Edit' onClick={() => editItem(item)}><BorderColorIcon size={20} color='#000' /></button>
-
-                                                          </div>
-
-                                                      </TableCell>
+                                                    
                                                       <TableCell align="left" style={{ whiteSpace: 'nowrap' }}>{item.vBrand}</TableCell>
                                                       {/* <TableCell align="left" >{item.nQty}</TableCell>
                                                       <TableCell align="left" >{item.BalanceQuantity}</TableCell> */}
@@ -1030,7 +1024,14 @@ function EditDispatchDetails() {
                                                       <TableCell align="left" style={{ whiteSpace: 'nowrap' }}>{parseDateToString(new Date(item.dtDOM))}</TableCell>
                                                       <TableCell align="left" style={{ whiteSpace: 'nowrap' }}>{parseDateToString(new Date(item.dtBBD))}</TableCell>
                                                       <TableCell align="left" style={{ whiteSpace: 'nowrap' }}>{item.nSalesReturn}</TableCell>
+                                                      <TableCell align="center">
+                                                          <div style={{ display: 'flex', justifyContent: 'center' }}>
+                                                              <button className='deletbtn' title='Delete' onClick={() => deleteItem(item.id)}><DeleteIcon size={20} color='red' /></button>
+                                                              <button className='deletbtn' title='Edit' onClick={() => editItem(item)}><BorderColorIcon size={20} color='#000' /></button>
 
+                                                          </div>
+
+                                                      </TableCell>
                                                   </TableRow>
                                               )
                                           })

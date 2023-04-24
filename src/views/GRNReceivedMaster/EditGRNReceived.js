@@ -1693,7 +1693,7 @@ function EditGRNReceived() {
                                     <TableHead>
                                         <TableRow>
                                             <TableCell scope="row">SN.</TableCell>
-                                            <TableCell align="center">Action</TableCell>
+                                            
                                             <TableCell align="left" >Material Name</TableCell>
                                             <TableCell align="left" >PO Qty</TableCell>
                                             <TableCell align="left" >Balance Qty</TableCell>
@@ -1714,6 +1714,7 @@ function EditGRNReceived() {
                                             <TableCell align="left" >Grand Total</TableCell>
                                             <TableCell align="left" >Freight</TableCell>
                                             <TableCell align="left" >Net Total Amt</TableCell>
+                                            <TableCell align="center">Action</TableCell>
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
@@ -1722,14 +1723,7 @@ function EditGRNReceived() {
                                             return (
                                                 <TableRow key={index} style={item.id == EditId ? { background: 'rgba(239,30,44,0.15)' } : { background: '#fff' }}>
                                                     <TableCell component="th" scope="row">{index + 1}.</TableCell>
-                                                    <TableCell align="center">
-                                                        <div style={{ display: 'flex', }}>
-                                                            {/* <button className='deletbtn' title='Delete' onClick={() => deleteItem(item.id)}><DeleteIcon size={20} color='red' /></button> */}
-                                                            <button className='deletbtn' title='Edit' onClick={() => editItem(item)}><BorderColorIcon size={20} color='#000' /></button>
-
-                                                        </div>
-
-                                                    </TableCell>
+                                                   
                                                     <TableCell align="left" >{item.MaterialDetail}</TableCell>
                                                     <TableCell align="left" >{item.POQty}</TableCell>
                                                     <TableCell align="left" >{item.BalanceQuantity}</TableCell>
@@ -1751,7 +1745,14 @@ function EditGRNReceived() {
                                                     <TableCell align="left" >{item.nFreight}</TableCell>
                                                     <TableCell align="left" >{item.nNetTotalAmt}</TableCell>
 
+                                                    <TableCell align="center">
+                                                        <div style={{ display: 'flex', }}>
+                                                            {/* <button className='deletbtn' title='Delete' onClick={() => deleteItem(item.id)}><DeleteIcon size={20} color='red' /></button> */}
+                                                            <button className='deletbtn' title='Edit' onClick={() => editItem(item)}><BorderColorIcon size={20} color='#000' /></button>
 
+                                                        </div>
+
+                                                    </TableCell>
                                                 </TableRow>
                                             )
                                         })

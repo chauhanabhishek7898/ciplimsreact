@@ -875,7 +875,7 @@ function EditAdditionalIn() {
                                     <TableHead>
                                         <TableRow>
                                             <TableCell scope="row" style={{ width: '2%' }} >SN.</TableCell>
-                                            <TableCell align="center">Action</TableCell>
+                                            
                                             <TableCell align="left" >Material Name</TableCell>
                                             {/* <TableCell align="left" >PO Qty</TableCell>
                                             <TableCell align="left" >Balance QTY</TableCell> */}
@@ -884,6 +884,7 @@ function EditAdditionalIn() {
                                             <TableCell align="left" >Qty Rejected</TableCell>
                                             <TableCell align="left" >Total Qty</TableCell>
                                             <TableCell align="left" >Exp Date</TableCell>
+                                            <TableCell align="center">Action</TableCell>
                                         </TableRow>
                                     </TableHead>
                                     {PODetails?.length > 0 ?
@@ -894,14 +895,7 @@ function EditAdditionalIn() {
                                                 return (
                                                     <TableRow key={index} style={item.id==EditId?{background:'rgba(239,30,44,0.15)'}:{background:'#fff'}}>
                                                         <TableCell component="th" scope="row">{index + 1}.</TableCell>
-                                                        <TableCell align="center">
-                                                            <div style={{ display: 'flex', justifyContent: 'center' }}>
-                                                                <button className='deletbtn' title='Delete' onClick={() => deleteItem(item.id)}><DeleteIcon size={20} color='red' /></button>
-                                                                <button className='deletbtn' title='Edit' onClick={() => editItem(item)}><BorderColorIcon size={20} color='#000' /></button>
-
-                                                            </div>
-
-                                                        </TableCell>
+                                                        
                                                         <TableCell align="left" >{item.MaterialDetail}</TableCell>
                                                         {/* <TableCell align="left" >{item.nQty}</TableCell>
                                                         <TableCell align="left" >{item.BalanceQuantity}</TableCell> */}
@@ -910,7 +904,14 @@ function EditAdditionalIn() {
                                                         <TableCell align="left" >{item.nQtyRejected}</TableCell>
                                                         <TableCell align="left" >{item.TotalQty}</TableCell>
                                                         <TableCell align="left" >{parseDateToString(new Date(item.ExpDate))}</TableCell>
+                                                        <TableCell align="center">
+                                                            <div style={{ display: 'flex', justifyContent: 'center' }}>
+                                                                <button className='deletbtn' title='Delete' onClick={() => deleteItem(item.id)}><DeleteIcon size={20} color='red' /></button>
+                                                                <button className='deletbtn' title='Edit' onClick={() => editItem(item)}><BorderColorIcon size={20} color='#000' /></button>
 
+                                                            </div>
+
+                                                        </TableCell>
                                                     </TableRow>
                                                 )
                                             })

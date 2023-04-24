@@ -1152,7 +1152,7 @@ function EditPurchaseOrder() {
                                     <TableHead>
                                         <TableRow>
                                             <TableCell scope="row">SN.</TableCell>
-                                            <TableCell align="center">Action</TableCell>
+                                            
                                             <TableCell align="left" >Material Name</TableCell>
                                             <TableCell align="left" >Quantity</TableCell>
                                             <TableCell align="left" >Rate</TableCell>
@@ -1165,6 +1165,7 @@ function EditPurchaseOrder() {
                                             <TableCell align="left" >IGST</TableCell>
                                             <TableCell align="left" >Total Tax</TableCell>
                                             <TableCell align="left" >Total Amount</TableCell>
+                                            <TableCell align="center">Action</TableCell>
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
@@ -1173,11 +1174,7 @@ function EditPurchaseOrder() {
                                             return (
                                                 <TableRow key={index} style={item.id==EditId?{background:'rgba(239,30,44,0.15)'}:{background:'#fff'}}>
                                                     <TableCell component="th" scope="row">{index + 1}.</TableCell>
-                                                    <TableCell align="center">
-                                                        <button className='deletbtn' title='Delete' onClick={() => deleteItem(item.id)}><DeleteIcon size={20} color='red' /></button>
-                                                        <button className='deletbtn' title='Edit' onClick={() => editItem(item)}><BorderColorIcon size={20} color='#000' /></button>
-
-                                                    </TableCell>
+                                                  
                                                     <TableCell align="left" >{item.MaterialDetail}</TableCell>
                                                     <TableCell align="left" >{item.nQty}</TableCell>
                                                     <TableCell align="left" >{item.nRate}</TableCell>
@@ -1190,7 +1187,11 @@ function EditPurchaseOrder() {
                                                     <TableCell align="left" >{item.nIGST}</TableCell>
                                                     <TableCell align="left" >{item.nTax}</TableCell>
                                                     <TableCell align="left" >{item.nTotalAmt}</TableCell>
+                                                    <TableCell align="center">
+                                                        <button className='deletbtn' title='Delete' onClick={() => deleteItem(item.id)}><DeleteIcon size={20} color='red' /></button>
+                                                        <button className='deletbtn' title='Edit' onClick={() => editItem(item)}><BorderColorIcon size={20} color='#000' /></button>
 
+                                                    </TableCell>
 
                                                 </TableRow>
                                             )

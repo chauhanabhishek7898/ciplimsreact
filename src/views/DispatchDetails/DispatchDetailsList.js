@@ -40,7 +40,7 @@ import { useNavigate, Link } from "react-router-dom";
 import * as environment from '../../coreservices/environment'
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import CircularProgress from '@mui/joy/CircularProgress';
-
+import { TbEdit } from "react-icons/tb";
 function DispatchDetailsList() {
     let imageUrl = environment.imageUrl
     const navigate = useNavigate();
@@ -264,7 +264,7 @@ function DispatchDetailsList() {
                                                 <TableCell align="left" sx={muiStyles.tableBody} > <a href={imageUrl + '/' + item.vPOFilePath} target="_blank" rel="noopener noreferrer" style={{ marginLeft: 10 }}>{item.vMATCOAFilePath != null && item.vMATCOAFilePath != '' ? 'MATCOA Copy' : null}</a> </TableCell>
 
                                                 <TableCell align="left" sx={muiStyles.tableBody} >{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
-                                                <TableCell align="center" sx={muiStyles.tableBody} ><button className='deletbtn' title='Edit' onClick={() => handleDetail(item.nDSId)}><BorderColorIcon size={20} color='#000' /></button></TableCell>
+                                                <TableCell align="center" sx={muiStyles.tableBody} ><button className='deletbtn' title='Edit' onClick={() => handleDetail(item.nDSId)}><TbEdit size={20} color='#000' /></button></TableCell>
 
                                             </TableRow>
                                         )
