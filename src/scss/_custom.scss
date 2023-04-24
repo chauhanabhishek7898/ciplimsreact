@@ -463,6 +463,11 @@ font-weight: 500;
   display: flex;
   justify-content: end
 }
+.add_export_second {
+  display: flex;
+  justify-content: end;
+
+}
 
 .submitbtn_exp {
   border: none;
@@ -536,6 +541,19 @@ font-weight: 500;
   }
 }
 
+.exportandfilter_end {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 5px 15px;
+
+  @media only screen and (max-width: 1080px) {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 10px 10px;
+
+  }
+}
 .searchbox {
   width: 100%;
 

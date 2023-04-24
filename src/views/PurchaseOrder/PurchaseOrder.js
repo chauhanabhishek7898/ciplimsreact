@@ -35,13 +35,13 @@ import Stack from '@mui/material/Stack';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
-import { parseDateToString,parseDateToStringSubmit } from '../../coreservices/Date';
+import { parseDateToString, parseDateToStringSubmit } from '../../coreservices/Date';
 import { useNavigate, Link } from "react-router-dom";
 import * as environment from '../../coreservices/environment'
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import CircularProgress from '@mui/joy/CircularProgress';
 function PurchaseOrder() {
-    let imageUrl=environment.imageUrl
+    let imageUrl = environment.imageUrl
     const navigate = useNavigate();
     const [modalIsOpen, setIsOpen] = React.useState(false);
     const [page, setPage] = React.useState(0);
@@ -97,12 +97,12 @@ function PurchaseOrder() {
     const getPODetails = () => {
         setLoader(true)
         let vGenrics
-        if(vGenric==''||vGenric==undefined){
-            vGenrics=null
-        }else{
-            vGenrics=vGenric
+        if (vGenric == '' || vGenric == undefined) {
+            vGenrics = null
+        } else {
+            vGenrics = vGenric
         }
-        GetPODetails(parseDateToStringSubmit(new Date(fromDate)),parseDateToStringSubmit(new Date(toDate)),vGenrics).then(response => {
+        GetPODetails(parseDateToStringSubmit(new Date(fromDate)), parseDateToStringSubmit(new Date(toDate)), vGenrics).then(response => {
             console.log(response)
             setBrandData(response)
             setLoader(false)
@@ -142,78 +142,81 @@ function PurchaseOrder() {
         })
     }
 
-   const handleDetail = (nPOId) => {
-     
+    const handleDetail = (nPOId) => {
+
         navigate('/EditPurchaseOrder', { state: { nPOId } });
-      }
+    }
 
     return (
         <div className='citymasterContainer'>
             {/* <button  title='Add' onClick={routeChange}><AddIcon fontSize='large' /></button> */}
-            {loader==true?
-            <div className='progressBox'>
-                <div className='progressInner'>
-                    <CircularProgress />
+            {loader == true ?
+                <div className='progressBox'>
+                    <div className='progressInner'>
+                        <CircularProgress />
+                    </div>
                 </div>
-            </div>
-            :
-            null
+                :
+                null
 
             }
-            <Link to="/AddPurchaseOrder" className='addbtn_2'><AddIcon fontSize='large' /> <span className='addFont'>Add</span></Link>
+            <div className='exportandfilter_end'>
+                <Link to="/AddPurchaseOrder" className='submitbtn_exp'><AddIcon fontSize='large' /> <span className='addFont'>Add</span></Link>
+            </div>
+
 
             <div className='tablecenter'>
-               
-                <Paper sx={{ width: '100%', overflow: 'hidden',paddingTop:1 }}>
-            <div className='displayflexend-2 mt-3'>
-                <Box  className='inputBox-24' >
-                    <LocalizationProvider dateAdapter={AdapterDayjs} >
-                        <Stack spacing={3} >
-                            <DesktopDatePicker
-                                label={'Start Date *'}
-                                inputFormat="DD-MM-YYYY"
-                                value={fromDate}
-                                onChange={handleChangeFromedate}
-                                renderInput={(params) => <TextField sx={muiStyles.date} {...params} />}
-                                
-                            />
-                        </Stack>
-                    </LocalizationProvider>
-                </Box>
-                <Box className='inputBox-24' >
-                    <LocalizationProvider dateAdapter={AdapterDayjs} >
-                        <Stack spacing={3}>
-                            <DesktopDatePicker
-                                label="End Date *"
-                                inputFormat="DD-MM-YYYY"
-                                value={toDate}
-                                onChange={handleChangeTodate}
-                                renderInput={(params) => <TextField sx={muiStyles.date} {...params} />}
-                               
-                            />
-                        </Stack>
-                    </LocalizationProvider>
-                </Box>
 
-                <Box className='inputBox-24' >
-                    <FormControl fullWidth className='input' >
-                        <TextField
-                        sx={muiStyles.input}
-                            value={vGenric}
-                            onChange={e => setvGenric(e.target.value)}
-                            id="outlined-basic"
-                            label="Search.."
-                            variant="outlined"
-                            name='vPODesc'
-                        />
-                    </FormControl>
+                <Paper sx={{ width: '100%', overflow: 'hidden', paddingTop: 1 }}>
+                    <div className='displayflexend-2 mt-3'>
+                        <Box className='inputBox-24' >
+                            <LocalizationProvider dateAdapter={AdapterDayjs} >
+                                <Stack spacing={3} >
+                                    <DesktopDatePicker
+                                        label={'Start Date *'}
+                                        inputFormat="DD-MM-YYYY"
+                                        value={fromDate}
+                                        onChange={handleChangeFromedate}
+                                        renderInput={(params) => <TextField sx={muiStyles.date} {...params} />}
 
-                </Box>
-                
-                <Box className='inputBox-25' >
-                   <button className='applybtn' onClick={getPODetails}>Apply</button>
+                                    />
+                                </Stack>
+                            </LocalizationProvider>
+                        </Box>
+                        <Box className='inputBox-24' >
+                            <LocalizationProvider dateAdapter={AdapterDayjs} >
+                                <Stack spacing={3}>
+                                    <DesktopDatePicker
+                                        label="End Date *"
+                                        inputFormat="DD-MM-YYYY"
+                                        value={toDate}
+                                        onChange={handleChangeTodate}
+                                        renderInput={(params) => <TextField sx={muiStyles.date} {...params} />}
 
-                </Box>
+                                    />
+                                </Stack>
+                            </LocalizationProvider>
+                        </Box>
+
+                        <Box className='inputBox-24' >
+                            <FormControl fullWidth className='input' >
+                                <TextField
+                                    sx={muiStyles.input}
+                                    value={vGenric}
+                                    onChange={e => setvGenric(e.target.value)}
+                                    id="outlined-basic"
+                                    label="Search.."
+                                    variant="outlined"
+                                    name='vPODesc'
+                                />
+                            </FormControl>
+
+                        </Box>
+
+                        <Box className='inputBox-25' >
+                            <button className='applybtn' onClick={getPODetails}>Apply</button>
+
+                        </Box>
 
                     </div>
 
@@ -238,39 +241,39 @@ function PurchaseOrder() {
                                     <TableCell align="left" sx={muiStyles.tableHead}>Status</TableCell>
                                     <TableCell align="center" sx={muiStyles.tableHead}>Edit</TableCell>
 
-                                    
+
                                 </TableRow>
                             </TableHead>
-                            {brandData?.length>0?
-                            <TableBody>
-                                {brandData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((item,index) => {
-                                    return (
-                                        <TableRow key={index}>
-                                            {/* <TableCell component="th" scope="row">{index + 1}.</TableCell> */}
+                            {brandData?.length > 0 ?
+                                <TableBody>
+                                    {brandData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((item, index) => {
+                                        return (
+                                            <TableRow key={index}>
+                                                {/* <TableCell component="th" scope="row">{index + 1}.</TableCell> */}
 
-                                            <TableCell align="left" sx={muiStyles.tableBody}>{item.vPONo}</TableCell>
-                                            <TableCell align="left" sx={muiStyles.tableBody}>{item.PODated}</TableCell>
-                                            <TableCell align="left" sx={muiStyles.tableBody}>{item.vPODesc}</TableCell>
-                                            <TableCell align="left" sx={muiStyles.tableBody}>{item.PlantDetail}</TableCell>
-                                            <TableCell align="left" sx={muiStyles.tableBody}>{item.vCostCentre}</TableCell>
-                                            <TableCell align="left" sx={muiStyles.tableBody}>{item.vProfitCentre}</TableCell>
-                                            <TableCell align="left" sx={muiStyles.tableBody}>{item.vGLCode}</TableCell>
-                                            <TableCell align="left" sx={muiStyles.tableBody}>{item.vBusiness}</TableCell>
-                                            <TableCell align="left" sx={muiStyles.tableBody}>{item.VendorDetail}</TableCell>
-                                            <TableCell align="left" sx={muiStyles.tableBody}>{item.vRemarks}</TableCell>
-                                            <TableCell align="left" sx={muiStyles.tableBody}> <a href={imageUrl+'/'+item.vPOFilePath} target="_blank" rel="noopener noreferrer" style={{ marginLeft: 10 }}>{item.vPOFilePath!=null&&item.vPOFilePath!=''?'PO Copy':null}</a> </TableCell>
+                                                <TableCell align="left" sx={muiStyles.tableBody}>{item.vPONo}</TableCell>
+                                                <TableCell align="left" sx={muiStyles.tableBody}>{item.PODated}</TableCell>
+                                                <TableCell align="left" sx={muiStyles.tableBody}>{item.vPODesc}</TableCell>
+                                                <TableCell align="left" sx={muiStyles.tableBody}>{item.PlantDetail}</TableCell>
+                                                <TableCell align="left" sx={muiStyles.tableBody}>{item.vCostCentre}</TableCell>
+                                                <TableCell align="left" sx={muiStyles.tableBody}>{item.vProfitCentre}</TableCell>
+                                                <TableCell align="left" sx={muiStyles.tableBody}>{item.vGLCode}</TableCell>
+                                                <TableCell align="left" sx={muiStyles.tableBody}>{item.vBusiness}</TableCell>
+                                                <TableCell align="left" sx={muiStyles.tableBody}>{item.VendorDetail}</TableCell>
+                                                <TableCell align="left" sx={muiStyles.tableBody}>{item.vRemarks}</TableCell>
+                                                <TableCell align="left" sx={muiStyles.tableBody}> <a href={imageUrl + '/' + item.vPOFilePath} target="_blank" rel="noopener noreferrer" style={{ marginLeft: 10 }}>{item.vPOFilePath != null && item.vPOFilePath != '' ? 'PO Copy' : null}</a> </TableCell>
 
-                                            <TableCell align="left" sx={muiStyles.tableBody}>{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
-                                            <TableCell align="center" sx={muiStyles.tableBody}><button className='deletbtn' title='Edit' onClick={() =>handleDetail(item.nPOId) }><BorderColorIcon size={20} color='#000' /></button></TableCell>
+                                                <TableCell align="left" sx={muiStyles.tableBody}>{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
+                                                <TableCell align="center" sx={muiStyles.tableBody}><button className='deletbtn' title='Edit' onClick={() => handleDetail(item.nPOId)}><BorderColorIcon size={20} color='#000' /></button></TableCell>
 
- 
-                                        </TableRow>
-                                    )
-                                })
-                                }
-                            </TableBody>
-                            :
-                            <TableBody>
+
+                                            </TableRow>
+                                        )
+                                    })
+                                    }
+                                </TableBody>
+                                :
+                                <TableBody>
                                     <TableRow>
                                         <TableCell align="center" colSpan={14}>No Record</TableCell>
                                     </TableRow>
@@ -326,7 +329,7 @@ const muiStyles = {
         "& .MuiFormLabel-root": {
             fontSize: '13px',
             top: '-13px',
-            left:'-10px',
+            left: '-10px',
             backgroundColor: 'transparent',
             zIndex: '1'
         },
@@ -334,7 +337,7 @@ const muiStyles = {
             zIndex: '1'
 
         },
-        '& .MuiInputAdornment-root':{
+        '& .MuiInputAdornment-root': {
             position: 'absolute',
             right: '10px'
         }
@@ -352,8 +355,8 @@ const muiStyles = {
             fontSize: '13px',
             backgroundColor: 'transparent',
             top: '-13px',
-            left:'-10px',
-          
+            left: '-10px',
+
         },
         "& label.Mui-focused": {
             zIndex: '1'
@@ -369,7 +372,7 @@ const muiStyles = {
         "& .MuiFormLabel-root": {
             fontSize: '13px',
             top: '-13px',
-            left:'-10px',  
+            left: '-10px',
             backgroundColor: 'transparent',
         },
         "& label.Mui-focused": {
@@ -381,14 +384,14 @@ const muiStyles = {
         "& .MuiSelect-select": {
             padding: '3px',
             fontSize: '12px'
-        }, 
-        
+        },
+
 
     },
     InputLabels: {
         fontSize: '13px',
         top: '-13px',
-        left:'-10px',
+        left: '-10px',
         backgroundColor: 'transparent',
         "&.Mui-focused": {
             zIndex: '1'
@@ -404,24 +407,24 @@ const muiStyles = {
     tableHead: {
         "&.MuiTableCell-root": {
             padding: '8px',
-            fontWeight:'bold'
+            fontWeight: 'bold'
         }
     },
     tableBody: {
         "&.MuiTableCell-root": {
             padding: '8px',
-            fontSize:'14px',
+            fontSize: '14px',
             lineHeight: '39px'
         }
     },
     checkboxLabel: {
         "&.MuiFormControlLabel-root": {
             "&.MuiTypography-root": {
-                fontSize:'14px'
+                fontSize: '14px'
             }
         }
     },
-   
+
 
 };
 

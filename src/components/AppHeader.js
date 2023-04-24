@@ -15,19 +15,29 @@ import {
   CDropdownMenu,
   CDropdownItem,
 } from '@coreui/react'
+import { cilAccountLogout } from '@coreui/icons'
+
+import { useNavigate } from "react-router-dom";
+import { confirmAlert } from 'react-confirm-alert';
+import { Navigate, Route, Routes } from 'react-router-dom'
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import CIcon from '@coreui/icons-react'
 import { cilBell, cilEnvelopeOpen, cilList, cilMenu } from '@coreui/icons'
 import { CImage } from '@coreui/react'
 import { AppBreadcrumb } from './index'
 import { AppHeaderDropdown } from './header/index'
 
-import { useNavigate } from "react-router-dom";
 const AppHeader = () => {
   const dispatch = useDispatch()
-  const navigate = useNavigate();
   const sidebarShow = useSelector((state) => state.sidebarShow)
   const [isOpen, setIsOpen] = useState(false);
+  const navigate = useNavigate();
 
+  const logout = () => {
+    localStorage.clear()
+    navigate('/login')
+    window.location.reload(false);
+  }
   const handleToggle = () => {
     setIsOpen(!isOpen);
   }
@@ -89,17 +99,20 @@ const AppHeader = () => {
             </CNavLink>
           </CNavItem>
         </CHeaderNav> */}
-        
+
 
         <CHeaderNav className="ms-3">
           <AppHeaderDropdown />
         </CHeaderNav>
         <CDropdown>
-          <CDropdownToggle href="#" color="secondary">Nitin Chaudhary</CDropdownToggle>
+          <CDropdownToggle href="#" color="secondary">Admin</CDropdownToggle>
           <CDropdownMenu>
-            <CDropdownItem href="#">Prlofile</CDropdownItem>
-            <CDropdownItem href="#">Others</CDropdownItem>
-            <CDropdownItem href="#">Settings</CDropdownItem>
+            <CDropdownItem href="#" onClick={logout}>
+              <CIcon icon={cilAccountLogout} className="me-2" />
+              Log Out
+            </CDropdownItem>
+            {/* <CDropdownItem href="#">Others</CDropdownItem>
+            <CDropdownItem href="#">Settings</CDropdownItem> */}
           </CDropdownMenu>
         </CDropdown>
       </CContainer>

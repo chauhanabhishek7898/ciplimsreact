@@ -12,7 +12,7 @@ import MenuItem from '@mui/material/MenuItem';
 import Paper from '@mui/material/Paper';
 import { BrandMaster_SelectAll, BrandMasterPost, BrandMasterPut } from '../BrandMaster/BrandMasterService'
 import { UnitMaster_SelectAll } from '../PackMaster/PackMasterService'
-import { GetGRNDetails,GetAdditionalInDetails } from './AdditionalInService'
+import { GetGRNDetails, GetAdditionalInDetails } from './AdditionalInService'
 
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
@@ -102,7 +102,7 @@ function AdditionalInList() {
         } else {
             vGenrics = vGenric
         }
-        GetAdditionalInDetails(parseDateToStringSubmit(new Date(fromDate)),parseDateToStringSubmit(new Date(toDate)),vGenrics).then(response => {
+        GetAdditionalInDetails(parseDateToStringSubmit(new Date(fromDate)), parseDateToStringSubmit(new Date(toDate)), vGenrics).then(response => {
             console.log(response)
             setBrandData(response)
             setLoader(false)
@@ -149,21 +149,23 @@ function AdditionalInList() {
     return (
         <div className='citymasterContainer'>
             {/* <button  title='Add' onClick={routeChange}><AddIcon fontSize='large' /></button> */}
-            {loader==true?
-            <div className='progressBox'>
-                <div className='progressInner'>
-                    <CircularProgress />
+            {loader == true ?
+                <div className='progressBox'>
+                    <div className='progressInner'>
+                        <CircularProgress />
+                    </div>
                 </div>
-            </div>
-            :
-            null
+                :
+                null
 
             }
-            <Link to="/AddAdditionalIn" className='addbtn_2'><AddIcon fontSize='large' /> <span className='addFont'>Add</span></Link>
+            <div className='exportandfilter_end'>
+                <Link to="/AddAdditionalIn" className='submitbtn_exp'><AddIcon fontSize='large' /> <span className='addFont'>Add</span></Link>
+            </div>
 
             <div className='tablecenter'>
 
-                <Paper sx={{ width: '100%', overflow: 'hidden',paddingTop:1 }}>
+                <Paper sx={{ width: '100%', overflow: 'hidden', paddingTop: 1 }}>
                     <div className='displayflexend-2'>
                         <Box className='inputBox-24' >
                             <LocalizationProvider dateAdapter={AdapterDayjs} >
@@ -199,7 +201,7 @@ function AdditionalInList() {
                         <Box className='inputBox-24' >
                             <FormControl fullWidth className='input' >
                                 <TextField
-                                sx={muiStyles.input}
+                                    sx={muiStyles.input}
                                     value={vGenric}
                                     onChange={e => setvGenric(e.target.value)}
                                     id="outlined-basic"
@@ -223,7 +225,7 @@ function AdditionalInList() {
                             <TableHead>
                                 <TableRow>
                                     {/* <TableCell scope="row" style={{width:'2%'}}>SN.</TableCell> */}
-                                 
+
                                     <TableCell align="left" sx={muiStyles.tableHead}>Reference No</TableCell>
                                     <TableCell align="left" sx={muiStyles.tableHead}>Batch No</TableCell>
                                     <TableCell align="left" sx={muiStyles.tableHead}>Plant Detail</TableCell>
@@ -231,14 +233,14 @@ function AdditionalInList() {
                                     <TableCell align="left" sx={muiStyles.tableHead}>Remarks</TableCell>
 
                                     <TableCell align="left" sx={muiStyles.tableHead}>Status</TableCell>
-                                    <TableCell align="center"sx={muiStyles.tableHead}>Edit</TableCell>
+                                    <TableCell align="center" sx={muiStyles.tableHead}>Edit</TableCell>
 
 
                                 </TableRow>
                             </TableHead>
                             {brandData?.length > 0 ?
                                 <TableBody>
-                                    {brandData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((item,index) => {
+                                    {brandData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((item, index) => {
                                         return (
                                             <TableRow key={index}>
                                                 {/* <TableCell component="th" scope="row">{index + 1}.</TableCell> */}
@@ -269,7 +271,7 @@ function AdditionalInList() {
                         </Table>
                     </TableContainer>
                     <TablePagination
-                        rowsPerPageOptions={[5,10, 25, 100]}
+                        rowsPerPageOptions={[5, 10, 25, 100]}
                         component="div"
                         count={brandData.length}
                         rowsPerPage={rowsPerPage}
@@ -315,7 +317,7 @@ const muiStyles = {
         "& .MuiFormLabel-root": {
             fontSize: '13px',
             top: '-13px',
-            left:'-10px',
+            left: '-10px',
             backgroundColor: 'transparent',
             zIndex: '1'
         },
@@ -323,7 +325,7 @@ const muiStyles = {
             zIndex: '1'
 
         },
-        '& .MuiInputAdornment-root':{
+        '& .MuiInputAdornment-root': {
             position: 'absolute',
             right: '10px'
         }
@@ -341,8 +343,8 @@ const muiStyles = {
             fontSize: '13px',
             backgroundColor: 'transparent',
             top: '-13px',
-            left:'-10px',
-          
+            left: '-10px',
+
         },
         "& label.Mui-focused": {
             zIndex: '1'
@@ -358,7 +360,7 @@ const muiStyles = {
         "& .MuiFormLabel-root": {
             fontSize: '13px',
             top: '-13px',
-            left:'-10px',  
+            left: '-10px',
             backgroundColor: 'transparent',
         },
         "& label.Mui-focused": {
@@ -370,14 +372,14 @@ const muiStyles = {
         "& .MuiSelect-select": {
             padding: '3px',
             fontSize: '12px'
-        }, 
-        
+        },
+
 
     },
     InputLabels: {
         fontSize: '13px',
         top: '-13px',
-        left:'-10px',
+        left: '-10px',
         backgroundColor: 'transparent',
         "&.Mui-focused": {
             zIndex: '1'
@@ -393,24 +395,24 @@ const muiStyles = {
     tableHead: {
         "&.MuiTableCell-root": {
             padding: '8px',
-            fontWeight:'bold'
+            fontWeight: 'bold'
         }
     },
     tableBody: {
         "&.MuiTableCell-root": {
             padding: '8px',
-            fontSize:'14px',
+            fontSize: '14px',
             lineHeight: '39px'
         }
     },
     checkboxLabel: {
         "&.MuiFormControlLabel-root": {
             "&.MuiTypography-root": {
-                fontSize:'14px'
+                fontSize: '14px'
             }
         }
     },
-   
+
 
 };
 export default AdditionalInList

@@ -29,6 +29,7 @@ import { CButton, CSpinner } from '@coreui/react';
 import SearchBar from "material-ui-search-bar";
 import ExportExcel from 'src/shareFunction/Excelexport';
 import CircularProgress from '@mui/joy/CircularProgress';
+import { TbEdit } from "react-icons/tb";
 function LineMaster() {
 
     let Heading = [['SN.', 'Line Code', 'Line Description', 'Plant Detail', 'Status']];
@@ -215,7 +216,12 @@ function LineMaster() {
             null
 
             }
-            <button className='addbtn_2' onClick={() => openmodale(null, 'Submit')} title='Add'  ><AddIcon fontSize='large' /><span className='addFont'>Add</span></button>
+               <div className='add_export'>
+                <button className='submitbtn_exp' onClick={() => openmodale(null, 'Submit')} title='Add'  ><AddIcon fontSize='large' /> <span className='addFont'>Add</span></button>
+                <ExportExcel excelData={lineData} Heading={Heading} fileName={'Line_Master'} />
+
+            </div>
+            {/* <button className='addbtn_2' onClick={() => openmodale(null, 'Submit')} title='Add'  ><AddIcon fontSize='large' /><span className='addFont'>Add</span></button> */}
             <Modal
                 isOpen={modalIsOpen}
                 style={customStyles}
@@ -308,7 +314,8 @@ function LineMaster() {
                 <Paper sx={{ width: '100%', overflow: 'hidden',paddingTop:1 }}>
 
                     <div className='exportandfilter'>
-                        <ExportExcel excelData={lineData} Heading={Heading} fileName={'Line_Master'} />
+                 
+                        
                         <div className='filterbox'>
                         <Box className='searchbox' >
                             <SearchBar
@@ -352,7 +359,7 @@ function LineMaster() {
                                             <TableCell align="left" sx={muiStyles.tableBody}>{item.PlantDetail}</TableCell>
 
                                             <TableCell align="left" sx={muiStyles.tableBody}>{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
-                                            <TableCell align="left" sx={muiStyles.tableBody}><div onClick={() => openmodale(item, 'Update')} className='editbtn'><BorderColorIcon size={20} color='#000' /></div></TableCell>
+                                            <TableCell align="left" sx={muiStyles.tableBody}><div onClick={() => openmodale(item, 'Update')} className='editbtn'><TbEdit size={20} color='#000' /></div></TableCell>
 
                                         </TableRow>
                                     )

@@ -37,6 +37,7 @@ import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import { parseDateToString } from '../../coreservices/Date';
 import ExportExcel from 'src/shareFunction/Excelexport';
 import CircularProgress from '@mui/joy/CircularProgress';
+import { TbEdit } from "react-icons/tb";
 function MaterialMaster() {
     let Heading = [['SN.', 'Material Code', 'Material Name', 'Category', 'Material Type', 'UOM', 'HSN Code', 'Remarks', 'Status']];
     const [modalIsOpen, setIsOpen] = React.useState(false);
@@ -322,7 +323,11 @@ function MaterialMaster() {
                 null
 
             }
-            <button className='addbtn_2' onClick={() => openmodale(null, 'Submit')} title='Add'  ><AddIcon fontSize='large' /> <span className='addFont'>Add</span></button>
+            <div className='add_export'>
+                <button className='submitbtn_exp' onClick={() => openmodale(null, 'Submit')} title='Add'  ><AddIcon fontSize='large' /> <span className='addFont'>Add</span></button>
+                <ExportExcel excelData={brandData} Heading={Heading} fileName={'Material_Master'} />
+            </div>
+            {/* <button className='addbtn_2' onClick={() => openmodale(null, 'Submit')} title='Add'  ><AddIcon fontSize='large' /> <span className='addFont'>Add</span></button> */}
             <Modal
                 isOpen={modalIsOpen}
                 style={customStyles}
@@ -586,7 +591,8 @@ function MaterialMaster() {
                 <div className='tablecenter'>
                     <Paper sx={{ width: '100%', overflow: 'hidden',paddingTop:1 }}>
                         <div className='exportandfilter'>
-                            <ExportExcel excelData={brandData} Heading={Heading} fileName={'Material_Master'} />
+                        
+                          
                             <div className='filterbox'>
                             <Box className='searchbox'>
                                 <SearchBar
@@ -639,7 +645,7 @@ function MaterialMaster() {
                                                     <TableCell align="left" sx={muiStyles.tableBody}>{item.vRemarks}</TableCell>
 
                                                     <TableCell align="left" sx={muiStyles.tableBody}>{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
-                                                    <TableCell align="left" sx={muiStyles.tableBody}><div onClick={() => openmodale(item, 'Update')} className='editbtn'><BorderColorIcon size={20} color='#000' /></div></TableCell>
+                                                    <TableCell align="left" sx={muiStyles.tableBody}><div onClick={() => openmodale(item, 'Update')} className='editbtn'><TbEdit size={20} color='#000' /></div></TableCell>
 
                                                 </TableRow>
                                             );

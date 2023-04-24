@@ -12,7 +12,7 @@ import MenuItem from '@mui/material/MenuItem';
 import Paper from '@mui/material/Paper';
 import { BrandMaster_SelectAll, BrandMasterPost, BrandMasterPut } from '../BrandMaster/BrandMasterService'
 import { UnitMaster_SelectAll } from '../PackMaster/PackMasterService'
-import { GetProductionDetails,GetAdditionalInDetails } from './ProductionDetailsService'
+import { GetProductionDetails, GetAdditionalInDetails } from './ProductionDetailsService'
 
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
@@ -42,284 +42,286 @@ import BorderColorIcon from '@mui/icons-material/BorderColor';
 import CircularProgress from '@mui/joy/CircularProgress';
 
 function ProductionDetailsList() {
-  let imageUrl = environment.imageUrl
-  const navigate = useNavigate();
-  const [modalIsOpen, setIsOpen] = React.useState(false);
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
-  const [brandData, setBrandData] = React.useState([]);
-  const [loader, setLoader] = React.useState(false);
-  const [nBid, setnBid] = React.useState(0);
-  const [btActive, setBtActive] = React.useState(false);
-  const [vGenric, setvGenric] = React.useState('');
+    let imageUrl = environment.imageUrl
+    const navigate = useNavigate();
+    const [modalIsOpen, setIsOpen] = React.useState(false);
+    const [page, setPage] = React.useState(0);
+    const [rowsPerPage, setRowsPerPage] = React.useState(5);
+    const [brandData, setBrandData] = React.useState([]);
+    const [loader, setLoader] = React.useState(false);
+    const [nBid, setnBid] = React.useState(0);
+    const [btActive, setBtActive] = React.useState(false);
+    const [vGenric, setvGenric] = React.useState('');
 
-  const [buttonName, setbuttonName] = React.useState('');
-  const [disabled, setdisabled] = React.useState(true);
+    const [buttonName, setbuttonName] = React.useState('');
+    const [disabled, setdisabled] = React.useState(true);
 
-  const [uniteData, setUnitData] = React.useState([]);
+    const [uniteData, setUnitData] = React.useState([]);
 
-  const { register, handleSubmit, control, errors } = useForm();
+    const { register, handleSubmit, control, errors } = useForm();
 
-  // const [rows, setRows] = useState(brandData);
-  const [searched, setSearched] = React.useState("");
+    // const [rows, setRows] = useState(brandData);
+    const [searched, setSearched] = React.useState("");
 
-  let fromDates = new Date(Date.now())
-  fromDates.setDate(fromDates.getDate() - 7)
-  let toDates = new Date(Date.now())
-  const [fromDate, setFromdate] = React.useState(dayjs(fromDates));
-  const [toDate, setTodate] = React.useState(dayjs(toDates));
-  let startDates = new Date(Date.now())
-  let endDates = new Date(Date.now())
-  const [startDate, setStartDate] = React.useState(dayjs(startDates));
-  const [endDate, setEndDate] = React.useState(dayjs(endDates));
-  const [koMonthData, setkoMonthData] = React.useState([]);
-  const [weekNumberId, setWeekNumberId] = React.useState('');
-  const [error, setError] = React.useState('');
-  const [unitid, setUnitid] = React.useState('');
-  const handleChangePackUnit = (event) => {
-      setUnitid(event.target.value);
-  };
-  const handleChangeFromedate = (newValue) => {
-      setFromdate(newValue);
-  };
-  const handleChangeTodate = (newValue) => {
-      setTodate(newValue);
-  };
-  const handleChangeStartdate = (newValue) => {
-      setStartDate(newValue);
-  };
-  const handleChangeEnddate = (newValue) => {
-      setEndDate(newValue);
-  };
+    let fromDates = new Date(Date.now())
+    fromDates.setDate(fromDates.getDate() - 7)
+    let toDates = new Date(Date.now())
+    const [fromDate, setFromdate] = React.useState(dayjs(fromDates));
+    const [toDate, setTodate] = React.useState(dayjs(toDates));
+    let startDates = new Date(Date.now())
+    let endDates = new Date(Date.now())
+    const [startDate, setStartDate] = React.useState(dayjs(startDates));
+    const [endDate, setEndDate] = React.useState(dayjs(endDates));
+    const [koMonthData, setkoMonthData] = React.useState([]);
+    const [weekNumberId, setWeekNumberId] = React.useState('');
+    const [error, setError] = React.useState('');
+    const [unitid, setUnitid] = React.useState('');
+    const handleChangePackUnit = (event) => {
+        setUnitid(event.target.value);
+    };
+    const handleChangeFromedate = (newValue) => {
+        setFromdate(newValue);
+    };
+    const handleChangeTodate = (newValue) => {
+        setTodate(newValue);
+    };
+    const handleChangeStartdate = (newValue) => {
+        setStartDate(newValue);
+    };
+    const handleChangeEnddate = (newValue) => {
+        setEndDate(newValue);
+    };
 
-  useEffect(() => {
-      getPODetails()
-  }, [])
-  const getPODetails = () => {
-      setLoader(true)
-      let vGenrics
-      if (vGenric == '' || vGenric == undefined) {
-          vGenrics = null
-      } else {
-          vGenrics = vGenric
-      }
-      GetProductionDetails(parseDateToStringSubmit(new Date(fromDate)),parseDateToStringSubmit(new Date(toDate)),vGenrics).then(response => {
-          console.log(response)
-          setBrandData(response)
-          setLoader(false)
-      })
-  }
+    useEffect(() => {
+        getPODetails()
+    }, [])
+    const getPODetails = () => {
+        setLoader(true)
+        let vGenrics
+        if (vGenric == '' || vGenric == undefined) {
+            vGenrics = null
+        } else {
+            vGenrics = vGenric
+        }
+        GetProductionDetails(parseDateToStringSubmit(new Date(fromDate)), parseDateToStringSubmit(new Date(toDate)), vGenrics).then(response => {
+            console.log(response)
+            setBrandData(response)
+            setLoader(false)
+        })
+    }
 
-  const requestSearch = (searchedVal) => {
-      console.log("searchedVal.length", searchedVal.length)
-      const filteredRows = brandData.filter((row) => {
-          return row.vBrandCode.toLowerCase().includes(searchedVal.toLowerCase()) || row.vBrandName.toLowerCase().includes(searchedVal.toLowerCase());
-      });
-      setBrandData(filteredRows);
-      console.log("filteredRows", filteredRows)
-  };
+    const requestSearch = (searchedVal) => {
+        console.log("searchedVal.length", searchedVal.length)
+        const filteredRows = brandData.filter((row) => {
+            return row.vBrandCode.toLowerCase().includes(searchedVal.toLowerCase()) || row.vBrandName.toLowerCase().includes(searchedVal.toLowerCase());
+        });
+        setBrandData(filteredRows);
+        console.log("filteredRows", filteredRows)
+    };
 
-  const cancelSearch = () => {
-      setSearched("");
-      requestSearch(searched);
-      getBrandMaster_SelectAll()
-  };
-
-
-  const handleChangePage = (event, newPage) => {
-      setPage(newPage);
-  };
-  const handleChangeRowsPerPage = (event) => {
-      setRowsPerPage(+event.target.value);
-      setPage(0);
-  };
-  useEffect(() => {
-      getUnitMaster_SelectAll()
-  }, [])
-
-  const getUnitMaster_SelectAll = () => {
-      UnitMaster_SelectAll().then(response => {
-          setUnitData(response)
-      })
-  }
-
-  const handleDetail = (nPDId) => {
-      navigate('/EditProductionDetails', { state: { nPDId } });
-  }
-
-  return (
-      <div className='citymasterContainer'>
-          {/* <button  title='Add' onClick={routeChange}><AddIcon fontSize='large' /></button> */}
-          {loader==true?
-          <div className='progressBox'>
-              <div className='progressInner'>
-                  <CircularProgress />
-              </div>
-          </div>
-          :
-          null
-
-          }
-          <Link to="/AddProductionDetails" className='addbtn_2'><AddIcon fontSize='large' /> <span className='addFont'>Add</span></Link>
-
-          <div className='tablecenter'>
-
-              <Paper sx={{ width: '100%', overflow: 'hidden',paddingTop:1 }}>
-                  <div className='displayflexend-2 mt3'>
-                      <Box className='inputBox-24'>
-                          <LocalizationProvider dateAdapter={AdapterDayjs} >
-                              <Stack spacing={3} >
-                                  <DesktopDatePicker
-                                      label={'Start Date *'}
-                                      inputFormat="DD-MM-YYYY"
-                                      value={fromDate}
-                                      onChange={handleChangeFromedate}
-                                      maxDate={new Date(Date.now())}
-                                      renderInput={(params) => <TextField sx={muiStyles.date} {...params} />}
-
-                                  />
-                              </Stack>
-                          </LocalizationProvider>
-                      </Box>
-                      <Box className='inputBox-24'>
-                          <LocalizationProvider dateAdapter={AdapterDayjs} >
-                              <Stack spacing={3}>
-                                  <DesktopDatePicker
-                                      label="End Date *"
-                                      inputFormat="DD-MM-YYYY"
-                                      value={toDate}
-                                      onChange={handleChangeTodate}
-                                      maxDate={new Date(Date.now())}
-                                      renderInput={(params) => <TextField sx={muiStyles.date} {...params} />}
-
-                                  />
-                              </Stack>
-                          </LocalizationProvider>
-                      </Box>
-
-                      <Box className='inputBox-24' >
-                          <FormControl fullWidth className='input' >
-                              <TextField
-                              sx={muiStyles.input}
-                                  value={vGenric}
-                                  onChange={e => setvGenric(e.target.value)}
-                                  id="outlined-basic"
-                                  label="Search.."
-                                  variant="outlined"
-                                  name='vPODesc'
-                              />
-                          </FormControl>
-
-                      </Box>
-
-                      <Box className='inputBox-25'>
-                          <button className='applybtn' onClick={getPODetails}>Apply</button>
-
-                      </Box>
-
-                  </div>
-
-                  <TableContainer sx={{ maxHeight: 440 }}>
-                      <Table stickyHeader aria-label="sticky table">
-                          <TableHead>
-                              <TableRow>
-                                  {/* <TableCell scope="row" style={{width:'2%'}}>SN.</TableCell> */}
-
-                                  <TableCell align="left" sx={muiStyles.tableHead}>Reference No</TableCell>
-                                  <TableCell align="left" sx={muiStyles.tableHead}>Dated</TableCell>
-                                  <TableCell align="left" sx={muiStyles.tableHead}>Plant Detail</TableCell>
-                                  <TableCell align="left" sx={muiStyles.tableHead}>PD Start Time</TableCell>
-                                  <TableCell align="left" sx={muiStyles.tableHead}>PD End Time</TableCell>
-                                  <TableCell align="left" sx={muiStyles.tableHead}>BD In Mins</TableCell>
-                                  <TableCell align="left" sx={muiStyles.tableHead}>MR Doc No</TableCell>
-                                  <TableCell align="left" sx={muiStyles.tableHead}>Brand</TableCell>
-                                  <TableCell align="left" sx={muiStyles.tableHead}>Pack</TableCell>
-                                  <TableCell align="left" sx={muiStyles.tableHead}>Production Qty</TableCell>
-                                  <TableCell align="left" sx={muiStyles.tableHead}>Sample Qty</TableCell>
-                                  <TableCell align="left" sx={muiStyles.tableHead}>Total Salable Qty</TableCell>
-                                  <TableCell align="left" sx={muiStyles.tableHead}>Yield Per</TableCell>
-                                  <TableCell align="left" sx={muiStyles.tableHead}>Loss Per</TableCell>
-                                  <TableCell align="left" sx={muiStyles.tableHead}>Batch No</TableCell>
-                                  <TableCell align="left" sx={muiStyles.tableHead}>BBD</TableCell>
-                                  <TableCell align="left" sx={muiStyles.tableHead}>MFG Date</TableCell>
-                                  <TableCell align="left" sx={muiStyles.tableHead}>Remarks</TableCell>
-
-                                  <TableCell align="left" sx={muiStyles.tableHead}>Status</TableCell>
-                                  <TableCell align="center"sx={muiStyles.tableHead}>Edit</TableCell>
+    const cancelSearch = () => {
+        setSearched("");
+        requestSearch(searched);
+        getBrandMaster_SelectAll()
+    };
 
 
-                              </TableRow>
-                          </TableHead>
-                          {brandData?.length > 0 ?
-                              <TableBody>
-                                  {brandData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((item,index) => {
-                                      return (
-                                          <TableRow key={index}>
-                                              {/* <TableCell component="th" scope="row">{index + 1}.</TableCell> */}
+    const handleChangePage = (event, newPage) => {
+        setPage(newPage);
+    };
+    const handleChangeRowsPerPage = (event) => {
+        setRowsPerPage(+event.target.value);
+        setPage(0);
+    };
+    useEffect(() => {
+        getUnitMaster_SelectAll()
+    }, [])
 
-                                              <TableCell align="left" sx={muiStyles.tableBody}>{item.vPDId}</TableCell>
-                                              <TableCell align="left" sx={muiStyles.tableBody}>{item.Dated}</TableCell>
-                                              <TableCell align="left" sx={muiStyles.tableBody}>{item.PlantDetail}</TableCell>
-                                              <TableCell align="left" sx={muiStyles.tableBody}>{item.vPDStartTime}</TableCell>
-                                              <TableCell align="left" sx={muiStyles.tableBody}>{item.vPDEndTime}</TableCell>
-                                              <TableCell align="left" sx={muiStyles.tableBody}>{item.nBDInMins}</TableCell>
-                                              <TableCell align="left" sx={muiStyles.tableBody}>{item.vMRDocNo}</TableCell>
-                                              <TableCell align="left" sx={muiStyles.tableBody}>{item.vBrand}</TableCell>
-                                              <TableCell align="left" sx={muiStyles.tableBody}>{item.vPack}</TableCell>
-                                              <TableCell align="left" sx={muiStyles.tableBody}>{item.nProductionQty}</TableCell>
-                                              <TableCell align="left" sx={muiStyles.tableBody}>{item.nSampleQty}</TableCell>
-                                              <TableCell align="left" sx={muiStyles.tableBody}>{item.nTotalSalableQty}</TableCell>
-                                              <TableCell align="left" sx={muiStyles.tableBody}>{item.nYieldPer}</TableCell>
-                                              <TableCell align="left" sx={muiStyles.tableBody}>{item.nLossPer}</TableCell>
-                                              <TableCell align="left" sx={muiStyles.tableBody}>{item.vBatchNo}</TableCell>
-                                              <TableCell align="left" sx={muiStyles.tableBody}>{item.BBD}</TableCell>
-                                              <TableCell align="left" sx={muiStyles.tableBody}>{item.MFGDate}</TableCell>
-                                              <TableCell align="left" sx={muiStyles.tableBody}>{item.vRemarks}</TableCell>
+    const getUnitMaster_SelectAll = () => {
+        UnitMaster_SelectAll().then(response => {
+            setUnitData(response)
+        })
+    }
 
-                                              <TableCell align="left" sx={muiStyles.tableBody}>{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
-                                              <TableCell align="center"sx={muiStyles.tableBody}><button className='deletbtn' title='Edit' onClick={() => handleDetail(item.nPDId)}><BorderColorIcon size={20} color='#000' /></button></TableCell>
+    const handleDetail = (nPDId) => {
+        navigate('/EditProductionDetails', { state: { nPDId } });
+    }
 
-                                          </TableRow>
-                                      )
-                                  })
-                                  }
-                              </TableBody>
-                              :
-                              <TableBody>
-                                  <TableRow>
-                                      <TableCell align="center" colSpan={20}>No Record</TableCell>
-                                  </TableRow>
-                              </TableBody>
+    return (
+        <div className='citymasterContainer'>
+            {/* <button  title='Add' onClick={routeChange}><AddIcon fontSize='large' /></button> */}
+            {loader == true ?
+                <div className='progressBox'>
+                    <div className='progressInner'>
+                        <CircularProgress />
+                    </div>
+                </div>
+                :
+                null
 
-                          }
-                      </Table>
-                  </TableContainer>
-                  <TablePagination
-                      rowsPerPageOptions={[5,10, 25, 100]}
-                      component="div"
-                      count={brandData.length}
-                      rowsPerPage={rowsPerPage}
-                      page={page}
-                      onPageChange={handleChangePage}
-                      onRowsPerPageChange={handleChangeRowsPerPage}
-                  />
-              </Paper>
-          </div>
+            }
+            <div className='exportandfilter_end'>
+                <Link to="/AddProductionDetails" className='submitbtn_exp'><AddIcon fontSize='large' /> <span className='addFont'>Add</span></Link>
+            </div>
 
-          <ToastContainer />
-      </div >
-  )
+            <div className='tablecenter'>
+
+                <Paper sx={{ width: '100%', overflow: 'hidden', paddingTop: 1 }}>
+                    <div className='displayflexend-2 mt3'>
+                        <Box className='inputBox-24'>
+                            <LocalizationProvider dateAdapter={AdapterDayjs} >
+                                <Stack spacing={3} >
+                                    <DesktopDatePicker
+                                        label={'Start Date *'}
+                                        inputFormat="DD-MM-YYYY"
+                                        value={fromDate}
+                                        onChange={handleChangeFromedate}
+                                        maxDate={new Date(Date.now())}
+                                        renderInput={(params) => <TextField sx={muiStyles.date} {...params} />}
+
+                                    />
+                                </Stack>
+                            </LocalizationProvider>
+                        </Box>
+                        <Box className='inputBox-24'>
+                            <LocalizationProvider dateAdapter={AdapterDayjs} >
+                                <Stack spacing={3}>
+                                    <DesktopDatePicker
+                                        label="End Date *"
+                                        inputFormat="DD-MM-YYYY"
+                                        value={toDate}
+                                        onChange={handleChangeTodate}
+                                        maxDate={new Date(Date.now())}
+                                        renderInput={(params) => <TextField sx={muiStyles.date} {...params} />}
+
+                                    />
+                                </Stack>
+                            </LocalizationProvider>
+                        </Box>
+
+                        <Box className='inputBox-24' >
+                            <FormControl fullWidth className='input' >
+                                <TextField
+                                    sx={muiStyles.input}
+                                    value={vGenric}
+                                    onChange={e => setvGenric(e.target.value)}
+                                    id="outlined-basic"
+                                    label="Search.."
+                                    variant="outlined"
+                                    name='vPODesc'
+                                />
+                            </FormControl>
+
+                        </Box>
+
+                        <Box className='inputBox-25'>
+                            <button className='applybtn' onClick={getPODetails}>Apply</button>
+
+                        </Box>
+
+                    </div>
+
+                    <TableContainer sx={{ maxHeight: 440 }}>
+                        <Table stickyHeader aria-label="sticky table">
+                            <TableHead>
+                                <TableRow>
+                                    {/* <TableCell scope="row" style={{width:'2%'}}>SN.</TableCell> */}
+
+                                    <TableCell align="left" sx={muiStyles.tableHead}>Reference No</TableCell>
+                                    <TableCell align="left" sx={muiStyles.tableHead}>Dated</TableCell>
+                                    <TableCell align="left" sx={muiStyles.tableHead}>Plant Detail</TableCell>
+                                    <TableCell align="left" sx={muiStyles.tableHead}>PD Start Time</TableCell>
+                                    <TableCell align="left" sx={muiStyles.tableHead}>PD End Time</TableCell>
+                                    <TableCell align="left" sx={muiStyles.tableHead}>BD In Mins</TableCell>
+                                    <TableCell align="left" sx={muiStyles.tableHead}>MR Doc No</TableCell>
+                                    <TableCell align="left" sx={muiStyles.tableHead}>Brand</TableCell>
+                                    <TableCell align="left" sx={muiStyles.tableHead}>Pack</TableCell>
+                                    <TableCell align="left" sx={muiStyles.tableHead}>Production Qty</TableCell>
+                                    <TableCell align="left" sx={muiStyles.tableHead}>Sample Qty</TableCell>
+                                    <TableCell align="left" sx={muiStyles.tableHead}>Total Salable Qty</TableCell>
+                                    <TableCell align="left" sx={muiStyles.tableHead}>Yield Per</TableCell>
+                                    <TableCell align="left" sx={muiStyles.tableHead}>Loss Per</TableCell>
+                                    <TableCell align="left" sx={muiStyles.tableHead}>Batch No</TableCell>
+                                    <TableCell align="left" sx={muiStyles.tableHead}>BBD</TableCell>
+                                    <TableCell align="left" sx={muiStyles.tableHead}>MFG Date</TableCell>
+                                    <TableCell align="left" sx={muiStyles.tableHead}>Remarks</TableCell>
+
+                                    <TableCell align="left" sx={muiStyles.tableHead}>Status</TableCell>
+                                    <TableCell align="center" sx={muiStyles.tableHead}>Edit</TableCell>
+
+
+                                </TableRow>
+                            </TableHead>
+                            {brandData?.length > 0 ?
+                                <TableBody>
+                                    {brandData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((item, index) => {
+                                        return (
+                                            <TableRow key={index}>
+                                                {/* <TableCell component="th" scope="row">{index + 1}.</TableCell> */}
+
+                                                <TableCell align="left" sx={muiStyles.tableBody}>{item.vPDId}</TableCell>
+                                                <TableCell align="left" sx={muiStyles.tableBody}>{item.Dated}</TableCell>
+                                                <TableCell align="left" sx={muiStyles.tableBody}>{item.PlantDetail}</TableCell>
+                                                <TableCell align="left" sx={muiStyles.tableBody}>{item.vPDStartTime}</TableCell>
+                                                <TableCell align="left" sx={muiStyles.tableBody}>{item.vPDEndTime}</TableCell>
+                                                <TableCell align="left" sx={muiStyles.tableBody}>{item.nBDInMins}</TableCell>
+                                                <TableCell align="left" sx={muiStyles.tableBody}>{item.vMRDocNo}</TableCell>
+                                                <TableCell align="left" sx={muiStyles.tableBody}>{item.vBrand}</TableCell>
+                                                <TableCell align="left" sx={muiStyles.tableBody}>{item.vPack}</TableCell>
+                                                <TableCell align="left" sx={muiStyles.tableBody}>{item.nProductionQty}</TableCell>
+                                                <TableCell align="left" sx={muiStyles.tableBody}>{item.nSampleQty}</TableCell>
+                                                <TableCell align="left" sx={muiStyles.tableBody}>{item.nTotalSalableQty}</TableCell>
+                                                <TableCell align="left" sx={muiStyles.tableBody}>{item.nYieldPer}</TableCell>
+                                                <TableCell align="left" sx={muiStyles.tableBody}>{item.nLossPer}</TableCell>
+                                                <TableCell align="left" sx={muiStyles.tableBody}>{item.vBatchNo}</TableCell>
+                                                <TableCell align="left" sx={muiStyles.tableBody}>{item.BBD}</TableCell>
+                                                <TableCell align="left" sx={muiStyles.tableBody}>{item.MFGDate}</TableCell>
+                                                <TableCell align="left" sx={muiStyles.tableBody}>{item.vRemarks}</TableCell>
+
+                                                <TableCell align="left" sx={muiStyles.tableBody}>{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
+                                                <TableCell align="center" sx={muiStyles.tableBody}><button className='deletbtn' title='Edit' onClick={() => handleDetail(item.nPDId)}><BorderColorIcon size={20} color='#000' /></button></TableCell>
+
+                                            </TableRow>
+                                        )
+                                    })
+                                    }
+                                </TableBody>
+                                :
+                                <TableBody>
+                                    <TableRow>
+                                        <TableCell align="center" colSpan={20}>No Record</TableCell>
+                                    </TableRow>
+                                </TableBody>
+
+                            }
+                        </Table>
+                    </TableContainer>
+                    <TablePagination
+                        rowsPerPageOptions={[5, 10, 25, 100]}
+                        component="div"
+                        count={brandData.length}
+                        rowsPerPage={rowsPerPage}
+                        page={page}
+                        onPageChange={handleChangePage}
+                        onRowsPerPageChange={handleChangeRowsPerPage}
+                    />
+                </Paper>
+            </div>
+
+            <ToastContainer />
+        </div >
+    )
 }
 const customStyles = {
-  content: {
-      top: '50%',
-      left: '58%',
-      right: 'auto',
-      bottom: 'auto',
-      marginRight: '-50%',
-      transform: 'translate(-50%, -50%)',
-      width: '80%',
-  },
+    content: {
+        top: '50%',
+        left: '58%',
+        right: 'auto',
+        bottom: 'auto',
+        marginRight: '-50%',
+        transform: 'translate(-50%, -50%)',
+        width: '80%',
+    },
 };
 const muiStyles = {
     content: {
@@ -341,7 +343,7 @@ const muiStyles = {
         "& .MuiFormLabel-root": {
             fontSize: '13px',
             top: '-13px',
-            left:'-10px',
+            left: '-10px',
             backgroundColor: 'transparent',
             zIndex: '1'
         },
@@ -349,7 +351,7 @@ const muiStyles = {
             zIndex: '1'
 
         },
-        '& .MuiInputAdornment-root':{
+        '& .MuiInputAdornment-root': {
             position: 'absolute',
             right: '10px'
         }
@@ -367,8 +369,8 @@ const muiStyles = {
             fontSize: '13px',
             backgroundColor: 'transparent',
             top: '-13px',
-            left:'-10px',
-          
+            left: '-10px',
+
         },
         "& label.Mui-focused": {
             zIndex: '1'
@@ -384,7 +386,7 @@ const muiStyles = {
         "& .MuiFormLabel-root": {
             fontSize: '13px',
             top: '-13px',
-            left:'-10px',  
+            left: '-10px',
             backgroundColor: 'transparent',
         },
         "& label.Mui-focused": {
@@ -396,14 +398,14 @@ const muiStyles = {
         "& .MuiSelect-select": {
             padding: '3px',
             fontSize: '12px'
-        }, 
-        
+        },
+
 
     },
     InputLabels: {
         fontSize: '13px',
         top: '-13px',
-        left:'-10px',
+        left: '-10px',
         backgroundColor: 'transparent',
         "&.Mui-focused": {
             zIndex: '1'
@@ -419,24 +421,24 @@ const muiStyles = {
     tableHead: {
         "&.MuiTableCell-root": {
             padding: '8px',
-            fontWeight:'bold'
+            fontWeight: 'bold'
         }
     },
     tableBody: {
         "&.MuiTableCell-root": {
             padding: '8px',
-            fontSize:'14px',
+            fontSize: '14px',
             lineHeight: '39px'
         }
     },
     checkboxLabel: {
         "&.MuiFormControlLabel-root": {
             "&.MuiTypography-root": {
-                fontSize:'14px'
+                fontSize: '14px'
             }
         }
     },
-   
+
 
 };
 export default ProductionDetailsList

@@ -39,6 +39,8 @@ import RadioGroup from '@mui/material/RadioGroup';
 import FormLabel from '@mui/material/FormLabel';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import CircularProgress from '@mui/joy/CircularProgress';
+import { TbEdit } from "react-icons/tb";
+
 function KOMONTH() {
     const [modalIsOpen, setIsOpen] = React.useState(false);
     const [modalIsOpen2, setIsOpen2] = React.useState(false);
@@ -693,7 +695,7 @@ function KOMONTH() {
                                                         <TableCell align="left" style={{ whiteSpace: 'nowrap' }}>{item.nDays}</TableCell>
                                                         <TableCell align="left" style={{ whiteSpace: 'nowrap' }}>{item.dtStartDt}</TableCell>
                                                         <TableCell align="left" style={{ whiteSpace: 'nowrap' }}>{item.dtEndDt}</TableCell>
-                                                        <TableCell align="left" style={{ whiteSpace: 'nowrap' }}><div onClick={() => openMonthModel(item)} className='editbtn'><BorderColorIcon size={20} color='#000' /></div></TableCell>
+                                                        <TableCell align="left" style={{ whiteSpace: 'nowrap' }}><div onClick={() => openMonthModel(item)} className='editbtn'><TbEdit size={20} color='#000' /></div></TableCell>
                                                         {/* <TableCell align="left" >{item.vWeekNo}</TableCell>
                                                     <TableCell align="left" >{item.dtWStartDt}</TableCell>
                                                     <TableCell align="left" >{item.dtWEndDt}</TableCell> */}
@@ -716,7 +718,7 @@ function KOMONTH() {
                                                         <TableCell align="left" style={{ whiteSpace: 'nowrap' }}>{item.vWeekNo}</TableCell>
                                                         <TableCell align="left" style={{ whiteSpace: 'nowrap' }}>{item.dtWStartDt}</TableCell>
                                                         <TableCell align="left" style={{ whiteSpace: 'nowrap' }}>{item.dtWEndDt}</TableCell>
-                                                        <TableCell align="left" style={{ whiteSpace: 'nowrap' }}><div onClick={() => openWeekModel(item)} className='editbtn'><BorderColorIcon size={20} color='#000' /></div></TableCell>
+                                                        <TableCell align="left" style={{ whiteSpace: 'nowrap' }}><div onClick={() => openWeekModel(item)} className='editbtn'><TbEdit size={20} color='#000' /></div></TableCell>
                                                     </TableRow>
                                                 )
                                             })

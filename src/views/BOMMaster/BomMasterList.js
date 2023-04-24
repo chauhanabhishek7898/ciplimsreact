@@ -40,6 +40,7 @@ import { useNavigate, Link } from "react-router-dom";
 import * as environment from '../../coreservices/environment'
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import CircularProgress from '@mui/joy/CircularProgress';
+import { TbEdit } from "react-icons/tb";
 function BomMasterList() {
     let imageUrl = environment.imageUrl
     const navigate = useNavigate();
@@ -160,7 +161,9 @@ function BomMasterList() {
                 null
 
             }
-            <Link to="/AddBomMaster" className='addbtn_2'><AddIcon fontSize='large' /> <span className='addFont'>Add</span></Link>
+            <div className='exportandfilter_end'>
+                <Link to="/AddBomMaster" className='submitbtn_exp'><AddIcon fontSize='large' /> <span className='addFont'>Add</span></Link>
+            </div>
 
             <div className='tablecenter'>
 
@@ -217,7 +220,7 @@ function BomMasterList() {
 
                     </div>
 
-                    <TableContainer sx={{ maxHeight: 440,paddingLeft:1.5,paddingRight:1.5 }}>
+                    <TableContainer sx={{ maxHeight: 440, paddingLeft: 1.5, paddingRight: 1.5 }}>
                         <Table stickyHeader aria-label="sticky table">
                             <TableHead>
                                 <TableRow>
@@ -252,7 +255,7 @@ function BomMasterList() {
                                                 <TableCell align="left" sx={muiStyles.tableBody}> <a href={imageUrl + '/' + item.vBOMCopyFilePath} target="_blank" rel="noopener noreferrer" style={{ marginLeft: 10 }}>{item.vBOMCopyFilePath != null && item.vBOMCopyFilePath != '' ? 'BOM Copy' : null}</a> </TableCell>
 
                                                 <TableCell align="left" sx={muiStyles.tableBody}>{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
-                                                <TableCell align="left" sx={muiStyles.tableBody}><div className='editbtn' title='Edit' onClick={() => handleDetail(item.nBId)}><BorderColorIcon size={20} color='#000' /></div></TableCell>
+                                                <TableCell align="left" sx={muiStyles.tableBody}><div className='editbtn' title='Edit' onClick={() => handleDetail(item.nBId)}><TbEdit size={20} color='#000' /></div></TableCell>
 
                                             </TableRow>
                                         )
@@ -269,7 +272,7 @@ function BomMasterList() {
                         </Table>
                     </TableContainer>
                     <TablePagination
-                        rowsPerPageOptions={[5,10, 25, 100]}
+                        rowsPerPageOptions={[5, 10, 25, 100]}
                         component="div"
                         count={brandData.length}
                         rowsPerPage={rowsPerPage}

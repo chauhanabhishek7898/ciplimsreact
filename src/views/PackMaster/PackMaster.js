@@ -29,6 +29,7 @@ import SearchBar from "material-ui-search-bar";
 import ExportExcel from 'src/shareFunction/Excelexport';
 import FormHelperText from '@mui/material/FormHelperText';
 import CircularProgress from '@mui/joy/CircularProgress';
+import { TbEdit } from "react-icons/tb";
 function PackMaster() {
 
     let Heading = [['SN.', 'Pack Code', 'Pack Name', 'Pack Unit', 'Pack Product', 'Pack Cases', 'Status']];
@@ -209,13 +210,17 @@ function PackMaster() {
             null
 
             }
-            <button className='addbtn_2' onClick={() => openmodale(null, 'Submit')} title='Add'  ><AddIcon fontSize='large' /></button>
-
+            {/* <button className='addbtn_2' onClick={() => openmodale(null, 'Submit')} title='Add'  ><AddIcon fontSize='large' /></button> */}
+            <div className='add_export'>
+                <button className='submitbtn_exp' onClick={() => openmodale(null, 'Submit')} title='Add'  ><AddIcon fontSize='large' /> <span className='addFont'>Add</span></button>
+                <ExportExcel excelData={packData} Heading={Heading} fileName={'Pack_Master'} />
+            </div>
             <div className='tablecenter'>
                 <Paper sx={{ width: '100%' }}>
 
                     <div className='exportandfilter mt-2'>
-                        <ExportExcel excelData={packData} Heading={Heading} fileName={'Pack_Master'} />
+                 
+                        
                         <div className='filterbox'>
                         <Box className='searchbox' >
                             <SearchBar
@@ -263,7 +268,7 @@ function PackMaster() {
                                             <TableCell align="left" sx={muiStyles.tableBody}>{item.vPackCases}</TableCell>
 
                                             <TableCell align="left" sx={muiStyles.tableBody}>{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
-                                            <TableCell align="left" sx={muiStyles.tableBody}><div onClick={() => openmodale(item, 'Update')} className='editbtn'><BorderColorIcon size={20} color='#000' /></div></TableCell>
+                                            <TableCell align="left" sx={muiStyles.tableBody}><div onClick={() => openmodale(item, 'Update')} className='editbtn'><TbEdit size={20} color='#000' /></div></TableCell>
 
                                         </TableRow>
                                     )

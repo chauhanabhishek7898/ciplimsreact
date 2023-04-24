@@ -26,11 +26,11 @@ import { CButton, CSpinner } from '@coreui/react';
 import SearchBar from "material-ui-search-bar";
 import ExportExcel from 'src/shareFunction/Excelexport';
 import CircularProgress from '@mui/joy/CircularProgress';
-
+import { TbEdit } from "react-icons/tb";
 
 function BrandMaster() {
     let Heading = [['SN.', ' Brand Code', 'Brand Name', 'Status']];
-   
+
     const [modalIsOpen, setIsOpen] = React.useState(false);
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -57,7 +57,7 @@ function BrandMaster() {
     }
     useEffect(() => {
         getBrandMaster_SelectAll()
-     
+
     }, [])
     const getBrandMaster_SelectAll = () => {
         setLoader2(true)
@@ -163,17 +163,22 @@ function BrandMaster() {
 
     return (
         <div className='citymasterContainer'>
-              {loader2==true?
-            <div className='progressBox'>
-                <div className='progressInner'>
-                    <CircularProgress />
+            {loader2 == true ?
+                <div className='progressBox'>
+                    <div className='progressInner'>
+                        <CircularProgress />
+                    </div>
                 </div>
-            </div>
-            :
-            null
+                :
+                null
 
             }
-            <button className='addbtn_2' onClick={() => openmodale(null, 'Submit')} title='Add'  ><AddIcon fontSize='large' /> <span className='addFont'>Add</span></button>
+            <div className='add_export'>
+                <button className='submitbtn_exp' onClick={() => openmodale(null, 'Submit')} title='Add'  ><AddIcon fontSize='large' /> <span className='addFont'>Add</span></button>
+                <ExportExcel excelData={brandData} Heading={Heading} fileName={'Brand_Master'} />
+
+            </div>
+
             <Modal
                 isOpen={modalIsOpen}
                 style={customStyles}
@@ -188,7 +193,7 @@ function BrandMaster() {
                     <Box className='inputBox-11'>
                         <FormControl fullWidth className='input'>
                             <TextField
-                            sx={muiStyles.input}
+                                sx={muiStyles.input}
                                 value={brandCode}
                                 onChange={e => setBrandCode(e.target.value)}
                                 required id="outlined-basic"
@@ -204,7 +209,7 @@ function BrandMaster() {
                     <Box className='inputBox-11' >
                         <FormControl fullWidth className='input' >
                             <TextField
-                            sx={muiStyles.input}
+                                sx={muiStyles.input}
                                 value={brandName}
                                 onChange={e => setBrandName(e.target.value)}
                                 required id="outlined-basic"
@@ -220,7 +225,7 @@ function BrandMaster() {
                 </div>
                 <div className='displayflexend-2'>
                     <FormGroup >
-                        <FormControlLabel style={{marginRight:0}} control={<Checkbox defaultChecked={btActive} onChange={e => setBtActive(e.target.checked)} />} label="Active" disabled={disabled} />
+                        <FormControlLabel style={{ marginRight: 0 }} control={<Checkbox defaultChecked={btActive} onChange={e => setBtActive(e.target.checked)} />} label="Active" disabled={disabled} />
                     </FormGroup>
 
                     {loader == true ?
@@ -234,26 +239,26 @@ function BrandMaster() {
                 </div>
             </Modal >
             <div className='tablecenter'>
-                <Paper sx={{ width: '100%', overflow: 'hidden',paddingTop:1 }}>
+                <Paper sx={{ width: '100%', overflow: 'hidden', paddingTop: 1 }}>
                     <div className='exportandfilter'>
-                    <ExportExcel excelData={brandData} Heading={Heading} fileName={'Brand_Master'}/>
-                    <div className='filterbox'>
-                    <Box className='searchbox' >
-                    <SearchBar
-                        value={searched}
-                        onChange={(searchVal) => requestSearch(searchVal)}
-                        onCancelSearch={() => cancelSearch()}
-                    />
 
-                        </Box>
-                        <FormGroup className='activeonly'>
-                        <FormControlLabel style={{marginRight:0}} control={<Checkbox checked={onlyActive} value={onlyActive} onChange={checkedonlyActive} />} label="Active Data" />
-                    </FormGroup>
+                        <div className='filterbox'>
+                            <Box className='searchbox' >
+                                <SearchBar
+                                    value={searched}
+                                    onChange={(searchVal) => requestSearch(searchVal)}
+                                    onCancelSearch={() => cancelSearch()}
+                                />
 
+                            </Box>
+                            <FormGroup className='activeonly'>
+                                <FormControlLabel style={{ marginRight: 0 }} control={<Checkbox checked={onlyActive} value={onlyActive} onChange={checkedonlyActive} />} label="Active Data" />
+                            </FormGroup>
+
+                        </div>
                     </div>
-                    </div>
 
-                    <TableContainer sx={{ maxHeight: 440,paddingLeft: 1.5,paddingRight: 1.5 }}>
+                    <TableContainer sx={{ maxHeight: 440, paddingLeft: 1.5, paddingRight: 1.5 }}>
                         <Table stickyHeader aria-label="sticky table" >
                             <TableHead>
                                 <TableRow>
@@ -261,28 +266,28 @@ function BrandMaster() {
                                     <TableCell align="left" sx={muiStyles.tableHead} >Brand Code</TableCell>
                                     <TableCell align="left" sx={muiStyles.tableHead} >Brand Name</TableCell>
                                     <TableCell align="left" sx={muiStyles.tableHead} >Status</TableCell>
-                                    
+
                                     <TableCell align="left" sx={muiStyles.tableHead} >Edit</TableCell>
 
                                 </TableRow>
                             </TableHead>
-                            {brandData?.length>0?
-                                  <TableBody>
-                                  {brandData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((item,index) => {
-                                      return (
-                                          <TableRow key={index}>
-                                              {/* <TableCell component="th" scope="row">{index + 1}.</TableCell> */}
-                                              <TableCell align="left" sx={muiStyles.tableBody}>{item.vBrandCode}</TableCell>
-                                              <TableCell align="left" sx={muiStyles.tableBody}>{item.vBrandName}</TableCell>
-                                              <TableCell align="left" sx={muiStyles.tableBody}>{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
+                            {brandData?.length > 0 ?
+                                <TableBody>
+                                    {brandData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((item, index) => {
+                                        return (
+                                            <TableRow key={index}>
+                                                {/* <TableCell component="th" scope="row">{index + 1}.</TableCell> */}
+                                                <TableCell align="left" sx={muiStyles.tableBody}>{item.vBrandCode}</TableCell>
+                                                <TableCell align="left" sx={muiStyles.tableBody}>{item.vBrandName}</TableCell>
+                                                <TableCell align="left" sx={muiStyles.tableBody}>{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
 
-                                              <TableCell align="left" sx={muiStyles.tableBody}><div onClick={() => openmodale(item, 'Update')} className='editbtn'><BorderColorIcon size={20} color='#000' /></div></TableCell>
+                                                <TableCell align="left" sx={muiStyles.tableBody}><div onClick={() => openmodale(item, 'Update')} className='editbtn'><TbEdit size={20} color='#000' /></div></TableCell>
 
-                                          </TableRow>
-                                      )
-                                  })
-                                  }
-                              </TableBody>
+                                            </TableRow>
+                                        )
+                                    })
+                                    }
+                                </TableBody>
                                 :
                                 <TableBody>
                                     <TableRow>
@@ -290,7 +295,7 @@ function BrandMaster() {
                                     </TableRow>
                                 </TableBody>
                             }
-                          
+
                         </Table>
                     </TableContainer>
                     <TablePagination
@@ -341,7 +346,7 @@ const muiStyles = {
         "& .MuiFormLabel-root": {
             fontSize: '13px',
             top: '-13px',
-            left:'-10px',
+            left: '-10px',
             backgroundColor: 'transparent',
             zIndex: '1'
         },
@@ -349,7 +354,7 @@ const muiStyles = {
             zIndex: '1'
 
         },
-        '& .MuiInputAdornment-root':{
+        '& .MuiInputAdornment-root': {
             position: 'absolute',
             right: '10px'
         }
@@ -367,8 +372,8 @@ const muiStyles = {
             fontSize: '13px',
             backgroundColor: 'transparent',
             top: '-13px',
-            left:'-10px',
-          
+            left: '-10px',
+
         },
         "& label.Mui-focused": {
             zIndex: '1'
@@ -384,7 +389,7 @@ const muiStyles = {
         "& .MuiFormLabel-root": {
             fontSize: '13px',
             top: '-13px',
-            left:'-10px',  
+            left: '-10px',
             backgroundColor: 'transparent',
         },
         "& label.Mui-focused": {
@@ -396,14 +401,14 @@ const muiStyles = {
         "& .MuiSelect-select": {
             padding: '3px',
             fontSize: '12px'
-        }, 
-        
+        },
+
 
     },
     InputLabels: {
         fontSize: '13px',
         top: '-13px',
-        left:'-10px',
+        left: '-10px',
         backgroundColor: 'transparent',
         "&.Mui-focused": {
             zIndex: '1'
@@ -419,24 +424,24 @@ const muiStyles = {
     tableHead: {
         "&.MuiTableCell-root": {
             padding: '8px',
-            fontWeight:'bold'
+            fontWeight: 'bold'
         }
     },
     tableBody: {
         "&.MuiTableCell-root": {
             padding: '8px',
-            fontSize:'14px',
+            fontSize: '14px',
             lineHeight: '39px'
         }
     },
     checkboxLabel: {
         "&.MuiFormControlLabel-root": {
             "&.MuiTypography-root": {
-                fontSize:'14px'
+                fontSize: '14px'
             }
         }
     },
-   
+
 
 };
 export default BrandMaster
