@@ -21,7 +21,27 @@ import AddIcon from '@mui/icons-material/Add';
 import { useForm } from 'react-hook-form';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { CButton, CSpinner } from '@coreui/react'
+import { CSpinner } from '@coreui/react'
+import {
+    CCard,
+    CCardBody,
+    CCardHeader,
+    CCollapse,
+    CDropdownItem,
+    CDropdownMenu,
+    CDropdownToggle,
+    CForm,
+    CFormInput,
+    CImage,
+    CNavbar,
+    CNavbarNav,
+    CNavbarBrand,
+    CNavbarText,
+    CNavbarToggler,
+    CNavLink,
+    CDropdown,
+    CButton,
+  } from '@coreui/react'
 import SearchBar from "material-ui-search-bar";
 import ExportExcel from 'src/shareFunction/Excelexport';
 import CircularProgress from '@mui/joy/CircularProgress';
@@ -31,7 +51,7 @@ function VenderForm() {
     let Heading = [['SN.', 'Vendor Code', 'Vendor Name', 'Vendor Address', 'Contact Person', 'Mobile No', 'Email Id', 'GST No', 'Remarks', 'Status']];
     const [modalIsOpen, setIsOpen] = React.useState(false);
     const [page, setPage] = React.useState(0);
-    const [rowsPerPage, setRowsPerPage] = React.useState(10);
+    const [rowsPerPage, setRowsPerPage] = React.useState(5);
     const [vendorData, setVendorData] = React.useState([]);
     const [masterbrandData, setMasterBrandData] = React.useState([]);
     const [nVId, setnVId] = React.useState(0);
@@ -107,8 +127,9 @@ function VenderForm() {
                 setMasterBrandData(activeData)
                 setLoader2(false)
             } else {
-                setVendorData(response)
-                setMasterBrandData(response)
+                let inactiveData = response.filter(e => e.btActive == false)
+                setVendorData(inactiveData)
+                setMasterBrandData(inactiveData)
                 setLoader2(false)
 
             }
@@ -166,6 +187,10 @@ function VenderForm() {
     }
     return (
         <div className='citymasterContainer'>
+             <div className='add_export'>
+                <button className='submitbtn_exp' onClick={() => openmodale(null, 'Submit')} title='Add'><AddIcon fontSize='small' /><span className='addFont'>Add</span></button>
+                <ExportExcel excelData={vendorData} Heading={Heading} fileName={'Vendor_Master'} />
+            </div>
             {loader2 == true ?
                 <div className='progressBox'>
                     <div className='progressInner'>
@@ -175,10 +200,7 @@ function VenderForm() {
                 :
                 null
             }
-            <div className='add_export'>
-                <button className='submitbtn_exp' onClick={() => openmodale(null, 'Submit')} title='Add'><AddIcon fontSize='medium' /><span className='addFont'>Add</span></button>
-                <ExportExcel excelData={vendorData} Heading={Heading} fileName={'Vendor_Master'} />
-            </div>
+           
             <Modal
                 isOpen={modalIsOpen}
                 style={customStyles}

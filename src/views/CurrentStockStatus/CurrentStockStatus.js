@@ -271,7 +271,7 @@ function CurrentStockStatus() {
                         <ExportExcel excelData={brandData} Heading={Heading} fileName={'Current_Stock_Status'} />
                     </div>
 
-                    <TableContainer sx={{ maxHeight: 440 }}>
+                    <TableContainer sx={muiStyles.tableBox} className='tableBox'>
                         <Table stickyHeader aria-label="sticky table" >
                             <TableHead>
                                 <TableRow>

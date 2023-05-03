@@ -149,7 +149,7 @@ function ProductionDetailsList() {
 
     return (
         <div className='citymasterContainer'>
-            {/* <button  title='Add' onClick={routeChange}><AddIcon fontSize='large' /></button> */}
+            {/* <button  title='Add' onClick={routeChange}><AddIcon fontSize='small' /></button> */}
             {loader == true ?
                 <div className='progressBox'>
                     <div className='progressInner'>
@@ -161,7 +161,7 @@ function ProductionDetailsList() {
 
             }
             <div className='exportandfilter_end'>
-                <Link to="/AddProductionDetails" className='submitbtn_exp'><AddIcon fontSize='large' /> <span className='addFont'>Add</span></Link>
+                <Link to="/AddProductionDetails" className='submitbtn_exp'><AddIcon fontSize='small' /> <span className='addFont'>Add</span></Link>
             </div>
 
             <div className='tablecenter'>
@@ -221,7 +221,7 @@ function ProductionDetailsList() {
 
                     </div>
 
-                    <TableContainer sx={{ maxHeight: 440 }}>
+                    <TableContainer sx={muiStyles.tableBox} className='tableBox'>
                         <Table stickyHeader aria-label="sticky table">
                             <TableHead>
                                 <TableRow>

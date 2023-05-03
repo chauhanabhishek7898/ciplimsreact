@@ -36,7 +36,7 @@ function PackMaster() {
 
     const [modalIsOpen, setIsOpen] = React.useState(false);
     const [page, setPage] = React.useState(0);
-    const [rowsPerPage, setRowsPerPage] = React.useState(10);
+    const [rowsPerPage, setRowsPerPage] = React.useState(5);
     const [packData, setPackData] = React.useState([]);
     const [unitid, setUnitid] = React.useState('');
     const [uniteData, setUnitData] = React.useState([]);
@@ -117,8 +117,9 @@ function PackMaster() {
                 setMasterBrandData(activeData)
                 setLoader2(false)
             } else {
-                setPackData(response)
-                setMasterBrandData(response)
+                let inactiveData = response.filter(e => e.btActive == false)
+                setPackData(inactiveData)
+                setMasterBrandData(inactiveData)
                 setLoader2(false)
 
             }
@@ -210,9 +211,9 @@ function PackMaster() {
             null
 
             }
-            {/* <button className='addbtn_2' onClick={() => openmodale(null, 'Submit')} title='Add'  ><AddIcon fontSize='large' /></button> */}
+            {/* <button className='addbtn_2' onClick={() => openmodale(null, 'Submit')} title='Add'  ><AddIcon fontSize='small' /></button> */}
             <div className='add_export'>
-                <button className='submitbtn_exp' onClick={() => openmodale(null, 'Submit')} title='Add'  ><AddIcon fontSize='large' /> <span className='addFont'>Add</span></button>
+                <button className='submitbtn_exp' onClick={() => openmodale(null, 'Submit')} title='Add'  ><AddIcon fontSize='small' /> <span className='addFont'>Add</span></button>
                 <ExportExcel excelData={packData} Heading={Heading} fileName={'Pack_Master'} />
             </div>
             <div className='tablecenter'>
@@ -237,7 +238,7 @@ function PackMaster() {
                         </div>
                     </div>
 
-                    <TableContainer sx={{ maxHeight: 440,paddingLeft:1.5,paddingRight:1.5 }}>
+                    <TableContainer sx={muiStyles.tableBox} className='tableBox'>
                         <Table stickyHeader aria-label="sticky table">
                             <TableHead>
                                 <TableRow>

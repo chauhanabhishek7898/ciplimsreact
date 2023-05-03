@@ -57,7 +57,7 @@ function EditRejectedOut() {
     let nGRNId = location.state.nGRNId
     const [modalIsOpen, setIsOpen] = React.useState(false);
     const [page, setPage] = React.useState(0);
-    const [rowsPerPage, setRowsPerPage] = React.useState(10);
+    const [rowsPerPage, setRowsPerPage] = React.useState(5);
     const [brandData, setBrandData] = React.useState([]);
     const [MaterialMaster, setMaterialMaster] = React.useState([]);
     const [PlantMaster, setPlantMaster] = React.useState([]);
@@ -946,7 +946,7 @@ function EditRejectedOut() {
                         </FormControl>
                     </Box>
                     <div style={{display:'flex',alignItems:'center',gap:10,marginBottom:10}}>
-                        <button title='Add' className='addbtn' onClick={addKoMonthDate}>{btnType=='edit'?'Update':<AddIcon fontSize='large' />}</button>
+                        <button title='Add' className='addbtn' onClick={addKoMonthDate}>{btnType=='edit'?'Update':<AddIcon fontSize='small' />}</button>
                         
                         <button title='Refresh' className='addbtn' onClick={refreshbtn}><ReplayIcon fontSize='large' /></button>
                     </div>
@@ -954,7 +954,7 @@ function EditRejectedOut() {
                 <div className='tablecenter'>
                     {PODetails.length > 0 ?
                         <Paper sx={{ width: '100%', overflow: 'hidden',paddingTop:1 }}>
-                            <TableContainer sx={{ maxHeight: 440 }}>
+                            <TableContainer sx={muiStyles.tableBox} className='tableBox'>
                                 <Table stickyHeader aria-label="sticky table">
                                     <TableHead>
                                         <TableRow>
@@ -1057,7 +1057,7 @@ function EditRejectedOut() {
                         <div className='tablecenter'>
                             {GrnData.length > 0 ?
                                 <Paper sx={{ width: '100%', overflow: 'hidden',paddingTop:1 }}>
-                                    <TableContainer sx={{ maxHeight: 440 }}>
+                                    <TableContainer sx={muiStyles.tableBox} className='tableBox'>
                                         <Table stickyHeader aria-label="sticky table">
                                             <TableHead>
                                                 <TableRow>

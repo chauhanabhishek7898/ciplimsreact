@@ -47,7 +47,7 @@ function KOMONTH() {
     const [weekmodalIsOpen, setweekmodalIsOpen] = React.useState(false);
     const [monthmodalIsOpen, setmonthmodalIsOpen] = React.useState(false);
     const [page, setPage] = React.useState(0);
-    const [rowsPerPage, setRowsPerPage] = React.useState(10);
+    const [rowsPerPage, setRowsPerPage] = React.useState(5);
     const [koMonthData, setkoMonthData] = React.useState([]);
     const [weekData, setWeekData] = React.useState([]);
     const [nKOId, setnKOId] = React.useState(0);
@@ -622,7 +622,7 @@ function KOMONTH() {
                             {update == true ?
                                 <button title='Add' className='addbtn' onClick={handleSubmit(submit)}><UpdateIcon fontSize='large' />{update}</button>
                                 :
-                                <button title='Add' className='addbtn' onClick={handleSubmit(submit)}><AddIcon fontSize='large' />{update}</button>
+                                <button title='Add' className='addbtn' onClick={handleSubmit(submit)}><AddIcon fontSize='small' />{update}</button>
                             }
 
                         </div>
@@ -651,7 +651,7 @@ function KOMONTH() {
                 <div className='tablecenter'>
                     {koMonthData.length > 0 ?
                         <Paper sx={{ width: '100%', overflow: 'hidden', paddingTop: 1 }}>
-                            <TableContainer sx={{ maxHeight: 440 }}>
+                            <TableContainer sx={muiStyles.tableBox} className='tableBox'>
                                 <Table stickyHeader aria-label="sticky table">
                                     {tableView == 'MonthView' ?
                                         <TableHead>
@@ -1140,7 +1140,7 @@ function KOMONTH() {
                         <div className='tablecenter'>
                             {koMonthData.length > 0 ?
                                 <Paper sx={{ width: '100%', overflow: 'hidden', paddingTop: 1 }}>
-                                    <TableContainer sx={{ maxHeight: 440 }}>
+                                    <TableContainer sx={muiStyles.tableBox} className='tableBox'>
                                         <Table stickyHeader aria-label="sticky table">
                                             <TableHead>
                                                 <TableRow>

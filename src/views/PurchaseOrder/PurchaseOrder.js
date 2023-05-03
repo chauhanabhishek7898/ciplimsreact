@@ -47,7 +47,7 @@ function PurchaseOrder() {
     const navigate = useNavigate();
     const [modalIsOpen, setIsOpen] = React.useState(false);
     const [page, setPage] = React.useState(0);
-    const [rowsPerPage, setRowsPerPage] = React.useState(10);
+    const [rowsPerPage, setRowsPerPage] = React.useState(5);
     const [brandData, setBrandData] = React.useState([]);
     const [loader, setLoader] = React.useState(false);
     const [nBid, setnBid] = React.useState(0);
@@ -151,7 +151,7 @@ function PurchaseOrder() {
 
     return (
         <div className='citymasterContainer'>
-            {/* <button  title='Add' onClick={routeChange}><AddIcon fontSize='large' /></button> */}
+            {/* <button  title='Add' onClick={routeChange}><AddIcon fontSize='small' /></button> */}
             {loader == true ?
                 <div className='progressBox'>
                     <div className='progressInner'>
@@ -163,7 +163,7 @@ function PurchaseOrder() {
 
             }
             <div className='exportandfilter_end'>
-                <Link to="/AddPurchaseOrder" className='submitbtn_exp'><AddIcon fontSize='large' /> <span className='addFont'>Add</span></Link>
+                <Link to="/AddPurchaseOrder" className='submitbtn_exp'><AddIcon fontSize='small' /> <span className='addFont'>Add</span></Link>
             </div>
 
 
@@ -222,7 +222,7 @@ function PurchaseOrder() {
 
                     </div>
 
-                    <TableContainer sx={{ maxHeight: 440 }}>
+                    <TableContainer sx={muiStyles.tableBox} className='tableBox'>
                         <Table stickyHeader aria-label="sticky table">
                             <TableHead>
                                 <TableRow>

@@ -38,7 +38,7 @@ function UnitMaster() {
     const formValidation = new SimpleReactValidator()
     const [modalIsOpen, setIsOpen] = React.useState(false);
     const [page, setPage] = React.useState(0);
-    const [rowsPerPage, setRowsPerPage] = React.useState(10);
+    const [rowsPerPage, setRowsPerPage] = React.useState(5);
     const [unitData, setUnitData] = React.useState([]);
     const [masterbrandData, setMasterBrandData] = React.useState([]);
     const [loader, setLoader] = React.useState(false);
@@ -106,8 +106,9 @@ function UnitMaster() {
                 setMasterBrandData(activeData)
                 setLoader2(false)
             } else {
-                setUnitData(response)
-                setMasterBrandData(response)
+                let inactiveData = response.filter(e => e.btActive == false)
+                setUnitData(inactiveData)
+                setMasterBrandData(inactiveData)
                 setLoader2(false)
 
             }
@@ -181,10 +182,10 @@ function UnitMaster() {
 
             }
                 <div className='add_export'>
-                <button className='submitbtn_exp' onClick={() => openmodale(null, 'Submit')} title='Add'  ><AddIcon fontSize='large' /> <span className='addFont'>Add</span></button>
+                <button className='submitbtn_exp' onClick={() => openmodale(null, 'Submit')} title='Add'  ><AddIcon fontSize='small' /> <span className='addFont'>Add</span></button>
                 <ExportExcel excelData={unitData} Heading={Heading} fileName={'Unit_Master'} />
             </div>
-            {/* <button className='addbtn_2' onClick={() => openmodale(null, 'Submit')} title='Add' ><AddIcon fontSize='large' /> <span className='addFont'>Add</span></button> */}
+            {/* <button className='addbtn_2' onClick={() => openmodale(null, 'Submit')} title='Add' ><AddIcon fontSize='small' /> <span className='addFont'>Add</span></button> */}
             <Modal
                 isOpen={modalIsOpen}
                 style={customStyles}
@@ -248,7 +249,7 @@ function UnitMaster() {
 
                             </div>
                         </div>
-                    <TableContainer sx={{ maxHeight: 440,paddingLeft:1.5,paddingRight:1.5 }}>
+                    <TableContainer sx={muiStyles.tableBox} className='tableBox'>
 
                        
 

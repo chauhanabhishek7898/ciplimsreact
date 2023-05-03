@@ -35,7 +35,7 @@ function LineMaster() {
     let Heading = [['SN.', 'Line Code', 'Line Description', 'Plant Detail', 'Status']];
     const [modalIsOpen, setIsOpen] = React.useState(false);
     const [page, setPage] = React.useState(0);
-    const [rowsPerPage, setRowsPerPage] = React.useState(10);
+    const [rowsPerPage, setRowsPerPage] = React.useState(5);
     const [lineData, setlineData] = React.useState([]);
     const [masterbrandData, setMasterBrandData] = React.useState([]);
     const [loader, setLoader] = React.useState(false);
@@ -73,8 +73,9 @@ function LineMaster() {
                 setMasterBrandData(activeData)
                 setLoader2(false)
             } else {
-                setlineData(response)
-                setMasterBrandData(response)
+                let inactiveData = response.filter(e => e.btActive == false)
+                setlineData(inactiveData)
+                setMasterBrandData(inactiveData)
                 setLoader2(false)
 
             }
@@ -217,11 +218,11 @@ function LineMaster() {
 
             }
                <div className='add_export'>
-                <button className='submitbtn_exp' onClick={() => openmodale(null, 'Submit')} title='Add'  ><AddIcon fontSize='large' /> <span className='addFont'>Add</span></button>
+                <button className='submitbtn_exp' onClick={() => openmodale(null, 'Submit')} title='Add'  ><AddIcon fontSize='small' /> <span className='addFont'>Add</span></button>
                 <ExportExcel excelData={lineData} Heading={Heading} fileName={'Line_Master'} />
 
             </div>
-            {/* <button className='addbtn_2' onClick={() => openmodale(null, 'Submit')} title='Add'  ><AddIcon fontSize='large' /><span className='addFont'>Add</span></button> */}
+            {/* <button className='addbtn_2' onClick={() => openmodale(null, 'Submit')} title='Add'  ><AddIcon fontSize='small' /><span className='addFont'>Add</span></button> */}
             <Modal
                 isOpen={modalIsOpen}
                 style={customStyles}
@@ -332,7 +333,7 @@ function LineMaster() {
                         </div>
                     </div>
 
-                    <TableContainer sx={{ maxHeight: 440 }}>
+                    <TableContainer sx={muiStyles.tableBox} className='tableBox'>
                         <Table stickyHeader aria-label="sticky table">
                             <TableHead>
                                 <TableRow>

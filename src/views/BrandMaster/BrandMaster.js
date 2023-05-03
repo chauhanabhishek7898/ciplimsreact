@@ -33,7 +33,7 @@ function BrandMaster() {
 
     const [modalIsOpen, setIsOpen] = React.useState(false);
     const [page, setPage] = React.useState(0);
-    const [rowsPerPage, setRowsPerPage] = React.useState(10);
+    const [rowsPerPage, setRowsPerPage] = React.useState(5);
     const [brandData, setBrandData] = React.useState([]);
     const [masterbrandData, setMasterBrandData] = React.useState([]);
     const [loader, setLoader] = React.useState(false);
@@ -69,8 +69,9 @@ function BrandMaster() {
                 setMasterBrandData(activeData)
                 setLoader2(false)
             } else {
-                setBrandData(response)
-                setMasterBrandData(response)
+                let inactiveData = response.filter(e => e.btActive == false)
+                setBrandData(inactiveData)
+                setMasterBrandData(inactiveData)
                 setLoader2(false)
 
             }
@@ -174,7 +175,7 @@ function BrandMaster() {
 
             }
             <div className='add_export'>
-                <button className='submitbtn_exp' onClick={() => openmodale(null, 'Submit')} title='Add'  ><AddIcon fontSize='large' /> <span className='addFont'>Add</span></button>
+                <button className='submitbtn_exp' onClick={() => openmodale(null, 'Submit')} title='Add'  ><AddIcon fontSize='small' /> <span className='addFont'>Add</span></button>
                 <ExportExcel excelData={brandData} Heading={Heading} fileName={'Brand_Master'} />
 
             </div>
@@ -258,7 +259,7 @@ function BrandMaster() {
                         </div>
                     </div>
 
-                    <TableContainer sx={{ maxHeight: 440, paddingLeft: 1.5, paddingRight: 1.5 }}>
+                    <TableContainer sx={muiStyles.tableBox} className='tableBox'>
                         <Table stickyHeader aria-label="sticky table" >
                             <TableHead>
                                 <TableRow>

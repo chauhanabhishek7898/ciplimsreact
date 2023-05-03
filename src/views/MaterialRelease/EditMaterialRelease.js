@@ -60,7 +60,7 @@ function EditMaterialRelease() {
     let nGRNId = location.state.nGRNId
     const [modalIsOpen, setIsOpen] = React.useState(false);
     const [page, setPage] = React.useState(0);
-    const [rowsPerPage, setRowsPerPage] = React.useState(10);
+    const [rowsPerPage, setRowsPerPage] = React.useState(5);
     const [brandData, setBrandData] = React.useState([]);
     const [MaterialMaster, setMaterialMaster] = React.useState([]);
     const [PlantMaster, setPlantMaster] = React.useState([]);
@@ -1276,7 +1276,7 @@ function EditMaterialRelease() {
                         <div className='tablecenter'>
                             {BOMMaterialsQty.length > 0 ?
                                 <Paper sx={{ width: '100%', overflow: 'hidden',paddingTop:1 }}>
-                                    <TableContainer sx={{ maxHeight: 440 }}>
+                                    <TableContainer sx={muiStyles.tableBox} className='tableBox'>
                                         <Table stickyHeader aria-label="sticky table">
                                             <TableHead>
                                                 <TableRow>
@@ -1553,7 +1553,7 @@ function EditMaterialRelease() {
                             :
                             // <button type="submit" className='submitbtn' onClick={submit}>Submit</button>
                             <div style={{ display: 'flex', alignItems: 'center', gap: 10, justifyContent: 'space-between', width: '100%',marginBottom:10 }}>
-                                <button title='Add&Submit' className='addbtn' style={{fontSize:11}}  onClick={handleSubmit(submit)}>{btnType == 'edit' ? 'Update' : <AddIcon fontSize='large' />}</button>
+                                <button title='Add&Submit' className='addbtn' style={{fontSize:11}}  onClick={handleSubmit(submit)}>{btnType == 'edit' ? 'Update' : <AddIcon fontSize='small' />}</button>
                                 <button title='Clear' className='addbtn' onClick={clearFeaild}><ReplayIcon fontSize='large' /></button>
                             </div>
                         }
@@ -1563,7 +1563,7 @@ function EditMaterialRelease() {
                 <div className='tablecenter'>
                     {PODetails.length > 0 ?
                         <Paper sx={{ width: '100%', overflow: 'hidden',paddingTop:1 }}>
-                            <TableContainer sx={{ maxHeight: 440 }}>
+                            <TableContainer sx={muiStyles.tableBox} className='tableBox'>
                                 <Table stickyHeader aria-label="sticky table">
                                     <TableHead>
                                         <TableRow>

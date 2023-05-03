@@ -40,7 +40,7 @@ function PlantMaster() {
 
     const [modalIsOpen, setIsOpen] = React.useState(false);
     const [page, setPage] = React.useState(0);
-    const [rowsPerPage, setRowsPerPage] = React.useState(10);
+    const [rowsPerPage, setRowsPerPage] = React.useState(5);
     const [plantData, setPlantData] = React.useState([]);
     const [masterbrandData, setMasterBrandData] = React.useState([]);
     const [buttonName, setbuttonName] = React.useState('');
@@ -141,8 +141,9 @@ function PlantMaster() {
                 setMasterBrandData(activeData)
                 setLoader2(false)
             } else {
-                setPlantData(response)
-                setMasterBrandData(response)
+                let inactiveData = response.filter(e => e.btActive == false)
+                setPlantData(inactiveData)
+                setMasterBrandData(inactiveData)
                 setLoader2(false)
 
             }
@@ -191,12 +192,12 @@ function PlantMaster() {
 
             }
               <div className='add_export'>
-                <button className='submitbtn_exp' onClick={() => openmodale(null, 'Submit')} title='Add'  ><AddIcon fontSize='large' /> <span className='addFont'>Add</span></button>
+                <button className='submitbtn_exp' onClick={() => openmodale(null, 'Submit')} title='Add'  ><AddIcon fontSize='small' /> <span className='addFont'>Add</span></button>
                 <ExportExcel excelData={plantData} Heading={Heading} fileName={'Brand_Master'} />
 
             </div>
 
-            {/* <button className='addbtn_2' onClick={() => openmodale(null, 'Submit')} title='Add' ><AddIcon fontSize='large' /> <span className='addFont'>Add</span></button> */}
+            {/* <button className='addbtn_2' onClick={() => openmodale(null, 'Submit')} title='Add' ><AddIcon fontSize='small' /> <span className='addFont'>Add</span></button> */}
             <Modal
                 isOpen={modalIsOpen}
                 style={customStyles}
@@ -328,7 +329,7 @@ function PlantMaster() {
                         </div>
                     </div>
 
-                    <TableContainer sx={{ maxHeight: 440 }}>
+                    <TableContainer sx={muiStyles.tableBox} className='tableBox'>
                         <Table stickyHeader aria-label="sticky table">
                             <TableHead>
                                 <TableRow>

@@ -53,7 +53,7 @@ import ReplayIcon from '@mui/icons-material/Replay';
 function AddDispatchDetails() {
     const navigate = useNavigate();
     const [page, setPage] = React.useState(0);
-    const [rowsPerPage, setRowsPerPage] = React.useState(10);
+    const [rowsPerPage, setRowsPerPage] = React.useState(5);
     const [PlantMaster, setPlantMaster] = React.useState([]);
     const [loader, setLoader] = React.useState(false);
     const [id, setId] = React.useState(0);
@@ -923,7 +923,7 @@ function AddDispatchDetails() {
                         </FormControl>
                     </Box>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 10, justifyContent: 'space-between',marginBottom:10 }}>
-                        <button title='Add' className='addbtn' onClick={addKoMonthDate}>{btnType == 'edit' ? 'Update' : <AddIcon fontSize='large' />}</button>
+                        <button title='Add' className='addbtn' onClick={addKoMonthDate}>{btnType == 'edit' ? 'Update' : <AddIcon fontSize='small' />}</button>
 
                         <button title='Refresh' className='addbtn' onClick={refreshbtn}><ReplayIcon fontSize='large' /></button>
                     </div>
@@ -931,7 +931,7 @@ function AddDispatchDetails() {
                 <div className='tablecenter'>
                     {PODetails.length > 0 ?
                         <Paper sx={{ width: '100%', overflow: 'hidden',paddingTop:1 }}>
-                            <TableContainer sx={{ maxHeight: 440 }}>
+                            <TableContainer sx={muiStyles.tableBox} className='tableBox'>
                                 <Table stickyHeader aria-label="sticky table">
                                     <TableHead>
                                         <TableRow>

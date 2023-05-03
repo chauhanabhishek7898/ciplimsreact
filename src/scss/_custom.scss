@@ -279,7 +279,7 @@ font-weight: 500;
     .nav-link {
       color: #fff !important;
       padding: 5px;
-      // margin-left: 12px;
+      font-weight: bold;
       background: #ef1e2c;
     }
   }
@@ -287,6 +287,7 @@ font-weight: 500;
 
 .nav-group-toggle {
   color: #fff !important;
+  font-weight: bold;
 }
 
 .sidebar.sidebar-fixed {

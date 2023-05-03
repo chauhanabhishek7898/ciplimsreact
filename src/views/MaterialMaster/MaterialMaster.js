@@ -127,8 +127,9 @@ function MaterialMaster() {
                 setMasterBrandData(activeData)
                 setLoader2(false)
             } else {
-                setBrandData(response)
-                setMasterBrandData(response)
+                let inactiveData = response.filter(e => e.btActive == false)
+                setBrandData(inactiveData)
+                setMasterBrandData(inactiveData)
                 setLoader2(false)
 
             }
@@ -324,10 +325,10 @@ function MaterialMaster() {
 
             }
             <div className='add_export'>
-                <button className='submitbtn_exp' onClick={() => openmodale(null, 'Submit')} title='Add'  ><AddIcon fontSize='large' /> <span className='addFont'>Add</span></button>
+                <button className='submitbtn_exp' onClick={() => openmodale(null, 'Submit')} title='Add'  ><AddIcon fontSize='small' /> <span className='addFont'>Add</span></button>
                 <ExportExcel excelData={brandData} Heading={Heading} fileName={'Material_Master'} />
             </div>
-            {/* <button className='addbtn_2' onClick={() => openmodale(null, 'Submit')} title='Add'  ><AddIcon fontSize='large' /> <span className='addFont'>Add</span></button> */}
+            {/* <button className='addbtn_2' onClick={() => openmodale(null, 'Submit')} title='Add'  ><AddIcon fontSize='small' /> <span className='addFont'>Add</span></button> */}
             <Modal
                 isOpen={modalIsOpen}
                 style={customStyles}
@@ -582,7 +583,7 @@ function MaterialMaster() {
                             Loading...
                         </CButton>
                         :
-                        <button title='Add' className='addbtn' type="submit" onClick={handleSubmit(submit)}><AddIcon fontSize='large' /></button>
+                        <button title='Add' className='addbtn' type="submit" onClick={handleSubmit(submit)}><AddIcon fontSize='small' /></button>
                     }
                     <div>
                         
@@ -609,7 +610,7 @@ function MaterialMaster() {
                             </div>
                         </div>
 
-                        <TableContainer sx={{ maxHeight: 440,paddingLeft:1.5,paddingRight:1.5 }}>
+                        <TableContainer sx={muiStyles.tableBox} className='tableBox'>
                             <Table stickyHeader aria-label="sticky table">
                                 <TableHead>
                                     <TableRow>

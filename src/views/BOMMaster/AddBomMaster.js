@@ -49,7 +49,7 @@ import HomeIcon from '@mui/icons-material/Home';
 function AddBomMaster() {
     const navigate = useNavigate();
     const [page, setPage] = React.useState(0);
-    const [rowsPerPage, setRowsPerPage] = React.useState(10);
+    const [rowsPerPage, setRowsPerPage] = React.useState(5);
     const [brandData, setBrandData] = React.useState([]);
     const [MaterialMaster, setMaterialMaster] = React.useState([]);
     const [PlantMaster, setPlantMaster] = React.useState([]);
@@ -635,13 +635,13 @@ function AddBomMaster() {
                         </FormControl>
                     </Box>
                     <div style={{marginBottom:10}}>
-                        <button title='Add' className='addbtn' onClick={addKoMonthDate}><AddIcon fontSize='large' /></button>
+                        <button title='Add' className='addbtn' onClick={addKoMonthDate}><AddIcon fontSize='small' /></button>
                     </div>
                 </div>
                 <div className='tablecenter'>
                     {PODetails.length > 0 ?
                         <Paper sx={{ width: '100%', overflow: 'hidden',paddingTop:1 }}>
-                            <TableContainer sx={{ maxHeight: 440 }}>
+                            <TableContainer sx={muiStyles.tableBox} className='tableBox'>
                                 <Table stickyHeader aria-label="sticky table">
                                     <TableHead>
                                         <TableRow>
