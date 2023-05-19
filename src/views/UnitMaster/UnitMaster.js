@@ -46,6 +46,8 @@ function UnitMaster() {
     const [btActive, setbtActive] = React.useState(true);
     const [nUId, setnUId] = React.useState(0);
     const [vUnitName, setvUnitName] = React.useState('');
+    const [vUnitName2, setvUnitName2] = React.useState('');
+
     const [buttonName, setbuttonName] = React.useState('');
     const [disabled, setdisabled] = React.useState(true);
     const { register, handleSubmit, control, errors } = useForm();
@@ -58,31 +60,101 @@ function UnitMaster() {
     };
 
     const submit = () => {
-        setLoader(true)
+
+        // setLoader(true)
         let data = {
             nUId: nUId == null ? 0 : nUId,
             vUnitName: vUnitName,
             btActive: btActive
         }
         if (buttonName == 'Submit') {
-            UnitMastersPost(data).then(res => {
-                if (res) {
-                    toast.success(res)
-                    setLoader(false)
-                    setIsOpen(false)
-                    getUnitMaster_SelectAll()
-                }
-            })
+            let unistData = [...unitData]
+            let findnUId = unistData.find(e => e.nUId == nUId)
+            if (findnUId) {
+                toast.success("Item is already Added")
+                setLoader(false)
+            } else {
+                UnitMastersPost(data).then(res => {
+                    if (res) {
+                        toast.success(res)
+                        setLoader(false)
+                        setIsOpen(false)
+                        getUnitMaster_SelectAll()
+                    }
+                })
+            }
+
 
         } else {
-            UnitMastersPut(data).then(res => {
-                if (res) {
-                    toast.success(res)
-                    setLoader(false)
-                    setIsOpen(false)
-                    getUnitMaster_SelectAll()
+            if (vUnitName2 == vUnitName) {
+                UnitMastersPut(data).then(res => {
+                    if (res) {
+                        toast.success(res)
+                        setLoader(false)
+                        setIsOpen(false)
+                        getUnitMaster_SelectAll()
+                    }
+                })
+            } else {
+                let existingData = [...unitData]
+                const isDuplicate = existingData.some(dataItem =>
+                    // Assuming the dataItem has an "id" field as the unique identifier
+                    dataItem.vUnitName === vUnitName
+                );
+                console.log(" dataItem.isDuplicate", isDuplicate)
+                if (isDuplicate) {
+                    // Show an alert or error message for duplicate data
+                    alert('This data already exists and cannot be updated.');
+                } else {
+                    UnitMastersPut(data).then(res => {
+                        if (res) {
+                            toast.success(res)
+                            setLoader(false)
+                            setIsOpen(false)
+                            getUnitMaster_SelectAll()
+                        }
+                    })
                 }
-            })
+            }
+
+            // console.log("unitData",unitData)
+
+            // console.log("vUnitName",vUnitName)
+            // console.log("vUnitName2",vUnitName2)
+
+            // if (vUnitName2 == vUnitName) {
+            //     alert(1)
+            //     // UnitMastersPut(data).then(res => {
+            //     //     if (res) {
+            //     //         toast.success(res)
+            //     //         setLoader(false)
+            //     //         setIsOpen(false)
+            //     //         getUnitMaster_SelectAll()
+            //     //     }
+            //     // })
+
+            // } else {
+            //     // let unistData = [...unitData]
+            //     console.log("unitData",unitData)
+            //     let findnUId = unitData.find(e => e.vUnitName == vUnitName)
+
+            //     console.log("findnUId",findnUId)
+            //     if (findnUId.vUnitName!=vUnitName) {
+            //         alert(2)
+            //         // UnitMastersPut(data).then(res => {
+            //         //     if (res) {
+            //         //         toast.success(res)
+            //         //         setLoader(false)
+            //         //         setIsOpen(false)
+            //         //         getUnitMaster_SelectAll()
+            //         //     }
+            //         // })
+            //     } else {
+            //         alert(3)
+            //         // setLoader(false)
+            //         // toast.success("Item is already Added")
+            //     }
+            // }
         }
     }
     const [searched, setSearched] = React.useState("");
@@ -162,6 +234,7 @@ function UnitMaster() {
         } else {
             setIsOpen(true)
             setnUId(item.nUId)
+            setvUnitName2(item.vUnitName)
             setvUnitName(item.vUnitName)
             setbtActive(item.btActive)
             setdisabled(false)
@@ -171,17 +244,17 @@ function UnitMaster() {
     }
     return (
         <div className='citymasterContainer'>
-              {loader2==true?
-            <div className='progressBox'>
-                <div className='progressInner'>
-                    <CircularProgress />
+            {loader2 == true ?
+                <div className='progressBox'>
+                    <div className='progressInner'>
+                        <CircularProgress />
+                    </div>
                 </div>
-            </div>
-            :
-            null
+                :
+                null
 
             }
-                <div className='add_export'>
+            <div className='add_export'>
                 <button className='submitbtn_exp' onClick={() => openmodale(null, 'Submit')} title='Add'  ><AddIcon fontSize='small' /> <span className='addFont'>Add</span></button>
                 <ExportExcel excelData={unitData} Heading={Heading} fileName={'Unit_Master'} />
             </div>
@@ -199,7 +272,7 @@ function UnitMaster() {
                 <form >
                     <div className='displayflexend mt-4'>
                         <TextField
-                        sx={muiStyles.input}
+                            sx={muiStyles.input}
                             fullWidth
                             id="outlined-basic"
                             label="Enter Unit"
@@ -214,7 +287,7 @@ function UnitMaster() {
                     </div>
                     <div className='displayflexend-2'>
                         <FormGroup >
-                            <FormControlLabel style={{marginRight:0}} control={<Checkbox defaultChecked={btActive} value={btActive} onChange={e => setbtActive(e.target.checked)} />} label="Active" disabled={disabled} />
+                            <FormControlLabel style={{ marginRight: 0 }} control={<Checkbox defaultChecked={btActive} value={btActive} onChange={e => setbtActive(e.target.checked)} />} label="Active" disabled={disabled} />
                         </FormGroup>
                         {loader == true ?
                             <CButton disabled className='submitbtn'>
@@ -230,11 +303,11 @@ function UnitMaster() {
                 </form>
             </Modal >
             <div className='tablecenter'>
-                
-                <Paper sx={{ width: '100%', overflow: 'hidden',paddingTop:1, }}>
-                <div className='exportandfilter'>
-            
-                            <div className='filterbox'>
+
+                <Paper sx={{ width: '100%', overflow: 'hidden', paddingTop: 1, }}>
+                    <div className='exportandfilter'>
+
+                        <div className='filterbox'>
                             <Box className='searchbox' >
                                 <SearchBar
                                     value={searched}
@@ -244,14 +317,14 @@ function UnitMaster() {
 
                             </Box>
                             <FormGroup className='activeonly'>
-                                <FormControlLabel style={{marginRight:0}} control={<Checkbox checked={onlyActive} value={onlyActive} onChange={checkedonlyActive} />} label="Active Data" />
+                                <FormControlLabel style={{ marginRight: 0 }} control={<Checkbox checked={onlyActive} value={onlyActive} onChange={checkedonlyActive} />} label="Active Data" />
                             </FormGroup>
 
-                            </div>
                         </div>
+                    </div>
                     <TableContainer sx={muiStyles.tableBox} className='tableBox'>
 
-                       
+
 
                         <Table stickyHeader aria-label="sticky table">
                             <TableHead>
@@ -263,27 +336,27 @@ function UnitMaster() {
 
                                 </TableRow>
                             </TableHead>
-                            {unitData?.length>0?
-                            <TableBody>
-                                {unitData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((item,index) => {
-                                    return (
-                                        <TableRow key={index}>
-                                            {/* <TableCell component="th" scope="row">{index + 1}.</TableCell> */}
-                                            <TableCell align="left" sx={muiStyles.tableBody}>{item.vUnitName}</TableCell>
-                                            <TableCell align="left" sx={muiStyles.tableBody}>{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
-                                            <TableCell align="left" sx={muiStyles.tableBody}><div onClick={() => openmodale(item, 'Update')} className='editbtn'><TbEdit size={20} color='#000' /></div></TableCell>
+                            {unitData?.length > 0 ?
+                                <TableBody>
+                                    {unitData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((item, index) => {
+                                        return (
+                                            <TableRow key={index}>
+                                                {/* <TableCell component="th" scope="row">{index + 1}.</TableCell> */}
+                                                <TableCell align="left" sx={muiStyles.tableBody}>{item.vUnitName}</TableCell>
+                                                <TableCell align="left" sx={muiStyles.tableBody}>{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
+                                                <TableCell align="left" sx={muiStyles.tableBody}><div onClick={() => openmodale(item, 'Update')} className='editbtn'><TbEdit size={20} color='#000' /></div></TableCell>
 
-                                        </TableRow>
-                                    )
-                                })
-                                }
-                            </TableBody>
+                                            </TableRow>
+                                        )
+                                    })
+                                    }
+                                </TableBody>
                                 :
                                 <TableBody>
-                                <TableRow>
-                                    <TableCell align="center" colSpan={4}>No Record</TableCell>
-                                </TableRow>
-                            </TableBody>
+                                    <TableRow>
+                                        <TableCell align="center" colSpan={4}>No Record</TableCell>
+                                    </TableRow>
+                                </TableBody>
                             }
                         </Table>
                     </TableContainer>
@@ -333,7 +406,7 @@ const muiStyles = {
         "& .MuiFormLabel-root": {
             fontSize: '13px',
             top: '-13px',
-            left:'-10px',
+            left: '-10px',
             backgroundColor: 'transparent',
             zIndex: '1'
         },
@@ -341,7 +414,7 @@ const muiStyles = {
             zIndex: '1'
 
         },
-        '& .MuiInputAdornment-root':{
+        '& .MuiInputAdornment-root': {
             position: 'absolute',
             right: '10px'
         }
@@ -359,8 +432,8 @@ const muiStyles = {
             fontSize: '13px',
             backgroundColor: 'transparent',
             top: '-13px',
-            left:'-10px',
-          
+            left: '-10px',
+
         },
         "& label.Mui-focused": {
             zIndex: '1'
@@ -376,7 +449,7 @@ const muiStyles = {
         "& .MuiFormLabel-root": {
             fontSize: '13px',
             top: '-13px',
-            left:'-10px',  
+            left: '-10px',
             backgroundColor: 'transparent',
         },
         "& label.Mui-focused": {
@@ -388,14 +461,14 @@ const muiStyles = {
         "& .MuiSelect-select": {
             padding: '3px',
             fontSize: '12px'
-        }, 
-        
+        },
+
 
     },
     InputLabels: {
         fontSize: '13px',
         top: '-13px',
-        left:'-10px',
+        left: '-10px',
         backgroundColor: 'transparent',
         "&.Mui-focused": {
             zIndex: '1'
@@ -411,24 +484,24 @@ const muiStyles = {
     tableHead: {
         "&.MuiTableCell-root": {
             padding: '8px',
-            fontWeight:'bold'
+            fontWeight: 'bold'
         }
     },
     tableBody: {
         "&.MuiTableCell-root": {
             padding: '8px',
-            fontSize:'14px',
+            fontSize: '14px',
             lineHeight: '39px'
         }
     },
     checkboxLabel: {
         "&.MuiFormControlLabel-root": {
             "&.MuiTypography-root": {
-                fontSize:'14px'
+                fontSize: '14px'
             }
         }
     },
-   
+
 
 };
 
