@@ -138,8 +138,8 @@ function BrandMaster() {
 
             let brandDatas = [...brandData]
             console.log("brandDatas", brandDatas)
-            let venderexistCode = brandDatas.find(e => e.vBrandCode == brandCode)
-            let venderexist = brandDatas.find(e => e.vBrandName == brandName)
+            let venderexistCode = brandDatas.find(e => e.vBrandCode == brandCode.toLowerCase() || e.vBrandCode == brandCode.toUpperCase())
+            let venderexist = brandDatas.find(e => e.vBrandName == brandName.toLowerCase() || e.vBrandName == brandName.toUpperCase())
             if (venderexist) {
                 setLoader(false)
                 toast.success("Item is already Added")

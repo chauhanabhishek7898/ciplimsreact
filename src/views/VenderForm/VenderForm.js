@@ -170,8 +170,8 @@ function VenderForm() {
 
             let vendorDatas = [...vendorData]
             console.log("vendorDatas", vendorDatas)
-            let venderexistcode = vendorDatas.find(e => e.vVendorCode == vVendorCode)
-            let venderexist = vendorDatas.find(e => e.vVendorName == vVendorName)
+            let venderexistcode = vendorDatas.find(e => e.vVendorCode == vVendorCode.toLowerCase() || e.vVendorCode == vVendorCode.toUpperCase())
+            let venderexist = vendorDatas.find(e => e.vVendorName == vVendorName.toLowerCase() || e.vVendorName == vVendorName.toUpperCase())
             if (venderexist) {
                 setLoader(false)
                 toast.success("Item is already Added")

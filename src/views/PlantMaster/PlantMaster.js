@@ -103,9 +103,9 @@ function PlantMaster() {
 
             let plantDatas = [...plantData]
             console.log("plantDatas", plantDatas)
-            let venderexist = plantDatas.find(e => e.vPlantName == vPlantName)
+            let venderexist = plantDatas.find(e => e.vPlantName == vPlantName.toLowerCase() || e.vPlantName == vPlantName.toUpperCase())
 
-            let venderexistCode = plantDatas.find(e => e.vPlantCode == vPlantCode)
+            let venderexistCode = plantDatas.find(e => e.vPlantCode == vPlantCode.toLowerCase() || e.vPlantCode == vPlantCode.toUpperCase())
             if (venderexist) {
                 setLoader(false)
                 toast.success("Item is already Added")

@@ -70,7 +70,7 @@ function UnitMaster() {
         if (buttonName == 'Submit') {
             let unistData = [...unitData]
             console.log("unistData", unistData)
-            let unitName = unistData.find(e => e.vUnitName == vUnitName.toString())
+            let unitName = unistData.find(e => e.vUnitName == vUnitName.toLowerCase() || e.vUnitName == vUnitName.toUpperCase())
             console.log("unitName", unitName)
             if (unitName) {
                 setLoader(false)

@@ -182,7 +182,7 @@ function LineMaster() {
 
                 let lineDatas = [...lineData]
                 console.log("lineDatas", lineDatas)
-                let venderexist = lineDatas.find(e => e.vLineName == lineName)
+                let venderexist = lineDatas.find(e => e.vLineName == lineName.toLowerCase() || e.vLineName == lineName.toUpperCase())
                 if (venderexist) {
                     setLoader(false)
                     toast.success("Item is already Added")

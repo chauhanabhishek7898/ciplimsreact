@@ -180,9 +180,9 @@ function PackMaster() {
 
                 let packDataas = [...packData]
                 console.log("packDataas", packDataas)
-                let venderexist = packDataas.find(e => e.vPackName == packName)
+                let venderexist = packDataas.find(e => e.vPackName == packName.toLowerCase() || e.vPackName == packName.toUpperCase())
 
-                let venderexistcode = packDataas.find(e => e.vPackCode == packCode)
+                let venderexistcode = packDataas.find(e => e.vPackCode == packCode.toLowerCase() || e.vPackCode == packCode.toUpperCase())
                 if (venderexist) {
                     setLoader(false)
                     toast.success("Item is already Added")

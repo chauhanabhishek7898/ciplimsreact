@@ -246,9 +246,9 @@ function MaterialMaster() {
 
                 let brandDatas = [...brandData]
                 console.log("brandDatas", brandDatas)
-                let venderexist = brandDatas.find(e => e.vMName == vMName)
+                let venderexist = brandDatas.find(e => e.vMName == vMName.toLowerCase() || e.vMName == vMName.toUpperCase())
 
-                let venderexistcode = brandDatas.find(e => e.vMCode == vMCode)
+                let venderexistcode = brandDatas.find(e => e.vMCode == vMCode.toLowerCase() || e.vMCode == vMCode.toUpperCase())
                 if (venderexist) {
                     setLoader(false)
                     toast.success("Item is already Added")
