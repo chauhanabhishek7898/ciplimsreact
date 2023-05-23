@@ -177,15 +177,30 @@ function PackMaster() {
             }
             console.log('pack', pack)
             if (buttonName == 'Submit') {
-                PackMasterPost(pack).then(res => {
-                    if (res) {
-                        toast.success("Record Added Successfully !!")
-                        setLoader(false)
-                        setIsOpen(false)
-                        getPackMaster_SelectAll()
-                    }
-                })
 
+                let packDataas = [...packData]
+                console.log("packDataas", packDataas)
+                let venderexist = packDataas.find(e => e.vPackName == packName)
+
+                let venderexistcode = packDataas.find(e => e.vPackCode == packCode)
+                if (venderexist) {
+                    setLoader(false)
+                    toast.success("Item is already Added")
+                }
+                else if (venderexistcode) {
+                    setLoader(false)
+                    toast.success("Code is already Added")
+                }
+                else {
+                    PackMasterPost(pack).then(res => {
+                        if (res) {
+                            toast.success("Record Added Successfully !!")
+                            setLoader(false)
+                            setIsOpen(false)
+                            getPackMaster_SelectAll()
+                        }
+                    })
+                }
             } else {
                 PackMasterPut(pack).then(res => {
                     if (res) {
@@ -201,14 +216,14 @@ function PackMaster() {
 
     return (
         <div className='citymasterContainer'>
-              {loader2==true?
-            <div className='progressBox'>
-                <div className='progressInner'>
-                    <CircularProgress />
+            {loader2 == true ?
+                <div className='progressBox'>
+                    <div className='progressInner'>
+                        <CircularProgress />
+                    </div>
                 </div>
-            </div>
-            :
-            null
+                :
+                null
 
             }
             {/* <button className='addbtn_2' onClick={() => openmodale(null, 'Submit')} title='Add'  ><AddIcon fontSize='small' /></button> */}
@@ -220,20 +235,20 @@ function PackMaster() {
                 <Paper sx={{ width: '100%' }}>
 
                     <div className='exportandfilter mt-2'>
-                 
-                        
-                        <div className='filterbox'>
-                        <Box className='searchbox' >
-                            <SearchBar
-                                value={searched}
-                                onChange={(searchVal) => requestSearch(searchVal)}
-                                onCancelSearch={() => cancelSearch()}
-                            />
 
-                        </Box>
-                        <FormGroup className='activeonly'>
-                            <FormControlLabel style={{marginRight:0}} control={<Checkbox checked={onlyActive} value={onlyActive} onChange={checkedonlyActive} />} label="Active Data" />
-                        </FormGroup>
+
+                        <div className='filterbox'>
+                            <Box className='searchbox' >
+                                <SearchBar
+                                    value={searched}
+                                    onChange={(searchVal) => requestSearch(searchVal)}
+                                    onCancelSearch={() => cancelSearch()}
+                                />
+
+                            </Box>
+                            <FormGroup className='activeonly'>
+                                <FormControlLabel style={{ marginRight: 0 }} control={<Checkbox checked={onlyActive} value={onlyActive} onChange={checkedonlyActive} />} label="Active Data" />
+                            </FormGroup>
 
                         </div>
                     </div>
@@ -243,7 +258,7 @@ function PackMaster() {
                             <TableHead>
                                 <TableRow>
                                     {/* <TableCell scope="row">SN.</TableCell> */}
-  
+
                                     <TableCell align="left" sx={muiStyles.tableHead}>Pack Code</TableCell>
                                     <TableCell align="left" sx={muiStyles.tableHead}>Pack Name</TableCell>
                                     <TableCell align="left" sx={muiStyles.tableHead}>Unit</TableCell>
@@ -255,27 +270,27 @@ function PackMaster() {
 
                                 </TableRow>
                             </TableHead>
-                            {packData?.length>0?
-                            <TableBody>
-                                {packData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((item,index) => {
-                                    return (
-                                        <TableRow >
-                                            {/* <TableCell component="th" scope="row">{index + 1}.</TableCell> */}
+                            {packData?.length > 0 ?
+                                <TableBody>
+                                    {packData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((item, index) => {
+                                        return (
+                                            <TableRow >
+                                                {/* <TableCell component="th" scope="row">{index + 1}.</TableCell> */}
 
-                                            <TableCell align="left" sx={muiStyles.tableBody}>{item.vPackCode}</TableCell>
-                                            <TableCell align="left" sx={muiStyles.tableBody}>{item.vPackName}</TableCell>
-                                            <TableCell align="left" sx={muiStyles.tableBody}>{item.vUnit}</TableCell>
-                                            <TableCell align="left" sx={muiStyles.tableBody}>{item.vPackProduct}</TableCell>
-                                            <TableCell align="left" sx={muiStyles.tableBody}>{item.vPackCases}</TableCell>
+                                                <TableCell align="left" sx={muiStyles.tableBody}>{item.vPackCode}</TableCell>
+                                                <TableCell align="left" sx={muiStyles.tableBody}>{item.vPackName}</TableCell>
+                                                <TableCell align="left" sx={muiStyles.tableBody}>{item.vUnit}</TableCell>
+                                                <TableCell align="left" sx={muiStyles.tableBody}>{item.vPackProduct}</TableCell>
+                                                <TableCell align="left" sx={muiStyles.tableBody}>{item.vPackCases}</TableCell>
 
-                                            <TableCell align="left" sx={muiStyles.tableBody}>{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
-                                            <TableCell align="left" sx={muiStyles.tableBody}><div onClick={() => openmodale(item, 'Update')} className='editbtn'><TbEdit size={20} color='#000' /></div></TableCell>
+                                                <TableCell align="left" sx={muiStyles.tableBody}>{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
+                                                <TableCell align="left" sx={muiStyles.tableBody}><div onClick={() => openmodale(item, 'Update')} className='editbtn'><TbEdit size={20} color='#000' /></div></TableCell>
 
-                                        </TableRow>
-                                    )
-                                })
-                                }
-                            </TableBody>
+                                            </TableRow>
+                                        )
+                                    })
+                                    }
+                                </TableBody>
                                 :
                                 <TableBody>
                                     <TableRow>
@@ -310,7 +325,7 @@ function PackMaster() {
                     <Box className='inputBox-15' >
                         <FormControl fullWidth className='input'>
                             <TextField
-                            sx={muiStyles.input}
+                                sx={muiStyles.input}
                                 value={packCode}
                                 onChange={e => setpackCode(e.target.value)}
                                 id="outlined-basic"
@@ -324,10 +339,10 @@ function PackMaster() {
 
                         </FormControl>
                     </Box>
-                    <Box  className='inputBox-15' >
+                    <Box className='inputBox-15' >
                         <FormControl fullWidth className='input' >
                             <TextField
-                            sx={muiStyles.input}
+                                sx={muiStyles.input}
                                 value={packName}
                                 onChange={e => setpackName(e.target.value)}
                                 id="outlined-basic"
@@ -343,7 +358,7 @@ function PackMaster() {
                     <Box className='inputBox-15'>
                         <FormControl fullWidth className='input' >
                             <TextField
-                            sx={muiStyles.input}
+                                sx={muiStyles.input}
                                 value={unitid}
                                 onChange={e => setUnitid(e.target.value)}
                                 id="outlined-basic"
@@ -384,7 +399,7 @@ function PackMaster() {
                     <Box className='inputBox-14'>
                         <FormControl fullWidth className='input'>
                             <TextField
-                            sx={muiStyles.input}
+                                sx={muiStyles.input}
                                 value={packProduct}
                                 onChange={e => setpackProduct(e.target.value)}
                                 id="outlined-basic"
@@ -399,7 +414,7 @@ function PackMaster() {
                     <Box className='inputBox-16'>
                         <FormControl fullWidth className='input'>
                             <TextField
-                            sx={muiStyles.input}
+                                sx={muiStyles.input}
                                 value={packCases}
                                 onChange={e => setpackCases(e.target.value)}
                                 id="outlined-basic"
@@ -414,7 +429,7 @@ function PackMaster() {
                 </div>
                 <div className='displayflexend-2'>
                     <FormGroup >
-                        <FormControlLabel style={{marginRight:0}} control={<Checkbox defaultChecked={btActive} value={btActive} onChange={e => setBtActive(e.target.checked)} />} label="Active" disabled={disabled} />
+                        <FormControlLabel style={{ marginRight: 0 }} control={<Checkbox defaultChecked={btActive} value={btActive} onChange={e => setBtActive(e.target.checked)} />} label="Active" disabled={disabled} />
                     </FormGroup>
 
                     {loader == true ?
@@ -463,7 +478,7 @@ const muiStyles = {
         "& .MuiFormLabel-root": {
             fontSize: '13px',
             top: '-13px',
-            left:'-10px',
+            left: '-10px',
             backgroundColor: 'transparent',
             zIndex: '1'
         },
@@ -471,7 +486,7 @@ const muiStyles = {
             zIndex: '1'
 
         },
-        '& .MuiInputAdornment-root':{
+        '& .MuiInputAdornment-root': {
             position: 'absolute',
             right: '10px'
         }
@@ -489,8 +504,8 @@ const muiStyles = {
             fontSize: '13px',
             backgroundColor: 'transparent',
             top: '-13px',
-            left:'-10px',
-          
+            left: '-10px',
+
         },
         "& label.Mui-focused": {
             zIndex: '1'
@@ -506,7 +521,7 @@ const muiStyles = {
         "& .MuiFormLabel-root": {
             fontSize: '13px',
             top: '-13px',
-            left:'-10px',  
+            left: '-10px',
             backgroundColor: 'transparent',
         },
         "& label.Mui-focused": {
@@ -518,14 +533,14 @@ const muiStyles = {
         "& .MuiSelect-select": {
             padding: '3px',
             fontSize: '12px'
-        }, 
-        
+        },
+
 
     },
     InputLabels: {
         fontSize: '13px',
         top: '-13px',
-        left:'-10px',
+        left: '-10px',
         backgroundColor: 'transparent',
         "&.Mui-focused": {
             zIndex: '1'
@@ -541,24 +556,24 @@ const muiStyles = {
     tableHead: {
         "&.MuiTableCell-root": {
             padding: '8px',
-            fontWeight:'bold'
+            fontWeight: 'bold'
         }
     },
     tableBody: {
         "&.MuiTableCell-root": {
             padding: '8px',
-            fontSize:'14px',
+            fontSize: '14px',
             lineHeight: '39px'
         }
     },
     checkboxLabel: {
         "&.MuiFormControlLabel-root": {
             "&.MuiTypography-root": {
-                fontSize:'14px'
+                fontSize: '14px'
             }
         }
     },
-   
+
 
 };
 export default PackMaster

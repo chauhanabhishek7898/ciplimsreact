@@ -135,17 +135,31 @@ function BrandMaster() {
             btActive: btActive,
         }
         if (buttonName == 'Submit') {
-            console.log('brand', brand)
-            BrandMasterPost(brand).then(res => {
-                if (res) {
-                    console.log('res', res)
-                    toast.success("Record Added Successfully !!")
-                    setLoader(false)
-                    setIsOpen(false)
-                    getBrandMaster_SelectAll()
-                }
-            })
 
+            let brandDatas = [...brandData]
+            console.log("brandDatas", brandDatas)
+            let venderexistCode = brandDatas.find(e => e.vBrandCode == brandCode)
+            let venderexist = brandDatas.find(e => e.vBrandName == brandName)
+            if (venderexist) {
+                setLoader(false)
+                toast.success("Item is already Added")
+            }
+            else if (venderexistCode) {
+                setLoader(false)
+                toast.success("Code is already Added")
+            }
+            else {
+                console.log('brand', brand)
+                BrandMasterPost(brand).then(res => {
+                    if (res) {
+                        console.log('res', res)
+                        toast.success("Record Added Successfully !!")
+                        setLoader(false)
+                        setIsOpen(false)
+                        getBrandMaster_SelectAll()
+                    }
+                })
+            }
         } else {
             console.log('brand', brand)
             BrandMasterPut(brand).then(res => {

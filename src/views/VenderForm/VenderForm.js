@@ -41,7 +41,7 @@ import {
     CNavLink,
     CDropdown,
     CButton,
-  } from '@coreui/react'
+} from '@coreui/react'
 import SearchBar from "material-ui-search-bar";
 import ExportExcel from 'src/shareFunction/Excelexport';
 import CircularProgress from '@mui/joy/CircularProgress';
@@ -164,16 +164,32 @@ function VenderForm() {
             vRemarks: vRemarks,
             btActive: btActive,
         }
-        if (buttonName == 'Submit') {
-            VendorMasterPost(vendor).then(res => {
-                if (res) {
 
-                    toast.success("Record Added Successfully !!")
-                    setLoader(false)
-                    setIsOpen(false)
-                    getVendorMaster_SelectAll()
-                }
-            })
+
+        if (buttonName == 'Submit') {
+
+            let vendorDatas = [...vendorData]
+            console.log("vendorDatas", vendorDatas)
+            let venderexistcode = vendorDatas.find(e => e.vVendorCode == vVendorCode)
+            let venderexist = vendorDatas.find(e => e.vVendorName == vVendorName)
+            if (venderexist) {
+                setLoader(false)
+                toast.success("Item is already Added")
+            } else if (venderexistcode) {
+                setLoader(false)
+                toast.success("Code is already Added")
+            }
+            else {
+                VendorMasterPost(vendor).then(res => {
+                    if (res) {
+
+                        toast.success("Record Added Successfully !!")
+                        setLoader(false)
+                        setIsOpen(false)
+                        getVendorMaster_SelectAll()
+                    }
+                })
+            }
         } else {
             VendorMasterPut(vendor).then(res => {
                 if (res) {
@@ -184,10 +200,12 @@ function VenderForm() {
                 }
             })
         }
+
+
     }
     return (
         <div className='citymasterContainer'>
-             <div className='add_export'>
+            <div className='add_export'>
                 <button className='submitbtn_exp' onClick={() => openmodale(null, 'Submit')} title='Add'><AddIcon fontSize='small' /><span className='addFont'>Add</span></button>
                 <ExportExcel excelData={vendorData} Heading={Heading} fileName={'Vendor_Master'} />
             </div>
@@ -200,7 +218,7 @@ function VenderForm() {
                 :
                 null
             }
-           
+
             <Modal
                 isOpen={modalIsOpen}
                 style={customStyles}

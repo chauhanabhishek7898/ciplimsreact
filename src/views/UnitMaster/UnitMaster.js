@@ -61,7 +61,7 @@ function UnitMaster() {
 
     const submit = () => {
 
-        // setLoader(true)
+        setLoader(true)
         let data = {
             nUId: nUId == null ? 0 : nUId,
             vUnitName: vUnitName,
@@ -69,11 +69,14 @@ function UnitMaster() {
         }
         if (buttonName == 'Submit') {
             let unistData = [...unitData]
-            let findnUId = unistData.find(e => e.nUId == nUId)
-            if (findnUId) {
-                toast.success("Item is already Added")
+            console.log("unistData", unistData)
+            let unitName = unistData.find(e => e.vUnitName == vUnitName.toString())
+            console.log("unitName", unitName)
+            if (unitName) {
                 setLoader(false)
-            } else {
+                toast.success("Item is already Added")
+            }
+            else {
                 UnitMastersPost(data).then(res => {
                     if (res) {
                         toast.success(res)
@@ -84,78 +87,20 @@ function UnitMaster() {
                 })
             }
 
-
-        } else {
-            if (vUnitName2 == vUnitName) {
-                UnitMastersPut(data).then(res => {
-                    if (res) {
-                        toast.success(res)
-                        setLoader(false)
-                        setIsOpen(false)
-                        getUnitMaster_SelectAll()
-                    }
-                })
-            } else {
-                let existingData = [...unitData]
-                const isDuplicate = existingData.some(dataItem =>
-                    // Assuming the dataItem has an "id" field as the unique identifier
-                    dataItem.vUnitName === vUnitName
-                );
-                console.log(" dataItem.isDuplicate", isDuplicate)
-                if (isDuplicate) {
-                    // Show an alert or error message for duplicate data
-                    alert('This data already exists and cannot be updated.');
-                } else {
-                    UnitMastersPut(data).then(res => {
-                        if (res) {
-                            toast.success(res)
-                            setLoader(false)
-                            setIsOpen(false)
-                            getUnitMaster_SelectAll()
-                        }
-                    })
-                }
-            }
-
-            // console.log("unitData",unitData)
-
-            // console.log("vUnitName",vUnitName)
-            // console.log("vUnitName2",vUnitName2)
-
-            // if (vUnitName2 == vUnitName) {
-            //     alert(1)
-            //     // UnitMastersPut(data).then(res => {
-            //     //     if (res) {
-            //     //         toast.success(res)
-            //     //         setLoader(false)
-            //     //         setIsOpen(false)
-            //     //         getUnitMaster_SelectAll()
-            //     //     }
-            //     // })
-
-            // } else {
-            //     // let unistData = [...unitData]
-            //     console.log("unitData",unitData)
-            //     let findnUId = unitData.find(e => e.vUnitName == vUnitName)
-
-            //     console.log("findnUId",findnUId)
-            //     if (findnUId.vUnitName!=vUnitName) {
-            //         alert(2)
-            //         // UnitMastersPut(data).then(res => {
-            //         //     if (res) {
-            //         //         toast.success(res)
-            //         //         setLoader(false)
-            //         //         setIsOpen(false)
-            //         //         getUnitMaster_SelectAll()
-            //         //     }
-            //         // })
-            //     } else {
-            //         alert(3)
-            //         // setLoader(false)
-            //         // toast.success("Item is already Added")
-            //     }
-            // }
         }
+
+        else {
+
+            UnitMastersPut(data).then(res => {
+                if (res) {
+                    toast.success(res)
+                    setLoader(false)
+                    setIsOpen(false)
+                    getUnitMaster_SelectAll()
+                }
+            })
+        }
+
     }
     const [searched, setSearched] = React.useState("");
     const [onlyActive, setonlyActive] = React.useState(true);
@@ -174,7 +119,9 @@ function UnitMaster() {
             console.log('onlyActive', onlyActive)
             if (checkedData == true) {
                 let activeData = response.filter(e => e.btActive == true)
-                setUnitData(activeData)
+                // setUnitData(activeData)
+
+                setUnitData(response)
                 setMasterBrandData(activeData)
                 setLoader2(false)
             } else {

@@ -100,15 +100,31 @@ function PlantMaster() {
             btActive: btActive
         }
         if (buttonName == 'Submit') {
-            PlantMasterPost(data).then(res => {
-                if (res) {
-                    toast.success(res)
-                    setLoader(false)
-                    setIsOpen(false)
-                    getPlantMaster_SelectAll()()
-                }
-            })
 
+            let plantDatas = [...plantData]
+            console.log("plantDatas", plantDatas)
+            let venderexist = plantDatas.find(e => e.vPlantName == vPlantName)
+
+            let venderexistCode = plantDatas.find(e => e.vPlantCode == vPlantCode)
+            if (venderexist) {
+                setLoader(false)
+                toast.success("Item is already Added")
+            }
+            else if (venderexistCode) {
+                setLoader(false)
+                toast.success("Code is already Added")
+
+            }
+            else {
+                PlantMasterPost(data).then(res => {
+                    if (res) {
+                        toast.success(res)
+                        setLoader(false)
+                        setIsOpen(false)
+                        getPlantMaster_SelectAll()()
+                    }
+                })
+            }
         } else {
             PlantMasterPut(data).then(res => {
                 if (res) {
@@ -181,17 +197,17 @@ function PlantMaster() {
     // }
     return (
         <div className='citymasterContainer'>
-              {loader2==true?
-            <div className='progressBox'>
-                <div className='progressInner'>
-                    <CircularProgress />
+            {loader2 == true ?
+                <div className='progressBox'>
+                    <div className='progressInner'>
+                        <CircularProgress />
+                    </div>
                 </div>
-            </div>
-            :
-            null
+                :
+                null
 
             }
-              <div className='add_export'>
+            <div className='add_export'>
                 <button className='submitbtn_exp' onClick={() => openmodale(null, 'Submit')} title='Add'  ><AddIcon fontSize='small' /> <span className='addFont'>Add</span></button>
                 <ExportExcel excelData={plantData} Heading={Heading} fileName={'Brand_Master'} />
 
@@ -212,7 +228,7 @@ function PlantMaster() {
                     <Box className='inputBox-12' >
                         <FormControl fullWidth className='input'>
                             <TextField
-                            sx={muiStyles.input}
+                                sx={muiStyles.input}
                                 id="outlined-basic"
                                 label="Enter Plant Code"
                                 required
@@ -229,7 +245,7 @@ function PlantMaster() {
                     <Box className='inputBox-12' >
                         <FormControl fullWidth className='input' >
                             <TextField
-                            sx={muiStyles.input}
+                                sx={muiStyles.input}
                                 id="outlined-basic"
                                 label="Enter Plant Name"
                                 variant="outlined"
@@ -247,55 +263,55 @@ function PlantMaster() {
                     <Box className='inputBox-13' >
                         <FormControl fullWidth className='input'>
                             <TextField
-                            sx={muiStyles.input}
+                                sx={muiStyles.input}
                                 id="outlined-basic"
                                 label="Profit Centre"
                                 variant="outlined"
                                 value={vProfitCentre}
                                 name='vProfitCentre'
                                 onChange={e => setvProfitCentre(e.target.value)}
-                                // inputRef={register({ required: "Profit Centre is required.*", })}
-                                // error={Boolean(errors.vProfitCentre)}
-                                // helperText={errors.vProfitCentre?.message}
+                            // inputRef={register({ required: "Profit Centre is required.*", })}
+                            // error={Boolean(errors.vProfitCentre)}
+                            // helperText={errors.vProfitCentre?.message}
                             />
                         </FormControl>
                     </Box>
-                    <Box  className='inputBox-13' >
+                    <Box className='inputBox-13' >
                         <FormControl fullWidth className='input'>
                             <TextField
-                            sx={muiStyles.input}
+                                sx={muiStyles.input}
                                 id="outlined-basic"
                                 label="Cost Centre"
                                 variant="outlined"
                                 value={vCostCentre}
                                 name='vCostCentre'
                                 onChange={e => setvCostCentre(e.target.value)}
-                                // inputRef={register({ required: "Cost Centre is required.*", })}
-                                // error={Boolean(errors.vCostCentre)}
-                                // helperText={errors.vCostCentre?.message}
+                            // inputRef={register({ required: "Cost Centre is required.*", })}
+                            // error={Boolean(errors.vCostCentre)}
+                            // helperText={errors.vCostCentre?.message}
                             />
                         </FormControl>
                     </Box>
                     <Box sx={{ width: '100%', marginTop: 2 }} >
                         <FormControl fullWidth className='input'>
                             <TextField
-                            sx={muiStyles.input}
+                                sx={muiStyles.input}
                                 id="outlined-basic"
                                 label="Plant Address"
                                 variant="outlined"
                                 value={vPlantAddress}
                                 name='vPlantAddress'
                                 onChange={e => setvPlantAddress(e.target.value)}
-                                // inputRef={register({ required: "Plant Address is required.*", })}
-                                // error={Boolean(errors.vPlantAddress)}
-                                // helperText={errors.vPlantAddress?.message}
+                            // inputRef={register({ required: "Plant Address is required.*", })}
+                            // error={Boolean(errors.vPlantAddress)}
+                            // helperText={errors.vPlantAddress?.message}
                             />
                         </FormControl>
                     </Box>
                 </div>
                 <div className='displayflexend-2'>
                     <FormGroup >
-                        <FormControlLabel style={{marginRight:0}} control={<Checkbox defaultChecked={btActive} value={btActive} onChange={e => setbtActive(e.target.checked)} />} label="Active" disabled={disabled} />
+                        <FormControlLabel style={{ marginRight: 0 }} control={<Checkbox defaultChecked={btActive} value={btActive} onChange={e => setbtActive(e.target.checked)} />} label="Active" disabled={disabled} />
                     </FormGroup>
                     {loader == true ?
                         <CButton disabled className='submitbtn'>
@@ -309,22 +325,22 @@ function PlantMaster() {
                 </div>
             </Modal >
             <div className='tablecenter'>
-                <Paper sx={{ width: '100%', overflow: 'hidden',paddingTop:1 }}>
+                <Paper sx={{ width: '100%', overflow: 'hidden', paddingTop: 1 }}>
 
                     <div className='exportandfilter'>
                         {/* <ExportExcel excelData={plantData} Heading={Heading} fileName={'Plant_Master'} /> */}
                         <div className='filterbox'>
-                        <Box className='searchbox'>
-                            <SearchBar
-                                value={searched}
-                                onChange={(searchVal) => requestSearch(searchVal)}
-                                onCancelSearch={() => cancelSearch()}
-                            />
+                            <Box className='searchbox'>
+                                <SearchBar
+                                    value={searched}
+                                    onChange={(searchVal) => requestSearch(searchVal)}
+                                    onCancelSearch={() => cancelSearch()}
+                                />
 
-                        </Box>
-                        <FormGroup className='activeonly'>
-                            <FormControlLabel style={{marginRight:0}} control={<Checkbox checked={onlyActive} value={onlyActive} onChange={checkedonlyActive} />} label="Active Data" />
-                        </FormGroup>
+                            </Box>
+                            <FormGroup className='activeonly'>
+                                <FormControlLabel style={{ marginRight: 0 }} control={<Checkbox checked={onlyActive} value={onlyActive} onChange={checkedonlyActive} />} label="Active Data" />
+                            </FormGroup>
 
                         </div>
                     </div>
@@ -346,34 +362,34 @@ function PlantMaster() {
 
                                 </TableRow>
                             </TableHead>
-                            {plantData?.length>0?
-                            <TableBody>
-                                {plantData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((item,index) => {
-                                    return (
-                                        <TableRow key={index}>
-                                            {/* <TableCell component="th" scope="row">{index + 1}.</TableCell> */}
+                            {plantData?.length > 0 ?
+                                <TableBody>
+                                    {plantData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((item, index) => {
+                                        return (
+                                            <TableRow key={index}>
+                                                {/* <TableCell component="th" scope="row">{index + 1}.</TableCell> */}
 
-                                            <TableCell align="left" sx={muiStyles.tableBody}>{item.vPlantCode}</TableCell>
-                                            <TableCell align="left" sx={muiStyles.tableBody}>{item.vPlantName}</TableCell>
-                                            <TableCell align="left" sx={muiStyles.tableBody}>{item.vPlantAddress}</TableCell>
-                                            <TableCell align="left" sx={muiStyles.tableBody}>{item.vProfitCentre}</TableCell>
-                                            <TableCell align="left" sx={muiStyles.tableBody}>{item.vCostCentre}</TableCell>
+                                                <TableCell align="left" sx={muiStyles.tableBody}>{item.vPlantCode}</TableCell>
+                                                <TableCell align="left" sx={muiStyles.tableBody}>{item.vPlantName}</TableCell>
+                                                <TableCell align="left" sx={muiStyles.tableBody}>{item.vPlantAddress}</TableCell>
+                                                <TableCell align="left" sx={muiStyles.tableBody}>{item.vProfitCentre}</TableCell>
+                                                <TableCell align="left" sx={muiStyles.tableBody}>{item.vCostCentre}</TableCell>
 
-                                            <TableCell align="left" sx={muiStyles.tableBody}>{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
-                                            <TableCell align="left" sx={muiStyles.tableBody}><div onClick={() => openmodale(item, 'Update')} className='editbtn'><TbEdit size={20} color='#000' /></div></TableCell>
+                                                <TableCell align="left" sx={muiStyles.tableBody}>{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
+                                                <TableCell align="left" sx={muiStyles.tableBody}><div onClick={() => openmodale(item, 'Update')} className='editbtn'><TbEdit size={20} color='#000' /></div></TableCell>
 
-                                        </TableRow>
-                                    )
-                                })
+                                            </TableRow>
+                                        )
+                                    })
 
-                                }
-                            </TableBody>
+                                    }
+                                </TableBody>
                                 :
                                 <TableBody>
-                                <TableRow>
-                                    <TableCell align="center" colSpan={8}>No Record</TableCell>
-                                </TableRow>
-                            </TableBody>
+                                    <TableRow>
+                                        <TableCell align="center" colSpan={8}>No Record</TableCell>
+                                    </TableRow>
+                                </TableBody>
                             }
                         </Table>
                     </TableContainer>
@@ -423,7 +439,7 @@ const muiStyles = {
         "& .MuiFormLabel-root": {
             fontSize: '13px',
             top: '-13px',
-            left:'-10px',
+            left: '-10px',
             backgroundColor: 'transparent',
             zIndex: '1'
         },
@@ -431,7 +447,7 @@ const muiStyles = {
             zIndex: '1'
 
         },
-        '& .MuiInputAdornment-root':{
+        '& .MuiInputAdornment-root': {
             position: 'absolute',
             right: '10px'
         }
@@ -449,8 +465,8 @@ const muiStyles = {
             fontSize: '13px',
             backgroundColor: 'transparent',
             top: '-13px',
-            left:'-10px',
-          
+            left: '-10px',
+
         },
         "& label.Mui-focused": {
             zIndex: '1'
@@ -466,7 +482,7 @@ const muiStyles = {
         "& .MuiFormLabel-root": {
             fontSize: '13px',
             top: '-13px',
-            left:'-10px',  
+            left: '-10px',
             backgroundColor: 'transparent',
         },
         "& label.Mui-focused": {
@@ -478,14 +494,14 @@ const muiStyles = {
         "& .MuiSelect-select": {
             padding: '3px',
             fontSize: '12px'
-        }, 
-        
+        },
+
 
     },
     InputLabels: {
         fontSize: '13px',
         top: '-13px',
-        left:'-10px',
+        left: '-10px',
         backgroundColor: 'transparent',
         "&.Mui-focused": {
             zIndex: '1'
@@ -501,24 +517,24 @@ const muiStyles = {
     tableHead: {
         "&.MuiTableCell-root": {
             padding: '8px',
-            fontWeight:'bold'
+            fontWeight: 'bold'
         }
     },
     tableBody: {
         "&.MuiTableCell-root": {
             padding: '8px',
-            fontSize:'14px',
+            fontSize: '14px',
             lineHeight: '39px'
         }
     },
     checkboxLabel: {
         "&.MuiFormControlLabel-root": {
             "&.MuiTypography-root": {
-                fontSize:'14px'
+                fontSize: '14px'
             }
         }
     },
-   
+
 
 };
 export default PlantMaster

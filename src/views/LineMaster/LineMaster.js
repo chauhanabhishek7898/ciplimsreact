@@ -160,7 +160,7 @@ function LineMaster() {
 
     const validateform = () => {
         if (plantid == '') {
-            setErrorText({plantid:'Select Plant Name'})
+            setErrorText({ plantid: 'Select Plant Name' })
             return false
         } else {
             setErrorText('')
@@ -179,16 +179,27 @@ function LineMaster() {
                 btActive: btActive,
             }
             if (buttonName == 'Submit') {
-                console.log('line', line)
-                LineMasterPost(line).then(res => {
-                    if (res) {
-                        console.log('res', res)
-                        toast.success("Record Added Successfully !!")
-                        setLoader(false)
-                        setIsOpen(false)
-                        getLineMaster_SelectAll()
-                    }
-                })
+
+                let lineDatas = [...lineData]
+                console.log("lineDatas", lineDatas)
+                let venderexist = lineDatas.find(e => e.vLineName == lineName)
+                if (venderexist) {
+                    setLoader(false)
+                    toast.success("Item is already Added")
+                }
+                else {
+
+                    console.log('line', line)
+                    LineMasterPost(line).then(res => {
+                        if (res) {
+                            console.log('res', res)
+                            toast.success("Record Added Successfully !!")
+                            setLoader(false)
+                            setIsOpen(false)
+                            getLineMaster_SelectAll()
+                        }
+                    })
+                }
 
             } else {
                 console.log('line', line)
@@ -207,17 +218,17 @@ function LineMaster() {
 
     return (
         <div className='citymasterContainer'>
-              {loader2==true?
-            <div className='progressBox'>
-                <div className='progressInner'>
-                    <CircularProgress />
+            {loader2 == true ?
+                <div className='progressBox'>
+                    <div className='progressInner'>
+                        <CircularProgress />
+                    </div>
                 </div>
-            </div>
-            :
-            null
+                :
+                null
 
             }
-               <div className='add_export'>
+            <div className='add_export'>
                 <button className='submitbtn_exp' onClick={() => openmodale(null, 'Submit')} title='Add'  ><AddIcon fontSize='small' /> <span className='addFont'>Add</span></button>
                 <ExportExcel excelData={lineData} Heading={Heading} fileName={'Line_Master'} />
 
@@ -237,7 +248,7 @@ function LineMaster() {
                     <Box className='inputBox-14' >
                         <FormControl fullWidth className='input'>
                             <TextField
-                            sx={muiStyles.input}
+                                sx={muiStyles.input}
                                 value={lineName}
                                 onChange={e => setlineName(e.target.value)}
                                 required id="outlined-basic"
@@ -253,16 +264,16 @@ function LineMaster() {
                     <Box className='inputBox-14' >
                         <FormControl fullWidth className='input' >
                             <TextField
-                            sx={muiStyles.input}
+                                sx={muiStyles.input}
                                 value={lineDescription}
                                 onChange={e => setlineDescription(e.target.value)}
-                                 id="outlined-basic"
+                                id="outlined-basic"
                                 label="Line Description"
                                 variant="outlined"
                                 name='lineDescription'
-                                // inputRef={register({ required: "Line Description is required.*", })}
-                                // error={Boolean(errors.lineDescription)}
-                                // helperText={errors.lineDescription?.message}
+                            // inputRef={register({ required: "Line Description is required.*", })}
+                            // error={Boolean(errors.lineDescription)}
+                            // helperText={errors.lineDescription?.message}
                             />
                         </FormControl>
                     </Box>
@@ -271,7 +282,7 @@ function LineMaster() {
                         <FormControl fullWidth className='input'>
                             <InputLabel required id="demo-simple-select-label" sx={muiStyles.InputLabels}>Plant Name </InputLabel>
                             <Select
-                            sx={muiStyles.select}
+                                sx={muiStyles.select}
                                 style={{ width: '100%', }}
                                 labelId="demo-simple-select-label"
                                 id="demo-simple-select"
@@ -279,9 +290,9 @@ function LineMaster() {
                                 label="Select Plant Name"
                                 onChange={handleChangePackUnit}
                                 name='plantid'
-                                // inputRef={register({ required: "Plant Name is required.*", })}
-                                // error={Boolean(errors.plantid)}
-                                // helperText={errors.plantid?.message}
+                            // inputRef={register({ required: "Plant Name is required.*", })}
+                            // error={Boolean(errors.plantid)}
+                            // helperText={errors.plantid?.message}
                             >
                                 {plantData.map((item, index) => {
                                     return (
@@ -289,16 +300,16 @@ function LineMaster() {
                                     )
                                 })
                                 }
-                            </Select> 
-                            {errorText.plantid != '' ? <p  className='error'>{errorText.plantid}</p> : null}
+                            </Select>
+                            {errorText.plantid != '' ? <p className='error'>{errorText.plantid}</p> : null}
                         </FormControl>
-                       
+
                     </Box>
 
                 </div>
                 <div className='displayflexend-2'>
                     <FormGroup >
-                        <FormControlLabel style={{marginRight:0}} control={<Checkbox defaultChecked={btActive} value={btActive} onChange={e => setBtActive(e.target.checked)} />} label="Active" disabled={disabled} />
+                        <FormControlLabel style={{ marginRight: 0 }} control={<Checkbox defaultChecked={btActive} value={btActive} onChange={e => setBtActive(e.target.checked)} />} label="Active" disabled={disabled} />
                     </FormGroup>
 
                     {loader == true ?
@@ -312,23 +323,23 @@ function LineMaster() {
                 </div>
             </Modal >
             <div className='tablecenter'>
-                <Paper sx={{ width: '100%', overflow: 'hidden',paddingTop:1 }}>
+                <Paper sx={{ width: '100%', overflow: 'hidden', paddingTop: 1 }}>
 
                     <div className='exportandfilter'>
-                 
-                        
-                        <div className='filterbox'>
-                        <Box className='searchbox' >
-                            <SearchBar
-                                value={searched}
-                                onChange={(searchVal) => requestSearch(searchVal)}
-                                onCancelSearch={() => cancelSearch()}
-                            />
 
-                        </Box>
-                        <FormGroup className='activeonly'>
-                            <FormControlLabel style={{marginRight:0}} control={<Checkbox checked={onlyActive} value={onlyActive} onChange={checkedonlyActive} />} label="Active Data" />
-                        </FormGroup>
+
+                        <div className='filterbox'>
+                            <Box className='searchbox' >
+                                <SearchBar
+                                    value={searched}
+                                    onChange={(searchVal) => requestSearch(searchVal)}
+                                    onCancelSearch={() => cancelSearch()}
+                                />
+
+                            </Box>
+                            <FormGroup className='activeonly'>
+                                <FormControlLabel style={{ marginRight: 0 }} control={<Checkbox checked={onlyActive} value={onlyActive} onChange={checkedonlyActive} />} label="Active Data" />
+                            </FormGroup>
 
                         </div>
                     </div>
@@ -338,7 +349,7 @@ function LineMaster() {
                             <TableHead>
                                 <TableRow>
                                     {/* <TableCell scope="row">SN.</TableCell> */}
-      
+
                                     <TableCell align="left" sx={muiStyles.tableHead}>Line Name</TableCell>
                                     <TableCell align="left" sx={muiStyles.tableHead}>Line Description</TableCell>
                                     <TableCell align="left" sx={muiStyles.tableHead}>Plant Detail</TableCell>
@@ -348,33 +359,33 @@ function LineMaster() {
 
                                 </TableRow>
                             </TableHead>
-                            {lineData?.length?
-                            <TableBody>
-                                {lineData.map((item, index) => {
-                                    return (
-                                        <TableRow key={index}>
-                                            {/* <TableCell component="th" scope="row">{index + 1}.</TableCell> */}
+                            {lineData?.length ?
+                                <TableBody>
+                                    {lineData.map((item, index) => {
+                                        return (
+                                            <TableRow key={index}>
+                                                {/* <TableCell component="th" scope="row">{index + 1}.</TableCell> */}
 
-                                            <TableCell align="left" sx={muiStyles.tableBody}>{item.vLineName}</TableCell>
-                                            <TableCell align="left" sx={muiStyles.tableBody}>{item.vLineDescription}</TableCell>
-                                            <TableCell align="left" sx={muiStyles.tableBody}>{item.PlantDetail}</TableCell>
+                                                <TableCell align="left" sx={muiStyles.tableBody}>{item.vLineName}</TableCell>
+                                                <TableCell align="left" sx={muiStyles.tableBody}>{item.vLineDescription}</TableCell>
+                                                <TableCell align="left" sx={muiStyles.tableBody}>{item.PlantDetail}</TableCell>
 
-                                            <TableCell align="left" sx={muiStyles.tableBody}>{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
-                                            <TableCell align="left" sx={muiStyles.tableBody}><div onClick={() => openmodale(item, 'Update')} className='editbtn'><TbEdit size={20} color='#000' /></div></TableCell>
+                                                <TableCell align="left" sx={muiStyles.tableBody}>{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
+                                                <TableCell align="left" sx={muiStyles.tableBody}><div onClick={() => openmodale(item, 'Update')} className='editbtn'><TbEdit size={20} color='#000' /></div></TableCell>
 
-                                        </TableRow>
-                                    )
-                                })
-                                }
-                            </TableBody>
+                                            </TableRow>
+                                        )
+                                    })
+                                    }
+                                </TableBody>
 
                                 :
                                 <TableBody>
-                                <TableRow>
-                                    <TableCell align="center" colSpan={6}>No Record</TableCell>
-                                </TableRow>
-                            </TableBody>
-                                
+                                    <TableRow>
+                                        <TableCell align="center" colSpan={6}>No Record</TableCell>
+                                    </TableRow>
+                                </TableBody>
+
                             }
                         </Table>
                     </TableContainer>
@@ -425,7 +436,7 @@ const muiStyles = {
         "& .MuiFormLabel-root": {
             fontSize: '13px',
             top: '-13px',
-            left:'-10px',
+            left: '-10px',
             backgroundColor: 'transparent',
             zIndex: '1'
         },
@@ -433,7 +444,7 @@ const muiStyles = {
             zIndex: '1'
 
         },
-        '& .MuiInputAdornment-root':{
+        '& .MuiInputAdornment-root': {
             position: 'absolute',
             right: '10px'
         }
@@ -451,8 +462,8 @@ const muiStyles = {
             fontSize: '13px',
             backgroundColor: 'transparent',
             top: '-13px',
-            left:'-10px',
-          
+            left: '-10px',
+
         },
         "& label.Mui-focused": {
             zIndex: '1'
@@ -468,7 +479,7 @@ const muiStyles = {
         "& .MuiFormLabel-root": {
             fontSize: '13px',
             top: '-13px',
-            left:'-10px',  
+            left: '-10px',
             backgroundColor: 'transparent',
         },
         "& label.Mui-focused": {
@@ -480,14 +491,14 @@ const muiStyles = {
         "& .MuiSelect-select": {
             padding: '3px',
             fontSize: '12px'
-        }, 
-        
+        },
+
 
     },
     InputLabels: {
         fontSize: '13px',
         top: '-13px',
-        left:'-10px',
+        left: '-10px',
         backgroundColor: 'transparent',
         "&.Mui-focused": {
             zIndex: '1'
@@ -503,24 +514,24 @@ const muiStyles = {
     tableHead: {
         "&.MuiTableCell-root": {
             padding: '8px',
-            fontWeight:'bold',
+            fontWeight: 'bold',
         }
     },
     tableBody: {
         "&.MuiTableCell-root": {
             padding: '8px',
-            fontSize:'14px',
+            fontSize: '14px',
             lineHeight: '39px'
         }
     },
     checkboxLabel: {
         "&.MuiFormControlLabel-root": {
             "&.MuiTypography-root": {
-                fontSize:'14px'
+                fontSize: '14px'
             }
         }
     },
-   
+
 
 };
 export default LineMaster

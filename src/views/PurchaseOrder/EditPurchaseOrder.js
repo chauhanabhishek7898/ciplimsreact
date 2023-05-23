@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react';
 import Modal from 'react-modal';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';

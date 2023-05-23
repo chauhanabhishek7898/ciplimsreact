@@ -241,25 +241,40 @@ function MaterialMaster() {
                 btActive: btActive,
             }
             console.log(brand)
+            setLoader(true)
             if (buttonName == 'Submit') {
-                setLoader(true)
 
-                MaterialMasterPost(brand).then(res => {
-                    if (res) {
-                        console.log('res', res)
-                        toast.success("Record Added Successfully !!")
-                        setvMCode('')
-                        setvMName('')
-                        setvCategory('')
-                        setvMaterialType('')
-                        setvUOM('')
-                        setvHSNCode('')
-                        setvRemarks('')
-                        setLoader(false)
-                        setIsOpen(false)
-                        getMaterialMaster_SelectAll()
-                    }
-                })
+                let brandDatas = [...brandData]
+                console.log("brandDatas", brandDatas)
+                let venderexist = brandDatas.find(e => e.vMName == vMName)
+
+                let venderexistcode = brandDatas.find(e => e.vMCode == vMCode)
+                if (venderexist) {
+                    setLoader(false)
+                    toast.success("Item is already Added")
+                }
+                else if(venderexistcode){
+                    setLoader(false)
+                    toast.success("Code is already Added")
+                }
+                else {
+                    MaterialMasterPost(brand).then(res => {
+                        if (res) {
+                            console.log('res', res)
+                            toast.success("Record Added Successfully !!")
+                            setvMCode('')
+                            setvMName('')
+                            setvCategory('')
+                            setvMaterialType('')
+                            setvUOM('')
+                            setvHSNCode('')
+                            setvRemarks('')
+                            setLoader(false)
+                            setIsOpen(false)
+                            getMaterialMaster_SelectAll()
+                        }
+                    })
+                }
 
             } else {
                 setLoader(true)
@@ -274,8 +289,8 @@ function MaterialMaster() {
                     }
                 })
             }
-        }
 
+        }
 
     }
 
@@ -344,7 +359,7 @@ function MaterialMaster() {
                     <Box className='inputBox-6'>
                         <FormControl fullWidth className='input'>
                             <TextField
-                            sx={muiStyles.input}
+                                sx={muiStyles.input}
                                 value={vMCode}
                                 onChange={e => setvMCode(e.target.value)}
                                 required id="outlined-basic"
@@ -360,7 +375,7 @@ function MaterialMaster() {
                     <Box className='inputBox-6' >
                         <FormControl fullWidth className='input' >
                             <TextField
-                            sx={muiStyles.input}
+                                sx={muiStyles.input}
                                 value={vMName}
                                 onChange={e => setvMName(e.target.value)}
                                 required id="outlined-basic"
@@ -379,7 +394,7 @@ function MaterialMaster() {
                         <FormControl fullWidth className='input'>
                             <InputLabel required id="demo-simple-select-label" sx={muiStyles.InputLabels}>Category</InputLabel>
                             <Select
-                            sx={muiStyles.select}
+                                sx={muiStyles.select}
                                 style={{ width: '100%', }}
                                 labelId="demo-simple-select-label"
                                 id="demo-simple-select"
@@ -409,7 +424,7 @@ function MaterialMaster() {
                         <FormControl fullWidth className='input'>
                             <InputLabel required id="demo-simple-select-label" sx={muiStyles.InputLabels}>Material Type</InputLabel>
                             <Select
-                            sx={muiStyles.select}
+                                sx={muiStyles.select}
                                 style={{ width: '100%', }}
                                 labelId="demo-simple-select-label"
                                 id="demo-simple-select"
@@ -439,7 +454,7 @@ function MaterialMaster() {
                         <FormControl fullWidth className='input'>
                             <InputLabel required id="demo-simple-select-label" sx={muiStyles.InputLabels}>UOM</InputLabel>
                             <Select
-                            sx={muiStyles.select}
+                                sx={muiStyles.select}
                                 style={{ width: '100%', }}
                                 labelId="demo-simple-select-label"
                                 id="demo-simple-select"
@@ -468,7 +483,7 @@ function MaterialMaster() {
                     <Box className='inputBox-6' >
                         <FormControl fullWidth className='input'>
                             <TextField
-                            sx={muiStyles.input}
+                                sx={muiStyles.input}
                                 value={vHSNCode}
                                 onChange={e => setvHSNCode(e.target.value)}
                                 id="outlined-basic"
@@ -484,7 +499,7 @@ function MaterialMaster() {
                     <Box className='inputBox-18'>
                         <FormControl fullWidth className='input' >
                             <TextField
-                            sx={muiStyles.input}
+                                sx={muiStyles.input}
                                 value={vRemarks}
                                 onChange={e => setvRemarks(e.target.value)}
                                 id="outlined-basic"
@@ -495,7 +510,7 @@ function MaterialMaster() {
                         </FormControl>
                     </Box>
                     <FormGroup >
-                        <FormControlLabel style={{marginRight:0}} control={<Checkbox defaultChecked={btActive} value={btActive} onChange={e => setBtActive(e.target.checked)} />} label="Active" disabled={disabled} />
+                        <FormControlLabel style={{ marginRight: 0 }} control={<Checkbox defaultChecked={btActive} value={btActive} onChange={e => setBtActive(e.target.checked)} />} label="Active" disabled={disabled} />
                     </FormGroup>
                 </div>
                 <div className='displayflexendmodal'>
@@ -590,22 +605,22 @@ function MaterialMaster() {
                     </div>
                 </div> */}
                 <div className='tablecenter'>
-                    <Paper sx={{ width: '100%', overflow: 'hidden',paddingTop:1 }}>
+                    <Paper sx={{ width: '100%', overflow: 'hidden', paddingTop: 1 }}>
                         <div className='exportandfilter'>
-                        
-                          
-                            <div className='filterbox'>
-                            <Box className='searchbox'>
-                                <SearchBar
-                                    value={searched}
-                                    onChange={(searchVal) => requestSearch(searchVal)}
-                                    onCancelSearch={() => cancelSearch()}
-                                />
 
-                            </Box>
-                            <FormGroup className='activeonly'>
-                                <FormControlLabel style={{marginRight:0}} control={<Checkbox checked={onlyActive} value={onlyActive} onChange={checkedonlyActive} />} label="Active Data" />
-                            </FormGroup>
+
+                            <div className='filterbox'>
+                                <Box className='searchbox'>
+                                    <SearchBar
+                                        value={searched}
+                                        onChange={(searchVal) => requestSearch(searchVal)}
+                                        onCancelSearch={() => cancelSearch()}
+                                    />
+
+                                </Box>
+                                <FormGroup className='activeonly'>
+                                    <FormControlLabel style={{ marginRight: 0 }} control={<Checkbox checked={onlyActive} value={onlyActive} onChange={checkedonlyActive} />} label="Active Data" />
+                                </FormGroup>
 
                             </div>
                         </div>
@@ -629,13 +644,13 @@ function MaterialMaster() {
 
                                     </TableRow>
                                 </TableHead>
-                               
+
                                 {brandData?.length > 0 ?
                                     <TableBody>
-                                    {brandData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((item,index) => {
+                                        {brandData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((item, index) => {
                                             return (
                                                 <TableRow hover role="checkbox" tabIndex={-1} key={index}>
-                                                      {/* <TableCell component="th" scope="row">{index + 1}.</TableCell> */}
+                                                    {/* <TableCell component="th" scope="row">{index + 1}.</TableCell> */}
 
                                                     <TableCell align="left" sx={muiStyles.tableBody}>{item.vMCode}</TableCell>
                                                     <TableCell align="left" sx={muiStyles.tableBody}>{item.vMName}</TableCell>
@@ -645,13 +660,13 @@ function MaterialMaster() {
                                                     <TableCell align="left" sx={muiStyles.tableBody}>{item.vHSNCode}</TableCell>
                                                     <TableCell align="left" sx={muiStyles.tableBody}>{item.vRemarks}</TableCell>
 
-                                                    <TableCell align="left" sx={muiStyles.tableBody}>{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
+                                                    <TableCell align="left" sx={muiStyles.tableBody}>{item.btActive === true ? <Checkbox disabled checked='checked' /> : <Checkbox disabled />}</TableCell>
                                                     <TableCell align="left" sx={muiStyles.tableBody}><div onClick={() => openmodale(item, 'Update')} className='editbtn'><TbEdit size={20} color='#000' /></div></TableCell>
 
                                                 </TableRow>
                                             );
                                         })}
-                                </TableBody>
+                                    </TableBody>
 
                                     :
                                     <TableBody>
@@ -665,7 +680,7 @@ function MaterialMaster() {
                             </Table>
                         </TableContainer>
                         <TablePagination
-                            rowsPerPageOptions={[5,10, 25, 100]}
+                            rowsPerPageOptions={[5, 10, 25, 100]}
                             component="div"
                             count={brandData.length}
                             rowsPerPage={rowsPerPage}
@@ -715,7 +730,7 @@ const muiStyles = {
         "& .MuiFormLabel-root": {
             fontSize: '13px',
             top: '-13px',
-            left:'-10px',
+            left: '-10px',
             backgroundColor: 'transparent',
             zIndex: '1'
         },
@@ -723,7 +738,7 @@ const muiStyles = {
             zIndex: '1'
 
         },
-        '& .MuiInputAdornment-root':{
+        '& .MuiInputAdornment-root': {
             position: 'absolute',
             right: '10px'
         }
@@ -741,8 +756,8 @@ const muiStyles = {
             fontSize: '13px',
             backgroundColor: 'transparent',
             top: '-13px',
-            left:'-10px',
-          
+            left: '-10px',
+
         },
         "& label.Mui-focused": {
             zIndex: '1'
@@ -758,7 +773,7 @@ const muiStyles = {
         "& .MuiFormLabel-root": {
             fontSize: '13px',
             top: '-13px',
-            left:'-10px',  
+            left: '-10px',
             backgroundColor: 'transparent',
         },
         "& label.Mui-focused": {
@@ -770,14 +785,14 @@ const muiStyles = {
         "& .MuiSelect-select": {
             padding: '3px',
             fontSize: '12px'
-        }, 
-        
+        },
+
 
     },
     InputLabels: {
         fontSize: '13px',
         top: '-13px',
-        left:'-10px',
+        left: '-10px',
         backgroundColor: 'transparent',
         "&.Mui-focused": {
             zIndex: '1'
@@ -793,24 +808,24 @@ const muiStyles = {
     tableHead: {
         "&.MuiTableCell-root": {
             padding: '8px',
-            fontWeight:'bold'
+            fontWeight: 'bold'
         }
     },
     tableBody: {
         "&.MuiTableCell-root": {
             padding: '8px',
-            fontSize:'14px',
+            fontSize: '14px',
             lineHeight: '39px'
         }
     },
     checkboxLabel: {
         "&.MuiFormControlLabel-root": {
             "&.MuiTypography-root": {
-                fontSize:'14px'
+                fontSize: '14px'
             }
         }
     },
-   
+
 
 };
 export default MaterialMaster
