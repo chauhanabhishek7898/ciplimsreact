@@ -142,11 +142,11 @@ function BrandMaster() {
             let venderexist = brandDatas.find(e => e.vBrandName == brandName.toLowerCase() || e.vBrandName == brandName.toUpperCase())
             if (venderexist) {
                 setLoader(false)
-                toast.success("Item is already Added")
+                toast.success("Item is already Exists")
             }
             else if (venderexistCode) {
                 setLoader(false)
-                toast.success("Code is already Added")
+                toast.success("Code is already Exists")
             }
             else {
                 console.log('brand', brand)

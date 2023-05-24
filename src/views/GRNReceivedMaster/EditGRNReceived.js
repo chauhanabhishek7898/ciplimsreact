@@ -679,7 +679,7 @@ function EditGRNReceived() {
                 let poMasteerDetail = [...PODetails]
                 let findnMId = poMasteerDetail.find(e => e.nMId == nMId)
                 if (findnMId) {
-                    toast.success("Material is already Added")
+                    toast.success("Material is already Exists")
                 } else {
                     poMasteerDetail.push({
                         id: new Date().getUTCMilliseconds(),

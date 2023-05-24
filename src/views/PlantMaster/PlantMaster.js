@@ -108,11 +108,11 @@ function PlantMaster() {
             let venderexistCode = plantDatas.find(e => e.vPlantCode == vPlantCode.toLowerCase() || e.vPlantCode == vPlantCode.toUpperCase())
             if (venderexist) {
                 setLoader(false)
-                toast.success("Item is already Added")
+                toast.success("Item is already Exists")
             }
             else if (venderexistCode) {
                 setLoader(false)
-                toast.success("Code is already Added")
+                toast.success("Code is already Exists")
 
             }
             else {

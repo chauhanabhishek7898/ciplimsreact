@@ -174,10 +174,10 @@ function VenderForm() {
             let venderexist = vendorDatas.find(e => e.vVendorName == vVendorName.toLowerCase() || e.vVendorName == vVendorName.toUpperCase())
             if (venderexist) {
                 setLoader(false)
-                toast.success("Item is already Added")
+                toast.success("Item is already Exists")
             } else if (venderexistcode) {
                 setLoader(false)
-                toast.success("Code is already Added")
+                toast.success("Code is already Exists")
             }
             else {
                 VendorMasterPost(vendor).then(res => {

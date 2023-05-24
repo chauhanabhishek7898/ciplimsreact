@@ -185,7 +185,7 @@ function LineMaster() {
                 let venderexist = lineDatas.find(e => e.vLineName == lineName.toLowerCase() || e.vLineName == lineName.toUpperCase())
                 if (venderexist) {
                     setLoader(false)
-                    toast.success("Item is already Added")
+                    toast.success("Item is already Exists")
                 }
                 else {
 

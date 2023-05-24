@@ -185,11 +185,11 @@ function PackMaster() {
                 let venderexistcode = packDataas.find(e => e.vPackCode == packCode.toLowerCase() || e.vPackCode == packCode.toUpperCase())
                 if (venderexist) {
                     setLoader(false)
-                    toast.success("Item is already Added")
+                    toast.success("Item is already Exists")
                 }
                 else if (venderexistcode) {
                     setLoader(false)
-                    toast.success("Code is already Added")
+                    toast.success("Code is already Exists")
                 }
                 else {
                     PackMasterPost(pack).then(res => {

@@ -74,7 +74,7 @@ function UnitMaster() {
             console.log("unitName", unitName)
             if (unitName) {
                 setLoader(false)
-                toast.success("Item is already Added")
+                toast.success("Item is already Exists")
             }
             else {
                 UnitMastersPost(data).then(res => {

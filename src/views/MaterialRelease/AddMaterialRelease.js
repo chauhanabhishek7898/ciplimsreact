@@ -623,7 +623,7 @@ function AddMaterialRelease() {
                                 let poMasteerDetail = [...PODetails]
                                 let findnMId = poMasteerDetail.find(e => e.nMId == nMId && e.dtExpDate == parseDateToStringSubmit(new Date(dtExpDate)))
                                 if (findnMId) {
-                                    toast.success("Material with this expiry date is already Added.")
+                                    toast.success("Material with this expiry date is already Exists.")
                                 } else {
                                     poMasteerDetail.push({
                                         id: new Date().getUTCMilliseconds(),
@@ -797,7 +797,7 @@ function AddMaterialRelease() {
         } else {
             let expDateFind = PODetails.find(e => e.nMId == nMId && e.ExpDate == expireDateValue)
             if (expDateFind) {
-                toast.success("Material with this Expiry Date is already Added.")
+                toast.success("Material with this Expiry Date is already Exists.")
             } else {
                 if (validateform() == true) {
                     // if (PODetails.length > 0) {
@@ -886,7 +886,7 @@ function AddMaterialRelease() {
         }
         // let expDateFind = PODetails.find(e => e.nMId == nMId && e.ExpDate == expireDateValue)
         // if (expDateFind) {
-        //     toast.success("Material with this Expiry Date is already Added.")
+        //     toast.success("Material with this Expiry Date is already Exists.")
         // } else {
         //     if (validateform() == true) {
         //         // if (PODetails.length > 0) {

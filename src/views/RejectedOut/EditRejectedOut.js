@@ -495,7 +495,7 @@ function EditRejectedOut() {
                                 let poMasteerDetail = [...PODetails]
                                 let findnMId = poMasteerDetail.find(e => e.nMId == nMId && e.dtExpDate == parseDateToStringSubmit(new Date(dtExpDate)))
                                 if (findnMId) {
-                                    toast.success("Material with this expiry date is already Added.")
+                                    toast.success("Material with this expiry date is already Exists.")
                                 } else {
                                     poMasteerDetail.push({
                                         id: new Date().getUTCMilliseconds(),

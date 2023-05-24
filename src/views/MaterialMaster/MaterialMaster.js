@@ -251,11 +251,11 @@ function MaterialMaster() {
                 let venderexistcode = brandDatas.find(e => e.vMCode == vMCode.toLowerCase() || e.vMCode == vMCode.toUpperCase())
                 if (venderexist) {
                     setLoader(false)
-                    toast.success("Item is already Added")
+                    toast.success("Item is already Exists")
                 }
                 else if(venderexistcode){
                     setLoader(false)
-                    toast.success("Code is already Added")
+                    toast.success("Code is already Exists")
                 }
                 else {
                     MaterialMasterPost(brand).then(res => {
