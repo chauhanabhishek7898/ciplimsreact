@@ -10,7 +10,7 @@ import TablePagination from '@mui/material/TablePagination';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import Paper from '@mui/material/Paper';
-import { MaterialMasterPost, MaterialMasterPut, MaterialMaster_SelectAll, MaterialTypeMaster_SelectAll_Active } from './MaterialMasterService'
+import { MaterialMasterPost, MaterialMasterPut, MaterialMaster_SelectAll, MaterialTypeMaster_SelectAll_Active } from '../MaterialMaster/MaterialMasterService'
 import { UnitMaster_SelectAll_Active, StorageConditionMaster_SelectAll_Active, SubCategoryMaster_SelectAll, CategoryMaster_SelectAll } from '../UnitMaster/UnitMasterApi'
 
 import TextField from '@mui/material/TextField';
@@ -38,7 +38,7 @@ import { parseDateToString } from '../../coreservices/Date';
 import ExportExcel from 'src/shareFunction/Excelexport';
 import CircularProgress from '@mui/joy/CircularProgress';
 import { TbEdit } from "react-icons/tb";
-function MaterialMaster() {
+function ProductMaster() {
     let Heading = [['SN.', 'Material Code', 'Material Name', 'Category', 'Material Type', 'UOM', 'HSN Code', 'Remarks', 'Status']];
     const [modalIsOpen, setIsOpen] = React.useState(false);
     const [page, setPage] = React.useState(0);
@@ -502,13 +502,13 @@ function MaterialMaster() {
 
 
                 <div className='displayright'>
-                    <div><span className='title'>Material Master</span></div>
+                    <div><span className='title'>Product Master</span></div>
                     <HighlightOffIcon fontSize='large' onClick={() => setIsOpen(false)} />
                 </div>
 
 
                 <div className='displayflexend mt-4'>
-                    <Box className='inputBox-6'>
+                    {/* <Box className='inputBox-6'>
                         <FormControl fullWidth className='input'>
                             <TextField
                                 sx={muiStyles.input}
@@ -523,10 +523,10 @@ function MaterialMaster() {
                                 helperText={errors.MaterialCode?.message}
                             />
                         </FormControl>
-                    </Box>
+                    </Box> */}
 
 
-                    <Box className='inputBox-6' >
+                    {/* <Box className='inputBox-6' >
                         <FormControl fullWidth className='input' >
                             <TextField
                                 sx={muiStyles.input}
@@ -541,32 +541,10 @@ function MaterialMaster() {
                                 helperText={errors.MaterialName?.message}
                             />
                         </FormControl>
-                    </Box>
+                    </Box> */}
 
 
-                    <Box className='inputBox-6'>
-                        <FormControl fullWidth className='input'>
-                            <InputLabel required id="demo-simple-select-label" sx={muiStyles.InputLabels}>Material Type</InputLabel>
-                            <Select
-                                sx={muiStyles.select}
-                                style={{ width: '100%', }}
-                                labelId="demo-simple-select-label"
-                                id="demo-simple-select"
-                                value={vMaterialType}
-                                label="Select Material Type"
-                                onChange={handleChangeMaterialType}
-                                name='nMTId' >
-                                {vMaterialTypeData.map((item, index) => {
-                                    return (
-                                        <MenuItem key={index} onBlur={() => handleBlurM(item)} value={item.vMaterialType} id={item.nMTId}>{item.vMaterialType}</MenuItem>
-                                        // <MenuItem key={index} value={item.vMaterialType}>{item.vMaterialType}</MenuItem>
-                                    )
-                                })
-                                }
-                            </Select>
-                            {errorText.vMaterialType != '' ? <p className='error'>{errorText.vMaterialType}</p> : null}
-                        </FormControl>
-                    </Box>
+                  
 
 
                     <Box className='inputBox-6'>
@@ -615,63 +593,54 @@ function MaterialMaster() {
                                 }
                             </Select>
                         </FormControl>
-                    </Box>
-
-                    {/* <Box className='inputBox-6'>
-                        <FormControl fullWidth className='input'>
-                            <InputLabel required id="demo-simple-select-label" sx={muiStyles.InputLabels}>Sub Category</InputLabel>
-                            <Select
-                                sx={muiStyles.select}
-                                style={{ width: '100%' }}
-                                labelId="demo-simple-select-label"
-                                id="demo-simple-select"
-                                value={selectedOption.id}
-                                label="Select Sub Category"
-                                onChange={handleChangeSubCategory}
-                                name='nSCId'
-                            >
-                                {SubCategoryData.map((item, index) => (
-                                    <MenuItem key={index} onBlur={() => handleBlur(item)} name={item.vSubCategoryName} value={item.nSCId} id={item.nSCId}>
-                                        {item.vSubCategoryName}
-                                    </MenuItem>
-                                ))}
-                            </Select>
-                        </FormControl>
-                        <p>Selected Item ID: {selectedOption.id}</p>
-                        <p>Selected Item Value: {selectedOption.value}</p>
-                    </Box> */}
-
-
+                    </Box> 
 
 
                     <Box className='inputBox-6'>
                         <FormControl fullWidth className='input'>
-                            <InputLabel required id="demo-simple-select-label" sx={muiStyles.InputLabels}>UOM</InputLabel>
+                            <InputLabel required id="demo-simple-select-label" sx={muiStyles.InputLabels}>Brand</InputLabel>
                             <Select
                                 sx={muiStyles.select}
                                 style={{ width: '100%', }}
                                 labelId="demo-simple-select-label"
                                 id="demo-simple-select"
-                                value={vUOM}
-                                label="Select UOM"
-                                onChange={handleChangePackUnit}
-                                name='unitid' >
-                                {uniteData.map((item, index) => {
+                                value={vMaterialType}
+                                label="Select Material Type"
+                                onChange={handleChangeMaterialType}
+                                name='nMTId' >
+                                {vMaterialTypeData.map((item, index) => {
                                     return (
-                                        <MenuItem key={index} onBlur={() => handleBlurU(item)} value={item.vUnitName} id={item.nUId}>{item.vUnitName}</MenuItem>
-                                        // <MenuItem key={index} value={item.vUnitName}>{item.vUnitName}</MenuItem>
+                                        <MenuItem key={index} onBlur={() => handleBlurM(item)} value={item.vMaterialType} id={item.nMTId}>{item.vMaterialType}</MenuItem>
+                                        // <MenuItem key={index} value={item.vMaterialType}>{item.vMaterialType}</MenuItem>
                                     )
                                 })
                                 }
                             </Select>
-                            {/* {errorText.vUOM != '' ? <p className='error'>{errorText.vUOM}</p> : null} */}
+                            {errorText.vMaterialType != '' ? <p className='error'>{errorText.vMaterialType}</p> : null}
                         </FormControl>
                     </Box>
 
 
+
+                    <Box className='inputBox-6' >
+                        <FormControl fullWidth className='input'>
+                            <TextField
+                                sx={muiStyles.input}
+                                value={vHSNCode}
+                                onChange={e => setvHSNCode(e.target.value)}
+                                id="outlined-basic"
+                                label="Variant"
+                                variant="outlined"
+                                name='HSNCode'
+                            />
+                        </FormControl>
+                    </Box>
+
+
+
                     <Box className='inputBox-6'>
                         <FormControl fullWidth className='input'>
-                            <InputLabel required id="demo-simple-select-label" sx={muiStyles.InputLabels}>Storage Condition</InputLabel>
+                            <InputLabel required id="demo-simple-select-label" sx={muiStyles.InputLabels}>SKU Name</InputLabel>
                             <Select
                                 sx={muiStyles.select}
                                 style={{ width: '100%', }}
@@ -694,22 +663,7 @@ function MaterialMaster() {
                     </Box>
 
 
-                    <Box className='inputBox-6' >
-                        <FormControl fullWidth className='input'>
-                            <TextField
-                                sx={muiStyles.input}
-                                value={vHSNCode}
-                                onChange={e => setvHSNCode(e.target.value)}
-                                id="outlined-basic"
-                                label="HSN Code"
-                                variant="outlined"
-                                name='HSNCode'
-                            />
-                        </FormControl>
-                    </Box>
-
-
-                    <Box className='inputBox-14'>
+                    {/* <Box className='inputBox-14'>
                         <FormControl fullWidth className='input' >
                             <TextField
                                 sx={muiStyles.input}
@@ -721,7 +675,7 @@ function MaterialMaster() {
                                 name='vRemarks'
                             />
                         </FormControl>
-                    </Box>
+                    </Box> */}
                     <div style={{ display:'flex',flexBasis:'100%' }}></div>
 
 
@@ -852,15 +806,13 @@ function MaterialMaster() {
                                     <TableRow>
                                         {/* <TableCell scope="row">SN.</TableCell> */}
 
-                                        <TableCell align="left" sx={muiStyles.tableHead}>Material Code</TableCell>
-                                        <TableCell align="left" sx={muiStyles.tableHead}>Material Name</TableCell>
+                       
                                         <TableCell align="left" sx={muiStyles.tableHead}>Category</TableCell>
                                         <TableCell align="left" sx={muiStyles.tableHead}>Sub Category</TableCell>
-                                        <TableCell align="left" sx={muiStyles.tableHead}>Material Type</TableCell>
-                                        <TableCell align="left" sx={muiStyles.tableHead}>UOM</TableCell>
-                                        <TableCell align="left" sx={muiStyles.tableHead}>Storage Condition</TableCell>
-                                        <TableCell align="left" sx={muiStyles.tableHead}>HSN Code</TableCell>
-                                        <TableCell align="left" sx={muiStyles.tableHead}>Remarks</TableCell>
+                                        <TableCell align="left" sx={muiStyles.tableHead}>Brand</TableCell>
+                                        <TableCell align="left" sx={muiStyles.tableHead}>Variant</TableCell>
+                                        <TableCell align="left" sx={muiStyles.tableHead}>SKU Name</TableCell>
+
 
                                         <TableCell align="left" sx={muiStyles.tableHead}>Status</TableCell>
                                         <TableCell align="left" sx={muiStyles.tableHead}>Edit</TableCell>
@@ -875,16 +827,14 @@ function MaterialMaster() {
                                                 <TableRow hover role="checkbox" tabIndex={-1} key={index}>
                                                     {/* <TableCell component="th" scope="row">{index + 1}.</TableCell> */}
 
-                                                    <TableCell align="left" sx={muiStyles.tableBody}>{item.vMCode}</TableCell>
-                                                    <TableCell align="left" sx={muiStyles.tableBody}>{item.vMName}</TableCell>
+  
                                                     <TableCell align="left" sx={muiStyles.tableBody}>{item.vCategory}</TableCell>
                                                     <TableCell align="left" sx={muiStyles.tableBody}>{item.vSubCategory}</TableCell>
 
                                                     <TableCell align="left" sx={muiStyles.tableBody}>{item.vMaterialType}</TableCell>
                                                     <TableCell align="left" sx={muiStyles.tableBody}>{item.vUOM}</TableCell>
                                                     <TableCell align="left" sx={muiStyles.tableBody}>{item.vStorageCondition}</TableCell>
-                                                    <TableCell align="left" sx={muiStyles.tableBody}>{item.vHSNCode}</TableCell>
-                                                    <TableCell align="left" sx={muiStyles.tableBody}>{item.vRemarks}</TableCell>
+                              
 
                                                     <TableCell align="left" sx={muiStyles.tableBody}>{item.btActive === true ? <Checkbox disabled checked='checked' /> : <Checkbox disabled />}</TableCell>
                                                     <TableCell align="left" sx={muiStyles.tableBody}><div onClick={() => openmodale(item, 'Update')} className='editbtn'><TbEdit size={20} color='#000' /></div></TableCell>
@@ -1049,4 +999,4 @@ const muiStyles = {
 
 
 };
-export default MaterialMaster
+export default ProductMaster

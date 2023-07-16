@@ -66,6 +66,39 @@ function AddBomMaster() {
     const [vBOMNo, setvBOMNo] = React.useState("");
     const [vBrand, setvBrand] = React.useState("");
     const [vPack, setvPack] = React.useState("");
+
+    const [Variant, setVariant] = React.useState("");
+
+    const [Product, setProduct] = React.useState("");
+
+    const handleChangeVariant = (event) => {
+        setVariant(event.target.value);
+    };
+
+    const handleChangeProduct = (event) => {
+        setProduct(event.target.value);
+    };
+
+    const [Requirement, setRequirement] = React.useState("");
+
+    const handleChangeRequirement = (event) => {
+        setRequirement(event.target.value);
+    };
+      const [perCaseVolume, setperCaseVolume] = React.useState("");
+
+    const handleChangeperCaseVolume = (event) => {
+        setperCaseVolume(event.target.value);
+    };
+       const [PerUnitVolume, setPerUnitVolume] = React.useState("");
+
+    const handleChangePerUnitVolume = (event) => {
+        setPerUnitVolume(event.target.value);
+    };
+      const [CaseConfig, setCaseConfig] = React.useState("");
+
+    const handleChangeCaseConfig = (event) => {
+        setCaseConfig(event.target.value);
+    };
     const [vBOMName, setvBOMName] = React.useState("");
     const [vUnit, setvUnit] = React.useState("");
     const [nQty, setnQty] = React.useState('');
@@ -75,7 +108,7 @@ function AddBomMaster() {
     const [btActive, setBtActive] = React.useState(true);
     const [disabled, setdisabled] = React.useState(true)
     const [PODetails, setPODetails] = React.useState([]);
-   
+
     const [nLoggedInUserId, setnLoggedInUserId] = React.useState('');
     const [errorText, setError] = React.useState({
         plant: '',
@@ -85,7 +118,7 @@ function AddBomMaster() {
         Quan: '',
         amount: '',
     });
-  
+
     const [preview, setPreview] = useState('')
     const [btnType, setbtnType] = useState('')
     const [imgpreview, setimgPreview] = useState(false)
@@ -100,7 +133,7 @@ function AddBomMaster() {
         const userId = localStorage.getItem("nUserId")
         setnLoggedInUserId(userId)
     }, [])
- 
+
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
     };
@@ -125,7 +158,7 @@ function AddBomMaster() {
                 data.push({
                     value: res[i].vBrandName,
                     label: res[i].vBrandName,
-                  
+
                 })
             }
             setPlantMaster(data)
@@ -176,7 +209,7 @@ function AddBomMaster() {
 
     }
     const changePlantValue = (value) => {
-  
+
         setPlantDetail(value.label)
         setvBrand(value.value)
         setError({
@@ -191,7 +224,7 @@ function AddBomMaster() {
         })
     }
     const changeMaterialMasterValue = (value) => {
-        console.log('value',value)
+        console.log('value', value)
         setnMId(value.value)
         setMaterialDetail(value.label)
         setvUMO(value.vUOM)
@@ -209,7 +242,7 @@ function AddBomMaster() {
             setimgPreview(false)
         }
     }
- 
+
     const validateformPoDetial = () => {
         if (MaterialDetail == '' || MaterialDetail == undefined) {
             setError({
@@ -249,7 +282,7 @@ function AddBomMaster() {
                                 poMasteerDetail[indexToUpdate].MaterialDetail = MaterialDetail,
                                 poMasteerDetail[indexToUpdate].nQty = parseFloat(nQty == '' ? 0 : nQty),
                                 poMasteerDetail[indexToUpdate].vUOM = vUMO == '' ? null : vUMO,
-                            console.log('koMonth', poMasteerDetail)
+                                console.log('koMonth', poMasteerDetail)
                             setPODetails(poMasteerDetail)
                             setbtnType('')
                             setnMId('')
@@ -277,10 +310,10 @@ function AddBomMaster() {
                             label: 'Yes',
                             onClick: () => {
                                 let poMasteerDetail = [...PODetails]
-                                let findnMId=poMasteerDetail.find(e=>e.nMId==nMId)
-                                if(findnMId){
+                                let findnMId = poMasteerDetail.find(e => e.nMId == nMId)
+                                if (findnMId) {
                                     toast.success("Item is already Exists")
-                                }else{
+                                } else {
                                     poMasteerDetail.push({
                                         id: new Date().getUTCMilliseconds(),
                                         nMId: parseInt(nMId),
@@ -351,7 +384,7 @@ function AddBomMaster() {
                                 }]
                                 let PurchaseOrder = {}
                                 PurchaseOrder.BOMMaster = POMasterData,
-                                PurchaseOrder.BOMDetails = PODetails
+                                    PurchaseOrder.BOMDetails = PODetails
                                 console.log('PurchaseOrder', PurchaseOrder)
                                 BOMMasterPost(PurchaseOrder, vPOFilePath).then(res => {
                                     if (res) {
@@ -443,10 +476,10 @@ function AddBomMaster() {
         <div className='citymasterContainer'>
             <div className='dateFilter-2 '>
                 <div className='displayflexend mt-2'>
-                    <Box className='inputBox-22' >
+                    <Box className='inputBox-10' >
                         <FormControl fullWidth className='input'>
                             <TextField
-                            sx={muiStyles.input}
+                                sx={muiStyles.input}
                                 value={vBOMNo}
                                 onChange={e => setvBOMNo(e.target.value)}
                                 required id="outlined-basic"
@@ -459,11 +492,13 @@ function AddBomMaster() {
                             />
                         </FormControl>
                     </Box>
-                    <Box className='inputBox-12' >
+
+
+                    <Box className='inputBox-10' >
                         <FormControl fullWidth className='input'>
                             {/* <InputLabel required id="demo-simple-select-label">Plant</InputLabel>npm  */}
                             <Autocomplete
-                            sx={muiStyles.autoCompleate}
+                                sx={muiStyles.autoCompleate}
                                 disablePortal
                                 id="combo-box-demo"
                                 options={PlantMaster}
@@ -481,20 +516,42 @@ function AddBomMaster() {
                             {errorText.plant != '' ? <p className='error'>{errorText.plant}</p> : null}
                         </FormControl>
                     </Box>
+
+
+
+
                     <Box className='inputBox-12'>
                         <FormControl fullWidth className='input'>
-                            {/* <InputLabel required id="demo-simple-select-label">Vendor</InputLabel> */}
+                            <InputLabel required id="demo-simple-select-label" sx={muiStyles.InputLabels}>Variant</InputLabel>
+                            <Select
+                                sx={muiStyles.select}
+                                style={{ width: '100%', }}
+                                labelId="demo-simple-select-label"
+                                id="demo-simple-select"
+                                value={Variant}
+                                label="Select Variant"
+                                onChange={handleChangeVariant}
+                                name='unitid' >
+                                <MenuItem value='M1'>C1</MenuItem>
+                                <MenuItem value='M2'>C2</MenuItem>
+                                <MenuItem value='M3'>C3</MenuItem>
+                            </Select>
+                        </FormControl>
+                    </Box>
+
+
+
+                    <Box className='inputBox-12'>
+                        <FormControl fullWidth className='input'>
                             <Autocomplete
-                            sx={muiStyles.autoCompleate}
+                                sx={muiStyles.autoCompleate}
                                 disablePortal
                                 id="combo-box-demo"
                                 options={VendorMaster}
                                 value={VendorDetail}
-                                // inputValue={inputValue}
                                 onChange={(event, value) => changeVendorMasterValue(value)}
                                 onKeyDown={newInputValue => vendorMaster_SelectAll_ActiveLikeSearch(newInputValue)}
                                 onInputChange={(event, newInputValue) => {
-                                    // setInputValue(newInputValue);
                                     console.log('newInputValue', newInputValue)
                                 }}
                                 renderInput={(params) => <TextField {...params} label="Search Pack" required />}
@@ -502,10 +559,117 @@ function AddBomMaster() {
                             {errorText.vendor != '' ? <p className='error'>{errorText.vendor}</p> : null}
                         </FormControl>
                     </Box>
+
+
+                    <Box className='inputBox-6'>
+                        <FormControl fullWidth className='input'>
+                            <InputLabel required id="demo-simple-select-label" sx={muiStyles.InputLabels}>Product</InputLabel>
+                            <Select
+                                sx={muiStyles.select}
+                                style={{ width: '100%', }}
+                                labelId="demo-simple-select-label"
+                                id="demo-simple-select"
+                                value={Product}
+                                label="Select Product"
+                                onChange={handleChangeProduct}
+                                name='unitid' >
+                                <MenuItem value='M1'>P1</MenuItem>
+                                <MenuItem value='M2'>P2</MenuItem>
+                                <MenuItem value='M3'>P3</MenuItem>
+                            </Select>
+                        </FormControl>
+                    </Box>
+
+
+
+                    <Box className='inputBox-6'>
+                        <FormControl fullWidth className='input'>
+                            <InputLabel required id="demo-simple-select-label" sx={muiStyles.InputLabels}>Per Unit Volume Lt.</InputLabel>
+                            <Select
+                                sx={muiStyles.select}
+                                style={{ width: '100%', }}
+                                labelId="demo-simple-select-label"
+                                id="demo-simple-select"
+                                value={PerUnitVolume}
+                                label="Select Per Unit Volume Lt."
+                                onChange={handleChangePerUnitVolume}
+                                name='unitid' >
+                                <MenuItem value='M1'>PUV1</MenuItem>
+                                <MenuItem value='M2'>PUV2</MenuItem>
+                                <MenuItem value='M3'>PUV3</MenuItem>
+                            </Select>
+                        </FormControl>
+                    </Box>
+
+
+                    <Box className='inputBox-6'>
+                        <FormControl fullWidth className='input'>
+                            <InputLabel required id="demo-simple-select-label" sx={muiStyles.InputLabels}>Case Config.</InputLabel>
+                            <Select
+                                sx={muiStyles.select}
+                                style={{ width: '100%', }}
+                                labelId="demo-simple-select-label"
+                                id="demo-simple-select"
+                                value={CaseConfig}
+                                label="Select Case Config."
+                                onChange={handleChangeCaseConfig}
+                                name='unitid' >
+                                <MenuItem value='M1'>CaseConfig1</MenuItem>
+                                <MenuItem value='M2'>CaseConfig2</MenuItem>
+                                <MenuItem value='M3'>CaseConfig3</MenuItem>
+                            </Select>
+                        </FormControl>
+                    </Box>
+
+
+                    <Box className='inputBox-6'>
+                        <FormControl fullWidth className='input'>
+                            <InputLabel required id="demo-simple-select-label" sx={muiStyles.InputLabels}>Per Case Volume Lt.</InputLabel>
+                            <Select
+                                sx={muiStyles.select}
+                                style={{ width: '100%', }}
+                                labelId="demo-simple-select-label"
+                                id="demo-simple-select"
+                                value={perCaseVolume}
+                                label="Select Per Case Volume Lt."
+                                onChange={handleChangeperCaseVolume}
+                                name='unitid' >
+                                <MenuItem value='M1'>PCV1</MenuItem>
+                                <MenuItem value='M2'>PCV2</MenuItem>
+                                <MenuItem value='M3'>PCV3</MenuItem>
+                            </Select>
+                        </FormControl>
+                    </Box>
+
+
+
+                    <Box className='inputBox-6'>
+                        <FormControl fullWidth className='input'>
+                            <InputLabel required id="demo-simple-select-label" sx={muiStyles.InputLabels}>Requirement in CS</InputLabel>
+                            <Select
+                                sx={muiStyles.select}
+                                style={{ width: '100%', }}
+                                labelId="demo-simple-select-label"
+                                id="demo-simple-select"
+                                value={Requirement}
+                                label="Select Requirement in CS"
+                                onChange={handleChangeRequirement}
+                                name='unitid' >
+                                <MenuItem value='M1'>R1</MenuItem>
+                                <MenuItem value='M2'>R2</MenuItem>
+                                <MenuItem value='M3'>R3</MenuItem>
+                            </Select>
+                        </FormControl>
+                    </Box>
+
+
+
+
+
                     <Box className='inputBox-22' >
                         <FormControl fullWidth className='input'>
                             <TextField
-                            sx={muiStyles.input}
+                                sx={muiStyles.input}
                                 value={vBOMName}
                                 onChange={e => setvBOMName(e.target.value)}
                                 required id="outlined-basic"
@@ -521,7 +685,7 @@ function AddBomMaster() {
                     <Box className='inputBox-22' >
                         <FormControl fullWidth className='input'>
                             <TextField
-                            sx={muiStyles.input}
+                                sx={muiStyles.input}
                                 value={vUnit}
                                 onChange={e => setvUnit(e.target.value)}
                                 required id="outlined-basic"
@@ -534,10 +698,10 @@ function AddBomMaster() {
                             />
                         </FormControl>
                     </Box>
-                    <Box className='inputBox-19' >
+                    <Box className='inputBox-8' >
                         <FormControl fullWidth className='input'>
                             <TextField
-                            sx={muiStyles.input}
+                                sx={muiStyles.input}
                                 value={vRemarks}
                                 onChange={e => setvRemarks(e.target.value)}
                                 id="outlined-basic"
@@ -553,8 +717,8 @@ function AddBomMaster() {
 
 
                     <Box className='inputBox-8' >
-                        <div style={{position:'relative'}}>
-                            <InputLabel id="demo-simple-select-label" style={{ marginTop: 5, marginBottom: 5,fontSize: 10,position: 'absolute',top: -23}}>Attach BOM </InputLabel>
+                        <div style={{ position: 'relative' }}>
+                            <InputLabel id="demo-simple-select-label" style={{ marginTop: 5, marginBottom: 5, fontSize: 10, position: 'absolute', top: -23 }}>Attach BOM </InputLabel>
                             <input type="file" name='vPOFilePath' onChange={imageFile} hidden ref={imageRef} />
                             <div style={{ flexDirection: 'row' }}>
                                 <button onClick={() => imageRef.current.click()} className='choosebtn'>Choose File</button>
@@ -568,17 +732,19 @@ function AddBomMaster() {
 
                     </Box>
                     <FormGroup >
-                        <FormControlLabel style={{marginRight:0}} control={<Checkbox defaultChecked={btActive} value={btActive} onChange={e => setBtActive(e.target.checked)} />} label="Active" disabled={disabled} />
+                        <FormControlLabel style={{ marginRight: 20 }} control={<Checkbox defaultChecked={btActive} value={btActive} onChange={e => setBtActive(e.target.checked)} />} label="Active" disabled={disabled} />
                     </FormGroup>
                 </div>
             </div>
+
+
             <div className='databox '>
                 <div className='data-form-box mt-2 '>
                     <Box className='inputBox-20' >
                         <FormControl fullWidth className='input'>
                             {/* <InputLabel required id="demo-simple-select-label">Item</InputLabel> */}
                             <Autocomplete
-                            sx={muiStyles.autoCompleate}
+                                sx={muiStyles.autoCompleate}
                                 disablePortal
                                 id="combo-box-demo"
                                 options={MaterialMaster}
@@ -597,11 +763,11 @@ function AddBomMaster() {
                         </FormControl>
                     </Box>
 
-                    
+
                     <Box className='inputBox-21' >
                         <FormControl fullWidth className='input' >
                             <TextField
-                            sx={muiStyles.input}
+                                sx={muiStyles.input}
                                 value={vUMO}
                                 onChange={e => setvUMO(e.target.value)}
                                 required id="outlined-basic"
@@ -619,7 +785,7 @@ function AddBomMaster() {
                     <Box className='inputBox-22' >
                         <FormControl fullWidth className='input' >
                             <TextField
-                            sx={muiStyles.input}
+                                sx={muiStyles.input}
                                 value={nQty}
                                 onChange={e => setnQty(e.target.value)}
                                 required id="outlined-basic"
@@ -634,23 +800,23 @@ function AddBomMaster() {
                             {errorText.Quan != '' ? <p className='error'>{errorText.Quan}</p> : null}
                         </FormControl>
                     </Box>
-                    <div style={{marginBottom:10}}>
+                    <div style={{ marginBottom: 10 }}>
                         <button title='Add' className='addbtn' onClick={addKoMonthDate}><AddIcon fontSize='small' /></button>
                     </div>
                 </div>
                 <div className='tablecenter'>
                     {PODetails.length > 0 ?
-                        <Paper sx={{ width: '100%', overflow: 'hidden',paddingTop:1 }}>
+                        <Paper sx={{ width: '100%', overflow: 'hidden', paddingTop: 1 }}>
                             <TableContainer sx={muiStyles.tableBox} className='tableBox'>
                                 <Table stickyHeader aria-label="sticky table">
                                     <TableHead>
                                         <TableRow>
-                                            <TableCell scope="row" style={{width: '5%',}}>SN.</TableCell>
-                                            <TableCell align="center" style={{width: '10%',}}>Action</TableCell>
+                                            <TableCell scope="row" style={{ width: '5%', }}>SN.</TableCell>
+                                            <TableCell align="center" style={{ width: '10%', }}>Action</TableCell>
                                             <TableCell align="left" >Material Name</TableCell>
                                             <TableCell align="left" >UOM</TableCell>
                                             <TableCell align="left" >Qty</TableCell>
-                                       
+
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
@@ -667,7 +833,7 @@ function AddBomMaster() {
                                                     <TableCell align="left" >{item.MaterialDetail}</TableCell>
                                                     <TableCell align="left" >{item.vUOM}</TableCell>
                                                     <TableCell align="left" >{item.nQty}</TableCell>
-                                                  
+
 
 
                                                 </TableRow>
@@ -736,7 +902,7 @@ const muiStyles = {
         "& .MuiFormLabel-root": {
             fontSize: '13px',
             top: '-13px',
-            left:'-10px',
+            left: '-10px',
             backgroundColor: 'transparent',
             zIndex: '1'
         },
@@ -744,7 +910,7 @@ const muiStyles = {
             zIndex: '1'
 
         },
-        '& .MuiInputAdornment-root':{
+        '& .MuiInputAdornment-root': {
             position: 'absolute',
             right: '10px'
         }
@@ -762,8 +928,8 @@ const muiStyles = {
             fontSize: '13px',
             backgroundColor: 'transparent',
             top: '-13px',
-            left:'-10px',
-          
+            left: '-10px',
+
         },
         "& label.Mui-focused": {
             zIndex: '1'
@@ -779,7 +945,7 @@ const muiStyles = {
         "& .MuiFormLabel-root": {
             fontSize: '13px',
             top: '-13px',
-            left:'-10px',  
+            left: '-10px',
             backgroundColor: 'transparent',
         },
         "& label.Mui-focused": {
@@ -791,20 +957,20 @@ const muiStyles = {
         "& .MuiSelect-select": {
             padding: '3px',
             fontSize: '12px'
-        }, 
-        
+        },
+
 
     },
     InputLabels: {
         fontSize: '13px',
         top: '-13px',
-        left:'-10px',
+        left: '-10px',
         backgroundColor: 'transparent',
         "&.Mui-focused": {
             zIndex: '1'
         }
     },
-   
+
 
 };
 

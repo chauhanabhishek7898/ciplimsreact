@@ -52,6 +52,8 @@ function PackMaster() {
     const [packProduct, setpackProduct] = React.useState("");
     const [packCases, setpackCases] = React.useState("");
 
+    const [vPrefix, setvPrefix] = React.useState("");
+
     const [buttonName, setbuttonName] = React.useState('');
     const [disabled, setdisabled] = React.useState(true);
 
@@ -77,6 +79,7 @@ function PackMaster() {
             setnPId(item.nPId)
             setpackCode("")
             setpackName("")
+            setvPrefix('')
             setUnitid('')
             setpackProduct("")
             setpackCases("")
@@ -86,6 +89,7 @@ function PackMaster() {
             setnPId(item.nPId)
             setpackCode(item.vPackCode)
             setpackName(item.vPackName)
+            setvPrefix(item.vPrefix)
             setBtActive(item.btActive)
             setUnitid(item.vUnit)
             setpackProduct(item.vPackProduct)
@@ -170,6 +174,7 @@ function PackMaster() {
                 nPId: nPId == null ? 0 : nPId,
                 vPackCode: packCode,
                 vPackName: packName,
+                vPrefix: vPrefix,
                 vUnit: unitid,
                 vPackProduct: packProduct,
                 vPackCases: packCases,
@@ -264,7 +269,7 @@ function PackMaster() {
                                     <TableCell align="left" sx={muiStyles.tableHead}>Unit</TableCell>
                                     <TableCell align="left" sx={muiStyles.tableHead}>Pack Product</TableCell>
                                     <TableCell align="left" sx={muiStyles.tableHead}>Pack Cases</TableCell>
-
+                                    <TableCell align="left" sx={muiStyles.tableHead}>Prefix</TableCell>
                                     <TableCell align="left" sx={muiStyles.tableHead}>Status</TableCell>
                                     <TableCell align="left" sx={muiStyles.tableHead}>Edit</TableCell>
 
@@ -282,7 +287,7 @@ function PackMaster() {
                                                 <TableCell align="left" sx={muiStyles.tableBody}>{item.vUnit}</TableCell>
                                                 <TableCell align="left" sx={muiStyles.tableBody}>{item.vPackProduct}</TableCell>
                                                 <TableCell align="left" sx={muiStyles.tableBody}>{item.vPackCases}</TableCell>
-
+                                                <TableCell align="left" sx={muiStyles.tableBody}>{item.vPrefix}</TableCell>
                                                 <TableCell align="left" sx={muiStyles.tableBody}>{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
                                                 <TableCell align="left" sx={muiStyles.tableBody}><div onClick={() => openmodale(item, 'Update')} className='editbtn'><TbEdit size={20} color='#000' /></div></TableCell>
 
@@ -426,6 +431,24 @@ function PackMaster() {
                                 helperText={errors.packCases?.message} />
                         </FormControl>
                     </Box>
+
+                    <Box className='inputBox-11'>
+                        <FormControl fullWidth className='input'>
+                            <TextField
+                                sx={muiStyles.input}
+                                value={vPrefix}
+                                onChange={e => setvPrefix(e.target.value)}
+                                required id="outlined-basic"
+                                label="Prefix"
+                                variant="outlined"
+                                name='vPrefix'
+                                inputRef={register({ required: "Prefix is required.*", })}
+                                error={Boolean(errors.brandCode)}
+                                helperText={errors.brandCode?.message}
+                            />
+                        </FormControl>
+                    </Box>
+
                 </div>
                 <div className='displayflexend-2'>
                     <FormGroup >

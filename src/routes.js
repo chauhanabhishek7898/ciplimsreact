@@ -1,4 +1,5 @@
 import React from 'react'
+// import ProductMaster from './views/ProductMaster/ProductMaster'
 
 const Dashboard = React.lazy(() => import('./views/dashboard/Dashboard'))
 const Login = React.lazy(() => import('./views/pages/login/Login'))
@@ -6,6 +7,8 @@ const Komonth = React.lazy(() => import('./views/Komonth/Komonth'))
 const UnitMaster = React.lazy(() => import('./views/UnitMaster/UnitMaster'))
 const MaterialMaster = React.lazy(() => import('./views/MaterialMaster/MaterialMaster'))
 const PurchaseOrder = React.lazy(() => import('./views/PurchaseOrder/PurchaseOrder'))
+const ProductMaster = React.lazy(() => import('./views/ProductMaster/ProductMaster'))
+
 const AddPurchaseOrder = React.lazy(() => import('./views/PurchaseOrder/AddPurchaseOrder'))
 const EditPurchaseOrder = React.lazy(() => import('./views/PurchaseOrder/EditPurchaseOrder'))
 const GRNReceivedList = React.lazy(() => import('./views/GRNReceivedMaster/GRNReceivedList'))
@@ -49,6 +52,8 @@ const routes = [
   //  { path:"/login", name:"Login", element:Login },
   { path: '/dashboard', name: 'Dashboard', element: Dashboard },
   { path: '/KOMonth', name: 'Ko Month', element: Komonth, exact: true },
+  { path: '/ProductMaster', name: 'Product Master', element: ProductMaster, exact: true },
+
   { path: '/UnitMaster', name: 'Unit Master', element: UnitMaster, exact: true },
   { path: '/update-email-id', name: 'Update Email', element: UpdateEmail, exact: true },
   { path: '/update-mobile-no', name: 'Update Mobile No', element: UpdateMobileNo, exact: true },
