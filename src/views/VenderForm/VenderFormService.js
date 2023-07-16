@@ -17,6 +17,13 @@ export function VendorMasterPut(data) {
         return response;
     })
 }
+export function VendorDetail_UpdatePut(data) {
+    let apiUrl = environment.apiUrl;
+    let url = `${apiUrl}/VendorMaster/VendorDetail_Update`
+    return put(url, data).then(response => {
+        return response;
+    })
+}
 export function VendorMaster_SelectAll_Active() {
     let apiUrl = environment.apiUrl;
     let url = `${apiUrl}/VendorMaster/VendorMaster_SelectAll_Active`
@@ -31,6 +38,13 @@ export function VendorMaster_SelectAll() {
         return response;
     })
 }
+export function VendorMaster_GetVendorById(nVId) {
+    let apiUrl = environment.apiUrl;
+    let url = `${apiUrl}/VendorMaster/VendorMaster_GetVendorById/${nVId}`
+    return get(url).then(response => {
+        return response;
+    })
+}
 export function VendorMaster_SelectAll_ActiveLikeSearch(vGeneric) {
     let apiUrl = environment.apiUrl;
     let url = `${apiUrl}/VendorMaster/VendorMaster_SelectAll_ActiveLikeSearch/${vGeneric}`
@@ -38,7 +52,7 @@ export function VendorMaster_SelectAll_ActiveLikeSearch(vGeneric) {
         return response;
     })
 }
-export function MaterialMaster_SelectAll_ActiveLikeSearch(vGeneric) {
+export function CategoryMaster_ActiveLikeSearch(vGeneric) {
     let apiUrl = environment.apiUrl;
     let url = `${apiUrl}/CategoryMaster/CategoryMaster_ActiveLikeSearch/${vGeneric}`
     return get(url).then(response => {

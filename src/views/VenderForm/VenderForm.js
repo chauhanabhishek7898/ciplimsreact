@@ -8,7 +8,8 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import TablePagination from '@mui/material/TablePagination';
 import Paper from '@mui/material/Paper';
-import { VendorMaster_SelectAll, VendorMaster_SelectAll_Active, VendorMasterPost, VendorMasterPut, SubCategory_SelectAll_ActiveLikeSearch, MaterialMaster_SelectAll_ActiveLikeSearch } from './VenderFormService'
+import { VendorMaster_SelectAll, VendorMaster_SelectAll_Active, VendorMasterPost, VendorMasterPut,VendorDetail_UpdatePut, SubCategory_SelectAll_ActiveLikeSearch, CategoryMaster_ActiveLikeSearch, VendorMaster_GetVendorById } from './VenderFormService'
+import { GetSubCategory } from '../MaterialMaster/MaterialMasterService'
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import FormControl from '@mui/material/FormControl';
@@ -59,6 +60,7 @@ function VenderForm() {
     const [vendorData, setVendorData] = React.useState([]);
     const [masterbrandData, setMasterBrandData] = React.useState([]);
     const [nVId, setnVId] = React.useState(0);
+    const [nVDId, setnVDId] = React.useState(0);
     const [vVendorCode, setvVendorCode] = React.useState("");
     const [vVendorName, setvVendorName] = React.useState("");
     const [vVendorAddress, setvVendorAddress] = React.useState("");
@@ -74,13 +76,18 @@ function VenderForm() {
     const [loader2, setLoader2] = React.useState(false);
     const [venderMasterTable, setvenderMasterTable] = React.useState(true);
     const [venderDetailsTable, setvenderDetailsTable] = React.useState(false);
+    const [venderDetailsDisable, setvenderDetailsDisable] = React.useState(false);
+    const [venderMasterDisable, setvenderMasterDisable] = React.useState(false);
     const [MaterialType, setMaterialType] = React.useState(false);
     const [MaterialMaster, setMaterialMaster] = React.useState([]);
-    const [MaterialDetail, setMaterialDetail] = React.useState('');
+    const [MaterialDetail, setCategoryDetail] = React.useState('');
     const [nMId, setnMId] = React.useState('');
     const [subcategoryMaster, setsubcategoryMaster] = React.useState([]);
+    const [vendorMasterData, setvendorMasterData] = React.useState([]);
+    const [vendorDetailData, setvendorDetailData] = React.useState([]);
     const [subcategoryMasterDetail, setsubcategoryMasterDetail] = React.useState('');
     const [subcategoryMasterId, setsubcategoryMasterId] = React.useState('');
+    const [nCid, setnCid] = React.useState('');
     const [errorText, setError] = React.useState({
         MaterialDetail: '',
     });
@@ -120,6 +127,11 @@ function VenderForm() {
             setbtActive(item.btActive)
             setdisabled(false)
             setbuttonName(type)
+            vendorMaster_GetVendorById(item.nVId)
+            setvenderMasterTable(true)
+            setvenderDetailsTable(false)
+            setvenderDetailsDisable(true)
+            setvenderMasterDisable(false)
         }
     }
     const [searched, setSearched] = React.useState("");
@@ -135,7 +147,7 @@ function VenderForm() {
     }, [])
     const getVendorMaster_SelectAll = () => {
         setLoader2(true)
-        VendorMaster_SelectAll_Active().then(response => {
+        VendorMaster_SelectAll().then(response => {
 
             if (checkedData == true) {
                 let activeData = response.filter(e => e.btActive == true)
@@ -148,6 +160,17 @@ function VenderForm() {
                 setMasterBrandData(inactiveData)
                 setLoader2(false)
 
+            }
+        })
+    }
+
+    const vendorMaster_GetVendorById = (nVId) => {
+        setLoader2(true)
+        VendorMaster_GetVendorById(nVId).then(response => {
+            setvendorMasterData(response.TAB1)
+            setvendorDetailData(response.TAB2)
+            if (response) {
+                setLoader2(false)
             }
         })
     }
@@ -181,10 +204,9 @@ function VenderForm() {
             btActive: btActive,
             vMaterialType: MaterialType,
             vCategoryName: MaterialDetail,
-            vSubCategoryName: subcategoryMasterDetail,
+            vSubCategoryName: SubCategory,
 
         }
-
 
         if (buttonName == 'Submit') {
 
@@ -222,17 +244,46 @@ function VenderForm() {
             })
         }
     }
+    const vendorDetail_UpdatePut = () => {
+        setLoader(true)
+        let vendor = {
+            nVDId: nVDId == null ? 0 : nVDId,
+            // vVendorCode: vVendorCode,
+            // vVendorName: vVendorName,
+            // vVendorAddress: vVendorAddress,
+            // vContactPerson: vContactPerson,
+            // vMobileNo: vMobileNo,
+            // vEmailId: vEmailId,
+            // vGSTNo: vGSTNo,
+            // vRemarks: vRemarks,
+            // btActive: btActive,
+            vMaterialType: MaterialType,
+            vCategoryName: MaterialDetail,
+            vSubCategoryName: SubCategory,
+            btDActive: btActive,
+
+        }
+
+        VendorDetail_UpdatePut(vendor).then(res => {
+            if (res) {
+                toast.success("Record Updated Successfully !!")
+                setLoader(false)
+                setIsOpen(false)
+                getVendorMaster_SelectAll()
+            }
+        })
+    }
     const handleChange = (event) => {
         setMaterialType(event.target.value);
     };
-    const materialMaster_SelectAll_ActiveLikeSearch = (vGeneric) => {
+    const categoryMaster_ActiveLikeSearch = (vGeneric) => {
         console.log('response', vGeneric)
         if (vGeneric != '') {
             vGeneric = vGeneric
         } else {
             vGeneric = null
         }
-        MaterialMaster_SelectAll_ActiveLikeSearch(vGeneric).then(res => {
+        CategoryMaster_ActiveLikeSearch(vGeneric).then(res => {
 
 
             let count = Object.keys(res).length
@@ -244,53 +295,86 @@ function VenderForm() {
                 })
             }
             setMaterialMaster(data)
+            getSubCategoryMaster_SelectAll(res[0].nCId)
+            // setnCid(res[0].nCId)
         })
 
     }
-    const changeMaterialMasterValue = (value) => {
+    const changeCetegoryValue = (value) => {
+        alert(1)
         console.log('value', value)
-        setnMId(value == null ? '' : value.label)
-        setMaterialDetail(value.label)
+        // setnMId(value == null ? '' : value.label)
+        setCategoryDetail(value == null ? '' : value.label)
+        if (value != null) {
+            getSubCategoryMaster_SelectAll(value.value)
+        }
         setError({
             MaterialDetail: ''
         })
     }
-    const subCategory_SelectAll_ActiveLikeSearch = (vGeneric) => {
-        console.log('response', vGeneric)
-        if (vGeneric != '') {
-            vGeneric = vGeneric
-        } else {
-            vGeneric = null
-        }
-        SubCategory_SelectAll_ActiveLikeSearch(vGeneric).then(res => {
 
-
-            let count = Object.keys(res).length
-            let data = []
-            for (var i = 0; i < count; i++) {
-                data.push({
-                    value: res[i].nSCId,
-                    label: res[i].vSubCategoryName,
-                })
-            }
-            setsubcategoryMaster(data)
-        })
-
-    }
-    const changeSubCategoryValue = (value) => {
-        console.log('value', value)
-        setsubcategoryMasterId(value == null ? '' : value.label)
-        setsubcategoryMasterDetail(value.label)
-        setError({
-            subMaterialDetail: ''
-        })
-    }
     const changeTable = (type) => {
         if (type == 'VendorMaster') {
             setvenderMasterTable(true)
+            setvenderDetailsTable(false)
+          
         }
         if (type == 'VendorDetails') {
             setvenderDetailsTable(true)
+            setvenderMasterTable(false)
+        
+        }
+    }
+    const [SubCategoryData, setSubCategoryData] = React.useState([]);
+    const [SubCategory, setSubCategory] = React.useState("");
+    const [SubCategoryId, setSubCategoryId] = React.useState("");
+
+
+    const getSubCategoryMaster_SelectAll = (nCId) => {
+        GetSubCategory(nCId).then(response => {
+            setSubCategoryData(response)
+
+            // const forselectionSC = response.find((item) => item.nCId === vCategoryId);
+            // console.log("forselectionSC", forselectionSC)
+        })
+    }
+    const handleChangeSubCategory = (event) => {
+        const selectedId = event.target.value;
+        setSubCategoryId(selectedId)
+    };
+
+    const handleBlurSC = (item) => {
+        console.log("itemitemitem", item)
+        setSubCategory(item.vSubCategoryName)
+        setSubCategoryId(item.nSCId)
+    };
+    const changeupdatedata=(item,type)=>{
+        if(type=='venderMaster'){
+            setnVId(item.nVId)
+            setvVendorCode(item.vVendorCode)
+            setvVendorName(item.vVendorName)
+            setvVendorAddress(item.vVendorAddress)
+            setvContactPerson(item.vContactPerson)
+            setvMobileNo(item.vMobileNo)
+            setvEmailId(item.vEmailId)
+            setvGSTNo(item.vGSTNo)
+            setvRemarks(item.vRemarks)
+            setbtActive(item.btActive)
+            setvenderDetailsDisable(true)
+            setvenderMasterDisable(false)
+        }
+        if(type=='venderDetails'){
+            setnVDId(item.nVDId)
+            setMaterialType(item.vMaterialType)
+            setCategoryDetail(item.vCategoryName)
+            setSubCategory(item.vSubCategoryName)
+            setsubcategoryMasterDetail(item.vSubCategoryName)
+            setbtActive(item.btActive)
+            categoryMaster_ActiveLikeSearch(item.vCategoryName)
+           
+            setvenderDetailsDisable(false)
+            setvenderMasterDisable(true)
+            
         }
     }
     return (
@@ -334,6 +418,7 @@ function VenderForm() {
                                 inputRef={register({ required: "Vendor Code is required.*", })}
                                 error={Boolean(errors.vVendorCode)}
                                 helperText={errors.vVendorCode?.message}
+                                disabled={venderMasterDisable}
                             />
                         </FormControl>
                     </Box>
@@ -351,6 +436,7 @@ function VenderForm() {
                                 inputRef={register({ required: "Vendor Name is required.*", })}
                                 error={Boolean(errors.vVendorName)}
                                 helperText={errors.vVendorName?.message}
+                                disabled={venderMasterDisable}
                             />
                         </FormControl>
                     </Box>
@@ -363,6 +449,7 @@ function VenderForm() {
                                 id="outlined-basic"
                                 label="Contact Person"
                                 variant="outlined"
+                                disabled={venderMasterDisable}
                             />
                         </FormControl>
                     </Box>
@@ -375,6 +462,7 @@ function VenderForm() {
                                 id="outlined-basic"
                                 label="Mobile No"
                                 variant="outlined"
+                                disabled={venderMasterDisable}
                             />
                         </FormControl>
                     </Box>
@@ -387,6 +475,7 @@ function VenderForm() {
                                 id="outlined-basic"
                                 label="Email Id"
                                 variant="outlined"
+                                disabled={venderMasterDisable}
                             />
                         </FormControl>
                     </Box>
@@ -399,6 +488,7 @@ function VenderForm() {
                                 id="outlined-basic"
                                 label="Vendor Address"
                                 variant="outlined"
+                                disabled={venderMasterDisable}
                             />
                         </FormControl>
                     </Box>
@@ -430,12 +520,12 @@ function VenderForm() {
                                 options={MaterialMaster}
                                 value={MaterialDetail}
                                 // inputValue={MaterialDetail}
-                                onChange={(event, value) => changeMaterialMasterValue(value)}
-                                // onKeyDown={newInputValue => materialMaster_SelectAll_ActiveLikeSearch(newInputValue)}
+                                onChange={(event, value) => changeCetegoryValue(value)}
+                                // onKeyDown={newInputValue => categoryMaster_ActiveLikeSearch(newInputValue)}
                                 onInputChange={(event, newInputValue) => {
                                     // setInputValue(newInputValue);
                                     if (newInputValue.length >= 3) {
-                                        materialMaster_SelectAll_ActiveLikeSearch(newInputValue)
+                                        categoryMaster_ActiveLikeSearch(newInputValue)
 
                                     }
                                     console.log('newInputValue', newInputValue)
@@ -456,7 +546,7 @@ function VenderForm() {
                                 value={subcategoryMasterDetail}
                                 // inputValue={MaterialDetail}
                                 onChange={(event, value) => changeSubCategoryValue(value)}
-                                // onKeyDown={newInputValue => materialMaster_SelectAll_ActiveLikeSearch(newInputValue)}
+                                // onKeyDown={newInputValue => categoryMaster_ActiveLikeSearch(newInputValue)}
                                 onInputChange={(event, newInputValue) => {
                                     // setInputValue(newInputValue);
                                     if (newInputValue.length >= 3) {
@@ -480,6 +570,7 @@ function VenderForm() {
                                 label="GST No"
                                 variant="outlined"
                                 name='vGSTNo'
+                                disabled={venderMasterDisable}
                             />
                         </FormControl>
                     </Box>
@@ -494,25 +585,28 @@ function VenderForm() {
                                 label="Remarks"
                                 variant="outlined"
                                 name='vRemarks'
+                                disabled={venderMasterDisable}
                             />
                         </FormControl>
                     </Box>
                 </div>
                 <div className='displayflexend borderTop' >
                     <Box className='inputBox-3'>
-                        <FormControl fullWidth>
-                            <InputLabel id="demo-simple-select-label" >Material Type</InputLabel>
+                        <FormControl fullWidth className='input'>
+                            <InputLabel id="demo-simple-select-label" sx={muiStyles.InputLabels}>Material Type</InputLabel>
                             <Select
                                 sx={muiStyles.select}
+                                style={{ width: '100%', }}
                                 labelId="demo-simple-select-label"
                                 id="demo-simple-select"
                                 value={MaterialType}
-                                label="Material Type"
+                                label="Select Material Type"
+                                disabled={venderDetailsDisable}
                                 onChange={handleChange}
+                               
                             >
                                 <MenuItem value='RM'>RM</MenuItem>
                                 <MenuItem value='PM'>PM</MenuItem>
-
                             </Select>
                         </FormControl>
                     </Box>
@@ -526,12 +620,13 @@ function VenderForm() {
                                 options={MaterialMaster}
                                 value={MaterialDetail}
                                 // inputValue={MaterialDetail}
-                                onChange={(event, value) => changeMaterialMasterValue(value)}
-                                // onKeyDown={newInputValue => materialMaster_SelectAll_ActiveLikeSearch(newInputValue)}
+                                disabled={venderDetailsDisable}
+                                onChange={(event, value) => changeCetegoryValue(value)}
+                                // onKeyDown={newInputValue => categoryMaster_ActiveLikeSearch(newInputValue)}
                                 onInputChange={(event, newInputValue) => {
                                     // setInputValue(newInputValue);
                                     if (newInputValue.length >= 3) {
-                                        materialMaster_SelectAll_ActiveLikeSearch(newInputValue)
+                                        categoryMaster_ActiveLikeSearch(newInputValue)
 
                                     }
                                     console.log('newInputValue', newInputValue)
@@ -543,27 +638,24 @@ function VenderForm() {
                     </Box>
                     <Box className='inputBox-3'>
                         <FormControl fullWidth className='input'>
-                            {/* <InputLabel required id="demo-simple-select-label">Item</InputLabel> */}
-                            <Autocomplete
-                                sx={muiStyles.autoCompleate}
-                                disablePortal
-                                id="combo-box-demo"
-                                options={subcategoryMaster}
-                                value={subcategoryMasterDetail}
-                                // inputValue={MaterialDetail}
-                                onChange={(event, value) => changeSubCategoryValue(value)}
-                                // onKeyDown={newInputValue => materialMaster_SelectAll_ActiveLikeSearch(newInputValue)}
-                                onInputChange={(event, newInputValue) => {
-                                    // setInputValue(newInputValue);
-                                    if (newInputValue.length >= 3) {
-                                        subCategory_SelectAll_ActiveLikeSearch(newInputValue)
-
-                                    }
-                                    console.log('newInputValue', newInputValue)
-                                }}
-                                renderInput={(params) => <TextField {...params} label="Search Sub Category" required />}
-                            />
-                            {errorText.MaterialDetail != '' ? <p className='error'>{errorText.MaterialDetail}</p> : null}
+                            <InputLabel required id="demo-simple-select-label" sx={muiStyles.InputLabels}>Sub Category</InputLabel>
+                            <Select
+                                sx={muiStyles.select}
+                                style={{ width: '100%', }}
+                                labelId="demo-simple-select-label"
+                                id="demo-simple-select"
+                                value={SubCategory}
+                                label="Select Sub Category"
+                                disabled={venderDetailsDisable}
+                                onChange={handleChangeSubCategory}
+                            >
+                                {SubCategoryData.map((item, index) => {
+                                    return (
+                                        <MenuItem key={index} onBlur={() => handleBlurSC(item)} value={item.vSubCategoryName} id={item.nSCId}>{item.vSubCategoryName}</MenuItem>
+                                    )
+                                })
+                                }
+                            </Select>
                         </FormControl>
                     </Box>
                 </div>
@@ -594,9 +686,9 @@ function VenderForm() {
                                                 <TableCell align="left" sx={muiStyles.tableHead} >Edit</TableCell>
                                             </TableRow>
                                         </TableHead>
-                                        {vendorData?.length > 0 ?
+                                        {vendorMasterData?.length > 0 ?
                                             <TableBody>
-                                                {vendorData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((item, index) => {
+                                                {vendorMasterData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((item, index) => {
                                                     return (
                                                         <TableRow key={index}>
                                                             <TableCell align="left" sx={muiStyles.tableBody}>{item.vVendorCode}</TableCell>
@@ -608,7 +700,7 @@ function VenderForm() {
                                                             <TableCell align="left" sx={muiStyles.tableBody}>{item.vGSTNo}</TableCell>
                                                             <TableCell align="left" sx={muiStyles.tableBody}><a data-tooltip-id="my-tooltip" data-tooltip-content={item.vRemarks}>{(item.vRemarks.length > 10) ? (item.vRemarks.slice(0, 10)) + '...' : (item.vRemarks)}</a><Tooltip id="my-tooltip" place="bottom" /></TableCell>
                                                             <TableCell align="left" sx={muiStyles.tableBody}>{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
-                                                            <TableCell align="left" sx={muiStyles.tableBody}><div onClick={() => openmodale(item, 'Update')} className='editbtn'><TbEdit size={20} color='#000' /></div></TableCell>
+                                                            <TableCell align="left" sx={muiStyles.tableBody}><div onClick={() => changeupdatedata(item,'venderMaster')} className='editbtn'><TbEdit size={20} color='#000' /></div></TableCell>
                                                         </TableRow>
                                                     )
                                                 })
@@ -624,9 +716,9 @@ function VenderForm() {
                                     </Table>
                                 </TableContainer>
                                 <TablePagination
-                                    rowsPerPageOptions={[10, 25, 100]}
+                                    rowsPerPageOptions={[5, 10, 25, 100]}
                                     component="div"
-                                    count={vendorData.length}
+                                    count={vendorMasterData.length}
                                     rowsPerPage={rowsPerPage}
                                     page={page}
                                     onPageChange={handleChangePage}
@@ -646,33 +738,26 @@ function VenderForm() {
                                     <Table stickyHeader aria-label="sticky table">
                                         <TableHead>
                                             <TableRow>
-                                                <TableCell align="left" sx={muiStyles.tableHead}>Vendor Code</TableCell>
-                                                <TableCell align="left" sx={muiStyles.tableHead}>Name</TableCell>
-                                                <TableCell align="left" sx={muiStyles.tableHead}>Address</TableCell>
-                                                <TableCell align="left" sx={muiStyles.tableHead}>Contact Person</TableCell>
-                                                <TableCell align="left" sx={muiStyles.tableHead}>Mobile No</TableCell>
-                                                <TableCell align="left" sx={muiStyles.tableHead}>Email Id</TableCell>
-                                                <TableCell align="left" sx={muiStyles.tableHead}>GST No</TableCell>
-                                                <TableCell align="left" sx={muiStyles.tableHead}>Remarks</TableCell>
-                                                <TableCell align="left" sx={muiStyles.tableHead}>Status</TableCell>
+                                                <TableCell align="left" sx={muiStyles.tableHead}>MaterialType</TableCell>
+                                                <TableCell align="left" sx={muiStyles.tableHead}>Category Name</TableCell>
+                                                <TableCell align="left" sx={muiStyles.tableHead}>Sub Category Name</TableCell>
+
+
                                                 <TableCell align="left" sx={muiStyles.tableHead} >Edit</TableCell>
                                             </TableRow>
                                         </TableHead>
-                                        {vendorData?.length > 0 ?
+                                        {vendorDetailData?.length > 0 ?
                                             <TableBody>
-                                                {vendorData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((item, index) => {
+                                                {vendorDetailData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((item, index) => {
                                                     return (
                                                         <TableRow key={index}>
-                                                            <TableCell align="left" sx={muiStyles.tableBody}>{item.vVendorCode}</TableCell>
-                                                            <TableCell align="left" sx={muiStyles.tableBody}>{item.vVendorName}</TableCell>
-                                                            <TableCell align="left" sx={muiStyles.tableBody}><a data-tooltip-id="my-tooltip" data-tooltip-content={item.vVendorAddress}>{(item.vVendorAddress.length > 10) ? (item.vVendorAddress.slice(0, 10)) + '...' : (item.vVendorAddress)}</a><Tooltip id="my-tooltip" place="bottom" /></TableCell>
-                                                            <TableCell align="left" sx={muiStyles.tableBody}>{item.vContactPerson}</TableCell>
-                                                            <TableCell align="left" sx={muiStyles.tableBody}>{item.vMobileNo}</TableCell>
-                                                            <TableCell align="left" sx={muiStyles.tableBody}>{item.vEmailId}</TableCell>
-                                                            <TableCell align="left" sx={muiStyles.tableBody}>{item.vGSTNo}</TableCell>
-                                                            <TableCell align="left" sx={muiStyles.tableBody}><a data-tooltip-id="my-tooltip" data-tooltip-content={item.vRemarks}>{(item.vRemarks.length > 10) ? (item.vRemarks.slice(0, 10)) + '...' : (item.vRemarks)}</a><Tooltip id="my-tooltip" place="bottom" /></TableCell>
-                                                            <TableCell align="left" sx={muiStyles.tableBody}>{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
-                                                            <TableCell align="left" sx={muiStyles.tableBody}><div onClick={() => openmodale(item, 'Update')} className='editbtn'><TbEdit size={20} color='#000' /></div></TableCell>
+
+                                                            <TableCell align="left" sx={muiStyles.tableBody}>{item.vMaterialType}</TableCell>
+                                                            <TableCell align="left" sx={muiStyles.tableBody}>{item.vCategoryName}</TableCell>
+
+                                                            <TableCell align="left" sx={muiStyles.tableBody}>{item.vSubCategoryName}</TableCell>
+
+                                                            <TableCell align="left" sx={muiStyles.tableBody}><div onClick={() => changeupdatedata(item,'venderDetails')} className='editbtn'><TbEdit size={20} color='#000' /></div></TableCell>
                                                         </TableRow>
                                                     )
                                                 })
@@ -688,9 +773,9 @@ function VenderForm() {
                                     </Table>
                                 </TableContainer>
                                 <TablePagination
-                                    rowsPerPageOptions={[10, 25, 100]}
+                                    rowsPerPageOptions={[5, 10, 25, 100]}
                                     component="div"
-                                    count={vendorData.length}
+                                    count={vendorDetailData.length}
                                     rowsPerPage={rowsPerPage}
                                     page={page}
                                     onPageChange={handleChangePage}
@@ -711,7 +796,22 @@ function VenderForm() {
                             Loading...
                         </CButton>
                         :
-                        <button type="submit" className='submitbtn' onClick={handleSubmit(submit)}>{buttonName}</button>
+                        <div>
+                            {venderMasterTable == true && buttonName == 'Update' ?
+                                <button type="submit" className='submitbtn' onClick={handleSubmit(submit)}>{buttonName}</button>
+                                : null
+                            }
+                            {venderDetailsTable == true && buttonName == 'Update' ?
+                                <button type="submit" className='submitbtn' onClick={vendorDetail_UpdatePut}>{buttonName}</button>
+                                : null
+
+                            }
+                            {buttonName == 'Submit'?
+                                <button type="submit" className='submitbtn' onClick={handleSubmit(submit)}>{buttonName}</button>
+                                :null
+                            }
+                        </div>
+
                     }
                 </div>
             </Modal >
@@ -777,7 +877,7 @@ function VenderForm() {
                         </Table>
                     </TableContainer>
                     <TablePagination
-                        rowsPerPageOptions={[10, 25, 100]}
+                        rowsPerPageOptions={[5, 10, 25, 100]}
                         component="div"
                         count={vendorData.length}
                         rowsPerPage={rowsPerPage}
