@@ -442,6 +442,9 @@ function PackMaster() {
                                 label="Prefix"
                                 variant="outlined"
                                 name='vPrefix'
+                                inputProps={{
+                                    maxLength: 5, // Set the maximum length here (e.g., 20)
+                                  }}
                                 inputRef={register({ required: "Prefix is required.*", })}
                                 error={Boolean(errors.brandCode)}
                                 helperText={errors.brandCode?.message}

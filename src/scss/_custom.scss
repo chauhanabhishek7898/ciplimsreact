@@ -426,7 +426,7 @@ p {
 .displayflexend {
   display: flex;
   align-items: flex-end;
-  // justify-content: space-between;
+  justify-content: space-between;
   flex-wrap: wrap;
   margin-bottom: 10px;
   gap: 20px 10px;
@@ -1274,4 +1274,27 @@ input[type="number"] {
   padding-left: 10px;
   box-shadow: 0 0 6px 0 rgba($color: #000000, $alpha: 0.2);
   border-radius: 5px;
+}
+.borderTop{
+  margin-top: 20px;
+  padding-top: 30px;
+  border-top: 1px solid #ccc;
+}
+.vendor_btn_box{
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+.vender_btn{
+  border: none;
+  padding: 2px 15px;
+  background: #e54253;
+  border-radius: 50px;
+  color: #fff;
+}
+.autogenreated{
+  position: absolute;
+  font-size: 10px;
+  color: blue;
+  top:10px
 }

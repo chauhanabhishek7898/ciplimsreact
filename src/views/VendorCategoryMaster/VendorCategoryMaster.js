@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react'
+import React, { useEffect } from 'react'
 import Modal from 'react-modal';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -8,7 +8,6 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import TablePagination from '@mui/material/TablePagination';
 import Paper from '@mui/material/Paper';
-import { BrandMaster_SelectAll, BrandMasterPost, BrandMasterPut } from './BrandMasterService'
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import FormControl from '@mui/material/FormControl';
@@ -16,91 +15,38 @@ import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
-import BorderColorIcon from '@mui/icons-material/BorderColor';
 import AddIcon from '@mui/icons-material/Add';
-import { useForm } from 'react-hook-form';
+import BorderColorIcon from '@mui/icons-material/BorderColor';
+import { CButton, CSpinner } from '@coreui/react'
+import { UnitMastersPost, UnitMaster_SelectAll, UnitMastersPut } from './VendorCategoryMasterApi'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { CButton, CSpinner } from '@coreui/react';
+import SimpleReactValidator from 'simple-react-validator';
+import { useForm } from 'react-hook-form';
 
 import SearchBar from "material-ui-search-bar";
 import ExportExcel from 'src/shareFunction/Excelexport';
 import CircularProgress from '@mui/joy/CircularProgress';
 import { TbEdit } from "react-icons/tb";
+ function VendorCategoryMaster() {
+    let Heading = [['SN.', 'Unit Code', 'Status']];
 
-function BrandMaster() {
-    let Heading = [['SN.', ' Brand Code', 'Brand Name', 'Status']];
-
+    const formValidation = new SimpleReactValidator()
     const [modalIsOpen, setIsOpen] = React.useState(false);
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
-    const [brandData, setBrandData] = React.useState([]);
+    const [unitData, setUnitData] = React.useState([]);
     const [masterbrandData, setMasterBrandData] = React.useState([]);
     const [loader, setLoader] = React.useState(false);
     const [loader2, setLoader2] = React.useState(false);
-    const [nBid, setnBid] = React.useState(0);
-    const [btActive, setBtActive] = React.useState(false);
-    const [brandCode, setBrandCode] = React.useState("");
-    const [brandName, setBrandName] = React.useState("");
-
-    const [vPrefix, setvPrefix] = React.useState("");
+    const [btActive, setbtActive] = React.useState(true);
+    const [nUId, setnUId] = React.useState(0);
+    const [vUnitName, setvUnitName] = React.useState('');
+    const [vUnitName2, setvUnitName2] = React.useState('');
 
     const [buttonName, setbuttonName] = React.useState('');
     const [disabled, setdisabled] = React.useState(true);
     const { register, handleSubmit, control, errors } = useForm();
-    const tableRef = useRef(null);
-    // const [rows, setRows] = useState(brandData);
-    const [searched, setSearched] = React.useState("");
-    const [onlyActive, setonlyActive] = React.useState(true);
-    let checkedData = true
-    const checkedonlyActive = (event) => {
-        setonlyActive(event.target.checked)
-        checkedData = event.target.checked
-        getBrandMaster_SelectAll()
-    }
-    useEffect(() => {
-        getBrandMaster_SelectAll()
-
-    }, [])
-    const getBrandMaster_SelectAll = () => {
-        setLoader2(true)
-        BrandMaster_SelectAll().then(response => {
-            console.log('onlyActive', onlyActive)
-            if (checkedData == true) {
-                let activeData = response.filter(e => e.btActive == true)
-                setBrandData(activeData)
-                setMasterBrandData(activeData)
-                setLoader2(false)
-            } else {
-                let inactiveData = response.filter(e => e.btActive == false)
-                setBrandData(inactiveData)
-                setMasterBrandData(inactiveData)
-                setLoader2(false)
-
-            }
-        })
-    }
-
-    const requestSearch = (searchedVal) => {
-
-        if (searchedVal.length > 0) {
-            const filteredRows = brandData.filter((row) => {
-                return row.vBrandCode.toLowerCase().includes(searchedVal.toLowerCase()) || row.vBrandName.toLowerCase().includes(searchedVal.toLowerCase());
-            });
-            setBrandData(filteredRows);
-        } else {
-            setBrandData(masterbrandData);
-        }
-
-    };
-
-    const cancelSearch = () => {
-        setSearched("");
-        requestSearch(searched);
-        getBrandMaster_SelectAll()
-    };
-
-
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
     };
@@ -109,79 +55,136 @@ function BrandMaster() {
         setPage(0);
     };
 
+    const submit = () => {
+
+        setLoader(true)
+        let data = {
+            nCId: nUId == null ? 0 : nUId,
+            vCategoryName: vUnitName,
+            btActive: btActive
+        }
+        if (buttonName == 'Submit') {
+            let unistData = [...unitData]
+            console.log("unistData", unistData)
+            let unitName = unistData.find(e => e.vCategoryName == vUnitName.toLowerCase() || e.vCategoryName == vUnitName.toUpperCase())
+            console.log("unitName", unitName)
+            if (unitName) {
+                setLoader(false)
+                toast.success("Item is already Exists")
+            }
+            else {
+                UnitMastersPost(data).then(res => {
+                    if (res) {
+                        toast.success(res)
+                        setLoader(false)
+                        setIsOpen(false)
+                        getUnitMaster_SelectAll()
+                    }
+                })
+            }
+
+        }
+
+        else {
+
+            UnitMastersPut(data).then(res => {
+                if (res) {
+                    toast.success(res)
+                    setLoader(false)
+                    setIsOpen(false)
+                    getUnitMaster_SelectAll()
+                }
+            })
+        }
+
+    }
+    const [searched, setSearched] = React.useState("");
+    const [onlyActive, setonlyActive] = React.useState(true);
+    let checkedData = true
+    const checkedonlyActive = (event) => {
+        setonlyActive(event.target.checked)
+        checkedData = event.target.checked
+        getUnitMaster_SelectAll()
+    }
+    useEffect(() => {
+        getUnitMaster_SelectAll()
+    }, [])
+    const getUnitMaster_SelectAll = () => {
+        setLoader2(true)
+        UnitMaster_SelectAll().then(response => {
+            console.log('onlyActive', onlyActive)
+            if (checkedData == true) {
+                let activeData = response.filter(e => e.btActive == true)
+                // setUnitData(activeData)
+
+                setUnitData(response)
+                setMasterBrandData(activeData)
+                setLoader2(false)
+            } else {
+                let inactiveData = response.filter(e => e.btActive == false)
+                setUnitData(inactiveData)
+                setMasterBrandData(inactiveData)
+                setLoader2(false)
+
+            }
+        })
+    }
+
+
+    const requestSearch = (searchedVal) => {
+        if (searchedVal.length > 0) {
+            const filteredRows = unitData.filter((row) => {
+                return row.vUnitName.toLowerCase().includes(searchedVal.toLowerCase());
+            });
+            setUnitData(filteredRows);
+        } else {
+            setUnitData(masterbrandData);
+        }
+
+        // console.log("searchedVal.length", searchedVal.length)
+        // const filteredRows = lineData.filter((row) => {
+        //     return row.vBrandCode.toLowerCase().includes(searchedVal.toLowerCase()) || row.vLineDescription.toLowerCase().includes(searchedVal.toLowerCase());
+        // });
+        // setlineData(m);
+        // console.log("filteredRows", filteredRows)
+    };
+
+    const cancelSearch = () => {
+        setSearched("");
+        requestSearch(searched);
+        getUnitMaster_SelectAll()
+    };
+
+
+    // useEffect(() => {
+    //     UnitMaster_SelectAllget()
+    // })
+    // const UnitMaster_SelectAllget = () => {
+    //     UnitMaster_SelectAll().then(res => {
+    //         if (res) {
+    //             setUnitData(res)
+
+    //         }
+    //     })
+    // }
     const openmodale = (item, type) => {
         if (type == 'Submit') {
             setIsOpen(true)
             setbuttonName(type)
-            setBrandCode('')
-            setvPrefix('')
-            setBrandName('')
-            setBtActive(true)
+            setvUnitName('')
+            setbtActive(true)
             setdisabled(true)
         } else {
             setIsOpen(true)
-            setnBid(item.nBId)
-            setBrandCode(item.vBrandCode)
-            setvPrefix(item.vPrefix)
-            setBrandName(item.vBrandName)
-            setBtActive(item.btActive)
+            setnUId(item.nCId)
+            setvUnitName2(item.vCategoryName)
+            setvUnitName(item.vCategoryName)
+            setbtActive(item.btActive)
             setdisabled(false)
             setbuttonName(type)
+
         }
     }
-
-
-    const submit = () => {
-        setLoader(true)
-        let brand = {
-            nBId: nBid == null ? 0 : nBid,
-            vBrandCode: brandCode,
-            vPrefix: vPrefix,
-            vBrandName: brandName,
-            btActive: btActive,
-        }
-        if (buttonName == 'Submit') {
-
-            let brandDatas = [...brandData]
-            console.log("brandDatas", brandDatas)
-            let venderexistCode = brandDatas.find(e => e.vBrandCode == brandCode.toLowerCase() || e.vBrandCode == brandCode.toUpperCase())
-            let venderexist = brandDatas.find(e => e.vBrandName == brandName.toLowerCase() || e.vBrandName == brandName.toUpperCase())
-            if (venderexist) {
-                setLoader(false)
-                toast.success("Item is already Exists")
-            }
-            else if (venderexistCode) {
-                setLoader(false)
-                toast.success("Code is already Exists")
-            }
-            else {
-                console.log('brand', brand)
-                BrandMasterPost(brand).then(res => {
-                    if (res) {
-                        console.log('res', res)
-                        toast.success("Record Added Successfully !!")
-                        setLoader(false)
-                        setIsOpen(false)
-                        getBrandMaster_SelectAll()
-                    }
-                })
-            }
-        } else {
-            console.log('brand', brand)
-            BrandMasterPut(brand).then(res => {
-                if (res) {
-                    console.log('res', res)
-                    toast.success("Record Updated Successfully !!")
-                    setLoader(false)
-                    setIsOpen(false)
-                    getBrandMaster_SelectAll()
-                }
-            })
-        }
-    }
-
-
-
     return (
         <div className='citymasterContainer'>
             {loader2 == true ?
@@ -196,10 +199,9 @@ function BrandMaster() {
             }
             <div className='add_export'>
                 <button className='submitbtn_exp' onClick={() => openmodale(null, 'Submit')} title='Add'  ><AddIcon fontSize='small' /> <span className='addFont'>Add</span></button>
-                <ExportExcel excelData={brandData} Heading={Heading} fileName={'Brand_Master'} />
-
+                <ExportExcel excelData={unitData} Heading={Heading} fileName={'Unit_Master'} />
             </div>
-
+            {/* <button className='addbtn_2' onClick={() => openmodale(null, 'Submit')} title='Add' ><AddIcon fontSize='small' /> <span className='addFont'>Add</span></button> */}
             <Modal
                 isOpen={modalIsOpen}
                 style={customStyles}
@@ -207,80 +209,45 @@ function BrandMaster() {
                 ariaHideApp={false}
             >
                 <div className='displayright'>
-                    <div><span className='title'>Brand Master</span></div>
+                    <div><span className='title'>Vendor Category Master</span></div>
                     <HighlightOffIcon fontSize='large' onClick={() => setIsOpen(false)} />
                 </div>
-                <div className='displayflexend mt-4'>
-                    <Box className='inputBox-11'>
-                        <FormControl fullWidth className='input'>
-                            <TextField
-                                sx={muiStyles.input}
-                                value={brandCode}
-                                onChange={e => setBrandCode(e.target.value)}
-                                required id="outlined-basic"
-                                label="Brand Code"
-                                variant="outlined"
-                                name='brandCode'
-                                inputRef={register({ required: "Brand Code is required.*", })}
-                                error={Boolean(errors.brandCode)}
-                                helperText={errors.brandCode?.message}
-                            />
-                        </FormControl>
-                    </Box>
-                    <Box className='inputBox-11' >
-                        <FormControl fullWidth className='input' >
-                            <TextField
-                                sx={muiStyles.input}
-                                value={brandName}
-                                onChange={e => setBrandName(e.target.value)}
-                                required id="outlined-basic"
-                                label="Brand Name"
-                                variant="outlined"
-                                name='brandName'
-                                inputRef={register({ required: "Brand Name is required.*", })}
-                                error={Boolean(errors.brandName)}
-                                helperText={errors.brandName?.message}
-                            />
-                        </FormControl>
-                    </Box>
-                    <Box className='inputBox-11'>
-                        <FormControl fullWidth className='input'>
-                            <TextField
-                                sx={muiStyles.input}
-                                value={vPrefix}
-                                onChange={e => setvPrefix(e.target.value)}
-                                required id="outlined-basic"
-                                label="Prefix"
-                                variant="outlined"
-                                name='vPrefix'
-                                inputProps={{
-                                    maxLength: 3, // Set the maximum length here (e.g., 20)
-                                  }}
-                                inputRef={register({ required: "Prefix is required.*", })}
-                                error={Boolean(errors.brandCode)}
-                                helperText={errors.brandCode?.message}
-                                
-                            />
-                        </FormControl>
-                    </Box>
-                </div>
-                <div className='displayflexend-2'>
-                    <FormGroup >
-                        <FormControlLabel style={{ marginRight: 0 }} control={<Checkbox defaultChecked={btActive} onChange={e => setBtActive(e.target.checked)} />} label="Active" disabled={disabled} />
-                    </FormGroup>
+                <form >
+                    <div className='displayflexend mt-4'>
+                        <TextField
+                            sx={muiStyles.input}
+                            fullWidth
+                            id="outlined-basic"
+                            label="Enter Category Name"
+                            variant="outlined"
+                            value={vUnitName}
+                            name='vUnitName'
+                            onChange={e => setvUnitName(e.target.value)}
+                            inputRef={register({ required: "Category Name is required.*", })}
+                            error={Boolean(errors.vUnitName)}
+                            helperText={errors.vUnitName?.message}
+                        />
+                    </div>
+                    <div className='displayflexend-2'>
+                        <FormGroup >
+                            <FormControlLabel style={{ marginRight: 0 }} control={<Checkbox defaultChecked={btActive} value={btActive} onChange={e => setbtActive(e.target.checked)} />} label="Active" disabled={disabled} />
+                        </FormGroup>
+                        {loader == true ?
+                            <CButton disabled className='submitbtn'>
+                                <CSpinner component="span" size="sm" aria-hidden="true" />
+                                Loading...
+                            </CButton>
+                            :
+                            <button type="submit" className='submitbtn' onClick={handleSubmit(submit)}>{buttonName}</button>
 
-                    {loader == true ?
-                        <CButton disabled className='submitbtn'>
-                            <CSpinner component="span" size="sm" aria-hidden="true" />
-                            Loading...
-                        </CButton>
-                        :
-                        <button type="submit" className='submitbtn' onClick={handleSubmit(submit)}>{buttonName}</button>
-                    }
-                </div>
+                        }
+                    </div>
+
+                </form>
             </Modal >
             <div className='tablecenter'>
-                <Paper sx={{ width: '100%', overflow: 'hidden', paddingTop: 1 }}>
+
+                <Paper sx={{ width: '100%', overflow: 'hidden', paddingTop: 1, }}>
                     <div className='exportandfilter'>
 
                         <div className='filterbox'>
@@ -298,32 +265,28 @@ function BrandMaster() {
 
                         </div>
                     </div>
-
                     <TableContainer sx={muiStyles.tableBox} className='tableBox'>
-                        <Table stickyHeader aria-label="sticky table" >
+
+
+
+                        <Table stickyHeader aria-label="sticky table">
                             <TableHead>
                                 <TableRow>
                                     {/* <TableCell scope="row">SN.</TableCell> */}
-                                    <TableCell align="left" sx={muiStyles.tableHead} >Brand Code</TableCell>
-                                    <TableCell align="left" sx={muiStyles.tableHead} >Brand Name</TableCell>
-                                    <TableCell align="left" sx={muiStyles.tableHead} >Prefix</TableCell>
-                                    <TableCell align="left" sx={muiStyles.tableHead} >Status</TableCell>
-
-                                    <TableCell align="left" sx={muiStyles.tableHead} >Edit</TableCell>
+                                    <TableCell align="left" sx={muiStyles.tableHead}>Category Name</TableCell>
+                                    <TableCell align="left" sx={muiStyles.tableHead}>Status</TableCell>
+                                    <TableCell align="left" sx={muiStyles.tableHead}>Edit</TableCell>
 
                                 </TableRow>
                             </TableHead>
-                            {brandData?.length > 0 ?
+                            {unitData?.length > 0 ?
                                 <TableBody>
-                                    {brandData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((item, index) => {
+                                    {unitData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((item, index) => {
                                         return (
                                             <TableRow key={index}>
                                                 {/* <TableCell component="th" scope="row">{index + 1}.</TableCell> */}
-                                                <TableCell align="left" sx={muiStyles.tableBody}>{item.vBrandCode}</TableCell>
-                                                <TableCell align="left" sx={muiStyles.tableBody}>{item.vBrandName}</TableCell>
-                                                <TableCell align="left" sx={muiStyles.tableBody}>{item.vPrefix}</TableCell>
+                                                <TableCell align="left" sx={muiStyles.tableBody}>{item.vCategoryName}</TableCell>
                                                 <TableCell align="left" sx={muiStyles.tableBody}>{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
-
                                                 <TableCell align="left" sx={muiStyles.tableBody}><div onClick={() => openmodale(item, 'Update')} className='editbtn'><TbEdit size={20} color='#000' /></div></TableCell>
 
                                             </TableRow>
@@ -334,17 +297,16 @@ function BrandMaster() {
                                 :
                                 <TableBody>
                                     <TableRow>
-                                        <TableCell align="center" colSpan={5}>No Record</TableCell>
+                                        <TableCell align="center" colSpan={4}>No Record</TableCell>
                                     </TableRow>
                                 </TableBody>
                             }
-
                         </Table>
                     </TableContainer>
                     <TablePagination
                         rowsPerPageOptions={[10, 25, 100]}
                         component="div"
-                        count={brandData.length}
+                        count={unitData.length}
                         rowsPerPage={rowsPerPage}
                         page={page}
                         onPageChange={handleChangePage}
@@ -352,9 +314,7 @@ function BrandMaster() {
                     />
                 </Paper>
             </div>
-
             <ToastContainer />
-
         </div >
     )
 }
@@ -487,6 +447,5 @@ const muiStyles = {
 
 
 };
-export default BrandMaster
 
-
+export default VendorCategoryMaster

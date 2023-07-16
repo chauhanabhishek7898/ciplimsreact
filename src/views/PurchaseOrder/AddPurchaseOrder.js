@@ -288,6 +288,7 @@ function AddPurchaseOrder() {
     }
     const imageFile = (event) => {
         setvPOFilePath(event.target.files[0])
+        console.log('event.target.files[0]',event.target.files)
         if (event.target.files[0]) {
             setimgPreview(true)
             const objectUrl = URL.createObjectURL(event.target.files[0])

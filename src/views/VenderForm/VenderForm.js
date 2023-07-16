@@ -8,7 +8,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import TablePagination from '@mui/material/TablePagination';
 import Paper from '@mui/material/Paper';
-import { VendorMaster_SelectAll, VendorMasterPost, VendorMasterPut } from './VenderFormService'
+import { VendorMaster_SelectAll, VendorMaster_SelectAll_Active, VendorMasterPost, VendorMasterPut, SubCategory_SelectAll_ActiveLikeSearch, MaterialMaster_SelectAll_ActiveLikeSearch } from './VenderFormService'
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import FormControl from '@mui/material/FormControl';
@@ -47,6 +47,10 @@ import ExportExcel from 'src/shareFunction/Excelexport';
 import CircularProgress from '@mui/joy/CircularProgress';
 import { Tooltip } from 'react-tooltip'
 import { TbEdit } from "react-icons/tb";
+import Select from '@mui/material/Select';
+import Autocomplete from '@mui/material/Autocomplete';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
 function VenderForm() {
     let Heading = [['SN.', 'Vendor Code', 'Vendor Name', 'Vendor Address', 'Contact Person', 'Mobile No', 'Email Id', 'GST No', 'Remarks', 'Status']];
     const [modalIsOpen, setIsOpen] = React.useState(false);
@@ -68,6 +72,18 @@ function VenderForm() {
     const [disabled, setdisabled] = React.useState(true);
     const [loader, setLoader] = React.useState(false);
     const [loader2, setLoader2] = React.useState(false);
+    const [venderMasterTable, setvenderMasterTable] = React.useState(true);
+    const [venderDetailsTable, setvenderDetailsTable] = React.useState(false);
+    const [MaterialType, setMaterialType] = React.useState(false);
+    const [MaterialMaster, setMaterialMaster] = React.useState([]);
+    const [MaterialDetail, setMaterialDetail] = React.useState('');
+    const [nMId, setnMId] = React.useState('');
+    const [subcategoryMaster, setsubcategoryMaster] = React.useState([]);
+    const [subcategoryMasterDetail, setsubcategoryMasterDetail] = React.useState('');
+    const [subcategoryMasterId, setsubcategoryMasterId] = React.useState('');
+    const [errorText, setError] = React.useState({
+        MaterialDetail: '',
+    });
     const { register, handleSubmit, control, errors } = useForm();
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
@@ -119,7 +135,7 @@ function VenderForm() {
     }, [])
     const getVendorMaster_SelectAll = () => {
         setLoader2(true)
-        VendorMaster_SelectAll().then(response => {
+        VendorMaster_SelectAll_Active().then(response => {
 
             if (checkedData == true) {
                 let activeData = response.filter(e => e.btActive == true)
@@ -163,6 +179,10 @@ function VenderForm() {
             vGSTNo: vGSTNo,
             vRemarks: vRemarks,
             btActive: btActive,
+            vMaterialType: MaterialType,
+            vCategoryName: MaterialDetail,
+            vSubCategoryName: subcategoryMasterDetail,
+
         }
 
 
@@ -179,6 +199,7 @@ function VenderForm() {
                 setLoader(false)
                 toast.success("Code is already Exists")
             }
+
             else {
                 VendorMasterPost(vendor).then(res => {
                     if (res) {
@@ -200,8 +221,77 @@ function VenderForm() {
                 }
             })
         }
+    }
+    const handleChange = (event) => {
+        setMaterialType(event.target.value);
+    };
+    const materialMaster_SelectAll_ActiveLikeSearch = (vGeneric) => {
+        console.log('response', vGeneric)
+        if (vGeneric != '') {
+            vGeneric = vGeneric
+        } else {
+            vGeneric = null
+        }
+        MaterialMaster_SelectAll_ActiveLikeSearch(vGeneric).then(res => {
 
 
+            let count = Object.keys(res).length
+            let data = []
+            for (var i = 0; i < count; i++) {
+                data.push({
+                    value: res[i].nCId,
+                    label: res[i].vCategoryName,
+                })
+            }
+            setMaterialMaster(data)
+        })
+
+    }
+    const changeMaterialMasterValue = (value) => {
+        console.log('value', value)
+        setnMId(value == null ? '' : value.label)
+        setMaterialDetail(value.label)
+        setError({
+            MaterialDetail: ''
+        })
+    }
+    const subCategory_SelectAll_ActiveLikeSearch = (vGeneric) => {
+        console.log('response', vGeneric)
+        if (vGeneric != '') {
+            vGeneric = vGeneric
+        } else {
+            vGeneric = null
+        }
+        SubCategory_SelectAll_ActiveLikeSearch(vGeneric).then(res => {
+
+
+            let count = Object.keys(res).length
+            let data = []
+            for (var i = 0; i < count; i++) {
+                data.push({
+                    value: res[i].nSCId,
+                    label: res[i].vSubCategoryName,
+                })
+            }
+            setsubcategoryMaster(data)
+        })
+
+    }
+    const changeSubCategoryValue = (value) => {
+        console.log('value', value)
+        setsubcategoryMasterId(value == null ? '' : value.label)
+        setsubcategoryMasterDetail(value.label)
+        setError({
+            subMaterialDetail: ''
+        })
+    }
+    const changeTable = (type) => {
+        if (type == 'VendorMaster') {
+            setvenderMasterTable(true)
+        }
+        if (type == 'VendorDetails') {
+            setvenderDetailsTable(true)
+        }
     }
     return (
         <div className='citymasterContainer'>
@@ -312,6 +402,74 @@ function VenderForm() {
                             />
                         </FormControl>
                     </Box>
+
+                    {/* <Box className='inputBox-3'>
+                        <FormControl fullWidth>
+                            <InputLabel id="demo-simple-select-label" >Material Type</InputLabel>
+                            <Select
+                                sx={muiStyles.select}
+                                labelId="demo-simple-select-label"
+                                id="demo-simple-select"
+                                value={MaterialType}
+                                label="Material Type"
+                                onChange={handleChange}
+                            >
+                                <MenuItem value='RM'>RM</MenuItem>
+                                <MenuItem value='PM'>PM</MenuItem>
+
+                            </Select>
+                        </FormControl>
+                    </Box>
+                    <Box className='inputBox-3'>
+                        <FormControl fullWidth className='input'>
+                            <InputLabel required id="demo-simple-select-label">Item</InputLabel>
+                            <Autocomplete
+                                sx={muiStyles.autoCompleate}
+                                disablePortal
+                                id="combo-box-demo"
+                                options={MaterialMaster}
+                                value={MaterialDetail}
+                                // inputValue={MaterialDetail}
+                                onChange={(event, value) => changeMaterialMasterValue(value)}
+                                // onKeyDown={newInputValue => materialMaster_SelectAll_ActiveLikeSearch(newInputValue)}
+                                onInputChange={(event, newInputValue) => {
+                                    // setInputValue(newInputValue);
+                                    if (newInputValue.length >= 3) {
+                                        materialMaster_SelectAll_ActiveLikeSearch(newInputValue)
+
+                                    }
+                                    console.log('newInputValue', newInputValue)
+                                }}
+                                renderInput={(params) => <TextField {...params} label="Search Category" required />}
+                            />
+                            {errorText.MaterialDetail != '' ? <p className='error'>{errorText.MaterialDetail}</p> : null}
+                        </FormControl>
+                    </Box>
+                    <Box className='inputBox-3'>
+                        <FormControl fullWidth className='input'>
+                            <InputLabel required id="demo-simple-select-label">Item</InputLabel>
+                            <Autocomplete
+                                sx={muiStyles.autoCompleate}
+                                disablePortal
+                                id="combo-box-demo"
+                                options={subcategoryMaster}
+                                value={subcategoryMasterDetail}
+                                // inputValue={MaterialDetail}
+                                onChange={(event, value) => changeSubCategoryValue(value)}
+                                // onKeyDown={newInputValue => materialMaster_SelectAll_ActiveLikeSearch(newInputValue)}
+                                onInputChange={(event, newInputValue) => {
+                                    // setInputValue(newInputValue);
+                                    if (newInputValue.length >= 3) {
+                                        subCategory_SelectAll_ActiveLikeSearch(newInputValue)
+
+                                    }
+                                    console.log('newInputValue', newInputValue)
+                                }}
+                                renderInput={(params) => <TextField {...params} label="Search Sub Category" required />}
+                            />
+                            {errorText.MaterialDetail != '' ? <p className='error'>{errorText.MaterialDetail}</p> : null}
+                        </FormControl>
+                    </Box> */}
                     <Box className='inputBox-3'>
                         <FormControl fullWidth className='input'>
                             <TextField
@@ -340,6 +498,209 @@ function VenderForm() {
                         </FormControl>
                     </Box>
                 </div>
+                <div className='displayflexend borderTop' >
+                    <Box className='inputBox-3'>
+                        <FormControl fullWidth>
+                            <InputLabel id="demo-simple-select-label" >Material Type</InputLabel>
+                            <Select
+                                sx={muiStyles.select}
+                                labelId="demo-simple-select-label"
+                                id="demo-simple-select"
+                                value={MaterialType}
+                                label="Material Type"
+                                onChange={handleChange}
+                            >
+                                <MenuItem value='RM'>RM</MenuItem>
+                                <MenuItem value='PM'>PM</MenuItem>
+
+                            </Select>
+                        </FormControl>
+                    </Box>
+                    <Box className='inputBox-3'>
+                        <FormControl fullWidth className='input'>
+                            {/* <InputLabel required id="demo-simple-select-label">Item</InputLabel> */}
+                            <Autocomplete
+                                sx={muiStyles.autoCompleate}
+                                disablePortal
+                                id="combo-box-demo"
+                                options={MaterialMaster}
+                                value={MaterialDetail}
+                                // inputValue={MaterialDetail}
+                                onChange={(event, value) => changeMaterialMasterValue(value)}
+                                // onKeyDown={newInputValue => materialMaster_SelectAll_ActiveLikeSearch(newInputValue)}
+                                onInputChange={(event, newInputValue) => {
+                                    // setInputValue(newInputValue);
+                                    if (newInputValue.length >= 3) {
+                                        materialMaster_SelectAll_ActiveLikeSearch(newInputValue)
+
+                                    }
+                                    console.log('newInputValue', newInputValue)
+                                }}
+                                renderInput={(params) => <TextField {...params} label="Search Category" required />}
+                            />
+                            {errorText.MaterialDetail != '' ? <p className='error'>{errorText.MaterialDetail}</p> : null}
+                        </FormControl>
+                    </Box>
+                    <Box className='inputBox-3'>
+                        <FormControl fullWidth className='input'>
+                            {/* <InputLabel required id="demo-simple-select-label">Item</InputLabel> */}
+                            <Autocomplete
+                                sx={muiStyles.autoCompleate}
+                                disablePortal
+                                id="combo-box-demo"
+                                options={subcategoryMaster}
+                                value={subcategoryMasterDetail}
+                                // inputValue={MaterialDetail}
+                                onChange={(event, value) => changeSubCategoryValue(value)}
+                                // onKeyDown={newInputValue => materialMaster_SelectAll_ActiveLikeSearch(newInputValue)}
+                                onInputChange={(event, newInputValue) => {
+                                    // setInputValue(newInputValue);
+                                    if (newInputValue.length >= 3) {
+                                        subCategory_SelectAll_ActiveLikeSearch(newInputValue)
+
+                                    }
+                                    console.log('newInputValue', newInputValue)
+                                }}
+                                renderInput={(params) => <TextField {...params} label="Search Sub Category" required />}
+                            />
+                            {errorText.MaterialDetail != '' ? <p className='error'>{errorText.MaterialDetail}</p> : null}
+                        </FormControl>
+                    </Box>
+                </div>
+                {buttonName == 'Update' ?
+                    <div className='vendor_btn_box'>
+                        <button className='vender_btn' onClick={() => changeTable('VendorMaster')}>Vendor Master</button>
+                        <button className='vender_btn' onClick={() => changeTable('VendorDetails')}>Vendor Details</button>
+                    </div>
+                    : null
+                }
+                {venderMasterTable == true && buttonName == 'Update' ?
+                    <div>
+                        <div className='tablecenter'>
+                            <Paper sx={{ width: '100%', overflow: 'hidden', paddingTop: 1 }}>
+                                <TableContainer sx={muiStyles.tableBox} className='tableBox' >
+                                    <Table stickyHeader aria-label="sticky table">
+                                        <TableHead>
+                                            <TableRow>
+                                                <TableCell align="left" sx={muiStyles.tableHead}>Vendor Code</TableCell>
+                                                <TableCell align="left" sx={muiStyles.tableHead}>Name</TableCell>
+                                                <TableCell align="left" sx={muiStyles.tableHead}>Address</TableCell>
+                                                <TableCell align="left" sx={muiStyles.tableHead}>Contact Person</TableCell>
+                                                <TableCell align="left" sx={muiStyles.tableHead}>Mobile No</TableCell>
+                                                <TableCell align="left" sx={muiStyles.tableHead}>Email Id</TableCell>
+                                                <TableCell align="left" sx={muiStyles.tableHead}>GST No</TableCell>
+                                                <TableCell align="left" sx={muiStyles.tableHead}>Remarks</TableCell>
+                                                <TableCell align="left" sx={muiStyles.tableHead}>Status</TableCell>
+                                                <TableCell align="left" sx={muiStyles.tableHead} >Edit</TableCell>
+                                            </TableRow>
+                                        </TableHead>
+                                        {vendorData?.length > 0 ?
+                                            <TableBody>
+                                                {vendorData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((item, index) => {
+                                                    return (
+                                                        <TableRow key={index}>
+                                                            <TableCell align="left" sx={muiStyles.tableBody}>{item.vVendorCode}</TableCell>
+                                                            <TableCell align="left" sx={muiStyles.tableBody}>{item.vVendorName}</TableCell>
+                                                            <TableCell align="left" sx={muiStyles.tableBody}><a data-tooltip-id="my-tooltip" data-tooltip-content={item.vVendorAddress}>{(item.vVendorAddress.length > 10) ? (item.vVendorAddress.slice(0, 10)) + '...' : (item.vVendorAddress)}</a><Tooltip id="my-tooltip" place="bottom" /></TableCell>
+                                                            <TableCell align="left" sx={muiStyles.tableBody}>{item.vContactPerson}</TableCell>
+                                                            <TableCell align="left" sx={muiStyles.tableBody}>{item.vMobileNo}</TableCell>
+                                                            <TableCell align="left" sx={muiStyles.tableBody}>{item.vEmailId}</TableCell>
+                                                            <TableCell align="left" sx={muiStyles.tableBody}>{item.vGSTNo}</TableCell>
+                                                            <TableCell align="left" sx={muiStyles.tableBody}><a data-tooltip-id="my-tooltip" data-tooltip-content={item.vRemarks}>{(item.vRemarks.length > 10) ? (item.vRemarks.slice(0, 10)) + '...' : (item.vRemarks)}</a><Tooltip id="my-tooltip" place="bottom" /></TableCell>
+                                                            <TableCell align="left" sx={muiStyles.tableBody}>{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
+                                                            <TableCell align="left" sx={muiStyles.tableBody}><div onClick={() => openmodale(item, 'Update')} className='editbtn'><TbEdit size={20} color='#000' /></div></TableCell>
+                                                        </TableRow>
+                                                    )
+                                                })
+                                                }
+                                            </TableBody>
+                                            :
+                                            <TableBody>
+                                                <TableRow>
+                                                    <TableCell align="center" colSpan={11}>No Record</TableCell>
+                                                </TableRow>
+                                            </TableBody>
+                                        }
+                                    </Table>
+                                </TableContainer>
+                                <TablePagination
+                                    rowsPerPageOptions={[10, 25, 100]}
+                                    component="div"
+                                    count={vendorData.length}
+                                    rowsPerPage={rowsPerPage}
+                                    page={page}
+                                    onPageChange={handleChangePage}
+                                    onRowsPerPageChange={handleChangeRowsPerPage}
+                                />
+                            </Paper>
+                        </div>
+                    </div>
+                    :
+                    null
+                }
+                {venderDetailsTable == true && buttonName == 'Update' ?
+                    <div>
+                        <div className='tablecenter'>
+                            <Paper sx={{ width: '100%', overflow: 'hidden', paddingTop: 1 }}>
+                                <TableContainer sx={muiStyles.tableBox} className='tableBox' >
+                                    <Table stickyHeader aria-label="sticky table">
+                                        <TableHead>
+                                            <TableRow>
+                                                <TableCell align="left" sx={muiStyles.tableHead}>Vendor Code</TableCell>
+                                                <TableCell align="left" sx={muiStyles.tableHead}>Name</TableCell>
+                                                <TableCell align="left" sx={muiStyles.tableHead}>Address</TableCell>
+                                                <TableCell align="left" sx={muiStyles.tableHead}>Contact Person</TableCell>
+                                                <TableCell align="left" sx={muiStyles.tableHead}>Mobile No</TableCell>
+                                                <TableCell align="left" sx={muiStyles.tableHead}>Email Id</TableCell>
+                                                <TableCell align="left" sx={muiStyles.tableHead}>GST No</TableCell>
+                                                <TableCell align="left" sx={muiStyles.tableHead}>Remarks</TableCell>
+                                                <TableCell align="left" sx={muiStyles.tableHead}>Status</TableCell>
+                                                <TableCell align="left" sx={muiStyles.tableHead} >Edit</TableCell>
+                                            </TableRow>
+                                        </TableHead>
+                                        {vendorData?.length > 0 ?
+                                            <TableBody>
+                                                {vendorData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((item, index) => {
+                                                    return (
+                                                        <TableRow key={index}>
+                                                            <TableCell align="left" sx={muiStyles.tableBody}>{item.vVendorCode}</TableCell>
+                                                            <TableCell align="left" sx={muiStyles.tableBody}>{item.vVendorName}</TableCell>
+                                                            <TableCell align="left" sx={muiStyles.tableBody}><a data-tooltip-id="my-tooltip" data-tooltip-content={item.vVendorAddress}>{(item.vVendorAddress.length > 10) ? (item.vVendorAddress.slice(0, 10)) + '...' : (item.vVendorAddress)}</a><Tooltip id="my-tooltip" place="bottom" /></TableCell>
+                                                            <TableCell align="left" sx={muiStyles.tableBody}>{item.vContactPerson}</TableCell>
+                                                            <TableCell align="left" sx={muiStyles.tableBody}>{item.vMobileNo}</TableCell>
+                                                            <TableCell align="left" sx={muiStyles.tableBody}>{item.vEmailId}</TableCell>
+                                                            <TableCell align="left" sx={muiStyles.tableBody}>{item.vGSTNo}</TableCell>
+                                                            <TableCell align="left" sx={muiStyles.tableBody}><a data-tooltip-id="my-tooltip" data-tooltip-content={item.vRemarks}>{(item.vRemarks.length > 10) ? (item.vRemarks.slice(0, 10)) + '...' : (item.vRemarks)}</a><Tooltip id="my-tooltip" place="bottom" /></TableCell>
+                                                            <TableCell align="left" sx={muiStyles.tableBody}>{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
+                                                            <TableCell align="left" sx={muiStyles.tableBody}><div onClick={() => openmodale(item, 'Update')} className='editbtn'><TbEdit size={20} color='#000' /></div></TableCell>
+                                                        </TableRow>
+                                                    )
+                                                })
+                                                }
+                                            </TableBody>
+                                            :
+                                            <TableBody>
+                                                <TableRow>
+                                                    <TableCell align="center" colSpan={11}>No Record</TableCell>
+                                                </TableRow>
+                                            </TableBody>
+                                        }
+                                    </Table>
+                                </TableContainer>
+                                <TablePagination
+                                    rowsPerPageOptions={[10, 25, 100]}
+                                    component="div"
+                                    count={vendorData.length}
+                                    rowsPerPage={rowsPerPage}
+                                    page={page}
+                                    onPageChange={handleChangePage}
+                                    onRowsPerPageChange={handleChangeRowsPerPage}
+                                />
+                            </Paper>
+                        </div>
+                    </div>
+                    : null
+                }
                 <div className='displayflexend-2'>
                     <FormGroup >
                         <FormControlLabel style={{ marginRight: 0 }} control={<Checkbox defaultChecked={btActive} value={btActive} onChange={e => setbtActive(e.target.checked)} />} label="Active" disabled={disabled} />
@@ -439,7 +800,7 @@ const customStyles = {
         bottom: 'auto',
         marginRight: '-50%',
         transform: 'translate(-50%, -50%)',
-        width: '50%',
+        width: '80%',
     },
 };
 const muiStyles = {
@@ -459,13 +820,13 @@ const muiStyles = {
                 fontSize: '13px'
             }
         },
-        "& .MuiFormLabel-root": {
-            fontSize: '13px',
-            top: '-13px',
-            left: '-10px',
-            backgroundColor: 'transparent',
-            zIndex: '1'
-        },
+        // "& .MuiFormLabel-root": {
+        //     fontSize: '13px',
+        //     top: '-20px',
+        //     left: '-10px',
+        //     backgroundColor: 'transparent',
+        //     zIndex: '1'
+        // },
         "& label.Mui-focused": {
             zIndex: '1'
         },
@@ -481,16 +842,21 @@ const muiStyles = {
                 padding: '6px 6px',
                 fontSize: '13px'
             }
+
         },
         "& .MuiFormLabel-root": {
             fontSize: '13px',
             backgroundColor: 'transparent',
             top: '-13px',
             left: '-10px',
+
         },
         "& label.Mui-focused": {
             zIndex: '1'
         },
+        "& .MuiIconButton-root": {
+            padding: '0'
+        }
     },
     input: {
         "& .MuiOutlinedInput-root": {
