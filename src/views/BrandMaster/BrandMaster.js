@@ -253,9 +253,13 @@ function BrandMaster() {
                                 label="Prefix"
                                 variant="outlined"
                                 name='vPrefix'
+                                inputProps={{
+                                    maxLength: 3, // Set the maximum length here (e.g., 20)
+                                  }}
                                 inputRef={register({ required: "Prefix is required.*", })}
                                 error={Boolean(errors.brandCode)}
                                 helperText={errors.brandCode?.message}
+                                
                             />
                         </FormControl>
                     </Box>

@@ -10,7 +10,7 @@ import TablePagination from '@mui/material/TablePagination';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import Paper from '@mui/material/Paper';
-import { MaterialMasterPost, MaterialMasterPut, MaterialMaster_SelectAll, MaterialTypeMaster_SelectAll_Active } from './MaterialMasterService'
+import { MaterialMasterPost, MaterialMasterPut, MaterialMaster_SelectAll, MaterialTypeMaster_SelectAll_Active, GetSubCategory } from './MaterialMasterService'
 import { UnitMaster_SelectAll_Active, StorageConditionMaster_SelectAll_Active, SubCategoryMaster_SelectAll, CategoryMaster_SelectAll } from '../UnitMaster/UnitMasterApi'
 
 import TextField from '@mui/material/TextField';
@@ -122,6 +122,7 @@ function MaterialMaster() {
         console.log("itemitemitem", item)
         setvCategory(item.vCategoryName)
         setvCategoryId(item.nCId)
+        getSubCategoryMaster_SelectAll(item.nCId)
     };
 
     const [SubCategoryData, setSubCategoryData] = React.useState([]);
@@ -133,8 +134,8 @@ function MaterialMaster() {
     const handleChangeSubCategory = (event) => {
         const selectedId = event.target.value;
         setSubCategoryId(selectedId)
-        const selectedValue = SubCategoryData.find((item) => item.vSubCategoryName === selectedId);
-        console.log("selectedValue", selectedValue)
+        // const selectedValue = SubCategoryData.find((item) => item.vSubCategoryName === selectedId);
+        // console.log("selectedValue", selectedValue)
     };
 
     const handleBlurSC = (item) => {
@@ -233,12 +234,8 @@ function MaterialMaster() {
     }
 
 
-    useEffect(() => {
-        getSubCategoryMaster_SelectAll()
-    }, [])
-
-    const getSubCategoryMaster_SelectAll = () => {
-        SubCategoryMaster_SelectAll().then(response => {
+    const getSubCategoryMaster_SelectAll = (nCId) => {
+        GetSubCategory(nCId).then(response => {
             setSubCategoryData(response)
 
             // const forselectionSC = response.find((item) => item.nCId === vCategoryId);
@@ -331,7 +328,10 @@ function MaterialMaster() {
             setvRemarks('')
             setSubCategory('')
             setStorageCondition('')
-
+            setvMaterialTypeId('')
+            setvCategoryId('')
+            setSubCategoryId('')
+            setStorageConditionId('')
             setBtActive(true)
             setdisabled(true)
         } else {
@@ -342,12 +342,16 @@ function MaterialMaster() {
             setvCategory(item.vCategory)
             setSubCategory(item.vSubCategory)
             setStorageCondition(item.vStorageCondition)
-
             setvMaterialType(item.vMaterialType)
             setvUOM(item.vUOM)
             setvHSNCode(item.vHSNCode)
             setvRemarks(item.vRemarks)
             setBtActive(item.btActive)
+            setvMaterialTypeId(item.MTId)
+            setvCategoryId(item.CatId)
+            getSubCategoryMaster_SelectAll(item.CatId)
+            setSubCategoryId(item.SubCatId)
+            setStorageConditionId(item.StorageId)
             setdisabled(false)
             setbuttonName(type)
         }
@@ -381,6 +385,7 @@ function MaterialMaster() {
         if (validateform() == true) {
             let brand = {
                 nMId: nMId == null ? 0 : nMId,
+                // vMCodeOrg:vMCode,
                 vMCode: vMCode,
                 vMName: vMName,
                 vMaterialType: vMaterialType,
@@ -391,12 +396,10 @@ function MaterialMaster() {
                 vHSNCode: vHSNCode,
                 vRemarks: vRemarks,
                 nLoggedInUserId: parseInt(nLoggedInUserId),
-
-
-                // MTID: MTID,
-                // CatId:CatId ,
-                // SubCatId: SubCatId,
-                // StorageId: StorageId,
+                MTID: vMaterialTypeId,
+                CatId: vCategoryId,
+                SubCatId: SubCategoryId,
+                StorageId: StorageConditionId,
                 btActive: btActive,
             }
             console.log(brand)
@@ -514,18 +517,23 @@ function MaterialMaster() {
                                 sx={muiStyles.input}
                                 value={vMCode}
                                 onChange={e => setvMCode(e.target.value)}
-                                required id="outlined-basic"
-                                label="Material Code"
+                                id="outlined-basic"
+                                label={buttonName == 'Submit'?"Material Code (Auto generated)":"Material Code"}
                                 variant="outlined"
-                                name='MaterialCode'
-                                inputRef={register({ required: "Material Code is required.*", })}
-                                error={Boolean(errors.MaterialCode)}
-                                helperText={errors.MaterialCode?.message}
+                                name='MaterialCode '
+                                disabled={buttonName == 'Submit'}
+                            // inputRef={register({ required: "Material Code is required.*", })}
+                            // error={Boolean(errors.MaterialCode)}
+                            // helperText={errors.MaterialCode?.message}
                             />
                         </FormControl>
+                        {/* {buttonName == 'Submit' ?
+                            <p className='autogenreated'>Auto generated</p>
+                            :
+                            null
+
+                        } */}
                     </Box>
-
-
                     <Box className='inputBox-6' >
                         <FormControl fullWidth className='input' >
                             <TextField
@@ -541,6 +549,7 @@ function MaterialMaster() {
                                 helperText={errors.MaterialName?.message}
                             />
                         </FormControl>
+
                     </Box>
 
 
@@ -607,7 +616,7 @@ function MaterialMaster() {
                                 onChange={handleChangeSubCategory}
                                 name='nSCId'
                             >
-                                {SubCategoryDataForSelection.map((item, index) => {
+                                {SubCategoryData.map((item, index) => {
                                     return (
                                         <MenuItem key={index} onBlur={() => handleBlurSC(item)} value={item.vSubCategoryName} id={item.nSCId}>{item.vSubCategoryName}</MenuItem>
                                     )
@@ -722,7 +731,7 @@ function MaterialMaster() {
                             />
                         </FormControl>
                     </Box>
-                    <div style={{ display:'flex',flexBasis:'100%' }}></div>
+                    <div style={{ display: 'flex', flexBasis: '100%' }}></div>
 
 
                     <FormGroup >
@@ -854,9 +863,9 @@ function MaterialMaster() {
 
                                         <TableCell align="left" sx={muiStyles.tableHead}>Material Code</TableCell>
                                         <TableCell align="left" sx={muiStyles.tableHead}>Material Name</TableCell>
+                                        <TableCell align="left" sx={muiStyles.tableHead}>Material Type</TableCell>
                                         <TableCell align="left" sx={muiStyles.tableHead}>Category</TableCell>
                                         <TableCell align="left" sx={muiStyles.tableHead}>Sub Category</TableCell>
-                                        <TableCell align="left" sx={muiStyles.tableHead}>Material Type</TableCell>
                                         <TableCell align="left" sx={muiStyles.tableHead}>UOM</TableCell>
                                         <TableCell align="left" sx={muiStyles.tableHead}>Storage Condition</TableCell>
                                         <TableCell align="left" sx={muiStyles.tableHead}>HSN Code</TableCell>
@@ -877,10 +886,10 @@ function MaterialMaster() {
 
                                                     <TableCell align="left" sx={muiStyles.tableBody}>{item.vMCode}</TableCell>
                                                     <TableCell align="left" sx={muiStyles.tableBody}>{item.vMName}</TableCell>
+                                                    <TableCell align="left" sx={muiStyles.tableBody}>{item.vMaterialType}</TableCell>
                                                     <TableCell align="left" sx={muiStyles.tableBody}>{item.vCategory}</TableCell>
                                                     <TableCell align="left" sx={muiStyles.tableBody}>{item.vSubCategory}</TableCell>
 
-                                                    <TableCell align="left" sx={muiStyles.tableBody}>{item.vMaterialType}</TableCell>
                                                     <TableCell align="left" sx={muiStyles.tableBody}>{item.vUOM}</TableCell>
                                                     <TableCell align="left" sx={muiStyles.tableBody}>{item.vStorageCondition}</TableCell>
                                                     <TableCell align="left" sx={muiStyles.tableBody}>{item.vHSNCode}</TableCell>
@@ -988,7 +997,8 @@ const muiStyles = {
         "& .MuiOutlinedInput-root": {
             "& input": {
                 padding: '6px',
-                fontSize: '12px'
+                fontSize: '12px',
+                position: 'relative'
             }
         },
         "& .MuiFormLabel-root": {

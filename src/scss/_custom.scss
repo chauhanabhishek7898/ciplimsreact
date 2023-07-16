@@ -1264,3 +1264,21 @@ input[type="number"] {
   padding-top: 30px;
   border-top: 1px solid #ccc;
 }
+.vendor_btn_box{
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+.vender_btn{
+  border: none;
+  padding: 2px 15px;
+  background: #e54253;
+  border-radius: 50px;
+  color: #fff;
+}
+.autogenreated{
+  position: absolute;
+  font-size: 10px;
+  color: blue;
+  top:10px
+}

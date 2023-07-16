@@ -31,6 +31,13 @@ export function MaterialMaster_SelectAll_ActiveLikeSearch(vGeneric) {
         return response;
     })
 }
+export function GetSubCategory(nCId) {
+    let apiUrl = environment.apiUrl;
+    let url = `${apiUrl}/SubCategoryMaster/GetSubCategory/${nCId}`
+    return get(url).then(response => {
+        return response;
+    })
+}
 
 export function MaterialTypeMaster_SelectAll_Active() {
     let apiUrl = environment.apiUrl;
