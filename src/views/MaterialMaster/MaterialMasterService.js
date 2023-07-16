@@ -1,4 +1,4 @@
-import {get,put,putFile,post,postFile} from '../../coreservices/apiService'
+import { get, put, putFile, post, postFile } from '../../coreservices/apiService'
 import * as environment from '../../coreservices/environment'
 export default function abc() {
     return <div>abc</div>
@@ -27,6 +27,14 @@ export function MaterialMaster_SelectAll() {
 export function MaterialMaster_SelectAll_ActiveLikeSearch(vGeneric) {
     let apiUrl = environment.apiUrl;
     let url = `${apiUrl}/MaterialMaster/MaterialMaster_SelectAll_ActiveLikeSearch/${vGeneric}`
+    return get(url).then(response => {
+        return response;
+    })
+}
+
+export function MaterialTypeMaster_SelectAll_Active() {
+    let apiUrl = environment.apiUrl;
+    let url = `${apiUrl}/MaterialTypeMaster/MaterialTypeMaster_SelectAll_Active`
     return get(url).then(response => {
         return response;
     })

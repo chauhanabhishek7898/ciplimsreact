@@ -42,6 +42,9 @@ function BrandMaster() {
     const [btActive, setBtActive] = React.useState(false);
     const [brandCode, setBrandCode] = React.useState("");
     const [brandName, setBrandName] = React.useState("");
+
+    const [vPrefix, setvPrefix] = React.useState("");
+
     const [buttonName, setbuttonName] = React.useState('');
     const [disabled, setdisabled] = React.useState(true);
     const { register, handleSubmit, control, errors } = useForm();
@@ -111,6 +114,7 @@ function BrandMaster() {
             setIsOpen(true)
             setbuttonName(type)
             setBrandCode('')
+            setvPrefix('')
             setBrandName('')
             setBtActive(true)
             setdisabled(true)
@@ -118,6 +122,7 @@ function BrandMaster() {
             setIsOpen(true)
             setnBid(item.nBId)
             setBrandCode(item.vBrandCode)
+            setvPrefix(item.vPrefix)
             setBrandName(item.vBrandName)
             setBtActive(item.btActive)
             setdisabled(false)
@@ -131,6 +136,7 @@ function BrandMaster() {
         let brand = {
             nBId: nBid == null ? 0 : nBid,
             vBrandCode: brandCode,
+            vPrefix: vPrefix,
             vBrandName: brandName,
             btActive: btActive,
         }
@@ -237,6 +243,22 @@ function BrandMaster() {
                             />
                         </FormControl>
                     </Box>
+                    <Box className='inputBox-11'>
+                        <FormControl fullWidth className='input'>
+                            <TextField
+                                sx={muiStyles.input}
+                                value={vPrefix}
+                                onChange={e => setvPrefix(e.target.value)}
+                                required id="outlined-basic"
+                                label="Prefix"
+                                variant="outlined"
+                                name='vPrefix'
+                                inputRef={register({ required: "Prefix is required.*", })}
+                                error={Boolean(errors.brandCode)}
+                                helperText={errors.brandCode?.message}
+                            />
+                        </FormControl>
+                    </Box>
                 </div>
                 <div className='displayflexend-2'>
                     <FormGroup >
@@ -280,6 +302,7 @@ function BrandMaster() {
                                     {/* <TableCell scope="row">SN.</TableCell> */}
                                     <TableCell align="left" sx={muiStyles.tableHead} >Brand Code</TableCell>
                                     <TableCell align="left" sx={muiStyles.tableHead} >Brand Name</TableCell>
+                                    <TableCell align="left" sx={muiStyles.tableHead} >Prefix</TableCell>
                                     <TableCell align="left" sx={muiStyles.tableHead} >Status</TableCell>
 
                                     <TableCell align="left" sx={muiStyles.tableHead} >Edit</TableCell>
@@ -294,6 +317,7 @@ function BrandMaster() {
                                                 {/* <TableCell component="th" scope="row">{index + 1}.</TableCell> */}
                                                 <TableCell align="left" sx={muiStyles.tableBody}>{item.vBrandCode}</TableCell>
                                                 <TableCell align="left" sx={muiStyles.tableBody}>{item.vBrandName}</TableCell>
+                                                <TableCell align="left" sx={muiStyles.tableBody}>{item.vPrefix}</TableCell>
                                                 <TableCell align="left" sx={muiStyles.tableBody}>{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
 
                                                 <TableCell align="left" sx={muiStyles.tableBody}><div onClick={() => openmodale(item, 'Update')} className='editbtn'><TbEdit size={20} color='#000' /></div></TableCell>
