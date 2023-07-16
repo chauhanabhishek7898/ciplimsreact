@@ -419,7 +419,7 @@ font-weight: 500;
 .displayflexend {
   display: flex;
   align-items: flex-end;
-  // justify-content: space-between;
+  justify-content: space-between;
   flex-wrap: wrap;
   margin-bottom: 10px;
   gap: 20px 10px;
@@ -1258,4 +1258,9 @@ input[type="number"] {
   padding-left: 10px;
   box-shadow: 0 0 6px 0 rgba($color: #000000, $alpha: 0.2);
   border-radius: 5px;
+}
+.borderTop{
+  margin-top: 20px;
+  padding-top: 30px;
+  border-top: 1px solid #ccc;
 }

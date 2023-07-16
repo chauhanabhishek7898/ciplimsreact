@@ -38,3 +38,19 @@ export function VendorMaster_SelectAll_ActiveLikeSearch(vGeneric) {
         return response;
     })
 }
+export function MaterialMaster_SelectAll_ActiveLikeSearch(vGeneric) {
+    let apiUrl = environment.apiUrl;
+    let url = `${apiUrl}/CategoryMaster/CategoryMaster_ActiveLikeSearch/${vGeneric}`
+    return get(url).then(response => {
+        return response;
+    })
+}
+export function SubCategory_SelectAll_ActiveLikeSearch(vGeneric) {
+    let apiUrl = environment.apiUrl;
+    let url = `${apiUrl}/SubCategoryMaster/SubCategoryMaster_ActiveLikeSearch/${vGeneric}`
+    return get(url).then(response => {
+        return response;
+    })
+}
+
+

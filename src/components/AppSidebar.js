@@ -55,15 +55,43 @@ const AppSidebar = () => {
         
         if (item.vPageName == null && item.nPageDependentId == null) {
           let subNav=[]
+          let subChildNav=[]
           let filterItem = response.TAB2.filter(e=>e.nPageDependentId==item.nPageId)
           // console.log('filterItem',filterItem)
+          
           filterItem.forEach(el => {
-            subNav.push({
-              component: CNavItem,
-              name: el.vPageCaption,
-              to: el.vPageName,
-              // icon: <CIcon icon={cilPencil} customClassName="nav-icon" />,
-            })
+           
+            
+            if(el.vPageName==null){
+              let childFilterItem = response.TAB2.filter(e => e.nPageDependentId == el.nPageId)
+            console.log('childFilterItem',childFilterItem)
+            subChildNav=[]
+              childFilterItem.forEach(child=>{
+                subChildNav.push({
+                  component: CNavItem,
+                  name: child.vPageCaption,
+                  to: child.vPageName,
+                  // icon: <CIcon icon={cilPencil} customClassName="nav-icon" />,
+                })
+              })
+              
+              subNav.push({
+                component:  CNavGroup,
+                name: el.vPageCaption,
+                to: el.vPageName,
+                items: subChildNav
+                // icon: <CIcon icon={cilPencil} customClassName="nav-icon" />,
+              })
+            }else{
+             
+              subNav.push({
+                component: CNavItem,
+                name: el.vPageCaption,
+                to: el.vPageName,
+                // icon: <CIcon icon={cilPencil} customClassName="nav-icon" />,
+              })
+            }
+           
           })
        
           nav.push({
@@ -99,7 +127,7 @@ const AppSidebar = () => {
     >
       <CSidebarBrand className="d-none d-md-flex" to="/">
         <div>
-        <img style={{width: 190,height:28}} src={require('../assets/brand/IMSLogoWhite.png')} />
+        <img style={{width: 190,height:28}} src={require('../assets/brand/IMSLogoWhite.png')} alt='' />
         </div>
       </CSidebarBrand>
       <CSidebarNav onClick={gotoLogin}>

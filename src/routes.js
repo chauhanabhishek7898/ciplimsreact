@@ -1,5 +1,6 @@
 import React from 'react'
 
+
 const Dashboard = React.lazy(() => import('./views/dashboard/Dashboard'))
 const Login = React.lazy(() => import('./views/pages/login/Login'))
 const Komonth = React.lazy(() => import('./views/Komonth/Komonth'))
@@ -43,6 +44,8 @@ const GodownMaster = React.lazy(() => import('./views/GodownMaster/GodownMaster'
 const UpdateEmail = React.lazy(() => import('./views/Settings/UpdateEmail/UpdateEmail'))
 const UpdateMobileNo = React.lazy(() => import('./views/Settings/UpdateMobileNo/UpdateMobileNo'))
 const UpdatePassword = React.lazy(() => import('./views/Settings/UpdatePassword/UpdatePassword'))
+const VendorCategoryMaster = React.lazy(() => import('./views/VendorCategoryMaster/VendorCategoryMaster'))
+const VendorSubCategoryMaster = React.lazy(() => import('./views/VendorSubCategoryMaster/VendorSubCategoryMaster'))
 
 const routes = [
   { path: '/', exact: true, name: 'Home' },
@@ -88,6 +91,8 @@ const routes = [
   { path: '/DispatchDetails', name: 'Dispatch Details ', element: DispatchDetailsList, exact: true },
   { path: '/AddDispatchDetails', name: 'Add Dispatch Details ', element: AddDispatchDetails, exact: true },
   { path: '/EditDispatchDetails', name: 'Edit Dispatch Details ', element: EditDispatchDetails, exact: true },
+  { path: '/VendorCategoryMaster', name: 'Vendor Category Master ', element: VendorCategoryMaster, exact: true },
+  { path: '/VendorSubCategoryMaster', name: 'Vendor Sub Category Master ', element: VendorSubCategoryMaster, exact: true },
 ]
 
 export default routes

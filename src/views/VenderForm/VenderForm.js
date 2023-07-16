@@ -8,7 +8,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import TablePagination from '@mui/material/TablePagination';
 import Paper from '@mui/material/Paper';
-import { VendorMaster_SelectAll, VendorMasterPost, VendorMasterPut } from './VenderFormService'
+import { VendorMaster_SelectAll,VendorMaster_SelectAll_Active, VendorMasterPost, VendorMasterPut,SubCategory_SelectAll_ActiveLikeSearch,MaterialMaster_SelectAll_ActiveLikeSearch } from './VenderFormService'
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import FormControl from '@mui/material/FormControl';
@@ -47,6 +47,10 @@ import ExportExcel from 'src/shareFunction/Excelexport';
 import CircularProgress from '@mui/joy/CircularProgress';
 import { Tooltip } from 'react-tooltip'
 import { TbEdit } from "react-icons/tb";
+import Select from '@mui/material/Select';
+import Autocomplete from '@mui/material/Autocomplete';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
 function VenderForm() {
     let Heading = [['SN.', 'Vendor Code', 'Vendor Name', 'Vendor Address', 'Contact Person', 'Mobile No', 'Email Id', 'GST No', 'Remarks', 'Status']];
     const [modalIsOpen, setIsOpen] = React.useState(false);
@@ -68,6 +72,16 @@ function VenderForm() {
     const [disabled, setdisabled] = React.useState(true);
     const [loader, setLoader] = React.useState(false);
     const [loader2, setLoader2] = React.useState(false);
+    const [MaterialType, setMaterialType] = React.useState(false);
+    const [MaterialMaster, setMaterialMaster] = React.useState([]);
+    const [MaterialDetail, setMaterialDetail] = React.useState('');
+    const [nMId, setnMId] = React.useState('');
+    const [subcategoryMaster, setsubcategoryMaster] = React.useState([]);
+    const [subcategoryMasterDetail, setsubcategoryMasterDetail] = React.useState('');
+    const [subcategoryMasterId, setsubcategoryMasterId] = React.useState('');
+    const [errorText, setError] = React.useState({
+        MaterialDetail: '',
+    });
     const { register, handleSubmit, control, errors } = useForm();
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
@@ -119,7 +133,7 @@ function VenderForm() {
     }, [])
     const getVendorMaster_SelectAll = () => {
         setLoader2(true)
-        VendorMaster_SelectAll().then(response => {
+        VendorMaster_SelectAll_Active().then(response => {
 
             if (checkedData == true) {
                 let activeData = response.filter(e => e.btActive == true)
@@ -200,8 +214,69 @@ function VenderForm() {
                 }
             })
         }
+    }
+    const handleChange = (event) => {
+        setMaterialType(event.target.value);
+    };
+    const materialMaster_SelectAll_ActiveLikeSearch = (vGeneric) => {
+        console.log('response', vGeneric)
+        if (vGeneric != '') {
+            vGeneric = vGeneric
+        } else {
+            vGeneric = null
+        }
+        MaterialMaster_SelectAll_ActiveLikeSearch(vGeneric).then(res => {
 
 
+            let count = Object.keys(res).length
+            let data = []
+            for (var i = 0; i < count; i++) {
+                data.push({
+                    value: res[i].nCId,
+                    label: res[i].vCategoryName,
+                })
+            }
+            setMaterialMaster(data)
+        })
+
+    }
+    const changeMaterialMasterValue = (value) => {
+        console.log('value', value)
+        setnMId(value == null ? '' : value.label)
+        // setMaterialDetail(value.label)
+        setError({
+            MaterialDetail: ''
+        })
+    }
+    const subCategory_SelectAll_ActiveLikeSearch = (vGeneric) => {
+        console.log('response', vGeneric)
+        if (vGeneric != '') {
+            vGeneric = vGeneric
+        } else {
+            vGeneric = null
+        }
+        SubCategory_SelectAll_ActiveLikeSearch(vGeneric).then(res => {
+
+
+            let count = Object.keys(res).length
+            let data = []
+            for (var i = 0; i < count; i++) {
+                data.push({
+                    value: res[i].nSCId,
+                    label: res[i].vSubCategoryName,
+                })
+            }
+            setsubcategoryMaster(data)
+        })
+
+    }
+    const changeSubCategoryValue = (value) => {
+        console.log('value', value)
+        setsubcategoryMasterId(value == null ? '' : value.label)
+        // setMaterialDetail(value.label)
+        setError({
+            subMaterialDetail: ''
+        })
     }
     return (
         <div className='citymasterContainer'>
@@ -312,6 +387,74 @@ function VenderForm() {
                             />
                         </FormControl>
                     </Box>
+
+                    {/* <Box className='inputBox-3'>
+                        <FormControl fullWidth>
+                            <InputLabel id="demo-simple-select-label" >Material Type</InputLabel>
+                            <Select
+                                sx={muiStyles.select}
+                                labelId="demo-simple-select-label"
+                                id="demo-simple-select"
+                                value={MaterialType}
+                                label="Material Type"
+                                onChange={handleChange}
+                            >
+                                <MenuItem value='RM'>RM</MenuItem>
+                                <MenuItem value='PM'>PM</MenuItem>
+
+                            </Select>
+                        </FormControl>
+                    </Box>
+                    <Box className='inputBox-3'>
+                        <FormControl fullWidth className='input'>
+                            <InputLabel required id="demo-simple-select-label">Item</InputLabel>
+                            <Autocomplete
+                                sx={muiStyles.autoCompleate}
+                                disablePortal
+                                id="combo-box-demo"
+                                options={MaterialMaster}
+                                value={MaterialDetail}
+                                // inputValue={MaterialDetail}
+                                onChange={(event, value) => changeMaterialMasterValue(value)}
+                                // onKeyDown={newInputValue => materialMaster_SelectAll_ActiveLikeSearch(newInputValue)}
+                                onInputChange={(event, newInputValue) => {
+                                    // setInputValue(newInputValue);
+                                    if (newInputValue.length >= 3) {
+                                        materialMaster_SelectAll_ActiveLikeSearch(newInputValue)
+
+                                    }
+                                    console.log('newInputValue', newInputValue)
+                                }}
+                                renderInput={(params) => <TextField {...params} label="Search Category" required />}
+                            />
+                            {errorText.MaterialDetail != '' ? <p className='error'>{errorText.MaterialDetail}</p> : null}
+                        </FormControl>
+                    </Box>
+                    <Box className='inputBox-3'>
+                        <FormControl fullWidth className='input'>
+                            <InputLabel required id="demo-simple-select-label">Item</InputLabel>
+                            <Autocomplete
+                                sx={muiStyles.autoCompleate}
+                                disablePortal
+                                id="combo-box-demo"
+                                options={subcategoryMaster}
+                                value={subcategoryMasterDetail}
+                                // inputValue={MaterialDetail}
+                                onChange={(event, value) => changeSubCategoryValue(value)}
+                                // onKeyDown={newInputValue => materialMaster_SelectAll_ActiveLikeSearch(newInputValue)}
+                                onInputChange={(event, newInputValue) => {
+                                    // setInputValue(newInputValue);
+                                    if (newInputValue.length >= 3) {
+                                        subCategory_SelectAll_ActiveLikeSearch(newInputValue)
+
+                                    }
+                                    console.log('newInputValue', newInputValue)
+                                }}
+                                renderInput={(params) => <TextField {...params} label="Search Sub Category" required />}
+                            />
+                            {errorText.MaterialDetail != '' ? <p className='error'>{errorText.MaterialDetail}</p> : null}
+                        </FormControl>
+                    </Box> */}
                     <Box className='inputBox-3'>
                         <FormControl fullWidth className='input'>
                             <TextField
@@ -337,6 +480,75 @@ function VenderForm() {
                                 variant="outlined"
                                 name='vRemarks'
                             />
+                        </FormControl>
+                    </Box>
+                </div>
+                <div className='displayflexend borderTop' >
+                <Box className='inputBox-3'>
+                        <FormControl fullWidth>
+                            <InputLabel id="demo-simple-select-label" >Material Type</InputLabel>
+                            <Select
+                                sx={muiStyles.select}
+                                labelId="demo-simple-select-label"
+                                id="demo-simple-select"
+                                value={MaterialType}
+                                label="Material Type"
+                                onChange={handleChange}
+                            >
+                                <MenuItem value='RM'>RM</MenuItem>
+                                <MenuItem value='PM'>PM</MenuItem>
+
+                            </Select>
+                        </FormControl>
+                    </Box>
+                    <Box className='inputBox-3'>
+                        <FormControl fullWidth className='input'>
+                            {/* <InputLabel required id="demo-simple-select-label">Item</InputLabel> */}
+                            <Autocomplete
+                                sx={muiStyles.autoCompleate}
+                                disablePortal
+                                id="combo-box-demo"
+                                options={MaterialMaster}
+                                value={MaterialDetail}
+                                // inputValue={MaterialDetail}
+                                onChange={(event, value) => changeMaterialMasterValue(value)}
+                                // onKeyDown={newInputValue => materialMaster_SelectAll_ActiveLikeSearch(newInputValue)}
+                                onInputChange={(event, newInputValue) => {
+                                    // setInputValue(newInputValue);
+                                    if (newInputValue.length >= 3) {
+                                        materialMaster_SelectAll_ActiveLikeSearch(newInputValue)
+
+                                    }
+                                    console.log('newInputValue', newInputValue)
+                                }}
+                                renderInput={(params) => <TextField {...params} label="Search Category" required />}
+                            />
+                            {errorText.MaterialDetail != '' ? <p className='error'>{errorText.MaterialDetail}</p> : null}
+                        </FormControl>
+                    </Box>
+                    <Box className='inputBox-3'>
+                        <FormControl fullWidth className='input'>
+                            {/* <InputLabel required id="demo-simple-select-label">Item</InputLabel> */}
+                            <Autocomplete
+                                sx={muiStyles.autoCompleate}
+                                disablePortal
+                                id="combo-box-demo"
+                                options={subcategoryMaster}
+                                value={subcategoryMasterDetail}
+                                // inputValue={MaterialDetail}
+                                onChange={(event, value) => changeSubCategoryValue(value)}
+                                // onKeyDown={newInputValue => materialMaster_SelectAll_ActiveLikeSearch(newInputValue)}
+                                onInputChange={(event, newInputValue) => {
+                                    // setInputValue(newInputValue);
+                                    if (newInputValue.length >= 3) {
+                                        subCategory_SelectAll_ActiveLikeSearch(newInputValue)
+
+                                    }
+                                    console.log('newInputValue', newInputValue)
+                                }}
+                                renderInput={(params) => <TextField {...params} label="Search Sub Category" required />}
+                            />
+                            {errorText.MaterialDetail != '' ? <p className='error'>{errorText.MaterialDetail}</p> : null}
                         </FormControl>
                     </Box>
                 </div>
@@ -439,7 +651,7 @@ const customStyles = {
         bottom: 'auto',
         marginRight: '-50%',
         transform: 'translate(-50%, -50%)',
-        width: '50%',
+        width: '80%',
     },
 };
 const muiStyles = {
@@ -459,13 +671,13 @@ const muiStyles = {
                 fontSize: '13px'
             }
         },
-        "& .MuiFormLabel-root": {
-            fontSize: '13px',
-            top: '-13px',
-            left: '-10px',
-            backgroundColor: 'transparent',
-            zIndex: '1'
-        },
+        // "& .MuiFormLabel-root": {
+        //     fontSize: '13px',
+        //     top: '-20px',
+        //     left: '-10px',
+        //     backgroundColor: 'transparent',
+        //     zIndex: '1'
+        // },
         "& label.Mui-focused": {
             zIndex: '1'
         },
@@ -481,16 +693,21 @@ const muiStyles = {
                 padding: '6px 6px',
                 fontSize: '13px'
             }
+
         },
         "& .MuiFormLabel-root": {
             fontSize: '13px',
             backgroundColor: 'transparent',
             top: '-13px',
             left: '-10px',
+
         },
         "& label.Mui-focused": {
             zIndex: '1'
         },
+        "& .MuiIconButton-root": {
+            padding: '0'
+        }
     },
     input: {
         "& .MuiOutlinedInput-root": {
