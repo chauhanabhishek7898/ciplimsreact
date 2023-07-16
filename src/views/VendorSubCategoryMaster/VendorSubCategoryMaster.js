@@ -18,7 +18,7 @@ import Checkbox from '@mui/material/Checkbox';
 import AddIcon from '@mui/icons-material/Add';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import { CButton, CSpinner } from '@coreui/react'
-import { UnitMastersPost, UnitMaster_SelectAll, UnitMastersPut,MaterialMaster_SelectAll_ActiveLikeSearch } from './VendorSubCategoryMasterApi'
+import { UnitMastersPost, UnitMaster_SelectAll, UnitMastersPut, MaterialMaster_SelectAll_ActiveLikeSearch } from './VendorSubCategoryMasterApi'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import SimpleReactValidator from 'simple-react-validator';
@@ -28,7 +28,7 @@ import SearchBar from "material-ui-search-bar";
 import ExportExcel from 'src/shareFunction/Excelexport';
 import CircularProgress from '@mui/joy/CircularProgress';
 import { TbEdit } from "react-icons/tb";
- function VendorSubCategoryMaster() {
+function VendorSubCategoryMaster() {
     let Heading = [['SN.', 'Unit Code', 'Status']];
 
     const formValidation = new SimpleReactValidator()
@@ -43,6 +43,7 @@ import { TbEdit } from "react-icons/tb";
     const [nUId, setnUId] = React.useState(0);
     const [vUnitName, setvUnitName] = React.useState('');
     const [vUnitName2, setvUnitName2] = React.useState('');
+    const [vSubCatPrefix, setvSubCatPrefix] = React.useState('');
 
     const [buttonName, setbuttonName] = React.useState('');
     const [disabled, setdisabled] = React.useState(true);
@@ -76,17 +77,20 @@ import { TbEdit } from "react-icons/tb";
 
     }
     const submit = () => {
-        if(validateformPoDetial()==true){
+        if (validateformPoDetial() == true) {
             setLoader(true)
             let data = {
                 nSCId: nUId == null ? 0 : nUId,
                 nCId: nMId,
                 vSubCategoryName: vUnitName,
+                vSubCatPrefix: vSubCatPrefix,
                 btActive: btActive
             }
             if (buttonName == 'Submit') {
                 let unistData = [...unitData]
                 console.log("unistData", unistData)
+                let venderexistCode = unistData.find(e => e.vSubCatPrefix == vSubCatPrefix.toLowerCase() || e.vSubCatPrefix == vSubCatPrefix.toUpperCase())
+
                 let unitName = unistData.find(e => e.vSubCategoryName == vUnitName.toLowerCase() || e.vSubCategoryName == vUnitName.toUpperCase())
                 console.log("unitName", unitName)
                 if (unitName) {
@@ -94,20 +98,26 @@ import { TbEdit } from "react-icons/tb";
                     toast.success("Item is already Exists")
                 }
                 else {
-                    UnitMastersPost(data).then(res => {
-                        if (res) {
-                            toast.success(res)
-                            setLoader(false)
-                            setIsOpen(false)
-                            getUnitMaster_SelectAll()
-                        }
-                    })
+                    if (venderexistCode) {
+                        setLoader(false)
+                        toast.success("Prefix is already Exists")
+                    } else {
+                        UnitMastersPost(data).then(res => {
+                            if (res) {
+                                toast.success(res)
+                                setLoader(false)
+                                setIsOpen(false)
+                                getUnitMaster_SelectAll()
+                            }
+                        })
+                    }
+
                 }
-    
+
             }
-    
+
             else {
-    
+
                 UnitMastersPut(data).then(res => {
                     if (res) {
                         toast.success(res)
@@ -195,6 +205,7 @@ import { TbEdit } from "react-icons/tb";
             setIsOpen(true)
             setbuttonName(type)
             setvUnitName('')
+            setvSubCatPrefix('')
             setbtActive(true)
             setdisabled(true)
         } else {
@@ -202,6 +213,7 @@ import { TbEdit } from "react-icons/tb";
             setnUId(item.nSCId)
             setvUnitName2(item.vCategoryName)
             setvUnitName(item.vSubCategoryName)
+            setvSubCatPrefix(item.vSubCatPrefix)
             setnMId(item.nCId)
             setMaterialDetail(item.vCategoryName)
             setbtActive(item.btActive)
@@ -219,7 +231,7 @@ import { TbEdit } from "react-icons/tb";
         }
         MaterialMaster_SelectAll_ActiveLikeSearch(vGeneric).then(res => {
 
-           
+
             let count = Object.keys(res).length
             let data = []
             for (var i = 0; i < count; i++) {
@@ -233,8 +245,8 @@ import { TbEdit } from "react-icons/tb";
 
     }
     const changeMaterialMasterValue = (value) => {
-        console.log('value',value)
-        setnMId(value==null?'':value.value)
+        console.log('value', value)
+        setnMId(value == null ? '' : value.value)
         // setMaterialDetail(value.label)
         setError({
             MaterialDetail: ''
@@ -268,47 +280,63 @@ import { TbEdit } from "react-icons/tb";
                     <HighlightOffIcon fontSize='large' onClick={() => setIsOpen(false)} />
                 </div>
                 <form >
-                    <div style={{display:'flex',alignItems:'center',justifyContent:'space-between'}}>
-                    <div className='inputBox-14 mt-4'>
-                        <TextField
-                            sx={muiStyles.input}
-                            fullWidth
-                            id="outlined-basic"
-                            label="Enter Sub Category Name"
-                            variant="outlined"
-                            value={vUnitName}
-                            name='vUnitName'
-                            onChange={e => setvUnitName(e.target.value)}
-                            inputRef={register({ required: "Sub Category Name is required.*", })}
-                            error={Boolean(errors.vUnitName)}
-                            helperText={errors.vUnitName?.message}
-                        />
-                    </div>
-                    <Box className='inputBox-14 mt-4'>
-                        <FormControl fullWidth className='input'>
-                            {/* <InputLabel required id="demo-simple-select-label">Item</InputLabel> */}
-                            <Autocomplete
-                                sx={muiStyles.autoCompleate}
-                                disablePortal
-                                id="combo-box-demo"
-                                options={MaterialMaster}
-                                value={MaterialDetail}
-                                // inputValue={MaterialDetail}
-                                onChange={(event, value) => changeMaterialMasterValue(value)}
-                                // onKeyDown={newInputValue => materialMaster_SelectAll_ActiveLikeSearch(newInputValue)}
-                                onInputChange={(event, newInputValue) => {
-                                    // setInputValue(newInputValue);
-                                    if(newInputValue.length>=3){
-                                         materialMaster_SelectAll_ActiveLikeSearch(newInputValue)
-
-                                    }
-                                    console.log('newInputValue', newInputValue)
-                                }}
-                                renderInput={(params) => <TextField {...params} label="Search Category" required />}
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                        <div className='inputBox-12 mt-4'>
+                            <TextField
+                                sx={muiStyles.input}
+                                fullWidth
+                                id="outlined-basic"
+                                label="Enter Sub Category Name"
+                                variant="outlined"
+                                value={vUnitName}
+                                name='vUnitName'
+                                onChange={e => setvUnitName(e.target.value)}
+                                inputRef={register({ required: "Sub Category Name is required.*", })}
+                                error={Boolean(errors.vUnitName)}
+                                helperText={errors.vUnitName?.message}
                             />
-                            {errorText.MaterialDetail != '' ? <p className='error'>{errorText.MaterialDetail}</p> : null}
-                        </FormControl>
-                    </Box>
+                        </div>
+                        <Box className='inputBox-12 mt-4'>
+                            <FormControl fullWidth className='input'>
+                                {/* <InputLabel required id="demo-simple-select-label">Item</InputLabel> */}
+                                <Autocomplete
+                                    sx={muiStyles.autoCompleate}
+                                    disablePortal
+                                    id="combo-box-demo"
+                                    options={MaterialMaster}
+                                    value={MaterialDetail}
+                                    // inputValue={MaterialDetail}
+                                    onChange={(event, value) => changeMaterialMasterValue(value)}
+                                    // onKeyDown={newInputValue => materialMaster_SelectAll_ActiveLikeSearch(newInputValue)}
+                                    onInputChange={(event, newInputValue) => {
+                                        // setInputValue(newInputValue);
+                                        if (newInputValue.length >= 3) {
+                                            materialMaster_SelectAll_ActiveLikeSearch(newInputValue)
+
+                                        }
+                                        console.log('newInputValue', newInputValue)
+                                    }}
+                                    renderInput={(params) => <TextField {...params} label="Search Category" required />}
+                                />
+                                {errorText.MaterialDetail != '' ? <p className='error'>{errorText.MaterialDetail}</p> : null}
+                            </FormControl>
+                        </Box>
+
+                        <div className='inputBox-12 mt-4'>
+                            <TextField
+                                sx={muiStyles.input}
+                                fullWidth
+                                id="outlined-basic"
+                                label="Enter Prefix"
+                                variant="outlined"
+                                value={vSubCatPrefix}
+                                name='vSubCatPrefix'
+                                onChange={e => setvSubCatPrefix(e.target.value)}
+                                inputRef={register({ required: "Sub Category Prefix is required.*", })}
+                                error={Boolean(errors.vSubCatPrefix)}
+                                helperText={errors.vSubCatPrefix?.message}
+                            />
+                        </div>
 
                     </div>
                     <div className='displayflexend-2'>
@@ -358,6 +386,8 @@ import { TbEdit } from "react-icons/tb";
                                     {/* <TableCell scope="row">SN.</TableCell> */}
                                     <TableCell align="left" sx={muiStyles.tableHead}>Sub Category Name</TableCell>
                                     <TableCell align="left" sx={muiStyles.tableHead}>Category Name</TableCell>
+                                    <TableCell align="left" sx={muiStyles.tableHead}>Prefix</TableCell>
+
                                     <TableCell align="left" sx={muiStyles.tableHead}>Status</TableCell>
                                     <TableCell align="left" sx={muiStyles.tableHead}>Edit</TableCell>
 
@@ -371,6 +401,8 @@ import { TbEdit } from "react-icons/tb";
                                                 {/* <TableCell component="th" scope="row">{index + 1}.</TableCell> */}
                                                 <TableCell align="left" sx={muiStyles.tableBody}>{item.vSubCategoryName}</TableCell>
                                                 <TableCell align="left" sx={muiStyles.tableBody}>{item.vCategoryName}</TableCell>
+                                                <TableCell align="left" sx={muiStyles.tableBody}>{item.vSubCatPrefix}</TableCell>
+
                                                 <TableCell align="left" sx={muiStyles.tableBody}>{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
                                                 <TableCell align="left" sx={muiStyles.tableBody}><div onClick={() => openmodale(item, 'Update')} className='editbtn'><TbEdit size={20} color='#000' /></div></TableCell>
 
@@ -460,14 +492,14 @@ const muiStyles = {
             fontSize: '13px',
             backgroundColor: 'transparent',
             top: '-13px',
-            left:'-10px',
-          
+            left: '-10px',
+
         },
         "& label.Mui-focused": {
             zIndex: '1'
         },
-        "& .MuiIconButton-root":{
-            padding:'0'
+        "& .MuiIconButton-root": {
+            padding: '0'
         }
     },
     input: {

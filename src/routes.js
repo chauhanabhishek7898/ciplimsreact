@@ -10,6 +10,18 @@ const MaterialMaster = React.lazy(() => import('./views/MaterialMaster/MaterialM
 const PurchaseOrder = React.lazy(() => import('./views/PurchaseOrder/PurchaseOrder'))
 const ProductMaster = React.lazy(() => import('./views/ProductMaster/ProductMaster'))
 
+
+const MaterialTypeMaster = React.lazy(() => import('./views/MaterialTypeMaster/MaterialTypeMaster'))
+
+const ProductCategoryMaster = React.lazy(() => import('./views/ProductCategoryMaster/ProductCategoryMaster'))
+
+const ProductSubCategoryMaster = React.lazy(() => import('./views/ProductSubCategoryMaster/ProductSubCategoryMaster'))
+
+const StorageConditionMaster = React.lazy(() => import('./views/StorageConditionMaster/StorageConditionMaster'))
+
+const VarientMaster = React.lazy(() => import('./views/VarientMaster/VarientMaster'))
+
+
 const AddPurchaseOrder = React.lazy(() => import('./views/PurchaseOrder/AddPurchaseOrder'))
 const EditPurchaseOrder = React.lazy(() => import('./views/PurchaseOrder/EditPurchaseOrder'))
 const GRNReceivedList = React.lazy(() => import('./views/GRNReceivedMaster/GRNReceivedList'))
@@ -56,6 +68,18 @@ const routes = [
   { path: '/dashboard', name: 'Dashboard', element: Dashboard },
   { path: '/KOMonth', name: 'Ko Month', element: Komonth, exact: true },
   { path: '/ProductMaster', name: 'Product Master', element: ProductMaster, exact: true },
+
+  
+  { path: '/MaterialTypeMaster', name: 'Material Type Master', element: MaterialTypeMaster, exact: true },
+ 
+  { path: '/ProductCategoryMaster', name: 'Product Category Master', element: ProductCategoryMaster, exact: true },
+ 
+  { path: '/ProductSubCategoryMaster', name: 'Product Sub Category Master', element: ProductSubCategoryMaster, exact: true },
+ 
+  { path: '/StorageConditionMaster', name: 'Storage Condition Master', element: StorageConditionMaster, exact: true },
+ 
+  { path: '/VarientMaster', name: 'Varient Master', element: VarientMaster, exact: true },
+  
 
   { path: '/UnitMaster', name: 'Unit Master', element: UnitMaster, exact: true },
   { path: '/update-email-id', name: 'Update Email', element: UpdateEmail, exact: true },
