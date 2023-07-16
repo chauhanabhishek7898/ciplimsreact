@@ -5,37 +5,22 @@ export default function abc() {
     return <div>abc</div>
 }
 
-// export function UnitMastersPost(data) {
-//     let apiUrl = environment.apiUrl;
-//     let url = `${apiUrl}/UnitMaster`
-//     return post(url, data).then(response => {
-//         return response;
-//     })
-// }
+export function ProductMasterPost(data) {
+    let apiUrl = environment.apiUrl;
+    let url = `${apiUrl}/ProductMaster`
+    return post(url, data).then(response => {
+        return response;
+    })
+}
 
-// export function UnitMastersPut(data) {
-//     let apiUrl = environment.apiUrl;
-//     let url = `${apiUrl}/UnitMaster`
-//     return put(url, data).then(response => {
-//         return response;
-//     })
-// }
+export function ProductMasterPut(data) {
+    let apiUrl = environment.apiUrl;
+    let url = `${apiUrl}/ProductMaster`
+    return put(url, data).then(response => {
+        return response;
+    })
+}
 
-// export function UnitMaster_SelectAll() {
-//     let apiUrl = environment.apiUrl;
-//     let url = `${apiUrl}/UnitMaster/UnitMaster_SelectAll`
-//     return get(url).then(response => {
-//         return response;
-//     })
-// }
-
-// export function UnitMaster_SelectAll_Active() {
-//     let apiUrl = environment.apiUrl;
-//     let url = `${apiUrl}/UnitMaster/UnitMaster_SelectAll_Active`
-//     return get(url).then(response => {
-//         return response;
-//     })
-// }
 
 export function ProductCategoryMaster_SelectAll() {
     let apiUrl = environment.apiUrl;
@@ -44,10 +29,24 @@ export function ProductCategoryMaster_SelectAll() {
         return response;
     })
 }
+export function ProductMaster_SelectAll() {
+    let apiUrl = environment.apiUrl;
+    let url = `${apiUrl}/ProductMaster/ProductMaster_SelectAll`
+    return get(url).then(response => {
+        return response;
+    })
+}
 
 export function ProductSubCategoryMaster_SelectAll() {
     let apiUrl = environment.apiUrl;
     let url = `${apiUrl}/ProductSubCategoryMaster/ProductSubCategoryMaster_SelectAll`
+    return get(url).then(response => {
+        return response;
+    })
+}
+export function GetProductSubCategory(nPDCId) {
+    let apiUrl = environment.apiUrl;
+    let url = `${apiUrl}/ProductSubCategoryMaster/GetProductSubCategory/${nPDCId}`
     return get(url).then(response => {
         return response;
     })

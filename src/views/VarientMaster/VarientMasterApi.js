@@ -24,9 +24,9 @@ export function VarientMaster_SelectAll() {
         return response;
     })
 }
-export function VarientMaster_SelectAll_ActiveLikeSearch(vGeneric) {
+export function VarientMaster_ActiveLikeSearch(vGeneric) {
     let apiUrl = environment.apiUrl;
-    let url = `${apiUrl}/VarientMaster_SelectAll/VarientMaster_SelectAll_ActiveLikeSearch/${vGeneric}`
+    let url = `${apiUrl}/VarientMaster/VarientMaster_ActiveLikeSearch/${vGeneric}`
     return get(url).then(response => {
         return response;
     })

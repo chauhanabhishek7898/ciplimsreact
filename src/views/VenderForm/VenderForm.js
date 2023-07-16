@@ -411,7 +411,7 @@ function VenderForm() {
                                 value={vVendorCode}
                                 onChange={e => setvVendorCode(e.target.value)}
                                 id="outlined-basic"
-                                label="Vendor Code"
+                                label="Vendor Code (Auto Generated)"
                                 required
                                 variant="outlined"
                                 name='vVendorCode'

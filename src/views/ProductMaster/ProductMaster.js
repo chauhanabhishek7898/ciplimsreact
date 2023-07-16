@@ -12,8 +12,10 @@ import MenuItem from '@mui/material/MenuItem';
 import Paper from '@mui/material/Paper';
 import { MaterialMasterPost, MaterialMasterPut, MaterialMaster_SelectAll } from '../MaterialMaster/MaterialMasterService'
 import { UnitMaster_SelectAll_Active, StorageConditionMaster_SelectAll_Active } from '../UnitMaster/UnitMasterApi'
-import { ProductCategoryMaster_SelectAll, ProductSubCategoryMaster_SelectAll } from './ProductMasterApi'
+import { ProductCategoryMaster_SelectAll, ProductMasterPost, GetProductSubCategory, ProductMasterPut, ProductMaster_SelectAll } from './ProductMasterApi'
+import { VarientMaster_ActiveLikeSearch } from '../VarientMaster/VarientMasterApi'
 import { BrandMaster_SelectAll } from '../BrandMaster/BrandMasterService'
+import {ProductCategoryMaster_ActiveLikeSearch} from '../ProductCategoryMaster/ProductCategoryMasterapi'
 import Autocomplete from '@mui/material/Autocomplete';
 import { PackMaster_SelectAll_ActiveLikeSearch } from '../PackMaster/PackMasterService'
 
@@ -58,6 +60,8 @@ function ProductMaster() {
     const [vMCode, setvMCode] = React.useState("");
     const [vMName, setvMName] = React.useState("");
     const [vHSNCode, setvHSNCode] = React.useState("");
+    const [vProductName, setvProductName] = React.useState("");
+    const [vProductCode, setvProductCode] = React.useState("");
     const [vRemarks, setvRemarks] = React.useState("");
     const [nLoggedInUserId, setnLoggedInUserId] = React.useState("");
     const [buttonName, setbuttonName] = React.useState('');
@@ -76,18 +80,24 @@ function ProductMaster() {
     const [endDate, setEndDate] = React.useState(dayjs(endDates));
     const [koMonthData, setkoMonthData] = React.useState([]);
     const [weekNumberId, setWeekNumberId] = React.useState('');
+    const [nPDId, setnPDId] = React.useState('');
     const [error, setError] = React.useState('');
-    const [unitid, setUnitid] = React.useState('');
+    const [unit, setunit] = React.useState('');
     const [onlyActive, setonlyActive] = React.useState(true);
     const [errorText, setErrorText] = React.useState({
+        vProductName: '',
         vCategory: '',
         vBrandName: '',
-        vUOM: '',
+        SubCategory: '',
+        VariantMasterLabel: '',
+        PackLabel: '',
     });
     let checkedData = true
 
     const [PackMaster, setPackMaster] = useState([])
     const [PackLabel, setPackLabel] = useState('')
+    const [VariantMaster, setVariantMaster] = useState([])
+    const [VariantMasterLabel, setVariantMasterLabel] = useState('')
 
     const [brandData, setBrandData] = React.useState([]);
     const [vBrandName, setvBrandName] = React.useState("");
@@ -96,8 +106,6 @@ function ProductMaster() {
     const handleChangeBrand = (event) => {
         const selectedId = event.target.value;
         setvBrandName(selectedId)
-        const selectedValue = brandData.find((item) => item.vBrandName === selectedId);
-        console.log("selectedValue", selectedValue)
     };
 
     const handleBlurB = (item) => {
@@ -105,6 +113,7 @@ function ProductMaster() {
         setvBrandName(item.vBrandName)
         setvBrandNameId(item.nBId)
     };
+
 
     const [vCategoryData, setvCategoryData] = React.useState([]);
     const [vCategory, setvCategory] = React.useState("");
@@ -115,20 +124,15 @@ function ProductMaster() {
     const handleChangeCategory = (event) => {
         const selectedId = event.target.value;
         setvCategory(selectedId)
-        const selectedValue = vCategoryData.find((item) => item.vPDCategoryName === selectedId);
-        console.log("selectedValue", selectedValue)
-        console.log("SubCategoryDataSubCategoryData", SubCategoryData)
-        const forselectionSC = SubCategoryData.find((item) => item.nPDCId === selectedValue.nPDCId);
-        const itemsWithSameId = SubCategoryData.filter((item) => item.nPDCId === selectedValue.nPDCId);
-        setSubCategoryDataForSelection(itemsWithSameId)
-        console.log("forselectionSC", forselectionSC)
-        console.log("itemsWithSameId", itemsWithSameId)
+
     };
 
     const handleBlurC = (item) => {
         console.log("itemitemitem", item)
         setvCategory(item.vPDCategoryName)
         setvCategoryId(item.nPDCId)
+        getSubCategoryMaster_SelectAll(item.nPDCId)
+
     };
 
     const [SubCategoryData, setSubCategoryData] = React.useState([]);
@@ -200,7 +204,7 @@ function ProductMaster() {
     }, [])
     const getMaterialMaster_SelectAll = () => {
         setLoader2(true)
-        MaterialMaster_SelectAll().then(response => {
+        ProductMaster_SelectAll().then(response => {
             if (checkedData == true) {
                 console.log("MaterialMaster_SelectAll", response)
                 let activeData = response.filter(e => e.btActive == true)
@@ -239,13 +243,8 @@ function ProductMaster() {
         })
     }
 
-
-    useEffect(() => {
-        getSubCategoryMaster_SelectAll()
-    }, [])
-
-    const getSubCategoryMaster_SelectAll = () => {
-        ProductSubCategoryMaster_SelectAll().then(response => {
+    const getSubCategoryMaster_SelectAll = (nPDCId) => {
+        GetProductSubCategory(nPDCId).then(response => {
             setSubCategoryData(response)
 
             // const forselectionSC = response.find((item) => item.nCId === vCategoryId);
@@ -275,41 +274,84 @@ function ProductMaster() {
         })
     }
 
+    const productCategoryMaster_ActiveLikeSearch = (vGeneric) => {
+        if (vGeneric != '') {
+            vGeneric = vGeneric
+        } else {
+            vGeneric = null
+        }
+        ProductCategoryMaster_ActiveLikeSearch(vGeneric).then(res => {
+            let count = Object.keys(res).length
+            let data = []
+            for (var i = 0; i < count; i++) {
+                data.push({
+                    value: res[i].nPDCId,
+                    label: res[i].vPDCategoryName ,
+                })
+            }
+            setvCategoryData(data)
+            getSubCategoryMaster_SelectAll(res[0].nPDCId)
+        })
+
+    }
     const packMaster_SelectAll_ActiveLikeSearch = (vGeneric) => {
-        PackMaster_SelectAll_ActiveLikeSearch(vGeneric == undefined || vGeneric == '' ? null : vGeneric.target.value).then(res => {
+        if (vGeneric != '') {
+            vGeneric = vGeneric
+        } else {
+            vGeneric = null
+        }
+        PackMaster_SelectAll_ActiveLikeSearch(vGeneric).then(res => {
             let count = Object.keys(res).length
             let data = []
             for (var i = 0; i < count; i++) {
                 data.push({
                     value: res[i].nPId,
                     label: res[i].vPackName,
-                    // label: res[i].MaterialDetail,       
+                    vUnit: res[i].vUnit,
                 })
             }
             setPackMaster(data)
+            
         })
-  
+
+    }
+    const varientMaster_SelectAll_ActiveLikeSearch = (vGeneric) => {
+        if (vGeneric != '') {
+            vGeneric = vGeneric
+        } else {
+            vGeneric = null
+        }
+        VarientMaster_ActiveLikeSearch(vGeneric).then(res => {
+            let count = Object.keys(res).length
+            let data = []
+            for (var i = 0; i < count; i++) {
+                data.push({
+                    value: res[i].nVRId,
+                    label: res[i].vVarient,
+                    // label: res[i].MaterialDetail,       
+                })
+            }
+            setVariantMaster(data)
+        })
+
+    }
+    const changeVarientMasterValue = (value) => {
+        // setVariantMasterLabel(value.value)
+        setVariantMasterLabel(value == null ? '' : value.label)
+        // setvPack(value.label)
+        setError('')
     }
 
-    const handleChangeFromedate = (newValue) => {
-        setFromdate(formatedDate);
-    };
-
-    const handleChangeTodate = (newValue) => {
-        setTodate(newValue);
-    };
-
-    const handleChangeStartdate = (newValue) => {
-        setStartDate(newValue);
-    };
-
-    const handleChangeEnddate = (newValue) => {
-        setEndDate(newValue);
-    };
+    const changeProductCategoryValue = (value) => {
+        setnPackId(value == null ? '' : value.value)
+        setPackLabel(value == null ? '' : value.label)
+        
+        setError('')
+    }
     const changepackMasterValue = (value) => {
-        setnPackId(value.value)
-        setPackLabel(value.label)
-        setvPack(value.label)
+        setnPackId(value == null ? '' : value.value)
+        setPackLabel(value == null ? '' : value.label)
+        setunit(value == null ? '' : value.vUnit)
         setError('')
     }
     const requestSearch = (searchedVal) => {
@@ -350,30 +392,29 @@ function ProductMaster() {
         if (type == 'Submit') {
             setIsOpen(true)
             setbuttonName(type)
-            setvMCode('')
-            setvMName('')
+            setvProductName('')
             setvCategory('')
-            setvBrandName('')
-            setvUOM('')
-            setvHSNCode('')
-            setvRemarks('')
             setSubCategory('')
-            setStorageCondition('')
+            setvBrandName('')
+            setVariantMasterLabel('')
+            setPackLabel('')
+            setunit('')
+            setvRemarks('')
 
             setBtActive(true)
             setdisabled(true)
         } else {
             setIsOpen(true)
-            setnMId(item.nMId)
-            setvMCode(item.vMCode)
-            setvMName(item.vMName)
-            setvCategory(item.vCategory)
-            setSubCategory(item.vSubCategory)
-            setStorageCondition(item.vStorageCondition)
-
-            setvBrandName(item.vMaterialType)
-            setvUOM(item.vUOM)
-            setvHSNCode(item.vHSNCode)
+            setnPDId(item.nPDId)
+            setvProductCode(item.vProductCode)
+            setvProductName(item.vProductName)
+            setvCategory(item.vPCategory)
+            productCategoryMaster_ActiveLikeSearch(item.vPCategory)
+            setSubCategory(item.vPSubCategory)
+            setvBrandName(item.vBrand)
+            setVariantMasterLabel(item.vVarient)
+            setPackLabel(item.vPackName)
+            setunit(item.vUnit)
             setvRemarks(item.vRemarks)
             setBtActive(item.btActive)
             setdisabled(false)
@@ -381,9 +422,19 @@ function ProductMaster() {
         }
     }
     const validateform = () => {
-        if (vCategory == '' || vCategory == undefined) {
+        if (vProductName == '' || vProductName == undefined) {
+            setErrorText({
+                vCategory: 'Enter Product Name *'
+            })
+            return false
+        }else if (vCategory == '' || vCategory == undefined) {
             setErrorText({
                 vCategory: 'Select Category *'
+            })
+            return false
+        } else if (SubCategory == '' || SubCategory == undefined) {
+            setErrorText({
+                SubCategory: 'Select Sub Category *'
             })
             return false
         } else if (vBrandName == '' || vBrandName == undefined) {
@@ -391,9 +442,14 @@ function ProductMaster() {
                 vBrandName: 'Select Material Type *'
             })
             return false
-        } else if (vUOM == '' || vUOM == undefined) {
+        } else if (VariantMasterLabel == '' || VariantMasterLabel == undefined) {
             setErrorText({
-                vUOM: 'Select UOM *'
+                VariantMasterLabel: 'Select Variant *'
+            })
+            return false
+        } else if (PackLabel == '' || PackLabel == undefined) {
+            setErrorText({
+                PackLabel: 'Select Pack *'
             })
             return false
         }
@@ -408,34 +464,39 @@ function ProductMaster() {
     const submit = () => {
         if (validateform() == true) {
             let brand = {
-                nMId: nMId == null ? 0 : nMId,
-                vMCode: vMCode,
-                vMName: vMName,
-                vBrandName: vBrandName,
-                vCategory: vCategory,
-                vSubCategory: SubCategory,
-                vUOM: vUOM,
-                vStorageCondition: StorageCondition,
-                vHSNCode: vHSNCode,
+                nPDId: nPDId == '' ? 0 : nPDId,
+                vProductName: vProductName,
+                vPCategory: vCategory,
+                vPSubCategory: SubCategory,
+                vBrand: vBrandName,
+                vVarient: VariantMasterLabel,
+                vPackName: PackLabel,
                 vRemarks: vRemarks,
-                nLoggedInUserId: parseInt(nLoggedInUserId),
-
-
-                // MTID: MTID,
-                // CatId:CatId ,
-                // SubCatId: SubCatId,
-                // StorageId: StorageId,
                 btActive: btActive,
             }
             console.log(brand)
             setLoader(true)
             if (buttonName == 'Submit') {
 
-                let brandDatas = [...ProductData]
-                console.log("brandDatas", brandDatas)
-                let venderexist = brandDatas.find(e => e.vMName == vMName.toLowerCase() || e.vMName == vMName.toUpperCase())
+                let existdata = [...ProductData]
+                let venderexist = existdata.find(e => e.vProductName == vProductName.toLowerCase() ||
+                    e.vCategory == vCategory.toUpperCase() ||
+                    e.SubCategory == SubCategory.toUpperCase() ||
+                    e.vBrandName == vBrandName.toUpperCase() ||
+                    e.vVarient == VariantMasterLabel.toUpperCase() ||
+                    e.vPackName == PackLabel.toUpperCase()
 
-                let venderexistcode = brandDatas.find(e => e.vMCode == vMCode.toLowerCase() || e.vMCode == vMCode.toUpperCase())
+                )
+
+                let venderexistcode = existdata.find(e => e.vProductName == vProductName.toLowerCase() ||
+                    e.vCategory == vCategory.toUpperCase() ||
+                    e.SubCategory == SubCategory.toUpperCase() ||
+                    e.vBrandName == vBrandName.toUpperCase() ||
+                    e.vVarient == VariantMasterLabel.toUpperCase() ||
+                    e.vPackName == PackLabel.toUpperCase()
+
+                )
+
                 if (venderexist) {
                     setLoader(false)
                     toast.success("Item is already Exists")
@@ -445,17 +506,10 @@ function ProductMaster() {
                     toast.success("Code is already Exists")
                 }
                 else {
-                    MaterialMasterPost(brand).then(res => {
+                    ProductMasterPost(brand).then(res => {
                         if (res) {
                             console.log('res', res)
                             toast.success("Record Added Successfully !!")
-                            setvMCode('')
-                            setvMName('')
-                            setvCategory('')
-                            setvBrandName('')
-                            setvUOM('')
-                            setvHSNCode('')
-                            setvRemarks('')
                             setLoader(false)
                             setIsOpen(false)
                             getMaterialMaster_SelectAll()
@@ -465,7 +519,7 @@ function ProductMaster() {
 
             } else {
                 setLoader(true)
-                MaterialMasterPut(brand).then(res => {
+                ProductMasterPut(brand).then(res => {
 
                     if (res) {
                         console.log('res', res)
@@ -536,71 +590,63 @@ function ProductMaster() {
 
 
                 <div className='displayflexend mt-4'>
-                    {/* <Box className='inputBox-6'>
+                    <Box className='inputBox-6'>
                         <FormControl fullWidth className='input'>
                             <TextField
                                 sx={muiStyles.input}
-                                value={vMCode}
-                                onChange={e => setvMCode(e.target.value)}
-                                required id="outlined-basic"
-                                label="Product Code"
+                                value={vProductCode}
+                                // onChange={e => setvProduct(e.target.value)}
+                                id="outlined-basic"
+                                label="Product Code (Auto Generated)"
                                 variant="outlined"
-                                name='vProductCode'
+                                disabled={true}
 
                             />
                         </FormControl>
                     </Box>
-
-
-                    <Box className='inputBox-6' >
-                        <FormControl fullWidth className='input' >
+                    <Box className='inputBox-6'>
+                        <FormControl fullWidth className='input'>
                             <TextField
                                 sx={muiStyles.input}
-                                value={vMName}
-                                onChange={e => setvMName(e.target.value)}
+                                value={vProductName}
+                                onChange={e => setvProductName(e.target.value)}
                                 required id="outlined-basic"
                                 label="Product Name"
                                 variant="outlined"
                                 name='vProductName'
-                                inputRef={register({ required: "Product Name is required.*", })}
-                                error={Boolean(errors.MaterialName)}
-                                helperText={errors.MaterialName?.message}
+
                             />
-                        </FormControl>
-                    </Box> */}
-
-
-
-
-
-                    <Box className='inputBox-6'>
-                        <FormControl fullWidth className='input'>
-                            <InputLabel required id="demo-simple-select-label" sx={muiStyles.InputLabels}>Category</InputLabel>
-                            <Select
-                                sx={muiStyles.select}
-                                style={{ width: '100%', }}
-                                labelId="demo-simple-select-label"
-                                id="demo-simple-select"
-                                value={vCategory}
-                                label="Select Category"
-                                onChange={handleChangeCategory}
-                                name='nPDCId' >
-                                {vCategoryData.map((item, index) => {
-                                    return (
-                                        <MenuItem key={index} onBlur={() => handleBlurC(item)} value={item.vPDCategoryName} id={item.nPDCId}>{item.vPDCategoryName}</MenuItem>
-                                        // <MenuItem key={index} value={item.vCategoryName}>{item.vCategoryName}</MenuItem>
-                                    )
-                                })
-                                }
-                            </Select>
-                            {errorText.vCategory != '' ? <p className='error'>{errorText.vCategory}</p> : null}
+                            {errorText.vProductName != '' ? <p className='error'>{errorText.vProductName}</p> : null}
                         </FormControl>
                     </Box>
+                    <Box className='inputBox-6'>
+                       
+                        <FormControl fullWidth className='input'>
+                            {/* <InputLabel required id="demo-simple-select-label">Item</InputLabel>  */}
+                            <Autocomplete
+                                sx={muiStyles.autoCompleate}
+                                disablePortal
+                                id="combo-box-demo"
+                                options={vCategoryData}
+                                value={vCategory}
+                                // inputValue={MaterialDetail}
+                                onChange={(event, value) => changeProductCategoryValue(value)}
+                                // onKeyDown={newInputValue => varientMaster_SelectAll_ActiveLikeSearch(newInputValue)}
+                                onInputChange={(event, newInputValue) => {
+                                    // setInputValue(newInputValue);
+                                    if (newInputValue.length >= 3) {
+                                        productCategoryMaster_ActiveLikeSearch(newInputValue)
 
-
+                                    }
+                                }}
+                                renderInput={(params) => <TextField {...params} label="Search Product Category" required />}
+                            />
+                             {errorText.vCategory != '' ? <p className='error'>{errorText.vCategory}</p> : null}
+                        </FormControl>
+                    </Box>
                     <Box className='inputBox-6'>
                         <FormControl fullWidth className='input'>
-                            <InputLabel required id="demo-simple-select-label" sx={muiStyles.InputLabels}>Sub Category</InputLabel>
+                            <InputLabel required id="demo-simple-select-label" sx={muiStyles.InputLabels}>Product Sub Category</InputLabel>
                             <Select
                                 sx={muiStyles.select}
                                 style={{ width: '100%', }}
@@ -611,17 +657,16 @@ function ProductMaster() {
                                 onChange={handleChangeSubCategory}
                                 name='nPDSCId'
                             >
-                                {SubCategoryDataForSelection.map((item, index) => {
+                                {SubCategoryData.map((item, index) => {
                                     return (
                                         <MenuItem key={index} onBlur={() => handleBlurSC(item)} value={item.vPDSubCategoryName} id={item.nPDSCId}>{item.vPDSubCategoryName}</MenuItem>
                                     )
                                 })
                                 }
                             </Select>
+                            {errorText.SubCategory != '' ? <p className='error'>{errorText.SubCategory}</p> : null}
                         </FormControl>
                     </Box>
-
-
                     <Box className='inputBox-6'>
                         <FormControl fullWidth className='input'>
                             <InputLabel required id="demo-simple-select-label" sx={muiStyles.InputLabels}>Brand</InputLabel>
@@ -644,26 +689,32 @@ function ProductMaster() {
                             {errorText.vBrandName != '' ? <p className='error'>{errorText.vBrandName}</p> : null}
                         </FormControl>
                     </Box>
-
-
-
                     <Box className='inputBox-6' >
                         <FormControl fullWidth className='input'>
-                            <TextField
-                                sx={muiStyles.input}
-                                value={vHSNCode}
-                                onChange={e => setvHSNCode(e.target.value)}
-                                id="outlined-basic"
-                                label="Variant"
-                                variant="outlined"
-                                name='HSNCode'
+                            {/* <InputLabel required id="demo-simple-select-label">Item</InputLabel>  */}
+                            <Autocomplete
+                                sx={muiStyles.autoCompleate}
+                                disablePortal
+                                id="combo-box-demo"
+                                options={VariantMaster}
+                                value={VariantMasterLabel}
+                                // inputValue={MaterialDetail}
+                                onChange={(event, value) => changeVarientMasterValue(value)}
+                                // onKeyDown={newInputValue => varientMaster_SelectAll_ActiveLikeSearch(newInputValue)}
+                                onInputChange={(event, newInputValue) => {
+                                    // setInputValue(newInputValue);
+                                    if (newInputValue.length >= 3) {
+                                        varientMaster_SelectAll_ActiveLikeSearch(newInputValue)
+
+                                    }
+                                }}
+                                renderInput={(params) => <TextField {...params} label="Search Variant" required />}
                             />
+                            {errorText.VariantMasterLabel != '' ? <p className='error'>{errorText.VariantMasterLabel}</p> : null}
                         </FormControl>
+                       
                     </Box>
-
-
-
-                    <Box className='inputBox-29' >
+                    <Box className='inputBox-6' >
                         <FormControl fullWidth className='input'>
                             {/* <InputLabel required id="demo-simple-select-label">Item</InputLabel>  */}
                             <Autocomplete
@@ -674,46 +725,37 @@ function ProductMaster() {
                                 value={PackLabel}
                                 // inputValue={MaterialDetail}
                                 onChange={(event, value) => changepackMasterValue(value)}
-                                onKeyDown={newInputValue => packMaster_SelectAll_ActiveLikeSearch(newInputValue)}
+                                // onKeyDown={newInputValue => packMaster_SelectAll_ActiveLikeSearch(newInputValue)}
                                 onInputChange={(event, newInputValue) => {
                                     // setInputValue(newInputValue);
-                                    // materialMaster_SelectAll_ActiveLikeSearch()
-                                    console.log('newInputValue', newInputValue)
+                                    if (newInputValue.length >= 3) {
+                                        packMaster_SelectAll_ActiveLikeSearch(newInputValue)
+
+                                    }
                                 }}
                                 renderInput={(params) => <TextField {...params} label="Search Pack" required />}
                             />
-                            {/* {errorText.pack != '' ? <p className='error'>{errorText.pack}</p> : null} */}
+                            {errorText.PackLabel != '' ? <p className='error'>{errorText.PackLabel}</p> : null}
                         </FormControl>
                     </Box>
 
 
 
                     <Box className='inputBox-6'>
-                        <FormControl fullWidth className='input'>
-                            <InputLabel required id="demo-simple-select-label" sx={muiStyles.InputLabels}>Unit Name</InputLabel>
-                            <Select
-                                sx={muiStyles.select}
-                                style={{ width: '100%', }}
-                                labelId="demo-simple-select-label"
-                                id="demo-simple-select"
-                                value={StorageCondition}
-                                label="Select Unit"
-                                onChange={handleChangeStorageCondition}
-                                name='nSCId' >
-                                {StorageConditionData.map((item, index) => {
-                                    return (
-                                        <MenuItem key={index} onBlur={() => handleBlurS(item)} value={item.vStorageCondition} id={item.nSCId}>{item.vStorageCondition}</MenuItem>
-                                        // <MenuItem key={index} value={item.vStorageCondition}>{item.vStorageCondition}</MenuItem>
-                                    )
-                                })
-                                }
-                            </Select>
-                            {/* {errorText.SubCategory != '' ? <p className='error'>{errorText.SubCategory}</p> : null} */}
+                        <FormControl fullWidth className='input' >
+                            <TextField
+                                sx={muiStyles.input}
+                                value={unit}
+                                id="outlined-basic"
+                                label="Unit"
+                                variant="outlined"
+                                disabled={true}
+                            />
                         </FormControl>
                     </Box>
 
 
-                    {/* <Box className='inputBox-14'>
+                    <Box className='inputBox-4'>
                         <FormControl fullWidth className='input' >
                             <TextField
                                 sx={muiStyles.input}
@@ -725,7 +767,7 @@ function ProductMaster() {
                                 name='vRemarks'
                             />
                         </FormControl>
-                    </Box> */}
+                    </Box>
                     <div className='check'>
                         <FormGroup >
                             <FormControlLabel style={{ marginRight: 0 }} control={<Checkbox defaultChecked={btActive} value={btActive} onChange={e => setBtActive(e.target.checked)} />} label="Active" disabled={disabled} />
@@ -749,88 +791,6 @@ function ProductMaster() {
                 </div>
             </Modal >
             <div>
-
-
-                {/* <div className='data-form-box'>
-                    <Box sx={{ width: '20%' }} >
-                        <FormControl fullWidth className='input' >
-                            <TextField
-                                value={brandName}
-                                onChange={e => setBrandName(e.target.value)}
-                                required id="outlined-basic"
-                                label="Opening Stock"
-                                variant="outlined"
-                                name='brandName'
-                                // inputRef={register({ required: "Opening Stock is required.*", })}
-                                // error={Boolean(errors.brandName)}
-                                // helperText={errors.brandName?.message}
-                            />
-                        </FormControl>
-                    </Box>
-
-                    <div className='date'>
-                        <LocalizationProvider dateAdapter={AdapterDayjs} >
-                            <Stack spacing={3} >
-                                <DesktopDatePicker
-                                    label="Start Date"
-                                    inputFormat="DD-MM-YYYY"
-                                    value={startDate}
-                                    onChange={handleChangeStartdate}
-                                    renderInput={(params) => <TextField {...params} />}
-                                />
-                            </Stack>
-                        </LocalizationProvider>
-
-                    </div>
-                    <div className='date'>
-                        <LocalizationProvider dateAdapter={AdapterDayjs}>
-                            <Stack spacing={3}>
-                                <DesktopDatePicker
-                                    label="End Date"
-                                    inputFormat="DD-MM-YYYY"
-                                    value={endDate}
-                                    onChange={handleChangeEnddate}
-                                    renderInput={(params) => <TextField {...params} />}
-                                />
-                            </Stack>
-                        </LocalizationProvider>
-
-                    </div>
-                    <Box sx={{ width: '20%' }}>
-                        <FormControl fullWidth className='input'>
-                            <InputLabel id="demo-simple-select-label">Location <span style={{ color: "red" }}>*</span></InputLabel>
-                            <Select
-                                style={{ width: '100%', }}
-                                labelId="demo-simple-select-label"
-                                id="demo-simple-select"
-                                value={weekNumberId}
-                                label="Location"
-                                onChange={handleChange}
-                            >
-                                <MenuItem value={'1'}>1</MenuItem>
-                                <MenuItem value={'2'}>2</MenuItem>
-                                <MenuItem value={'3'}>3</MenuItem>
-                                <MenuItem value={'4'}>4</MenuItem>
-                                <MenuItem value={'5'}>5</MenuItem>
-                                <MenuItem value={'6'}>6</MenuItem>
-                                <MenuItem value={'7'}>7</MenuItem>
-                            </Select>
-                        </FormControl>
-                        <div className='error'>{error} </div>
-                    </Box>
-                    {loader == true ?
-                        <CButton disabled className='addbtn'>
-                            <CSpinner component="span" size="sm" aria-hidden="true" />
-                            Loading...
-                        </CButton>
-                        :
-                        <button title='Add' className='addbtn' type="submit" onClick={handleSubmit(submit)}><AddIcon fontSize='small' /></button>
-                    }
-                    <div>
-                        
-                    </div>
-                </div> */}
-
 
                 <div className='tablecenter'>
                     <Paper sx={{ width: '100%', overflow: 'hidden', paddingTop: 1 }}>
@@ -858,13 +818,14 @@ function ProductMaster() {
                                     <TableRow>
                                         {/* <TableCell scope="row">SN.</TableCell> */}
 
-                                        {/* <TableCell align="left" sx={muiStyles.tableHead}>Product Code</TableCell>
-                                        <TableCell align="left" sx={muiStyles.tableHead}>Product Name</TableCell> */}
-                                        <TableCell align="left" sx={muiStyles.tableHead}>Category</TableCell>
-                                        <TableCell align="left" sx={muiStyles.tableHead}>Sub Category</TableCell>
+                                        <TableCell align="left" sx={muiStyles.tableHead}>Product Code</TableCell>
+                                        <TableCell align="left" sx={muiStyles.tableHead}>Product Name</TableCell>
+                                        <TableCell align="left" sx={muiStyles.tableHead}>Product Category</TableCell>
+                                        <TableCell align="left" sx={muiStyles.tableHead}>Product Sub Category</TableCell>
                                         <TableCell align="left" sx={muiStyles.tableHead}>Brand</TableCell>
                                         <TableCell align="left" sx={muiStyles.tableHead}>Variant</TableCell>
-                                        <TableCell align="left" sx={muiStyles.tableHead}>SKU Name</TableCell>
+                                        <TableCell align="left" sx={muiStyles.tableHead}>Pack Name</TableCell>
+                                        <TableCell align="left" sx={muiStyles.tableHead}>Unit</TableCell>
 
 
                                         <TableCell align="left" sx={muiStyles.tableHead}>Status</TableCell>
@@ -880,14 +841,15 @@ function ProductMaster() {
                                                 <TableRow hover role="checkbox" tabIndex={-1} key={index}>
                                                     {/* <TableCell component="th" scope="row">{index + 1}.</TableCell> */}
 
-                                                    {/* <TableCell align="left" sx={muiStyles.tableBody}>{item.vCategory}</TableCell>
-                                                    <TableCell align="left" sx={muiStyles.tableBody}>{item.vSubCategory}</TableCell> */}
-                                                    <TableCell align="left" sx={muiStyles.tableBody}>{item.vCategory}</TableCell>
-                                                    <TableCell align="left" sx={muiStyles.tableBody}>{item.vSubCategory}</TableCell>
+                                                    <TableCell align="left" sx={muiStyles.tableBody}>{item.vProductCode}</TableCell>
+                                                    <TableCell align="left" sx={muiStyles.tableBody}>{item.vProductName}</TableCell>
+                                                    <TableCell align="left" sx={muiStyles.tableBody}>{item.vPCategory}</TableCell>
+                                                    <TableCell align="left" sx={muiStyles.tableBody}>{item.vPSubCategory}</TableCell>
 
-                                                    <TableCell align="left" sx={muiStyles.tableBody}>{item.vMaterialType}</TableCell>
-                                                    <TableCell align="left" sx={muiStyles.tableBody}>{item.vUOM}</TableCell>
-                                                    <TableCell align="left" sx={muiStyles.tableBody}>{item.vStorageCondition}</TableCell>
+                                                    <TableCell align="left" sx={muiStyles.tableBody}>{item.vBrand}</TableCell>
+                                                    <TableCell align="left" sx={muiStyles.tableBody}>{item.vVarient}</TableCell>
+                                                    <TableCell align="left" sx={muiStyles.tableBody}>{item.vPackName}</TableCell>
+                                                    <TableCell align="left" sx={muiStyles.tableBody}>{item.vUnit}</TableCell>
 
 
                                                     <TableCell align="left" sx={muiStyles.tableBody}>{item.btActive === true ? <Checkbox disabled checked='checked' /> : <Checkbox disabled />}</TableCell>
@@ -987,6 +949,9 @@ const muiStyles = {
         "& label.Mui-focused": {
             zIndex: '1'
         },
+        "& .MuiIconButton-root": {
+            padding: '0'
+        }
     },
     input: {
         "& .MuiOutlinedInput-root": {
