@@ -10,8 +10,13 @@ import TablePagination from '@mui/material/TablePagination';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import Paper from '@mui/material/Paper';
-import { MaterialMasterPost, MaterialMasterPut, MaterialMaster_SelectAll, MaterialTypeMaster_SelectAll_Active } from '../MaterialMaster/MaterialMasterService'
-import { UnitMaster_SelectAll_Active, StorageConditionMaster_SelectAll_Active, SubCategoryMaster_SelectAll, CategoryMaster_SelectAll } from '../UnitMaster/UnitMasterApi'
+import { MaterialMasterPost, MaterialMasterPut, MaterialMaster_SelectAll } from '../MaterialMaster/MaterialMasterService'
+import { UnitMaster_SelectAll_Active, StorageConditionMaster_SelectAll_Active } from '../UnitMaster/UnitMasterApi'
+import { ProductCategoryMaster_SelectAll, ProductSubCategoryMaster_SelectAll } from './ProductMasterApi'
+import { BrandMaster_SelectAll } from '../BrandMaster/BrandMasterService'
+import Autocomplete from '@mui/material/Autocomplete';
+import { PackMaster_SelectAll_ActiveLikeSearch } from '../PackMaster/PackMasterService'
+
 
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
@@ -43,7 +48,7 @@ function ProductMaster() {
     const [modalIsOpen, setIsOpen] = React.useState(false);
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
-    const [brandData, setBrandData] = React.useState([]);
+    const [ProductData, setProductData] = React.useState([]);
     const [masterbrandData, setMasterBrandData] = React.useState([]);
     const [loader, setLoader] = React.useState(false);
     const [loader2, setLoader2] = React.useState(false);
@@ -76,27 +81,29 @@ function ProductMaster() {
     const [onlyActive, setonlyActive] = React.useState(true);
     const [errorText, setErrorText] = React.useState({
         vCategory: '',
-        vMaterialType: '',
+        vBrandName: '',
         vUOM: '',
     });
     let checkedData = true
 
+    const [PackMaster, setPackMaster] = useState([])
+    const [PackLabel, setPackLabel] = useState('')
 
-    const [vMaterialTypeData, setvMaterialTypeData] = React.useState([]);
-    const [vMaterialType, setvMaterialType] = React.useState("");
-    const [vMaterialTypeId, setvMaterialTypeId] = React.useState("");
-
-    const handleChangeMaterialType = (event) => {
+    const [brandData, setBrandData] = React.useState([]);
+    const [vBrandName, setvBrandName] = React.useState("");
+    const [vBrandNameId, setvBrandNameId] = React.useState("");
+    const [nPackId, setnPackId] = useState('')
+    const handleChangeBrand = (event) => {
         const selectedId = event.target.value;
-        setvMaterialType(selectedId)
-        const selectedValue = vMaterialTypeData.find((item) => item.vMaterialType === selectedId);
+        setvBrandName(selectedId)
+        const selectedValue = brandData.find((item) => item.vBrandName === selectedId);
         console.log("selectedValue", selectedValue)
     };
 
-    const handleBlurM = (item) => {
+    const handleBlurB = (item) => {
         console.log("itemitemitem", item)
-        setvMaterialType(item.vMaterialType)
-        setvMaterialTypeId(item.nMTId)
+        setvBrandName(item.vBrandName)
+        setvBrandNameId(item.nBId)
     };
 
     const [vCategoryData, setvCategoryData] = React.useState([]);
@@ -108,11 +115,11 @@ function ProductMaster() {
     const handleChangeCategory = (event) => {
         const selectedId = event.target.value;
         setvCategory(selectedId)
-        const selectedValue = vCategoryData.find((item) => item.vCategoryName === selectedId);
+        const selectedValue = vCategoryData.find((item) => item.vPDCategoryName === selectedId);
         console.log("selectedValue", selectedValue)
         console.log("SubCategoryDataSubCategoryData", SubCategoryData)
-        const forselectionSC = SubCategoryData.find((item) => item.nCId === selectedValue.nCId);
-        const itemsWithSameId = SubCategoryData.filter((item) => item.nCId === selectedValue.nCId);
+        const forselectionSC = SubCategoryData.find((item) => item.nPDCId === selectedValue.nPDCId);
+        const itemsWithSameId = SubCategoryData.filter((item) => item.nPDCId === selectedValue.nPDCId);
         setSubCategoryDataForSelection(itemsWithSameId)
         console.log("forselectionSC", forselectionSC)
         console.log("itemsWithSameId", itemsWithSameId)
@@ -120,8 +127,8 @@ function ProductMaster() {
 
     const handleBlurC = (item) => {
         console.log("itemitemitem", item)
-        setvCategory(item.vCategoryName)
-        setvCategoryId(item.nCId)
+        setvCategory(item.vPDCategoryName)
+        setvCategoryId(item.nPDCId)
     };
 
     const [SubCategoryData, setSubCategoryData] = React.useState([]);
@@ -133,14 +140,14 @@ function ProductMaster() {
     const handleChangeSubCategory = (event) => {
         const selectedId = event.target.value;
         setSubCategoryId(selectedId)
-        const selectedValue = SubCategoryData.find((item) => item.vSubCategoryName === selectedId);
+        const selectedValue = SubCategoryData.find((item) => item.vPDSubCategoryName === selectedId);
         console.log("selectedValue", selectedValue)
     };
 
     const handleBlurSC = (item) => {
         console.log("itemitemitem", item)
-        setSubCategory(item.vSubCategoryName)
-        setSubCategoryId(item.nSCId)
+        setSubCategory(item.vPDSubCategoryName)
+        setSubCategoryId(item.nPDSCId)
     };
 
     const [uniteData, setUnitData] = React.useState([]);
@@ -197,12 +204,12 @@ function ProductMaster() {
             if (checkedData == true) {
                 console.log("MaterialMaster_SelectAll", response)
                 let activeData = response.filter(e => e.btActive == true)
-                setBrandData(activeData)
+                setProductData(activeData)
                 setMasterBrandData(activeData)
                 setLoader2(false)
             } else {
                 let inactiveData = response.filter(e => e.btActive == false)
-                setBrandData(inactiveData)
+                setProductData(inactiveData)
                 setMasterBrandData(inactiveData)
                 setLoader2(false)
 
@@ -212,12 +219,12 @@ function ProductMaster() {
 
 
     useEffect(() => {
-        getMaterialTypeMaster_SelectAll_Active()
+        getBrandMaster_SelectAll()
     }, [])
 
-    const getMaterialTypeMaster_SelectAll_Active = () => {
-        MaterialTypeMaster_SelectAll_Active().then(response => {
-            setvMaterialTypeData(response)
+    const getBrandMaster_SelectAll = () => {
+        BrandMaster_SelectAll().then(response => {
+            setBrandData(response)
         })
     }
 
@@ -227,7 +234,7 @@ function ProductMaster() {
     }, [])
 
     const getCategoryMaster_SelectAll = () => {
-        CategoryMaster_SelectAll().then(response => {
+        ProductCategoryMaster_SelectAll().then(response => {
             setvCategoryData(response)
         })
     }
@@ -238,7 +245,7 @@ function ProductMaster() {
     }, [])
 
     const getSubCategoryMaster_SelectAll = () => {
-        SubCategoryMaster_SelectAll().then(response => {
+        ProductSubCategoryMaster_SelectAll().then(response => {
             setSubCategoryData(response)
 
             // const forselectionSC = response.find((item) => item.nCId === vCategoryId);
@@ -268,6 +275,22 @@ function ProductMaster() {
         })
     }
 
+    const packMaster_SelectAll_ActiveLikeSearch = (vGeneric) => {
+        PackMaster_SelectAll_ActiveLikeSearch(vGeneric == undefined || vGeneric == '' ? null : vGeneric.target.value).then(res => {
+            let count = Object.keys(res).length
+            let data = []
+            for (var i = 0; i < count; i++) {
+                data.push({
+                    value: res[i].nPId,
+                    label: res[i].vPackName,
+                    // label: res[i].MaterialDetail,       
+                })
+            }
+            setPackMaster(data)
+        })
+  
+    }
+
     const handleChangeFromedate = (newValue) => {
         setFromdate(formatedDate);
     };
@@ -283,22 +306,27 @@ function ProductMaster() {
     const handleChangeEnddate = (newValue) => {
         setEndDate(newValue);
     };
-
+    const changepackMasterValue = (value) => {
+        setnPackId(value.value)
+        setPackLabel(value.label)
+        setvPack(value.label)
+        setError('')
+    }
     const requestSearch = (searchedVal) => {
 
         if (searchedVal.length > 0) {
-            const filteredRows = brandData.filter((row) => {
+            const filteredRows = ProductData.filter((row) => {
                 return row.vMCode.toLowerCase().includes(searchedVal.toLowerCase()) || row.vMName.toLowerCase().includes(searchedVal.toLowerCase()) || row.vCategory.toLowerCase().includes(searchedVal.toLowerCase()) || row.vMaterialType.toLowerCase().includes(searchedVal.toLowerCase());
             });
             if (filteredRows?.length > 0) {
                 setnoRecord(false)
-                setBrandData(filteredRows);
+                setProductData(filteredRows);
             } else {
                 setnoRecord(true)
             }
         } else {
             setnoRecord(false)
-            setBrandData(masterbrandData);
+            setProductData(masterbrandData);
         }
 
     };
@@ -325,7 +353,7 @@ function ProductMaster() {
             setvMCode('')
             setvMName('')
             setvCategory('')
-            setvMaterialType('')
+            setvBrandName('')
             setvUOM('')
             setvHSNCode('')
             setvRemarks('')
@@ -343,7 +371,7 @@ function ProductMaster() {
             setSubCategory(item.vSubCategory)
             setStorageCondition(item.vStorageCondition)
 
-            setvMaterialType(item.vMaterialType)
+            setvBrandName(item.vMaterialType)
             setvUOM(item.vUOM)
             setvHSNCode(item.vHSNCode)
             setvRemarks(item.vRemarks)
@@ -358,9 +386,9 @@ function ProductMaster() {
                 vCategory: 'Select Category *'
             })
             return false
-        } else if (vMaterialType == '' || vMaterialType == undefined) {
+        } else if (vBrandName == '' || vBrandName == undefined) {
             setErrorText({
-                vMaterialType: 'Select Material Type *'
+                vBrandName: 'Select Material Type *'
             })
             return false
         } else if (vUOM == '' || vUOM == undefined) {
@@ -383,7 +411,7 @@ function ProductMaster() {
                 nMId: nMId == null ? 0 : nMId,
                 vMCode: vMCode,
                 vMName: vMName,
-                vMaterialType: vMaterialType,
+                vBrandName: vBrandName,
                 vCategory: vCategory,
                 vSubCategory: SubCategory,
                 vUOM: vUOM,
@@ -403,7 +431,7 @@ function ProductMaster() {
             setLoader(true)
             if (buttonName == 'Submit') {
 
-                let brandDatas = [...brandData]
+                let brandDatas = [...ProductData]
                 console.log("brandDatas", brandDatas)
                 let venderexist = brandDatas.find(e => e.vMName == vMName.toLowerCase() || e.vMName == vMName.toUpperCase())
 
@@ -424,7 +452,7 @@ function ProductMaster() {
                             setvMCode('')
                             setvMName('')
                             setvCategory('')
-                            setvMaterialType('')
+                            setvBrandName('')
                             setvUOM('')
                             setvHSNCode('')
                             setvRemarks('')
@@ -491,7 +519,7 @@ function ProductMaster() {
             }
             <div className='add_export'>
                 <button className='submitbtn_exp' onClick={() => openmodale(null, 'Submit')} title='Add'  ><AddIcon fontSize='small' /> <span className='addFont'>Add</span></button>
-                <ExportExcel excelData={brandData} Heading={Heading} fileName={'Material_Master'} />
+                <ExportExcel excelData={ProductData} Heading={Heading} fileName={'Product_Master'} />
             </div>
             {/* <button className='addbtn_2' onClick={() => openmodale(null, 'Submit')} title='Add'  ><AddIcon fontSize='small' /> <span className='addFont'>Add</span></button> */}
             <Modal
@@ -515,28 +543,26 @@ function ProductMaster() {
                                 value={vMCode}
                                 onChange={e => setvMCode(e.target.value)}
                                 required id="outlined-basic"
-                                label="Material Code"
+                                label="Product Code"
                                 variant="outlined"
-                                name='MaterialCode'
-                                inputRef={register({ required: "Material Code is required.*", })}
-                                error={Boolean(errors.MaterialCode)}
-                                helperText={errors.MaterialCode?.message}
+                                name='vProductCode'
+
                             />
                         </FormControl>
-                    </Box> */}
+                    </Box>
 
 
-                    {/* <Box className='inputBox-6' >
+                    <Box className='inputBox-6' >
                         <FormControl fullWidth className='input' >
                             <TextField
                                 sx={muiStyles.input}
                                 value={vMName}
                                 onChange={e => setvMName(e.target.value)}
                                 required id="outlined-basic"
-                                label="Material Name"
+                                label="Product Name"
                                 variant="outlined"
-                                name='MaterialName'
-                                inputRef={register({ required: "Material Name is required.*", })}
+                                name='vProductName'
+                                inputRef={register({ required: "Product Name is required.*", })}
                                 error={Boolean(errors.MaterialName)}
                                 helperText={errors.MaterialName?.message}
                             />
@@ -544,7 +570,7 @@ function ProductMaster() {
                     </Box> */}
 
 
-                  
+
 
 
                     <Box className='inputBox-6'>
@@ -558,10 +584,10 @@ function ProductMaster() {
                                 value={vCategory}
                                 label="Select Category"
                                 onChange={handleChangeCategory}
-                                name='nCId' >
+                                name='nPDCId' >
                                 {vCategoryData.map((item, index) => {
                                     return (
-                                        <MenuItem key={index} onBlur={() => handleBlurC(item)} value={item.vCategoryName} id={item.nCId}>{item.vCategoryName}</MenuItem>
+                                        <MenuItem key={index} onBlur={() => handleBlurC(item)} value={item.vPDCategoryName} id={item.nPDCId}>{item.vPDCategoryName}</MenuItem>
                                         // <MenuItem key={index} value={item.vCategoryName}>{item.vCategoryName}</MenuItem>
                                     )
                                 })
@@ -583,17 +609,17 @@ function ProductMaster() {
                                 value={SubCategory}
                                 label="Select Sub Category"
                                 onChange={handleChangeSubCategory}
-                                name='nSCId'
+                                name='nPDSCId'
                             >
                                 {SubCategoryDataForSelection.map((item, index) => {
                                     return (
-                                        <MenuItem key={index} onBlur={() => handleBlurSC(item)} value={item.vSubCategoryName} id={item.nSCId}>{item.vSubCategoryName}</MenuItem>
+                                        <MenuItem key={index} onBlur={() => handleBlurSC(item)} value={item.vPDSubCategoryName} id={item.nPDSCId}>{item.vPDSubCategoryName}</MenuItem>
                                     )
                                 })
                                 }
                             </Select>
                         </FormControl>
-                    </Box> 
+                    </Box>
 
 
                     <Box className='inputBox-6'>
@@ -604,19 +630,18 @@ function ProductMaster() {
                                 style={{ width: '100%', }}
                                 labelId="demo-simple-select-label"
                                 id="demo-simple-select"
-                                value={vMaterialType}
-                                label="Select Material Type"
-                                onChange={handleChangeMaterialType}
-                                name='nMTId' >
-                                {vMaterialTypeData.map((item, index) => {
+                                value={vBrandName}
+                                label="Select Brand"
+                                onChange={handleChangeBrand}
+                                name='nBId' >
+                                {brandData.map((item, index) => {
                                     return (
-                                        <MenuItem key={index} onBlur={() => handleBlurM(item)} value={item.vMaterialType} id={item.nMTId}>{item.vMaterialType}</MenuItem>
-                                        // <MenuItem key={index} value={item.vMaterialType}>{item.vMaterialType}</MenuItem>
+                                        <MenuItem key={index} onBlur={() => handleBlurB(item)} value={item.vBrandName} id={item.nBId}>{item.vBrandName}</MenuItem>
                                     )
                                 })
                                 }
                             </Select>
-                            {errorText.vMaterialType != '' ? <p className='error'>{errorText.vMaterialType}</p> : null}
+                            {errorText.vBrandName != '' ? <p className='error'>{errorText.vBrandName}</p> : null}
                         </FormControl>
                     </Box>
 
@@ -638,16 +663,41 @@ function ProductMaster() {
 
 
 
+                    <Box className='inputBox-29' >
+                        <FormControl fullWidth className='input'>
+                            {/* <InputLabel required id="demo-simple-select-label">Item</InputLabel>  */}
+                            <Autocomplete
+                                sx={muiStyles.autoCompleate}
+                                disablePortal
+                                id="combo-box-demo"
+                                options={PackMaster}
+                                value={PackLabel}
+                                // inputValue={MaterialDetail}
+                                onChange={(event, value) => changepackMasterValue(value)}
+                                onKeyDown={newInputValue => packMaster_SelectAll_ActiveLikeSearch(newInputValue)}
+                                onInputChange={(event, newInputValue) => {
+                                    // setInputValue(newInputValue);
+                                    // materialMaster_SelectAll_ActiveLikeSearch()
+                                    console.log('newInputValue', newInputValue)
+                                }}
+                                renderInput={(params) => <TextField {...params} label="Search Pack" required />}
+                            />
+                            {/* {errorText.pack != '' ? <p className='error'>{errorText.pack}</p> : null} */}
+                        </FormControl>
+                    </Box>
+
+
+
                     <Box className='inputBox-6'>
                         <FormControl fullWidth className='input'>
-                            <InputLabel required id="demo-simple-select-label" sx={muiStyles.InputLabels}>SKU Name</InputLabel>
+                            <InputLabel required id="demo-simple-select-label" sx={muiStyles.InputLabels}>Unit Name</InputLabel>
                             <Select
                                 sx={muiStyles.select}
                                 style={{ width: '100%', }}
                                 labelId="demo-simple-select-label"
                                 id="demo-simple-select"
                                 value={StorageCondition}
-                                label="Select Sub Category"
+                                label="Select Unit"
                                 onChange={handleChangeStorageCondition}
                                 name='nSCId' >
                                 {StorageConditionData.map((item, index) => {
@@ -676,12 +726,14 @@ function ProductMaster() {
                             />
                         </FormControl>
                     </Box> */}
-                    <div style={{ display:'flex',flexBasis:'100%' }}></div>
+                    <div className='check'>
+                        <FormGroup >
+                            <FormControlLabel style={{ marginRight: 0 }} control={<Checkbox defaultChecked={btActive} value={btActive} onChange={e => setBtActive(e.target.checked)} />} label="Active" disabled={disabled} />
+                        </FormGroup>
+
+                    </div>
 
 
-                    <FormGroup >
-                        <FormControlLabel style={{ marginRight: 0 }} control={<Checkbox defaultChecked={btActive} value={btActive} onChange={e => setBtActive(e.target.checked)} />} label="Active" disabled={disabled} />
-                    </FormGroup>
 
 
                 </div>
@@ -806,7 +858,8 @@ function ProductMaster() {
                                     <TableRow>
                                         {/* <TableCell scope="row">SN.</TableCell> */}
 
-                       
+                                        {/* <TableCell align="left" sx={muiStyles.tableHead}>Product Code</TableCell>
+                                        <TableCell align="left" sx={muiStyles.tableHead}>Product Name</TableCell> */}
                                         <TableCell align="left" sx={muiStyles.tableHead}>Category</TableCell>
                                         <TableCell align="left" sx={muiStyles.tableHead}>Sub Category</TableCell>
                                         <TableCell align="left" sx={muiStyles.tableHead}>Brand</TableCell>
@@ -820,21 +873,22 @@ function ProductMaster() {
                                     </TableRow>
                                 </TableHead>
 
-                                {brandData?.length > 0 ?
+                                {ProductData?.length > 0 ?
                                     <TableBody>
-                                        {brandData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((item, index) => {
+                                        {ProductData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((item, index) => {
                                             return (
                                                 <TableRow hover role="checkbox" tabIndex={-1} key={index}>
                                                     {/* <TableCell component="th" scope="row">{index + 1}.</TableCell> */}
 
-  
+                                                    {/* <TableCell align="left" sx={muiStyles.tableBody}>{item.vCategory}</TableCell>
+                                                    <TableCell align="left" sx={muiStyles.tableBody}>{item.vSubCategory}</TableCell> */}
                                                     <TableCell align="left" sx={muiStyles.tableBody}>{item.vCategory}</TableCell>
                                                     <TableCell align="left" sx={muiStyles.tableBody}>{item.vSubCategory}</TableCell>
 
                                                     <TableCell align="left" sx={muiStyles.tableBody}>{item.vMaterialType}</TableCell>
                                                     <TableCell align="left" sx={muiStyles.tableBody}>{item.vUOM}</TableCell>
                                                     <TableCell align="left" sx={muiStyles.tableBody}>{item.vStorageCondition}</TableCell>
-                              
+
 
                                                     <TableCell align="left" sx={muiStyles.tableBody}>{item.btActive === true ? <Checkbox disabled checked='checked' /> : <Checkbox disabled />}</TableCell>
                                                     <TableCell align="left" sx={muiStyles.tableBody}><div onClick={() => openmodale(item, 'Update')} className='editbtn'><TbEdit size={20} color='#000' /></div></TableCell>
@@ -856,7 +910,7 @@ function ProductMaster() {
                         <TablePagination
                             rowsPerPageOptions={[5, 10, 25, 100]}
                             component="div"
-                            count={brandData.length}
+                            count={ProductData.length}
                             rowsPerPage={rowsPerPage}
                             page={page}
                             onPageChange={handleChangePage}

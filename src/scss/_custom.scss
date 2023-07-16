@@ -2,19 +2,22 @@
 // .sidebar-nav{
 //     background: red;
 // }
-.css-pdct74-MuiTablePagination-selectLabel{
-  
+.css-pdct74-MuiTablePagination-selectLabel {
+
   font-size: 13px !important
 }
+
 // .css-78c6dr-MuiToolbar-root-MuiTablePagination-toolbar{
 //   font-size: 12px !important
 // }
-.css-194a1fa-MuiSelect-select-MuiInputBase-input.css-194a1fa-MuiSelect-select-MuiInputBase-input.css-194a1fa-MuiSelect-select-MuiInputBase-input{
+.css-194a1fa-MuiSelect-select-MuiInputBase-input.css-194a1fa-MuiSelect-select-MuiInputBase-input.css-194a1fa-MuiSelect-select-MuiInputBase-input {
   font-size: 13px
 }
+
 a {
-    text-decoration: none;
+  text-decoration: none;
 }
+
 .sidebar-brand {
   background: #cf2e2e;
   border-top-left-radius: 20px;
@@ -255,15 +258,19 @@ p {
 .open:nth-child(2) {
   opacity: 0;
 }
-.bg-set{
+
+.bg-set {
   background-color: #ebedef;
 }
+
 .open:nth-child(3) {
   transform: rotate(-45deg) translate(5px, -5px);
 }
+
 .breadcrumb-item.active {
-font-weight: 500;
+  font-weight: 500;
 }
+
 .nav-group-items {
   .nav-item {
     .nav-link.active {
@@ -473,10 +480,18 @@ font-weight: 500;
 
 }
 
+.check {
+  display: inline-block;
+  width: 100%;
+  margin-left: 10px;
+  margin-bottom: -25px;
+}
+
 .add_export {
   display: flex;
   justify-content: end
 }
+
 .add_export_second {
   display: flex;
   justify-content: end;
@@ -568,6 +583,7 @@ font-weight: 500;
 
   }
 }
+
 .searchbox {
   width: 100%;
 
