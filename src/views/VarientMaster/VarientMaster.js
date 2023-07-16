@@ -85,7 +85,7 @@ function VarientMaster() {
 
         if (searchedVal.length > 0) {
             const filteredRows = brandData.filter((row) => {
-                return row.vVarient.toLowerCase().includes(searchedVal.toLowerCase()) 
+                return row.vVarient.toLowerCase().includes(searchedVal.toLowerCase())
                 // || row.vVPrefix.toLowerCase().includes(searchedVal.toLowerCase());
             });
             setBrandData(filteredRows);
@@ -147,15 +147,21 @@ function VarientMaster() {
             console.log("brandDatas", brandDatas)
             let venderexistvVPrefix = brandDatas.find(e => e.vVPrefix == vPrefix.toLowerCase() || e.vVPrefix == vPrefix.toUpperCase())
             let venderexist = brandDatas.find(e => e.vVarient == brandName.toLowerCase() || e.vVarient == brandName.toUpperCase())
-            if (venderexist) {
-                setLoader(false)
-                toast.success("Item is already Exists")
-            }
-            else if (venderexistvVPrefix) {
-                setLoader(false)
-                toast.success("Variant Prefix is already Exists")
-            }
-            else {
+            if (venderexist || venderexistvVPrefix) {
+                // if (venderexist && venderexistCode) {
+                //     setLoader(false)
+                //     toast.error("Product Category and Product Category Prefix is already Exists")
+                // }
+                if (venderexist) {
+                    setLoader(false)
+                    toast.error("Variant is already Exists")
+                }
+                if (venderexistvVPrefix) {
+                    setLoader(false)
+                    toast.error("Variant Prefix is already Exists")
+                }
+
+            } else {
                 console.log('brand', brand)
                 VarientMasterPost(brand).then(res => {
                     if (res) {
@@ -212,22 +218,6 @@ function VarientMaster() {
                     <HighlightOffIcon fontSize='large' onClick={() => setIsOpen(false)} />
                 </div>
                 <div className='displayflexend mt-4'>
-                    {/* <Box className='inputBox-11'>
-                        <FormControl fullWidth className='input'>
-                            <TextField
-                                sx={muiStyles.input}
-                                value={brandCode}
-                                onChange={e => setBrandCode(e.target.value)}
-                                required id="outlined-basic"
-                                label="Brand Code"
-                                variant="outlined"
-                                name='brandCode'
-                                inputRef={register({ required: "Brand Code is required.*", })}
-                                error={Boolean(errors.brandCode)}
-                                helperText={errors.brandCode?.message}
-                            />
-                        </FormControl>
-                    </Box> */}
                     <Box className='inputBox-11' >
                         <FormControl fullWidth className='input' >
                             <TextField
@@ -237,7 +227,7 @@ function VarientMaster() {
                                 required id="outlined-basic"
                                 label="Varient Name"
                                 variant="outlined"
-                                name='varientName'
+                                name='brandName'
                                 inputRef={register({ required: "Varient Name is required.*", })}
                                 error={Boolean(errors.brandName)}
                                 helperText={errors.brandName?.message}
@@ -256,11 +246,11 @@ function VarientMaster() {
                                 name='vPrefix'
                                 inputProps={{
                                     maxLength: 1, // Set the maximum length here (e.g., 20)
-                                  }}
+                                }}
                                 inputRef={register({ required: "Varient Prefix is required.*", })}
                                 error={Boolean(errors.vPrefix)}
                                 helperText={errors.vPrefix?.message}
-                                
+
                             />
                         </FormControl>
                     </Box>

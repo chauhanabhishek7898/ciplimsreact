@@ -85,7 +85,7 @@ function StorageConditionMaster() {
 
         if (searchedVal.length > 0) {
             const filteredRows = brandData.filter((row) => {
-                return row.vStorageCondition.toLowerCase().includes(searchedVal.toLowerCase()) 
+                return row.vStorageCondition.toLowerCase().includes(searchedVal.toLowerCase())
                 // || row.vSCPrefix.toLowerCase().includes(searchedVal.toLowerCase());
             });
             setBrandData(filteredRows);
@@ -147,15 +147,21 @@ function StorageConditionMaster() {
             console.log("brandDatas", brandDatas)
             let venderexistCode = brandDatas.find(e => e.vSCPrefix == vPrefix.toLowerCase() || e.vSCPrefix == vPrefix.toUpperCase())
             let venderexist = brandDatas.find(e => e.vStorageCondition == brandName.toLowerCase() || e.vStorageCondition == brandName.toUpperCase())
-            if (venderexist) {
-                setLoader(false)
-                toast.success("Item is already Exists")
-            }
-            else if (venderexistCode) {
-                setLoader(false)
-                toast.success("Storage Condition Prefix is already Exists")
-            }
-            else {
+            if (venderexist || venderexistCode) {
+                // if (venderexist && venderexistCode) {
+                //     setLoader(false)
+                //     toast.error("Product Category and Product Category Prefix is already Exists")
+                // }
+                if (venderexist) {
+                    setLoader(false)
+                    toast.error("Storage Condition is already Exists")
+                }
+                if (venderexistCode) {
+                    setLoader(false)
+                    toast.error("Storage Condition Prefix is already Exists")
+                }
+
+            } else {
                 console.log('brand', brand)
                 StorageConditionMasterPost(brand).then(res => {
                     if (res) {
@@ -212,22 +218,6 @@ function StorageConditionMaster() {
                     <HighlightOffIcon fontSize='large' onClick={() => setIsOpen(false)} />
                 </div>
                 <div className='displayflexend mt-4'>
-                    {/* <Box className='inputBox-11'>
-                        <FormControl fullWidth className='input'>
-                            <TextField
-                                sx={muiStyles.input}
-                                value={brandCode}
-                                onChange={e => setBrandCode(e.target.value)}
-                                required id="outlined-basic"
-                                label="Brand Code"
-                                variant="outlined"
-                                name='brandCode'
-                                inputRef={register({ required: "Brand Code is required.*", })}
-                                error={Boolean(errors.brandCode)}
-                                helperText={errors.brandCode?.message}
-                            />
-                        </FormControl>
-                    </Box> */}
                     <Box className='inputBox-11' >
                         <FormControl fullWidth className='input' >
                             <TextField
@@ -237,7 +227,7 @@ function StorageConditionMaster() {
                                 required id="outlined-basic"
                                 label="Storage Condition"
                                 variant="outlined"
-                                name='storageCondition'
+                                name='brandName'
                                 inputRef={register({ required: "Storage Condition is required.*", })}
                                 error={Boolean(errors.brandName)}
                                 helperText={errors.brandName?.message}
@@ -256,11 +246,11 @@ function StorageConditionMaster() {
                                 name='vPrefix'
                                 inputProps={{
                                     maxLength: 2, // Set the maximum length here (e.g., 20)
-                                  }}
+                                }}
                                 inputRef={register({ required: "Storage Condition Prefix is required.*", })}
                                 error={Boolean(errors.vPrefix)}
                                 helperText={errors.vPrefix?.message}
-                                
+
                             />
                         </FormControl>
                     </Box>

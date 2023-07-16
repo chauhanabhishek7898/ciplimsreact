@@ -170,27 +170,31 @@ function ProductSubCategoryMaster() {
             setLoader(true)
             let brand = {
                 nPDSCId: nBid == null ? 0 : nBid,
-                // vBrandCode: brandCode,
                 vPDSubCatPrefix: vPrefix,
                 vPDSubCategoryName: brandName,
                 nPDCId: nMId,
                 btActive: btActive,
             }
             if (buttonName == 'Submit') {
-
                 let brandDatas = [...brandData]
                 console.log("brandDatas", brandDatas)
                 let venderexistCode = brandDatas.find(e => e.vPDSubCatPrefix == vPrefix.toLowerCase() || e.vPDSubCatPrefix == vPrefix.toUpperCase())
                 let venderexist = brandDatas.find(e => e.vPDSubCategoryName == brandName.toLowerCase() || e.vPDSubCategoryName == brandName.toUpperCase())
-                if (venderexist) {
-                    setLoader(false)
-                    toast.success("Item is already Exists")
-                }
-                else if (venderexistCode) {
-                    setLoader(false)
-                    toast.success("Product Sub Category Prefix is already Exists")
-                }
-                else {
+                if (venderexist || venderexistCode) {
+                    // if (venderexist && venderexistCode) {
+                    //     setLoader(false)
+                    //     toast.error("Product Category and Product Category Prefix is already Exists")
+                    // }
+                    if (venderexist) {
+                        setLoader(false)
+                        toast.error("Product Sub Category is already Exists")
+                    }
+                    if (venderexistCode) {
+                        setLoader(false)
+                        toast.error("Product Sub Category Prefix is already Exists")
+                    }
+
+                } else {
                     console.log('brand', brand)
                     ProductSubCategoryMasterPost(brand).then(res => {
                         if (res) {
@@ -243,7 +247,7 @@ function ProductSubCategoryMaster() {
     const changeMaterialMasterValue = (value) => {
         console.log('value', value)
         setnMId(value == null ? '' : value.value)
-        // setMaterialDetail(value.label)
+        setMaterialDetail(value.label)
         setError({
             MaterialDetail: ''
         })
@@ -278,22 +282,7 @@ function ProductSubCategoryMaster() {
                     <HighlightOffIcon fontSize='large' onClick={() => setIsOpen(false)} />
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                    {/* <Box className='inputBox-11'>
-                        <FormControl fullWidth className='input'>
-                            <TextField
-                                sx={muiStyles.input}
-                                value={brandCode}
-                                onChange={e => setBrandCode(e.target.value)}
-                                required id="outlined-basic"
-                                label="Brand Code"
-                                variant="outlined"
-                                name='brandCode'
-                                inputRef={register({ required: "Brand Code is required.*", })}
-                                error={Boolean(errors.brandCode)}
-                                helperText={errors.brandCode?.message}
-                            />
-                        </FormControl>
-                    </Box> */}
+                   
                     <Box className='inputBox-12 mt-4' >
                         <FormControl fullWidth className='input' >
                             <TextField

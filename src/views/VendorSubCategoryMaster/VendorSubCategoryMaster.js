@@ -93,24 +93,29 @@ function VendorSubCategoryMaster() {
 
                 let unitName = unistData.find(e => e.vSubCategoryName == vUnitName.toLowerCase() || e.vSubCategoryName == vUnitName.toUpperCase())
                 console.log("unitName", unitName)
-                if (unitName) {
-                    setLoader(false)
-                    toast.success("Item is already Exists")
-                }
-                else {
+                if (unitName || venderexistCode) {
+                    // if (venderexist && venderexistCode) {
+                    //     setLoader(false)
+                    //     toast.error("Product Category and Product Category Prefix is already Exists")
+                    // }
+                    if (unitName) {
+                        setLoader(false)
+                        toast.error("Vender Sub Category is already Exists")
+                    }
                     if (venderexistCode) {
                         setLoader(false)
-                        toast.success("Prefix is already Exists")
-                    } else {
-                        UnitMastersPost(data).then(res => {
-                            if (res) {
-                                toast.success(res)
-                                setLoader(false)
-                                setIsOpen(false)
-                                getUnitMaster_SelectAll()
-                            }
-                        })
+                        toast.error("Vender Sub Category Prefix is already Exists")
                     }
+    
+                } else {
+                    UnitMastersPost(data).then(res => {
+                        if (res) {
+                            toast.success(res)
+                            setLoader(false)
+                            setIsOpen(false)
+                            getUnitMaster_SelectAll()
+                        }
+                    })
 
                 }
 
@@ -247,7 +252,7 @@ function VendorSubCategoryMaster() {
     const changeMaterialMasterValue = (value) => {
         console.log('value', value)
         setnMId(value == null ? '' : value.value)
-        // setMaterialDetail(value.label)
+        setMaterialDetail(value.label)
         setError({
             MaterialDetail: ''
         })
@@ -266,7 +271,7 @@ function VendorSubCategoryMaster() {
             }
             <div className='add_export'>
                 <button className='submitbtn_exp' onClick={() => openmodale(null, 'Submit')} title='Add'  ><AddIcon fontSize='small' /> <span className='addFont'>Add</span></button>
-                <ExportExcel excelData={unitData} Heading={Heading} fileName={'Unit_Master'} />
+                <ExportExcel excelData={unitData} Heading={Heading} fileName={'VendorSubCategoryMaster'} />
             </div>
             {/* <button className='addbtn_2' onClick={() => openmodale(null, 'Submit')} title='Add' ><AddIcon fontSize='small' /> <span className='addFont'>Add</span></button> */}
             <Modal
@@ -331,6 +336,9 @@ function VendorSubCategoryMaster() {
                                 variant="outlined"
                                 value={vSubCatPrefix}
                                 name='vSubCatPrefix'
+                                inputProps={{
+                                    maxLength: 2, // Set the maximum length here (e.g., 20)
+                                }}
                                 onChange={e => setvSubCatPrefix(e.target.value)}
                                 inputRef={register({ required: "Sub Category Prefix is required.*", })}
                                 error={Boolean(errors.vSubCatPrefix)}
