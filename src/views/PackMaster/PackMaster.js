@@ -76,7 +76,7 @@ function PackMaster() {
             setIsOpen(true)
             setbuttonName(type)
             setBtActive(true)
-            setnPId(item.nPId)
+            setnPId(null)
             setpackCode("")
             setpackName("")
             setvPrefix('')
@@ -218,7 +218,13 @@ function PackMaster() {
             }
         }
     }
-
+    const limitChar = 5;
+    const handleChange = (e) => {
+      if (e.target.value.toString().length <= limitChar) {
+        setvPrefix(e.target.value);
+      }
+    };
+  
     return (
         <div className='citymasterContainer'>
             {loader2 == true ?
@@ -361,7 +367,7 @@ function PackMaster() {
                         </FormControl>
                     </Box>
                     <Box className='inputBox-15'>
-                        <FormControl fullWidth className='input' >
+                        {/* <FormControl fullWidth className='input' >
                             <TextField
                                 sx={muiStyles.input}
                                 value={unitid}
@@ -374,10 +380,11 @@ function PackMaster() {
                                 inputRef={register({ required: "Unit is required.*", })}
                                 error={Boolean(errors.unitid)}
                                 helperText={errors.unitid?.message} />
-                        </FormControl>
-                        {/* <FormControl fullWidth className='input'>
-                            <InputLabel required id="demo-simple-select-label">Unit</InputLabel>
+                        </FormControl> */}
+                        <FormControl fullWidth className='input'>
+                            <InputLabel required id="demo-simple-select-label" sx={muiStyles.InputLabels}>Unit</InputLabel>
                             <Select
+                                sx={muiStyles.select}
                                 style={{ width: '100%', }}
                                 labelId="demo-simple-select-label"
                                 id="demo-simple-select"
@@ -397,8 +404,8 @@ function PackMaster() {
                                 })
                                 }
                             </Select>
-                            {unitid != '' ? <p  className='error'>{error}</p> : null}
-                        </FormControl> */}
+                            {unitid != '' ? <p className='error'>{error}</p> : null}
+                        </FormControl>
                         {/* <div className='error'>{error} </div> */}
                     </Box>
                     <Box className='inputBox-14'>
@@ -437,14 +444,19 @@ function PackMaster() {
                             <TextField
                                 sx={muiStyles.input}
                                 value={vPrefix}
-                                onChange={e => setvPrefix(e.target.value)}
+                                onChange={e => handleChange(e)}
                                 required id="outlined-basic"
                                 label="Prefix"
                                 variant="outlined"
                                 name='vPrefix'
+                                type='number'
+
                                 inputProps={{
-                                    maxLength: 5, // Set the maximum length here (e.g., 20)
-                                  }}
+                                    inputMode: 'tel', // Allow only numeric input on mobile devices
+                                    pattern: '[0-9]*',
+                                    max: 5 ,
+                                    
+                                }}
                                 inputRef={register({ required: "Prefix is required.*", })}
                                 error={Boolean(errors.brandCode)}
                                 helperText={errors.brandCode?.message}

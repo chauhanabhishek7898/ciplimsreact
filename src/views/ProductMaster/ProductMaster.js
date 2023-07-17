@@ -15,7 +15,7 @@ import { UnitMaster_SelectAll_Active, StorageConditionMaster_SelectAll_Active } 
 import { ProductCategoryMaster_SelectAll, ProductMasterPost, GetProductSubCategory, ProductMasterPut, ProductMaster_SelectAll } from './ProductMasterApi'
 import { VarientMaster_ActiveLikeSearch } from '../VarientMaster/VarientMasterApi'
 import { BrandMaster_SelectAll } from '../BrandMaster/BrandMasterService'
-import {ProductCategoryMaster_ActiveLikeSearch} from '../ProductCategoryMaster/ProductCategoryMasterapi'
+import { ProductCategoryMaster_ActiveLikeSearch } from '../ProductCategoryMaster/ProductCategoryMasterapi'
 import Autocomplete from '@mui/material/Autocomplete';
 import { PackMaster_SelectAll_ActiveLikeSearch } from '../PackMaster/PackMasterService'
 
@@ -273,9 +273,9 @@ function ProductMaster() {
             setStorageConditionData(response)
         })
     }
-    useEffect(()=>{
+    useEffect(() => {
         productCategoryMaster_ActiveLikeSearch(null)
-    },[])
+    }, [])
     const productCategoryMaster_ActiveLikeSearch = (vGeneric) => {
         if (vGeneric != '') {
             vGeneric = vGeneric
@@ -288,7 +288,7 @@ function ProductMaster() {
             for (var i = 0; i < count; i++) {
                 data.push({
                     value: res[i].nPDCId,
-                    label: res[i].vPDCategoryName ,
+                    label: res[i].vPDCategoryName,
                 })
             }
             setvCategoryData(data)
@@ -313,7 +313,7 @@ function ProductMaster() {
                 })
             }
             setPackMaster(data)
-            
+
         })
 
     }
@@ -404,6 +404,7 @@ function ProductMaster() {
 
             setBtActive(true)
             setdisabled(true)
+            productCategoryMaster_ActiveLikeSearch(null)
         } else {
             setIsOpen(true)
             setnPDId(item.nPDId)
@@ -428,7 +429,7 @@ function ProductMaster() {
                 vCategory: 'Enter Product Name *'
             })
             return false
-        }else if (vCategory == '' || vCategory == undefined) {
+        } else if (vCategory == '' || vCategory == undefined) {
             setErrorText({
                 vCategory: 'Select Category *'
             })
@@ -480,31 +481,32 @@ function ProductMaster() {
             if (buttonName == 'Submit') {
 
                 let existdata = [...ProductData]
-                let venderexist = existdata.find(e => e.vProductName == vProductName.toLowerCase() ||
-                    e.vCategory == vCategory.toUpperCase() ||
-                    e.SubCategory == SubCategory.toUpperCase() ||
-                    e.vBrandName == vBrandName.toUpperCase() ||
-                    e.vVarient == VariantMasterLabel.toUpperCase() ||
-                    e.vPackName == PackLabel.toUpperCase()
+                let venderexist = existdata.find(e => e.vProductName == vProductName ||
+                    e.vPCategory == vCategory &&
+                    e.vPSubCategory == SubCategory &&
+                    e.vBrand == vBrandName &&
+                    e.vVarient == VariantMasterLabel &&
+                    e.vPackName == PackLabel
 
                 )
 
-                let venderexistcode = existdata.find(e => e.vProductName == vProductName.toLowerCase() ||
-                    e.vCategory == vCategory.toUpperCase() ||
-                    e.SubCategory == SubCategory.toUpperCase() ||
-                    e.vBrandName == vBrandName.toUpperCase() ||
-                    e.vVarient == VariantMasterLabel.toUpperCase() ||
-                    e.vPackName == PackLabel.toUpperCase()
+                let venderexistcode = existdata.find(e => e.vProductName == vProductName ||
+                    e.vPCategory == vCategory &&
+                    e.vPSubCategory == SubCategory &&
+                    e.vBrand == vBrandName &&
+                    e.vVarient == VariantMasterLabel &&
+                    e.vPackName == PackLabel
 
                 )
-
-                if (venderexist) {
+                console.log('existdata', existdata)
+                console.log('venderexist', venderexist, vProductName, vCategory, SubCategory, vBrandName, VariantMasterLabel, PackLabel)
+                if (venderexist != undefined) {
                     setLoader(false)
-                    toast.success("Item is already Exists")
+                    toast.success("This selection criteria already Exists. Product name is unique; and selection of (Product category, Product Sub Category, Brand, variant, Pack) is unique.")
                 }
                 else if (venderexistcode) {
                     setLoader(false)
-                    toast.success("Code is already Exists")
+                    toast.success("This selection criteria already Exists. Product name is unique; and selection of (Product category, Product Sub Category, Brand, variant, Pack) is unique.")
                 }
                 else {
                     ProductMasterPost(brand).then(res => {
@@ -621,7 +623,7 @@ function ProductMaster() {
                         </FormControl>
                     </Box>
                     <Box className='inputBox-6'>
-                       
+
                         <FormControl fullWidth className='input'>
                             {/* <InputLabel required id="demo-simple-select-label">Item</InputLabel>  */}
                             <Autocomplete
@@ -642,7 +644,7 @@ function ProductMaster() {
                                 }}
                                 renderInput={(params) => <TextField {...params} label="Search Product Category" required />}
                             />
-                             {errorText.vCategory != '' ? <p className='error'>{errorText.vCategory}</p> : null}
+                            {errorText.vCategory != '' ? <p className='error'>{errorText.vCategory}</p> : null}
                         </FormControl>
                     </Box>
                     <Box className='inputBox-6'>
@@ -713,7 +715,7 @@ function ProductMaster() {
                             />
                             {errorText.VariantMasterLabel != '' ? <p className='error'>{errorText.VariantMasterLabel}</p> : null}
                         </FormControl>
-                       
+
                     </Box>
                     <Box className='inputBox-6' >
                         <FormControl fullWidth className='input'>
