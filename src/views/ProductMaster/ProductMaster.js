@@ -273,7 +273,9 @@ function ProductMaster() {
             setStorageConditionData(response)
         })
     }
-
+    useEffect(()=>{
+        productCategoryMaster_ActiveLikeSearch(null)
+    },[])
     const productCategoryMaster_ActiveLikeSearch = (vGeneric) => {
         if (vGeneric != '') {
             vGeneric = vGeneric
@@ -343,9 +345,8 @@ function ProductMaster() {
     }
 
     const changeProductCategoryValue = (value) => {
-        setnPackId(value == null ? '' : value.value)
-        setPackLabel(value == null ? '' : value.label)
-        
+        // setnPackId(value == null ? '' : value.value)
+        setvCategory(value == null ? '' : value.label)
         setError('')
     }
     const changepackMasterValue = (value) => {
@@ -393,7 +394,7 @@ function ProductMaster() {
             setIsOpen(true)
             setbuttonName(type)
             setvProductName('')
-            setvCategory('')
+            setvCategory(null)
             setSubCategory('')
             setvBrandName('')
             setVariantMasterLabel('')
