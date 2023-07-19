@@ -64,7 +64,7 @@ function VendorSubCategoryMaster() {
     const validateformPoDetial = () => {
         if (MaterialDetail == '' || MaterialDetail == undefined) {
             setError({
-                MaterialDetail: 'Select Cetegory *'
+                MaterialDetail: 'Select Category *'
             })
             return false
         }
