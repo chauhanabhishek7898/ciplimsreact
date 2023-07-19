@@ -8,7 +8,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import TablePagination from '@mui/material/TablePagination';
 import Paper from '@mui/material/Paper';
-import { VendorMaster_SelectAll, VendorMaster_SelectAll_Active, VendorMasterPost, VendorMasterPut,VendorDetail_UpdatePut, SubCategory_SelectAll_ActiveLikeSearch, CategoryMaster_ActiveLikeSearch, VendorMaster_GetVendorById } from './VenderFormService'
+import { VendorMaster_SelectAll, VendorMaster_SelectAll_Active, VendorMasterPost, VendorMasterPut, VendorDetail_UpdatePut, SubCategory_SelectAll_ActiveLikeSearch, CategoryMaster_ActiveLikeSearch, VendorMaster_GetVendorById } from './VenderFormService'
 import { GetSubCategory } from '../MaterialMaster/MaterialMasterService'
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
@@ -70,10 +70,15 @@ function VenderForm() {
     const [vGSTNo, setvGSTNo] = React.useState("");
     const [vRemarks, setvRemarks] = React.useState("");
     const [btActive, setbtActive] = React.useState(false);
+    const [btDActive, setbtDActive] = React.useState(false);
+    const [secondtimeSubmit, setsecondtimeSubmit] = React.useState(false);
     const [buttonName, setbuttonName] = React.useState('');
     const [disabled, setdisabled] = React.useState(true);
     const [loader, setLoader] = React.useState(false);
     const [loader2, setLoader2] = React.useState(false);
+    const [loader3, setLoader3] = React.useState(false);
+    const [loader4, setLoader4] = React.useState(false);
+    const [loader5, setLoader5] = React.useState(false);
     const [venderMasterTable, setvenderMasterTable] = React.useState(true);
     const [venderDetailsTable, setvenderDetailsTable] = React.useState(false);
     const [venderDetailsDisable, setvenderDetailsDisable] = React.useState(false);
@@ -89,7 +94,9 @@ function VenderForm() {
     const [subcategoryMasterId, setsubcategoryMasterId] = React.useState('');
     const [nCid, setnCid] = React.useState('');
     const [errorText, setError] = React.useState({
+        MaterialType: '',
         MaterialDetail: '',
+        subCategory: '',
     });
     const { register, handleSubmit, control, errors } = useForm();
     const handleChangePage = (event, newPage) => {
@@ -112,7 +119,12 @@ function VenderForm() {
             setvGSTNo('')
             setvRemarks('')
             setbtActive(true)
+            setbtDActive(true)
             setdisabled(true)
+            setsecondtimeSubmit(false)
+            setMaterialType('')
+            setCategoryDetail('')
+            setSubCategory('')
         } else {
             setIsOpen(true)
             setnVId(item.nVId)
@@ -132,6 +144,7 @@ function VenderForm() {
             setvenderDetailsTable(false)
             setvenderDetailsDisable(true)
             setvenderMasterDisable(false)
+
         }
     }
     const [searched, setSearched] = React.useState("");
@@ -207,19 +220,18 @@ function VenderForm() {
             vSubCategoryName: SubCategory,
 
         }
-
         if (buttonName == 'Submit') {
-
-            let vendorDatas = [...vendorData]
+            let vendorDatas = [...vendorDetailData]
             console.log("vendorDatas", vendorDatas)
-            let venderexistcode = vendorDatas.find(e => e.vVendorCode == vVendorCode.toLowerCase() || e.vVendorCode == vVendorCode.toUpperCase())
-            let venderexist = vendorDatas.find(e => e.vVendorName == vVendorName.toLowerCase() || e.vVendorName == vVendorName.toUpperCase())
+            let venderexistcode = vendorDatas.find(e => e.vMaterialType == MaterialType && e.vCategoryName == MaterialDetail && e.vSubCategoryName == SubCategory)
+            let venderexist = vendorDatas.find(e => e.vMaterialType == MaterialType && e.vCategoryName == MaterialDetail && e.vSubCategoryName == SubCategory)
+            console.log('venderexist', venderexist, MaterialType, MaterialDetail, SubCategory)
             if (venderexist) {
                 setLoader(false)
-                toast.success("Item is already Exists")
+                toast.success("Data is already Exists")
             } else if (venderexistcode) {
                 setLoader(false)
-                toast.success("Code is already Exists")
+                toast.success("Data is already Exists")
             }
 
             else {
@@ -228,10 +240,14 @@ function VenderForm() {
 
                         toast.success("Record Added Successfully !!")
                         setLoader(false)
-                        setIsOpen(false)
+                        // setIsOpen(false)
+                        setsecondtimeSubmit(true)
+                        vendorMaster_GetVendorById(4)
                         getVendorMaster_SelectAll()
+
                     }
                 })
+
             }
         } else {
             VendorMasterPut(vendor).then(res => {
@@ -244,34 +260,52 @@ function VenderForm() {
             })
         }
     }
+    const validateVenderDetailForm = () => {
+        if (MaterialType == '' || MaterialType == undefined) {
+            setError({
+                MaterialType: 'Select Material Type *'
+            })
+            return false
+        } else if (MaterialDetail == '' || MaterialDetail == undefined) {
+            setError({
+                MaterialDetail: 'Select Category*'
+            })
+            return false
+        } else if (SubCategory == '' || SubCategory == undefined) {
+            setError({
+                subCategory: 'Select Sub Category*'
+            })
+            return false
+        } else {
+            setError('')
+            return true
+        }
+    }
     const vendorDetail_UpdatePut = () => {
-        setLoader(true)
-        let vendor = {
-            nVDId: nVDId == null ? 0 : nVDId,
-            // vVendorCode: vVendorCode,
-            // vVendorName: vVendorName,
-            // vVendorAddress: vVendorAddress,
-            // vContactPerson: vContactPerson,
-            // vMobileNo: vMobileNo,
-            // vEmailId: vEmailId,
-            // vGSTNo: vGSTNo,
-            // vRemarks: vRemarks,
-            // btActive: btActive,
-            vMaterialType: MaterialType,
-            vCategoryName: MaterialDetail,
-            vSubCategoryName: SubCategory,
-            btDActive: btActive,
+        if (validateVenderDetailForm() == true) {
+            setLoader4(true)
+            let vendor = {
+                nVDId: nVDId == null ? 0 : nVDId,
+                vMaterialType: MaterialType,
+                vCategoryName: MaterialDetail,
+                vSubCategoryName: SubCategory,
+                btDActive: btDActive,
+
+            }
+
+            VendorDetail_UpdatePut(vendor).then(res => {
+                if (res) {
+                    toast.success("Record Updated Successfully !!")
+                    setLoader4(false)
+                    setIsOpen(false)
+                    setMaterialType('')
+                    setCategoryDetail('')
+                    setSubCategory('')
+                    getVendorMaster_SelectAll()
+                }
+            })
 
         }
-
-        VendorDetail_UpdatePut(vendor).then(res => {
-            if (res) {
-                toast.success("Record Updated Successfully !!")
-                setLoader(false)
-                setIsOpen(false)
-                getVendorMaster_SelectAll()
-            }
-        })
     }
     const handleChange = (event) => {
         setMaterialType(event.target.value);
@@ -284,8 +318,6 @@ function VenderForm() {
             vGeneric = null
         }
         CategoryMaster_ActiveLikeSearch(vGeneric).then(res => {
-
-
             let count = Object.keys(res).length
             let data = []
             for (var i = 0; i < count; i++) {
@@ -301,7 +333,6 @@ function VenderForm() {
 
     }
     const changeCetegoryValue = (value) => {
-        alert(1)
         console.log('value', value)
         // setnMId(value == null ? '' : value.label)
         setCategoryDetail(value == null ? '' : value.label)
@@ -317,12 +348,12 @@ function VenderForm() {
         if (type == 'VendorMaster') {
             setvenderMasterTable(true)
             setvenderDetailsTable(false)
-          
+
         }
         if (type == 'VendorDetails') {
             setvenderDetailsTable(true)
             setvenderMasterTable(false)
-        
+
         }
     }
     const [SubCategoryData, setSubCategoryData] = React.useState([]);
@@ -348,8 +379,8 @@ function VenderForm() {
         setSubCategory(item.vSubCategoryName)
         setSubCategoryId(item.nSCId)
     };
-    const changeupdatedata=(item,type)=>{
-        if(type=='venderMaster'){
+    const changeupdatedata = (item, type) => {
+        if (type == 'venderMaster') {
             setnVId(item.nVId)
             setvVendorCode(item.vVendorCode)
             setvVendorName(item.vVendorName)
@@ -363,18 +394,17 @@ function VenderForm() {
             setvenderDetailsDisable(true)
             setvenderMasterDisable(false)
         }
-        if(type=='venderDetails'){
+        if (type == 'venderDetails') {
             setnVDId(item.nVDId)
             setMaterialType(item.vMaterialType)
             setCategoryDetail(item.vCategoryName)
             setSubCategory(item.vSubCategoryName)
             setsubcategoryMasterDetail(item.vSubCategoryName)
-            setbtActive(item.btActive)
+            setbtDActive(item.btDActive)
             categoryMaster_ActiveLikeSearch(item.vCategoryName)
-           
             setvenderDetailsDisable(false)
             setvenderMasterDisable(true)
-            
+
         }
     }
     return (
@@ -411,14 +441,14 @@ function VenderForm() {
                                 value={vVendorCode}
                                 onChange={e => setvVendorCode(e.target.value)}
                                 id="outlined-basic"
-                                label="Vendor Code (Auto Generated)"
+                                label="Vendor Code"
                                 required
                                 variant="outlined"
                                 name='vVendorCode'
                                 inputRef={register({ required: "Vendor Code is required.*", })}
                                 error={Boolean(errors.vVendorCode)}
                                 helperText={errors.vVendorCode?.message}
-                                disabled={venderMasterDisable}
+
                             />
                         </FormControl>
                     </Box>
@@ -436,7 +466,7 @@ function VenderForm() {
                                 inputRef={register({ required: "Vendor Name is required.*", })}
                                 error={Boolean(errors.vVendorName)}
                                 helperText={errors.vVendorName?.message}
-                                disabled={venderMasterDisable}
+
                             />
                         </FormControl>
                     </Box>
@@ -449,7 +479,7 @@ function VenderForm() {
                                 id="outlined-basic"
                                 label="Contact Person"
                                 variant="outlined"
-                                disabled={venderMasterDisable}
+
                             />
                         </FormControl>
                     </Box>
@@ -462,7 +492,7 @@ function VenderForm() {
                                 id="outlined-basic"
                                 label="Mobile No"
                                 variant="outlined"
-                                disabled={venderMasterDisable}
+
                             />
                         </FormControl>
                     </Box>
@@ -475,7 +505,7 @@ function VenderForm() {
                                 id="outlined-basic"
                                 label="Email Id"
                                 variant="outlined"
-                                disabled={venderMasterDisable}
+
                             />
                         </FormControl>
                     </Box>
@@ -488,7 +518,7 @@ function VenderForm() {
                                 id="outlined-basic"
                                 label="Vendor Address"
                                 variant="outlined"
-                                disabled={venderMasterDisable}
+
                             />
                         </FormControl>
                     </Box>
@@ -570,7 +600,7 @@ function VenderForm() {
                                 label="GST No"
                                 variant="outlined"
                                 name='vGSTNo'
-                                disabled={venderMasterDisable}
+
                             />
                         </FormControl>
                     </Box>
@@ -585,15 +615,34 @@ function VenderForm() {
                                 label="Remarks"
                                 variant="outlined"
                                 name='vRemarks'
-                                disabled={venderMasterDisable}
+
                             />
                         </FormControl>
                     </Box>
+                    <div className='displayflexend-3'>
+                        <FormGroup >
+                            <FormControlLabel style={{ marginRight: 0 }} control={<Checkbox defaultChecked={btActive} value={btActive} onChange={e => setbtActive(e.target.checked)} />} label="Active" disabled={disabled} />
+                        </FormGroup>
+                        {loader == true && buttonName == 'Update' ?
+                            <CButton disabled className='submitbtn'>
+                                <CSpinner component="span" size="sm" aria-hidden="true" />
+                                Loading...
+                            </CButton>
+                            :
+                            <div>
+                                {buttonName == 'Update' ?
+                                    <button type="submit" className='submitbtn' onClick={handleSubmit(submit)}>{buttonName}</button>
+                                    : null
+                                }
+                            </div>
+
+                        }
+                    </div>
                 </div>
                 <div className='displayflexend borderTop' >
                     <Box className='inputBox-3'>
                         <FormControl fullWidth className='input'>
-                            <InputLabel id="demo-simple-select-label" sx={muiStyles.InputLabels}>Material Type</InputLabel>
+                            <InputLabel id="demo-simple-select-label" required sx={muiStyles.InputLabels}>Material Type</InputLabel>
                             <Select
                                 sx={muiStyles.select}
                                 style={{ width: '100%', }}
@@ -601,13 +650,12 @@ function VenderForm() {
                                 id="demo-simple-select"
                                 value={MaterialType}
                                 label="Select Material Type"
-                                disabled={venderDetailsDisable}
                                 onChange={handleChange}
-                               
                             >
                                 <MenuItem value='RM'>RM</MenuItem>
                                 <MenuItem value='PM'>PM</MenuItem>
                             </Select>
+                            {errorText.MaterialType != '' ? <p className='error'>{errorText.MaterialType}</p> : null}
                         </FormControl>
                     </Box>
                     <Box className='inputBox-3'>
@@ -620,7 +668,7 @@ function VenderForm() {
                                 options={MaterialMaster}
                                 value={MaterialDetail}
                                 // inputValue={MaterialDetail}
-                                disabled={venderDetailsDisable}
+
                                 onChange={(event, value) => changeCetegoryValue(value)}
                                 // onKeyDown={newInputValue => categoryMaster_ActiveLikeSearch(newInputValue)}
                                 onInputChange={(event, newInputValue) => {
@@ -646,7 +694,7 @@ function VenderForm() {
                                 id="demo-simple-select"
                                 value={SubCategory}
                                 label="Select Sub Category"
-                                disabled={venderDetailsDisable}
+
                                 onChange={handleChangeSubCategory}
                             >
                                 {SubCategoryData.map((item, index) => {
@@ -656,81 +704,40 @@ function VenderForm() {
                                 })
                                 }
                             </Select>
+                            {errorText.subCategory != '' ? <p className='error'>{errorText.subCategory}</p> : null}
                         </FormControl>
                     </Box>
-                </div>
-                {buttonName == 'Update' ?
-                    <div className='vendor_btn_box'>
-                        <button className='vender_btn' onClick={() => changeTable('VendorMaster')}>Vendor Master</button>
-                        <button className='vender_btn' onClick={() => changeTable('VendorDetails')}>Vendor Details</button>
-                    </div>
-                    : null
-                }
-                {venderMasterTable == true && buttonName == 'Update' ?
-                    <div>
-                        <div className='tablecenter'>
-                            <Paper sx={{ width: '100%', overflow: 'hidden', paddingTop: 1 }}>
-                                <TableContainer sx={muiStyles.tableBox} className='tableBox' >
-                                    <Table stickyHeader aria-label="sticky table">
-                                        <TableHead>
-                                            <TableRow>
-                                                <TableCell align="left" sx={muiStyles.tableHead}>Vendor Code</TableCell>
-                                                <TableCell align="left" sx={muiStyles.tableHead}>Name</TableCell>
-                                                <TableCell align="left" sx={muiStyles.tableHead}>Address</TableCell>
-                                                <TableCell align="left" sx={muiStyles.tableHead}>Contact Person</TableCell>
-                                                <TableCell align="left" sx={muiStyles.tableHead}>Mobile No</TableCell>
-                                                <TableCell align="left" sx={muiStyles.tableHead}>Email Id</TableCell>
-                                                <TableCell align="left" sx={muiStyles.tableHead}>GST No</TableCell>
-                                                <TableCell align="left" sx={muiStyles.tableHead}>Remarks</TableCell>
-                                                <TableCell align="left" sx={muiStyles.tableHead}>Status</TableCell>
-                                                <TableCell align="left" sx={muiStyles.tableHead} >Edit</TableCell>
-                                            </TableRow>
-                                        </TableHead>
-                                        {vendorMasterData?.length > 0 ?
-                                            <TableBody>
-                                                {vendorMasterData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((item, index) => {
-                                                    return (
-                                                        <TableRow key={index}>
-                                                            <TableCell align="left" sx={muiStyles.tableBody}>{item.vVendorCode}</TableCell>
-                                                            <TableCell align="left" sx={muiStyles.tableBody}>{item.vVendorName}</TableCell>
-                                                            <TableCell align="left" sx={muiStyles.tableBody}><a data-tooltip-id="my-tooltip" data-tooltip-content={item.vVendorAddress}>{(item.vVendorAddress.length > 10) ? (item.vVendorAddress.slice(0, 10)) + '...' : (item.vVendorAddress)}</a><Tooltip id="my-tooltip" place="bottom" /></TableCell>
-                                                            <TableCell align="left" sx={muiStyles.tableBody}>{item.vContactPerson}</TableCell>
-                                                            <TableCell align="left" sx={muiStyles.tableBody}>{item.vMobileNo}</TableCell>
-                                                            <TableCell align="left" sx={muiStyles.tableBody}>{item.vEmailId}</TableCell>
-                                                            <TableCell align="left" sx={muiStyles.tableBody}>{item.vGSTNo}</TableCell>
-                                                            <TableCell align="left" sx={muiStyles.tableBody}><a data-tooltip-id="my-tooltip" data-tooltip-content={item.vRemarks}>{(item.vRemarks.length > 10) ? (item.vRemarks.slice(0, 10)) + '...' : (item.vRemarks)}</a><Tooltip id="my-tooltip" place="bottom" /></TableCell>
-                                                            <TableCell align="left" sx={muiStyles.tableBody}>{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
-                                                            <TableCell align="left" sx={muiStyles.tableBody}><div onClick={() => changeupdatedata(item,'venderMaster')} className='editbtn'><TbEdit size={20} color='#000' /></div></TableCell>
-                                                        </TableRow>
-                                                    )
-                                                })
-                                                }
-                                            </TableBody>
-                                            :
-                                            <TableBody>
-                                                <TableRow>
-                                                    <TableCell align="center" colSpan={11}>No Record</TableCell>
-                                                </TableRow>
-                                            </TableBody>
+                    <div style={{ display: 'flex', gap: 10 }}>
+                        <FormGroup style={{ marginLeft: 10, marginRight: 10 }}>
+                            <FormControlLabel style={{ marginRight: 0 }} control={<Checkbox defaultChecked={btDActive} value={btDActive} onChange={e => setbtDActive(e.target.checked)} />} label="Active" disabled={disabled} />
+                        </FormGroup>
+                        {secondtimeSubmit == true ?
+                            <>
+                                {loader3 == true ?
+                                    <CButton disabled className='submitbtn'>
+                                        <CSpinner component="span" size="sm" aria-hidden="true" />
+                                        Loading...
+                                    </CButton>
+                                    :
+                                    <div>
+                                        {buttonName == 'Submit' ?
+                                            <button type="submit" className='addbtn' onClick={handleSubmit(submit)}><AddIcon fontSize='small' /></button>
+                                            : null
                                         }
-                                    </Table>
-                                </TableContainer>
-                                <TablePagination
-                                    rowsPerPageOptions={[5, 10, 25, 100]}
-                                    component="div"
-                                    count={vendorMasterData.length}
-                                    rowsPerPage={rowsPerPage}
-                                    page={page}
-                                    onPageChange={handleChangePage}
-                                    onRowsPerPageChange={handleChangeRowsPerPage}
-                                />
-                            </Paper>
-                        </div>
+                                    </div>
+
+                                }
+                            </>
+                            : null
+                        }
+
                     </div>
-                    :
-                    null
-                }
-                {venderDetailsTable == true && buttonName == 'Update' ?
+
+
+
+                </div>
+
+                {buttonName == 'Update' || secondtimeSubmit == true ?
                     <div>
                         <div className='tablecenter'>
                             <Paper sx={{ width: '100%', overflow: 'hidden', paddingTop: 1 }}>
@@ -757,7 +764,7 @@ function VenderForm() {
 
                                                             <TableCell align="left" sx={muiStyles.tableBody}>{item.vSubCategoryName}</TableCell>
 
-                                                            <TableCell align="left" sx={muiStyles.tableBody}><div onClick={() => changeupdatedata(item,'venderDetails')} className='editbtn'><TbEdit size={20} color='#000' /></div></TableCell>
+                                                            <TableCell align="left" sx={muiStyles.tableBody}><div onClick={() => changeupdatedata(item, 'venderDetails')} className='editbtn'><TbEdit size={20} color='#000' /></div></TableCell>
                                                         </TableRow>
                                                     )
                                                 })
@@ -787,28 +794,40 @@ function VenderForm() {
                     : null
                 }
                 <div className='displayflexend-2'>
-                    <FormGroup >
-                        <FormControlLabel style={{ marginRight: 0 }} control={<Checkbox defaultChecked={btActive} value={btActive} onChange={e => setbtActive(e.target.checked)} />} label="Active" disabled={disabled} />
-                    </FormGroup>
-                    {loader == true ?
+                    <div></div>
+                    {secondtimeSubmit == false ?
+                        <>
+                            {loader4 == true ?
+                                <CButton disabled className='submitbtn'>
+                                    <CSpinner component="span" size="sm" aria-hidden="true" />
+                                    Loading...
+                                </CButton>
+                                :
+                                <div>
+                                    {buttonName == 'Submit' ?
+                                        <button type="submit" className='submitbtn' onClick={handleSubmit(submit)}>{buttonName}</button>
+                                        : null
+                                    }
+                                </div>
+
+                            }
+                        </>
+                        : null
+                    }
+                </div>
+                <div className='displayflexend-2'>
+                    <div></div>
+                    {loader4 == true ?
                         <CButton disabled className='submitbtn'>
                             <CSpinner component="span" size="sm" aria-hidden="true" />
                             Loading...
                         </CButton>
                         :
                         <div>
-                            {venderMasterTable == true && buttonName == 'Update' ?
-                                <button type="submit" className='submitbtn' onClick={handleSubmit(submit)}>{buttonName}</button>
-                                : null
-                            }
-                            {venderDetailsTable == true && buttonName == 'Update' ?
+                            {buttonName == 'Update' ?
                                 <button type="submit" className='submitbtn' onClick={vendorDetail_UpdatePut}>{buttonName}</button>
                                 : null
 
-                            }
-                            {buttonName == 'Submit'?
-                                <button type="submit" className='submitbtn' onClick={handleSubmit(submit)}>{buttonName}</button>
-                                :null
                             }
                         </div>
 
@@ -904,6 +923,7 @@ const customStyles = {
     },
 };
 const muiStyles = {
+  
     content: {
         top: '50%',
         left: '50%',
@@ -927,9 +947,14 @@ const muiStyles = {
         //     backgroundColor: 'transparent',
         //     zIndex: '1'
         // },
-        "& label.Mui-focused": {
+         "& label.Mui-focused": {
             zIndex: '1'
+        },'& .MuiFormHelperText-root': {
+            position: 'absolute',
+            fontSize: 10,
+            bottom: -18
         },
+       
         '& .MuiInputAdornment-root': {
             position: 'absolute',
             right: '10px'
@@ -951,9 +976,14 @@ const muiStyles = {
             left: '-10px',
 
         },
-        "& label.Mui-focused": {
+         "& label.Mui-focused": {
             zIndex: '1'
+        },'& .MuiFormHelperText-root': {
+            position: 'absolute',
+            fontSize: 10,
+            bottom: -18
         },
+       
         "& .MuiIconButton-root": {
             padding: '0'
         }
@@ -973,9 +1003,15 @@ const muiStyles = {
             left: '-10px',
             backgroundColor: 'transparent',
         },
-        "& label.Mui-focused": {
+         "& label.Mui-focused": {
             zIndex: '1'
+        },'& .MuiFormHelperText-root': {
+            position: 'absolute',
+            fontSize: 10,
+            bottom: -18
         },
+       
+       
     },
     select: {
 

@@ -949,9 +949,14 @@ const muiStyles = {
             left: '-10px',
 
         },
-        "& label.Mui-focused": {
+         "& label.Mui-focused": {
             zIndex: '1'
+        },'& .MuiFormHelperText-root': {
+            position: 'absolute',
+            fontSize: 10,
+            bottom: -18
         },
+       
         "& .MuiIconButton-root": {
             padding: '0'
         }
@@ -969,9 +974,14 @@ const muiStyles = {
             left: '-10px',
             backgroundColor: 'transparent',
         },
-        "& label.Mui-focused": {
+         "& label.Mui-focused": {
             zIndex: '1'
+        },'& .MuiFormHelperText-root': {
+            position: 'absolute',
+            fontSize: 10,
+            bottom: -18
         },
+       
     },
     select: {
 

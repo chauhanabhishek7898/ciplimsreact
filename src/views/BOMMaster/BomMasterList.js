@@ -226,10 +226,21 @@ function BomMasterList() {
                                 <TableRow>
                                     {/* <TableCell scope="row">SN.</TableCell> */}
 
-                                    <TableCell align="left" sx={muiStyles.tableHead} >BOM No</TableCell>
-                                    <TableCell align="left" sx={muiStyles.tableHead} >Brand</TableCell>
-                                    <TableCell align="left" sx={muiStyles.tableHead} >Pack</TableCell>
+                                    
                                     <TableCell align="left" sx={muiStyles.tableHead} >BOM Name</TableCell>
+                                    <TableCell align="left" sx={muiStyles.tableHead} >Product Name</TableCell>
+                                    <TableCell align="left" sx={muiStyles.tableHead} >Product Category</TableCell>
+                                    <TableCell align="left" sx={muiStyles.tableHead} >Product Sub Category</TableCell>
+                                    <TableCell align="left" sx={muiStyles.tableHead} >Brand</TableCell>
+                                    <TableCell align="left" sx={muiStyles.tableHead} >Varient</TableCell>
+                                    <TableCell align="left" sx={muiStyles.tableHead} >Pack</TableCell>
+                                    <TableCell align="left" sx={muiStyles.tableHead} >Per Unit BB VolLt</TableCell>
+                                    <TableCell align="left" sx={muiStyles.tableHead} >Case Config</TableCell>
+                                    <TableCell align="left" sx={muiStyles.tableHead} >Per CaseVolLt</TableCell>
+                                    <TableCell align="left" sx={muiStyles.tableHead} >Material Detail</TableCell>
+                                    <TableCell align="left" sx={muiStyles.tableHead} >SU of Concentrate</TableCell>
+                                    <TableCell align="left" sx={muiStyles.tableHead} >BOM of Concentrate</TableCell>
+                                    <TableCell align="left" sx={muiStyles.tableHead} >Requirement in CS</TableCell>
                                     <TableCell align="left" sx={muiStyles.tableHead} >Unit</TableCell>
                                     <TableCell align="left" sx={muiStyles.tableHead} >Remarks</TableCell>
                                     <TableCell align="left" sx={muiStyles.tableHead} >BOM Copy</TableCell>
@@ -245,11 +256,20 @@ function BomMasterList() {
                                         return (
                                             <TableRow key={index}>
                                                 {/* <TableCell component="th" scope="row">{index + 1}.</TableCell> */}
-
-                                                <TableCell align="left" sx={muiStyles.tableBody}>{item.vBOMNo}</TableCell>
-                                                <TableCell align="left" sx={muiStyles.tableBody}>{item.vBrand}</TableCell>
-                                                <TableCell align="left" sx={muiStyles.tableBody}>{item.vPack}</TableCell>
                                                 <TableCell align="left" sx={muiStyles.tableBody}>{item.vBOMName}</TableCell>
+                                                <TableCell align="left" sx={muiStyles.tableBody}>{item.vProductName}</TableCell>
+                                                <TableCell align="left" sx={muiStyles.tableBody}>{item.vPCategory}</TableCell>
+                                                <TableCell align="left" sx={muiStyles.tableBody}>{item.vPSubCategory}</TableCell>
+                                                <TableCell align="left" sx={muiStyles.tableBody}>{item.vBrand}</TableCell>
+                                                <TableCell align="left" sx={muiStyles.tableBody}>{item.vVarient}</TableCell>
+                                                <TableCell align="left" sx={muiStyles.tableBody}>{item.vPackPrefix}</TableCell>
+                                                <TableCell align="left" sx={muiStyles.tableBody}>{item.nPerUnitBBVolLt}</TableCell>
+                                                <TableCell align="left" sx={muiStyles.tableBody}>{item.nCaseConfig}</TableCell>
+                                                <TableCell align="left" sx={muiStyles.tableBody}>{item.nPerCaseVolLt}</TableCell>
+                                                <TableCell align="left" sx={muiStyles.tableBody}>{item.MatDetail}</TableCell>
+                                                <TableCell align="left" sx={muiStyles.tableBody}>{item.nSUofConcentrate}</TableCell>
+                                                <TableCell align="left" sx={muiStyles.tableBody}>{item.nBOMofConcentrate}</TableCell>
+                                                <TableCell align="left" sx={muiStyles.tableBody}>{item.nRequirementinCS}</TableCell>
                                                 <TableCell align="left" sx={muiStyles.tableBody}>{item.vUnit}</TableCell>
                                                 <TableCell align="left" sx={muiStyles.tableBody}>{item.vRemarks}</TableCell>
                                                 <TableCell align="left" sx={muiStyles.tableBody}> <a href={imageUrl + '/' + item.vBOMCopyFilePath} target="_blank" rel="noopener noreferrer" style={{ marginLeft: 10 }}>{item.vBOMCopyFilePath != null && item.vBOMCopyFilePath != '' ? 'BOM Copy' : null}</a> </TableCell>
@@ -347,9 +367,14 @@ const muiStyles = {
             left: '-10px',
 
         },
-        "& label.Mui-focused": {
+         "& label.Mui-focused": {
             zIndex: '1'
+        },'& .MuiFormHelperText-root': {
+            position: 'absolute',
+            fontSize: 10,
+            bottom: -18
         },
+       
     },
     input: {
         "& .MuiOutlinedInput-root": {
@@ -364,9 +389,14 @@ const muiStyles = {
             left: '-10px',
             backgroundColor: 'transparent',
         },
-        "& label.Mui-focused": {
+         "& label.Mui-focused": {
             zIndex: '1'
+        },'& .MuiFormHelperText-root': {
+            position: 'absolute',
+            fontSize: 10,
+            bottom: -18
         },
+       
     },
     select: {
 

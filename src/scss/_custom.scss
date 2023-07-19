@@ -442,6 +442,14 @@ p {
   flex-wrap: wrap;
   margin: 15px 10px;
 }
+.displayflexend-3 {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin: 0px 10px;
+  width: 100%;
+}
 
 .displayflexendmodal {
   display: flex;
@@ -1025,6 +1033,30 @@ p {
 
 .inputBox-43 {
   width: 18.5%;
+  margin-bottom: 10px;
+
+  @media only screen and (max-width: 1080px) {
+    width: 100%;
+  }
+}
+.inputBox-44 {
+  width: 56.2%;
+  margin-bottom: 10px;
+
+  @media only screen and (max-width: 1080px) {
+    width: 100%;
+  }
+}
+.inputBox-45 {
+  width: 41.4%;
+  margin-bottom: 10px;
+
+  @media only screen and (max-width: 1080px) {
+    width: 100%;
+  }
+}
+.inputBox-46 {
+  width: 31%;
   margin-bottom: 10px;
 
   @media only screen and (max-width: 1080px) {

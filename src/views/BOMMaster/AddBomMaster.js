@@ -13,7 +13,7 @@ import Paper from '@mui/material/Paper';
 import { MaterialMaster_SelectAll_ActiveLikeSearch } from '../MaterialMaster/MaterialMasterService'
 import { PackMaster_SelectAll_ActiveLikeSearch } from '../PackMaster/PackMasterService'
 import { BrandMaster_SelectAll_ActiveLikeSearch } from '../BrandMaster/BrandMasterService'
-import { BOMMasterPost } from './BomMasteerService'
+import { BOMMasterPost, ProductMaster_ActiveLikeSearch } from './BomMasteerService'
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import InputLabel from '@mui/material/InputLabel';
@@ -24,6 +24,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 
 import AddIcon from '@mui/icons-material/Add';
+import EditIcon from '@mui/icons-material/Edit';
 import { useForm } from 'react-hook-form';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -53,24 +54,84 @@ function AddBomMaster() {
     const [brandData, setBrandData] = React.useState([]);
     const [MaterialMaster, setMaterialMaster] = React.useState([]);
     const [PlantMaster, setPlantMaster] = React.useState([]);
+    const [ProductMaster, setProductMaster] = React.useState([]);
     const [VendorMaster, setVendorMaster] = React.useState([]);
     const [loader, setLoader] = React.useState(false);
     const [id, setId] = React.useState(0);
     const [PlantDetail, setPlantDetail] = React.useState('');
+    const [ProductDetail, setProductDetail] = React.useState('');
     const [VendorDetail, setVendorDetail] = React.useState('');
     const [nMId, setnMId] = React.useState('');
+    const [MaterialMasterId, setMaterialMasterId] = React.useState('');
+    const [MaterialMasterLabel, setMaterialMasterLable] = React.useState('');
     const [MaterialDetail, setMaterialDetail] = React.useState('');
     const { register, handleSubmit, control, errors } = useForm();
     const [searched, setSearched] = React.useState("");
     const [nBId, setnBId] = React.useState("");
     const [vBOMNo, setvBOMNo] = React.useState("");
-    const [vBrand, setvBrand] = React.useState("");
     const [vPack, setvPack] = React.useState("");
+    const [vPCategory, setvPCategory] = React.useState("");
+    const [vPSubCategory, setvPSubCategory] = React.useState("");
+    const [vBrand, setvBrand] = React.useState("");
+    const [vVarient, setvVarient] = React.useState("");
+    const [vPackName, setvPackName] = React.useState("");
+
 
     const [Variant, setVariant] = React.useState("");
 
     const [Product, setProduct] = React.useState("");
+    const [nPDId, setnPDId] = React.useState("");
+    const [CaseConfig, setCaseConfig] = React.useState("");
+    const [nPerUnitBBVolLt, setnPerUnitBBVolLt] = React.useState("");
+    const [nPerCaseVolLt, setnPerCaseVolLt] = React.useState("");
+    const [nSUofConcentrate, setnSUofConcentrate] = React.useState("");
+    const [nBOMofConcentrate, setnBOMofConcentrate] = React.useState("");
+    const [nRequirementinCS, setnRequirementinCS] = React.useState("");
+    const [nYieldPercentage, setnYieldPercentage] = React.useState("");
+    const [nPerSUUsage, setnPerSUUsage] = React.useState("");
+    const [nBOM, setnBOM] = React.useState("");
+    const [nRequirementinCSDetail, setnRequirementinCSDetail] = React.useState("");
+    const [nReqInUOM, setnReqInUOM] = React.useState("");
+    const [nStandardRate, setnStandardRate] = React.useState("");
+    const [nStdCOGS, setnStdCOGS] = React.useState("");
+    const [vBOMName, setvBOMName] = React.useState("");
+    const [vUnit, setvUnit] = React.useState("");
+    const [nQty, setnQty] = React.useState('');
+    const [vUMO, setvUMO] = React.useState("");
+    const [vPOFilePath, setvPOFilePath] = React.useState('');
+    const [vRemarks, setvRemarks] = React.useState('');
+    const [btActive, setBtActive] = React.useState(true);
+    const [disabled, setdisabled] = React.useState(true)
+    const [firstTimeSuDisable, setfirstTimeSuDisable] = React.useState(true)
+    const [PODetails, setPODetails] = React.useState([]);
 
+    const [nLoggedInUserId, setnLoggedInUserId] = React.useState('');
+    const [errorText, setError] = React.useState({
+        plant: '',
+        vendor: '',
+        date: '',
+        MaterialDetail: '',
+        Quan: '',
+        amount: '',
+        PerSUUsage: '',
+        YieldPercentage: '',
+        StandardRate: '',
+        product: '',
+        PerUnitBBVolLt: '',
+        CaseConfig: '',
+        materialMasterId: '',
+        SUofConcentrate: ''
+    });
+
+    const [preview, setPreview] = useState('')
+    const [btnType, setbtnType] = useState('')
+    const [imgpreview, setimgPreview] = useState(false)
+    const imageRef = useRef(null)
+    const [alert, setAlert] = React.useState({
+        type: 'error',
+        text: 'This is a alert message',
+        show: false
+    })
     const handleChangeVariant = (event) => {
         setVariant(event.target.value);
     };
@@ -84,50 +145,22 @@ function AddBomMaster() {
     const handleChangeRequirement = (event) => {
         setRequirement(event.target.value);
     };
-      const [perCaseVolume, setperCaseVolume] = React.useState("");
+    const [perCaseVolume, setperCaseVolume] = React.useState("");
 
     const handleChangeperCaseVolume = (event) => {
         setperCaseVolume(event.target.value);
     };
-       const [PerUnitVolume, setPerUnitVolume] = React.useState("");
+    const [PerUnitVolume, setPerUnitVolume] = React.useState("");
 
     const handleChangePerUnitVolume = (event) => {
         setPerUnitVolume(event.target.value);
     };
-      const [CaseConfig, setCaseConfig] = React.useState("");
+
 
     const handleChangeCaseConfig = (event) => {
         setCaseConfig(event.target.value);
     };
-    const [vBOMName, setvBOMName] = React.useState("");
-    const [vUnit, setvUnit] = React.useState("");
-    const [nQty, setnQty] = React.useState('');
-    const [vUMO, setvUMO] = React.useState("");
-    const [vPOFilePath, setvPOFilePath] = React.useState('');
-    const [vRemarks, setvRemarks] = React.useState('');
-    const [btActive, setBtActive] = React.useState(true);
-    const [disabled, setdisabled] = React.useState(true)
-    const [PODetails, setPODetails] = React.useState([]);
 
-    const [nLoggedInUserId, setnLoggedInUserId] = React.useState('');
-    const [errorText, setError] = React.useState({
-        plant: '',
-        vendor: '',
-        date: '',
-        MaterialDetail: '',
-        Quan: '',
-        amount: '',
-    });
-
-    const [preview, setPreview] = useState('')
-    const [btnType, setbtnType] = useState('')
-    const [imgpreview, setimgPreview] = useState(false)
-    const imageRef = useRef(null)
-    const [alert, setAlert] = React.useState({
-        type: 'error',
-        text: 'This is a alert message',
-        show: false
-    })
 
     useEffect(() => {
         const userId = localStorage.getItem("nUserId")
@@ -143,53 +176,37 @@ function AddBomMaster() {
     };
 
     const plantMaster_SelectAll_ActiveLikeSearch = (vGeneric) => {
-        if (vGeneric != '') {
-            vGeneric = vGeneric.target.value
+        if (vGeneric != '' && vGeneric != null) {
+            vGeneric = vGeneric.split('/')[0]
         } else {
             vGeneric = null
         }
         // console.log('vGeneric',vGeneric.target.value)
-        BrandMaster_SelectAll_ActiveLikeSearch(vGeneric).then(res => {
+        ProductMaster_ActiveLikeSearch(vGeneric).then(res => {
             console.log('response', res)
 
             let count = Object.keys(res).length
             let data = []
             for (var i = 0; i < count; i++) {
                 data.push({
-                    value: res[i].vBrandName,
-                    label: res[i].vBrandName,
-
+                    value: res[i].nPDId,
+                    // label: res[i].vProductName,
+                    label: res[i].ProductDetail,
+                    vPCategory: res[i].vPCategory,
+                    vPSubCategory: res[i].vPSubCategory,
+                    vBrand: res[i].vBrand,
+                    vVarient: res[i].vVarient,
+                    vPackName: res[i].vPackPrefix,
+                    vProductCode: res[i].vProductCode,
                 })
             }
-            setPlantMaster(data)
-        })
-    }
-
-    const vendorMaster_SelectAll_ActiveLikeSearch = (vGeneric) => {
-        if (vGeneric != '') {
-            vGeneric = vGeneric.target.value
-        } else {
-            vGeneric = null
-        }
-        PackMaster_SelectAll_ActiveLikeSearch(vGeneric).then(res => {
-            console.log('response', res)
-
-            let count = Object.keys(res).length
-            let data = []
-            for (var i = 0; i < count; i++) {
-                data.push({
-                    value: res[i].vPackName,
-                    label: res[i].vPackName,
-                })
-
-            }
-            setVendorMaster(data)
+            setProductMaster(data)
         })
     }
     const materialMaster_SelectAll_ActiveLikeSearch = (vGeneric) => {
 
         if (vGeneric != '') {
-            vGeneric = vGeneric.target.value
+            vGeneric = vGeneric
         } else {
             vGeneric = null
         }
@@ -199,7 +216,7 @@ function AddBomMaster() {
             for (var i = 0; i < count; i++) {
                 data.push({
                     value: res[i].nMId,
-                    label: res[i].MaterialDetail,
+                    label: res[i].vMName,
                     vUOM: res[i].vUOM,
                     // label: res[i].MaterialDetail,       
                 })
@@ -208,26 +225,36 @@ function AddBomMaster() {
         })
 
     }
-    const changePlantValue = (value) => {
-
-        setPlantDetail(value.label)
-        setvBrand(value.value)
+    const changeProductValue = (value) => {
+        setnPDId(value == null ? '' : value.value)
+        setProductDetail(value == null ? '' : value.label)
+        setvBOMName(value == null ? '' : value.vProductCode)
+        setvPCategory(value == null ? '' : value.vPCategory)
+        setvPSubCategory(value == null ? '' : value.vPSubCategory)
+        setvBrand(value == null ? '' : value.vBrand)
+        setvVarient(value == null ? '' : value.vVarient)
+        setvPackName(value == null ? '' : value.vPackName)
         setError({
             plant: ''
         })
     }
-    const changeVendorMasterValue = (value) => {
-        setVendorDetail(value.label)
-        setvPack(value.value)
+   
+    const changeMaterialMasterValueMaster = (value) => {
+        console.log('value', value)
+        setMaterialMasterId(value == null ? '' : value.value)
+        setMaterialMasterLable(value == null ? '' : value.label)
+        setnMId(value == null ? '' : value.value)
+        setMaterialDetail(value == null ? '' : value.label)
+        setvUMO(value == null ? '' : value.vUOM)
         setError({
-            vendor: ''
+            MaterialDetail: ''
         })
     }
-    const changeMaterialMasterValue = (value) => {
+    const changeMaterialMasterValueDetail = (value) => {
         console.log('value', value)
-        setnMId(value.value)
-        setMaterialDetail(value.label)
-        setvUMO(value.vUOM)
+        setnMId(value == null ? '' : value.value)
+        setMaterialDetail(value == null ? '' : value.label)
+        setvUMO(value == null ? '' : value.vUOM)
         setError({
             MaterialDetail: ''
         })
@@ -246,18 +273,31 @@ function AddBomMaster() {
     const validateformPoDetial = () => {
         if (MaterialDetail == '' || MaterialDetail == undefined) {
             setError({
-                MaterialDetail: 'Select Item *'
+                MaterialDetail: 'Select Material *'
             })
             return false
-        } else if (nQty == '' || nQty == undefined) {
+        } else if (nPerSUUsage == '' || nPerSUUsage == undefined) {
             setError({
-                Quan: 'Enter Qty *'
+                PerSUUsage: 'Enter Per SU Usage *'
+            })
+            return false
+        } else if (nYieldPercentage == '' || nYieldPercentage == undefined) {
+            setError({
+                YieldPercentage: 'Enter Yield Percentage *'
+            })
+            return false
+        } else if (nStandardRate == '' || nStandardRate == undefined) {
+            setError({
+                StandardRate: 'Enter Standard Rate*'
             })
             return false
         }
         else {
             setError({
-                MaterialDetail: ''
+                MaterialDetail: '',
+                PerSUUsage: '',
+                YieldPercentage: '',
+                StandardRate: '',
             })
             return true
         }
@@ -280,8 +320,16 @@ function AddBomMaster() {
                             poMasteerDetail[indexToUpdate].id = id,
                                 poMasteerDetail[indexToUpdate].nMId = parseInt(nMId),
                                 poMasteerDetail[indexToUpdate].MaterialDetail = MaterialDetail,
-                                poMasteerDetail[indexToUpdate].nQty = parseFloat(nQty == '' ? 0 : nQty),
+                                // poMasteerDetail[indexToUpdate].nQty = parseFloat(nQty == '' ? 0 : nQty),
                                 poMasteerDetail[indexToUpdate].vUOM = vUMO == '' ? null : vUMO,
+                                poMasteerDetail[indexToUpdate].nYieldPercentage = nYieldPercentage == '' ? null : nYieldPercentage,
+                                poMasteerDetail[indexToUpdate].nPerSUUsage = nPerSUUsage == '' ? null : nPerSUUsage,
+                                poMasteerDetail[indexToUpdate].nBOM = nBOM == '' ? null : nBOM,
+                                poMasteerDetail[indexToUpdate].nReqInUOM = nReqInUOM == '' ? null : nReqInUOM,
+                                poMasteerDetail[indexToUpdate].nRequirementinCSDetail = nRequirementinCSDetail == '' ? null : nRequirementinCSDetail,
+                                poMasteerDetail[indexToUpdate].nStandardRate = nStandardRate == '' ? null : nStandardRate,
+                                poMasteerDetail[indexToUpdate].nStdCOGS = nStdCOGS == '' ? null : nStdCOGS,
+
                                 console.log('koMonth', poMasteerDetail)
                             setPODetails(poMasteerDetail)
                             setbtnType('')
@@ -289,6 +337,13 @@ function AddBomMaster() {
                             setMaterialDetail('')
                             setnQty('')
                             setvUMO('')
+                            setnYieldPercentage('')
+                            setnPerSUUsage('')
+                            setnBOM('')
+                            setnReqInUOM('')
+                            setnStandardRate('')
+                            setnRequirementinCSDetail('')
+                            setnStdCOGS('')
                             setMaterialMaster([])
 
                         }
@@ -318,8 +373,15 @@ function AddBomMaster() {
                                         id: new Date().getUTCMilliseconds(),
                                         nMId: parseInt(nMId),
                                         MaterialDetail: MaterialDetail,
-                                        nQty: parseFloat(nQty == '' ? 0 : nQty),
+                                        // nQty: parseFloat(nQty == '' ? 0 : nQty),
                                         vUOM: vUMO == '' ? null : vUMO,
+                                        nYieldPercentage: nYieldPercentage == '' ? null : parseFloat(nYieldPercentage),
+                                        nPerSUUsage: nPerSUUsage == '' ? null : parseFloat(nPerSUUsage),
+                                        nBOM: nBOM == '' ? null : parseFloat(nBOM),
+                                        nReqInUOM: nReqInUOM == '' ? null : parseFloat(nReqInUOM),
+                                        nRequirementinCSDetail: nRequirementinCSDetail == '' ? null : parseFloat(nRequirementinCSDetail),
+                                        nStandardRate: nStandardRate == '' ? null : parseFloat(nStandardRate),
+                                        nStdCOGS: nStdCOGS == '' ? null : parseFloat(nStdCOGS),
                                     })
                                     console.log('koMonth', poMasteerDetail)
                                     setPODetails(poMasteerDetail)
@@ -327,6 +389,14 @@ function AddBomMaster() {
                                     setMaterialDetail('')
                                     setnQty('')
                                     setvUMO('')
+                                    setnYieldPercentage('')
+                                    setnPerSUUsage('')
+                                    setnBOM('')
+                                    setnReqInUOM('')
+                                    setnStandardRate('')
+                                    setnRequirementinCSDetail('')
+                                    setnStdCOGS('')
+                                    setfirstTimeSuDisable(false)
                                     setMaterialMaster([])
                                 }
 
@@ -344,21 +414,36 @@ function AddBomMaster() {
         }
     }
     const validateform = () => {
-        if (vBrand == '' || vBrand == undefined) {
+        if (nPDId == '' || nPDId == undefined) {
             setError({
-                plant: 'Select Brand *'
+                product: 'Select Product *'
             })
             return false
-        } else if (vPack == '' || vPack == undefined) {
+        } else if (nPerUnitBBVolLt == '' || nPerUnitBBVolLt == undefined) {
             setError({
-                vendor: 'Select Pack *'
+                PerUnitBBVolLt: 'Enter Per Unit BB VolLt *'
+            })
+            return false
+        } else if (CaseConfig == '' || CaseConfig == undefined) {
+            setError({
+                CaseConfig: 'Enter Case Config*'
+            })
+            return false
+        } else if (MaterialMasterId == '' || MaterialMasterId == undefined) {
+            setError({
+                materialMasterId: 'Enter Case Config*'
+            })
+            return false
+        } else if (nSUofConcentrate == '' || nSUofConcentrate == undefined) {
+            setError({
+                SUofConcentrate: 'Enter Case Config*'
             })
             return false
         } else {
             setError('')
             return true
         }
-
+        return true
     }
     const submit = () => {
         if (validateform() == true) {
@@ -372,11 +457,19 @@ function AddBomMaster() {
                             onClick: () => {
                                 setLoader(true)
                                 const POMasterData = [{
-                                    vBOMNo: vBOMNo,
+                                    // vBOMNo: vBOMNo,
+                                    nBId: nBId == '' || nBId == null ? 0 : nBId,
+                                    vBOMName: vBOMName,
                                     vBrand: vBrand == '' ? null : vBrand,
-                                    vPack: vPack == '' ? null : vPack,
-                                    vBOMName: vBOMName == '' ? null : vBOMName,
-                                    vUnit: vUnit == '' ? null : vUnit,
+                                    nPDId: parseInt(nPDId),
+                                    nPack: parseFloat(vPackName),
+                                    nPerUnitBBVolLt: parseInt(nPerUnitBBVolLt),
+                                    nCaseConfig: parseFloat(CaseConfig),
+                                    nPerCaseVolLt: parseFloat(nPerCaseVolLt),
+                                    nMIdToCalculateBOMnReqInCS: parseInt(MaterialMasterId),
+                                    nSUofConcentrate: parseFloat(nSUofConcentrate),
+                                    nBOMofConcentrate: parseFloat(nBOMofConcentrate),
+                                    nRequirementinCS: parseFloat(nRequirementinCS),
                                     vRemarks: vRemarks == '' ? null : vRemarks,
                                     btActive: true,
                                     vBOMCopyFilePath: '',
@@ -406,7 +499,7 @@ function AddBomMaster() {
             } else {
                 confirmAlert({
                     title: 'Alert !!',
-                    message: 'Please Add at least one Material.',
+                    message: 'Add at least one Material to Proceed.',
                     buttons: [
                         {
                             label: 'Ok',
@@ -445,13 +538,26 @@ function AddBomMaster() {
             ]
         });
     }
-    const editItem = (item) => {
+    const editItem = (item,index) => {
         setbtnType('edit')
         setId(item.id)
         setnMId(item.nMId)
         setMaterialDetail(item.MaterialDetail)
-        setnQty(item.nQty)
+        // setnQty(item.nQty)
         setvUMO(item.vUOM)
+        setnYieldPercentage(item.nYieldPercentage)
+        setnPerSUUsage(item.nPerSUUsage)
+        setnBOM(item.nBOM)
+        setnReqInUOM(item.nReqInUOM)
+        setnStandardRate(item.nStandardRate)
+        setnStdCOGS(item.nStdCOGS)
+        setnRequirementinCSDetail(item.nRequirementinCSDetail)
+        if(index==0){
+            setfirstTimeSuDisable(true)
+        }else{
+            setfirstTimeSuDisable(false)
+        }
+
 
     }
     const goback = () => {
@@ -470,13 +576,51 @@ function AddBomMaster() {
                 }
             ]
         });
+    }
+    const calculatePerCaseVol = (e) => {
+        setCaseConfig(e.target.value)
+        setnPerCaseVolLt(parseInt(e.target.value == undefined || e.target.value == '' ? 0 : e.target.value) * parseInt(vPackName) / parseInt(1000))
+    }
+    const calculateSUofConcentrate = (e) => {
+        setnSUofConcentrate(e.target.value)
+        setnPerSUUsage(e.target.value)
+        let BOMofConcentrate = parseFloat(e.target.value == undefined || e.target.value == '' ? 0 : e.target.value) * (parseFloat(nPerCaseVolLt)) / parseFloat(nPerUnitBBVolLt)
+        let formatedBOMofConcentrate = BOMofConcentrate.toFixed(4)
+        setnBOMofConcentrate(formatedBOMofConcentrate)
+        setnBOM(formatedBOMofConcentrate)
+        let RequirementinCS = parseFloat(e.target.value == undefined || e.target.value == '' ? 0 : e.target.value) / parseFloat(formatedBOMofConcentrate)
+        setnRequirementinCS(parseInt(RequirementinCS))
+        setnRequirementinCSDetail(parseInt(RequirementinCS))
+    }
+    const calculateSUofConcentrateDetails = (e) => {
+        // setnSUofConcentrate(e.target.value)
+        setnPerSUUsage(e.target.value)
+        let BOMofConcentrate = parseFloat(e.target.value == undefined || e.target.value == '' ? 0 : e.target.value) * (parseFloat(nPerCaseVolLt)) / parseFloat(nPerUnitBBVolLt)
+        let formatedBOMofConcentrate = BOMofConcentrate.toFixed(4)
+        setnBOMofConcentrate(formatedBOMofConcentrate)
+        setnBOM(formatedBOMofConcentrate)
+        let RequirementinCS = parseFloat(e.target.value == undefined || e.target.value == '' ? 0 : e.target.value) / parseFloat(formatedBOMofConcentrate)
+        setnRequirementinCSDetail(parseInt(RequirementinCS))
+    }
+
+    const calculateWithYieldPercentage = (e) => {
+        setnYieldPercentage(e.target.value)
+        let reqinumo = parseInt(nRequirementinCSDetail) * parseFloat(nBOMofConcentrate) / parseInt(e.target.value == undefined || e.target.value == '' ? 0 : e.target.value) * 100
+        setnReqInUOM(reqinumo)
+    }
+
+    const calculateStandardRate = (e) => {
+        setnStandardRate(e.target.value)
+        let stdCOGS = parseFloat(e.target.value == undefined || e.target.value == '' ? 0 : e.target.value) * parseFloat(nBOMofConcentrate) / parseInt(nYieldPercentage) * 100
+        setnStdCOGS(stdCOGS)
 
     }
+
     return (
         <div className='citymasterContainer'>
             <div className='dateFilter-2 '>
                 <div className='displayflexend mt-2'>
-                    <Box className='inputBox-10' >
+                    {/* <Box className='inputBox-10' >
                         <FormControl fullWidth className='input'>
                             <TextField
                                 sx={muiStyles.input}
@@ -491,181 +635,34 @@ function AddBomMaster() {
                                 helperText={errors.vBOMNo?.message}
                             />
                         </FormControl>
-                    </Box>
-
-
-                    <Box className='inputBox-10' >
+                    </Box> */}
+                    <Box className='inputBox-45' >
                         <FormControl fullWidth className='input'>
                             {/* <InputLabel required id="demo-simple-select-label">Plant</InputLabel>npm  */}
                             <Autocomplete
                                 sx={muiStyles.autoCompleate}
                                 disablePortal
                                 id="combo-box-demo"
-                                options={PlantMaster}
-                                value={PlantDetail}
+                                options={ProductMaster}
+                                value={ProductDetail}
                                 // changePlantValue(value)
-                                onChange={(event, value) => changePlantValue(value)}
+                                onChange={(event, value) => changeProductValue(value)}
                                 // inputValue={inputValue}
-                                onKeyDown={newInputValue => plantMaster_SelectAll_ActiveLikeSearch(newInputValue)}
+                                // onKeyDown={newInputValue => plantMaster_SelectAll_ActiveLikeSearch(newInputValue)}
+
                                 onInputChange={(event, newInputValue) => {
                                     // setInputValue(newInputValue);
+                                    if (newInputValue.length >= 2) {
+                                        plantMaster_SelectAll_ActiveLikeSearch(newInputValue)
+
+                                    }
                                     console.log('newInputValue', newInputValue)
                                 }}
-                                renderInput={(params) => <TextField {...params} label="Search Brand " required />}
+                                renderInput={(params) => <TextField {...params} label="Search Product " required />}
                             />
-                            {errorText.plant != '' ? <p className='error'>{errorText.plant}</p> : null}
+                            {errorText.product != '' ? <p className='error'>{errorText.product}</p> : null}
                         </FormControl>
                     </Box>
-
-
-
-
-                    <Box className='inputBox-12'>
-                        <FormControl fullWidth className='input'>
-                            <InputLabel required id="demo-simple-select-label" sx={muiStyles.InputLabels}>Variant</InputLabel>
-                            <Select
-                                sx={muiStyles.select}
-                                style={{ width: '100%', }}
-                                labelId="demo-simple-select-label"
-                                id="demo-simple-select"
-                                value={Variant}
-                                label="Select Variant"
-                                onChange={handleChangeVariant}
-                                name='unitid' >
-                                <MenuItem value='M1'>C1</MenuItem>
-                                <MenuItem value='M2'>C2</MenuItem>
-                                <MenuItem value='M3'>C3</MenuItem>
-                            </Select>
-                        </FormControl>
-                    </Box>
-
-
-
-                    <Box className='inputBox-12'>
-                        <FormControl fullWidth className='input'>
-                            <Autocomplete
-                                sx={muiStyles.autoCompleate}
-                                disablePortal
-                                id="combo-box-demo"
-                                options={VendorMaster}
-                                value={VendorDetail}
-                                onChange={(event, value) => changeVendorMasterValue(value)}
-                                onKeyDown={newInputValue => vendorMaster_SelectAll_ActiveLikeSearch(newInputValue)}
-                                onInputChange={(event, newInputValue) => {
-                                    console.log('newInputValue', newInputValue)
-                                }}
-                                renderInput={(params) => <TextField {...params} label="Search Pack" required />}
-                            />
-                            {errorText.vendor != '' ? <p className='error'>{errorText.vendor}</p> : null}
-                        </FormControl>
-                    </Box>
-
-
-                    <Box className='inputBox-6'>
-                        <FormControl fullWidth className='input'>
-                            <InputLabel required id="demo-simple-select-label" sx={muiStyles.InputLabels}>Product</InputLabel>
-                            <Select
-                                sx={muiStyles.select}
-                                style={{ width: '100%', }}
-                                labelId="demo-simple-select-label"
-                                id="demo-simple-select"
-                                value={Product}
-                                label="Select Product"
-                                onChange={handleChangeProduct}
-                                name='unitid' >
-                                <MenuItem value='M1'>P1</MenuItem>
-                                <MenuItem value='M2'>P2</MenuItem>
-                                <MenuItem value='M3'>P3</MenuItem>
-                            </Select>
-                        </FormControl>
-                    </Box>
-
-
-
-                    <Box className='inputBox-6'>
-                        <FormControl fullWidth className='input'>
-                            <InputLabel required id="demo-simple-select-label" sx={muiStyles.InputLabels}>Per Unit Volume Lt.</InputLabel>
-                            <Select
-                                sx={muiStyles.select}
-                                style={{ width: '100%', }}
-                                labelId="demo-simple-select-label"
-                                id="demo-simple-select"
-                                value={PerUnitVolume}
-                                label="Select Per Unit Volume Lt."
-                                onChange={handleChangePerUnitVolume}
-                                name='unitid' >
-                                <MenuItem value='M1'>PUV1</MenuItem>
-                                <MenuItem value='M2'>PUV2</MenuItem>
-                                <MenuItem value='M3'>PUV3</MenuItem>
-                            </Select>
-                        </FormControl>
-                    </Box>
-
-
-                    <Box className='inputBox-6'>
-                        <FormControl fullWidth className='input'>
-                            <InputLabel required id="demo-simple-select-label" sx={muiStyles.InputLabels}>Case Config.</InputLabel>
-                            <Select
-                                sx={muiStyles.select}
-                                style={{ width: '100%', }}
-                                labelId="demo-simple-select-label"
-                                id="demo-simple-select"
-                                value={CaseConfig}
-                                label="Select Case Config."
-                                onChange={handleChangeCaseConfig}
-                                name='unitid' >
-                                <MenuItem value='M1'>CaseConfig1</MenuItem>
-                                <MenuItem value='M2'>CaseConfig2</MenuItem>
-                                <MenuItem value='M3'>CaseConfig3</MenuItem>
-                            </Select>
-                        </FormControl>
-                    </Box>
-
-
-                    <Box className='inputBox-6'>
-                        <FormControl fullWidth className='input'>
-                            <InputLabel required id="demo-simple-select-label" sx={muiStyles.InputLabels}>Per Case Volume Lt.</InputLabel>
-                            <Select
-                                sx={muiStyles.select}
-                                style={{ width: '100%', }}
-                                labelId="demo-simple-select-label"
-                                id="demo-simple-select"
-                                value={perCaseVolume}
-                                label="Select Per Case Volume Lt."
-                                onChange={handleChangeperCaseVolume}
-                                name='unitid' >
-                                <MenuItem value='M1'>PCV1</MenuItem>
-                                <MenuItem value='M2'>PCV2</MenuItem>
-                                <MenuItem value='M3'>PCV3</MenuItem>
-                            </Select>
-                        </FormControl>
-                    </Box>
-
-
-
-                    <Box className='inputBox-6'>
-                        <FormControl fullWidth className='input'>
-                            <InputLabel required id="demo-simple-select-label" sx={muiStyles.InputLabels}>Requirement in CS</InputLabel>
-                            <Select
-                                sx={muiStyles.select}
-                                style={{ width: '100%', }}
-                                labelId="demo-simple-select-label"
-                                id="demo-simple-select"
-                                value={Requirement}
-                                label="Select Requirement in CS"
-                                onChange={handleChangeRequirement}
-                                name='unitid' >
-                                <MenuItem value='M1'>R1</MenuItem>
-                                <MenuItem value='M2'>R2</MenuItem>
-                                <MenuItem value='M3'>R3</MenuItem>
-                            </Select>
-                        </FormControl>
-                    </Box>
-
-
-
-
-
                     <Box className='inputBox-22' >
                         <FormControl fullWidth className='input'>
                             <TextField
@@ -682,23 +679,205 @@ function AddBomMaster() {
                             />
                         </FormControl>
                     </Box>
-                    <Box className='inputBox-22' >
+
+
+                    {/* <Box className='inputBox-10' >
                         <FormControl fullWidth className='input'>
                             <TextField
                                 sx={muiStyles.input}
-                                value={vUnit}
-                                onChange={e => setvUnit(e.target.value)}
-                                required id="outlined-basic"
-                                label="Unit"
+                                value={vPCategory}
+                                // onChange={e => setvRemarks(e.target.value)}
+                                id="outlined-basic"
+                                label="Product Category"
                                 variant="outlined"
-                                name='vUnit'
-                                inputRef={register({ required: "Unit is required.*", })}
-                                error={Boolean(errors.vUnit)}
-                                helperText={errors.vUnit?.message}
+                                name='Remarks'
+                                disabled={true}
+                            // inputRef={register({ required: "Remarks is required.", })}
+                            // error={Boolean(errors.brandCode)}
+                            // helperText={errors.brandCode?.message}
                             />
                         </FormControl>
                     </Box>
-                    <Box className='inputBox-8' >
+                    <Box className='inputBox-10' >
+                        <FormControl fullWidth className='input'>
+                            <TextField
+                                sx={muiStyles.input}
+                                value={vPSubCategory}
+                                // onChange={e => setvRemarks(e.target.value)}
+                                id="outlined-basic"
+                                label="Product Sub Category"
+                                variant="outlined"
+                                name='Remarks'
+                                disabled={true}
+                            // inputRef={register({ required: "Remarks is required.", })}
+                            // error={Boolean(errors.brandCode)}
+                            // helperText={errors.brandCode?.message}
+                            />
+                        </FormControl>
+                    </Box> */}
+                    <Box className='inputBox-10' >
+                        <FormControl fullWidth className='input'>
+                            <TextField
+                                sx={muiStyles.input}
+                                value={vBrand}
+                                // onChange={e => setvRemarks(e.target.value)}
+                                id="outlined-basic"
+                                label="Brand"
+                                variant="outlined"
+                                name='Remarks'
+                                disabled={true}
+                            // inputRef={register({ required: "Remarks is required.", })}
+                            // error={Boolean(errors.brandCode)}
+                            // helperText={errors.brandCode?.message}
+                            />
+                        </FormControl>
+                    </Box>
+                    <Box className='inputBox-10' >
+                        <FormControl fullWidth className='input'>
+                            <TextField
+                                sx={muiStyles.input}
+                                value={vVarient}
+                                // onChange={e => setvRemarks(e.target.value)}
+                                id="outlined-basic"
+                                label="Variant"
+                                variant="outlined"
+                                name='Remarks'
+                                disabled={true}
+                            // inputRef={register({ required: "Remarks is required.", })}
+                            // error={Boolean(errors.brandCode)}
+                            // helperText={errors.brandCode?.message}
+                            />
+                        </FormControl>
+                    </Box>
+                    <Box className='inputBox-31' >
+                        <FormControl fullWidth className='input'>
+                            <TextField
+                                sx={muiStyles.input}
+                                value={vPackName}
+                                // onChange={e => setvRemarks(e.target.value)}
+                                id="outlined-basic"
+                                label="Pack"
+                                variant="outlined"
+                                name='Remarks'
+                                disabled={true}
+                            // inputRef={register({ required: "Remarks is required.", })}
+                            // error={Boolean(errors.brandCode)}
+                            // helperText={errors.brandCode?.message}
+                            />
+                        </FormControl>
+                    </Box>
+                    <Box className='inputBox-31' >
+                        <FormControl fullWidth className='input'>
+                            <TextField
+                                sx={muiStyles.input}
+                                value={nPerUnitBBVolLt}
+                                onChange={e => setnPerUnitBBVolLt(e.target.value)}
+                                required id="outlined-basic"
+                                label="Per Unit BB VolLt"
+                                variant="outlined"
+                                name='PerUnitBBVolLt'
+                                // inputRef={register({ required: "Per Unit BB VolLt is required. *", })}
+                                // error={Boolean(errors.PerUnitBBVolLt)}
+                                // helperText={errors.PerUnitBBVolLt?.message}
+                            />
+                            {errorText.PerUnitBBVolLt != '' ? <p className='error'>{errorText.PerUnitBBVolLt}</p> : null}
+                        </FormControl>
+                    </Box>
+                    <Box className='inputBox-31' >
+                        <FormControl fullWidth className='input'>
+                            <TextField
+                                sx={muiStyles.input}
+                                value={CaseConfig}
+                                onChange={e => calculatePerCaseVol(e)}
+                                required id="outlined-basic"
+                                label="Case Config"
+                                variant="outlined"
+                                name='CaseConfig'
+                                // inputRef={register({ required: "Case Config is required.*", })}
+                                // error={Boolean(errors.CaseConfig)}
+                                // helperText={errors.CaseConfig?.message}
+                            />
+                            {errorText.CaseConfig != '' ? <p className='error'>{errorText.CaseConfig}</p> : null}
+                        </FormControl>
+                    </Box>
+                    <Box className='inputBox-31' >
+                        <FormControl fullWidth className='input'>
+                            <TextField
+                                sx={muiStyles.input}
+                                value={nPerCaseVolLt}
+                                onChange={e => setnPerCaseVolLt(e.target.value)}
+                                required id="outlined-basic"
+                                label="Per Case VolLt"
+                                variant="outlined"
+                                disabled={true}
+                            />
+                        </FormControl>
+                    </Box>
+                    <Box className='inputBox-45' >
+                        <FormControl fullWidth className='input'>
+                            {/* <InputLabel required id="demo-simple-select-label">Item</InputLabel> */}
+                            <p style={{ color: '#1976d2', fontSize: 10, position: 'absolute', top: -20, lineHeight: 1 }}>Search Material to Calculate BOM & Req In CS</p>
+                            <Autocomplete
+                                sx={muiStyles.autoCompleate}
+                                disablePortal
+                                id="combo-box-demo"
+                                options={MaterialMaster}
+                                value={MaterialMasterLabel}
+                                // inputValue={MaterialDetail}
+                                onChange={(event, value) => changeMaterialMasterValueMaster(value)}
+                                // onKeyDown={newInputValue => materialMaster_SelectAll_ActiveLikeSearch(newInputValue)}
+                                onInputChange={(event, newInputValue) => {
+                                    // setInputValue(newInputValue);
+                                    // materialMaster_SelectAll_ActiveLikeSearch()
+                                    materialMaster_SelectAll_ActiveLikeSearch(newInputValue)
+                                    console.log('newInputValue', newInputValue)
+                                }}
+                                renderInput={(params) => <TextField {...params} label="" required />}
+                            />
+                            {errorText.MaterialDetail != '' ? <p className='error'>{errorText.MaterialDetail}</p> : null}
+                            <p style={{ color: 'red', fontSize: 10, position: 'absolute', bottom: -12, lineHeight: 1 }}>**Note: The material selected, will be the 1st row of the Material table shown below.</p>
+                        </FormControl>
+                    </Box>
+                    <Box className='inputBox-31' >
+                        <FormControl fullWidth className='input'>
+                            <TextField
+                                sx={muiStyles.input}
+                                value={nSUofConcentrate}
+                                onChange={e => calculateSUofConcentrate(e)}
+                                required id="outlined-basic"
+                                label="SU of Concentrate"
+                                variant="outlined"
+                            />
+                            {errorText.SUofConcentrate != '' ? <p className='error'>{errorText.SUofConcentrate}</p> : null}
+                        </FormControl>
+                    </Box>
+                    <Box className='inputBox-31' >
+                        <FormControl fullWidth className='input'>
+                            <TextField
+                                sx={muiStyles.input}
+                                value={nBOMofConcentrate}
+                                onChange={e => setnBOMofConcentrate(e.target.value)}
+                                required id="outlined-basic"
+                                label="BOM of Concentrate"
+                                variant="outlined"
+                                disabled={true}
+                            />
+                        </FormControl>
+                    </Box>
+                    <Box className='inputBox-31' >
+                        <FormControl fullWidth className='input'>
+                            <TextField
+                                sx={muiStyles.input}
+                                value={nRequirementinCS}
+                                onChange={e => setnRequirementinCS(e.target.value)}
+                                required id="outlined-basic"
+                                label="Requirement in CS"
+                                variant="outlined"
+                                disabled={true}
+                            />
+                        </FormControl>
+                    </Box>
+                    <Box className='inputBox-44' >
                         <FormControl fullWidth className='input'>
                             <TextField
                                 sx={muiStyles.input}
@@ -734,13 +913,14 @@ function AddBomMaster() {
                     <FormGroup >
                         <FormControlLabel style={{ marginRight: 20 }} control={<Checkbox defaultChecked={btActive} value={btActive} onChange={e => setBtActive(e.target.checked)} />} label="Active" disabled={disabled} />
                     </FormGroup>
+
                 </div>
             </div>
 
 
             <div className='databox '>
                 <div className='data-form-box mt-2 '>
-                    <Box className='inputBox-20' >
+                    <Box className='inputBox-46' >
                         <FormControl fullWidth className='input'>
                             {/* <InputLabel required id="demo-simple-select-label">Item</InputLabel> */}
                             <Autocomplete
@@ -749,12 +929,14 @@ function AddBomMaster() {
                                 id="combo-box-demo"
                                 options={MaterialMaster}
                                 value={MaterialDetail}
+                                disabled={firstTimeSuDisable}
                                 // inputValue={MaterialDetail}
-                                onChange={(event, value) => changeMaterialMasterValue(value)}
-                                onKeyDown={newInputValue => materialMaster_SelectAll_ActiveLikeSearch(newInputValue)}
+                                onChange={(event, value) => changeMaterialMasterValueDetail(value)}
+                                // onKeyDown={newInputValue => materialMaster_SelectAll_ActiveLikeSearch(newInputValue)}
                                 onInputChange={(event, newInputValue) => {
                                     // setInputValue(newInputValue);
                                     // materialMaster_SelectAll_ActiveLikeSearch()
+                                    materialMaster_SelectAll_ActiveLikeSearch(newInputValue)
                                     console.log('newInputValue', newInputValue)
                                 }}
                                 renderInput={(params) => <TextField {...params} label="Search Material" required />}
@@ -762,8 +944,6 @@ function AddBomMaster() {
                             {errorText.MaterialDetail != '' ? <p className='error'>{errorText.MaterialDetail}</p> : null}
                         </FormControl>
                     </Box>
-
-
                     <Box className='inputBox-21' >
                         <FormControl fullWidth className='input' >
                             <TextField
@@ -782,7 +962,102 @@ function AddBomMaster() {
                             {/* {errorText.Quan != '' ? <p className='error'>{errorText.Quan}</p> : null} */}
                         </FormControl>
                     </Box>
-                    <Box className='inputBox-22' >
+                    <Box className='inputBox-30' >
+                        <FormControl fullWidth className='input'>
+                            <TextField
+                                sx={muiStyles.input}
+                                value={nPerSUUsage}
+                                onChange={e => calculateSUofConcentrateDetails(e)}
+                                required id="outlined-basic"
+                                label="Per SU Usage"
+                                variant="outlined"
+                                disabled={firstTimeSuDisable}
+                            />
+                            {errorText.PerSUUsage != '' ? <p className='error'>{errorText.PerSUUsage}</p> : null}
+                        </FormControl>
+                    </Box>
+                    <Box className='inputBox-30' >
+                        <FormControl fullWidth className='input'>
+                            <TextField
+                                sx={muiStyles.input}
+                                value={nYieldPercentage}
+                                onChange={e => calculateWithYieldPercentage(e)}
+                                required id="outlined-basic"
+                                label="Yield %"
+                                variant="outlined"
+
+                            />
+                            {errorText.YieldPercentage != '' ? <p className='error'>{errorText.YieldPercentage}</p> : null}
+                        </FormControl>
+                    </Box>
+
+                    <Box className='inputBox-30' >
+                        <FormControl fullWidth className='input'>
+                            <TextField
+                                sx={muiStyles.input}
+                                value={nBOM}
+                                onChange={e => setnBOM(e.target.value)}
+                                required id="outlined-basic"
+                                label="BOM"
+                                variant="outlined"
+                                disabled={true}
+                            />
+                        </FormControl>
+                    </Box>
+                    <Box className='inputBox-30' >
+                        <FormControl fullWidth className='input'>
+                            <TextField
+                                sx={muiStyles.input}
+                                value={nRequirementinCSDetail}
+                                onChange={e => setnRequirementinCSDetail(e.target.value)}
+                                required id="outlined-basic"
+                                label="Requirement in CS"
+                                variant="outlined"
+                                disabled={true}
+                            />
+                        </FormControl>
+                    </Box>
+                    <Box className='inputBox-30' >
+                        <FormControl fullWidth className='input'>
+                            <TextField
+                                sx={muiStyles.input}
+                                value={nReqInUOM}
+                                onChange={e => setnReqInUOM(e.target.value)}
+                                required id="outlined-basic"
+                                label="Req In UOM"
+                                variant="outlined"
+                                disabled={true}
+                            />
+                        </FormControl>
+                    </Box>
+                    <Box className='inputBox-30' >
+                        <FormControl fullWidth className='input'>
+                            <TextField
+                                sx={muiStyles.input}
+                                value={nStandardRate}
+                                onChange={e => calculateStandardRate(e)}
+                                required id="outlined-basic"
+                                label="Standard Rate"
+                                variant="outlined"
+                            />
+                            {errorText.StandardRate != '' ? <p className='error'>{errorText.StandardRate}</p> : null}
+                        </FormControl>
+                    </Box>
+                    <Box className='inputBox-30' >
+                        <FormControl fullWidth className='input'>
+                            <TextField
+                                sx={muiStyles.input}
+                                value={nStdCOGS}
+                                onChange={e => setnStdCOGS(e.target.value)}
+                                required id="outlined-basic"
+                                label="Std COGS"
+                                variant="outlined"
+                                disabled={true}
+                            />
+                        </FormControl>
+                    </Box>
+
+                    {/* <Box className='inputBox-22' >
                         <FormControl fullWidth className='input' >
                             <TextField
                                 sx={muiStyles.input}
@@ -799,9 +1074,9 @@ function AddBomMaster() {
                             />
                             {errorText.Quan != '' ? <p className='error'>{errorText.Quan}</p> : null}
                         </FormControl>
-                    </Box>
+                    </Box> */}
                     <div style={{ marginBottom: 10 }}>
-                        <button title='Add' className='addbtn' onClick={addKoMonthDate}><AddIcon fontSize='small' /></button>
+                        <button title={btnType == 'edit' ? 'Update' : 'Add'} className='addbtn' onClick={addKoMonthDate}>{btnType == 'edit' ? <EditIcon fontSize='small' /> : <AddIcon fontSize='small' />}</button>
                     </div>
                 </div>
                 <div className='tablecenter'>
@@ -815,7 +1090,12 @@ function AddBomMaster() {
                                             <TableCell align="center" style={{ width: '10%', }}>Action</TableCell>
                                             <TableCell align="left" >Material Name</TableCell>
                                             <TableCell align="left" >UOM</TableCell>
-                                            <TableCell align="left" >Qty</TableCell>
+                                            <TableCell align="left" >Per SU Usage</TableCell>
+                                            <TableCell align="left" >Yield %</TableCell>
+                                            <TableCell align="left" >BOM</TableCell>
+                                            <TableCell align="left" >Req In UOM</TableCell>
+                                            <TableCell align="left" >Standard Rate</TableCell>
+                                            <TableCell align="left" >Std COGS</TableCell>
 
                                         </TableRow>
                                     </TableHead>
@@ -826,13 +1106,23 @@ function AddBomMaster() {
                                                 <TableRow key={index}>
                                                     <TableCell component="th" scope="row">{index + 1}.</TableCell>
                                                     <TableCell align="center" >
-                                                        <button className='deletbtn' title='Delete' onClick={() => deleteItem(item.id)}><DeleteIcon size={20} color='red' /></button>
-                                                        <button className='deletbtn' title='Edit' onClick={() => editItem(item)}><BorderColorIcon size={20} color='#000' /></button>
+                                                        {index != 0 ?
+                                                            <>
+                                                            <button className='deletbtn' title='Delete' onClick={() => deleteItem(item.id)}><DeleteIcon size={20} color='red' /></button>
+                                                            </>
+                                                            : null
+                                                        }
+                                                        <button className='deletbtn' title='Edit' onClick={() => editItem(item,index)}><BorderColorIcon size={20} color='#000' /></button>
 
                                                     </TableCell>
                                                     <TableCell align="left" >{item.MaterialDetail}</TableCell>
                                                     <TableCell align="left" >{item.vUOM}</TableCell>
-                                                    <TableCell align="left" >{item.nQty}</TableCell>
+                                                    <TableCell align="left" >{item.nPerSUUsage}</TableCell>
+                                                    <TableCell align="left" >{item.nYieldPercentage}</TableCell>
+                                                    <TableCell align="left" >{item.nBOM}</TableCell>
+                                                    <TableCell align="left" >{item.nReqInUOM}</TableCell>
+                                                    <TableCell align="left" >{item.nStandardRate}</TableCell>
+                                                    <TableCell align="left" >{item.nStdCOGS}</TableCell>
 
 
 
@@ -931,9 +1221,14 @@ const muiStyles = {
             left: '-10px',
 
         },
-        "& label.Mui-focused": {
+         "& label.Mui-focused": {
             zIndex: '1'
+        },'& .MuiFormHelperText-root': {
+            position: 'absolute',
+            fontSize: 10,
+            bottom: -18
         },
+       
     },
     input: {
         "& .MuiOutlinedInput-root": {
@@ -948,9 +1243,14 @@ const muiStyles = {
             left: '-10px',
             backgroundColor: 'transparent',
         },
-        "& label.Mui-focused": {
+         "& label.Mui-focused": {
             zIndex: '1'
+        },'& .MuiFormHelperText-root': {
+            position: 'absolute',
+            fontSize: 10,
+            bottom: -18
         },
+       
     },
     select: {
 

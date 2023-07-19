@@ -25,6 +25,13 @@ export function GetBOMDetailsLIkeSearch(vGeneric) {
         return response;
     })
 }
+export function ProductMaster_ActiveLikeSearch(vGeneric) {
+    let apiUrl = environment.apiUrl;
+    let url = `${apiUrl}/ProductMaster/ProductMaster_ActiveLikeSearch/${vGeneric}`
+    return get(url).then(response => {
+        return response;
+    })
+}
 export function GetBOMByBId(nBId) {
     let apiUrl = environment.apiUrl;
     let url = `${apiUrl}/BOMMaster/GetBOMByBId/${nBId}`

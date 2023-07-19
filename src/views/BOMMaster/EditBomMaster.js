@@ -13,7 +13,7 @@ import Paper from '@mui/material/Paper';
 import { MaterialMaster_SelectAll_ActiveLikeSearch } from '../MaterialMaster/MaterialMasterService'
 import { PackMaster_SelectAll_ActiveLikeSearch } from '../PackMaster/PackMasterService'
 import { BrandMaster_SelectAll_ActiveLikeSearch } from '../BrandMaster/BrandMasterService'
-import { BOMMasterPost,GetBOMByBId,BOMMasterPut } from './BomMasteerService'
+import { BOMMasterPost, GetBOMByBId, BOMMasterPut, ProductMaster_ActiveLikeSearch } from './BomMasteerService'
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import InputLabel from '@mui/material/InputLabel';
@@ -46,6 +46,7 @@ import { confirmAlert } from 'react-confirm-alert'; // Import
 import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
 import HomeIcon from '@mui/icons-material/Home';
 import { imageUrl } from 'src/coreservices/environment';
+import EditIcon from '@mui/icons-material/Edit';
 function EditBomMaster() {
     const navigate = useNavigate();
     const location = useLocation();
@@ -55,19 +56,46 @@ function EditBomMaster() {
     const [brandData, setBrandData] = React.useState([]);
     const [MaterialMaster, setMaterialMaster] = React.useState([]);
     const [PlantMaster, setPlantMaster] = React.useState([]);
+    const [ProductMaster, setProductMaster] = React.useState([]);
     const [VendorMaster, setVendorMaster] = React.useState([]);
     const [loader, setLoader] = React.useState(false);
     const [id, setId] = React.useState(0);
     const [PlantDetail, setPlantDetail] = React.useState('');
+    const [ProductDetail, setProductDetail] = React.useState('');
     const [VendorDetail, setVendorDetail] = React.useState('');
     const [nMId, setnMId] = React.useState('');
+    const [MaterialMasterId, setMaterialMasterId] = React.useState('');
+    const [MaterialMasterLabel, setMaterialMasterLable] = React.useState('');
     const [MaterialDetail, setMaterialDetail] = React.useState('');
     const { register, handleSubmit, control, errors } = useForm();
     const [searched, setSearched] = React.useState("");
     // const [nBId, setnBId] = React.useState("");
     const [vBOMNo, setvBOMNo] = React.useState("");
-    const [vBrand, setvBrand] = React.useState("");
     const [vPack, setvPack] = React.useState("");
+    const [vPCategory, setvPCategory] = React.useState("");
+    const [vPSubCategory, setvPSubCategory] = React.useState("");
+    const [vBrand, setvBrand] = React.useState("");
+    const [vVarient, setvVarient] = React.useState("");
+    const [vPackName, setvPackName] = React.useState("");
+
+
+    const [Variant, setVariant] = React.useState("");
+
+    const [Product, setProduct] = React.useState("");
+    const [nPDId, setnPDId] = React.useState("");
+    const [CaseConfig, setCaseConfig] = React.useState("");
+    const [nPerUnitBBVolLt, setnPerUnitBBVolLt] = React.useState("");
+    const [nPerCaseVolLt, setnPerCaseVolLt] = React.useState("");
+    const [nSUofConcentrate, setnSUofConcentrate] = React.useState("");
+    const [nBOMofConcentrate, setnBOMofConcentrate] = React.useState("");
+    const [nRequirementinCS, setnRequirementinCS] = React.useState("");
+    const [nYieldPercentage, setnYieldPercentage] = React.useState("");
+    const [nPerSUUsage, setnPerSUUsage] = React.useState("");
+    const [nBOM, setnBOM] = React.useState("");
+    const [nRequirementinCSDetail, setnRequirementinCSDetail] = React.useState("");
+    const [nReqInUOM, setnReqInUOM] = React.useState("");
+    const [nStandardRate, setnStandardRate] = React.useState("");
+    const [nStdCOGS, setnStdCOGS] = React.useState("");
     const [vBOMName, setvBOMName] = React.useState("");
     const [vUnit, setvUnit] = React.useState("");
     const [nQty, setnQty] = React.useState('');
@@ -76,9 +104,8 @@ function EditBomMaster() {
     const [vRemarks, setvRemarks] = React.useState('');
     const [btActive, setBtActive] = React.useState(true);
     const [disabled, setdisabled] = React.useState(true)
-    const [localImage, setlocalImage] = useState(false)
     const [PODetails, setPODetails] = React.useState([]);
-   
+    const [firstTimeSuDisable, setfirstTimeSuDisable] = React.useState(true)
     const [nLoggedInUserId, setnLoggedInUserId] = React.useState('');
     const [errorText, setError] = React.useState({
         plant: '',
@@ -88,7 +115,7 @@ function EditBomMaster() {
         Quan: '',
         amount: '',
     });
-  
+
     const [preview, setPreview] = useState('')
     const [btnType, setbtnType] = useState('')
     const [imgpreview, setimgPreview] = useState(false)
@@ -103,7 +130,7 @@ function EditBomMaster() {
         const userId = localStorage.getItem("nUserId")
         setnLoggedInUserId(userId)
     }, [])
- 
+
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
     };
@@ -119,20 +146,35 @@ function EditBomMaster() {
             console.log('response', res)
             let count = Object.keys(res.BOMDetail).length
             let data = res.BOMDetail
-            for(var i = 0; i < count; i++) {
+            for (var i = 0; i < count; i++) {
                 let counts = i
-                res.BOMDetail[i].id=counts
+                res.BOMDetail[i].id = counts
             }
             setPODetails(data)
             setvBOMNo(res.BOMMaster[0].vBOMNo)
             setvBrand(res.BOMMaster[0].vBrand)
             setPlantDetail(res.BOMMaster[0].vBrand)
+            setnPDId(res.BOMMaster[0].nPDId)
+            setProductDetail(res.BOMMaster[0].vProductName)
+            setvPCategory(res.BOMMaster[0].vPCategory)
+            setvPSubCategory(res.BOMMaster[0].vPSubCategory)
+            setvBrand(res.BOMMaster[0].vBrand)
+            setvVarient(res.BOMMaster[0].vVarient)
             setvPack(res.BOMMaster[0].vPack)
-            setVendorDetail(res.BOMMaster[0].vPack)
+            
             setvBOMName(res.BOMMaster[0].vBOMName)
             setvUnit(res.BOMMaster[0].vUnit)
             setvRemarks(res.BOMMaster[0].vRemarks)
             setvPOFilePath(res.BOMMaster[0].vBOMCopyFilePath)
+            setvPackName(res.BOMMaster[0].nPack)
+            setnPerUnitBBVolLt(res.BOMMaster[0].nPerUnitBBVolLt)
+            setCaseConfig(res.BOMMaster[0].nCaseConfig)
+            setnPerCaseVolLt(res.BOMMaster[0].nPerCaseVolLt)
+            setMaterialMasterId(res.BOMMaster[0].nMIdToCalculateBOMnReqInCS)
+            setMaterialMasterLable(res.BOMMaster[0].MatDetail)
+            setnSUofConcentrate(res.BOMMaster[0].nSUofConcentrate)
+            setnBOMofConcentrate(res.BOMMaster[0].nBOMofConcentrate)
+            setnRequirementinCS(res.BOMMaster[0].nRequirementinCS)
             if (res.BOMMaster[0].vBOMCopyFilePath != '' && res.BOMMaster[0].vBOMCopyFilePath != null) {
                 setimgPreview(true)
                 setPreview(res.BOMMaster[0].vBOMCopyFilePath)
@@ -151,53 +193,37 @@ function EditBomMaster() {
 
     }
     const plantMaster_SelectAll_ActiveLikeSearch = (vGeneric) => {
-        if (vGeneric != '') {
-            vGeneric = vGeneric.target.value
+        if (vGeneric != '' && vGeneric != null) {
+            vGeneric = vGeneric.split('/')[0]
         } else {
             vGeneric = null
         }
-
-        BrandMaster_SelectAll_ActiveLikeSearch(vGeneric).then(res => {
+        // console.log('vGeneric',vGeneric.target.value)
+        ProductMaster_ActiveLikeSearch(vGeneric).then(res => {
             console.log('response', res)
 
             let count = Object.keys(res).length
             let data = []
             for (var i = 0; i < count; i++) {
                 data.push({
-                    value: res[i].vBrandName,
-                    label: res[i].vBrandName,
-                  
+                    value: res[i].nPDId,
+                    // label: res[i].vProductName,
+                    label: res[i].ProductDetail,
+                    vPCategory: res[i].vPCategory,
+                    vPSubCategory: res[i].vPSubCategory,
+                    vBrand: res[i].vBrand,
+                    vVarient: res[i].vVarient,
+                    vPackName: res[i].vPackPrefix,
+                    vProductCode: res[i].vProductCode,
                 })
             }
-            setPlantMaster(data)
-        })
-    }
-
-    const vendorMaster_SelectAll_ActiveLikeSearch = (vGeneric) => {
-        if (vGeneric != '') {
-            vGeneric = vGeneric.target.value
-        } else {
-            vGeneric = null
-        }
-        PackMaster_SelectAll_ActiveLikeSearch(vGeneric).then(res => {
-            console.log('response', res)
-
-            let count = Object.keys(res).length
-            let data = []
-            for (var i = 0; i < count; i++) {
-                data.push({
-                    value: res[i].vPackName,
-                    label: res[i].vPackName,
-                })
-
-            }
-            setVendorMaster(data)
+            setProductMaster(data)
         })
     }
     const materialMaster_SelectAll_ActiveLikeSearch = (vGeneric) => {
 
         if (vGeneric != '') {
-            vGeneric = vGeneric.target.value
+            vGeneric = vGeneric.split('/')[0]
         } else {
             vGeneric = null
         }
@@ -207,7 +233,7 @@ function EditBomMaster() {
             for (var i = 0; i < count; i++) {
                 data.push({
                     value: res[i].nMId,
-                    label: res[i].MaterialDetail,
+                    label: res[i].vMName,
                     vUOM: res[i].vUOM,
                     // label: res[i].MaterialDetail,       
                 })
@@ -216,26 +242,36 @@ function EditBomMaster() {
         })
 
     }
-    const changePlantValue = (value) => {
-  
-        setPlantDetail(value.label)
-        setvBrand(value.value)
+    const changeProductValue = (value) => {
+        setnPDId(value == null ? '' : value.value)
+        setProductDetail(value == null ? '' : value.label)
+        setvBOMName(value == null ? '' : value.vProductCode)
+        setvPCategory(value == null ? '' : value.vPCategory)
+        setvPSubCategory(value == null ? '' : value.vPSubCategory)
+        setvBrand(value == null ? '' : value.vBrand)
+        setvVarient(value == null ? '' : value.vVarient)
+        setvPackName(value == null ? '' : value.vPackName)
         setError({
             plant: ''
         })
     }
-    const changeVendorMasterValue = (value) => {
-        setVendorDetail(value.label)
-        setvPack(value.value)
+   
+    const changeMaterialMasterValueMaster = (value) => {
+        console.log('value', value)
+        setMaterialMasterId(value == null ? '' : value.value)
+        setMaterialMasterLable(value == null ? '' : value.label)
+        setnMId(value == null ? '' : value.value)
+        setMaterialDetail(value == null ? '' : value.label)
+        setvUMO(value == null ? '' : value.vUOM)
         setError({
-            vendor: ''
+            MaterialDetail: ''
         })
     }
-    const changeMaterialMasterValue = (value) => {
-        console.log('value',value)
-        setnMId(value.value)
-        setMaterialDetail(value.label)
-        setvUMO(value.vUOM)
+    const changeMaterialMasterValueDetail = (value) => {
+        console.log('value', value)
+        setnMId(value == null ? '' : value.value)
+        setMaterialDetail(value == null ? '' : value.label)
+        setvUMO(value == null ? '' : value.vUOM)
         setError({
             MaterialDetail: ''
         })
@@ -250,22 +286,35 @@ function EditBomMaster() {
             setimgPreview(false)
         }
     }
- 
+
     const validateformPoDetial = () => {
         if (MaterialDetail == '' || MaterialDetail == undefined) {
             setError({
-                MaterialDetail: 'Select Item *'
+                MaterialDetail: 'Select Material *'
             })
             return false
-        } else if (nQty == '' || nQty == undefined) {
+        } else if (nPerSUUsage == '' || nPerSUUsage == undefined) {
             setError({
-                Quan: 'Enter Qty *'
+                PerSUUsage: 'Enter Per SU Usage *'
+            })
+            return false
+        } else if (nYieldPercentage == '' || nYieldPercentage == undefined) {
+            setError({
+                YieldPercentage: 'Enter Yield Percentage *'
+            })
+            return false
+        } else if (nStandardRate == '' || nStandardRate == undefined) {
+            setError({
+                StandardRate: 'Enter Standard Rate*'
             })
             return false
         }
         else {
             setError({
-                MaterialDetail: ''
+                MaterialDetail: '',
+                PerSUUsage: '',
+                YieldPercentage: '',
+                StandardRate: '',
             })
             return true
         }
@@ -288,15 +337,30 @@ function EditBomMaster() {
                             poMasteerDetail[indexToUpdate].id = id,
                                 poMasteerDetail[indexToUpdate].nMId = parseInt(nMId),
                                 poMasteerDetail[indexToUpdate].MaterialDetail = MaterialDetail,
-                                poMasteerDetail[indexToUpdate].nQty = parseFloat(nQty == '' ? 0 : nQty),
+                                // poMasteerDetail[indexToUpdate].nQty = parseFloat(nQty == '' ? 0 : nQty),
                                 poMasteerDetail[indexToUpdate].vUOM = vUMO == '' ? null : vUMO,
-                            console.log('koMonth', poMasteerDetail)
+                                poMasteerDetail[indexToUpdate].nYieldPercentage = nYieldPercentage == '' ? null : nYieldPercentage,
+                                poMasteerDetail[indexToUpdate].nPerSUUsage = nPerSUUsage == '' ? null : nPerSUUsage,
+                                poMasteerDetail[indexToUpdate].nBOM = nBOM == '' ? null : nBOM,
+                                poMasteerDetail[indexToUpdate].nReqInUOM = nReqInUOM == '' ? null : nReqInUOM,
+                                poMasteerDetail[indexToUpdate].nRequirementinCSDetail = nRequirementinCSDetail == '' ? null : nRequirementinCSDetail,
+                                poMasteerDetail[indexToUpdate].nStandardRate = nStandardRate == '' ? null : nStandardRate,
+                                poMasteerDetail[indexToUpdate].nStdCOGS = nStdCOGS == '' ? null : nStdCOGS,
+
+                                console.log('koMonth', poMasteerDetail)
                             setPODetails(poMasteerDetail)
                             setbtnType('')
                             setnMId('')
                             setMaterialDetail('')
                             setnQty('')
                             setvUMO('')
+                            setnYieldPercentage('')
+                            setnPerSUUsage('')
+                            setnBOM('')
+                            setnReqInUOM('')
+                            setnStandardRate('')
+                            setnRequirementinCSDetail('')
+                            setnStdCOGS('')
                             setMaterialMaster([])
 
                         }
@@ -318,16 +382,23 @@ function EditBomMaster() {
                             label: 'Yes',
                             onClick: () => {
                                 let poMasteerDetail = [...PODetails]
-                                let findnMId=poMasteerDetail.find(e=>e.nMId==nMId)
-                                if(findnMId){
+                                let findnMId = poMasteerDetail.find(e => e.nMId == nMId)
+                                if (findnMId) {
                                     toast.success("Item is already Exists")
-                                }else{
+                                } else {
                                     poMasteerDetail.push({
                                         id: new Date().getUTCMilliseconds(),
                                         nMId: parseInt(nMId),
                                         MaterialDetail: MaterialDetail,
-                                        nQty: parseFloat(nQty == '' ? 0 : nQty),
+                                        // nQty: parseFloat(nQty == '' ? 0 : nQty),
                                         vUOM: vUMO == '' ? null : vUMO,
+                                        nYieldPercentage: nYieldPercentage == '' ? null : parseFloat(nYieldPercentage),
+                                        nPerSUUsage: nPerSUUsage == '' ? null : parseFloat(nPerSUUsage),
+                                        nBOM: nBOM == '' ? null : parseFloat(nBOM),
+                                        nReqInUOM: nReqInUOM == '' ? null : parseFloat(nReqInUOM),
+                                        nRequirementinCSDetail: nRequirementinCSDetail == '' ? null : parseFloat(nRequirementinCSDetail),
+                                        nStandardRate: nStandardRate == '' ? null : parseFloat(nStandardRate),
+                                        nStdCOGS: nStdCOGS == '' ? null : parseFloat(nStdCOGS),
                                     })
                                     console.log('koMonth', poMasteerDetail)
                                     setPODetails(poMasteerDetail)
@@ -335,6 +406,14 @@ function EditBomMaster() {
                                     setMaterialDetail('')
                                     setnQty('')
                                     setvUMO('')
+                                    setnYieldPercentage('')
+                                    setnPerSUUsage('')
+                                    setnBOM('')
+                                    setnReqInUOM('')
+                                    setnStandardRate('')
+                                    setnRequirementinCSDetail('')
+                                    setnStdCOGS('')
+                                    setfirstTimeSuDisable(false)
                                     setMaterialMaster([])
                                 }
 
@@ -352,21 +431,36 @@ function EditBomMaster() {
         }
     }
     const validateform = () => {
-        if (vBrand == '' || vBrand == undefined) {
+        if (nPDId == '' || nPDId == undefined) {
             setError({
-                plant: 'Select Brand *'
+                product: 'Select Product *'
             })
             return false
-        } else if (vPack == '' || vPack == undefined) {
+        } else if (nPerUnitBBVolLt == '' || nPerUnitBBVolLt == undefined) {
             setError({
-                vendor: 'Select Pack *'
+                PerUnitBBVolLt: 'Enter Per Unit BB VolLt *'
+            })
+            return false
+        } else if (CaseConfig == '' || CaseConfig == undefined) {
+            setError({
+                CaseConfig: 'Enter Case Config*'
+            })
+            return false
+        } else if (MaterialMasterId == '' || MaterialMasterId == undefined) {
+            setError({
+                materialMasterId: 'Enter Case Config*'
+            })
+            return false
+        } else if (nSUofConcentrate == '' || nSUofConcentrate == undefined) {
+            setError({
+                SUofConcentrate: 'Enter Case Config*'
             })
             return false
         } else {
             setError('')
             return true
         }
-
+        return true
     }
     const submit = () => {
         if (validateform() == true) {
@@ -380,12 +474,19 @@ function EditBomMaster() {
                             onClick: () => {
                                 setLoader(true)
                                 const POMasterData = [{
-                                    nBId:nBId,
-                                    vBOMNo: vBOMNo,
+                                    // vBOMNo: vBOMNo,
+                                    nBId: nBId == '' || nBId == null ? 0 : nBId,
+                                    vBOMName: vBOMName,
                                     vBrand: vBrand == '' ? null : vBrand,
-                                    vPack: vPack == '' ? null : vPack,
-                                    vBOMName: vBOMName == '' ? null : vBOMName,
-                                    vUnit: vUnit == '' ? null : vUnit,
+                                    nPDId: parseInt(nPDId),
+                                    nPack: parseFloat(vPackName),
+                                    nPerUnitBBVolLt: parseInt(nPerUnitBBVolLt),
+                                    nCaseConfig: parseFloat(CaseConfig),
+                                    nPerCaseVolLt: parseFloat(nPerCaseVolLt),
+                                    nMIdToCalculateBOMnReqInCS: parseInt(MaterialMasterId),
+                                    nSUofConcentrate: parseFloat(nSUofConcentrate),
+                                    nBOMofConcentrate: parseFloat(nBOMofConcentrate),
+                                    nRequirementinCS: parseFloat(nRequirementinCS),
                                     vRemarks: vRemarks == '' ? null : vRemarks,
                                     btActive: true,
                                     vBOMCopyFilePath: '',
@@ -393,12 +494,12 @@ function EditBomMaster() {
                                 }]
                                 let PurchaseOrder = {}
                                 PurchaseOrder.BOMMaster = POMasterData,
-                                PurchaseOrder.BOMDetails = PODetails
+                                    PurchaseOrder.BOMDetails = PODetails
                                 console.log('PurchaseOrder', PurchaseOrder)
                                 BOMMasterPut(PurchaseOrder, vPOFilePath).then(res => {
                                     if (res) {
                                         setLoader(false)
-                                        toast.success("BOM Updated Successfully !!")
+                                        toast.success("BOM Added Successfully !!")
                                         navigate('/Bom')
 
                                     }
@@ -415,7 +516,7 @@ function EditBomMaster() {
             } else {
                 confirmAlert({
                     title: 'Alert !!',
-                    message: 'Please Add at least one Material.',
+                    message: 'Add at least one Material to Proceed.',
                     buttons: [
                         {
                             label: 'Ok',
@@ -426,6 +527,28 @@ function EditBomMaster() {
             }
 
         }
+    }
+  const editItem = (item,index) => {
+        setbtnType('edit')
+        setId(item.id)
+        setnMId(item.nMId)
+        setMaterialDetail(item.MaterialDetail)
+        // setnQty(item.nQty)
+        setvUMO(item.vUOM)
+        setnYieldPercentage(item.nYieldPercentage)
+        setnPerSUUsage(item.nPerSUUsage)
+        setnBOM(item.nBOM)
+        setnReqInUOM(item.nReqInUOM)
+        setnStandardRate(item.nStandardRate)
+        setnStdCOGS(item.nStdCOGS)
+        setnRequirementinCSDetail(item.nRequirementinCSDetail)
+        if(index==0){
+            setfirstTimeSuDisable(true)
+        }else{
+            setfirstTimeSuDisable(false)
+        }
+
+
     }
     const deleteItem = (ids) => {
         confirmAlert({
@@ -454,15 +577,7 @@ function EditBomMaster() {
             ]
         });
     }
-    const editItem = (item) => {
-        setbtnType('edit')
-        setId(item.id)
-        setnMId(item.nMId)
-        setMaterialDetail(item.MaterialDetail)
-        setnQty(item.nQty)
-        setvUMO(item.vUOM)
-
-    }
+   
     const goback = () => {
         confirmAlert({
             title: 'Alert !!',
@@ -483,291 +598,558 @@ function EditBomMaster() {
     }
     return (
         <div className='citymasterContainer'>
-            <div className='dateFilter-2'>
-                <div className='displayflexend mt-2'>
-                    <Box className='inputBox-22' >
-                        <FormControl fullWidth className='input'>
-                            <TextField
+        <div className='dateFilter-2 '>
+            <div className='displayflexend mt-2'>
+                {/* <Box className='inputBox-10' >
+                    <FormControl fullWidth className='input'>
+                        <TextField
                             sx={muiStyles.input}
-                                value={vBOMNo}
-                                onChange={e => setvBOMNo(e.target.value)}
-                                required id="outlined-basic"
-                                label="BOM No."
-                                variant="outlined"
-                                name='vBOMNo'
-                                inputRef={register({ required: "BOM No. is required.*", })}
-                                error={Boolean(errors.vBOMNo)}
-                                helperText={errors.vBOMNo?.message}
-                            />
-                        </FormControl>
-                    </Box>
-                    <Box className='inputBox-12' >
-                        <FormControl fullWidth className='input'>
-                            {/* <InputLabel required id="demo-simple-select-label">Plant</InputLabel>npm  */}
-                            <Autocomplete
+                            value={vBOMNo}
+                            onChange={e => setvBOMNo(e.target.value)}
+                            required id="outlined-basic"
+                            label="BOM No."
+                            variant="outlined"
+                            name='vBOMNo'
+                            inputRef={register({ required: "BOM No. is required.*", })}
+                            error={Boolean(errors.vBOMNo)}
+                            helperText={errors.vBOMNo?.message}
+                        />
+                    </FormControl>
+                </Box> */}
+                <Box className='inputBox-45' >
+                    <FormControl fullWidth className='input'>
+                        {/* <InputLabel required id="demo-simple-select-label">Plant</InputLabel>npm  */}
+                        <Autocomplete
                             sx={muiStyles.autoCompleate}
-                                disablePortal
-                                id="combo-box-demo"
-                                options={PlantMaster}
-                                value={PlantDetail}
-                                // changePlantValue(value)
-                                onChange={(event, value) => changePlantValue(value)}
-                                // inputValue={inputValue}
-                                onKeyDown={newInputValue => plantMaster_SelectAll_ActiveLikeSearch(newInputValue)}
-                                onInputChange={(event, newInputValue) => {
-                                    // setInputValue(newInputValue);
-                                    console.log('newInputValue', newInputValue)
-                                }}
-                                renderInput={(params) => <TextField {...params} label="Search Brand " required />}
-                            />
-                            {errorText.plant != '' ? <p className='error'>{errorText.plant}</p> : null}
-                        </FormControl>
-                    </Box>
-                    <Box className='inputBox-12'>
-                        <FormControl fullWidth className='input'>
-                            {/* <InputLabel required id="demo-simple-select-label">Vendor</InputLabel> */}
-                            <Autocomplete
-                            sx={muiStyles.autoCompleate}
-                                disablePortal
-                                id="combo-box-demo"
-                                options={VendorMaster}
-                                value={VendorDetail}
-                                // inputValue={inputValue}
-                                onChange={(event, value) => changeVendorMasterValue(value)}
-                                onKeyDown={newInputValue => vendorMaster_SelectAll_ActiveLikeSearch(newInputValue)}
-                                onInputChange={(event, newInputValue) => {
-                                    // setInputValue(newInputValue);
-                                    console.log('newInputValue', newInputValue)
-                                }}
-                                renderInput={(params) => <TextField {...params} label="Search Pack" required />}
-                            />
-                            {errorText.vendor != '' ? <p className='error'>{errorText.vendor}</p> : null}
-                        </FormControl>
-                    </Box>
-                    <Box className='inputBox-22' >
-                        <FormControl fullWidth className='input'>
-                            <TextField
-                            sx={muiStyles.input}
-                                value={vBOMName}
-                                onChange={e => setvBOMName(e.target.value)}
-                                required id="outlined-basic"
-                                label="BOM Name"
-                                variant="outlined"
-                                name='vBOMName'
-                                inputRef={register({ required: "BOM Name is required.*", })}
-                                error={Boolean(errors.vBOMName)}
-                                helperText={errors.vBOMName?.message}
-                            />
-                        </FormControl>
-                    </Box>
-                    <Box className='inputBox-22' >
-                        <FormControl fullWidth className='input'>
-                            <TextField
-                            sx={muiStyles.input}
-                                value={vUnit}
-                                onChange={e => setvUnit(e.target.value)}
-                                required id="outlined-basic"
-                                label="Unit"
-                                variant="outlined"
-                                name='vUnit'
-                                inputRef={register({ required: "Unit is required.*", })}
-                                error={Boolean(errors.vUnit)}
-                                helperText={errors.vUnit?.message}
-                            />
-                        </FormControl>
-                    </Box>
-                    <Box className='inputBox-19' >
-                        <FormControl fullWidth className='input'>
-                            <TextField
-                            sx={muiStyles.input}
-                                value={vRemarks}
-                                onChange={e => setvRemarks(e.target.value)}
-                                id="outlined-basic"
-                                label="Remarks"
-                                variant="outlined"
-                                name='Remarks'
-                            // inputRef={register({ required: "Remarks is required.", })}
-                            // error={Boolean(errors.brandCode)}
-                            // helperText={errors.brandCode?.message}
-                            />
-                        </FormControl>
-                    </Box>
+                            disablePortal
+                            id="combo-box-demo"
+                            options={ProductMaster}
+                            value={ProductDetail}
+                            // changePlantValue(value)
+                            onChange={(event, value) => changeProductValue(value)}
+                            // inputValue={inputValue}
+                            // onKeyDown={newInputValue => plantMaster_SelectAll_ActiveLikeSearch(newInputValue)}
 
+                            onInputChange={(event, newInputValue) => {
+                                // setInputValue(newInputValue);
+                                if (newInputValue.length >= 2) {
+                                    plantMaster_SelectAll_ActiveLikeSearch(newInputValue)
 
-                    <Box className='inputBox-8' >
-                        <div style={{position:'relative'}}>
-                            <InputLabel id="demo-simple-select-label" style={{ marginTop: 5, marginBottom: 5,fontSize: 10,position: 'absolute',top: -23}}>Attach BOM</InputLabel>
-                            <input type="file" name='vPOFilePath' onChange={imageFile} hidden ref={imageRef} />
-                            <div style={{ flexDirection: 'row', display: 'flex' }}>
-                                <button onClick={() => imageRef.current.click()} className='choosebtn'>Choose File</button>
-                                {localImage == true ?
-                                    <div style={{ flexDirection: 'row' }}>
-                                        {imgpreview != false ?
-                                            <a href={preview} target="_blank" rel="noopener noreferrer" style={{ marginLeft: 10 }}>BOM Copy</a>
-                                            : null
-                                        }
-                                    </div>
-                                    :
-                                    <div style={{ flexDirection: 'row' }}>
-                                        {imgpreview != false ?
-                                            <a href={imageUrl + '/' + preview} target="_blank" rel="noopener noreferrer" style={{ marginLeft: 10 }}>BOM Copy</a>
-                                            : null
-                                        }
-                                    </div>
                                 }
+                                console.log('newInputValue', newInputValue)
+                            }}
+                            renderInput={(params) => <TextField {...params} label="Search Product " required />}
+                        />
+                        {errorText.product != '' ? <p className='error'>{errorText.product}</p> : null}
+                    </FormControl>
+                </Box>
+                <Box className='inputBox-22' >
+                    <FormControl fullWidth className='input'>
+                        <TextField
+                            sx={muiStyles.input}
+                            value={vBOMName}
+                            onChange={e => setvBOMName(e.target.value)}
+                            required id="outlined-basic"
+                            label="BOM Name"
+                            variant="outlined"
+                            name='vBOMName'
+                            inputRef={register({ required: "BOM Name is required.*", })}
+                            error={Boolean(errors.vBOMName)}
+                            helperText={errors.vBOMName?.message}
+                        />
+                    </FormControl>
+                </Box>
 
 
-                            </div>
-                        </div>
-
-                    </Box>
-                    <FormGroup >
-                        <FormControlLabel style={{marginRight:0}} control={<Checkbox  checked ={btActive} value={btActive} onChange={e => setBtActive(e.target.checked)} />} label="Active"  />
-                    </FormGroup>
-                </div>
-            </div>
-            <div className='databox'>
-                <div className='data-form-box mt-2'>
-                    <Box className='inputBox-20' >
-                        <FormControl fullWidth className='input'>
-                            {/* <InputLabel required id="demo-simple-select-label">Item</InputLabel> */}
-                            <Autocomplete
+                {/* <Box className='inputBox-10' >
+                    <FormControl fullWidth className='input'>
+                        <TextField
+                            sx={muiStyles.input}
+                            value={vPCategory}
+                            // onChange={e => setvRemarks(e.target.value)}
+                            id="outlined-basic"
+                            label="Product Category"
+                            variant="outlined"
+                            name='Remarks'
+                            disabled={true}
+                        // inputRef={register({ required: "Remarks is required.", })}
+                        // error={Boolean(errors.brandCode)}
+                        // helperText={errors.brandCode?.message}
+                        />
+                    </FormControl>
+                </Box>
+                <Box className='inputBox-10' >
+                    <FormControl fullWidth className='input'>
+                        <TextField
+                            sx={muiStyles.input}
+                            value={vPSubCategory}
+                            // onChange={e => setvRemarks(e.target.value)}
+                            id="outlined-basic"
+                            label="Product Sub Category"
+                            variant="outlined"
+                            name='Remarks'
+                            disabled={true}
+                        // inputRef={register({ required: "Remarks is required.", })}
+                        // error={Boolean(errors.brandCode)}
+                        // helperText={errors.brandCode?.message}
+                        />
+                    </FormControl>
+                </Box> */}
+                <Box className='inputBox-10' >
+                    <FormControl fullWidth className='input'>
+                        <TextField
+                            sx={muiStyles.input}
+                            value={vBrand}
+                            // onChange={e => setvRemarks(e.target.value)}
+                            id="outlined-basic"
+                            label="Brand"
+                            variant="outlined"
+                            name='Remarks'
+                            disabled={true}
+                        // inputRef={register({ required: "Remarks is required.", })}
+                        // error={Boolean(errors.brandCode)}
+                        // helperText={errors.brandCode?.message}
+                        />
+                    </FormControl>
+                </Box>
+                <Box className='inputBox-10' >
+                    <FormControl fullWidth className='input'>
+                        <TextField
+                            sx={muiStyles.input}
+                            value={vVarient}
+                            // onChange={e => setvRemarks(e.target.value)}
+                            id="outlined-basic"
+                            label="Variant"
+                            variant="outlined"
+                            name='Remarks'
+                            disabled={true}
+                        // inputRef={register({ required: "Remarks is required.", })}
+                        // error={Boolean(errors.brandCode)}
+                        // helperText={errors.brandCode?.message}
+                        />
+                    </FormControl>
+                </Box>
+                <Box className='inputBox-31' >
+                    <FormControl fullWidth className='input'>
+                        <TextField
+                            sx={muiStyles.input}
+                            value={vPackName}
+                            // onChange={e => setvRemarks(e.target.value)}
+                            id="outlined-basic"
+                            label="Pack"
+                            variant="outlined"
+                            name='Remarks'
+                            disabled={true}
+                        // inputRef={register({ required: "Remarks is required.", })}
+                        // error={Boolean(errors.brandCode)}
+                        // helperText={errors.brandCode?.message}
+                        />
+                    </FormControl>
+                </Box>
+                <Box className='inputBox-31' >
+                    <FormControl fullWidth className='input'>
+                        <TextField
+                            sx={muiStyles.input}
+                            value={nPerUnitBBVolLt}
+                            onChange={e => setnPerUnitBBVolLt(e.target.value)}
+                            required id="outlined-basic"
+                            label="Per Unit BB VolLt"
+                            variant="outlined"
+                            name='PerUnitBBVolLt'
+                            // inputRef={register({ required: "Per Unit BB VolLt is required. *", })}
+                            // error={Boolean(errors.PerUnitBBVolLt)}
+                            // helperText={errors.PerUnitBBVolLt?.message}
+                        />
+                        {errorText.PerUnitBBVolLt != '' ? <p className='error'>{errorText.PerUnitBBVolLt}</p> : null}
+                    </FormControl>
+                </Box>
+                <Box className='inputBox-31' >
+                    <FormControl fullWidth className='input'>
+                        <TextField
+                            sx={muiStyles.input}
+                            value={CaseConfig}
+                            onChange={e => calculatePerCaseVol(e)}
+                            required id="outlined-basic"
+                            label="Case Config"
+                            variant="outlined"
+                            name='CaseConfig'
+                            // inputRef={register({ required: "Case Config is required.*", })}
+                            // error={Boolean(errors.CaseConfig)}
+                            // helperText={errors.CaseConfig?.message}
+                        />
+                        {errorText.CaseConfig != '' ? <p className='error'>{errorText.CaseConfig}</p> : null}
+                    </FormControl>
+                </Box>
+                <Box className='inputBox-31' >
+                    <FormControl fullWidth className='input'>
+                        <TextField
+                            sx={muiStyles.input}
+                            value={nPerCaseVolLt}
+                            onChange={e => setnPerCaseVolLt(e.target.value)}
+                            required id="outlined-basic"
+                            label="Per Case VolLt"
+                            variant="outlined"
+                            disabled={true}
+                        />
+                    </FormControl>
+                </Box>
+                <Box className='inputBox-45' >
+                    <FormControl fullWidth className='input'>
+                        {/* <InputLabel required id="demo-simple-select-label">Item</InputLabel> */}
+                        <p style={{ color: '#1976d2', fontSize: 10, position: 'absolute', top: -20, lineHeight: 1 }}>Search Material to Calculate BOM & Req In CS</p>
+                        <Autocomplete
                             sx={muiStyles.autoCompleate}
-                                disablePortal
-                                id="combo-box-demo"
-                                options={MaterialMaster}
-                                value={MaterialDetail}
-                                // inputValue={MaterialDetail}
-                                onChange={(event, value) => changeMaterialMasterValue(value)}
-                                onKeyDown={newInputValue => materialMaster_SelectAll_ActiveLikeSearch(newInputValue)}
-                                onInputChange={(event, newInputValue) => {
-                                    // setInputValue(newInputValue);
-                                    // materialMaster_SelectAll_ActiveLikeSearch()
-                                    console.log('newInputValue', newInputValue)
-                                }}
-                                renderInput={(params) => <TextField {...params} label="Search Material" required />}
-                            />
-                            {errorText.MaterialDetail != '' ? <p className='error'>{errorText.MaterialDetail}</p> : null}
-                        </FormControl>
-                    </Box>
+                            disablePortal
+                            id="combo-box-demo"
+                            options={MaterialMaster}
+                            value={MaterialMasterLabel}
+                            // inputValue={MaterialDetail}
+                            onChange={(event, value) => changeMaterialMasterValueMaster(value)}
+                            // onKeyDown={newInputValue => materialMaster_SelectAll_ActiveLikeSearch(newInputValue)}
+                            onInputChange={(event, newInputValue) => {
+                                // setInputValue(newInputValue);
+                                // materialMaster_SelectAll_ActiveLikeSearch()
+                                materialMaster_SelectAll_ActiveLikeSearch(newInputValue)
+                                console.log('newInputValue', newInputValue)
+                            }}
+                            renderInput={(params) => <TextField {...params} label="" required />}
+                        />
+                        {errorText.MaterialDetail != '' ? <p className='error'>{errorText.MaterialDetail}</p> : null}
+                        <p style={{ color: 'red', fontSize: 10, position: 'absolute', bottom: -12, lineHeight: 1 }}>**Note: The material selected, will be the 1st row of the Material table shown below.</p>
+                    </FormControl>
+                </Box>
+                <Box className='inputBox-31' >
+                    <FormControl fullWidth className='input'>
+                        <TextField
+                            sx={muiStyles.input}
+                            value={nSUofConcentrate}
+                            onChange={e => calculateSUofConcentrate(e)}
+                            required id="outlined-basic"
+                            label="SU of Concentrate"
+                            variant="outlined"
+                        />
+                        {errorText.SUofConcentrate != '' ? <p className='error'>{errorText.SUofConcentrate}</p> : null}
+                    </FormControl>
+                </Box>
+                <Box className='inputBox-31' >
+                    <FormControl fullWidth className='input'>
+                        <TextField
+                            sx={muiStyles.input}
+                            value={nBOMofConcentrate}
+                            onChange={e => setnBOMofConcentrate(e.target.value)}
+                            required id="outlined-basic"
+                            label="BOM of Concentrate"
+                            variant="outlined"
+                            disabled={true}
+                        />
+                    </FormControl>
+                </Box>
+                <Box className='inputBox-31' >
+                    <FormControl fullWidth className='input'>
+                        <TextField
+                            sx={muiStyles.input}
+                            value={nRequirementinCS}
+                            onChange={e => setnRequirementinCS(e.target.value)}
+                            required id="outlined-basic"
+                            label="Requirement in CS"
+                            variant="outlined"
+                            disabled={true}
+                        />
+                    </FormControl>
+                </Box>
+                <Box className='inputBox-44' >
+                    <FormControl fullWidth className='input'>
+                        <TextField
+                            sx={muiStyles.input}
+                            value={vRemarks}
+                            onChange={e => setvRemarks(e.target.value)}
+                            id="outlined-basic"
+                            label="Remarks"
+                            variant="outlined"
+                            name='Remarks'
+                        // inputRef={register({ required: "Remarks is required.", })}
+                        // error={Boolean(errors.brandCode)}
+                        // helperText={errors.brandCode?.message}
+                        />
+                    </FormControl>
+                </Box>
 
-                    
-                    <Box className='inputBox-21' >
-                        <FormControl fullWidth className='input' >
-                            <TextField
-                            sx={muiStyles.input}
-                                value={vUMO}
-                                onChange={e => setvUMO(e.target.value)}
-                                required id="outlined-basic"
-                                label="UOM"
-                                variant="outlined"
-                                name='Quantity'
-                                disabled={true}
-                            // inputRef={register({ required: "Quantity is required.*", })}
-                            // error={Boolean(errors.Quantity)}
-                            // helperText={errors.Quantity?.message}
-                            />
-                            {/* {errorText.Quan != '' ? <p className='error'>{errorText.Quan}</p> : null} */}
-                        </FormControl>
-                    </Box>
-                    <Box className='inputBox-22' >
-                        <FormControl fullWidth className='input' >
-                            <TextField
-                            sx={muiStyles.input}
-                                value={nQty}
-                                onChange={e => setnQty(e.target.value)}
-                                required id="outlined-basic"
-                                label="Quantity"
-                                variant="outlined"
-                                name='Quantity'
-                                type="number" inputProps={{ min: 4, max: 10 }}
-                            // inputRef={register({ required: "Quantity is required.*", })}
-                            // error={Boolean(errors.Quantity)}
-                            // helperText={errors.Quantity?.message}
-                            />
-                            {errorText.Quan != '' ? <p className='error'>{errorText.Quan}</p> : null}
-                        </FormControl>
-                    </Box>
-                    <div style={{marginBottom:10}}>
-                        <button title='Add' className='addbtn' onClick={addKoMonthDate}><AddIcon fontSize='small' /></button>
+
+                <Box className='inputBox-8' >
+                    <div style={{ position: 'relative' }}>
+                        <InputLabel id="demo-simple-select-label" style={{ marginTop: 5, marginBottom: 5, fontSize: 10, position: 'absolute', top: -23 }}>Attach BOM </InputLabel>
+                        <input type="file" name='vPOFilePath' onChange={imageFile} hidden ref={imageRef} />
+                        <div style={{ flexDirection: 'row' }}>
+                            <button onClick={() => imageRef.current.click()} className='choosebtn'>Choose File</button>
+                            {imgpreview != false ?
+                                <a href={preview} target="_blank" rel="noopener noreferrer" style={{ marginLeft: 10 }}>BOM Copy</a>
+                                : null
+                            }
+
+                        </div>
                     </div>
-                </div>
-                <div className='tablecenter'>
-                    {PODetails.length > 0 ?
-                        <Paper sx={{ width: '100%', overflow: 'hidden',paddingTop:1 }}>
-                            <TableContainer sx={muiStyles.tableBox} className='tableBox'>
-                                <Table stickyHeader aria-label="sticky table">
-                                    <TableHead>
-                                        <TableRow>
-                                            <TableCell scope="row" style={{width: '5%',}}>SN.</TableCell>
-                                            <TableCell align="center" style={{width: '10%',}}>Action</TableCell>
-                                            <TableCell align="left" >Material Name</TableCell>
-                                            <TableCell align="left" >UOM</TableCell>
-                                            <TableCell align="left" >Qty</TableCell>
-                                       
-                                        </TableRow>
-                                    </TableHead>
-                                    <TableBody>
 
-                                        {PODetails.map((item, index) => {
-                                            return (
-                                                <TableRow key={index}>
-                                                    <TableCell component="th" scope="row">{index + 1}.</TableCell>
-                                                    <TableCell align="center" >
-                                                        <button className='deletbtn' title='Delete' onClick={() => deleteItem(item.id)}><DeleteIcon size={20} color='red' /></button>
-                                                        <button className='deletbtn' title='Edit' onClick={() => editItem(item)}><BorderColorIcon size={20} color='#000' /></button>
+                </Box>
+                <FormGroup >
+                    <FormControlLabel style={{ marginRight: 20 }} control={<Checkbox defaultChecked={btActive} value={btActive} onChange={e => setBtActive(e.target.checked)} />} label="Active" disabled={disabled} />
+                </FormGroup>
 
-                                                    </TableCell>
-                                                    <TableCell align="left" >{item.MaterialDetail}</TableCell>
-                                                    <TableCell align="left" >{item.vUOM}</TableCell>
-                                                    <TableCell align="left" >{item.nQty}</TableCell>
-                                                  
-
-
-                                                </TableRow>
-                                            )
-                                        })
-                                        }
-
-
-                                    </TableBody>
-                                </Table>
-                            </TableContainer>
-                            <TablePagination
-                                rowsPerPageOptions={[10, 25, 100]}
-                                component="div"
-                                count={PODetails.length}
-                                rowsPerPage={rowsPerPage}
-                                page={page}
-                                onPageChange={handleChangePage}
-                                onRowsPerPageChange={handleChangeRowsPerPage}
-                            />
-
-                        </Paper>
-                        :
-                        null
-
-                    }
-
-                </div>
             </div>
-
-            <div className='displayflex-2'>
-                <button type="submit" className='submitbtn-2' style={{ marginRight: 10 }} onClick={goback}><HomeIcon size={18} /> Home</button>
-
-                {loader == true ?
-                    <CButton disabled className='submitbtn'>
-                        <CSpinner component="span" size="sm" aria-hidden="true" />
-                        Loading...
-                    </CButton>
-                    :
-                    // <button type="submit" className='submitbtn' onClick={submit}>Submit</button>
-                    <button type="submit" className='submitbtn' onClick={handleSubmit(submit)}>Submit</button>
-                }
-            </div>
-
-
         </div>
+
+
+        <div className='databox '>
+            <div className='data-form-box mt-2 '>
+                <Box className='inputBox-46' >
+                    <FormControl fullWidth className='input'>
+                        {/* <InputLabel required id="demo-simple-select-label">Item</InputLabel> */}
+                        <Autocomplete
+                            sx={muiStyles.autoCompleate}
+                            disablePortal
+                            id="combo-box-demo"
+                            options={MaterialMaster}
+                            value={MaterialDetail}
+                            disabled={firstTimeSuDisable}
+                            // inputValue={MaterialDetail}
+                            onChange={(event, value) => changeMaterialMasterValueDetail(value)}
+                            // onKeyDown={newInputValue => materialMaster_SelectAll_ActiveLikeSearch(newInputValue)}
+                            onInputChange={(event, newInputValue) => {
+                                // setInputValue(newInputValue);
+                                // materialMaster_SelectAll_ActiveLikeSearch()
+                                materialMaster_SelectAll_ActiveLikeSearch(newInputValue)
+                                console.log('newInputValue', newInputValue)
+                            }}
+                            renderInput={(params) => <TextField {...params} label="Search Material" required />}
+                        />
+                        {errorText.MaterialDetail != '' ? <p className='error'>{errorText.MaterialDetail}</p> : null}
+                    </FormControl>
+                </Box>
+                <Box className='inputBox-21' >
+                    <FormControl fullWidth className='input' >
+                        <TextField
+                            sx={muiStyles.input}
+                            value={vUMO}
+                            onChange={e => setvUMO(e.target.value)}
+                            required id="outlined-basic"
+                            label="UOM"
+                            variant="outlined"
+                            name='Quantity'
+                            disabled={true}
+                        // inputRef={register({ required: "Quantity is required.*", })}
+                        // error={Boolean(errors.Quantity)}
+                        // helperText={errors.Quantity?.message}
+                        />
+                        {/* {errorText.Quan != '' ? <p className='error'>{errorText.Quan}</p> : null} */}
+                    </FormControl>
+                </Box>
+                <Box className='inputBox-30' >
+                    <FormControl fullWidth className='input'>
+                        <TextField
+                            sx={muiStyles.input}
+                            value={nPerSUUsage}
+                            onChange={e => calculateSUofConcentrateDetails(e)}
+                            required id="outlined-basic"
+                            label="Per SU Usage"
+                            variant="outlined"
+                            disabled={firstTimeSuDisable}
+                        />
+                        {errorText.PerSUUsage != '' ? <p className='error'>{errorText.PerSUUsage}</p> : null}
+                    </FormControl>
+                </Box>
+                <Box className='inputBox-30' >
+                    <FormControl fullWidth className='input'>
+                        <TextField
+                            sx={muiStyles.input}
+                            value={nYieldPercentage}
+                            onChange={e => calculateWithYieldPercentage(e)}
+                            required id="outlined-basic"
+                            label="Yield %"
+                            variant="outlined"
+
+                        />
+                        {errorText.YieldPercentage != '' ? <p className='error'>{errorText.YieldPercentage}</p> : null}
+                    </FormControl>
+                </Box>
+
+                <Box className='inputBox-30' >
+                    <FormControl fullWidth className='input'>
+                        <TextField
+                            sx={muiStyles.input}
+                            value={nBOM}
+                            onChange={e => setnBOM(e.target.value)}
+                            required id="outlined-basic"
+                            label="BOM"
+                            variant="outlined"
+                            disabled={true}
+                        />
+                    </FormControl>
+                </Box>
+                <Box className='inputBox-30' >
+                    <FormControl fullWidth className='input'>
+                        <TextField
+                            sx={muiStyles.input}
+                            value={nRequirementinCSDetail}
+                            onChange={e => setnRequirementinCSDetail(e.target.value)}
+                            required id="outlined-basic"
+                            label="Requirement in CS"
+                            variant="outlined"
+                            disabled={true}
+                        />
+                    </FormControl>
+                </Box>
+                <Box className='inputBox-30' >
+                    <FormControl fullWidth className='input'>
+                        <TextField
+                            sx={muiStyles.input}
+                            value={nReqInUOM}
+                            onChange={e => setnReqInUOM(e.target.value)}
+                            required id="outlined-basic"
+                            label="Req In UOM"
+                            variant="outlined"
+                            disabled={true}
+                        />
+                    </FormControl>
+                </Box>
+                <Box className='inputBox-30' >
+                    <FormControl fullWidth className='input'>
+                        <TextField
+                            sx={muiStyles.input}
+                            value={nStandardRate}
+                            onChange={e => calculateStandardRate(e)}
+                            required id="outlined-basic"
+                            label="Standard Rate"
+                            variant="outlined"
+                        />
+                        {errorText.StandardRate != '' ? <p className='error'>{errorText.StandardRate}</p> : null}
+                    </FormControl>
+                </Box>
+                <Box className='inputBox-30' >
+                    <FormControl fullWidth className='input'>
+                        <TextField
+                            sx={muiStyles.input}
+                            value={nStdCOGS}
+                            onChange={e => setnStdCOGS(e.target.value)}
+                            required id="outlined-basic"
+                            label="Std COGS"
+                            variant="outlined"
+                            disabled={true}
+                        />
+                    </FormControl>
+                </Box>
+
+                {/* <Box className='inputBox-22' >
+                    <FormControl fullWidth className='input' >
+                        <TextField
+                            sx={muiStyles.input}
+                            value={nQty}
+                            onChange={e => setnQty(e.target.value)}
+                            required id="outlined-basic"
+                            label="Quantity"
+                            variant="outlined"
+                            name='Quantity'
+                            type="number" inputProps={{ min: 4, max: 10 }}
+                        // inputRef={register({ required: "Quantity is required.*", })}
+                        // error={Boolean(errors.Quantity)}
+                        // helperText={errors.Quantity?.message}
+                        />
+                        {errorText.Quan != '' ? <p className='error'>{errorText.Quan}</p> : null}
+                    </FormControl>
+                </Box> */}
+                <div style={{ marginBottom: 10 }}>
+                    <button title={btnType == 'edit' ? 'Update' : 'Add'} className='addbtn' onClick={addKoMonthDate}>{btnType == 'edit' ? <EditIcon fontSize='small' /> : <AddIcon fontSize='small' />}</button>
+                </div>
+            </div>
+            <div className='tablecenter'>
+                {PODetails.length > 0 ?
+                    <Paper sx={{ width: '100%', overflow: 'hidden', paddingTop: 1 }}>
+                        <TableContainer sx={muiStyles.tableBox} className='tableBox'>
+                            <Table stickyHeader aria-label="sticky table">
+                                <TableHead>
+                                    <TableRow>
+                                        <TableCell scope="row" style={{ width: '5%', }}>SN.</TableCell>
+                                        <TableCell align="center" style={{ width: '10%', }}>Action</TableCell>
+                                        <TableCell align="left" >Material Name</TableCell>
+                                        <TableCell align="left" >UOM</TableCell>
+                                        <TableCell align="left" >Per SU Usage</TableCell>
+                                        <TableCell align="left" >Yield %</TableCell>
+                                        <TableCell align="left" >BOM</TableCell>
+                                        <TableCell align="left" >Req In UOM</TableCell>
+                                        <TableCell align="left" >Standard Rate</TableCell>
+                                        <TableCell align="left" >Std COGS</TableCell>
+
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+
+                                    {PODetails.map((item, index) => {
+                                        return (
+                                            <TableRow key={index}>
+                                                <TableCell component="th" scope="row">{index + 1}.</TableCell>
+                                                <TableCell align="center" >
+                                                    {index != 0 ?
+                                                        <>
+                                                        <button className='deletbtn' title='Delete' onClick={() => deleteItem(item.id)}><DeleteIcon size={20} color='red' /></button>
+                                                        </>
+                                                        : null
+                                                    }
+                                                    <button className='deletbtn' title='Edit' onClick={() => editItem(item,index)}><BorderColorIcon size={20} color='#000' /></button>
+
+                                                </TableCell>
+                                                <TableCell align="left" >{item.MaterialDetail}</TableCell>
+                                                <TableCell align="left" >{item.vUOM}</TableCell>
+                                                <TableCell align="left" >{item.nPerSUUsage}</TableCell>
+                                                <TableCell align="left" >{item.nYieldPercentage}</TableCell>
+                                                <TableCell align="left" >{item.nBOM}</TableCell>
+                                                <TableCell align="left" >{item.nReqInUOM}</TableCell>
+                                                <TableCell align="left" >{item.nStandardRate}</TableCell>
+                                                <TableCell align="left" >{item.nStdCOGS}</TableCell>
+
+
+
+                                            </TableRow>
+                                        )
+                                    })
+                                    }
+
+
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
+                        <TablePagination
+                            rowsPerPageOptions={[10, 25, 100]}
+                            component="div"
+                            count={PODetails.length}
+                            rowsPerPage={rowsPerPage}
+                            page={page}
+                            onPageChange={handleChangePage}
+                            onRowsPerPageChange={handleChangeRowsPerPage}
+                        />
+
+                    </Paper>
+                    :
+                    null
+
+                }
+
+            </div>
+        </div>
+
+        <div className='displayflex-2'>
+            <button type="submit" className='submitbtn-2' style={{ marginRight: 10 }} onClick={goback}><HomeIcon size={18} /> Home</button>
+
+            {loader == true ?
+                <CButton disabled className='submitbtn'>
+                    <CSpinner component="span" size="sm" aria-hidden="true" />
+                    Loading...
+                </CButton>
+                :
+                // <button type="submit" className='submitbtn' onClick={submit}>Submit</button>
+                <button type="submit" className='submitbtn' onClick={handleSubmit(submit)}>Submit</button>
+            }
+        </div>
+
+
+    </div>
     )
 }
 const muiStyles = {
@@ -790,7 +1172,7 @@ const muiStyles = {
         "& .MuiFormLabel-root": {
             fontSize: '13px',
             top: '-13px',
-            left:'-10px',
+            left: '-10px',
             backgroundColor: 'transparent',
             zIndex: '1'
         },
@@ -798,7 +1180,7 @@ const muiStyles = {
             zIndex: '1'
 
         },
-        '& .MuiInputAdornment-root':{
+        '& .MuiInputAdornment-root': {
             position: 'absolute',
             right: '10px'
         }
@@ -816,12 +1198,17 @@ const muiStyles = {
             fontSize: '13px',
             backgroundColor: 'transparent',
             top: '-13px',
-            left:'-10px',
-          
+            left: '-10px',
+
         },
-        "& label.Mui-focused": {
+         "& label.Mui-focused": {
             zIndex: '1'
+        },'& .MuiFormHelperText-root': {
+            position: 'absolute',
+            fontSize: 10,
+            bottom: -18
         },
+       
     },
     input: {
         "& .MuiOutlinedInput-root": {
@@ -833,32 +1220,37 @@ const muiStyles = {
         "& .MuiFormLabel-root": {
             fontSize: '13px',
             top: '-13px',
-            left:'-10px',  
+            left: '-10px',
             backgroundColor: 'transparent',
         },
-        "& label.Mui-focused": {
+         "& label.Mui-focused": {
             zIndex: '1'
+        },'& .MuiFormHelperText-root': {
+            position: 'absolute',
+            fontSize: 10,
+            bottom: -18
         },
+       
     },
     select: {
 
         "& .MuiSelect-select": {
             padding: '3px',
             fontSize: '12px'
-        }, 
-        
+        },
+
 
     },
     InputLabels: {
         fontSize: '13px',
         top: '-13px',
-        left:'-10px',
+        left: '-10px',
         backgroundColor: 'transparent',
         "&.Mui-focused": {
             zIndex: '1'
         }
     },
-   
+
 
 };
 export default EditBomMaster
