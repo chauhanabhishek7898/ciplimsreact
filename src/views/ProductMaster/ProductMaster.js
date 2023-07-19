@@ -426,7 +426,7 @@ function ProductMaster() {
     const validateform = () => {
         if (vProductName == '' || vProductName == undefined) {
             setErrorText({
-                vCategory: 'Enter Product Name *'
+                vProductName: 'Enter Product Name *'
             })
             return false
         } else if (vCategory == '' || vCategory == undefined) {
