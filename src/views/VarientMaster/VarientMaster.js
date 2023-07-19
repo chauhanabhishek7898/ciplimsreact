@@ -52,16 +52,12 @@ function VarientMaster() {
     // const [rows, setRows] = useState(brandData);
     const [searched, setSearched] = React.useState("");
     const [onlyActive, setonlyActive] = React.useState(true);
-    let checkedData = true
-    const checkedonlyActive = (event) => {
-        setonlyActive(event.target.checked)
-        checkedData = event.target.checked
-        getVarientMaster_SelectAll()
-    }
+
     useEffect(() => {
         getVarientMaster_SelectAll()
 
     }, [])
+
     const getVarientMaster_SelectAll = () => {
         setLoader2(true)
         VarientMaster_SelectAll().then(response => {
@@ -80,6 +76,23 @@ function VarientMaster() {
             }
         })
     }
+
+    // useEffect(() => {
+    //     let brandDatas = [...brandData]
+    //     console.log("brandDatas", brandDatas)
+    //     let venderexistvVPrefix = brandDatas.find(e => e.vVPrefix == vPrefix)
+    //     let venderexist = brandDatas.find(e => e.vVarient == brandName)
+    //     console.log("venderexistvVPrefix", venderexistvVPrefix)
+    //     console.log("venderexist", venderexist)
+    //     const lowercaseString3 = venderexistvVPrefix.vVPrefix.toLowerCase();
+    //     const lowercaseString4 = venderexist.vVarient.toLowerCase();
+
+    //     console.log("lowercaseString1", lowercaseString1)
+    //     console.log("lowercaseString2", lowercaseString2)
+    //     console.log("lowercaseString3", lowercaseString3)
+    //     console.log("lowercaseString4", lowercaseString4)
+
+    // }, [])
 
     const requestSearch = (searchedVal) => {
 
@@ -101,6 +114,12 @@ function VarientMaster() {
         getVarientMaster_SelectAll()
     };
 
+    let checkedData = true
+    const checkedonlyActive = (event) => {
+        setonlyActive(event.target.checked)
+        checkedData = event.target.checked
+        getVarientMaster_SelectAll()
+    }
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
@@ -131,38 +150,130 @@ function VarientMaster() {
         }
     }
 
+    const [matchResult, setMatchResult] = useState(null);
+    const [matchResult2, setMatchResult2] = useState(null);
+
+    const handleBrandName = (event) => {
+        console.log("event", event)
+        setBrandName(event.target.value)
+    };
+    const handlevPrefix = (event) => {
+        console.log("event", event)
+        setvPrefix(event.target.value)
+    };
+
+    const handleCompare = () => {
+
+        const brandDatas = [...brandData]
+        console.log("brandDatas", brandDatas)
+
+        const venderexist = brandDatas.find(e => e.vVarient.toLowerCase() == brandName.toLowerCase())
+        console.log("venderexist", venderexist)
+        // console.log("venderexist.vVarient", venderexist.vVarient)
+
+        const venderexistvVPrefix = brandDatas.find(e => e.vVPrefix.toLowerCase() == vPrefix.toLowerCase())
+        console.log("venderexistvVPrefix", venderexistvVPrefix)
+        // console.log("venderexistvVPrefix.vVPrefix", venderexistvVPrefix.vVPrefix)
+
+        let lowercaseString3 = ''
+        let lowercaseString4 = ''
+        if (venderexist != undefined) {
+            lowercaseString3 = venderexist.vVarient.toLowerCase();
+            console.log("lowercaseString3", lowercaseString3)
+        }
+
+        if (venderexistvVPrefix != undefined) {
+            lowercaseString4 = venderexistvVPrefix.vVPrefix.toLowerCase();
+            console.log("lowercaseString4", lowercaseString4)
+        }
+
+        const lowercaseString1 = brandName.toLowerCase();
+        const lowercaseString2 = vPrefix.toLowerCase();
+
+        console.log("lowercaseString1", lowercaseString1)
+        console.log("lowercaseString2", lowercaseString2)
+
+        const isMatch = lowercaseString1 === lowercaseString3;
+        setMatchResult(isMatch);
+        console.log("isMatch", isMatch)
+
+        const isMatch2 = lowercaseString2 === lowercaseString4;
+        setMatchResult2(isMatch2);
+        console.log("isMatch2", isMatch2)
+
+
+        if (isMatch == true || isMatch2 == true) {
+            if (isMatch == true) {
+                setLoader(false)
+                toast.error("Variant is already Exists")
+            }
+            if (isMatch2 == true) {
+                setLoader(false)
+                toast.error("Variant Prefix is already Exists")
+            }
+        } else {
+
+        }
+
+    };
 
     const submit = () => {
         setLoader(true)
+        const brandDatas = [...brandData]
+        console.log("brandDatas", brandDatas)
+
+        const venderexist = brandDatas.find(e => e.vVarient.toLowerCase() == brandName.toLowerCase())
+        console.log("venderexist", venderexist)
+        // console.log("venderexist.vVarient", venderexist.vVarient)
+
+        const venderexistvVPrefix = brandDatas.find(e => e.vVPrefix.toLowerCase() == vPrefix.toLowerCase())
+        console.log("venderexistvVPrefix", venderexistvVPrefix)
+        // console.log("venderexistvVPrefix.vVPrefix", venderexistvVPrefix.vVPrefix)
+
+        let lowercaseString3 = ''
+        let lowercaseString4 = ''
+        if (venderexist != undefined) {
+            lowercaseString3 = venderexist.vVarient.toLowerCase();
+            console.log("lowercaseString3", lowercaseString3)
+        }
+
+        if (venderexistvVPrefix != undefined) {
+            lowercaseString4 = venderexistvVPrefix.vVPrefix.toLowerCase();
+            console.log("lowercaseString4", lowercaseString4)
+        }
+
+        const lowercaseString1 = brandName.toLowerCase();
+        const lowercaseString2 = vPrefix.toLowerCase();
+
+        console.log("lowercaseString1", lowercaseString1)
+        console.log("lowercaseString2", lowercaseString2)
+
+        const isMatch = lowercaseString1 === lowercaseString3;
+        setMatchResult(isMatch);
+        console.log("isMatch", isMatch)
+
+        const isMatch2 = lowercaseString2 === lowercaseString4;
+        setMatchResult2(isMatch2);
+        console.log("isMatch2", isMatch2)
+
         let brand = {
             nVRId: nBid == null ? 0 : nBid,
             // vBrandCode: brandCode,
             vVPrefix: vPrefix,
             vVarient: brandName,
-            btActive: btActive,
+            btActive: btActive, lowercaseString2
         }
         if (buttonName == 'Submit') {
-
-            let brandDatas = [...brandData]
-            console.log("brandDatas", brandDatas)
-            let venderexistvVPrefix = brandDatas.find(e => e.vVPrefix == vPrefix.toLowerCase() || e.vVPrefix == vPrefix.toUpperCase())
-            let venderexist = brandDatas.find(e => e.vVarient == brandName.toLowerCase() || e.vVarient == brandName.toUpperCase())
-            if (venderexist || venderexistvVPrefix) {
-                // if (venderexist && venderexistCode) {
-                //     setLoader(false)
-                //     toast.error("Product Category and Product Category Prefix is already Exists")
-                // }
-                if (venderexist) {
+            if (isMatch == true || isMatch2 == true) {
+                if (isMatch == true) {
                     setLoader(false)
                     toast.error("Variant is already Exists")
                 }
-                if (venderexistvVPrefix) {
+                if (isMatch2 == true) {
                     setLoader(false)
                     toast.error("Variant Prefix is already Exists")
                 }
-
             } else {
-                console.log('brand', brand)
                 VarientMasterPost(brand).then(res => {
                     if (res) {
                         console.log('res', res)
@@ -174,7 +285,6 @@ function VarientMaster() {
                 })
             }
         } else {
-            console.log('brand', brand)
             VarientMasterPut(brand).then(res => {
                 if (res) {
                     console.log('res', res)
@@ -223,7 +333,7 @@ function VarientMaster() {
                             <TextField
                                 sx={muiStyles.input}
                                 value={brandName}
-                                onChange={e => setBrandName(e.target.value)}
+                                onChange={handleBrandName}
                                 required id="outlined-basic"
                                 label="Varient Name"
                                 variant="outlined"
@@ -239,7 +349,7 @@ function VarientMaster() {
                             <TextField
                                 sx={muiStyles.input}
                                 value={vPrefix}
-                                onChange={e => setvPrefix(e.target.value)}
+                                onChange={handlevPrefix}
                                 required id="outlined-basic"
                                 label="Prefix"
                                 variant="outlined"
@@ -254,6 +364,14 @@ function VarientMaster() {
                             />
                         </FormControl>
                     </Box>
+                    {/* <div>
+                        <button onClick={handleCompare}>Compare</button>
+                        {matchResult !== null && <p>Strings {matchResult ? 'match' : 'do not match'}</p>}
+                    </div>
+                    <div>
+                        <button onClick={handleCompare}>Compare</button>
+                        {matchResult2 !== null && <p>Strings {matchResult2 ? 'match' : 'do not match'}</p>}
+                    </div> */}
                 </div>
                 <div className='displayflexend-2'>
                     <FormGroup >

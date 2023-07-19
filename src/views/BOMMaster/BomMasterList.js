@@ -41,6 +41,9 @@ import * as environment from '../../coreservices/environment'
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import CircularProgress from '@mui/joy/CircularProgress';
 import { TbEdit } from "react-icons/tb";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+// import { faFilePdf } from '@fortawesome/free-solid-svg-icons';
+
 function BomMasterList() {
     let imageUrl = environment.imageUrl
     const navigate = useNavigate();
@@ -148,6 +151,11 @@ function BomMasterList() {
         navigate('/EditBomMaster', { state: { nBId } });
     }
 
+    const handlePdf = () => {
+
+        navigate('/BomPdf');
+    }
+
     return (
         <div className='citymasterContainer'>
             {/* <button  title='Add' onClick={routeChange}><AddIcon fontSize='small' /></button> */}
@@ -161,9 +169,16 @@ function BomMasterList() {
                 null
 
             }
-            <div className='exportandfilter_end'>
+             <div className='exportandfilter_2'>
+                <div className='exportandfilter_end'>
                 <Link to="/AddBomMaster" className='submitbtn_exp'><AddIcon fontSize='small' /> <span className='addFont'>Add</span></Link>
             </div>
+
+            <div className='exportandfilter_end' onClick={handlePdf}>
+                <Link to="/AddBomMaster" className='submitbtn_exp'><FontAwesomeIcon fontSize='small'  /> <span className='addFont'>BOM PDF</span></Link>
+            </div>
+             </div>
+            
 
             <div className='tablecenter'>
 
