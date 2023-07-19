@@ -52,6 +52,10 @@ function StorageConditionMaster() {
     // const [rows, setRows] = useState(brandData);
     const [searched, setSearched] = React.useState("");
     const [onlyActive, setonlyActive] = React.useState(true);
+
+    const [matchResult, setMatchResult] = useState(null);
+    const [matchResult2, setMatchResult2] = useState(null);
+
     let checkedData = true
     const checkedonlyActive = (event) => {
         setonlyActive(event.target.checked)
@@ -85,7 +89,7 @@ function StorageConditionMaster() {
 
         if (searchedVal.length > 0) {
             const filteredRows = brandData.filter((row) => {
-                return row.vStorageCondition.toLowerCase().includes(searchedVal.toLowerCase()) 
+                return row.vStorageCondition.toLowerCase().includes(searchedVal.toLowerCase())
                 // || row.vSCPrefix.toLowerCase().includes(searchedVal.toLowerCase());
             });
             setBrandData(filteredRows);
@@ -119,6 +123,7 @@ function StorageConditionMaster() {
             setBrandName('')
             setBtActive(true)
             setdisabled(true)
+            setLoader(false)
         } else {
             setIsOpen(true)
             setnBid(item.nSCId)
@@ -128,11 +133,58 @@ function StorageConditionMaster() {
             setBtActive(item.btActive)
             setdisabled(false)
             setbuttonName(type)
+            setLoader(false)
         }
     }
 
+    const handleBrandName = (event) => {
+        console.log("event", event)
+        setBrandName(event.target.value)
+    };
+    const handlevPrefix = (event) => {
+        console.log("event", event)
+        setvPrefix(event.target.value)
+    };
 
     const submit = () => {
+
+        const brandDatas = [...brandData]
+        console.log("brandDatas", brandDatas)
+
+        const venderexist = brandDatas.find(e => e.vStorageCondition.toLowerCase() == brandName.toLowerCase())
+        console.log("venderexist", venderexist)
+        // console.log("venderexist.vStorageCondition", venderexist.vStorageCondition)
+
+        const venderexistvVPrefix = brandDatas.find(e => e.vSCPrefix.toLowerCase() == vPrefix.toLowerCase())
+        console.log("venderexistvVPrefix", venderexistvVPrefix)
+        // console.log("venderexistvVPrefix.vSCPrefix", venderexistvVPrefix.vSCPrefix)
+
+        let lowercaseString3 = ''
+        let lowercaseString4 = ''
+        if (venderexist != undefined) {
+            lowercaseString3 = venderexist.vStorageCondition.toLowerCase();
+            console.log("lowercaseString3", lowercaseString3)
+        }
+
+        if (venderexistvVPrefix != undefined) {
+            lowercaseString4 = venderexistvVPrefix.vSCPrefix.toLowerCase();
+            console.log("lowercaseString4", lowercaseString4)
+        }
+
+        const lowercaseString1 = brandName.toLowerCase();
+        const lowercaseString2 = vPrefix.toLowerCase();
+
+        console.log("lowercaseString1", lowercaseString1)
+        console.log("lowercaseString2", lowercaseString2)
+
+        const isMatch = lowercaseString1 === lowercaseString3;
+        setMatchResult(isMatch);
+        console.log("isMatch", isMatch)
+
+        const isMatch2 = lowercaseString2 === lowercaseString4;
+        setMatchResult2(isMatch2);
+        console.log("isMatch2", isMatch2)
+
         setLoader(true)
         let brand = {
             nSCId: nBid == null ? 0 : nBid,
@@ -143,19 +195,16 @@ function StorageConditionMaster() {
         }
         if (buttonName == 'Submit') {
 
-            let brandDatas = [...brandData]
-            console.log("brandDatas", brandDatas)
-            let venderexistCode = brandDatas.find(e => e.vSCPrefix == vPrefix.toLowerCase() || e.vSCPrefix == vPrefix.toUpperCase())
-            let venderexist = brandDatas.find(e => e.vStorageCondition == brandName.toLowerCase() || e.vStorageCondition == brandName.toUpperCase())
-            if (venderexist) {
-                setLoader(false)
-                toast.success("Item is already Exists")
-            }
-            else if (venderexistCode) {
-                setLoader(false)
-                toast.success("Storage Condition Prefix is already Exists")
-            }
-            else {
+            if (isMatch == true || isMatch2 == true) {
+                if (isMatch == true) {
+                    setLoader(false)
+                    toast.error("Storage Condition is already Exists")
+                }
+                if (isMatch2 == true) {
+                    setLoader(false)
+                    toast.error("Storage Condition Prefix is already Exists")
+                }
+            } else {
                 console.log('brand', brand)
                 StorageConditionMasterPost(brand).then(res => {
                     if (res) {
@@ -167,6 +216,37 @@ function StorageConditionMaster() {
                     }
                 })
             }
+
+            // let brandDatas = [...brandData]
+            // console.log("brandDatas", brandDatas)
+            // let venderexistCode = brandDatas.find(e => e.vSCPrefix == vPrefix.toLowerCase() || e.vSCPrefix == vPrefix.toUpperCase())
+            // let venderexist = brandDatas.find(e => e.vStorageCondition == brandName.toLowerCase() || e.vStorageCondition == brandName.toUpperCase())
+            // if (venderexist || venderexistCode) {
+            //     // if (venderexist && venderexistCode) {
+            //     //     setLoader(false)
+            //     //     toast.error("Product Category and Product Category Prefix is already Exists")
+            //     // }
+            //     // if (venderexist) {
+            //     //     setLoader(false)
+            //     //     toast.error("Storage Condition is already Exists")
+            //     // }
+            //     // if (venderexistCode) {
+            //     //     setLoader(false)
+            //     //     toast.error("Storage Condition Prefix is already Exists")
+            //     // }
+
+            // } else {
+            //     console.log('brand', brand)
+            //     StorageConditionMasterPost(brand).then(res => {
+            //         if (res) {
+            //             console.log('res', res)
+            //             toast.success("Record Added Successfully !!")
+            //             setLoader(false)
+            //             setIsOpen(false)
+            //             getStorageConditionMaster_SelectAll()
+            //         }
+            //     })
+            // }
         } else {
             console.log('brand', brand)
             StorageConditionMasterPut(brand).then(res => {
@@ -212,22 +292,6 @@ function StorageConditionMaster() {
                     <HighlightOffIcon fontSize='large' onClick={() => setIsOpen(false)} />
                 </div>
                 <div className='displayflexend mt-4'>
-                    {/* <Box className='inputBox-11'>
-                        <FormControl fullWidth className='input'>
-                            <TextField
-                                sx={muiStyles.input}
-                                value={brandCode}
-                                onChange={e => setBrandCode(e.target.value)}
-                                required id="outlined-basic"
-                                label="Brand Code"
-                                variant="outlined"
-                                name='brandCode'
-                                inputRef={register({ required: "Brand Code is required.*", })}
-                                error={Boolean(errors.brandCode)}
-                                helperText={errors.brandCode?.message}
-                            />
-                        </FormControl>
-                    </Box> */}
                     <Box className='inputBox-11' >
                         <FormControl fullWidth className='input' >
                             <TextField
@@ -237,7 +301,7 @@ function StorageConditionMaster() {
                                 required id="outlined-basic"
                                 label="Storage Condition"
                                 variant="outlined"
-                                name='storageCondition'
+                                name='brandName'
                                 inputRef={register({ required: "Storage Condition is required.*", })}
                                 error={Boolean(errors.brandName)}
                                 helperText={errors.brandName?.message}
@@ -256,11 +320,11 @@ function StorageConditionMaster() {
                                 name='vPrefix'
                                 inputProps={{
                                     maxLength: 2, // Set the maximum length here (e.g., 20)
-                                  }}
+                                }}
                                 inputRef={register({ required: "Storage Condition Prefix is required.*", })}
                                 error={Boolean(errors.vPrefix)}
                                 helperText={errors.vPrefix?.message}
-                                
+
                             />
                         </FormControl>
                     </Box>

@@ -72,24 +72,30 @@ function VendorCategoryMaster() {
 
             let unitName = unistData.find(e => e.vCategoryName == vUnitName.toLowerCase() || e.vCategoryName == vUnitName.toUpperCase())
             console.log("unitName", unitName)
-            if (unitName) {
-                setLoader(false)
-                toast.success("Item is already Exists")
-            }
-            else {
+            if (unitName || venderexistCode) {
+                // if (venderexist && venderexistCode) {
+                //     setLoader(false)
+                //     toast.error("Product Category and Product Category Prefix is already Exists")
+                // }
+                if (unitName) {
+                    setLoader(false)
+                    toast.error("Vender Category is already Exists")
+                }
                 if (venderexistCode) {
                     setLoader(false)
-                    toast.success("Prefix is already Exists")
-                } else {
-                    UnitMastersPost(data).then(res => {
-                        if (res) {
-                            toast.success(res)
-                            setLoader(false)
-                            setIsOpen(false)
-                            getUnitMaster_SelectAll()
-                        }
-                    })
+                    toast.error("Vender Category Prefix is already Exists")
                 }
+
+            } else {
+                UnitMastersPost(data).then(res => {
+                    if (res) {
+                        toast.success(res)
+                        setLoader(false)
+                        setIsOpen(false)
+                        getUnitMaster_SelectAll()
+                    }
+                })
+
             }
 
         }
@@ -210,7 +216,7 @@ function VendorCategoryMaster() {
             }
             <div className='add_export'>
                 <button className='submitbtn_exp' onClick={() => openmodale(null, 'Submit')} title='Add'  ><AddIcon fontSize='small' /> <span className='addFont'>Add</span></button>
-                <ExportExcel excelData={unitData} Heading={Heading} fileName={'Unit_Master'} />
+                <ExportExcel excelData={unitData} Heading={Heading} fileName={'VendorCategoryMaster'} />
             </div>
             {/* <button className='addbtn_2' onClick={() => openmodale(null, 'Submit')} title='Add' ><AddIcon fontSize='small' /> <span className='addFont'>Add</span></button> */}
             <Modal
@@ -249,6 +255,9 @@ function VendorCategoryMaster() {
                                 variant="outlined"
                                 value={vCatPrefix}
                                 name='vCatPrefix'
+                                inputProps={{
+                                    maxLength: 2, // Set the maximum length here (e.g., 20)
+                                }}
                                 onChange={e => setvCatPrefix(e.target.value)}
                                 inputRef={register({ required: "Sub Category Prefix is required.*", })}
                                 error={Boolean(errors.vCatPrefix)}

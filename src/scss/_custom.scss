@@ -578,7 +578,11 @@ p {
 
   }
 }
-
+.exportandfilter_2{
+  display: flex;
+  justify-content: space-between;
+  align-items: center; 
+}
 .exportandfilter_end {
   display: flex;
   justify-content: flex-end;

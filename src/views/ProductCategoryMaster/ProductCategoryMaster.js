@@ -22,15 +22,12 @@ import { useForm } from 'react-hook-form';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { CButton, CSpinner } from '@coreui/react';
-
 import SearchBar from "material-ui-search-bar";
 import ExportExcel from 'src/shareFunction/Excelexport';
 import CircularProgress from '@mui/joy/CircularProgress';
 import { TbEdit } from "react-icons/tb";
-
 function ProductCategoryMaster() {
     let Heading = [['SN.', 'Product Category', 'Product Category Prefix', 'Status']];
-
     const [modalIsOpen, setIsOpen] = React.useState(false);
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -40,17 +37,13 @@ function ProductCategoryMaster() {
     const [loader2, setLoader2] = React.useState(false);
     const [nBid, setnBid] = React.useState(0);
     const [btActive, setBtActive] = React.useState(false);
-    const [brandCode, setBrandCode] = React.useState("");
     const [brandName, setBrandName] = React.useState("");
-
     const [vPrefix, setvPrefix] = React.useState("");
     const [nPDCId, setnPDCId] = React.useState(0);
-
     const [buttonName, setbuttonName] = React.useState('');
     const [disabled, setdisabled] = React.useState(true);
     const { register, handleSubmit, control, errors } = useForm();
     const tableRef = useRef(null);
-    // const [rows, setRows] = useState(brandData);
     const [searched, setSearched] = React.useState("");
     const [onlyActive, setonlyActive] = React.useState(true);
     let checkedData = true
@@ -61,7 +54,6 @@ function ProductCategoryMaster() {
     }
     useEffect(() => {
         getProductCategoryMaster_SelectAll()
-
     }, [])
     const getProductCategoryMaster_SelectAll = () => {
         setLoader2(true)
@@ -77,32 +69,24 @@ function ProductCategoryMaster() {
                 setBrandData(inactiveData)
                 setMasterBrandData(inactiveData)
                 setLoader2(false)
-
             }
         })
     }
-
     const requestSearch = (searchedVal) => {
-
         if (searchedVal.length > 0) {
             const filteredRows = brandData.filter((row) => {
-                return row.vPDCategoryName.toLowerCase().includes(searchedVal.toLowerCase()) 
-                // || row.vPDCatPrefix.toLowerCase().includes(searchedVal.toLowerCase());
+                return row.vPDCategoryName.toLowerCase().includes(searchedVal.toLowerCase()) || row.vPDCatPrefix.toLowerCase().includes(searchedVal.toLowerCase());
             });
             setBrandData(filteredRows);
         } else {
             setBrandData(masterbrandData);
         }
-
     };
-
     const cancelSearch = () => {
         setSearched("");
         requestSearch(searched);
         getProductCategoryMaster_SelectAll()
     };
-
-
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
     };
@@ -110,53 +94,98 @@ function ProductCategoryMaster() {
         setRowsPerPage(+event.target.value);
         setPage(0);
     };
-
     const openmodale = (item, type) => {
         if (type == 'Submit') {
             setIsOpen(true)
             setbuttonName(type)
-            // setBrandCode('')
             setvPrefix('')
             setBrandName('')
             setBtActive(true)
             setdisabled(true)
+            setLoader(false)
         } else {
             setIsOpen(true)
             setnBid(item.nPDCId)
-            // setBrandCode(item.vBrandCode)
             setvPrefix(item.vPDCatPrefix)
             setBrandName(item.vPDCategoryName)
             setBtActive(item.btActive)
             setdisabled(false)
             setbuttonName(type)
+            setLoader(false)
         }
     }
 
 
+    const [matchResult, setMatchResult] = useState(null);
+    const [matchResult2, setMatchResult2] = useState(null);
+
+    const handleBrandName = (event) => {
+        console.log("event", event)
+        setBrandName(event.target.value)
+    };
+    const handlevPrefix = (event) => {
+        console.log("event", event)
+        setvPrefix(event.target.value)
+    };
+
     const submit = () => {
+
+        const brandDatas = [...brandData]
+        console.log("brandDatas", brandDatas)
+
+        const venderexist = brandDatas.find(e => e.vPDCategoryName.toLowerCase() == brandName.toLowerCase())
+        console.log("venderexist", venderexist)
+        // console.log("venderexist.vPDCategoryName", venderexist.vPDCategoryName)
+
+        const venderexistvVPrefix = brandDatas.find(e => e.vPDCatPrefix.toLowerCase() == vPrefix.toLowerCase())
+        console.log("venderexistvVPrefix", venderexistvVPrefix)
+        // console.log("venderexistvVPrefix.vPDCatPrefix", venderexistvVPrefix.vPDCatPrefix)
+
+        let lowercaseString3 = ''
+        let lowercaseString4 = ''
+        if (venderexist != undefined) {
+            lowercaseString3 = venderexist.vPDCategoryName.toLowerCase();
+            console.log("lowercaseString3", lowercaseString3)
+        }
+
+        if (venderexistvVPrefix != undefined) {
+            lowercaseString4 = venderexistvVPrefix.vPDCatPrefix.toLowerCase();
+            console.log("lowercaseString4", lowercaseString4)
+        }
+
+        const lowercaseString1 = brandName.toLowerCase();
+        const lowercaseString2 = vPrefix.toLowerCase();
+
+        console.log("lowercaseString1", lowercaseString1)
+        console.log("lowercaseString2", lowercaseString2)
+
+        const isMatch = lowercaseString1 === lowercaseString3;
+        setMatchResult(isMatch);
+        console.log("isMatch", isMatch)
+
+        const isMatch2 = lowercaseString2 === lowercaseString4;
+        setMatchResult2(isMatch2);
+        console.log("isMatch2", isMatch2)
+
         setLoader(true)
         let brand = {
             nPDCId: nBid == null ? 0 : nBid,
-            // vBrandCode: brandCode,
             vPDCatPrefix: vPrefix,
             vPDCategoryName: brandName,
             btActive: btActive,
         }
         if (buttonName == 'Submit') {
 
-            let brandDatas = [...brandData]
-            console.log("brandDatas", brandDatas)
-            let venderexistCode = brandDatas.find(e => e.vPDCatPrefix == vPrefix.toLowerCase() || e.vPDCatPrefix == vPrefix.toUpperCase())
-            let venderexist = brandDatas.find(e => e.vPDCategoryName == brandName.toLowerCase() || e.vPDCategoryName == brandName.toUpperCase())
-            if (venderexist) {
-                setLoader(false)
-                toast.success("Item is already Exists")
-            }
-            else if (venderexistCode) {
-                setLoader(false)
-                toast.success("Product Category Prefix is already Exists")
-            }
-            else {
+            if (isMatch == true || isMatch2 == true) {
+                if (isMatch == true) {
+                    setLoader(false)
+                    toast.error("Product Category is already Exists")
+                }
+                if (isMatch2 == true) {
+                    setLoader(false)
+                    toast.error("Product Category Prefix is already Exists")
+                }
+            } else {
                 console.log('brand', brand)
                 ProductCategoryMasterPost(brand).then(res => {
                     if (res) {
@@ -168,6 +197,38 @@ function ProductCategoryMaster() {
                     }
                 })
             }
+
+
+            // let brandDatas = [...brandData]
+            // console.log("brandDatas", brandDatas)
+            // let venderexistCode = brandDatas.find(e => e.vPDCatPrefix == vPrefix.toLowerCase() || e.vPDCatPrefix == vPrefix.toUpperCase())
+            // let venderexist = brandDatas.find(e => e.vPDCategoryName == brandName.toLowerCase() || e.vPDCategoryName == brandName.toUpperCase())
+            // if (venderexist || venderexistCode) {
+            //     // if (venderexist && venderexistCode) {
+            //     //     setLoader(false)
+            //     //     toast.error("Product Category and Product Category Prefix is already Exists")
+            //     // }
+            //     if (venderexist) {
+            //         setLoader(false)
+            //         toast.error("Product Category is already Exists")
+            //     }
+            //     if (venderexistCode) {
+            //         setLoader(false)
+            //         toast.error("Product Category Prefix is already Exists")
+            //     }
+
+            // } else {
+            //     console.log('brand', brand)
+            //     ProductCategoryMasterPost(brand).then(res => {
+            //         if (res) {
+            //             console.log('res', res)
+            //             toast.success("Record Added Successfully !!")
+            //             setLoader(false)
+            //             setIsOpen(false)
+            //             getProductCategoryMaster_SelectAll()
+            //         }
+            //     })
+            // }
         } else {
             console.log('brand', brand)
             ProductCategoryMasterPut(brand).then(res => {
@@ -181,9 +242,6 @@ function ProductCategoryMaster() {
             })
         }
     }
-
-
-
     return (
         <div className='citymasterContainer'>
             {loader2 == true ?
@@ -194,14 +252,11 @@ function ProductCategoryMaster() {
                 </div>
                 :
                 null
-
             }
             <div className='add_export'>
                 <button className='submitbtn_exp' onClick={() => openmodale(null, 'Submit')} title='Add'  ><AddIcon fontSize='small' /> <span className='addFont'>Add</span></button>
                 <ExportExcel excelData={brandData} Heading={Heading} fileName={'StorageCondition_Master'} />
-
             </div>
-
             <Modal
                 isOpen={modalIsOpen}
                 style={customStyles}
@@ -213,22 +268,6 @@ function ProductCategoryMaster() {
                     <HighlightOffIcon fontSize='large' onClick={() => setIsOpen(false)} />
                 </div>
                 <div className='displayflexend mt-4'>
-                    {/* <Box className='inputBox-11'>
-                        <FormControl fullWidth className='input'>
-                            <TextField
-                                sx={muiStyles.input}
-                                value={brandCode}
-                                onChange={e => setBrandCode(e.target.value)}
-                                required id="outlined-basic"
-                                label="Brand Code"
-                                variant="outlined"
-                                name='brandCode'
-                                inputRef={register({ required: "Brand Code is required.*", })}
-                                error={Boolean(errors.brandCode)}
-                                helperText={errors.brandCode?.message}
-                            />
-                        </FormControl>
-                    </Box> */}
                     <Box className='inputBox-11' >
                         <FormControl fullWidth className='input' >
                             <TextField
@@ -238,7 +277,7 @@ function ProductCategoryMaster() {
                                 required id="outlined-basic"
                                 label="Product Category"
                                 variant="outlined"
-                                name='productCategory'
+                                name='brandName'
                                 inputRef={register({ required: "Product Category is required.*", })}
                                 error={Boolean(errors.brandName)}
                                 helperText={errors.brandName?.message}
@@ -257,11 +296,10 @@ function ProductCategoryMaster() {
                                 name='vPrefix'
                                 inputProps={{
                                     maxLength: 2, // Set the maximum length here (e.g., 20)
-                                  }}
+                                }}
                                 inputRef={register({ required: "Product Category Prefix is required.*", })}
                                 error={Boolean(errors.vPrefix)}
                                 helperText={errors.vPrefix?.message}
-                                
                             />
                         </FormControl>
                     </Box>
@@ -284,7 +322,6 @@ function ProductCategoryMaster() {
             <div className='tablecenter'>
                 <Paper sx={{ width: '100%', overflow: 'hidden', paddingTop: 1 }}>
                     <div className='exportandfilter'>
-
                         <div className='filterbox'>
                             <Box className='searchbox' >
                                 <SearchBar
@@ -292,27 +329,20 @@ function ProductCategoryMaster() {
                                     onChange={(searchVal) => requestSearch(searchVal)}
                                     onCancelSearch={() => cancelSearch()}
                                 />
-
                             </Box>
                             <FormGroup className='activeonly'>
                                 <FormControlLabel style={{ marginRight: 0 }} control={<Checkbox checked={onlyActive} value={onlyActive} onChange={checkedonlyActive} />} label="Active Data" />
                             </FormGroup>
-
                         </div>
                     </div>
-
                     <TableContainer sx={muiStyles.tableBox} className='tableBox'>
                         <Table stickyHeader aria-label="sticky table" >
                             <TableHead>
                                 <TableRow>
-                                    {/* <TableCell scope="row">SN.</TableCell> */}
-                                    {/* <TableCell align="left" sx={muiStyles.tableHead} >Brand Code</TableCell> */}
                                     <TableCell align="left" sx={muiStyles.tableHead} >Product Category</TableCell>
                                     <TableCell align="left" sx={muiStyles.tableHead} >Product Category Prefix</TableCell>
                                     <TableCell align="left" sx={muiStyles.tableHead} >Status</TableCell>
-
                                     <TableCell align="left" sx={muiStyles.tableHead} >Edit</TableCell>
-
                                 </TableRow>
                             </TableHead>
                             {brandData?.length > 0 ?
@@ -320,14 +350,10 @@ function ProductCategoryMaster() {
                                     {brandData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((item, index) => {
                                         return (
                                             <TableRow key={index}>
-                                                {/* <TableCell component="th" scope="row">{index + 1}.</TableCell> */}
-                                                {/* <TableCell align="left" sx={muiStyles.tableBody}>{item.vBrandCode}</TableCell> */}
                                                 <TableCell align="left" sx={muiStyles.tableBody}>{item.vPDCategoryName}</TableCell>
                                                 <TableCell align="left" sx={muiStyles.tableBody}>{item.vPDCatPrefix}</TableCell>
                                                 <TableCell align="left" sx={muiStyles.tableBody}>{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
-
                                                 <TableCell align="left" sx={muiStyles.tableBody}><div onClick={() => openmodale(item, 'Update')} className='editbtn'><TbEdit size={20} color='#000' /></div></TableCell>
-
                                             </TableRow>
                                         )
                                     })
@@ -340,7 +366,6 @@ function ProductCategoryMaster() {
                                     </TableRow>
                                 </TableBody>
                             }
-
                         </Table>
                     </TableContainer>
                     <TablePagination
@@ -354,10 +379,8 @@ function ProductCategoryMaster() {
                     />
                 </Paper>
             </div>
-
             <ToastContainer />
-
-        </div >
+        </div>
     )
 }
 const customStyles = {
@@ -397,7 +420,6 @@ const muiStyles = {
         },
         "& label.Mui-focused": {
             zIndex: '1'
-
         },
         '& .MuiInputAdornment-root': {
             position: 'absolute',
@@ -411,14 +433,12 @@ const muiStyles = {
                 padding: '6px 6px',
                 fontSize: '13px'
             }
-
         },
         "& .MuiFormLabel-root": {
             fontSize: '13px',
             backgroundColor: 'transparent',
             top: '-13px',
             left: '-10px',
-
         },
          "& label.Mui-focused": {
             zIndex: '1'
@@ -452,13 +472,10 @@ const muiStyles = {
        
     },
     select: {
-
         "& .MuiSelect-select": {
             padding: '3px',
             fontSize: '12px'
         },
-
-
     },
     InputLabels: {
         fontSize: '13px',
@@ -496,9 +513,5 @@ const muiStyles = {
             }
         }
     },
-
-
 };
 export default ProductCategoryMaster
-
-

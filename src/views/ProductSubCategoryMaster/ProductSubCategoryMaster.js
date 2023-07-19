@@ -149,6 +149,7 @@ function ProductSubCategoryMaster() {
             setBrandName('')
             setBtActive(true)
             setdisabled(true)
+            setLoader(false)
         } else {
             setIsOpen(true)
             setnBid(item.nPDSCId)
@@ -161,36 +162,145 @@ function ProductSubCategoryMaster() {
             setBtActive(item.btActive)
             setdisabled(false)
             setbuttonName(type)
+            setLoader(false)
         }
     }
 
 
+    const [matchResult, setMatchResult] = useState(null);
+    const [matchResult2, setMatchResult2] = useState(null);
+
+    const handleBrandName = (event) => {
+        console.log("event", event)
+        setBrandName(event.target.value)
+    };
+    const handlevPrefix = (event) => {
+        console.log("event", event)
+        setvPrefix(event.target.value)
+    };
+
+    const handleCompare = () => {
+
+        const brandDatas = [...brandData]
+        console.log("brandDatas", brandDatas)
+
+        const venderexist = brandDatas.find(e => e.vPDSubCategoryName.toLowerCase() == brandName.toLowerCase())
+        console.log("venderexist", venderexist)
+        // console.log("venderexist.vPDSubCatPrefix", venderexist.vPDSubCatPrefix)
+
+        const venderexistvVPrefix = brandDatas.find(e => e.vPDSubCatPrefix.toLowerCase() == vPrefix.toLowerCase())
+        console.log("venderexistvVPrefix", venderexistvVPrefix)
+        // console.log("venderexistvVPrefix.vPDSubCatPrefix", venderexistvVPrefix.vPDSubCatPrefix)
+
+        let lowercaseString3 = ''
+        let lowercaseString4 = ''
+        if (venderexist != undefined) {
+            lowercaseString3 = venderexist.vPDSubCategoryName.toLowerCase();
+            console.log("lowercaseString3", lowercaseString3)
+        }
+
+        if (venderexistvVPrefix != undefined) {
+            lowercaseString4 = venderexistvVPrefix.vPDSubCatPrefix.toLowerCase();
+            console.log("lowercaseString4", lowercaseString4)
+        }
+
+        const lowercaseString1 = brandName.toLowerCase();
+        const lowercaseString2 = vPrefix.toLowerCase();
+
+        console.log("lowercaseString1", lowercaseString1)
+        console.log("lowercaseString2", lowercaseString2)
+
+        const isMatch = lowercaseString1 === lowercaseString3;
+        setMatchResult(isMatch);
+        console.log("isMatch", isMatch)
+
+        const isMatch2 = lowercaseString2 === lowercaseString4;
+        setMatchResult2(isMatch2);
+        console.log("isMatch2", isMatch2)
+
+
+        if (isMatch == true || isMatch2 == true) {
+            if (isMatch == true) {
+                setLoader(false)
+                toast.error("Product Sub Category is already Exists")
+            }
+            if (isMatch2 == true) {
+                setLoader(false)
+                toast.error("Product Sub Category Prefix is already Exists")
+            }
+        } else {
+            console.log('brand', brand)
+            ProductSubCategoryMasterPost(brand).then(res => {
+                if (res) {
+                    console.log('res', res)
+                    toast.success("Record Added Successfully !!")
+                    setLoader(false)
+                    setIsOpen(false)
+                    getProductSubCategoryMaster_SelectAll()
+                }
+            })
+        }
+
+    };
+
     const submit = () => {
         if (validateformPoDetial() == true) {
+            const brandDatas = [...brandData]
+            console.log("brandDatas", brandDatas)
+
+            const venderexist = brandDatas.find(e => e.vPDSubCategoryName.toLowerCase() == brandName.toLowerCase())
+            console.log("venderexist", venderexist)
+            // console.log("venderexist.vPDSubCategoryName", venderexist.vPDSubCategoryName)
+
+            const venderexistvVPrefix = brandDatas.find(e => e.vPDSubCatPrefix.toLowerCase() == vPrefix.toLowerCase())
+            console.log("venderexistvVPrefix", venderexistvVPrefix)
+            // console.log("venderexistvVPrefix.vPDSubCatPrefix", venderexistvVPrefix.vPDSubCatPrefix)
+
+            let lowercaseString3 = ''
+            let lowercaseString4 = ''
+            if (venderexist != undefined) {
+                lowercaseString3 = venderexist.vPDSubCategoryName.toLowerCase();
+                console.log("lowercaseString3", lowercaseString3)
+            }
+
+            if (venderexistvVPrefix != undefined) {
+                lowercaseString4 = venderexistvVPrefix.vPDSubCatPrefix.toLowerCase();
+                console.log("lowercaseString4", lowercaseString4)
+            }
+
+            const lowercaseString1 = brandName.toLowerCase();
+            const lowercaseString2 = vPrefix.toLowerCase();
+
+            console.log("lowercaseString1", lowercaseString1)
+            console.log("lowercaseString2", lowercaseString2)
+
+            const isMatch = lowercaseString1 === lowercaseString3;
+            setMatchResult(isMatch);
+            console.log("isMatch", isMatch)
+
+            const isMatch2 = lowercaseString2 === lowercaseString4;
+            setMatchResult2(isMatch2);
+            console.log("isMatch2", isMatch2)
+
             setLoader(true)
             let brand = {
                 nPDSCId: nBid == null ? 0 : nBid,
-                // vBrandCode: brandCode,
                 vPDSubCatPrefix: vPrefix,
                 vPDSubCategoryName: brandName,
                 nPDCId: nMId,
                 btActive: btActive,
             }
             if (buttonName == 'Submit') {
-
-                let brandDatas = [...brandData]
-                console.log("brandDatas", brandDatas)
-                let venderexistCode = brandDatas.find(e => e.vPDSubCatPrefix == vPrefix.toLowerCase() || e.vPDSubCatPrefix == vPrefix.toUpperCase())
-                let venderexist = brandDatas.find(e => e.vPDSubCategoryName == brandName.toLowerCase() || e.vPDSubCategoryName == brandName.toUpperCase())
-                if (venderexist) {
-                    setLoader(false)
-                    toast.success("Item is already Exists")
-                }
-                else if (venderexistCode) {
-                    setLoader(false)
-                    toast.success("Product Sub Category Prefix is already Exists")
-                }
-                else {
+                if (isMatch == true || isMatch2 == true) {
+                    if (isMatch == true) {
+                        setLoader(false)
+                        toast.error("Product Sub Category is already Exists")
+                    }
+                    if (isMatch2 == true) {
+                        setLoader(false)
+                        toast.error("Product Sub Category Prefix is already Exists")
+                    }
+                } else {
                     console.log('brand', brand)
                     ProductSubCategoryMasterPost(brand).then(res => {
                         if (res) {
@@ -202,6 +312,37 @@ function ProductSubCategoryMaster() {
                         }
                     })
                 }
+
+                // let brandDatas = [...brandData]
+                // console.log("brandDatas", brandDatas)
+                // let venderexistCode = brandDatas.find(e => e.vPDSubCatPrefix == vPrefix.toLowerCase() || e.vPDSubCatPrefix == vPrefix.toUpperCase())
+                // let venderexist = brandDatas.find(e => e.vPDSubCategoryName == brandName.toLowerCase() || e.vPDSubCategoryName == brandName.toUpperCase())
+                // if (venderexist || venderexistCode) {
+                //     // if (venderexist && venderexistCode) {
+                //     //     setLoader(false)
+                //     //     toast.error("Product Category and Product Category Prefix is already Exists")
+                //     // }
+                //     if (venderexist) {
+                //         setLoader(false)
+                //         toast.error("Product Sub Category is already Exists")
+                //     }
+                //     if (venderexistCode) {
+                //         setLoader(false)
+                //         toast.error("Product Sub Category Prefix is already Exists")
+                //     }
+
+                // } else {
+                //     console.log('brand', brand)
+                //     ProductSubCategoryMasterPost(brand).then(res => {
+                //         if (res) {
+                //             console.log('res', res)
+                //             toast.success("Record Added Successfully !!")
+                //             setLoader(false)
+                //             setIsOpen(false)
+                //             getProductSubCategoryMaster_SelectAll()
+                //         }
+                //     })
+                // }
             } else {
                 console.log('brand', brand)
                 ProductSubCategoryMasterPut(brand).then(res => {
@@ -243,7 +384,7 @@ function ProductSubCategoryMaster() {
     const changeMaterialMasterValue = (value) => {
         console.log('value', value)
         setnMId(value == null ? '' : value.value)
-        // setMaterialDetail(value.label)
+        setMaterialDetail(value.label)
         setError({
             MaterialDetail: ''
         })
@@ -278,22 +419,7 @@ function ProductSubCategoryMaster() {
                     <HighlightOffIcon fontSize='large' onClick={() => setIsOpen(false)} />
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                    {/* <Box className='inputBox-11'>
-                        <FormControl fullWidth className='input'>
-                            <TextField
-                                sx={muiStyles.input}
-                                value={brandCode}
-                                onChange={e => setBrandCode(e.target.value)}
-                                required id="outlined-basic"
-                                label="Brand Code"
-                                variant="outlined"
-                                name='brandCode'
-                                inputRef={register({ required: "Brand Code is required.*", })}
-                                error={Boolean(errors.brandCode)}
-                                helperText={errors.brandCode?.message}
-                            />
-                        </FormControl>
-                    </Box> */}
+
                     <Box className='inputBox-12 mt-4' >
                         <FormControl fullWidth className='input' >
                             <TextField
@@ -320,6 +446,7 @@ function ProductSubCategoryMaster() {
                                 id="combo-box-demo"
                                 options={MaterialMaster}
                                 value={MaterialDetail}
+                                name='MaterialDetail'
                                 // inputValue={MaterialDetail}
                                 onChange={(event, value) => changeMaterialMasterValue(value)}
                                 // onKeyDown={newInputValue => ProductCategoryMaster_ActiveLikeSearch(newInputValue)}

@@ -62,6 +62,8 @@ const UpdatePassword = React.lazy(() => import('./views/Settings/UpdatePassword/
 const VendorCategoryMaster = React.lazy(() => import('./views/VendorCategoryMaster/VendorCategoryMaster'))
 const VendorSubCategoryMaster = React.lazy(() => import('./views/VendorSubCategoryMaster/VendorSubCategoryMaster'))
 
+const BomPdf = React.lazy(() => import('./views/BOMMaster/BomPdf'))
+
 const routes = [
   { path: '/', exact: true, name: 'Home' },
   //  { path:"/login", name:"Login", element:Login },
@@ -122,6 +124,9 @@ const routes = [
   { path: '/EditDispatchDetails', name: 'Edit Dispatch Details ', element: EditDispatchDetails, exact: true },
   { path: '/VendorCategoryMaster', name: 'Vendor Category Master ', element: VendorCategoryMaster, exact: true },
   { path: '/VendorSubCategoryMaster', name: 'Vendor Sub Category Master ', element: VendorSubCategoryMaster, exact: true },
+
+  { path: '/BomPdf', name: 'BOM PDF', element: BomPdf, exact: true },
+
 ]
 
 export default routes

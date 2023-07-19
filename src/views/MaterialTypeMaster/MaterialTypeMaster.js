@@ -18,15 +18,14 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import AddIcon from '@mui/icons-material/Add';
-import { useForm } from 'react-hook-form';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { CButton, CSpinner } from '@coreui/react';
-
 import SearchBar from "material-ui-search-bar";
 import ExportExcel from 'src/shareFunction/Excelexport';
 import CircularProgress from '@mui/joy/CircularProgress';
 import { TbEdit } from "react-icons/tb";
+import { useForm } from 'react-hook-form';
 
 function MaterialTypeMaster() {
     let Heading = [['SN.', 'Material Type', 'Material Type Prefix', 'Status']];
@@ -40,16 +39,12 @@ function MaterialTypeMaster() {
     const [loader2, setLoader2] = React.useState(false);
     const [nBid, setnBid] = React.useState(0);
     const [btActive, setBtActive] = React.useState(false);
-    const [brandCode, setBrandCode] = React.useState("");
     const [brandName, setBrandName] = React.useState("");
-
     const [vPrefix, setvPrefix] = React.useState("");
-
     const [buttonName, setbuttonName] = React.useState('');
     const [disabled, setdisabled] = React.useState(true);
-    const { register, handleSubmit, control, errors } = useForm();
+    const { register, handleSubmit, errors } = useForm();
     const tableRef = useRef(null);
-    // const [rows, setRows] = useState(brandData);
     const [searched, setSearched] = React.useState("");
     const [onlyActive, setonlyActive] = React.useState(true);
     let checkedData = true
@@ -65,7 +60,6 @@ function MaterialTypeMaster() {
     const getMaterialTypeMaster_SelectAll = () => {
         setLoader2(true)
         MaterialTypeMaster_SelectAll().then(response => {
-            console.log('onlyActive', onlyActive)
             if (checkedData == true) {
                 let activeData = response.filter(e => e.btActive == true)
                 setBrandData(activeData)
@@ -76,32 +70,25 @@ function MaterialTypeMaster() {
                 setBrandData(inactiveData)
                 setMasterBrandData(inactiveData)
                 setLoader2(false)
-
             }
         })
     }
-
     const requestSearch = (searchedVal) => {
-
         if (searchedVal.length > 0) {
             const filteredRows = brandData.filter((row) => {
-                return row.vMaterialType.toLowerCase().includes(searchedVal.toLowerCase()) 
+                return row.vMaterialType.toLowerCase().includes(searchedVal.toLowerCase())
                 // || row.vPrefix.toLowerCase().includes(searchedVal.toLowerCase());
             });
             setBrandData(filteredRows);
         } else {
             setBrandData(masterbrandData);
         }
-
     };
-
     const cancelSearch = () => {
         setSearched("");
         requestSearch(searched);
         getMaterialTypeMaster_SelectAll()
     };
-
-
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
     };
@@ -109,30 +96,78 @@ function MaterialTypeMaster() {
         setRowsPerPage(+event.target.value);
         setPage(0);
     };
-
     const openmodale = (item, type) => {
         if (type == 'Submit') {
             setIsOpen(true)
             setbuttonName(type)
-            // setBrandCode('')
             setvPrefix('')
             setBrandName('')
             setBtActive(true)
             setdisabled(true)
+            setLoader(false)
         } else {
             setIsOpen(true)
             setnBid(item.nMTId)
-            // setBrandCode(item.vBrandCode)
             setvPrefix(item.vPrefix)
             setBrandName(item.vMaterialType)
             setBtActive(item.btActive)
             setdisabled(false)
             setbuttonName(type)
+            setLoader(false)
         }
     }
 
+    const [matchResult, setMatchResult] = useState(null);
+    const [matchResult2, setMatchResult2] = useState(null);
+
+    const handleBrandName = (event) => {
+        console.log("event", event)
+        setBrandName(event.target.value)
+    };
+    const handlevPrefix = (event) => {
+        console.log("event", event)
+        setvPrefix(event.target.value)
+    };
 
     const submit = () => {
+
+        const brandDatas = [...brandData]
+        console.log("brandDatas", brandDatas)
+
+        const venderexist = brandDatas.find(e => e.vMaterialType.toLowerCase() == brandName.toLowerCase())
+        console.log("venderexist", venderexist)
+        // console.log("venderexist.vMaterialType", venderexist.vMaterialType)
+
+        const venderexistvVPrefix = brandDatas.find(e => e.vPrefix.toLowerCase() == vPrefix.toLowerCase())
+        console.log("venderexistvVPrefix", venderexistvVPrefix)
+        // console.log("venderexistvVPrefix.vPrefix", venderexistvVPrefix.vPrefix)
+
+        let lowercaseString3 = ''
+        let lowercaseString4 = ''
+        if (venderexist != undefined) {
+            lowercaseString3 = venderexist.vMaterialType.toLowerCase();
+            console.log("lowercaseString3", lowercaseString3)
+        }
+
+        if (venderexistvVPrefix != undefined) {
+            lowercaseString4 = venderexistvVPrefix.vPrefix.toLowerCase();
+            console.log("lowercaseString4", lowercaseString4)
+        }
+
+        const lowercaseString1 = brandName.toLowerCase();
+        const lowercaseString2 = vPrefix.toLowerCase();
+
+        console.log("lowercaseString1", lowercaseString1)
+        console.log("lowercaseString2", lowercaseString2)
+
+        const isMatch = lowercaseString1 === lowercaseString3;
+        setMatchResult(isMatch);
+        console.log("isMatch", isMatch)
+
+        const isMatch2 = lowercaseString2 === lowercaseString4;
+        setMatchResult2(isMatch2);
+        console.log("isMatch2", isMatch2)
+
         setLoader(true)
         let brand = {
             nMTId: nBid == null ? 0 : nBid,
@@ -143,19 +178,16 @@ function MaterialTypeMaster() {
         }
         if (buttonName == 'Submit') {
 
-            let brandDatas = [...brandData]
-            console.log("brandDatas", brandDatas)
-            let venderexistCode = brandDatas.find(e => e.vPrefix == vPrefix.toLowerCase() || e.vPrefix == vPrefix.toUpperCase())
-            let venderexist = brandDatas.find(e => e.vMaterialType == brandName.toLowerCase() || e.vMaterialType == brandName.toUpperCase())
-            if (venderexist) {
-                setLoader(false)
-                toast.success("Item is already Exists")
-            }
-            else if (venderexistCode) {
-                setLoader(false)
-                toast.success("Material Type Prefix is already Exists")
-            }
-            else {
+            if (isMatch == true || isMatch2 == true) {
+                if (isMatch == true) {
+                    setLoader(false)
+                    toast.error("Variant is already Exists")
+                }
+                if (isMatch2 == true) {
+                    setLoader(false)
+                    toast.error("Variant Prefix is already Exists")
+                }
+            } else {
                 console.log('brand', brand)
                 MaterialTypeMasterPost(brand).then(res => {
                     if (res) {
@@ -167,6 +199,38 @@ function MaterialTypeMaster() {
                     }
                 })
             }
+
+
+            // let brandDatas = [...brandData]
+            // console.log("brandDatas", brandDatas)
+            // let venderexistCode = brandDatas.find(e => e.vPrefix == vPrefix.toLowerCase() || e.vPrefix == vPrefix.toUpperCase())
+            // let venderexist = brandDatas.find(e => e.vMaterialType == brandName.toLowerCase() || e.vMaterialType == brandName.toUpperCase())
+            // if (venderexist || venderexistCode) {
+            // if (venderexist && venderexistCode) {
+            //     setLoader(false)
+            //     toast.error("Product Category and Product Category Prefix is already Exists")
+            // }
+            // if (venderexist) {
+            //     setLoader(false)
+            //     toast.error("Material Type is already Exists")
+            // }
+            // if (venderexistCode) {
+            //     setLoader(false)
+            //     toast.error("Material Type Prefix is already Exists")
+            // }
+
+            // } else {
+            //     console.log('brand', brand)
+            //     MaterialTypeMasterPost(brand).then(res => {
+            //         if (res) {
+            //             console.log('res', res)
+            //             toast.success("Record Added Successfully !!")
+            //             setLoader(false)
+            //             setIsOpen(false)
+            //             getMaterialTypeMaster_SelectAll()
+            //         }
+            //     })
+            // }
         } else {
             console.log('brand', brand)
             MaterialTypeMasterPut(brand).then(res => {
@@ -180,9 +244,6 @@ function MaterialTypeMaster() {
             })
         }
     }
-
-
-
     return (
         <div className='citymasterContainer'>
             {loader2 == true ?
@@ -193,14 +254,11 @@ function MaterialTypeMaster() {
                 </div>
                 :
                 null
-
             }
             <div className='add_export'>
                 <button className='submitbtn_exp' onClick={() => openmodale(null, 'Submit')} title='Add'  ><AddIcon fontSize='small' /> <span className='addFont'>Add</span></button>
                 <ExportExcel excelData={brandData} Heading={Heading} fileName={'MaterialType_Master'} />
-
             </div>
-
             <Modal
                 isOpen={modalIsOpen}
                 style={customStyles}
@@ -212,42 +270,28 @@ function MaterialTypeMaster() {
                     <HighlightOffIcon fontSize='large' onClick={() => setIsOpen(false)} />
                 </div>
                 <div className='displayflexend mt-4'>
-                    {/* <Box className='inputBox-11'>
-                        <FormControl fullWidth className='input'>
-                            <TextField
-                                sx={muiStyles.input}
-                                value={brandCode}
-                                onChange={e => setBrandCode(e.target.value)}
-                                required id="outlined-basic"
-                                label="Brand Code"
-                                variant="outlined"
-                                name='brandCode'
-                                inputRef={register({ required: "Brand Code is required.*", })}
-                                error={Boolean(errors.brandCode)}
-                                helperText={errors.brandCode?.message}
-                            />
-                        </FormControl>
-                    </Box> */}
-                    <Box className='inputBox-11' >
+                    <Box className='inputBox-14 mt-4'>
                         <FormControl fullWidth className='input' >
                             <TextField
                                 sx={muiStyles.input}
+                                fullWidth
                                 value={brandName}
                                 onChange={e => setBrandName(e.target.value)}
                                 required id="outlined-basic"
                                 label="Material Type"
                                 variant="outlined"
-                                name='materialType'
-                                inputRef={register({ required: "Material Type is required.*", })}
-                                error={Boolean(errors.brandName)}
-                                helperText={errors.brandName?.message}
+                                name="materialType"
+                                inputRef={register({ required: "Material Type is required.*" })}
+                                error={Boolean(errors.materialType)}
+                                helperText={errors.materialType?.message}
                             />
                         </FormControl>
                     </Box>
-                    <Box className='inputBox-11'>
+                    <Box className='inputBox-14 mt-4'>
                         <FormControl fullWidth className='input'>
                             <TextField
                                 sx={muiStyles.input}
+                                fullWidth
                                 value={vPrefix}
                                 onChange={e => setvPrefix(e.target.value)}
                                 required id="outlined-basic"
@@ -256,11 +300,10 @@ function MaterialTypeMaster() {
                                 name='vPrefix'
                                 inputProps={{
                                     maxLength: 2, // Set the maximum length here (e.g., 20)
-                                  }}
-                                inputRef={register({ required: "Material Type Prefix is required.*", })}
+                                }}
+                                inputRef={register({ required: "Material Type Prefix is required.*" })}
                                 error={Boolean(errors.vPrefix)}
                                 helperText={errors.vPrefix?.message}
-                                
                             />
                         </FormControl>
                     </Box>
@@ -269,7 +312,6 @@ function MaterialTypeMaster() {
                     <FormGroup >
                         <FormControlLabel style={{ marginRight: 0 }} control={<Checkbox defaultChecked={btActive} onChange={e => setBtActive(e.target.checked)} />} label="Active" disabled={disabled} />
                     </FormGroup>
-
                     {loader == true ?
                         <CButton disabled className='submitbtn'>
                             <CSpinner component="span" size="sm" aria-hidden="true" />
@@ -283,7 +325,6 @@ function MaterialTypeMaster() {
             <div className='tablecenter'>
                 <Paper sx={{ width: '100%', overflow: 'hidden', paddingTop: 1 }}>
                     <div className='exportandfilter'>
-
                         <div className='filterbox'>
                             <Box className='searchbox' >
                                 <SearchBar
@@ -291,27 +332,20 @@ function MaterialTypeMaster() {
                                     onChange={(searchVal) => requestSearch(searchVal)}
                                     onCancelSearch={() => cancelSearch()}
                                 />
-
                             </Box>
                             <FormGroup className='activeonly'>
                                 <FormControlLabel style={{ marginRight: 0 }} control={<Checkbox checked={onlyActive} value={onlyActive} onChange={checkedonlyActive} />} label="Active Data" />
                             </FormGroup>
-
                         </div>
                     </div>
-
                     <TableContainer sx={muiStyles.tableBox} className='tableBox'>
                         <Table stickyHeader aria-label="sticky table" >
                             <TableHead>
                                 <TableRow>
-                                    {/* <TableCell scope="row">SN.</TableCell> */}
-                                    {/* <TableCell align="left" sx={muiStyles.tableHead} >Brand Code</TableCell> */}
                                     <TableCell align="left" sx={muiStyles.tableHead} >Material Type</TableCell>
                                     <TableCell align="left" sx={muiStyles.tableHead} >Material Type Prefix</TableCell>
                                     <TableCell align="left" sx={muiStyles.tableHead} >Status</TableCell>
-
                                     <TableCell align="left" sx={muiStyles.tableHead} >Edit</TableCell>
-
                                 </TableRow>
                             </TableHead>
                             {brandData?.length > 0 ?
@@ -319,14 +353,10 @@ function MaterialTypeMaster() {
                                     {brandData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((item, index) => {
                                         return (
                                             <TableRow key={index}>
-                                                {/* <TableCell component="th" scope="row">{index + 1}.</TableCell> */}
-                                                {/* <TableCell align="left" sx={muiStyles.tableBody}>{item.vBrandCode}</TableCell> */}
                                                 <TableCell align="left" sx={muiStyles.tableBody}>{item.vMaterialType}</TableCell>
                                                 <TableCell align="left" sx={muiStyles.tableBody}>{item.vPrefix}</TableCell>
                                                 <TableCell align="left" sx={muiStyles.tableBody}>{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
-
                                                 <TableCell align="left" sx={muiStyles.tableBody}><div onClick={() => openmodale(item, 'Update')} className='editbtn'><TbEdit size={20} color='#000' /></div></TableCell>
-
                                             </TableRow>
                                         )
                                     })
@@ -339,7 +369,6 @@ function MaterialTypeMaster() {
                                     </TableRow>
                                 </TableBody>
                             }
-
                         </Table>
                     </TableContainer>
                     <TablePagination
@@ -353,9 +382,7 @@ function MaterialTypeMaster() {
                     />
                 </Paper>
             </div>
-
             <ToastContainer />
-
         </div >
     )
 }
@@ -396,7 +423,6 @@ const muiStyles = {
         },
         "& label.Mui-focused": {
             zIndex: '1'
-
         },
         '& .MuiInputAdornment-root': {
             position: 'absolute',
@@ -410,14 +436,12 @@ const muiStyles = {
                 padding: '6px 6px',
                 fontSize: '13px'
             }
-
         },
         "& .MuiFormLabel-root": {
             fontSize: '13px',
             backgroundColor: 'transparent',
             top: '-13px',
             left: '-10px',
-
         },
          "& label.Mui-focused": {
             zIndex: '1'
@@ -456,8 +480,6 @@ const muiStyles = {
             padding: '3px',
             fontSize: '12px'
         },
-
-
     },
     InputLabels: {
         fontSize: '13px',
@@ -495,9 +517,5 @@ const muiStyles = {
             }
         }
     },
-
-
 };
 export default MaterialTypeMaster
-
-
