@@ -52,6 +52,10 @@ function BrandMaster() {
     // const [rows, setRows] = useState(brandData);
     const [searched, setSearched] = React.useState("");
     const [onlyActive, setonlyActive] = React.useState(true);
+
+    const [matchResult, setMatchResult] = useState(null);
+    const [matchResult2, setMatchResult2] = useState(null);
+    const [matchResult3, setMatchResult3] = useState(null);
     let checkedData = true
     const checkedonlyActive = (event) => {
         setonlyActive(event.target.checked)
@@ -132,6 +136,57 @@ function BrandMaster() {
 
 
     const submit = () => {
+
+        const brandDatas = [...brandData]
+        console.log("brandDatas", brandDatas)
+
+        const venderexistCode = brandDatas.find(e => e.vBrandCode.toLowerCase() == brandCode.toLowerCase())
+        console.log("venderexistCode", venderexistCode)
+        // console.log("venderexist.vBrandCode", venderexist.vBrandCode)
+
+        const venderexist = brandDatas.find(e => e.vBrandName.toLowerCase() == brandName.toLowerCase())
+        console.log("venderexist", venderexist)
+        // console.log("venderexist.brandName", venderexist.brandName)
+
+        const venderexistvVPrefix = brandDatas.find(e => e.vPrefix.toLowerCase() == vPrefix.toLowerCase())
+        console.log("venderexistvVPrefix", venderexistvVPrefix)
+        // console.log("venderexistvVPrefix.vPrefix", venderexistvVPrefix.vPrefix)
+
+        let lowercaseString3 = ''
+        let lowercaseString4 = ''
+        let lowercaseString5 = ''
+        if (venderexistCode != undefined) {
+            lowercaseString5 = venderexistCode.vBrandCode.toLowerCase();
+            console.log("lowercaseString5", lowercaseString5)
+        }
+
+        if (venderexist != undefined) {
+            lowercaseString3 = venderexist.vBrandName.toLowerCase();
+            console.log("lowercaseString3", lowercaseString3)
+        }
+
+        if (venderexistvVPrefix != undefined) {
+            lowercaseString4 = venderexistvVPrefix.vPrefix.toLowerCase();
+            console.log("lowercaseString4", lowercaseString4)
+        }
+
+        const lowercaseString1 = brandName.toLowerCase();
+        const lowercaseString2 = vPrefix.toLowerCase();
+        const lowercaseString6 = brandCode.toLowerCase();
+        console.log("lowercaseString1", lowercaseString1)
+        console.log("lowercaseString2", lowercaseString2)
+
+        const isMatch = lowercaseString1 === lowercaseString3;
+        setMatchResult(isMatch);
+        console.log("isMatch", isMatch)
+
+        const isMatch2 = lowercaseString2 === lowercaseString4;
+        setMatchResult2(isMatch2);
+        console.log("isMatch2", isMatch2)
+
+        const isMatch3 = lowercaseString6 === lowercaseString5;
+        setMatchResult3(isMatch3);
+        console.log("isMatch3", isMatch3)
         setLoader(true)
         let brand = {
             nBId: nBid == null ? 0 : nBid,
@@ -141,20 +196,20 @@ function BrandMaster() {
             btActive: btActive,
         }
         if (buttonName == 'Submit') {
-
-            let brandDatas = [...brandData]
-            console.log("brandDatas", brandDatas)
-            let venderexistCode = brandDatas.find(e => e.vBrandCode == brandCode.toLowerCase() || e.vBrandCode == brandCode.toUpperCase())
-            let venderexist = brandDatas.find(e => e.vBrandName == brandName.toLowerCase() || e.vBrandName == brandName.toUpperCase())
-            if (venderexist) {
-                setLoader(false)
-                toast.success("Item is already Exists")
-            }
-            else if (venderexistCode) {
-                setLoader(false)
-                toast.success("Code is already Exists")
-            }
-            else {
+            if (isMatch == true || isMatch2 == true) {
+                if (isMatch3 == true) {
+                    setLoader(false)
+                    toast.error("Code is already Exists")
+                }
+                if (isMatch == true) {
+                    setLoader(false)
+                    toast.error("Brand Name is already Exists")
+                }
+                if (isMatch2 == true) {
+                    setLoader(false)
+                    toast.error("Prefix is already Exists")
+                }
+            } else {
                 console.log('brand', brand)
                 BrandMasterPost(brand).then(res => {
                     if (res) {
@@ -166,6 +221,31 @@ function BrandMaster() {
                     }
                 })
             }
+
+            // let brandDatas = [...brandData]
+            // console.log("brandDatas", brandDatas)
+            // let venderexistCode = brandDatas.find(e => e.vBrandCode == brandCode.toLowerCase() || e.vBrandCode == brandCode.toUpperCase())
+            // let venderexist = brandDatas.find(e => e.vBrandName == brandName.toLowerCase() || e.vBrandName == brandName.toUpperCase())
+            // if (venderexist) {
+            //     setLoader(false)
+            //     toast.success("Item is already Exists")
+            // }
+            // else if (venderexistCode) {
+            //     setLoader(false)
+            //     toast.success("Code is already Exists")
+            // }
+            // else {
+            //     console.log('brand', brand)
+            //     BrandMasterPost(brand).then(res => {
+            //         if (res) {
+            //             console.log('res', res)
+            //             toast.success("Record Added Successfully !!")
+            //             setLoader(false)
+            //             setIsOpen(false)
+            //             getBrandMaster_SelectAll()
+            //         }
+            //     })
+            // }
         } else {
             console.log('brand', brand)
             BrandMasterPut(brand).then(res => {
@@ -255,11 +335,11 @@ function BrandMaster() {
                                 name='vPrefix'
                                 inputProps={{
                                     maxLength: 3, // Set the maximum length here (e.g., 20)
-                                  }}
+                                }}
                                 inputRef={register({ required: "Prefix is required.*", })}
                                 error={Boolean(errors.brandCode)}
                                 helperText={errors.brandCode?.message}
-                                
+
                             />
                         </FormControl>
                     </Box>
@@ -418,14 +498,14 @@ const muiStyles = {
             left: '-10px',
 
         },
-         "& label.Mui-focused": {
+        "& label.Mui-focused": {
             zIndex: '1'
-        },'& .MuiFormHelperText-root': {
+        }, '& .MuiFormHelperText-root': {
             position: 'absolute',
             fontSize: 10,
             bottom: -18
         },
-       
+
     },
     input: {
         "& .MuiOutlinedInput-root": {
@@ -440,14 +520,14 @@ const muiStyles = {
             left: '-10px',
             backgroundColor: 'transparent',
         },
-         "& label.Mui-focused": {
+        "& label.Mui-focused": {
             zIndex: '1'
-        },'& .MuiFormHelperText-root': {
+        }, '& .MuiFormHelperText-root': {
             position: 'absolute',
             fontSize: 10,
             bottom: -18
         },
-       
+
     },
     select: {
 
