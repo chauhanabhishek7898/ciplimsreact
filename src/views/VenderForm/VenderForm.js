@@ -52,6 +52,7 @@ import Select from '@mui/material/Select';
 import Autocomplete from '@mui/material/Autocomplete';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
+import { confirmAlert } from 'react-confirm-alert';
 function VenderForm() {
     let Heading = [['SN.', 'Vendor Code', 'Vendor Name', 'Vendor Address', 'Contact Person', 'Mobile No', 'Email Id', 'GST No', 'Remarks', 'Status']];
     const [modalIsOpen, setIsOpen] = React.useState(false);
@@ -202,8 +203,9 @@ function VenderForm() {
         requestSearch(searched);
         getVendorMaster_SelectAll()
     };
+
     const submit = () => {
-        setLoader(true)
+
         let vendor = {
             nVId: nVId == null ? 0 : nVId,
             vVendorCode: vVendorCode,
@@ -221,43 +223,82 @@ function VenderForm() {
 
         }
         if (buttonName == 'Submit') {
+
             let vendorDatas = [...vendorDetailData]
-            console.log("vendorDatas", vendorDatas)
             let venderexistcode = vendorDatas.find(e => e.vMaterialType == MaterialType && e.vCategoryName == MaterialDetail && e.vSubCategoryName == SubCategory)
             let venderexist = vendorDatas.find(e => e.vMaterialType == MaterialType && e.vCategoryName == MaterialDetail && e.vSubCategoryName == SubCategory)
-            console.log('venderexist', venderexist, MaterialType, MaterialDetail, SubCategory)
-            if (venderexist) {
+            if (venderexist && secondtimeSubmit == true) {
                 setLoader(false)
                 toast.success("Data is already Exists")
-            } else if (venderexistcode) {
+            } else if (venderexistcode && secondtimeSubmit == true) {
                 setLoader(false)
                 toast.success("Data is already Exists")
             }
 
             else {
-                VendorMasterPost(vendor).then(res => {
-                    if (res) {
+                if (validateVenderDetailForm() == true) {
+                   
+                    confirmAlert({
+                        title: 'Alert !!',
+                        message: 'Do you want to Add ?',
+                        buttons: [
+                            {
+                                label: 'Yes',
+                                onClick: () => {
+                                    setLoader(true)
+                                    VendorMasterPost(vendor).then(res => {
+                                        if (res) {
+                                            console.log('res', res[0].VendorId)
+                                            toast.success("Record Added Successfully !!")
+                                            setLoader(false)
+                                            // setIsOpen(false)
+                                            setsecondtimeSubmit(true)
+                                            vendorMaster_GetVendorById(res[0].VendorId)
+                                            getVendorMaster_SelectAll()
+                
+                                        }
+                                    })
 
-                        toast.success("Record Added Successfully !!")
-                        setLoader(false)
-                        // setIsOpen(false)
-                        setsecondtimeSubmit(true)
-                        vendorMaster_GetVendorById(4)
-                        getVendorMaster_SelectAll()
+                                }
+                            },
+                            {
+                                label: 'No',
+                                onClick: () => { return null }
+                            }
+                        ]
+                    });
+                }
 
-                    }
-                })
 
             }
         } else {
-            VendorMasterPut(vendor).then(res => {
-                if (res) {
-                    toast.success("Record Updated Successfully !!")
-                    setLoader(false)
-                    setIsOpen(false)
-                    getVendorMaster_SelectAll()
-                }
-            })
+            confirmAlert({
+                title: 'Alert !!',
+                message: 'Do you want to Edit ?',
+                buttons: [
+                    {
+                        label: 'Yes',
+                        onClick: () => {
+                            setLoader(true)
+                            VendorMasterPut(vendor).then(res => {
+                                if (res) {
+                                    toast.success("Record Updated Successfully !!")
+                                    setLoader(false)
+                                    setIsOpen(false)
+                                    getVendorMaster_SelectAll()
+                                }
+                            })
+
+                        }
+                    },
+                    {
+                        label: 'No',
+                        onClick: () => { return null }
+                    }
+                ]
+            });
+
+
         }
     }
     const validateVenderDetailForm = () => {
@@ -283,7 +324,7 @@ function VenderForm() {
     }
     const vendorDetail_UpdatePut = () => {
         if (validateVenderDetailForm() == true) {
-            setLoader4(true)
+
             let vendor = {
                 nVDId: nVDId == null ? 0 : nVDId,
                 vMaterialType: MaterialType,
@@ -292,18 +333,37 @@ function VenderForm() {
                 btDActive: btDActive,
 
             }
+            confirmAlert({
+                title: 'Alert !!',
+                message: 'Do you want to Edit ?',
+                buttons: [
+                    {
+                        label: 'Yes',
+                        onClick: () => {
+                            setLoader5(true)
+                            VendorDetail_UpdatePut(vendor).then(res => {
+                                if (res) {
+                                    toast.success("Record Updated Successfully !!")
+                                    setLoader5(false)
+                                    setIsOpen(false)
+                                    setMaterialType('')
+                                    setCategoryDetail('')
+                                    setSubCategory('')
+                                    getVendorMaster_SelectAll()
+                                }
+                            })
 
-            VendorDetail_UpdatePut(vendor).then(res => {
-                if (res) {
-                    toast.success("Record Updated Successfully !!")
-                    setLoader4(false)
-                    setIsOpen(false)
-                    setMaterialType('')
-                    setCategoryDetail('')
-                    setSubCategory('')
-                    getVendorMaster_SelectAll()
-                }
-            })
+                        }
+                    },
+                    {
+                        label: 'No',
+                        onClick: () => { return null }
+                    }
+                ]
+            });
+
+
+
 
         }
     }
@@ -407,6 +467,12 @@ function VenderForm() {
 
         }
     }
+    const limitChar = 10;
+    const handleChangeNumber = (e) => {
+      if (e.target.value.toString().length <= limitChar) {
+        setvMobileNo(e.target.value)
+      }
+    };
     return (
         <div className='citymasterContainer'>
             <div className='add_export'>
@@ -479,7 +545,11 @@ function VenderForm() {
                                 id="outlined-basic"
                                 label="Contact Person"
                                 variant="outlined"
-
+                                name='ContactPerson'
+                                required
+                                inputRef={register({ required: "Contact Person is required.*", })}
+                                error={Boolean(errors.ContactPerson)}
+                                helperText={errors.ContactPerson?.message}
                             />
                         </FormControl>
                     </Box>
@@ -488,11 +558,16 @@ function VenderForm() {
                             <TextField
                                 sx={muiStyles.input}
                                 value={vMobileNo}
-                                onChange={e => setvMobileNo(e.target.value)}
+                                onChange={e => handleChangeNumber(e)}
                                 id="outlined-basic"
                                 label="Mobile No"
                                 variant="outlined"
-
+                                type='number'
+                                name='MobileNo'
+                                required
+                                inputRef={register({ required: "Mobile No is required.*", })}
+                                error={Boolean(errors.MobileNo)}
+                                helperText={errors.MobileNo?.message}
                             />
                         </FormControl>
                     </Box>
@@ -522,74 +597,6 @@ function VenderForm() {
                             />
                         </FormControl>
                     </Box>
-
-                    {/* <Box className='inputBox-3'>
-                        <FormControl fullWidth>
-                            <InputLabel id="demo-simple-select-label" >Material Type</InputLabel>
-                            <Select
-                                sx={muiStyles.select}
-                                labelId="demo-simple-select-label"
-                                id="demo-simple-select"
-                                value={MaterialType}
-                                label="Material Type"
-                                onChange={handleChange}
-                            >
-                                <MenuItem value='RM'>RM</MenuItem>
-                                <MenuItem value='PM'>PM</MenuItem>
-
-                            </Select>
-                        </FormControl>
-                    </Box>
-                    <Box className='inputBox-3'>
-                        <FormControl fullWidth className='input'>
-                            <InputLabel required id="demo-simple-select-label">Item</InputLabel>
-                            <Autocomplete
-                                sx={muiStyles.autoCompleate}
-                                disablePortal
-                                id="combo-box-demo"
-                                options={MaterialMaster}
-                                value={MaterialDetail}
-                                // inputValue={MaterialDetail}
-                                onChange={(event, value) => changeCetegoryValue(value)}
-                                // onKeyDown={newInputValue => categoryMaster_ActiveLikeSearch(newInputValue)}
-                                onInputChange={(event, newInputValue) => {
-                                    // setInputValue(newInputValue);
-                                    if (newInputValue.length >= 3) {
-                                        categoryMaster_ActiveLikeSearch(newInputValue)
-
-                                    }
-                                    console.log('newInputValue', newInputValue)
-                                }}
-                                renderInput={(params) => <TextField {...params} label="Search Category" required />}
-                            />
-                            {errorText.MaterialDetail != '' ? <p className='error'>{errorText.MaterialDetail}</p> : null}
-                        </FormControl>
-                    </Box>
-                    <Box className='inputBox-3'>
-                        <FormControl fullWidth className='input'>
-                            <InputLabel required id="demo-simple-select-label">Item</InputLabel>
-                            <Autocomplete
-                                sx={muiStyles.autoCompleate}
-                                disablePortal
-                                id="combo-box-demo"
-                                options={subcategoryMaster}
-                                value={subcategoryMasterDetail}
-                                // inputValue={MaterialDetail}
-                                onChange={(event, value) => changeSubCategoryValue(value)}
-                                // onKeyDown={newInputValue => categoryMaster_ActiveLikeSearch(newInputValue)}
-                                onInputChange={(event, newInputValue) => {
-                                    // setInputValue(newInputValue);
-                                    if (newInputValue.length >= 3) {
-                                        subCategory_SelectAll_ActiveLikeSearch(newInputValue)
-
-                                    }
-                                    console.log('newInputValue', newInputValue)
-                                }}
-                                renderInput={(params) => <TextField {...params} label="Search Sub Category" required />}
-                            />
-                            {errorText.MaterialDetail != '' ? <p className='error'>{errorText.MaterialDetail}</p> : null}
-                        </FormControl>
-                    </Box> */}
                     <Box className='inputBox-3'>
                         <FormControl fullWidth className='input'>
                             <TextField
@@ -749,8 +756,11 @@ function VenderForm() {
                                                 <TableCell align="left" sx={muiStyles.tableHead}>Category Name</TableCell>
                                                 <TableCell align="left" sx={muiStyles.tableHead}>Sub Category Name</TableCell>
 
+                                                {buttonName == 'Update' ?
+                                                    <TableCell align="left" sx={muiStyles.tableHead} >Edit</TableCell>
+                                                    : null
 
-                                                <TableCell align="left" sx={muiStyles.tableHead} >Edit</TableCell>
+                                                }
                                             </TableRow>
                                         </TableHead>
                                         {vendorDetailData?.length > 0 ?
@@ -763,8 +773,11 @@ function VenderForm() {
                                                             <TableCell align="left" sx={muiStyles.tableBody}>{item.vCategoryName}</TableCell>
 
                                                             <TableCell align="left" sx={muiStyles.tableBody}>{item.vSubCategoryName}</TableCell>
-
-                                                            <TableCell align="left" sx={muiStyles.tableBody}><div onClick={() => changeupdatedata(item, 'venderDetails')} className='editbtn'><TbEdit size={20} color='#000' /></div></TableCell>
+                                                            {buttonName == 'Update' ?
+                                                                <TableCell align="left" sx={muiStyles.tableBody}><div onClick={() => changeupdatedata(item, 'venderDetails')} className='editbtn'><TbEdit size={20} color='#000' /></div></TableCell>
+                                                                :
+                                                                null
+                                                            }
                                                         </TableRow>
                                                     )
                                                 })
@@ -817,7 +830,7 @@ function VenderForm() {
                 </div>
                 <div className='displayflexend-2'>
                     <div></div>
-                    {loader4 == true ?
+                    {loader5 == true ?
                         <CButton disabled className='submitbtn'>
                             <CSpinner component="span" size="sm" aria-hidden="true" />
                             Loading...
@@ -923,7 +936,7 @@ const customStyles = {
     },
 };
 const muiStyles = {
-  
+
     content: {
         top: '50%',
         left: '50%',
@@ -947,14 +960,14 @@ const muiStyles = {
         //     backgroundColor: 'transparent',
         //     zIndex: '1'
         // },
-         "& label.Mui-focused": {
+        "& label.Mui-focused": {
             zIndex: '1'
-        },'& .MuiFormHelperText-root': {
+        }, '& .MuiFormHelperText-root': {
             position: 'absolute',
             fontSize: 10,
             bottom: -18
         },
-       
+
         '& .MuiInputAdornment-root': {
             position: 'absolute',
             right: '10px'
@@ -976,14 +989,14 @@ const muiStyles = {
             left: '-10px',
 
         },
-         "& label.Mui-focused": {
+        "& label.Mui-focused": {
             zIndex: '1'
-        },'& .MuiFormHelperText-root': {
+        }, '& .MuiFormHelperText-root': {
             position: 'absolute',
             fontSize: 10,
             bottom: -18
         },
-       
+
         "& .MuiIconButton-root": {
             padding: '0'
         }
@@ -1003,15 +1016,15 @@ const muiStyles = {
             left: '-10px',
             backgroundColor: 'transparent',
         },
-         "& label.Mui-focused": {
+        "& label.Mui-focused": {
             zIndex: '1'
-        },'& .MuiFormHelperText-root': {
+        }, '& .MuiFormHelperText-root': {
             position: 'absolute',
             fontSize: 10,
             bottom: -18
         },
-       
-       
+
+
     },
     select: {
 

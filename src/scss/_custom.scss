@@ -35,9 +35,6 @@ p {
   margin-bottom: 0;
 }
 
-.ReactModal__Overlay--after-open {
-  z-index: 10000000 !important;
-}
 
 .dateFilter {
   background-color: #fff;
@@ -216,7 +213,8 @@ p {
   // position: absolute;
   font-size: 12px;
   color: red;
-
+  position: absolute;
+  bottom: -18px
 }
 
 .sidebar-nav .nav-group.show {
@@ -1334,4 +1332,7 @@ input[type="number"] {
   font-size: 10px;
   color: blue;
   top:10px
+}
+.react-confirm-alert-overlay{
+  z-index: 10000 !important;
 }
