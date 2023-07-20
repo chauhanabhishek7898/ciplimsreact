@@ -7,9 +7,17 @@ import reportWebVitals from './reportWebVitals'
 import { Provider } from 'react-redux'
 import store from './store'
 import 'react-tooltip/dist/react-tooltip.css'
-
+import ReactDOM from 'react-dom';
 import {BrowserRouter} from 'react-router-dom'
-createRoot(document.getElementById('root')).render(
+// createRoot(document.getElementById('root')).render(
+//   <Provider store={store}>
+//     {/* <BrowserRouter>
+//     </BrowserRouter> */}
+//     <App />
+ 
+//   </Provider>,
+// )
+ReactDOM.createRoot(document.getElementById('root')).render(
   <Provider store={store}>
     {/* <BrowserRouter>
     </BrowserRouter> */}

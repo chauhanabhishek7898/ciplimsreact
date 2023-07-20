@@ -229,15 +229,15 @@ function VenderForm() {
             let venderexist = vendorDatas.find(e => e.vMaterialType == MaterialType && e.vCategoryName == MaterialDetail && e.vSubCategoryName == SubCategory)
             if (venderexist && secondtimeSubmit == true) {
                 setLoader(false)
-                toast.success("Data is already Exists")
+                toast.success("Data already Exists for these selections.")
             } else if (venderexistcode && secondtimeSubmit == true) {
                 setLoader(false)
-                toast.success("Data is already Exists")
+                toast.success("Data already Exists for these selections.")
             }
 
             else {
                 if (validateVenderDetailForm() == true) {
-                   
+                    
                     confirmAlert({
                         title: 'Alert !!',
                         message: 'Do you want to Add ?',
@@ -253,6 +253,9 @@ function VenderForm() {
                                             setLoader(false)
                                             // setIsOpen(false)
                                             setsecondtimeSubmit(true)
+                                            setMaterialType('')
+                                            setCategoryDetail('')
+                                            setSubCategory('')
                                             vendorMaster_GetVendorById(res[0].VendorId)
                                             getVendorMaster_SelectAll()
                 
@@ -469,9 +472,9 @@ function VenderForm() {
     }
     const limitChar = 10;
     const handleChangeNumber = (e) => {
-      if (e.target.value.toString().length <= limitChar) {
-        setvMobileNo(e.target.value)
-      }
+        if (e.target.value.toString().length <= limitChar) {
+            setvMobileNo(e.target.value)
+        }
     };
     return (
         <div className='citymasterContainer'>
@@ -874,6 +877,9 @@ function VenderForm() {
                                     <TableCell align="left" sx={muiStyles.tableHead}>Mobile No</TableCell>
                                     <TableCell align="left" sx={muiStyles.tableHead}>Email Id</TableCell>
                                     <TableCell align="left" sx={muiStyles.tableHead}>GST No</TableCell>
+                                    <TableCell align="left" sx={muiStyles.tableHead}>Material Types</TableCell>
+                                    <TableCell align="left" sx={muiStyles.tableHead}>Categories</TableCell>
+                                    <TableCell align="left" sx={muiStyles.tableHead}>Sub Categories</TableCell>
                                     <TableCell align="left" sx={muiStyles.tableHead}>Remarks</TableCell>
                                     <TableCell align="left" sx={muiStyles.tableHead}>Status</TableCell>
                                     <TableCell align="left" sx={muiStyles.tableHead} >Edit</TableCell>
@@ -891,6 +897,9 @@ function VenderForm() {
                                                 <TableCell align="left" sx={muiStyles.tableBody}>{item.vMobileNo}</TableCell>
                                                 <TableCell align="left" sx={muiStyles.tableBody}>{item.vEmailId}</TableCell>
                                                 <TableCell align="left" sx={muiStyles.tableBody}>{item.vGSTNo}</TableCell>
+                                                <TableCell align="left" sx={muiStyles.tableBody}>{item.MaterialTypes}</TableCell>
+                                                <TableCell align="left" sx={muiStyles.tableBody}>{item.Categories}</TableCell>
+                                                <TableCell align="left" sx={muiStyles.tableBody}>{item.SubCategories}</TableCell>
                                                 <TableCell align="left" sx={muiStyles.tableBody}><a data-tooltip-id="my-tooltip" data-tooltip-content={item.vRemarks}>{(item.vRemarks.length > 10) ? (item.vRemarks.slice(0, 10)) + '...' : (item.vRemarks)}</a><Tooltip id="my-tooltip" place="bottom" /></TableCell>
                                                 <TableCell align="left" sx={muiStyles.tableBody}>{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
                                                 <TableCell align="left" sx={muiStyles.tableBody}><div onClick={() => openmodale(item, 'Update')} className='editbtn'><TbEdit size={20} color='#000' /></div></TableCell>
@@ -933,6 +942,7 @@ const customStyles = {
         marginRight: '-50%',
         transform: 'translate(-50%, -50%)',
         width: '80%',
+        zIndex:1000
     },
 };
 const muiStyles = {
