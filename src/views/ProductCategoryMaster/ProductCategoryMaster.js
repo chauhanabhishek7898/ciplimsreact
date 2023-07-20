@@ -58,7 +58,6 @@ function ProductCategoryMaster() {
     const getProductCategoryMaster_SelectAll = () => {
         setLoader2(true)
         ProductCategoryMaster_SelectAll().then(response => {
-            console.log('onlyActive', onlyActive)
             if (checkedData == true) {
                 let activeData = response.filter(e => e.btActive == true)
                 setBrandData(activeData)
@@ -131,41 +130,29 @@ function ProductCategoryMaster() {
     const submit = () => {
 
         const brandDatas = [...brandData]
-        console.log("brandDatas", brandDatas)
 
         const venderexist = brandDatas.find(e => e.vPDCategoryName.toLowerCase() == brandName.toLowerCase())
-        console.log("venderexist", venderexist)
-        // console.log("venderexist.vPDCategoryName", venderexist.vPDCategoryName)
 
         const venderexistvVPrefix = brandDatas.find(e => e.vPDCatPrefix.toLowerCase() == vPrefix.toLowerCase())
-        console.log("venderexistvVPrefix", venderexistvVPrefix)
-        // console.log("venderexistvVPrefix.vPDCatPrefix", venderexistvVPrefix.vPDCatPrefix)
 
         let lowercaseString3 = ''
         let lowercaseString4 = ''
         if (venderexist != undefined) {
             lowercaseString3 = venderexist.vPDCategoryName.toLowerCase();
-            console.log("lowercaseString3", lowercaseString3)
         }
 
         if (venderexistvVPrefix != undefined) {
             lowercaseString4 = venderexistvVPrefix.vPDCatPrefix.toLowerCase();
-            console.log("lowercaseString4", lowercaseString4)
         }
 
         const lowercaseString1 = brandName.toLowerCase();
         const lowercaseString2 = vPrefix.toLowerCase();
 
-        console.log("lowercaseString1", lowercaseString1)
-        console.log("lowercaseString2", lowercaseString2)
-
         const isMatch = lowercaseString1 === lowercaseString3;
         setMatchResult(isMatch);
-        console.log("isMatch", isMatch)
 
         const isMatch2 = lowercaseString2 === lowercaseString4;
         setMatchResult2(isMatch2);
-        console.log("isMatch2", isMatch2)
 
         setLoader(true)
         let brand = {
@@ -186,10 +173,8 @@ function ProductCategoryMaster() {
                     toast.error("Product Category Prefix is already Exists")
                 }
             } else {
-                console.log('brand', brand)
                 ProductCategoryMasterPost(brand).then(res => {
                     if (res) {
-                        console.log('res', res)
                         toast.success("Record Added Successfully !!")
                         setLoader(false)
                         setIsOpen(false)
@@ -198,42 +183,9 @@ function ProductCategoryMaster() {
                 })
             }
 
-
-            // let brandDatas = [...brandData]
-            // console.log("brandDatas", brandDatas)
-            // let venderexistCode = brandDatas.find(e => e.vPDCatPrefix == vPrefix.toLowerCase() || e.vPDCatPrefix == vPrefix.toUpperCase())
-            // let venderexist = brandDatas.find(e => e.vPDCategoryName == brandName.toLowerCase() || e.vPDCategoryName == brandName.toUpperCase())
-            // if (venderexist || venderexistCode) {
-            //     // if (venderexist && venderexistCode) {
-            //     //     setLoader(false)
-            //     //     toast.error("Product Category and Product Category Prefix is already Exists")
-            //     // }
-            //     if (venderexist) {
-            //         setLoader(false)
-            //         toast.error("Product Category is already Exists")
-            //     }
-            //     if (venderexistCode) {
-            //         setLoader(false)
-            //         toast.error("Product Category Prefix is already Exists")
-            //     }
-
-            // } else {
-            //     console.log('brand', brand)
-            //     ProductCategoryMasterPost(brand).then(res => {
-            //         if (res) {
-            //             console.log('res', res)
-            //             toast.success("Record Added Successfully !!")
-            //             setLoader(false)
-            //             setIsOpen(false)
-            //             getProductCategoryMaster_SelectAll()
-            //         }
-            //     })
-            // }
         } else {
-            console.log('brand', brand)
             ProductCategoryMasterPut(brand).then(res => {
                 if (res) {
-                    console.log('res', res)
                     toast.success("Record Updated Successfully !!")
                     setLoader(false)
                     setIsOpen(false)

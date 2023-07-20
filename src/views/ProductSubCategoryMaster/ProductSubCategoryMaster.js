@@ -24,7 +24,6 @@ import { useForm } from 'react-hook-form';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { CButton, CSpinner } from '@coreui/react';
-
 import SearchBar from "material-ui-search-bar";
 import ExportExcel from 'src/shareFunction/Excelexport';
 import CircularProgress from '@mui/joy/CircularProgress';
@@ -32,7 +31,6 @@ import { TbEdit } from "react-icons/tb";
 
 function ProductSubCategoryMaster() {
     let Heading = [['SN.', 'Product Sub Category', 'Product Sub Category Prefix', 'Status']];
-
     const [modalIsOpen, setIsOpen] = React.useState(false);
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -45,27 +43,19 @@ function ProductSubCategoryMaster() {
     const [brandCode, setBrandCode] = React.useState("");
     const [brandName, setBrandName] = React.useState("");
     const [nPDCId, setnPDCId] = React.useState(0);
-
     const [vPrefix, setvPrefix] = React.useState("");
-
     const [buttonName, setbuttonName] = React.useState('');
     const [disabled, setdisabled] = React.useState(true);
-
     const tableRef = useRef(null);
-    // const [rows, setRows] = useState(brandData);
     const [searched, setSearched] = React.useState("");
     const [onlyActive, setonlyActive] = React.useState(true);
-
     const { register, handleSubmit, control, errors } = useForm();
     const [errorText, setError] = React.useState({
         MaterialDetail: '',
     });
-
     const [MaterialMaster, setMaterialMaster] = React.useState([]);
     const [MaterialDetail, setMaterialDetail] = React.useState('');
-
     const [nMId, setnMId] = React.useState('');
-
     const validateformPoDetial = () => {
         if (MaterialDetail == '' || MaterialDetail == undefined) {
             setError({
@@ -79,9 +69,7 @@ function ProductSubCategoryMaster() {
             })
             return true
         }
-
     }
-
     let checkedData = true
     const checkedonlyActive = (event) => {
         setonlyActive(event.target.checked)
@@ -95,7 +83,6 @@ function ProductSubCategoryMaster() {
     const getProductSubCategoryMaster_SelectAll = () => {
         setLoader2(true)
         ProductSubCategoryMaster_SelectAll().then(response => {
-            console.log('onlyActive', onlyActive)
             if (checkedData == true) {
                 let activeData = response.filter(e => e.btActive == true)
                 setBrandData(activeData)
@@ -106,13 +93,10 @@ function ProductSubCategoryMaster() {
                 setBrandData(inactiveData)
                 setMasterBrandData(inactiveData)
                 setLoader2(false)
-
             }
         })
     }
-
     const requestSearch = (searchedVal) => {
-
         if (searchedVal.length > 0) {
             const filteredRows = brandData.filter((row) => {
                 return row.vPDSubCategoryName.toLowerCase().includes(searchedVal.toLowerCase())
@@ -122,7 +106,6 @@ function ProductSubCategoryMaster() {
         } else {
             setBrandData(masterbrandData);
         }
-
     };
 
     const cancelSearch = () => {
@@ -130,8 +113,6 @@ function ProductSubCategoryMaster() {
         requestSearch(searched);
         getProductSubCategoryMaster_SelectAll()
     };
-
-
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
     };
@@ -139,7 +120,6 @@ function ProductSubCategoryMaster() {
         setRowsPerPage(+event.target.value);
         setPage(0);
     };
-
     const openmodale = (item, type) => {
         if (type == 'Submit') {
             setIsOpen(true)
@@ -156,7 +136,6 @@ function ProductSubCategoryMaster() {
             setnPDCId(item.nPDCId)
             setvPrefix(item.vPDSubCatPrefix)
             setBrandName(item.vPDSubCategoryName)
-
             setMaterialDetail(item.vPDCategoryName)
             setnMId(item.nPDCId)
             setBtActive(item.btActive)
@@ -165,7 +144,6 @@ function ProductSubCategoryMaster() {
             setLoader(false)
         }
     }
-
 
     const [matchResult, setMatchResult] = useState(null);
     const [matchResult2, setMatchResult2] = useState(null);
@@ -216,7 +194,6 @@ function ProductSubCategoryMaster() {
 
         const isMatch2 = lowercaseString2 === lowercaseString4;
         setMatchResult2(isMatch2);
-        console.log("isMatch2", isMatch2)
 
 
         if (isMatch == true || isMatch2 == true) {
@@ -232,7 +209,6 @@ function ProductSubCategoryMaster() {
             console.log('brand', brand)
             ProductSubCategoryMasterPost(brand).then(res => {
                 if (res) {
-                    console.log('res', res)
                     toast.success("Record Added Successfully !!")
                     setLoader(false)
                     setIsOpen(false)
@@ -246,41 +222,29 @@ function ProductSubCategoryMaster() {
     const submit = () => {
         if (validateformPoDetial() == true) {
             const brandDatas = [...brandData]
-            console.log("brandDatas", brandDatas)
 
             const venderexist = brandDatas.find(e => e.vPDSubCategoryName.toLowerCase() == brandName.toLowerCase())
-            console.log("venderexist", venderexist)
-            // console.log("venderexist.vPDSubCategoryName", venderexist.vPDSubCategoryName)
 
             const venderexistvVPrefix = brandDatas.find(e => e.vPDSubCatPrefix.toLowerCase() == vPrefix.toLowerCase())
-            console.log("venderexistvVPrefix", venderexistvVPrefix)
-            // console.log("venderexistvVPrefix.vPDSubCatPrefix", venderexistvVPrefix.vPDSubCatPrefix)
 
             let lowercaseString3 = ''
             let lowercaseString4 = ''
             if (venderexist != undefined) {
                 lowercaseString3 = venderexist.vPDSubCategoryName.toLowerCase();
-                console.log("lowercaseString3", lowercaseString3)
             }
 
             if (venderexistvVPrefix != undefined) {
                 lowercaseString4 = venderexistvVPrefix.vPDSubCatPrefix.toLowerCase();
-                console.log("lowercaseString4", lowercaseString4)
             }
 
             const lowercaseString1 = brandName.toLowerCase();
             const lowercaseString2 = vPrefix.toLowerCase();
 
-            console.log("lowercaseString1", lowercaseString1)
-            console.log("lowercaseString2", lowercaseString2)
-
             const isMatch = lowercaseString1 === lowercaseString3;
             setMatchResult(isMatch);
-            console.log("isMatch", isMatch)
 
             const isMatch2 = lowercaseString2 === lowercaseString4;
             setMatchResult2(isMatch2);
-            console.log("isMatch2", isMatch2)
 
             setLoader(true)
             let brand = {
@@ -301,10 +265,8 @@ function ProductSubCategoryMaster() {
                         toast.error("Product Sub Category Prefix is already Exists")
                     }
                 } else {
-                    console.log('brand', brand)
                     ProductSubCategoryMasterPost(brand).then(res => {
                         if (res) {
-                            console.log('res', res)
                             toast.success("Record Added Successfully !!")
                             setLoader(false)
                             setIsOpen(false)
@@ -313,36 +275,6 @@ function ProductSubCategoryMaster() {
                     })
                 }
 
-                // let brandDatas = [...brandData]
-                // console.log("brandDatas", brandDatas)
-                // let venderexistCode = brandDatas.find(e => e.vPDSubCatPrefix == vPrefix.toLowerCase() || e.vPDSubCatPrefix == vPrefix.toUpperCase())
-                // let venderexist = brandDatas.find(e => e.vPDSubCategoryName == brandName.toLowerCase() || e.vPDSubCategoryName == brandName.toUpperCase())
-                // if (venderexist || venderexistCode) {
-                //     // if (venderexist && venderexistCode) {
-                //     //     setLoader(false)
-                //     //     toast.error("Product Category and Product Category Prefix is already Exists")
-                //     // }
-                //     if (venderexist) {
-                //         setLoader(false)
-                //         toast.error("Product Sub Category is already Exists")
-                //     }
-                //     if (venderexistCode) {
-                //         setLoader(false)
-                //         toast.error("Product Sub Category Prefix is already Exists")
-                //     }
-
-                // } else {
-                //     console.log('brand', brand)
-                //     ProductSubCategoryMasterPost(brand).then(res => {
-                //         if (res) {
-                //             console.log('res', res)
-                //             toast.success("Record Added Successfully !!")
-                //             setLoader(false)
-                //             setIsOpen(false)
-                //             getProductSubCategoryMaster_SelectAll()
-                //         }
-                //     })
-                // }
             } else {
                 console.log('brand', brand)
                 ProductSubCategoryMasterPut(brand).then(res => {

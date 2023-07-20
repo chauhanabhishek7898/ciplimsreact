@@ -125,7 +125,7 @@ const routes = [
   { path: '/VendorCategoryMaster', name: 'Vendor Category Master ', element: VendorCategoryMaster, exact: true },
   { path: '/VendorSubCategoryMaster', name: 'Vendor Sub Category Master ', element: VendorSubCategoryMaster, exact: true },
 
-  { path: '/BomPdf', name: 'BOM PDF', element: BomPdf, exact: true },
+  { path: '/BomPdf', name: 'PDF', element: BomPdf, exact: true },
 
 ]
 
