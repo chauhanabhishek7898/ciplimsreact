@@ -100,11 +100,11 @@ function VendorSubCategoryMaster() {
                     // }
                     if (unitName) {
                         setLoader(false)
-                        toast.error("Vender Sub Category is already Exists")
+                        toast.error("Vender Subcategory is already Exists")
                     }
                     if (venderexistCode) {
                         setLoader(false)
-                        toast.error("Vender Sub Category Prefix is already Exists")
+                        toast.error("Vender Subcategory Prefix is already Exists")
                     }
     
                 } else {
@@ -281,7 +281,7 @@ function VendorSubCategoryMaster() {
                 ariaHideApp={false}
             >
                 <div className='displayright'>
-                    <div><span className='title'>Vendor Sub Category Master</span></div>
+                    <div><span className='title'>Vendor Subcategory Master</span></div>
                     <HighlightOffIcon fontSize='large' onClick={() => setIsOpen(false)} />
                 </div>
                 <form >
@@ -291,12 +291,12 @@ function VendorSubCategoryMaster() {
                                 sx={muiStyles.input}
                                 fullWidth
                                 id="outlined-basic"
-                                label="Enter Sub Category Name"
+                                label="Enter Subcategory Name"
                                 variant="outlined"
                                 value={vUnitName}
                                 name='vUnitName'
                                 onChange={e => setvUnitName(e.target.value)}
-                                inputRef={register({ required: "Sub Category Name is required.*", })}
+                                inputRef={register({ required: "Subcategory Name is required.*", })}
                                 error={Boolean(errors.vUnitName)}
                                 helperText={errors.vUnitName?.message}
                             />
@@ -340,7 +340,7 @@ function VendorSubCategoryMaster() {
                                     maxLength: 2, // Set the maximum length here (e.g., 20)
                                 }}
                                 onChange={e => setvSubCatPrefix(e.target.value)}
-                                inputRef={register({ required: "Sub Category Prefix is required.*", })}
+                                inputRef={register({ required: "Subcategory Prefix is required.*", })}
                                 error={Boolean(errors.vSubCatPrefix)}
                                 helperText={errors.vSubCatPrefix?.message}
                             />
@@ -392,7 +392,7 @@ function VendorSubCategoryMaster() {
                             <TableHead>
                                 <TableRow>
                                     {/* <TableCell scope="row">SN.</TableCell> */}
-                                    <TableCell align="left" sx={muiStyles.tableHead}>Sub Category Name</TableCell>
+                                    <TableCell align="left" sx={muiStyles.tableHead}>Subcategory Name</TableCell>
                                     <TableCell align="left" sx={muiStyles.tableHead}>Category Name</TableCell>
                                     <TableCell align="left" sx={muiStyles.tableHead}>Prefix</TableCell>
 

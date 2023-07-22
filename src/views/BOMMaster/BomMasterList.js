@@ -151,11 +151,6 @@ function BomMasterList() {
         navigate('/EditBomMaster', { state: { nBId } });
     }
 
-    const handlePdf = () => {
-
-        navigate('/BomPdf');
-    }
-
     return (
         <div className='citymasterContainer'>
             {/* <button  title='Add' onClick={routeChange}><AddIcon fontSize='small' /></button> */}
@@ -174,12 +169,8 @@ function BomMasterList() {
                 <Link to="/AddBomMaster" className='submitbtn_exp'><AddIcon fontSize='small' /> <span className='addFont'>Add</span></Link>
             </div>
 
-            <div className='exportandfilter_end' onClick={handlePdf}>
-                <Link to="/AddBomMaster" className='submitbtn_exp'><FontAwesomeIcon fontSize='small'  /> <span className='addFont'>BOM PDF</span></Link>
-            </div>
              </div>
             
-
             <div className='tablecenter'>
 
                 <Paper sx={{ width: '100%', overflow: 'hidden', paddingTop: 1 }}>
@@ -245,7 +236,7 @@ function BomMasterList() {
                                     <TableCell align="left" sx={muiStyles.tableHead} >BOM Name</TableCell>
                                     <TableCell align="left" sx={muiStyles.tableHead} >Product Name</TableCell>
                                     <TableCell align="left" sx={muiStyles.tableHead} >Product Category</TableCell>
-                                    <TableCell align="left" sx={muiStyles.tableHead} >Product Sub Category</TableCell>
+                                    <TableCell align="left" sx={muiStyles.tableHead} >Product Subcategory</TableCell>
                                     <TableCell align="left" sx={muiStyles.tableHead} >Brand</TableCell>
                                     <TableCell align="left" sx={muiStyles.tableHead} >Varient</TableCell>
                                     <TableCell align="left" sx={muiStyles.tableHead} >Pack</TableCell>

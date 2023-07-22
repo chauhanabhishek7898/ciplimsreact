@@ -1,45 +1,47 @@
 import React, { useEffect } from 'react'
 import TextField from '@mui/material/TextField';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import SimpleReactValidator from 'simple-react-validator';
-import { useForm } from 'react-hook-form';
 import { CButton, CSpinner } from '@coreui/react'
 import { UserChangePassword_Update } from '../SettingsApi'
 function UpdatePassword() {
     const [vPassword, setvPassword] = React.useState('');
     const [confirmvPassword, setconfirmvPassword] = React.useState('');
     const [Error, setError] = React.useState({
-        pass:'',
-        confpass:''
+        pass: '',
+        confpass: ''
     });
     const [nUserId, setnUserId] = React.useState('');
     const [loader, setLoader] = React.useState(false);
-    const { register, handleSubmit, control, errors } = useForm();
-
     useEffect(() => {
         const userId = localStorage.getItem("nUserId")
         setnUserId(userId)
     }, [])
-    const validate=()=>{
-
-        if(vPassword==''){
+    const validate = () => {
+        if (vPassword == '') {
             setError({
-                pass:'Enter Passwords '
+                pass: 'Enter Password'
             }
-                )
+            )
             return false
-        }else if(confirmvPassword!=vPassword){
+        }
+        if (confirmvPassword == "") {
             setError({
-                confpass:'Passwords do not match'
+                confpass: 'Enter confirm Password'
             })
             return false
-        }else{
+        }
+        if (confirmvPassword != vPassword) {
+            setError({
+                confpass: 'Passwords do not match'
+            })
+            return false
+        } else {
             return true
         }
     }
     const submit = () => {
-        if(validate()==true){
+        if (validate() == true) {
             setLoader(true)
             let data = {
                 nUserId: parseInt(nUserId),
@@ -54,38 +56,37 @@ function UpdatePassword() {
                     setError('')
                 }
             })
-
         }
     }
     return (
         <div className='citymasterContainers'>
             <div >
                 <div className='emailInput'>
-                <TextField
-                   sx={muiStyles.input}
-                    fullWidth
-                    id="outlined-basic"
-                    label="New Password"
-                    variant="outlined"
-                    value={vPassword}
-                    name='vPassword'
-                    onChange={e => setvPassword(e.target.value)}
-                   
-                />
-                    {Error.pass!=''?<p style={{color:'red',fontSize:10}}>{Error.pass}</p>:null}
+                    <TextField
+                        sx={muiStyles.input}
+                        fullWidth
+                        id="outlined-basic"
+                        label="New Password"
+                        variant="outlined"
+                        value={vPassword}
+                        name='vPassword'
+                        onChange={e => setvPassword(e.target.value)}
+
+                    />
+                    {Error.pass != '' ? <p style={{ color: 'red', fontSize: 10 }}>{Error.pass}</p> : null}
                 </div>
                 <div className='emailInput mt-4'>
-                <TextField
-                   sx={muiStyles.input}
-                    fullWidth
-                    id="outlined-basic"
-                    label="Confirm Password"
-                    variant="outlined"
-                    value={confirmvPassword}
-                    name='confirmvPassword'
-                    onChange={e => setconfirmvPassword(e.target.value)}
-                />
-                    {Error.confpass!=''?<p style={{color:'red',fontSize:10}}>{Error.confpass}</p>:null}
+                    <TextField
+                        sx={muiStyles.input}
+                        fullWidth
+                        id="outlined-basic"
+                        label="Confirm Password"
+                        variant="outlined"
+                        value={confirmvPassword}
+                        name='confirmvPassword'
+                        onChange={e => setconfirmvPassword(e.target.value)}
+                    />
+                    {Error.confpass != '' ? <p style={{ color: 'red', fontSize: 10 }}>{Error.confpass}</p> : null}
                 </div>
             </div>
             <div>
@@ -97,7 +98,6 @@ function UpdatePassword() {
                     :
                     <button type="submit" className='submitbtn' onClick={submit}>Update</button>
                 }
-
             </div>
         </div>
     )
@@ -122,15 +122,14 @@ const muiStyles = {
         "& .MuiFormLabel-root": {
             fontSize: '13px',
             top: '-13px',
-            left:'-10px',
+            left: '-10px',
             backgroundColor: 'transparent',
             zIndex: '1'
         },
         "& label.Mui-focused": {
             zIndex: '1'
-
         },
-        '& .MuiInputAdornment-root':{
+        '& .MuiInputAdornment-root': {
             position: 'absolute',
             right: '10px'
         }
@@ -142,23 +141,20 @@ const muiStyles = {
                 padding: '6px 6px',
                 fontSize: '13px'
             }
-
         },
         "& .MuiFormLabel-root": {
             fontSize: '13px',
             backgroundColor: 'transparent',
             top: '-13px',
-            left:'-10px',
-          
+            left: '-10px',
         },
-         "& label.Mui-focused": {
+        "& label.Mui-focused": {
             zIndex: '1'
-        },'& .MuiFormHelperText-root': {
+        }, '& .MuiFormHelperText-root': {
             position: 'absolute',
             fontSize: 10,
             bottom: -18
         },
-       
     },
     input: {
         "& .MuiOutlinedInput-root": {
@@ -170,37 +166,31 @@ const muiStyles = {
         "& .MuiFormLabel-root": {
             fontSize: '13px',
             top: '-13px',
-            left:'-10px',  
+            left: '-10px',
             backgroundColor: 'transparent',
         },
-         "& label.Mui-focused": {
+        "& label.Mui-focused": {
             zIndex: '1'
-        },'& .MuiFormHelperText-root': {
+        }, '& .MuiFormHelperText-root': {
             position: 'absolute',
             fontSize: 10,
             bottom: -18
         },
-       
     },
     select: {
-
         "& .MuiSelect-select": {
             padding: '3px',
             fontSize: '12px'
-        }, 
-        
-
+        },
     },
     InputLabels: {
         fontSize: '13px',
         top: '-13px',
-        left:'-10px',
+        left: '-10px',
         backgroundColor: 'transparent',
         "&.Mui-focused": {
             zIndex: '1'
         }
     },
-   
-
 };
 export default UpdatePassword

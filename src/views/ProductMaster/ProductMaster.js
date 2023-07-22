@@ -436,7 +436,7 @@ function ProductMaster() {
             return false
         } else if (SubCategory == '' || SubCategory == undefined) {
             setErrorText({
-                SubCategory: 'Select Sub Category *'
+                SubCategory: 'Select Subcategory *'
             })
             return false
         } else if (vBrandName == '' || vBrandName == undefined) {
@@ -502,11 +502,11 @@ function ProductMaster() {
                 console.log('venderexist', venderexist, vProductName, vCategory, SubCategory, vBrandName, VariantMasterLabel, PackLabel)
                 if (venderexist != undefined) {
                     setLoader(false)
-                    toast.success("This selection criteria already Exists. Product name is unique; and selection of (Product category, Product Sub Category, Brand, variant, Pack) is unique.")
+                    toast.success("This selection criteria already Exists. Product name is unique; and selection of (Product category, Product Subcategory, Brand, variant, Pack) is unique.")
                 }
                 else if (venderexistcode) {
                     setLoader(false)
-                    toast.success("This selection criteria already Exists. Product name is unique; and selection of (Product category, Product Sub Category, Brand, variant, Pack) is unique.")
+                    toast.success("This selection criteria already Exists. Product name is unique; and selection of (Product category, Product Subcategory, Brand, variant, Pack) is unique.")
                 }
                 else {
                     ProductMasterPost(brand).then(res => {
@@ -649,14 +649,14 @@ function ProductMaster() {
                     </Box>
                     <Box className='inputBox-6'>
                         <FormControl fullWidth className='input'>
-                            <InputLabel required id="demo-simple-select-label" sx={muiStyles.InputLabels}>Product Sub Category</InputLabel>
+                            <InputLabel required id="demo-simple-select-label" sx={muiStyles.InputLabels}>Product Subcategory</InputLabel>
                             <Select
                                 sx={muiStyles.select}
                                 style={{ width: '100%', }}
                                 labelId="demo-simple-select-label"
                                 id="demo-simple-select"
                                 value={SubCategory}
-                                label="Select Sub Category"
+                                label="Select Subcategory"
                                 onChange={handleChangeSubCategory}
                                 name='nPDSCId'
                             >
@@ -824,7 +824,7 @@ function ProductMaster() {
                                         <TableCell align="left" sx={muiStyles.tableHead}>Product Code</TableCell>
                                         <TableCell align="left" sx={muiStyles.tableHead}>Product Name</TableCell>
                                         <TableCell align="left" sx={muiStyles.tableHead}>Product Category</TableCell>
-                                        <TableCell align="left" sx={muiStyles.tableHead}>Product Sub Category</TableCell>
+                                        <TableCell align="left" sx={muiStyles.tableHead}>Product Subcategory</TableCell>
                                         <TableCell align="left" sx={muiStyles.tableHead}>Brand</TableCell>
                                         <TableCell align="left" sx={muiStyles.tableHead}>Variant</TableCell>
                                         <TableCell align="left" sx={muiStyles.tableHead}>Pack Name</TableCell>
