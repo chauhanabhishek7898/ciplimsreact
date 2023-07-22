@@ -28,7 +28,7 @@ import CircularProgress from '@mui/joy/CircularProgress';
 import { TbEdit } from "react-icons/tb";
 
 function PageMaster() {
-  let Heading = [['SN.', 'Page Name', 'Page Caption','Sorted By', 'Module ID','Display Type','Page Dependent Id','Status']];
+  let Heading = [['SN.', 'Page Name', 'Page Caption', 'Sorted By', 'Module ID', 'Display Type', 'Page Dependent Id', 'Status']];
   const [modalIsOpen, setIsOpen] = React.useState(false);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -164,35 +164,35 @@ function PageMaster() {
 
   const submit = () => {
 
-    // const brandDatas = [...brandData]
+    const brandDatas = [...brandData]
 
-    // const venderexist = brandDatas.find(e => e.vStorageCondition.toLowerCase() == brandName.toLowerCase())
+    const venderexist = brandDatas.find(e => e.vPageName.toLowerCase() == vPageName.toLowerCase())
 
-    // const venderexistvVPrefix = brandDatas.find(e => e.vSCPrefix.toLowerCase() == vPrefix.toLowerCase())
+    const venderexistvVPrefix = brandDatas.find(e => e.vPageCaption.toLowerCase() == vPageCaption.toLowerCase())
 
-    // let lowercaseString3 = ''
-    // let lowercaseString4 = ''
-    // if (venderexist != undefined) {
-    //   lowercaseString3 = venderexist.vStorageCondition.toLowerCase();
-    // }
+    let lowercaseString3 = ''
+    let lowercaseString4 = ''
+    if (venderexist != undefined) {
+      lowercaseString3 = venderexist.vPageName.toLowerCase();
+    }
 
-    // if (venderexistvVPrefix != undefined) {
-    //   lowercaseString4 = venderexistvVPrefix.vSCPrefix.toLowerCase();
-    // }
+    if (venderexistvVPrefix != undefined) {
+      lowercaseString4 = venderexistvVPrefix.vPageCaption.toLowerCase();
+    }
 
-    // const lowercaseString1 = brandName.toLowerCase();
-    // const lowercaseString2 = vPrefix.toLowerCase();
+    const lowercaseString1 = vPageName.toLowerCase();
+    const lowercaseString2 = vPageCaption.toLowerCase();
 
-    // const isMatch = lowercaseString1 === lowercaseString3;
-    // setMatchResult(isMatch);
+    const isMatch = lowercaseString1 === lowercaseString3;
+    setMatchResult(isMatch);
 
-    // const isMatch2 = lowercaseString2 === lowercaseString4;
-    // setMatchResult2(isMatch2);
+    const isMatch2 = lowercaseString2 === lowercaseString4;
+    setMatchResult2(isMatch2);
 
     setLoader(true)
     let brand = {
       nPageId: nBid == null ? 0 : nBid,
-      // vPageType: vPrefix,
+      vPageType: null,
       vPageName: vPageName,
       vPageCaption: vPageCaption,
 
@@ -204,25 +204,25 @@ function PageMaster() {
     }
     if (buttonName == 'Submit') {
 
-      // if (isMatch == true || isMatch2 == true) {
-      //     if (isMatch == true) {
-      //         setLoader(false)
-      //         toast.error("Storage Condition is already Exists")
-      //     }
-      //     if (isMatch2 == true) {
-      //         setLoader(false)
-      //         toast.error("Storage Condition Prefix is already Exists")
-      //     }
-      // } else {
-      PageMasterPost(brand).then(res => {
-        if (res) {
-          toast.success("Record Added Successfully !!")
+      if (isMatch == true || isMatch2 == true) {
+        if (isMatch == true) {
           setLoader(false)
-          setIsOpen(false)
-          getPageMaster_SelectAll()
+          toast.error("Page Name is already Exists")
         }
-      })
-      // }
+        if (isMatch2 == true) {
+          setLoader(false)
+          toast.error("Page Caption is already Exists")
+        }
+      } else {
+        PageMasterPost(brand).then(res => {
+          if (res) {
+            toast.success("Record Added Successfully !!")
+            setLoader(false)
+            setIsOpen(false)
+            getPageMaster_SelectAll()
+          }
+        })
+      }
     } else {
       PageMasterPut(brand).then(res => {
         if (res) {
@@ -377,14 +377,14 @@ function PageMaster() {
                 sx={muiStyles.input}
                 value={nPageDependentId}
                 onChange={e => setnPageDependentId(e.target.value)}
-                required id="outlined-basic"
+                id="outlined-basic"
                 label="Page Dependent Id"
                 variant="outlined"
                 name='nPageDependentId'
 
-                inputRef={register({ required: "Page Dependent Id is required.*", })}
-                error={Boolean(errors.nPageDependentId)}
-                helperText={errors.nPageDependentId?.message}
+              // inputRef={register({ required: "Page Dependent Id is required.*", })}
+              // error={Boolean(errors.nPageDependentId)}
+              // helperText={errors.nPageDependentId?.message}
 
               />
             </FormControl>
@@ -437,10 +437,10 @@ function PageMaster() {
                   <TableCell align="left" sx={muiStyles.tableHead} >Page Caption</TableCell>
                   <TableCell align="left" sx={muiStyles.tableHead} >Sorted By</TableCell>
 
-                  <TableCell align="left" sx={muiStyles.tableHead} >Module ID</TableCell>
+                  <TableCell align="left" sx={muiStyles.tableHead} >Module Name</TableCell>
                   <TableCell align="left" sx={muiStyles.tableHead} >Display Type</TableCell>
 
-                  <TableCell align="left" sx={muiStyles.tableHead} >Page Dependent Id</TableCell>
+                  <TableCell align="left" sx={muiStyles.tableHead} > Dependent Page</TableCell>
 
                   <TableCell align="left" sx={muiStyles.tableHead} >Status</TableCell>
 
@@ -461,10 +461,10 @@ function PageMaster() {
                         <TableCell align="left" sx={muiStyles.tableBody}>{item.vPageCaption}</TableCell>
                         <TableCell align="left" sx={muiStyles.tableBody}>{item.SortedBy}</TableCell>
 
-                        <TableCell align="left" sx={muiStyles.tableBody}>{item.nModuleID}</TableCell>
+                        <TableCell align="left" sx={muiStyles.tableBody}>{item.vModuleName}</TableCell>
                         <TableCell align="left" sx={muiStyles.tableBody}>{item.vDisplayType}</TableCell>
 
-                        <TableCell align="left" sx={muiStyles.tableBody}>{item.nPageDependentId}</TableCell>
+                        <TableCell align="left" sx={muiStyles.tableBody}>{item.DependentOnPage}</TableCell>
 
                         <TableCell align="left" sx={muiStyles.tableBody}>{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
 

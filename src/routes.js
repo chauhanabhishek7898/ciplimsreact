@@ -14,6 +14,9 @@ const RoleMaster = React.lazy(() => import('./views/RoleMaster/RoleMaster'))
 
 const PageMaster = React.lazy(() => import('./views/PageMaster/PageMaster'))
 
+const CreateUsers = React.lazy(() => import('./views/CreateUsers/CreateUsers'))
+
+
 const MaterialTypeMaster = React.lazy(() => import('./views/MaterialTypeMaster/MaterialTypeMaster'))
 
 const ProductCategoryMaster = React.lazy(() => import('./views/ProductCategoryMaster/ProductCategoryMaster'))
@@ -69,25 +72,27 @@ const BomPdf = React.lazy(() => import('./views/BOMMaster/BomPdf'))
 
 const routes = [
   { path: '/', exact: true, name: 'Home' },
-  //  { path:"/login", name:"Login", element:Login },
+  //  { path:"/login", name:"Login", element:Login },   
   { path: '/dashboard', name: 'Dashboard', element: Dashboard },
   { path: '/KOMonth', name: 'Ko Month', element: Komonth, exact: true },
   { path: '/ProductMaster', name: 'Product Master', element: ProductMaster, exact: true },
 
-  { path: '/RoleMaster', name: 'Role Master', element: RoleMaster, exact: true },
- 
-  { path: '/PageMaster', name: 'Page Master', element: PageMaster, exact: true },
+  { path: '/Roles', name: 'Role Master', element: RoleMaster, exact: true },
+
+  { path: '/Pages', name: 'Page Master', element: PageMaster, exact: true },
+
+  { path: '/CreateUsers', name: 'Create Users', element: CreateUsers, exact: true },
 
   { path: '/MaterialTypeMaster', name: 'Material Type Master', element: MaterialTypeMaster, exact: true },
- 
+
   { path: '/ProductCategoryMaster', name: 'Product Category Master', element: ProductCategoryMaster, exact: true },
- 
+
   { path: '/ProductSubCategoryMaster', name: 'Product Subcategory Master', element: ProductSubCategoryMaster, exact: true },
- 
+
   { path: '/StorageConditionMaster', name: 'Storage Condition Master', element: StorageConditionMaster, exact: true },
- 
+
   { path: '/VarientMaster', name: 'Varient Master', element: VarientMaster, exact: true },
-  
+
 
   { path: '/UnitMaster', name: 'Unit Master', element: UnitMaster, exact: true },
   { path: '/update-email-id', name: 'Update Email Id', element: UpdateEmail, exact: true },
@@ -117,7 +122,7 @@ const routes = [
   { path: '/EditMaterialRelease', name: 'Edit Material Release', element: EditMaterialRelease, exact: true },
   { path: '/AdditionalIn', name: 'Additional In', element: AdditionalInList, exact: true },
   { path: '/AddAdditionalIn', name: 'Add Additional In', element: AddAdditionalIn, exact: true },
-  { path: '/EditAdditionalIn', name: 'Edit Additional In', element: EditAdditionalIn, exact: true }, 
+  { path: '/EditAdditionalIn', name: 'Edit Additional In', element: EditAdditionalIn, exact: true },
   { path: '/RejectedOut', name: 'Rejected Out / Drain', element: RejectedOutList, exact: true },
   { path: '/AddRejectedOut', name: 'Add Rejected Out', element: AddRejectedOut, exact: true },
   { path: '/EditRejectedOut', name: 'Edit Rejected Out', element: EditRejectedOut, exact: true },
