@@ -605,14 +605,14 @@ function MaterialMaster() {
 
                     <Box className='inputBox-6'>
                         <FormControl fullWidth className='input'>
-                            <InputLabel required id="demo-simple-select-label" sx={muiStyles.InputLabels}>Sub Category</InputLabel>
+                            <InputLabel required id="demo-simple-select-label" sx={muiStyles.InputLabels}>Subcategory</InputLabel>
                             <Select
                                 sx={muiStyles.select}
                                 style={{ width: '100%', }}
                                 labelId="demo-simple-select-label"
                                 id="demo-simple-select"
                                 value={SubCategory}
-                                label="Select Sub Category"
+                                label="Select Subcategory"
                                 onChange={handleChangeSubCategory}
                                 name='nSCId'
                             >
@@ -687,7 +687,7 @@ function MaterialMaster() {
                                 labelId="demo-simple-select-label"
                                 id="demo-simple-select"
                                 value={StorageCondition}
-                                label="Select Sub Category"
+                                label="Select Subcategory"
                                 onChange={handleChangeStorageCondition}
                                 name='nSCId' >
                                 {StorageConditionData.map((item, index) => {
@@ -865,7 +865,7 @@ function MaterialMaster() {
                                         <TableCell align="left" sx={muiStyles.tableHead}>Material Name</TableCell>
                                         <TableCell align="left" sx={muiStyles.tableHead}>Material Type</TableCell>
                                         <TableCell align="left" sx={muiStyles.tableHead}>Category</TableCell>
-                                        <TableCell align="left" sx={muiStyles.tableHead}>Sub Category</TableCell>
+                                        <TableCell align="left" sx={muiStyles.tableHead}>Subcategory</TableCell>
                                         <TableCell align="left" sx={muiStyles.tableHead}>UOM</TableCell>
                                         <TableCell align="left" sx={muiStyles.tableHead}>Storage Condition</TableCell>
                                         <TableCell align="left" sx={muiStyles.tableHead}>HSN Code</TableCell>

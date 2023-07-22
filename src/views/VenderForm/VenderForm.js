@@ -314,7 +314,7 @@ function VenderForm() {
             return false
         } else if (SubCategory == '' || SubCategory == undefined) {
             setError({
-                subCategory: 'Select Sub Category*'
+                subCategory: 'Select Subcategory*'
             })
             return false
         } else {
@@ -693,14 +693,14 @@ function VenderForm() {
                     </Box>
                     <Box className='inputBox-3'>
                         <FormControl fullWidth className='input'>
-                            <InputLabel required id="demo-simple-select-label" sx={muiStyles.InputLabels}>Sub Category</InputLabel>
+                            <InputLabel required id="demo-simple-select-label" sx={muiStyles.InputLabels}>Subcategory</InputLabel>
                             <Select
                                 sx={muiStyles.select}
                                 style={{ width: '100%', }}
                                 labelId="demo-simple-select-label"
                                 id="demo-simple-select"
                                 value={SubCategory}
-                                label="Select Sub Category"
+                                label="Select Subcategory"
 
                                 onChange={handleChangeSubCategory}
                             >
@@ -754,7 +754,7 @@ function VenderForm() {
                                             <TableRow>
                                                 <TableCell align="left" sx={muiStyles.tableHead}>MaterialType</TableCell>
                                                 <TableCell align="left" sx={muiStyles.tableHead}>Category Name</TableCell>
-                                                <TableCell align="left" sx={muiStyles.tableHead}>Sub Category Name</TableCell>
+                                                <TableCell align="left" sx={muiStyles.tableHead}>Subcategory Name</TableCell>
 
                                                 {buttonName == 'Update' ?
                                                     <TableCell align="left" sx={muiStyles.tableHead} >Edit</TableCell>

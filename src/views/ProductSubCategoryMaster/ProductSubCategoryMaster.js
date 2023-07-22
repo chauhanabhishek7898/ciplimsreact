@@ -30,7 +30,7 @@ import CircularProgress from '@mui/joy/CircularProgress';
 import { TbEdit } from "react-icons/tb";
 
 function ProductSubCategoryMaster() {
-    let Heading = [['SN.', 'Product Sub Category', 'Product Sub Category Prefix', 'Status']];
+    let Heading = [['SN.', 'Product Subcategory', 'Product Subcategory Prefix', 'Status']];
     const [modalIsOpen, setIsOpen] = React.useState(false);
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -199,11 +199,11 @@ function ProductSubCategoryMaster() {
         if (isMatch == true || isMatch2 == true) {
             if (isMatch == true) {
                 setLoader(false)
-                toast.error("Product Sub Category is already Exists")
+                toast.error("Product Subcategory is already Exists")
             }
             if (isMatch2 == true) {
                 setLoader(false)
-                toast.error("Product Sub Category Prefix is already Exists")
+                toast.error("Product Subcategory Prefix is already Exists")
             }
         } else {
             console.log('brand', brand)
@@ -258,11 +258,11 @@ function ProductSubCategoryMaster() {
                 if (isMatch == true || isMatch2 == true) {
                     if (isMatch == true) {
                         setLoader(false)
-                        toast.error("Product Sub Category is already Exists")
+                        toast.error("Product Subcategory is already Exists")
                     }
                     if (isMatch2 == true) {
                         setLoader(false)
-                        toast.error("Product Sub Category Prefix is already Exists")
+                        toast.error("Product Subcategory Prefix is already Exists")
                     }
                 } else {
                     ProductSubCategoryMasterPost(brand).then(res => {
@@ -347,7 +347,7 @@ function ProductSubCategoryMaster() {
                 ariaHideApp={false}
             >
                 <div className='displayright'>
-                    <div><span className='title'>Product Sub Category Master</span></div>
+                    <div><span className='title'>Product SubCategory Master</span></div>
                     <HighlightOffIcon fontSize='large' onClick={() => setIsOpen(false)} />
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -359,10 +359,10 @@ function ProductSubCategoryMaster() {
                                 value={brandName}
                                 onChange={e => setBrandName(e.target.value)}
                                 required id="outlined-basic"
-                                label="Product Sub Category"
+                                label="Product Subcategory"
                                 variant="outlined"
                                 name='brandName'
-                                inputRef={register({ required: "Product Sub Category is required.*", })}
+                                inputRef={register({ required: "Product Subcategory is required.*", })}
                                 error={Boolean(errors.brandName)}
                                 helperText={errors.brandName?.message}
                             />
@@ -405,13 +405,13 @@ function ProductSubCategoryMaster() {
                                 value={vPrefix}
                                 onChange={e => setvPrefix(e.target.value)}
                                 required id="outlined-basic"
-                                label="Product Sub Category Prefix"
+                                label="Product Subcategory Prefix"
                                 variant="outlined"
                                 name='vPrefix'
                                 inputProps={{
                                     maxLength: 2, // Set the maximum length here (e.g., 20)
                                 }}
-                                inputRef={register({ required: "Product Sub Category Prefix is required.*", })}
+                                inputRef={register({ required: "Product Subcategory Prefix is required.*", })}
                                 error={Boolean(errors.vPrefix)}
                                 helperText={errors.vPrefix?.message}
 
@@ -460,10 +460,10 @@ function ProductSubCategoryMaster() {
                                 <TableRow>
                                     {/* <TableCell scope="row">SN.</TableCell> */}
                                     {/* <TableCell align="left" sx={muiStyles.tableHead} >Brand Code</TableCell> */}
-                                    <TableCell align="left" sx={muiStyles.tableHead} >Product Sub Category</TableCell>
+                                    <TableCell align="left" sx={muiStyles.tableHead} >Product Subcategory</TableCell>
                                     <TableCell align="left" sx={muiStyles.tableHead} >Product Category</TableCell>
 
-                                    <TableCell align="left" sx={muiStyles.tableHead} >Product Sub Category Prefix</TableCell>
+                                    <TableCell align="left" sx={muiStyles.tableHead} >Product Subcategory Prefix</TableCell>
                                     <TableCell align="left" sx={muiStyles.tableHead} >Status</TableCell>
 
                                     <TableCell align="left" sx={muiStyles.tableHead} >Edit</TableCell>

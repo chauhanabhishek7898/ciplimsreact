@@ -236,7 +236,7 @@ function BomMasterList() {
                                     <TableCell align="left" sx={muiStyles.tableHead} >BOM Name</TableCell>
                                     <TableCell align="left" sx={muiStyles.tableHead} >Product Name</TableCell>
                                     <TableCell align="left" sx={muiStyles.tableHead} >Product Category</TableCell>
-                                    <TableCell align="left" sx={muiStyles.tableHead} >Product Sub Category</TableCell>
+                                    <TableCell align="left" sx={muiStyles.tableHead} >Product Subcategory</TableCell>
                                     <TableCell align="left" sx={muiStyles.tableHead} >Brand</TableCell>
                                     <TableCell align="left" sx={muiStyles.tableHead} >Varient</TableCell>
                                     <TableCell align="left" sx={muiStyles.tableHead} >Pack</TableCell>

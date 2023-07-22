@@ -10,6 +10,9 @@ const MaterialMaster = React.lazy(() => import('./views/MaterialMaster/MaterialM
 const PurchaseOrder = React.lazy(() => import('./views/PurchaseOrder/PurchaseOrder'))
 const ProductMaster = React.lazy(() => import('./views/ProductMaster/ProductMaster'))
 
+const RoleMaster = React.lazy(() => import('./views/RoleMaster/RoleMaster'))
+
+const PageMaster = React.lazy(() => import('./views/PageMaster/PageMaster'))
 
 const MaterialTypeMaster = React.lazy(() => import('./views/MaterialTypeMaster/MaterialTypeMaster'))
 
@@ -71,12 +74,15 @@ const routes = [
   { path: '/KOMonth', name: 'Ko Month', element: Komonth, exact: true },
   { path: '/ProductMaster', name: 'Product Master', element: ProductMaster, exact: true },
 
-  
+  { path: '/RoleMaster', name: 'Role Master', element: RoleMaster, exact: true },
+ 
+  { path: '/PageMaster', name: 'Page Master', element: PageMaster, exact: true },
+
   { path: '/MaterialTypeMaster', name: 'Material Type Master', element: MaterialTypeMaster, exact: true },
  
   { path: '/ProductCategoryMaster', name: 'Product Category Master', element: ProductCategoryMaster, exact: true },
  
-  { path: '/ProductSubCategoryMaster', name: 'Product Sub Category Master', element: ProductSubCategoryMaster, exact: true },
+  { path: '/ProductSubCategoryMaster', name: 'Product Subcategory Master', element: ProductSubCategoryMaster, exact: true },
  
   { path: '/StorageConditionMaster', name: 'Storage Condition Master', element: StorageConditionMaster, exact: true },
  
@@ -84,8 +90,8 @@ const routes = [
   
 
   { path: '/UnitMaster', name: 'Unit Master', element: UnitMaster, exact: true },
-  { path: '/update-email-id', name: 'Update Email', element: UpdateEmail, exact: true },
-  { path: '/update-mobile-no', name: 'Update Mobile No', element: UpdateMobileNo, exact: true },
+  { path: '/update-email-id', name: 'Update Email Id', element: UpdateEmail, exact: true },
+  { path: '/update-mobile-no', name: 'Update Mobile Number', element: UpdateMobileNo, exact: true },
   { path: '/update-password', name: 'Change Password', element: UpdatePassword, exact: true },
   { path: '/VendorMaster', name: 'Vendor Master', element: VenderForm, exact: true },
   { path: '/BrandMaster', name: 'Brand Master', element: BrandMaster, exact: true },
@@ -112,7 +118,7 @@ const routes = [
   { path: '/AdditionalIn', name: 'Additional In', element: AdditionalInList, exact: true },
   { path: '/AddAdditionalIn', name: 'Add Additional In', element: AddAdditionalIn, exact: true },
   { path: '/EditAdditionalIn', name: 'Edit Additional In', element: EditAdditionalIn, exact: true }, 
-  { path: '/RejectedOut', name: 'Rejected Out', element: RejectedOutList, exact: true },
+  { path: '/RejectedOut', name: 'Rejected Out / Drain', element: RejectedOutList, exact: true },
   { path: '/AddRejectedOut', name: 'Add Rejected Out', element: AddRejectedOut, exact: true },
   { path: '/EditRejectedOut', name: 'Edit Rejected Out', element: EditRejectedOut, exact: true },
   { path: '/CurrentStockStatus', name: 'Current Stock Status', element: CurrentStockStatus, exact: true },
@@ -122,8 +128,8 @@ const routes = [
   { path: '/DispatchDetails', name: 'Dispatch Details ', element: DispatchDetailsList, exact: true },
   { path: '/AddDispatchDetails', name: 'Add Dispatch Details ', element: AddDispatchDetails, exact: true },
   { path: '/EditDispatchDetails', name: 'Edit Dispatch Details ', element: EditDispatchDetails, exact: true },
-  { path: '/VendorCategoryMaster', name: 'Vendor Category Master ', element: VendorCategoryMaster, exact: true },
-  { path: '/VendorSubCategoryMaster', name: 'Vendor Sub Category Master ', element: VendorSubCategoryMaster, exact: true },
+  { path: '/VendorCategoryMaster', name: 'Vendor / Material Category Master ', element: VendorCategoryMaster, exact: true },
+  { path: '/VendorSubCategoryMaster', name: 'Vendor / Material Subcategory Master ', element: VendorSubCategoryMaster, exact: true },
 
   { path: '/BomPdf', name: 'PDF', element: BomPdf, exact: true },
 
