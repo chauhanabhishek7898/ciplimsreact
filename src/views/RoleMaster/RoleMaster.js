@@ -256,9 +256,7 @@ function RoleMaster() {
                                 label="Alias"
                                 variant="outlined"
                                 name='vPrefix'
-                                inputProps={{
-                                    maxLength: 2, // Set the maximum length here (e.g., 20)
-                                }}
+                           
                                 inputRef={register({ required: "Alias is required.*", })}
                                 error={Boolean(errors.vPrefix)}
                                 helperText={errors.vPrefix?.message}
