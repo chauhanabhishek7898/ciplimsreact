@@ -71,15 +71,20 @@ const AppSidebar = () => {
                   component: CNavItem,
                   name: child.vPageCaption,
                   to: child.vPageName,
+                  btSaveRights:child.btSaveRights,
+                  btEditRights:child.btEditRights,
                   // icon: <CIcon icon={cilPencil} customClassName="nav-icon" />,
                 })
+                
               })
               
               subNav.push({
                 component:  CNavGroup,
                 name: el.vPageCaption,
                 to: el.vPageName,
-                items: subChildNav
+                items: subChildNav,
+                btSaveRights:el.btSaveRights,
+                  btEditRights:el.btEditRights,
                 // icon: <CIcon icon={cilPencil} customClassName="nav-icon" />,
               })
             }else{
@@ -88,6 +93,8 @@ const AppSidebar = () => {
                 component: CNavItem,
                 name: el.vPageCaption,
                 to: el.vPageName,
+                btSaveRights:el.btSaveRights,
+                btEditRights:el.btEditRights,
                 // icon: <CIcon icon={cilPencil} customClassName="nav-icon" />,
               })
             }
@@ -98,7 +105,9 @@ const AppSidebar = () => {
             component: CNavGroup,
             name: item.vPageCaption,
             icon: <CIcon icon={cilStar} customClassName="nav-icon" />,
-            items: subNav
+            items: subNav,
+            btSaveRights:item.btSaveRights,
+            btEditRights:item.btEditRights,
           })
           pageId=item.nPageId
           // console.log('pageId',pageId)
@@ -107,6 +116,7 @@ const AppSidebar = () => {
        })
       //  console.log('subNav',subNav)
       setNavigationData(nav)
+     
     })
   }
   const gotoLogin=()=>{

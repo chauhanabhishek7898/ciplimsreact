@@ -74,9 +74,9 @@ const routes = [
   { path: '/KOMonth', name: 'Ko Month', element: Komonth, exact: true },
   { path: '/ProductMaster', name: 'Product Master', element: ProductMaster, exact: true },
 
-  { path: '/RoleMaster', name: 'Role Master', element: RoleMaster, exact: true },
+  { path: '/Roles', name: 'Role', element: RoleMaster, exact: true },
  
-  { path: '/PageMaster', name: 'Page Master', element: PageMaster, exact: true },
+  { path: '/Pages', name: 'Page', element: PageMaster, exact: true },
 
   { path: '/MaterialTypeMaster', name: 'Material Type Master', element: MaterialTypeMaster, exact: true },
  
