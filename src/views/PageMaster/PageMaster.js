@@ -199,7 +199,7 @@ function PageMaster() {
       SortedBy: SortedBy,
       nModuleID: nModuleID,
       vDisplayType: vDisplayType,
-      nPageDependentId: nPageDependentId,
+      nPageDependentId: nPageDependentId==''||nPageDependentId==undefined?null:nPageDependentId,
       btActive: btActive,
     }
     if (buttonName == 'Submit') {
@@ -382,9 +382,9 @@ function PageMaster() {
                 variant="outlined"
                 name='nPageDependentId'
 
-              // inputRef={register({ required: "Page Dependent Id is required.*", })}
-              // error={Boolean(errors.nPageDependentId)}
-              // helperText={errors.nPageDependentId?.message}
+              inputRef={register({ required: "Page Dependent Id is required.*", })}
+              error={Boolean(errors.nPageDependentId)}
+              helperText={errors.nPageDependentId?.message}
 
               />
             </FormControl>

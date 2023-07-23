@@ -13,7 +13,7 @@ import Paper from '@mui/material/Paper';
 import { MaterialMaster_SelectAll_ActiveLikeSearch } from '../MaterialMaster/MaterialMasterService'
 import { PackMaster_SelectAll_ActiveLikeSearch } from '../PackMaster/PackMasterService'
 import { BrandMaster_SelectAll_ActiveLikeSearch } from '../BrandMaster/BrandMasterService'
-import { BOMMasterPost, ProductMaster_ActiveLikeSearch } from './BomMasteerService'
+import { BOMMasterPost, ProductMaster_ActiveLikeSearch, GetBOMDetails } from './BomMasteerService'
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import InputLabel from '@mui/material/InputLabel';
@@ -51,7 +51,7 @@ function AddBomMaster() {
     const navigate = useNavigate();
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
-    const [brandData, setBrandData] = React.useState([]);
+    const [bomData, setBrandData] = React.useState([]);
     const [MaterialMaster, setMaterialMaster] = React.useState([]);
     const [PlantMaster, setPlantMaster] = React.useState([]);
     const [ProductMaster, setProductMaster] = React.useState([]);
@@ -132,6 +132,19 @@ function AddBomMaster() {
         text: 'This is a alert message',
         show: false
     })
+
+    useEffect(() => {
+        getPODetails()
+    }, [])
+    const getPODetails = () => {
+        setLoader(true)
+       
+        GetBOMDetails(null).then(response => {
+            console.log(response)
+            setBrandData(response)
+            setLoader(false)
+        })
+    }
     const handleChangeVariant = (event) => {
         setVariant(event.target.value);
     };
@@ -238,7 +251,7 @@ function AddBomMaster() {
             plant: ''
         })
     }
-   
+
     const changeMaterialMasterValueMaster = (value) => {
         console.log('value', value)
         setMaterialMasterId(value == null ? '' : value.value)
@@ -448,54 +461,65 @@ function AddBomMaster() {
     const submit = () => {
         if (validateform() == true) {
             if (PODetails.length > 0) {
-                confirmAlert({
-                    title: 'Alert !!',
-                    message: 'Do you want Proceed ?',
-                    buttons: [
-                        {
-                            label: 'Yes',
-                            onClick: () => {
-                                setLoader(true)
-                                const POMasterData = [{
-                                    // vBOMNo: vBOMNo,
-                                    nBId: nBId == '' || nBId == null ? 0 : nBId,
-                                    vBOMName: vBOMName,
-                                    vBrand: vBrand == '' ? null : vBrand,
-                                    nPDId: parseInt(nPDId),
-                                    nPack: parseFloat(vPackName),
-                                    nPerUnitBBVolLt: parseInt(nPerUnitBBVolLt),
-                                    nCaseConfig: parseFloat(CaseConfig),
-                                    nPerCaseVolLt: parseFloat(nPerCaseVolLt),
-                                    nMIdToCalculateBOMnReqInCS: parseInt(MaterialMasterId),
-                                    nSUofConcentrate: parseFloat(nSUofConcentrate),
-                                    nBOMofConcentrate: parseFloat(nBOMofConcentrate),
-                                    nRequirementinCS: parseFloat(nRequirementinCS),
-                                    vRemarks: vRemarks == '' ? null : vRemarks,
-                                    btActive: true,
-                                    vBOMCopyFilePath: '',
-                                    nLoggedInUserId: parseInt(nLoggedInUserId)
-                                }]
-                                let PurchaseOrder = {}
-                                PurchaseOrder.BOMMaster = POMasterData,
-                                    PurchaseOrder.BOMDetails = PODetails
-                                console.log('PurchaseOrder', PurchaseOrder)
-                                BOMMasterPost(PurchaseOrder, vPOFilePath).then(res => {
-                                    if (res) {
-                                        setLoader(false)
-                                        toast.success("BOM Added Successfully !!")
-                                        navigate('/Bom')
+                let vendorDatas = [...bomData]
+                let venderexistcode = vendorDatas.find(e => e.nPDId == nPDId)
+                let venderexist = vendorDatas.find(e => e.nPDId == nPDId)
+                if (venderexist ) {
+                    setLoader(false)
+                    toast.success("Product already Exists.")
+                } else if (venderexistcode) {
+                    setLoader(false)
+                    toast.success("Product already Exists ")
+                } else {
+                    confirmAlert({
+                        title: 'Alert !!',
+                        message: 'Do you want Proceed ?',
+                        buttons: [
+                            {
+                                label: 'Yes',
+                                onClick: () => {
+                                    setLoader(true)
+                                    const POMasterData = [{
+                                        // vBOMNo: vBOMNo,
+                                        nBId: nBId == '' || nBId == null ? 0 : nBId,
+                                        vBOMName: vBOMName,
+                                        vBrand: vBrand == '' ? null : vBrand,
+                                        nPDId: parseInt(nPDId),
+                                        nPack: parseFloat(vPackName),
+                                        nPerUnitBBVolLt: parseInt(nPerUnitBBVolLt),
+                                        nCaseConfig: parseFloat(CaseConfig),
+                                        nPerCaseVolLt: parseFloat(nPerCaseVolLt),
+                                        nMIdToCalculateBOMnReqInCS: parseInt(MaterialMasterId),
+                                        nSUofConcentrate: parseFloat(nSUofConcentrate),
+                                        nBOMofConcentrate: parseFloat(nBOMofConcentrate),
+                                        nRequirementinCS: parseFloat(nRequirementinCS),
+                                        vRemarks: vRemarks == '' ? null : vRemarks,
+                                        btActive: true,
+                                        vBOMCopyFilePath: '',
+                                        nLoggedInUserId: parseInt(nLoggedInUserId)
+                                    }]
+                                    let PurchaseOrder = {}
+                                    PurchaseOrder.BOMMaster = POMasterData,
+                                        PurchaseOrder.BOMDetails = PODetails
+                                    console.log('PurchaseOrder', PurchaseOrder)
+                                    BOMMasterPost(PurchaseOrder, vPOFilePath).then(res => {
+                                        if (res) {
+                                            setLoader(false)
+                                            toast.success("BOM Added Successfully !!")
+                                            navigate('/Bom')
 
-                                    }
-                                })
+                                        }
+                                    })
 
+                                }
+                            },
+                            {
+                                label: 'No',
+                                onClick: () => { return null }
                             }
-                        },
-                        {
-                            label: 'No',
-                            onClick: () => { return null }
-                        }
-                    ]
-                });
+                        ]
+                    });
+                }
             } else {
                 confirmAlert({
                     title: 'Alert !!',
@@ -538,7 +562,7 @@ function AddBomMaster() {
             ]
         });
     }
-    const editItem = (item,index) => {
+    const editItem = (item, index) => {
         setbtnType('edit')
         setId(item.id)
         setnMId(item.nMId)
@@ -552,9 +576,9 @@ function AddBomMaster() {
         setnStandardRate(item.nStandardRate)
         setnStdCOGS(item.nStdCOGS)
         setnRequirementinCSDetail(item.nRequirementinCSDetail)
-        if(index==0){
+        if (index == 0) {
             setfirstTimeSuDisable(true)
-        }else{
+        } else {
             setfirstTimeSuDisable(false)
         }
 
@@ -776,9 +800,9 @@ function AddBomMaster() {
                                 label="Per Unit BB VolLt"
                                 variant="outlined"
                                 name='PerUnitBBVolLt'
-                                // inputRef={register({ required: "Per Unit BB VolLt is required. *", })}
-                                // error={Boolean(errors.PerUnitBBVolLt)}
-                                // helperText={errors.PerUnitBBVolLt?.message}
+                            // inputRef={register({ required: "Per Unit BB VolLt is required. *", })}
+                            // error={Boolean(errors.PerUnitBBVolLt)}
+                            // helperText={errors.PerUnitBBVolLt?.message}
                             />
                             {errorText.PerUnitBBVolLt != '' ? <p className='error'>{errorText.PerUnitBBVolLt}</p> : null}
                         </FormControl>
@@ -793,9 +817,9 @@ function AddBomMaster() {
                                 label="Case Config"
                                 variant="outlined"
                                 name='CaseConfig'
-                                // inputRef={register({ required: "Case Config is required.*", })}
-                                // error={Boolean(errors.CaseConfig)}
-                                // helperText={errors.CaseConfig?.message}
+                            // inputRef={register({ required: "Case Config is required.*", })}
+                            // error={Boolean(errors.CaseConfig)}
+                            // helperText={errors.CaseConfig?.message}
                             />
                             {errorText.CaseConfig != '' ? <p className='error'>{errorText.CaseConfig}</p> : null}
                         </FormControl>
@@ -1108,11 +1132,11 @@ function AddBomMaster() {
                                                     <TableCell align="center" >
                                                         {index != 0 ?
                                                             <>
-                                                            <button className='deletbtn' title='Delete' onClick={() => deleteItem(item.id)}><DeleteIcon size={20} color='red' /></button>
+                                                                <button className='deletbtn' title='Delete' onClick={() => deleteItem(item.id)}><DeleteIcon size={20} color='red' /></button>
                                                             </>
                                                             : null
                                                         }
-                                                        <button className='deletbtn' title='Edit' onClick={() => editItem(item,index)}><BorderColorIcon size={20} color='#000' /></button>
+                                                        <button className='deletbtn' title='Edit' onClick={() => editItem(item, index)}><BorderColorIcon size={20} color='#000' /></button>
 
                                                     </TableCell>
                                                     <TableCell align="left" >{item.MaterialDetail}</TableCell>
@@ -1221,14 +1245,14 @@ const muiStyles = {
             left: '-10px',
 
         },
-         "& label.Mui-focused": {
+        "& label.Mui-focused": {
             zIndex: '1'
-        },'& .MuiFormHelperText-root': {
+        }, '& .MuiFormHelperText-root': {
             position: 'absolute',
             fontSize: 10,
             bottom: -18
         },
-       
+
     },
     input: {
         "& .MuiOutlinedInput-root": {
@@ -1243,14 +1267,14 @@ const muiStyles = {
             left: '-10px',
             backgroundColor: 'transparent',
         },
-         "& label.Mui-focused": {
+        "& label.Mui-focused": {
             zIndex: '1'
-        },'& .MuiFormHelperText-root': {
+        }, '& .MuiFormHelperText-root': {
             position: 'absolute',
             fontSize: 10,
             bottom: -18
         },
-       
+
     },
     select: {
 
