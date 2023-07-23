@@ -67,6 +67,9 @@ const UpdateMobileNo = React.lazy(() => import('./views/Settings/UpdateMobileNo/
 const UpdatePassword = React.lazy(() => import('./views/Settings/UpdatePassword/UpdatePassword'))
 const VendorCategoryMaster = React.lazy(() => import('./views/VendorCategoryMaster/VendorCategoryMaster'))
 const VendorSubCategoryMaster = React.lazy(() => import('./views/VendorSubCategoryMaster/VendorSubCategoryMaster'))
+const RolePageLinkegList = React.lazy(() => import('./views/RolePageLinkege/RolePageLinkegList'))
+const AddRolePageLinkeg = React.lazy(() => import('./views/RolePageLinkege/AddRolePageLinkeg'))
+const EditRolePageLinkeg = React.lazy(() => import('./views/RolePageLinkege/EditRolePageLinkeg'))
 
 const BomPdf = React.lazy(() => import('./views/BOMMaster/BomPdf'))
 
@@ -82,6 +85,9 @@ const routes = [
   { path: '/Pages', name: 'Page Master', element: PageMaster, exact: true },
 
   { path: '/CreateUsers', name: 'Create Users', element: CreateUsers, exact: true },
+  { path: '/RolePageLinkage', name: 'Role Page Linkage', element: RolePageLinkegList, exact: true },
+  { path: '/AddRolePageLinkeg', name: 'Add Role Page Linkage', element: AddRolePageLinkeg, exact: true },
+  { path: '/EditRolePageLinkeg', name: 'Edit Role Page Linkage', element: EditRolePageLinkeg, exact: true },
 
   { path: '/MaterialTypeMaster', name: 'Material Type Master', element: MaterialTypeMaster, exact: true },
 

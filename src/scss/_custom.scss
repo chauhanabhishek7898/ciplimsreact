@@ -1384,3 +1384,38 @@ input[type="number"] {
   box-shadow: 0 0 6px 0 rgba($color: #000000, $alpha: 0.2);
   border-radius: 5px;
 }
+.rolePageLinkeg_box{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  background-color: #fff;
+  display: flex;
+  padding: 10px;
+  min-height: 99px;
+  align-items: center;
+  border-radius: 5px;
+  box-shadow: 0 0 6px 0 rgba($color: #000000, $alpha: 0.2);
+  flex-direction: column;
+}
+.btnActive{
+  background-color: #9da5b1 !important;
+}
+.ExistingPages{
+  display: flex;
+  gap: 10px;
+  margin-top: 12px;
+  button{
+    border: none;
+    padding: 5px 10px;
+    background: red;
+    color: #fff;
+    border-radius: 50px;
+    font-size: 14px;
+  }
+}
+.roleText{
+  font-size: 24px;
+  font-weight: 600;
+  text-align: center;
+}

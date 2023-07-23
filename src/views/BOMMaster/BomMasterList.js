@@ -165,6 +165,7 @@ function BomMasterList() {
 
             }
              <div className='exportandfilter_2'>
+                <div></div>
                 <div className='exportandfilter_end'>
                 <Link to="/AddBomMaster" className='submitbtn_exp'><AddIcon fontSize='small' /> <span className='addFont'>Add</span></Link>
             </div>

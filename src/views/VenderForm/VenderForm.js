@@ -86,6 +86,7 @@ function VenderForm() {
     const [venderMasterDisable, setvenderMasterDisable] = React.useState(false);
     const [MaterialType, setMaterialType] = React.useState(false);
     const [MaterialMaster, setMaterialMaster] = React.useState([]);
+    const [enableActions, setEnableActions] = React.useState([]);
     const [MaterialDetail, setCategoryDetail] = React.useState('');
     const [nMId, setnMId] = React.useState('');
     const [subcategoryMaster, setsubcategoryMaster] = React.useState([]);
@@ -158,6 +159,12 @@ function VenderForm() {
     }
     useEffect(() => {
         getVendorMaster_SelectAll()
+        let storedArray = localStorage.getItem('linkAccess');
+        const parsedArray = JSON.parse(storedArray);
+        let filterLinks= parsedArray.filter(e=> e.vPageName=='VendorMaster')
+        setEnableActions(filterLinks)
+        const currentURL = window.location.href;
+        console.log('Current URL:', currentURL);
     }, [])
     const getVendorMaster_SelectAll = () => {
         setLoader2(true)
@@ -191,7 +198,7 @@ function VenderForm() {
     const requestSearch = (searchedVal) => {
         if (searchedVal.length > 0) {
             const filteredRows = vendorData.filter((row) => {
-                return row.vVendorCode.toLowerCase().includes(searchedVal.toLowerCase()) || row.vVendorName.toLowerCase().includes(searchedVal.toLowerCase()) || row.vVendorAddress.toLowerCase().includes(searchedVal.toLowerCase()) || row.vContactPerson.toLowerCase().includes(searchedVal.toLowerCase()) || row.vMobileNo.toLowerCase().includes(searchedVal.toLowerCase()) || row.vEmailId.toLowerCase().includes(searchedVal.toLowerCase()) || row.vGSTNo.toLowerCase().includes(searchedVal.toLowerCase()) || row.vRemarks.toLowerCase().includes(searchedVal.toLowerCase());
+                return row.vVendorCode.toLowerCase().includes(searchedVal.toLowerCase()) ||row.MaterialTypes.toLowerCase().includes(searchedVal.toLowerCase()) ||row.Categories.toLowerCase().includes(searchedVal.toLowerCase()) || row.SubCategories.toLowerCase().includes(searchedVal.toLowerCase()) || row.vVendorAddress.toLowerCase().includes(searchedVal.toLowerCase()) || row.vContactPerson.toLowerCase().includes(searchedVal.toLowerCase()) || row.vMobileNo.toLowerCase().includes(searchedVal.toLowerCase()) || row.vEmailId.toLowerCase().includes(searchedVal.toLowerCase()) || row.vGSTNo.toLowerCase().includes(searchedVal.toLowerCase()) || row.vRemarks.toLowerCase().includes(searchedVal.toLowerCase());
             });
             setVendorData(filteredRows);
         } else {

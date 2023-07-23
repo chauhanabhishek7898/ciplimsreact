@@ -116,7 +116,7 @@ const AppSidebar = () => {
        })
       //  console.log('subNav',subNav)
       setNavigationData(nav)
-     
+      localStorage.setItem('linkAccess', JSON.stringify(response.TAB2));
     })
   }
   const gotoLogin=()=>{
