@@ -84,10 +84,51 @@ function EditRolePageLinkeg() {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
-  const pushCheckedValues = (e, item) => {
-    setPushBtActive(e.target.checked)
-    console.log('item', item, e.target.checked)
-    if (e.target.checked == true) {
+  const pushCheckedValues = (e,item,type) => {
+    alert(0)
+    if(type=='add'){
+      alert(1)
+      setPushBtActive(e.target.checked)
+      if (e.target.checked == true) {
+        let selectedData = [...roleSelectedData]
+        selectedData.push({
+          id: new Date().getUTCMilliseconds(),
+          nRoleId: RoleId,
+          nPageId: item.nPageId,
+          btSaveRights: saveRight,
+          btEditRights: editRight,
+          btActive: true,
+  
+        })
+        console.log('item2', selectedData)
+        setRoleSelectedData(selectedData)
+        setSaveRights(false)
+        setEditRights(false)
+  
+      } else {
+        var poMasteerDetail = [...roleSelectedData]
+        var all = poMasteerDetail.indexOf(item.id)
+        if (all !== -1) {
+          poMasteerDetail.splice(all, 1);
+        }
+        let filteredArray = poMasteerDetail.filter(item => item.id !== item.id)
+        console.log('filteredArray', filteredArray)
+        setRoleSelectedData(filteredArray)
+       
+      }
+    }
+
+    if(type=='SaveRights'){
+      alert(2)
+      setSaveRights(e.target.checked)
+      var poMasteerDetail = [...roleSelectedData]
+      var all = poMasteerDetail.indexOf(item.nPageId)
+      if (all !== -1) {
+        poMasteerDetail.splice(all, 1);
+      }
+      let filteredArray = poMasteerDetail.filter(item => item.nPageId !== item.nPageId)
+      console.log('filteredArray', filteredArray)
+      setRoleSelectedData(filteredArray)
       let selectedData = [...roleSelectedData]
       selectedData.push({
         id: new Date().getUTCMilliseconds(),
@@ -96,14 +137,15 @@ function EditRolePageLinkeg() {
         btSaveRights: saveRight,
         btEditRights: editRight,
         btActive: true,
-
       })
-      console.log('item2', selectedData)
-      setRoleSelectedData(selectedData)
-      setSaveRights(false)
-      setEditRights(false)
+      console.log('selectedData', selectedData)
+    }
 
-    } else {
+
+
+    if(type=='EditRights'){
+      alert(3)
+      setEditRights(e.target.checked)
       var poMasteerDetail = [...roleSelectedData]
       var all = poMasteerDetail.indexOf(item.id)
       if (all !== -1) {
@@ -112,10 +154,12 @@ function EditRolePageLinkeg() {
       let filteredArray = poMasteerDetail.filter(item => item.id !== item.id)
       console.log('filteredArray', filteredArray)
       setRoleSelectedData(filteredArray)
-
     }
+    console.log('item', item, e.target.checked)
+   
 
   }
+ 
   const submit = () => {
     let RolePageData = {}
     RolePageData.RolePageLinkage = roleSelectedData,
@@ -233,13 +277,13 @@ function EditRolePageLinkeg() {
                           <TableRow key={index}>
                             {/* <TableCell component="th" scope="row">{index + 1}.</TableCell> */}
 
-                            <TableCell align="left" sx={muiStyles.tableBody}><Checkbox defaultChecked={true} value={pushbtActive} disabled={true} onChange={e => pushCheckedValues(e, item)} /></TableCell>
+                            <TableCell align="left" sx={muiStyles.tableBody}><Checkbox defaultChecked={true} value={pushbtActive} disabled={true} onChange={e => pushCheckedValues(e, item,'add')} /></TableCell>
                             {/* <TableCell align="left" sx={muiStyles.tableBody}>{item.nPageId}</TableCell> */}
                             <TableCell align="left" sx={muiStyles.tableBody}>{item.vPageName}</TableCell>
                             {/* <TableCell align="left" sx={muiStyles.tableBody}>{item.vModuleName}</TableCell> */}
                             <TableCell align="left" sx={muiStyles.tableBody}>{item.DependentOn}</TableCell>
-                            <TableCell align="left" sx={muiStyles.tableBody}><Checkbox defaultChecked={item.btSaveRights} value={saveRight} onChange={e => setSaveRights(e.target.checked)} /></TableCell>
-                            <TableCell align="left" sx={muiStyles.tableBody}><Checkbox defaultChecked={item.btEditRights} value={editRight} onChange={e => setEditRights(e.target.checked)} /></TableCell>
+                            <TableCell align="left" sx={muiStyles.tableBody}><Checkbox defaultChecked={item.btSaveRights} value={saveRight} onChange={e => pushCheckedValues(e, item,'SaveRights') } /></TableCell>
+                            <TableCell align="left" sx={muiStyles.tableBody}><Checkbox defaultChecked={item.btEditRights} value={editRight} onChange={e => pushCheckedValues(e, item,'EditRights') } /></TableCell>
                             <TableCell align="left" sx={muiStyles.tableBody}><Checkbox defaultChecked={item.btActive} value={btActive} onChange={e => setBtActive(e.target.checked)} /></TableCell>
                             <TableCell align="center" sx={muiStyles.tableBody}><button className='deletbtn' title='Edit' onClick={() => update(item)}><TbEdit size={20} color='#000' /></button></TableCell>
                           </TableRow>

@@ -1196,6 +1196,11 @@ p {
 
 .editbtn {
   cursor: pointer;
+  border: none;
+  background: transparent;
+}
+.notAllow{
+  cursor: not-allowed !important;
 }
 
 svg.MuiSvgIcon-root.MuiSvgIcon-colorRed.MuiSvgIcon-fontSizeMedium.css-i4bv87-MuiSvgIcon-root {

@@ -84,6 +84,8 @@ function VenderForm() {
     const [venderDetailsTable, setvenderDetailsTable] = React.useState(false);
     const [venderDetailsDisable, setvenderDetailsDisable] = React.useState(false);
     const [venderMasterDisable, setvenderMasterDisable] = React.useState(false);
+    const [btSaveRights, setbtSaveRights] = React.useState(false);
+    const [btEditRights, setbtEditRights] = React.useState(false);
     const [MaterialType, setMaterialType] = React.useState(false);
     const [MaterialMaster, setMaterialMaster] = React.useState([]);
     const [enableActions, setEnableActions] = React.useState([]);
@@ -161,10 +163,15 @@ function VenderForm() {
         getVendorMaster_SelectAll()
         let storedArray = localStorage.getItem('linkAccess');
         const parsedArray = JSON.parse(storedArray);
-        let filterLinks= parsedArray.filter(e=> e.vPageName=='VendorMaster')
-        setEnableActions(filterLinks)
-        const currentURL = window.location.href;
-        console.log('Current URL:', currentURL);
+        let currentURL = window.location.href;
+        let splitcurrentURL = currentURL.split('/')[4]
+        console.log('Current URL:', splitcurrentURL);
+        let filterLinks = parsedArray.filter(e => e.vPageName == splitcurrentURL)
+        console.log('filterLinks:', filterLinks[0].btEditRights);
+        // setEnableActions(filterLinks)
+        setbtSaveRights(filterLinks[0].btSaveRights)
+        setbtEditRights(filterLinks[0].btEditRights)
+
     }, [])
     const getVendorMaster_SelectAll = () => {
         setLoader2(true)
@@ -198,7 +205,7 @@ function VenderForm() {
     const requestSearch = (searchedVal) => {
         if (searchedVal.length > 0) {
             const filteredRows = vendorData.filter((row) => {
-                return row.vVendorCode.toLowerCase().includes(searchedVal.toLowerCase()) ||row.MaterialTypes.toLowerCase().includes(searchedVal.toLowerCase()) ||row.Categories.toLowerCase().includes(searchedVal.toLowerCase()) || row.SubCategories.toLowerCase().includes(searchedVal.toLowerCase()) || row.vVendorAddress.toLowerCase().includes(searchedVal.toLowerCase()) || row.vContactPerson.toLowerCase().includes(searchedVal.toLowerCase()) || row.vMobileNo.toLowerCase().includes(searchedVal.toLowerCase()) || row.vEmailId.toLowerCase().includes(searchedVal.toLowerCase()) || row.vGSTNo.toLowerCase().includes(searchedVal.toLowerCase()) || row.vRemarks.toLowerCase().includes(searchedVal.toLowerCase());
+                return row.vVendorCode.toLowerCase().includes(searchedVal.toLowerCase()) || row.MaterialTypes.toLowerCase().includes(searchedVal.toLowerCase()) || row.Categories.toLowerCase().includes(searchedVal.toLowerCase()) || row.SubCategories.toLowerCase().includes(searchedVal.toLowerCase()) || row.vVendorAddress.toLowerCase().includes(searchedVal.toLowerCase()) || row.vContactPerson.toLowerCase().includes(searchedVal.toLowerCase()) || row.vMobileNo.toLowerCase().includes(searchedVal.toLowerCase()) || row.vEmailId.toLowerCase().includes(searchedVal.toLowerCase()) || row.vGSTNo.toLowerCase().includes(searchedVal.toLowerCase()) || row.vRemarks.toLowerCase().includes(searchedVal.toLowerCase());
             });
             setVendorData(filteredRows);
         } else {
@@ -244,7 +251,7 @@ function VenderForm() {
 
             else {
                 if (validateVenderDetailForm() == true) {
-                    
+
                     confirmAlert({
                         title: 'Alert !!',
                         message: 'Do you want to Add ?',
@@ -265,7 +272,7 @@ function VenderForm() {
                                             setSubCategory('')
                                             vendorMaster_GetVendorById(res[0].VendorId)
                                             getVendorMaster_SelectAll()
-                
+
                                         }
                                     })
 
@@ -486,7 +493,7 @@ function VenderForm() {
     return (
         <div className='citymasterContainer'>
             <div className='add_export'>
-                <button className='submitbtn_exp' onClick={() => openmodale(null, 'Submit')} title='Add'><AddIcon fontSize='small' /><span className='addFont'>Add</span></button>
+                <button className={btSaveRights == false?'submitbtn_exp notAllow':'submitbtn_exp'} onClick={() => openmodale(null, 'Submit')} title='Add' disabled={btSaveRights == false}><AddIcon fontSize='small' /><span className='addFont'>Add</span></button>
                 <ExportExcel excelData={vendorData} Heading={Heading} fileName={'Vendor_Master'} />
             </div>
             {loader2 == true ?
@@ -784,7 +791,7 @@ function VenderForm() {
 
                                                             <TableCell align="left" sx={muiStyles.tableBody}>{item.vSubCategoryName}</TableCell>
                                                             {buttonName == 'Update' ?
-                                                                <TableCell align="left" sx={muiStyles.tableBody}><div onClick={() => changeupdatedata(item, 'venderDetails')} className='editbtn'><TbEdit size={20} color='#000' /></div></TableCell>
+                                                                <TableCell align="left" sx={muiStyles.tableBody}><div onClick={() => changeupdatedata(item, 'venderDetails')} className='editbtn' ><TbEdit size={20} color='#000' disabled={btEditRights == false} /></div></TableCell>
                                                                 :
                                                                 null
                                                             }
@@ -909,7 +916,7 @@ function VenderForm() {
                                                 <TableCell align="left" sx={muiStyles.tableBody}>{item.SubCategories}</TableCell>
                                                 <TableCell align="left" sx={muiStyles.tableBody}><a data-tooltip-id="my-tooltip" data-tooltip-content={item.vRemarks}>{(item.vRemarks.length > 10) ? (item.vRemarks.slice(0, 10)) + '...' : (item.vRemarks)}</a><Tooltip id="my-tooltip" place="bottom" /></TableCell>
                                                 <TableCell align="left" sx={muiStyles.tableBody}>{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
-                                                <TableCell align="left" sx={muiStyles.tableBody}><div onClick={() => openmodale(item, 'Update')} className='editbtn'><TbEdit size={20} color='#000' /></div></TableCell>
+                                                <TableCell align="left" sx={muiStyles.tableBody}><button onClick={() => openmodale(item, 'Update')} disabled={btEditRights == false} className={btEditRights == false?'editbtn notAllow':'editbtn'}><TbEdit size={20} color='#000' /></button></TableCell>
                                             </TableRow>
                                         )
                                     })
@@ -949,7 +956,7 @@ const customStyles = {
         marginRight: '-50%',
         transform: 'translate(-50%, -50%)',
         width: '80%',
-        zIndex:1000
+        zIndex: 1000
     },
 };
 const muiStyles = {
