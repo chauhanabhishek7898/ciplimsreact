@@ -173,7 +173,7 @@ function VenderForm() {
     const checkedonlyActive = (event) => {
         setonlyActive(event.target.checked)
         checkedData = event.target.checked
-        getVendorMaster_SelectAll()
+        getVendorMaster_SelectAll() 
     }
     useEffect(() => {
         getVendorMaster_SelectAll()
@@ -181,6 +181,7 @@ function VenderForm() {
         const parsedArray = JSON.parse(storedArray);
         let currentURL = window.location.href;
         let splitcurrentURL = currentURL.split('/')[4]
+        // let splitcurrentURLLive = currentURL.split('/')[2]
         console.log('Current URL:', splitcurrentURL);
         let filterLinks = parsedArray.filter(e => e.vPageName == splitcurrentURL)
         console.log('filterLinks:', filterLinks[0].btEditRights);

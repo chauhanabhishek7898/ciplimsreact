@@ -77,6 +77,10 @@ function EnterOpeningStockList() {
     const [weekNumberId, setWeekNumberId] = React.useState('');
     const [error, setError] = React.useState('');
     const [unitid, setUnitid] = React.useState('');
+
+    const [btSaveRights, setbtSaveRights] = React.useState(false);
+    const [btEditRights, setbtEditRights] = React.useState(false);
+
     const handleChangePackUnit = (event) => {
         setUnitid(event.target.value);
     };
@@ -95,6 +99,21 @@ function EnterOpeningStockList() {
 
     useEffect(() => {
         getPODetails()
+
+        let storedArray = localStorage.getItem('linkAccess');
+        const parsedArray = JSON.parse(storedArray);
+        let currentURL = window.location.href;
+        let splitcurrentURL = currentURL.split('/')[4]
+        // let splitcurrentURLLive = currentURL.split('/')[2]
+        console.log('current URL:', currentURL.split('/'));
+        console.log('splitcurrent URL:', splitcurrentURL);
+        let filterLinks = parsedArray.filter(e => e.vPageName == splitcurrentURL)
+        console.log('filterLinks[0].btSaveRights:', filterLinks[0].btSaveRights);
+        console.log('filterLinks[0].btEditRights:', filterLinks[0].btEditRights);
+        // setEnableActions(filterLinks)
+        setbtSaveRights(filterLinks[0].btSaveRights)
+        setbtEditRights(filterLinks[0].btEditRights)
+
     }, [])
     const getPODetails = () => {
         setLoader(true)
@@ -144,6 +163,10 @@ function EnterOpeningStockList() {
         })
     }
 
+    const handleAdd = () => {
+        navigate('/AddEnterOpeningStock');
+    }
+
     const handleDetail = (nGRNId) => {
         navigate('/EditEnterOpeningStock', { state: { nGRNId } });
     }
@@ -161,10 +184,12 @@ function EnterOpeningStockList() {
                 null
 
             }
-            <div className='exportandfilter_end'>
+            {/* <div className='exportandfilter_end'>
                 <Link to="/AddEnterOpeningStock" className='submitbtn_exp'><AddIcon fontSize='small' /> <span className='addFont'>Add</span></Link>
+            </div> */} 
+            <div className='exportandfilter_end'>
+                <button className={btSaveRights == false ? 'submitbtn_exp notAllow' : 'submitbtn_exp'} onClick={handleAdd} title='Add' disabled={btSaveRights == false} ><AddIcon fontSize='small' /> <span className='addFont'>Add</span></button>
             </div>
-
             <div className='tablecenter'>
 
                 <Paper sx={{ width: '100%', overflow: 'hidden', paddingTop: 1 }}>
@@ -251,7 +276,8 @@ function EnterOpeningStockList() {
                                                 <TableCell align="left" sx={muiStyles.tableBody}>{item.vRemarks}</TableCell>
 
                                                 <TableCell align="left" sx={muiStyles.tableBody}>{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
-                                                <TableCell align="center" sx={muiStyles.tableBody}><button className='deletbtn' title='Edit' onClick={() => handleDetail(item.nGRNId)}><TbEdit size={20} color='#000' /></button></TableCell>
+                                                {/* <TableCell align="center" sx={muiStyles.tableBody}><button className='deletbtn' title='Edit' onClick={() => handleDetail(item.nGRNId)}><TbEdit size={20} color='#000' /></button></TableCell> */}
+                                                <TableCell align="left" sx={muiStyles.tableBody}><button onClick={() => handleDetail(item.nGRNId)} disabled={btEditRights == false} className={btEditRights == false?'editbtn notAllow':'editbtn'} title='Edit'><TbEdit size={20} color='#000' /></button></TableCell>
 
                                             </TableRow>
                                         )
@@ -344,14 +370,14 @@ const muiStyles = {
             left: '-10px',
 
         },
-         "& label.Mui-focused": {
+        "& label.Mui-focused": {
             zIndex: '1'
-        },'& .MuiFormHelperText-root': {
+        }, '& .MuiFormHelperText-root': {
             position: 'absolute',
             fontSize: 10,
             bottom: -18
         },
-       
+
     },
     input: {
         "& .MuiOutlinedInput-root": {
@@ -366,14 +392,14 @@ const muiStyles = {
             left: '-10px',
             backgroundColor: 'transparent',
         },
-         "& label.Mui-focused": {
+        "& label.Mui-focused": {
             zIndex: '1'
-        },'& .MuiFormHelperText-root': {
+        }, '& .MuiFormHelperText-root': {
             position: 'absolute',
             fontSize: 10,
             bottom: -18
         },
-       
+
     },
     select: {
 

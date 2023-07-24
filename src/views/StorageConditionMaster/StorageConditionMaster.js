@@ -50,6 +50,9 @@ function StorageConditionMaster() {
     const [matchResult, setMatchResult] = useState(null);
     const [matchResult2, setMatchResult2] = useState(null);
 
+    const [btSaveRights, setbtSaveRights] = React.useState(false);
+    const [btEditRights, setbtEditRights] = React.useState(false);
+
     let checkedData = true
     const checkedonlyActive = (event) => {
         setonlyActive(event.target.checked)
@@ -58,6 +61,20 @@ function StorageConditionMaster() {
     }
     useEffect(() => {
         getStorageConditionMaster_SelectAll()
+
+        let storedArray = localStorage.getItem('linkAccess');
+        const parsedArray = JSON.parse(storedArray);
+        let currentURL = window.location.href;
+        let splitcurrentURL = currentURL.split('/')[4]
+        // let splitcurrentURLLive = currentURL.split('/')[2]
+        console.log('current URL:', currentURL.split('/'));
+        console.log('splitcurrent URL:', splitcurrentURL);
+        let filterLinks = parsedArray.filter(e => e.vPageName == splitcurrentURL)
+        console.log('filterLinks[0].btSaveRights:', filterLinks[0].btSaveRights);
+        console.log('filterLinks[0].btEditRights:', filterLinks[0].btEditRights);
+        // setEnableActions(filterLinks)
+        setbtSaveRights(filterLinks[0].btSaveRights)
+        setbtEditRights(filterLinks[0].btEditRights)
 
     }, [])
     const getStorageConditionMaster_SelectAll = () => {
@@ -214,7 +231,9 @@ function StorageConditionMaster() {
 
             }
             <div className='add_export'>
-                <button className='submitbtn_exp' onClick={() => openmodale(null, 'Submit')} title='Add'  ><AddIcon fontSize='small' /> <span className='addFont'>Add</span></button>
+                {/* <button className='submitbtn_exp' onClick={() => openmodale(null, 'Submit')} title='Add'  ><AddIcon fontSize='small' /> <span className='addFont'>Add</span></button> */}
+                <button className={btSaveRights == false ? 'submitbtn_exp notAllow' : 'submitbtn_exp'} onClick={() => openmodale(null, 'Submit')} title='Add' disabled={btSaveRights == false} ><AddIcon fontSize='small' /> <span className='addFont'>Add</span></button>
+
                 <ExportExcel excelData={brandData} Heading={Heading} fileName={'StorageCondition_Master'} />
 
             </div>
@@ -327,7 +346,8 @@ function StorageConditionMaster() {
                                                 <TableCell align="left" sx={muiStyles.tableBody}>{item.vSCPrefix}</TableCell>
                                                 <TableCell align="left" sx={muiStyles.tableBody}>{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
 
-                                                <TableCell align="left" sx={muiStyles.tableBody}><div onClick={() => openmodale(item, 'Update')} className='editbtn'><TbEdit size={20} color='#000' /></div></TableCell>
+                                                {/* <TableCell align="left" sx={muiStyles.tableBody}><div onClick={() => openmodale(item, 'Update')} className='editbtn'><TbEdit size={20} color='#000' /></div></TableCell> */}
+                                                <TableCell align="left" sx={muiStyles.tableBody}><button onClick={() => openmodale(item, 'Update')} disabled={btEditRights == false} className={btEditRights == false ? 'editbtn notAllow' : 'editbtn'}><TbEdit size={20} color='#000' /></button></TableCell>
 
                                             </TableRow>
                                         )

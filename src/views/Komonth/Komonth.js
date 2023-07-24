@@ -57,6 +57,10 @@ function KOMONTH() {
     const [nKOYear, setnKOYear] = React.useState('');
     const [nDays, setnDays] = React.useState('');
     const [error, setError] = React.useState('');
+
+    const [btSaveRights, setbtSaveRights] = React.useState(false);
+    const [btEditRights, setbtEditRights] = React.useState(false);
+
     const [errorText, setErrorText] = React.useState({
         sDate: '',
         eDate: '',
@@ -242,6 +246,21 @@ function KOMONTH() {
     }
     useEffect(() => {
         getKOMonth_SelectAll()
+
+        let storedArray = localStorage.getItem('linkAccess');
+        const parsedArray = JSON.parse(storedArray);
+        let currentURL = window.location.href;
+        let splitcurrentURL = currentURL.split('/')[4]
+        // let splitcurrentURLLive = currentURL.split('/')[2]
+        console.log('current URL:', currentURL.split('/'));
+        console.log('splitcurrent URL:', splitcurrentURL);
+        let filterLinks = parsedArray.filter(e => e.vPageName == splitcurrentURL)
+        console.log('filterLinks[0].btSaveRights:', filterLinks[0].btSaveRights);
+        console.log('filterLinks[0].btEditRights:', filterLinks[0].btEditRights);
+        // setEnableActions(filterLinks)
+        setbtSaveRights(filterLinks[0].btSaveRights)
+        setbtEditRights(filterLinks[0].btEditRights)
+
     }, [])
     const getKOMonth_SelectAll = () => {
         setLoader2(true)
@@ -695,7 +714,9 @@ function KOMONTH() {
                                                         <TableCell align="left" style={{ whiteSpace: 'nowrap' }}>{item.nDays}</TableCell>
                                                         <TableCell align="left" style={{ whiteSpace: 'nowrap' }}>{item.dtStartDt}</TableCell>
                                                         <TableCell align="left" style={{ whiteSpace: 'nowrap' }}>{item.dtEndDt}</TableCell>
-                                                        <TableCell align="left" style={{ whiteSpace: 'nowrap' }}><div onClick={() => openMonthModel(item)} className='editbtn'><TbEdit size={20} color='#000' /></div></TableCell>
+                                                        {/* <TableCell align="left" style={{ whiteSpace: 'nowrap' }}><div onClick={() => openMonthModel(item)} className='editbtn'><TbEdit size={20} color='#000' /></div></TableCell> */}
+                                                        <TableCell align="left" style={{ whiteSpace: 'nowrap' }}><button onClick={() => openMonthModel(item)} disabled={btEditRights == false} className={btEditRights == false ? 'editbtn notAllow' : 'editbtn'} title='Edit'><TbEdit size={20} color='#000' /></button></TableCell>
+
                                                         {/* <TableCell align="left" >{item.vWeekNo}</TableCell>
                                                     <TableCell align="left" >{item.dtWStartDt}</TableCell>
                                                     <TableCell align="left" >{item.dtWEndDt}</TableCell> */}
@@ -718,7 +739,9 @@ function KOMONTH() {
                                                         <TableCell align="left" style={{ whiteSpace: 'nowrap' }}>{item.vWeekNo}</TableCell>
                                                         <TableCell align="left" style={{ whiteSpace: 'nowrap' }}>{item.dtWStartDt}</TableCell>
                                                         <TableCell align="left" style={{ whiteSpace: 'nowrap' }}>{item.dtWEndDt}</TableCell>
-                                                        <TableCell align="left" style={{ whiteSpace: 'nowrap' }}><div onClick={() => openWeekModel(item)} className='editbtn'><TbEdit size={20} color='#000' /></div></TableCell>
+                                                        {/* <TableCell align="left" style={{ whiteSpace: 'nowrap' }}><div onClick={() => openWeekModel(item)} className='editbtn'><TbEdit size={20} color='#000' /></div></TableCell> */}
+                                                        <TableCell align="left" style={{ whiteSpace: 'nowrap' }}><button onClick={() => openWeekModel(item)} disabled={btEditRights == false} className={btEditRights == false ? 'editbtn notAllow' : 'editbtn'} title='Edit'><TbEdit size={20} color='#000' /></button></TableCell>
+
                                                     </TableRow>
                                                 )
                                             })
