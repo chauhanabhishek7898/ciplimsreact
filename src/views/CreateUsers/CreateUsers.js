@@ -74,6 +74,9 @@ function CreateUsers() {
     const [RoleMasterData, setRoleMasterData] = React.useState([]);
     const [roleName, setnRoleName] = React.useState("");
 
+    const [btSaveRights, setbtSaveRights] = React.useState(false);
+    const [btEditRights, setbtEditRights] = React.useState(false);
+
     const [loader, setLoader] = React.useState(false);
 
     const { register, handleSubmit, control, errors } = useForm();
@@ -93,6 +96,20 @@ function CreateUsers() {
 
     useEffect(() => {
         getStorageConditionMaster_SelectAll()
+
+        let storedArray = localStorage.getItem('linkAccess');
+        const parsedArray = JSON.parse(storedArray);
+        let currentURL = window.location.href;
+        // let splitcurrentURL = currentURL.split('/')[4]
+        let splitcurrentURLLive = currentURL.split('/')[2]
+        console.log('current URL:', currentURL.split('/'));
+        console.log('splitcurrent URL:', splitcurrentURL);
+        let filterLinks = parsedArray.filter(e => e.vPageName == splitcurrentURL)
+        console.log('filterLinks[0].btSaveRights:', filterLinks[0].btSaveRights);
+        console.log('filterLinks[0].btEditRights:', filterLinks[0].btEditRights);
+        // setEnableActions(filterLinks)
+        setbtSaveRights(filterLinks[0].btSaveRights)
+        setbtEditRights(filterLinks[0].btEditRights)
 
     }, [])
 
@@ -298,7 +315,9 @@ function CreateUsers() {
                 null
             }
             <div className='add_export'>
-                <button className='submitbtn_exp' onClick={() => openmodale(null, 'Submit')} title='Add'  ><AddIcon fontSize='small' /> <span className='addFont'>Add</span></button>
+                {/* <button className='submitbtn_exp' onClick={() => openmodale(null, 'Submit')} title='Add'  ><AddIcon fontSize='small' /> <span className='addFont'>Add</span></button> */}
+                <button className={btSaveRights == false ? 'submitbtn_exp notAllow' : 'submitbtn_exp'} onClick={() => openmodale(null, 'Submit')} title='Add' disabled={btSaveRights == false} ><AddIcon fontSize='small' /> <span className='addFont'>Add</span></button>
+
                 <ExportExcel excelData={brandData} Heading={Heading} fileName={'CreateUsers_Master'} />
             </div>
 

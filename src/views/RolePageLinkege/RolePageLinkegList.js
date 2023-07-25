@@ -11,7 +11,7 @@ import Paper from '@mui/material/Paper';
 import { useNavigate, Link } from "react-router-dom";
 import AddIcon from '@mui/icons-material/Add';
 import { ToastContainer, toast } from 'react-toastify';
-import {GetRolePageLinkageDetails} from './RolePageLinkegService'
+import { GetRolePageLinkageDetails } from './RolePageLinkegService'
 import Checkbox from '@mui/material/Checkbox';
 import { TbEdit } from "react-icons/tb";
 import CircularProgress from '@mui/joy/CircularProgress';
@@ -21,9 +21,11 @@ function RolePageLinkegList() {
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
     const [brandData, setBrandData] = React.useState([]);
+    const [btSaveRights, setbtSaveRights] = React.useState(false);
+    const [btEditRights, setbtEditRights] = React.useState(false);
     const [loader, setLoader] = React.useState(false);
-    const handleDetail = (nRoleId,vRoleName) => {
-        navigate('/EditRolePageLinkeg', { state: { nRoleId:nRoleId,vRoleName:vRoleName } });
+    const handleDetail = (nRoleId, vRoleName) => {
+        navigate('/EditRolePageLinkeg', { state: { nRoleId: nRoleId, vRoleName: vRoleName } });
     }
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
@@ -32,18 +34,36 @@ function RolePageLinkegList() {
         setRowsPerPage(+event.target.value);
         setPage(0);
     };
-    useEffect(()=>{
+    useEffect(() => {
         getRolePageLinkageDetails()
-    },[])
-    const getRolePageLinkageDetails=()=>{
-        setLoader(true)
 
-        GetRolePageLinkageDetails().then(res=>{
+        let storedArray = localStorage.getItem('linkAccess');
+        const parsedArray = JSON.parse(storedArray);
+        let currentURL = window.location.href;
+        // let splitcurrentURL = currentURL.split('/')[4]
+        let splitcurrentURLLive = currentURL.split('/')[2]
+        console.log('current URL:', currentURL.split('/'));
+        console.log('splitcurrent URL:', splitcurrentURL);
+        let filterLinks = parsedArray.filter(e => e.vPageName == splitcurrentURL)
+        console.log('filterLinks[0].btSaveRights:', filterLinks[0].btSaveRights);
+        console.log('filterLinks[0].btEditRights:', filterLinks[0].btEditRights);
+        // setEnableActions(filterLinks)
+        setbtSaveRights(filterLinks[0].btSaveRights)
+        setbtEditRights(filterLinks[0].btEditRights)
+
+    }, [])
+    const getRolePageLinkageDetails = () => {
+        GetRolePageLinkageDetails().then(res => {
             setBrandData(res)
             setLoader(false)
 
         })
     }
+
+    const handleAdd = () => {
+        navigate('/AddRolePageLinkeg');
+    }
+
     return (
         <div className='citymasterContainer'>
             {/* <button  title='Add' onClick={routeChange}><AddIcon fontSize='small' /></button> */}
@@ -57,8 +77,11 @@ function RolePageLinkegList() {
                 null
 
             }
-            <div className='exportandfilter_end'>
+            {/* <div className='exportandfilter_end'>
                 <Link to="/AddRolePageLinkeg" className='submitbtn_exp'><AddIcon fontSize='small' /> <span className='addFont'>Add</span></Link>
+            </div> */}
+            <div className='exportandfilter_end'>
+                <button className={btSaveRights == false ? 'submitbtn_exp notAllow' : 'submitbtn_exp'} onClick={handleAdd} title='Add' disabled={btSaveRights == false} ><AddIcon fontSize='small' /> <span className='addFont'>Add</span></button>
             </div>
 
             <div className='tablecenter'>
@@ -86,18 +109,20 @@ function RolePageLinkegList() {
                                     {brandData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((item, index) => {
                                         return (
                                             <TableRow key={index}>
-                                            {/* <TableCell component="th" scope="row">{index + 1}.</TableCell> */}
-                  
-                                            {/* <TableCell align="left" sx={muiStyles.tableBody}><Checkbox defaultChecked={pushbtActive} value={pushbtActive} onChange={e => pushCheckedValues(e, item)} /></TableCell> */}
-                                            <TableCell align="left" sx={muiStyles.tableBody}>{item.vRoleName}</TableCell>
-                                            <TableCell align="left" sx={muiStyles.tableBody}>{item.vAlias}</TableCell>
-                                            {/* <TableCell align="left" sx={muiStyles.tableBody}>{item.vModuleName}</TableCell>
+                                                {/* <TableCell component="th" scope="row">{index + 1}.</TableCell> */}
+
+                                                {/* <TableCell align="left" sx={muiStyles.tableBody}><Checkbox defaultChecked={pushbtActive} value={pushbtActive} onChange={e => pushCheckedValues(e, item)} /></TableCell> */}
+                                                <TableCell align="left" sx={muiStyles.tableBody}>{item.vRoleName}</TableCell>
+                                                <TableCell align="left" sx={muiStyles.tableBody}>{item.vAlias}</TableCell>
+                                                {/* <TableCell align="left" sx={muiStyles.tableBody}>{item.vModuleName}</TableCell>
                                             <TableCell align="left" sx={muiStyles.tableBody}>{item.DependentOnPage}</TableCell> */}
-                                            {/* <TableCell align="left" sx={muiStyles.tableBody}><Checkbox defaultChecked={saveRight} value={saveRight} onChange={e => setSaveRights(e.target.checked)} /></TableCell>
+                                                {/* <TableCell align="left" sx={muiStyles.tableBody}><Checkbox defaultChecked={saveRight} value={saveRight} onChange={e => setSaveRights(e.target.checked)} /></TableCell>
                                             <TableCell align="left" sx={muiStyles.tableBody}><Checkbox defaultChecked={editRight} value={editRight} onChange={e => setEditRights(e.target.checked)} /></TableCell>
                                             <TableCell align="left" sx={muiStyles.tableBody}><Checkbox defaultChecked={btActive} value={btActive} onChange={e => setBtActive(e.target.checked)} /></TableCell> */}
-                                            <TableCell align="center" sx={muiStyles.tableBody}><button className='deletbtn' title='Edit' onClick={() => handleDetail(item.nRoleId,item.vRoleName)}><TbEdit size={20} color='#000' /></button></TableCell>
-                                          </TableRow>
+                                                {/* <TableCell align="center" sx={muiStyles.tableBody}><button className='deletbtn' title='Edit' onClick={() => handleDetail(item.nRoleId, item.vRoleName)}><TbEdit size={20} color='#000' /></button></TableCell> */}
+                                                <TableCell align="center" sx={muiStyles.tableBody}><button onClick={() => handleDetail(item.nRoleId, item.vRoleName)} disabled={btEditRights == false} className={btEditRights == false ? 'editbtn notAllow' : 'editbtn'} title='Edit'><TbEdit size={20} color='#000' /></button></TableCell>
+
+                                            </TableRow>
                                         )
                                     })
                                     }

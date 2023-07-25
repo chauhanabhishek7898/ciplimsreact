@@ -9,6 +9,8 @@ import TableRow from '@mui/material/TableRow';
 import TablePagination from '@mui/material/TablePagination';
 import Paper from '@mui/material/Paper';
 import { VendorMaster_SelectAll, VendorMaster_SelectAll_Active, VendorMasterPost, VendorMasterPut, VendorDetail_UpdatePut, SubCategory_SelectAll_ActiveLikeSearch, CategoryMaster_ActiveLikeSearch, VendorMaster_GetVendorById } from './VenderFormService'
+import { MaterialTypeMaster_SelectAll_Active } from '../MaterialMaster/MaterialMasterService'
+
 import { GetSubCategory } from '../MaterialMaster/MaterialMasterService'
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
@@ -103,6 +105,20 @@ function VenderForm() {
         subCategory: '',
     });
     const { register, handleSubmit, control, errors } = useForm();
+    const [vMaterialType, setvMaterialType] = React.useState("");
+    const [vMaterialTypeId, setvMaterialTypeId] = React.useState("");
+    const [vMaterialTypeData, setvMaterialTypeData] = React.useState([]);
+    useEffect(() => {
+        getMaterialTypeMaster_SelectAll_Active()
+    }, [])
+
+    const getMaterialTypeMaster_SelectAll_Active = () => {
+        MaterialTypeMaster_SelectAll_Active().then(response => {
+            setvMaterialTypeData(response)
+        })
+    }
+
+
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
     };
@@ -157,14 +173,15 @@ function VenderForm() {
     const checkedonlyActive = (event) => {
         setonlyActive(event.target.checked)
         checkedData = event.target.checked
-        getVendorMaster_SelectAll()
+        getVendorMaster_SelectAll() 
     }
     useEffect(() => {
         getVendorMaster_SelectAll()
         let storedArray = localStorage.getItem('linkAccess');
         const parsedArray = JSON.parse(storedArray);
         let currentURL = window.location.href;
-        let splitcurrentURL = currentURL.split('/')[4]
+        // let splitcurrentURL = currentURL.split('/')[4]
+        let splitcurrentURLLive = currentURL.split('/')[2]
         console.log('Current URL:', splitcurrentURL);
         let filterLinks = parsedArray.filter(e => e.vPageName == splitcurrentURL)
         console.log('filterLinks:', filterLinks[0].btEditRights);
@@ -384,9 +401,7 @@ function VenderForm() {
 
         }
     }
-    const handleChange = (event) => {
-        setMaterialType(event.target.value);
-    };
+
     const categoryMaster_ActiveLikeSearch = (vGeneric) => {
         console.log('response', vGeneric)
         if (vGeneric != '') {
@@ -490,6 +505,27 @@ function VenderForm() {
             setvMobileNo(e.target.value)
         }
     };
+
+    // const handleChangeMaterialType = (event) => {
+    //     const selectedId = event.target.value;
+    //     setMaterialType(selectedId)
+    //     const selectedValue = vMaterialTypeData.find((item) => item.vMaterialType === selectedId);
+    //     console.log("selectedValue", selectedValue)
+    // };
+
+    const handleChange = (event) => {
+        const selectedId = event.target.value;
+        setMaterialType(selectedId)
+        const selectedValue = vMaterialTypeData.find((item) => item.vMaterialType === selectedId);
+        console.log("selectedValue", selectedValue)
+    };
+
+    const handleBlurM = (item) => {
+        console.log("itemitemitem", item)
+        setMaterialType(item.vMaterialType)
+        setvMaterialTypeId(item.nMTId)
+    };
+
     return (
         <div className='citymasterContainer'>
             <div className='add_export'>
@@ -663,6 +699,32 @@ function VenderForm() {
                         }
                     </div>
                 </div>
+
+                {/* <Box className='inputBox-6'>
+                        <FormControl fullWidth className='input'>
+                            <InputLabel required id="demo-simple-select-label" sx={muiStyles.InputLabels}>Material Type</InputLabel>
+                            <Select
+                                sx={muiStyles.select}
+                                style={{ width: '100%', }}
+                                labelId="demo-simple-select-label"
+                                id="demo-simple-select"
+                                value={vMaterialType}
+                                label="Select Material Type"
+                                onChange={handleChangeMaterialType}
+                                name='nMTId' >
+                                {vMaterialTypeData.map((item, index) => {
+                                    return (
+                                        <MenuItem key={index} onBlur={() => handleBlurM(item)} value={item.vMaterialType} id={item.nMTId}>{item.vMaterialType}</MenuItem>
+                                        // <MenuItem key={index} value={item.vMaterialType}>{item.vMaterialType}</MenuItem>
+                                    )
+                                })
+                                }
+                            </Select>
+                            {errorText.vMaterialType != '' ? <p className='error'>{errorText.vMaterialType}</p> : null}
+                        </FormControl>
+                    </Box> */}
+
+
                 <div className='displayflexend borderTop' >
                     <Box className='inputBox-3'>
                         <FormControl fullWidth className='input'>
@@ -676,8 +738,14 @@ function VenderForm() {
                                 label="Select Material Type"
                                 onChange={handleChange}
                             >
-                                <MenuItem value='RM'>RM</MenuItem>
-                                <MenuItem value='PM'>PM</MenuItem>
+                                {vMaterialTypeData.map((item, index) => {
+                                    return (
+                                        <MenuItem key={index} onBlur={() => handleBlurM(item)} value={item.vMaterialType} id={item.nMTId}>{item.vMaterialType}</MenuItem>
+                                        // <MenuItem key={index} value={item.vMaterialType}>{item.vMaterialType}</MenuItem>
+                                    )
+                                })
+                                }
+
                             </Select>
                             {errorText.MaterialType != '' ? <p className='error'>{errorText.MaterialType}</p> : null}
                         </FormControl>
