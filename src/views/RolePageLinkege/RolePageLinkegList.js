@@ -14,6 +14,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import {GetRolePageLinkageDetails} from './RolePageLinkegService'
 import Checkbox from '@mui/material/Checkbox';
 import { TbEdit } from "react-icons/tb";
+import CircularProgress from '@mui/joy/CircularProgress';
 function RolePageLinkegList() {
     const navigate = useNavigate();
     const [modalIsOpen, setIsOpen] = React.useState(false);
@@ -35,8 +36,12 @@ function RolePageLinkegList() {
         getRolePageLinkageDetails()
     },[])
     const getRolePageLinkageDetails=()=>{
+        setLoader(true)
+
         GetRolePageLinkageDetails().then(res=>{
             setBrandData(res)
+            setLoader(false)
+
         })
     }
     return (

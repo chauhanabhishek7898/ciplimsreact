@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { BindRoleForRolePageLInkage, GetPagesForRolePageLinkageByRoleId, RolePageLinkagePost } from './RolePageLinkegService'
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -17,10 +17,19 @@ import MenuItem from '@mui/material/MenuItem';
 import InputAdornment from '@mui/material/InputAdornment';
 import Checkbox from '@mui/material/Checkbox';
 import { useNavigate, useLocation, Link } from "react-router-dom";
+import CircularProgress from '@mui/joy/CircularProgress';
+import { ToastContainer, toast } from 'react-toastify';
+import HomeIcon from '@mui/icons-material/Home';
+import Modal from 'react-modal';
+import HighlightOffIcon from '@mui/icons-material/HighlightOff';
+import SearchBar from "material-ui-search-bar";
+import FormGroup from '@mui/material/FormGroup';
+import { CButton, CSpinner } from '@coreui/react';
 function AddRolePageLinkegAddRolePageLinkeg() {
     const navigate = useNavigate();
-    
+
     const [RoleMasterData, setRoleMasterData] = React.useState([]);
+    const [RoleMasterData2, setRoleMasterData2] = React.useState([]);
     const [RoleMasterTableData, setRoleMasterTableData] = React.useState([]);
     const [roleSelectedData, setRoleSelectedData] = React.useState([]);
     const [roleName, setnRoleName] = React.useState("");
@@ -29,11 +38,14 @@ function AddRolePageLinkegAddRolePageLinkeg() {
     const [loader, setLoader] = React.useState(false);
     const [nRoleId, setnRoleId] = React.useState('');
     const [btActive, setBtActive] = React.useState(false);
-    const [saveRight, setSaveRights] = React.useState(false);
-    const [editRight, setEditRights] = React.useState(false);
+    const [saveRight, setSaveRights] = React.useState([]);
+    const [editRight, setEditRights] = React.useState([]);
+    const [modalIsOpen3, setIsOpen3] = React.useState(false);
+    const [searched, setSearched] = React.useState("");
     const [errorText, setErrorText] = React.useState({
         roleName: ''
     });
+    const [responseData, setResponseData] = useState([])
     useEffect(() => {
         bindRoleForRolePageLInkage()
     }, [])
@@ -56,11 +68,41 @@ function AddRolePageLinkegAddRolePageLinkeg() {
         setnRoleId(item.nRoleId)
         getPagesForRolePageLinkageByRoleId(item.nRoleId)
     };
+    const createaccessData = (data)=>{
+        const filterdata = data.map(item=>{
+            return {
+                nPageId: item.nPageId,
+                btSaveRights: false,
+                btEditRights: false,
+                btActive: false
+            }
+        })
+        setResponseData(filterdata)
+    }
     const getPagesForRolePageLinkageByRoleId = (nRoleId) => {
         GetPagesForRolePageLinkageByRoleId(nRoleId).then(res => {
+            createaccessData(res)
             setRoleMasterTableData(res)
+            setRoleMasterData2(res)
         })
     }
+    const requestSearch = (searchedVal) => {
+        console.log("searchedVal.length", searchedVal.length)
+        if (searchedVal.length > 0) {
+            const filteredRows = RoleMasterTableData.filter((row) => {
+                return row.vPageCaption.toLowerCase().includes(searchedVal.toLowerCase()) || row.vModuleName.toLowerCase().includes(searchedVal.toLowerCase() || row.DependentOnPage.toLowerCase().includes(searchedVal.toLowerCase()));
+            });
+            setRoleMasterTableData(filteredRows);
+
+        }else{
+            setRoleMasterTableData(RoleMasterData2)
+        }
+    };
+    const cancelSearch = () => {
+        setSearched("");
+        requestSearch(searched);
+        // getVendorMaster_SelectAll()
+    };
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
     };
@@ -68,39 +110,9 @@ function AddRolePageLinkegAddRolePageLinkeg() {
         setRowsPerPage(+event.target.value);
         setPage(0);
     };
-    const pushCheckedValues = (e, item) => {
-        setBtActive(e.target.checked)
-        console.log('item', item, e.target.checked)
-        if (e.target.checked == true) {
-            let selectedData = [...roleSelectedData]
-            selectedData.push({
-                id: new Date().getUTCMilliseconds(),
-                nRoleId: nRoleId,
-                nPageId: item.nPageId,
-                btSaveRights: saveRight,
-                btEditRights: editRight,
-                btActive: true,
-
-            })
-            console.log('item2', selectedData)
-
-            setRoleSelectedData(selectedData)
-            setSaveRights(false)
-            setEditRights(false)
-
-        } else {
-            var poMasteerDetail = [...roleSelectedData]
-            var all = poMasteerDetail.indexOf(item.id)
-            if (all !== -1) {
-                poMasteerDetail.splice(all, 1);
-            }
-            let filteredArray = poMasteerDetail.filter(item => item.id !== item.id)
-            console.log('filteredArray', filteredArray)
-            setRoleSelectedData(filteredArray)
-
-        }
-
-    }
+   
+    
+ 
     const validateform = () => {
         if (roleName == '' || roleName == undefined || roleName == null) {
             setErrorText({
@@ -115,19 +127,70 @@ function AddRolePageLinkegAddRolePageLinkeg() {
     const submit = () => {
         if (validateform() == true) {
             setLoader(true)
+
             let RolePageData = {}
-            RolePageData.RolePageLinkage = roleSelectedData,
+            RolePageData.RolePageLinkage = createAccessPayload(responseData),
                 console.log('RolePageData', RolePageData)
             RolePageLinkagePost(RolePageData).then(res => {
-                console.log('res', res)
                 setLoader(false)
+                toast.success("Record Added Successfully !!")
+                navigate('/RolePageLinkage');
 
             })
 
         }
     }
+    const openSubmitmodale = () => {
+        setIsOpen3(true)
+
+    }
+    const createAccessPayload = (data) =>{
+        const payloaditems = data.filter(item=> item.btActive || item.btEditRights || item.btSaveRights)
+        return payloaditems.map(item=>{
+            let copyitem = {...item};
+            copyitem['nRoleId'] = nRoleId;
+            return copyitem;
+            
+        });
+    }
+    
+    const handleChecked = (event, id, accessType)=>{
+        const copyResponseData = [...responseData];
+        setLoader(true)
+        const updateRes = copyResponseData.map(item=>{
+            let copyitem = {...item}
+            // console.log('copyitem', copyitem)
+            if(item.nPageId == id){
+                if(accessType=='MAIN'){
+                     copyitem['btActive'] = event.target.checked;
+                     copyitem['btSaveRights'] = event.target.checked;
+                     copyitem['btEditRights'] = event.target.checked;
+                }else if(accessType=='SAVE_RIGHT'){
+                     copyitem['btSaveRights'] = event.target.checked;
+
+                }else{
+                     copyitem['btEditRights'] = event.target.checked;
+                }
+            }
+            
+            return copyitem;
+        })
+         return setResponseData(updateRes), setLoader(false)
+
+    }
+    
     return (
         <div className='citymasterContainer'>
+            {loader == true ?
+                <div className='progressBox'>
+                    <div className='progressInner'>
+                        <CircularProgress />
+                    </div>
+                </div>
+                :
+                null
+
+            }
             <div className='rolePageLinkeg_box'>
                 <Box className='inputBox-47 mt-4'>
                     <FormControl fullWidth className='input'>
@@ -156,6 +219,20 @@ function AddRolePageLinkegAddRolePageLinkeg() {
                     <div className='tablecenter mt-3'>
 
                         <Paper sx={{ width: '100%', overflow: 'hidden', paddingTop: 1 }}>
+                            {/* <div className='exportandfilter'>
+                                <div className='filterbox'>
+                                    <Box className='searchbox'>
+                                        <SearchBar
+                                            value={searched}
+                                            onChange={(searchVal) => requestSearch(searchVal)}
+                                            onCancelSearch={() => cancelSearch()}
+                                        />
+                                    </Box>
+                                    <FormGroup className='activeonly'>
+                                        <FormControlLabel style={{ marginRight: 0, fontSize: 10 }} control={<Checkbox checked={onlyActive} value={onlyActive} onChange={checkedonlyActive} />} label={'Active Data'} />
+                                    </FormGroup>
+                                </div>
+                            </div> */}
                             <TableContainer sx={muiStyles.tableBox} className='tableBox'>
                                 <Table stickyHeader aria-label="sticky table">
                                     <TableHead>
@@ -169,7 +246,7 @@ function AddRolePageLinkegAddRolePageLinkeg() {
                                             <TableCell align="left" sx={muiStyles.tableHead}>Dependent On Page</TableCell>
 
                                             <TableCell align="left" sx={muiStyles.tableHead}>Save Rights</TableCell>
-                                            <TableCell align="center" sx={muiStyles.tableHead}>Edit Rights</TableCell>
+                                            <TableCell align="left" sx={muiStyles.tableHead}>Edit Rights</TableCell>
 
 
                                         </TableRow>
@@ -180,17 +257,19 @@ function AddRolePageLinkegAddRolePageLinkeg() {
                                             {RoleMasterTableData.map((item, index) => {
                                                 return (
                                                     <TableRow key={index}>
-                                                        {/* <TableCell component="th" scope="row">{index + 1}.</TableCell> */}
-
-                                                        <TableCell align="left" sx={muiStyles.tableBody}><Checkbox defaultChecked={btActive} value={btActive} onChange={e => pushCheckedValues(e, item)} /></TableCell>
-                                                        <TableCell align="left" sx={muiStyles.tableBody}>{item.nPageId}</TableCell>
-                                                        <TableCell align="left" sx={muiStyles.tableBody}>{item.vPageCaption}</TableCell>
-                                                        <TableCell align="left" sx={muiStyles.tableBody}>{item.vModuleName}</TableCell>
-                                                        <TableCell align="left" sx={muiStyles.tableBody}>{item.DependentOnPage}</TableCell>
-                                                        <TableCell align="left" sx={muiStyles.tableBody}><Checkbox value={saveRight} onChange={e => setSaveRights(e.target.checked)} /></TableCell>
-                                                        <TableCell align="left" sx={muiStyles.tableBody}><Checkbox value={editRight} onChange={e => setEditRights(e.target.checked)} /></TableCell>
+                                                      {/* <TableCell component="th" scope="row">{index + 1}.</TableCell> */}
+                          
+                                                      <TableCell align="left" sx={muiStyles.tableBody}><Checkbox defaultChecked={true} value={pushbtActive} disabled={true} onChange={e => pushCheckedValues(e, item)} /></TableCell>
+                                                      {/* <TableCell align="left" sx={muiStyles.tableBody}>{item.nPageId}</TableCell> */}
+                                                      <TableCell align="left" sx={muiStyles.tableBody}>{item.vPageName}</TableCell>
+                                                      {/* <TableCell align="left" sx={muiStyles.tableBody}>{item.vModuleName}</TableCell> */}
+                                                      <TableCell align="left" sx={muiStyles.tableBody}>{item.DependentOn}</TableCell>
+                                                      <TableCell align="left" sx={muiStyles.tableBody}><Checkbox defaultChecked={item.btSaveRights} value={saveRight} onChange={e => changeRights(e,item,'save') } /></TableCell>
+                                                      <TableCell align="left" sx={muiStyles.tableBody}><Checkbox defaultChecked={item.btEditRights} value={editRight} onChange={e => changeRights(e,item,'edit') } /></TableCell>
+                                                      <TableCell align="left" sx={muiStyles.tableBody}><Checkbox defaultChecked={item.btActive} value={btActive} onChange={e => changeRights(e,item,'btActive') } /></TableCell>
+                                                      <TableCell align="left" sx={muiStyles.tableBody}><button className='deletbtn' title='Edit' onClick={() => openmodale(item)}><TbEdit size={20} color='#000' /></button></TableCell>
                                                     </TableRow>
-                                                )
+                                                  )
                                             })
                                             }
                                         </TableBody>
@@ -220,17 +299,34 @@ function AddRolePageLinkegAddRolePageLinkeg() {
             </div>
 
 
-            <div className='mt-3' style={{ display: 'flex', justifyContent: 'flex-end', width: '100%' }}>
+            <div className='mt-3' style={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
+                <button type="submit" className='submitbtn-2' style={{ marginRight: 10 }} onClick={() => navigate('/RolePageLinkage')}><HomeIcon size={18} /> Home</button>
                 {loader == true ?
                     <CButton disabled className='submitbtn'>
                         <CSpinner component="span" size="sm" aria-hidden="true" />
                         Loading...
                     </CButton>
                     :
-                    <button type="submit" className='submitbtn' onClick={submit}>Submit</button>
+                    <button type="submit" className='submitbtn' onClick={openSubmitmodale}>Submit</button>
                 }
 
             </div>
+            <Modal
+                isOpen={modalIsOpen3}
+                style={customStyles1}
+                contentLabel="Example Modal"
+                ariaHideApp={false}
+            >
+                <div className='displayright'>
+                    <div><span className='title'>Alert !!</span></div>
+                    <HighlightOffIcon fontSize='large' onClick={() => setIsOpen3(false)} />
+                </div>
+                <div className='alertmsg'><p>Do you want to Add?</p></div>
+                <div className='alertButton' >
+                    <button type="submit" className='alertYes' onClick={submit}>Yes</button>
+                    <button type="submit" className='alertno' onClick={() => setIsOpen2(false)}>No</button>
+                </div>
+            </Modal >
         </div>
     )
 }
@@ -351,6 +447,17 @@ const muiStyles = {
                 fontSize: '14px'
             }
         }
+    },
+};
+const customStyles1 = {
+    content: {
+        top: '50%',
+        left: '50%',
+        right: 'auto',
+        bottom: 'auto',
+        marginRight: '-50%',
+        transform: 'translate(-50%, -50%)',
+        width: '30%',
     },
 };
 export default AddRolePageLinkegAddRolePageLinkeg

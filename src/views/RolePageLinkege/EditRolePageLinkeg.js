@@ -15,10 +15,16 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import InputAdornment from '@mui/material/InputAdornment';
+import Modal from 'react-modal';
 import Checkbox from '@mui/material/Checkbox';
 import { TbEdit } from "react-icons/tb";
 import { confirmAlert } from 'react-confirm-alert';
 import { useNavigate, useLocation, Link } from "react-router-dom";
+import HighlightOffIcon from '@mui/icons-material/HighlightOff';
+import CircularProgress from '@mui/joy/CircularProgress';
+import { ToastContainer, toast } from 'react-toastify';
+import { CButton, CSpinner } from '@coreui/react';
+import HomeIcon from '@mui/icons-material/Home';
 function EditRolePageLinkeg() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -29,6 +35,7 @@ function EditRolePageLinkeg() {
   const [RoleMasterTableData2, setRoleMasterTableData2] = React.useState([]);
   const [roleSelectedData, setRoleSelectedData] = React.useState([]);
   const [roleName, setnRoleName] = React.useState("");
+  const [PageId, setnPageId] = React.useState("");
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [loader, setLoader] = React.useState(false);
@@ -38,10 +45,14 @@ function EditRolePageLinkeg() {
   const [saveRight, setSaveRights] = React.useState(false);
   const [editRight, setEditRights] = React.useState(false);
   const [existingTable, setexistingTable] = React.useState(true);
+  const [checkboxChange, setcheckboxChange] = React.useState(false);
   const [Addmore, setAddmore] = React.useState(false);
+  const [modalIsOpen2, setIsOpen2] = React.useState(false);
+  const [modalIsOpen3, setIsOpen3] = React.useState(false);
   const [errorText, setErrorText] = React.useState({
     roleName: ''
   });
+  const [responseData, setResponseData] = useState([])
   useEffect(() => {
     bindRoleForRolePageLInkage()
     getPagesForRolePageLinkageByRoleId(RoleId)
@@ -68,13 +79,29 @@ function EditRolePageLinkeg() {
     getPagesForRolePageLinkageByRoleId(item.nRoleId)
   };
   const getPagesForRolePageLinkageByRoleId = (nRoleId) => {
+    setLoader(true)
     GetPagesForRolePageLinkageByRoleId(nRoleId).then(res => {
       setRoleMasterTableData(res)
+      setLoader(false)
     })
   }
+  const createaccessData = (data)=>{
+    const filterdata = data.map(item=>{
+        return {
+            nPageId: item.nPageId,
+            btSaveRights: false,
+            btEditRights: false,
+            btActive: false
+        }
+    })
+    setResponseData(filterdata)
+}
   const getSavedPagesForRolePageLinkageByRoleId = (nRoleId) => {
+    setLoader(true)
     GetSavedPagesForRolePageLinkageByRoleId(nRoleId).then(res => {
+      createaccessData(res)
       setRoleMasterTableData2(res)
+      setLoader(false)
     })
   }
   const handleChangePage = (event, newPage) => {
@@ -84,128 +111,77 @@ function EditRolePageLinkeg() {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
-  const pushCheckedValues = (e,item,type) => {
-    alert(0)
-    if(type=='add'){
-      alert(1)
-      setPushBtActive(e.target.checked)
-      if (e.target.checked == true) {
-        let selectedData = [...roleSelectedData]
-        selectedData.push({
-          id: new Date().getUTCMilliseconds(),
-          nRoleId: RoleId,
-          nPageId: item.nPageId,
-          btSaveRights: saveRight,
-          btEditRights: editRight,
-          btActive: true,
-  
-        })
-        console.log('item2', selectedData)
-        setRoleSelectedData(selectedData)
-        setSaveRights(false)
-        setEditRights(false)
-  
-      } else {
-        var poMasteerDetail = [...roleSelectedData]
-        var all = poMasteerDetail.indexOf(item.id)
-        if (all !== -1) {
-          poMasteerDetail.splice(all, 1);
-        }
-        let filteredArray = poMasteerDetail.filter(item => item.id !== item.id)
-        console.log('filteredArray', filteredArray)
-        setRoleSelectedData(filteredArray)
-       
-      }
-    }
-
-    if(type=='SaveRights'){
-      alert(2)
-      setSaveRights(e.target.checked)
-      var poMasteerDetail = [...roleSelectedData]
-      var all = poMasteerDetail.indexOf(item.nPageId)
-      if (all !== -1) {
-        poMasteerDetail.splice(all, 1);
-      }
-      let filteredArray = poMasteerDetail.filter(item => item.nPageId !== item.nPageId)
-      console.log('filteredArray', filteredArray)
-      setRoleSelectedData(filteredArray)
-      let selectedData = [...roleSelectedData]
-      selectedData.push({
-        id: new Date().getUTCMilliseconds(),
-        nRoleId: RoleId,
-        nPageId: item.nPageId,
-        btSaveRights: saveRight,
-        btEditRights: editRight,
-        btActive: true,
-      })
-      console.log('selectedData', selectedData)
-    }
-
-
-
-    if(type=='EditRights'){
-      alert(3)
-      setEditRights(e.target.checked)
-      var poMasteerDetail = [...roleSelectedData]
-      var all = poMasteerDetail.indexOf(item.id)
-      if (all !== -1) {
-        poMasteerDetail.splice(all, 1);
-      }
-      let filteredArray = poMasteerDetail.filter(item => item.id !== item.id)
-      console.log('filteredArray', filteredArray)
-      setRoleSelectedData(filteredArray)
-    }
-    console.log('item', item, e.target.checked)
-   
-
-  }
  
+  
   const submit = () => {
+    setLoader(true)
     let RolePageData = {}
-    RolePageData.RolePageLinkage = roleSelectedData,
+    RolePageData.RolePageLinkage = createAccessPayload(responseData),
       console.log('RolePageData', RolePageData)
     RolePageLinkagePost(RolePageData).then(res => {
       console.log('res', res)
+      toast.success("Record Added Successfully !!")
+      setLoader(false)
+      setIsOpen3(false)
     })
   }
-  const updatedata=(item)=>{
-    setBtActive(item.btActive)
-    setSaveRights(item.btSaveRights)
-    setEditRights(item.btEditRights)
-    update(item)
+ 
+  const changeRights=(e,item,type)=>{
+    if(type=='save'){
+      alert(1)
+      setSaveRights(e.target.checked)
+      setEditRights(item.btEditRights)
+      setBtActive(item.btActive)
+      setcheckboxChange(true)
+    }
+    if(type=='edit'){
+      setEditRights(e.target.checked)
+      setSaveRights(item.btSaveRights)
+      setBtActive(item.btActive)
+      setcheckboxChange(true)
+    }
+    if(type=='btActive'){
+      setBtActive(e.target.checked)
+      setSaveRights(item.btSaveRights)
+      setEditRights(item.btEditRights)
+      setcheckboxChange(true)
+    }
   }
-  const update = (item) => {
+  const openmodale = (item) => {
+    if(checkboxChange==true){
+      setIsOpen2(true)
+      setnPageId(item.nPageId)
+    }else{
+      setIsOpen2(true)
+      setBtActive(item.btActive)
+      setSaveRights(item.btSaveRights)
+      setEditRights(item.btEditRights)
+      setnPageId(item.nPageId)
+    }
     
-    confirmAlert({
-      title: 'Alert !!',
-      message: 'Do you want Edit ?',
-      buttons: [
-        {
-          label: 'Yes',
-          onClick: () => {
+}
+const openSubmitmodale = () => {
+  setIsOpen3(true)
+    
+}
+  const update = () => {
+    setLoader(true)
+    let data = {
+      nRoleId: RoleId,
+      nPageId: PageId,
+      btSaveRights: saveRight,
+      btEditRights: editRight,
+      btActive: btActive,
 
-            let data = {
-              nRoleId: RoleId,
-              nPageId: item.nPageId,
-              btSaveRights: saveRight,
-              btEditRights: editRight,
-              btActive: true,
-
-            }
-            RolePageLinkagePut(data).then(res => {
-              console.log('res', res)
-            })
-
-          }
-        },
-        {
-          label: 'No',
-          onClick: () => { return null }
-        }
-      ]
-    });
-
-
+    }
+    RolePageLinkagePut(data).then(res => {
+      console.log('res', res)
+      setIsOpen2(false)
+      toast.success("Record Updated Successfully !!")
+      setLoader(false)
+      setcheckboxChange(false)
+      getSavedPagesForRolePageLinkageByRoleId(RoleId)
+    })
   }
   const changeTable = (type) => {
     if (type == 'existing') {
@@ -217,8 +193,52 @@ function EditRolePageLinkeg() {
       setAddmore(true)
     }
   }
+  const createAccessPayload = (data) =>{
+    const payloaditems = data.filter(item=> item.btActive || item.btEditRights || item.btSaveRights)
+    return payloaditems.map(item=>{
+        let copyitem = {...item};
+        copyitem['nRoleId'] = nRoleId;
+        return copyitem;
+        
+    });
+}
+
+const handleChecked = (event, id, accessType)=>{
+    const copyResponseData = [...responseData];
+    setLoader(true)
+    const updateRes = copyResponseData.map(item=>{
+        let copyitem = {...item}
+        // console.log('copyitem', copyitem)
+        if(item.nPageId == id){
+            if(accessType=='MAIN'){
+                 copyitem['btActive'] = event.target.checked;
+                 copyitem['btSaveRights'] = event.target.checked;
+                 copyitem['btEditRights'] = event.target.checked;
+            }else if(accessType=='SAVE_RIGHT'){
+                 copyitem['btSaveRights'] = event.target.checked;
+
+            }else{
+                 copyitem['btEditRights'] = event.target.checked;
+            }
+        }
+        
+        return copyitem;
+    })
+     return setResponseData(updateRes), setLoader(false)
+
+}
   return (
     <div className='citymasterContainer'>
+       {loader == true ?
+                <div className='progressBox'>
+                    <div className='progressInner'>
+                        <CircularProgress />
+                    </div>
+                </div>
+                :
+                null
+
+            }
       <div className='rolePageLinkeg_box'>
         <Box className='inputBox-47 mt-4'>
           {/* <FormControl fullWidth className='input'>
@@ -265,9 +285,9 @@ function EditRolePageLinkeg() {
                       {/* <TableCell align="left" sx={muiStyles.tableHead}>Module Name</TableCell> */}
                       <TableCell align="left" sx={muiStyles.tableHead}>Dependent On Page</TableCell>
                       <TableCell align="left" sx={muiStyles.tableHead}>Save Rights</TableCell>
-                      <TableCell align="center" sx={muiStyles.tableHead}>Edit Rights</TableCell>
-                      <TableCell align="center" sx={muiStyles.tableHead}>Is Active</TableCell>
-                      <TableCell align="center" sx={muiStyles.tableHead}>Edit</TableCell>
+                      <TableCell align="left" sx={muiStyles.tableHead}>Edit Rights</TableCell>
+                      <TableCell align="left" sx={muiStyles.tableHead}>Is Active</TableCell>
+                      <TableCell align="left" sx={muiStyles.tableHead}>Edit</TableCell>
                     </TableRow>
                   </TableHead>
                   {RoleMasterTableData2?.length > 0 ?
@@ -277,15 +297,15 @@ function EditRolePageLinkeg() {
                           <TableRow key={index}>
                             {/* <TableCell component="th" scope="row">{index + 1}.</TableCell> */}
 
-                            <TableCell align="left" sx={muiStyles.tableBody}><Checkbox defaultChecked={true} value={pushbtActive} disabled={true} onChange={e => pushCheckedValues(e, item,'add')} /></TableCell>
+                            <TableCell align="left" sx={muiStyles.tableBody}><Checkbox defaultChecked={true} value={pushbtActive} disabled={true} onChange={e => pushCheckedValues(e, item)} /></TableCell>
                             {/* <TableCell align="left" sx={muiStyles.tableBody}>{item.nPageId}</TableCell> */}
                             <TableCell align="left" sx={muiStyles.tableBody}>{item.vPageName}</TableCell>
                             {/* <TableCell align="left" sx={muiStyles.tableBody}>{item.vModuleName}</TableCell> */}
                             <TableCell align="left" sx={muiStyles.tableBody}>{item.DependentOn}</TableCell>
-                            <TableCell align="left" sx={muiStyles.tableBody}><Checkbox defaultChecked={item.btSaveRights} value={saveRight} onChange={e => pushCheckedValues(e, item,'SaveRights') } /></TableCell>
-                            <TableCell align="left" sx={muiStyles.tableBody}><Checkbox defaultChecked={item.btEditRights} value={editRight} onChange={e => pushCheckedValues(e, item,'EditRights') } /></TableCell>
-                            <TableCell align="left" sx={muiStyles.tableBody}><Checkbox defaultChecked={item.btActive} value={btActive} onChange={e => setBtActive(e.target.checked)} /></TableCell>
-                            <TableCell align="center" sx={muiStyles.tableBody}><button className='deletbtn' title='Edit' onClick={() => update(item)}><TbEdit size={20} color='#000' /></button></TableCell>
+                            <TableCell align="left" sx={muiStyles.tableBody}><Checkbox defaultChecked={item.btSaveRights} value={saveRight} onChange={e => changeRights(e,item,'save') } /></TableCell>
+                            <TableCell align="left" sx={muiStyles.tableBody}><Checkbox defaultChecked={item.btEditRights} value={editRight} onChange={e => changeRights(e,item,'edit') } /></TableCell>
+                            <TableCell align="left" sx={muiStyles.tableBody}><Checkbox defaultChecked={item.btActive} value={btActive} onChange={e => changeRights(e,item,'btActive') } /></TableCell>
+                            <TableCell align="left" sx={muiStyles.tableBody}><button className='deletbtn' title='Edit' onClick={() => openmodale(item)}><TbEdit size={20} color='#000' /></button></TableCell>
                           </TableRow>
                         )
                       })
@@ -330,11 +350,8 @@ function EditRolePageLinkeg() {
                         <TableCell align="left" sx={muiStyles.tableHead}>Page Caption</TableCell>
                         <TableCell align="left" sx={muiStyles.tableHead}>Module Name</TableCell>
                         <TableCell align="left" sx={muiStyles.tableHead}>Dependent On Page</TableCell>
-
                         <TableCell align="left" sx={muiStyles.tableHead}>Save Rights</TableCell>
-                        <TableCell align="center" sx={muiStyles.tableHead}>Edit Rights</TableCell>
-
-
+                        <TableCell align="left" sx={muiStyles.tableHead}>Edit Rights</TableCell>
                       </TableRow>
                     </TableHead>
                     {RoleMasterTableData?.length > 0 ?
@@ -350,8 +367,8 @@ function EditRolePageLinkeg() {
                               <TableCell align="left" sx={muiStyles.tableBody}>{item.vModuleName}</TableCell>
                               <TableCell align="left" sx={muiStyles.tableBody}>{item.DependentOnPage}</TableCell>
 
-                              <TableCell align="left" sx={muiStyles.tableBody}><Checkbox defaultChecked={saveRight} value={saveRight} onChange={e => setSaveRights(e.target.checked)} /></TableCell>
-                              <TableCell align="left" sx={muiStyles.tableBody}><Checkbox defaultChecked={editRight} value={editRight} onChange={e => setEditRights(e.target.checked)} /></TableCell>
+                              <TableCell align="left" sx={muiStyles.tableBody}><Checkbox  value={saveRight} onChange={e => SaveRightsCheckedValues(e, item)} /></TableCell>
+                              <TableCell align="left" sx={muiStyles.tableBody}><Checkbox value={editRight} onChange={e => EditRightsCheckedValues(e, item)} /></TableCell>
 
 
                             </TableRow>
@@ -380,14 +397,15 @@ function EditRolePageLinkeg() {
                 />
               </Paper>
             </div>
-            <div className='mt-3' style={{ display: 'flex', justifyContent: 'flex-end', width: '100%' }}>
+            <div className='mt-3' style={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
+            <button type="submit" className='submitbtn-2' style={{ marginRight: 10 }} onClick={()=>navigate('/RolePageLinkage')}><HomeIcon size={18} /> Home</button>
               {loader == true ?
                 <CButton disabled className='submitbtn'>
                   <CSpinner component="span" size="sm" aria-hidden="true" />
                   Loading...
                 </CButton>
                 :
-                <button type="submit" className='submitbtn' onClick={submit}>Submit</button>
+                <button type="submit" className='submitbtn' onClick={openSubmitmodale}>Submit</button>
               }
 
             </div>
@@ -395,7 +413,38 @@ function EditRolePageLinkeg() {
           : null
         }
       </div>
-
+      <Modal
+                isOpen={modalIsOpen2}
+                style={customStyles1}
+                contentLabel="Example Modal"
+                ariaHideApp={false}
+            >
+                <div className='displayright'>
+                    <div><span className='title'>Alert !!</span></div>
+                    <HighlightOffIcon fontSize='large' onClick={() => setIsOpen2(false)} />
+                </div>
+                <div className='alertmsg'><p>Do you want to Update?</p></div>
+                <div className='alertButton' >
+                    <button type="submit" className='alertYes' onClick={update}>Yes</button>
+                    <button type="submit" className='alertno' onClick={() => setIsOpen2(false)}>No</button>
+                </div>
+            </Modal > 
+            <Modal
+                isOpen={modalIsOpen3}
+                style={customStyles1}
+                contentLabel="Example Modal"
+                ariaHideApp={false}
+            >
+                <div className='displayright'>
+                    <div><span className='title'>Alert !!</span></div>
+                    <HighlightOffIcon fontSize='large' onClick={() => setIsOpen3(false)} />
+                </div>
+                <div className='alertmsg'><p>Do you want to Add?</p></div>
+                <div className='alertButton' >
+                    <button type="submit" className='alertYes' onClick={submit}>Yes</button>
+                    <button type="submit" className='alertno' onClick={() => setIsOpen2(false)}>No</button>
+                </div>
+            </Modal >
 
     </div>
   )
@@ -518,6 +567,17 @@ const muiStyles = {
       }
     }
   },
+  
 };
-
+const customStyles1 = {
+  content: {
+      top: '50%',
+      left: '50%',
+      right: 'auto',
+      bottom: 'auto',
+      marginRight: '-50%',
+      transform: 'translate(-50%, -50%)',
+      width: '30%',
+  },
+};
 export default EditRolePageLinkeg

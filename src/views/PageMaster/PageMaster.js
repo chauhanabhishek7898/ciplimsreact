@@ -91,8 +91,7 @@ function PageMaster() {
   const requestSearch = (searchedVal) => {
     if (searchedVal.length > 0) {
       const filteredRows = brandData.filter((row) => {
-        return row.vPageName.toLowerCase().includes(searchedVal.toLowerCase())
-        // || row.vSCPrefix.toLowerCase().includes(searchedVal.toLowerCase());
+        return row.vPageName.toLowerCase().includes(searchedVal.toLowerCase())||row.DependentOnPage==null?'':row.DependentOnPage.toLowerCase().includes(searchedVal.toLowerCase()) || row.vPageCaption.toLowerCase().includes(searchedVal.toLowerCase())|| row.vModuleName.toLowerCase().includes(searchedVal.toLowerCase())|| row.vDisplayType.toLowerCase().includes(searchedVal.toLowerCase());
       });
       setBrandData(filteredRows);
     } else {
@@ -248,7 +247,7 @@ function PageMaster() {
 
       }
       <div className='add_export'>
-        <button className='submitbtn_exp' onClick={() => openmodale(null, 'Submit')} title='Add'  ><AddIcon fontSize='small' /> <span className='addFont'>Add</span></button>
+        {/* <button className='submitbtn_exp' onClick={() => openmodale(null, 'Submit')} title='Add'  ><AddIcon fontSize='small' /> <span className='addFont'>Add</span></button> */}
         <ExportExcel excelData={brandData} Heading={Heading} fileName={'StorageCondition_Master'} />
 
       </div>
@@ -290,7 +289,7 @@ function PageMaster() {
                 label="Page Name"
                 variant="outlined"
                 name='vPageName'
-
+                disabled={buttonName!='Submit'}
                 inputRef={register({ required: "Page Name is required.*", })}
                 error={Boolean(errors.vPageName)}
                 helperText={errors.vPageName?.message}
@@ -432,13 +431,13 @@ function PageMaster() {
                   {/* <TableCell scope="row">SN.</TableCell> */}
                   {/* <TableCell align="left" sx={muiStyles.tableHead} >Brand Code</TableCell> */}
                   {/* <TableCell align="left" sx={muiStyles.tableHead} >Page Type</TableCell> */}
-                  <TableCell align="left" sx={muiStyles.tableHead} >Page Name</TableCell>
+                  {/* <TableCell align="left" sx={muiStyles.tableHead} >Page Name</TableCell> */}
 
                   <TableCell align="left" sx={muiStyles.tableHead} >Page Caption</TableCell>
                   <TableCell align="left" sx={muiStyles.tableHead} >Sorted By</TableCell>
 
                   <TableCell align="left" sx={muiStyles.tableHead} >Module Name</TableCell>
-                  <TableCell align="left" sx={muiStyles.tableHead} >Display Type</TableCell>
+                  {/* <TableCell align="left" sx={muiStyles.tableHead} >Display Type</TableCell> */}
 
                   <TableCell align="left" sx={muiStyles.tableHead} > Dependent Page</TableCell>
 
@@ -456,13 +455,13 @@ function PageMaster() {
                         {/* <TableCell component="th" scope="row">{index + 1}.</TableCell> */}
                         {/* <TableCell align="left" sx={muiStyles.tableBody}>{item.vBrandCode}</TableCell> */}
                         {/* <TableCell align="left" sx={muiStyles.tableBody}>{item.vPageType}</TableCell> */}
-                        <TableCell align="left" sx={muiStyles.tableBody}>{item.vPageName}</TableCell>
+                        {/* <TableCell align="left" sx={muiStyles.tableBody}>{item.vPageName}</TableCell> */}
 
                         <TableCell align="left" sx={muiStyles.tableBody}>{item.vPageCaption}</TableCell>
                         <TableCell align="left" sx={muiStyles.tableBody}>{item.SortedBy}</TableCell>
 
                         <TableCell align="left" sx={muiStyles.tableBody}>{item.vModuleName}</TableCell>
-                        <TableCell align="left" sx={muiStyles.tableBody}>{item.vDisplayType}</TableCell>
+                        {/* <TableCell align="left" sx={muiStyles.tableBody}>{item.vDisplayType}</TableCell> */}
 
                         <TableCell align="left" sx={muiStyles.tableBody}>{item.DependentOnPage}</TableCell>
 
