@@ -58,15 +58,13 @@ function VarientMaster() {
         const parsedArray = JSON.parse(storedArray);
         let currentURL = window.location.href;
         // let splitcurrentURL = currentURL.split('/')[4]
-        let splitcurrentURLLive = currentURL.split('/')[2]
-        console.log('current URL:', currentURL.split('/'));
-        console.log('splitcurrent URL:', splitcurrentURL);
-        let filterLinks = parsedArray.filter(e => e.vPageName == splitcurrentURL)
-        console.log('filterLinks[0].btSaveRights:', filterLinks[0].btSaveRights);
-        console.log('filterLinks[0].btEditRights:', filterLinks[0].btEditRights);
+       // let splitcurrentURL = currentURL.split('/')[2]
+     
+      //  let filterLinks = parsedArray.filter(e => e.vPageName == splitcurrentURL)
+
         // setEnableActions(filterLinks)
-        setbtSaveRights(filterLinks[0].btSaveRights)
-        setbtEditRights(filterLinks[0].btEditRights)
+     //  if(filterLinks){ setbtSaveRights(filterLinks[0].btSaveRights)
+       // setbtEditRights(filterLinks[0].btEditRights) }
 
     }, [])
 

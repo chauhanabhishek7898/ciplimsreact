@@ -180,14 +180,14 @@ function VenderForm() {
         let storedArray = localStorage.getItem('linkAccess');
         const parsedArray = JSON.parse(storedArray);
         let currentURL = window.location.href;
-        // let splitcurrentURL = currentURL.split('/')[4]
-        let splitcurrentURLLive = currentURL.split('/')[2]
-        console.log('Current URL:', splitcurrentURL);
-        let filterLinks = parsedArray.filter(e => e.vPageName == splitcurrentURL)
-        console.log('filterLinks:', filterLinks[0].btEditRights);
-        // setEnableActions(filterLinks)
-        setbtSaveRights(filterLinks[0].btSaveRights)
-        setbtEditRights(filterLinks[0].btEditRights)
+    //     // let splitcurrentURL = currentURL.split('/')[4]
+    //     let splitcurrentURL = currentURL.split('/')[2]
+    //     console.log('Current URL:', splitcurrentURL);
+    //     let filterLinks = parsedArray.filter(e => e.vPageName == splitcurrentURL)
+    //     console.log('filterLinks:', filterLinks[0].btEditRights);
+    //     // setEnableActions(filterLinks)
+    //    if(filterLinks){ setbtSaveRights(filterLinks[0].btSaveRights)
+    //     setbtEditRights(filterLinks[0].btEditRights) }
 
     }, [])
     const getVendorMaster_SelectAll = () => {
