@@ -188,7 +188,7 @@ function PackMaster() {
             setLoader(true)
             let pack = {
                 nPId: nPId == null ? 0 : nPId,
-                vPackCode: packCode,
+                vPackCode: vPrefix,
                 vPackName: packName,
                 vPrefix: vPrefix,
                 vUnit: unitid,
@@ -288,7 +288,7 @@ function PackMaster() {
                                 <TableRow>
                                     {/* <TableCell scope="row">SN.</TableCell> */}
 
-                                    <TableCell align="left" sx={muiStyles.tableHead}>Pack Code</TableCell>
+                                    {/* <TableCell align="left" sx={muiStyles.tableHead}>Pack Code</TableCell> */}
                                     <TableCell align="left" sx={muiStyles.tableHead}>Pack Name</TableCell>
                                     <TableCell align="left" sx={muiStyles.tableHead}>Unit</TableCell>
                                     <TableCell align="left" sx={muiStyles.tableHead}>Pack Product</TableCell>
@@ -306,7 +306,7 @@ function PackMaster() {
                                             <TableRow >
                                                 {/* <TableCell component="th" scope="row">{index + 1}.</TableCell> */}
 
-                                                <TableCell align="left" sx={muiStyles.tableBody}>{item.vPackCode}</TableCell>
+                                                {/* <TableCell align="left" sx={muiStyles.tableBody}>{item.vPackCode}</TableCell> */}
                                                 <TableCell align="left" sx={muiStyles.tableBody}>{item.vPackName}</TableCell>
                                                 <TableCell align="left" sx={muiStyles.tableBody}>{item.vUnit}</TableCell>
                                                 <TableCell align="left" sx={muiStyles.tableBody}>{item.vPackProduct}</TableCell>
@@ -352,7 +352,7 @@ function PackMaster() {
                     <HighlightOffIcon fontSize='large' onClick={() => setIsOpen(false)} />
                 </div>
                 <div className='displayflexend mt-4'>
-                    <Box className='inputBox-15' >
+                    {/* <Box className='inputBox-15' >
                         <FormControl fullWidth className='input'>
                             <TextField
                                 sx={muiStyles.input}
@@ -368,18 +368,22 @@ function PackMaster() {
                                 helperText={errors.packCode?.message} />
 
                         </FormControl>
-                    </Box>
+                    </Box> */}
                     <Box className='inputBox-15' >
                         <FormControl fullWidth className='input' >
                             <TextField
                                 sx={muiStyles.input}
                                 value={packName}
-                                onChange={e => setpackName(e.target.value)}
+                                onChange={e => {
+                                    setpackName(e.target.value)
+                                    setvPrefix((e.target.value))
+                                }}
                                 id="outlined-basic"
                                 required
                                 label="Pack Name"
                                 variant="outlined"
                                 name='packName'
+                                type='number'
                                 inputRef={register({ required: "Pack Name is required.*", })}
                                 error={Boolean(errors.packName)}
                                 helperText={errors.packName?.message} />
@@ -401,7 +405,7 @@ function PackMaster() {
                                 helperText={errors.unitid?.message} />
                         </FormControl> */}
                         <FormControl fullWidth className='input'>
-                            <InputLabel required id="demo-simple-select-label" sx={muiStyles.InputLabels}>Unit</InputLabel>
+                            <InputLabel required id="demo-simple-select-label" sx={muiStyles.InputLabels}>UMO</InputLabel>
                             <Select
                                 sx={muiStyles.select}
                                 style={{ width: '100%', }}
@@ -437,9 +441,10 @@ function PackMaster() {
                                 label="Pack Product"
                                 variant="outlined"
                                 name='packProduct'
-                                inputRef={register({ required: "Pack Product is required.*", })}
-                                error={Boolean(errors.packProduct)}
-                                helperText={errors.packProduct?.message} />
+                                // inputRef={register({ required: "Pack Product is required.*", })}
+                                // error={Boolean(errors.packProduct)}
+                                // helperText={errors.packProduct?.message}
+                                 />
                         </FormControl>
                     </Box>
                     <Box className='inputBox-16'>
@@ -452,9 +457,10 @@ function PackMaster() {
                                 label="Pack Cases"
                                 variant="outlined"
                                 name='packCases'
-                                inputRef={register({ required: "Pack Cases is required.*", })}
-                                error={Boolean(errors.packCases)}
-                                helperText={errors.packCases?.message} />
+                                // inputRef={register({ required: "Pack Cases is required.*", })}
+                                // error={Boolean(errors.packCases)}
+                                // helperText={errors.packCases?.message} 
+                                />
                         </FormControl>
                     </Box>
 

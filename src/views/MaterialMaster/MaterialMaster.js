@@ -75,8 +75,8 @@ function MaterialMaster() {
     const [unitid, setUnitid] = React.useState('');
     const [onlyActive, setonlyActive] = React.useState(true);
 
-    const [btSaveRights, setbtSaveRights] = React.useState(false);
-    const [btEditRights, setbtEditRights] = React.useState(false);
+    const [btSaveRights, setbtSaveRights] = React.useState(true);
+    const [btEditRights, setbtEditRights] = React.useState(true);
 
     const [errorText, setErrorText] = React.useState({
         vCategory: '',
@@ -574,14 +574,14 @@ function MaterialMaster() {
 
                     <Box className='inputBox-6'>
                         <FormControl fullWidth className='input'>
-                            <InputLabel required id="demo-simple-select-label" sx={muiStyles.InputLabels}>Material Type</InputLabel>
+                            <InputLabel required id="demo-simple-select-label" sx={muiStyles.InputLabels}>Material Group</InputLabel>
                             <Select
                                 sx={muiStyles.select}
                                 style={{ width: '100%', }}
                                 labelId="demo-simple-select-label"
                                 id="demo-simple-select"
                                 value={vMaterialType}
-                                label="Select Material Type"
+                                label="Select Material Group"
                                 onChange={handleChangeMaterialType}
                                 name='nMTId' >
                                 {vMaterialTypeData.map((item, index) => {

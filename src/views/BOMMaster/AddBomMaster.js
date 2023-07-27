@@ -888,7 +888,7 @@ function AddBomMaster() {
                             />
                         </FormControl>
                     </Box>
-                    <Box className='inputBox-31' >
+                    {/* <Box className='inputBox-31' >
                         <FormControl fullWidth className='input'>
                             <TextField
                                 sx={muiStyles.input}
@@ -900,7 +900,7 @@ function AddBomMaster() {
                                 disabled={true}
                             />
                         </FormControl>
-                    </Box>
+                    </Box> */}
                     <Box className='inputBox-44' >
                         <FormControl fullWidth className='input'>
                             <TextField

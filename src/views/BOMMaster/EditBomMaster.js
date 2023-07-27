@@ -862,7 +862,7 @@ function EditBomMaster() {
                             />
                         </FormControl>
                     </Box>
-                    <Box className='inputBox-31' >
+                    {/* <Box className='inputBox-31' >
                         <FormControl fullWidth className='input'>
                             <TextField
                                 sx={muiStyles.input}
@@ -874,7 +874,7 @@ function EditBomMaster() {
                                 disabled={true}
                             />
                         </FormControl>
-                    </Box>
+                    </Box> */}
                     <Box className='inputBox-44' >
                         <FormControl fullWidth className='input'>
                             <TextField

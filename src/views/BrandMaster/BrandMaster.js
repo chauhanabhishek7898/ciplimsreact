@@ -56,8 +56,8 @@ function BrandMaster() {
     const [matchResult, setMatchResult] = useState(null);
     const [matchResult2, setMatchResult2] = useState(null);
     const [matchResult3, setMatchResult3] = useState(null);
-    const [btSaveRights, setbtSaveRights] = React.useState(false);
-    const [btEditRights, setbtEditRights] = React.useState(false);
+    const [btSaveRights, setbtSaveRights] = React.useState(true);
+    const [btEditRights, setbtEditRights] = React.useState(true);
     let checkedData = true
     const checkedonlyActive = (event) => {
         setonlyActive(event.target.checked)
@@ -204,7 +204,7 @@ function BrandMaster() {
         setLoader(true)
         let brand = {
             nBId: nBid == null ? 0 : nBid,
-            vBrandCode: brandCode,
+            vBrandCode: vPrefix,
             vPrefix: vPrefix,
             vBrandName: brandName,
             btActive: btActive,
@@ -305,7 +305,7 @@ function BrandMaster() {
                     <HighlightOffIcon fontSize='large' onClick={() => setIsOpen(false)} />
                 </div>
                 <div className='displayflexend mt-4'>
-                    <Box className='inputBox-11'>
+                    {/* <Box className='inputBox-11'>
                         <FormControl fullWidth className='input'>
                             <TextField
                                 sx={muiStyles.input}
@@ -320,7 +320,7 @@ function BrandMaster() {
                                 helperText={errors.brandCode?.message}
                             />
                         </FormControl>
-                    </Box>
+                    </Box> */}
                     <Box className='inputBox-11' >
                         <FormControl fullWidth className='input' >
                             <TextField
@@ -398,7 +398,7 @@ function BrandMaster() {
                             <TableHead>
                                 <TableRow>
                                     {/* <TableCell scope="row">SN.</TableCell> */}
-                                    <TableCell align="left" sx={muiStyles.tableHead} >Brand Code</TableCell>
+                                    {/* <TableCell align="left" sx={muiStyles.tableHead} >Brand Code</TableCell> */}
                                     <TableCell align="left" sx={muiStyles.tableHead} >Brand Name</TableCell>
                                     <TableCell align="left" sx={muiStyles.tableHead} >Prefix</TableCell>
                                     <TableCell align="left" sx={muiStyles.tableHead} >Status</TableCell>
@@ -413,7 +413,7 @@ function BrandMaster() {
                                         return (
                                             <TableRow key={index}>
                                                 {/* <TableCell component="th" scope="row">{index + 1}.</TableCell> */}
-                                                <TableCell align="left" sx={muiStyles.tableBody}>{item.vBrandCode}</TableCell>
+                                                {/* <TableCell align="left" sx={muiStyles.tableBody}>{item.vBrandCode}</TableCell> */}
                                                 <TableCell align="left" sx={muiStyles.tableBody}>{item.vBrandName}</TableCell>
                                                 <TableCell align="left" sx={muiStyles.tableBody}>{item.vPrefix}</TableCell>
                                                 <TableCell align="left" sx={muiStyles.tableBody}>{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
