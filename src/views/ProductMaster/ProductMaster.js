@@ -10,10 +10,11 @@ import TablePagination from '@mui/material/TablePagination';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import Paper from '@mui/material/Paper';
+
 import { MaterialMasterPost, MaterialMasterPut, MaterialMaster_SelectAll } from '../MaterialMaster/MaterialMasterService'
 import { UnitMaster_SelectAll_Active, StorageConditionMaster_SelectAll_Active } from '../UnitMaster/UnitMasterApi'
 import { ProductCategoryMaster_SelectAll, ProductMasterPost, GetProductSubCategory, ProductMasterPut, ProductMaster_SelectAll } from './ProductMasterApi'
-import { VarientMaster_ActiveLikeSearch } from '../VarientMaster/VarientMasterApi'
+import { VarientMaster_ActiveLikeSearch ,VarientMaster_SelectAll_Active} from '../VarientMaster/VarientMasterApi'
 import { BrandMaster_SelectAll } from '../BrandMaster/BrandMasterService'
 import { ProductCategoryMaster_ActiveLikeSearch } from '../ProductCategoryMaster/ProductCategoryMasterapi'
 import Autocomplete from '@mui/material/Autocomplete';
@@ -103,7 +104,7 @@ function ProductMaster() {
     const [PackLabel, setPackLabel] = useState('')
     const [VariantMaster, setVariantMaster] = useState([])
     const [VariantMasterLabel, setVariantMasterLabel] = useState('')
-
+    const [variantId, setVariantId] = useState('')
     const [brandData, setBrandData] = React.useState([]);
     const [vBrandName, setvBrandName] = React.useState("");
     const [vBrandNameId, setvBrandNameId] = React.useState("");
@@ -117,6 +118,22 @@ function ProductMaster() {
         console.log("itemitemitem", item)
         setvBrandName(item.vBrandName)
         setvBrandNameId(item.nBId)
+    };
+    const changeVarientMasterValue = (event) => {
+        // setVariantMasterLabel(value.value)
+        setVariantMasterLabel(value == null ? '' : value.label)
+        // setvPack(value.label)
+        setError('')
+    }
+    const handleChangeVariant = (event) => {
+        const selectedId = event.target.value;
+        setVariantMasterLabel(selectedId)
+    };
+
+    const handleBlurV = (item) => {
+        console.log("itemitemitem", item)
+        setVariantMasterLabel(item.vVarient)
+        setVariantId(item.nVRId)
     };
 
 
@@ -169,7 +186,7 @@ function ProductMaster() {
         const selectedValue = uniteData.find((item) => item.vUnitName === selectedId);
         console.log("selectedValue", selectedValue)
     };
-
+    
     const handleBlurU = (item) => {
         console.log("itemitemitem", item)
         setvUOM(item.vUnitName)
@@ -247,6 +264,17 @@ function ProductMaster() {
 
 
     useEffect(() => {
+        getVarientMaster_SelectAll_Active()
+    }, [])
+
+    const getVarientMaster_SelectAll_Active = () => {
+        VarientMaster_SelectAll_Active().then(response => {
+            setVariantMaster(response)
+        })
+    }
+
+
+    useEffect(() => {
         getBrandMaster_SelectAll()
     }, [])
 
@@ -272,7 +300,7 @@ function ProductMaster() {
             setSubCategoryData(response)
 
             // const forselectionSC = response.find((item) => item.nCId === vCategoryId);
-            // console.log("forselectionSC", forselectionSC)
+            console.log("response", response)
         })
     }
 
@@ -316,10 +344,13 @@ function ProductMaster() {
                 })
             }
             setvCategoryData(data)
-            getSubCategoryMaster_SelectAll(res[0].nPDCId)
+            // getSubCategoryMaster_SelectAll(res[0].nPDCId)
         })
 
     }
+    useEffect(() => {
+        packMaster_SelectAll_ActiveLikeSearch(null)
+    }, [])
     const packMaster_SelectAll_ActiveLikeSearch = (vGeneric) => {
         if (vGeneric != '') {
             vGeneric = vGeneric
@@ -361,16 +392,13 @@ function ProductMaster() {
         })
 
     }
-    const changeVarientMasterValue = (value) => {
-        // setVariantMasterLabel(value.value)
-        setVariantMasterLabel(value == null ? '' : value.label)
-        // setvPack(value.label)
-        setError('')
-    }
+   
 
     const changeProductCategoryValue = (value) => {
         // setnPackId(value == null ? '' : value.value)
         setvCategory(value == null ? '' : value.label)
+
+        getSubCategoryMaster_SelectAll(value.value)
         setError('')
     }
     const changepackMasterValue = (value) => {
@@ -626,7 +654,7 @@ function ProductMaster() {
                                 value={vProductCode}
                                 // onChange={e => setvProduct(e.target.value)}
                                 id="outlined-basic"
-                                label="Product Code (Auto Generated)"
+                                label="Brand Code (Auto Generated)"
                                 variant="outlined"
                                 disabled={true}
 
@@ -640,7 +668,7 @@ function ProductMaster() {
                                 value={vProductName}
                                 onChange={e => setvProductName(e.target.value)}
                                 required id="outlined-basic"
-                                label="Product Name"
+                                label="Brand Name"
                                 variant="outlined"
                                 name='vProductName'
 
@@ -663,19 +691,19 @@ function ProductMaster() {
                                 // onKeyDown={newInputValue => varientMaster_SelectAll_ActiveLikeSearch(newInputValue)}
                                 onInputChange={(event, newInputValue) => {
                                     // setInputValue(newInputValue);
-                                    if (newInputValue.length >= 3) {
+                                    if (newInputValue.length >= 0) {
                                         productCategoryMaster_ActiveLikeSearch(newInputValue)
 
                                     }
                                 }}
-                                renderInput={(params) => <TextField {...params} label="Search Product Category" required />}
+                                renderInput={(params) => <TextField {...params} label="Search Category" required />}
                             />
                             {errorText.vCategory != '' ? <p className='error'>{errorText.vCategory}</p> : null}
                         </FormControl>
                     </Box>
                     <Box className='inputBox-6'>
                         <FormControl fullWidth className='input'>
-                            <InputLabel required id="demo-simple-select-label" sx={muiStyles.InputLabels}>Product Subcategory</InputLabel>
+                            <InputLabel required id="demo-simple-select-label" sx={muiStyles.InputLabels}>Subcategory</InputLabel>
                             <Select
                                 sx={muiStyles.select}
                                 style={{ width: '100%', }}
@@ -718,20 +746,18 @@ function ProductMaster() {
                             {errorText.vBrandName != '' ? <p className='error'>{errorText.vBrandName}</p> : null}
                         </FormControl>
                     </Box>
-                    <Box className='inputBox-6' >
+
+
+                    {/* <Box className='inputBox-6' >
                         <FormControl fullWidth className='input'>
-                            {/* <InputLabel required id="demo-simple-select-label">Item</InputLabel>  */}
                             <Autocomplete
                                 sx={muiStyles.autoCompleate}
                                 disablePortal
                                 id="combo-box-demo"
                                 options={VariantMaster}
                                 value={VariantMasterLabel}
-                                // inputValue={MaterialDetail}
                                 onChange={(event, value) => changeVarientMasterValue(value)}
-                                // onKeyDown={newInputValue => varientMaster_SelectAll_ActiveLikeSearch(newInputValue)}
                                 onInputChange={(event, newInputValue) => {
-                                    // setInputValue(newInputValue);
                                     if (newInputValue.length >= 3) {
                                         varientMaster_SelectAll_ActiveLikeSearch(newInputValue)
 
@@ -742,7 +768,33 @@ function ProductMaster() {
                             {errorText.VariantMasterLabel != '' ? <p className='error'>{errorText.VariantMasterLabel}</p> : null}
                         </FormControl>
 
+                    </Box> */}
+
+
+                    <Box className='inputBox-6'>
+                        <FormControl fullWidth className='input'>
+                            <InputLabel required id="demo-simple-select-label" sx={muiStyles.InputLabels}>Varient</InputLabel>
+                            <Select
+                                sx={muiStyles.select}
+                                style={{ width: '100%', }}
+                                labelId="demo-simple-select-label"
+                                id="demo-simple-select"
+                                value={VariantMasterLabel}
+                                label="Select Varient"
+                                onChange={handleChangeVariant}
+                                name='VariantMasterLabel' >
+                                {VariantMaster.map((item, index) => {
+                                    return (
+                                        <MenuItem key={index} onBlur={() => handleBlurV(item)} value={item.vVarient} id={item.nVRId}>{item.vVarient}</MenuItem>
+                                    )
+                                })
+                                }
+                            </Select>
+                            {errorText.VariantMasterLabel != '' ? <p className='error'>{errorText.VariantMasterLabel}</p> : null}
+                        </FormControl>
                     </Box>
+
+
                     <Box className='inputBox-6' >
                         <FormControl fullWidth className='input'>
                             {/* <InputLabel required id="demo-simple-select-label">Item</InputLabel>  */}
@@ -757,7 +809,7 @@ function ProductMaster() {
                                 // onKeyDown={newInputValue => packMaster_SelectAll_ActiveLikeSearch(newInputValue)}
                                 onInputChange={(event, newInputValue) => {
                                     // setInputValue(newInputValue);
-                                    if (newInputValue.length >= 3) {
+                                    if (newInputValue.length >= 0) {
                                         packMaster_SelectAll_ActiveLikeSearch(newInputValue)
 
                                     }
@@ -776,7 +828,7 @@ function ProductMaster() {
                                 sx={muiStyles.input}
                                 value={unit}
                                 id="outlined-basic"
-                                label="Unit"
+                                label="UOM"
                                 variant="outlined"
                                 disabled={true}
                             />
@@ -847,14 +899,14 @@ function ProductMaster() {
                                     <TableRow>
                                         {/* <TableCell scope="row">SN.</TableCell> */}
 
-                                        <TableCell align="left" sx={muiStyles.tableHead}>Product Code</TableCell>
-                                        <TableCell align="left" sx={muiStyles.tableHead}>Product Name</TableCell>
-                                        <TableCell align="left" sx={muiStyles.tableHead}>Product Category</TableCell>
-                                        <TableCell align="left" sx={muiStyles.tableHead}>Product Subcategory</TableCell>
+                                        <TableCell align="left" sx={muiStyles.tableHead}>Brand Code</TableCell>
+                                        <TableCell align="left" sx={muiStyles.tableHead}>Brand Name</TableCell>
+                                        <TableCell align="left" sx={muiStyles.tableHead}>Category</TableCell>
+                                        <TableCell align="left" sx={muiStyles.tableHead}>Subcategory</TableCell>
                                         <TableCell align="left" sx={muiStyles.tableHead}>Brand</TableCell>
                                         <TableCell align="left" sx={muiStyles.tableHead}>Variant</TableCell>
                                         <TableCell align="left" sx={muiStyles.tableHead}>Pack Name</TableCell>
-                                        <TableCell align="left" sx={muiStyles.tableHead}>Unit</TableCell>
+                                        <TableCell align="left" sx={muiStyles.tableHead}>UOM</TableCell>
 
 
                                         <TableCell align="left" sx={muiStyles.tableHead}>Status</TableCell>

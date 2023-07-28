@@ -27,9 +27,9 @@ import SearchBar from "material-ui-search-bar";
 import ExportExcel from 'src/shareFunction/Excelexport';
 import CircularProgress from '@mui/joy/CircularProgress';
 import { TbEdit } from "react-icons/tb";
-
+import { apiUrlAddEdit } from '../../coreservices/environment'
 function BrandMaster() {
-    let Heading = [['SN.', ' Brand Code', 'Brand Name', 'Status']];
+    let Heading = [['SN.', ' Brand Code','Brand Name', 'Prefix', 'Status']];
 
     const [modalIsOpen, setIsOpen] = React.useState(false);
     const [page, setPage] = React.useState(0);
@@ -71,13 +71,19 @@ function BrandMaster() {
         const parsedArray = JSON.parse(storedArray);
         let currentURL = window.location.href;
         // let splitcurrentURL = currentURL.split('/')[4]
-    //     let splitcurrentURL = currentURL.split('/')[2]
-     
-    //     let filterLinks = parsedArray.filter(e => e.vPageName == splitcurrentURL)
-
-    //     // setEnableActions(filterLinks)
-    //    if(filterLinks){ setbtSaveRights(filterLinks[0].btSaveRights)
-    //     setbtEditRights(filterLinks[0].btEditRights) }
+        let splitcurrentURL
+        if (apiUrlAddEdit == 'http://localhost:3000') {
+            splitcurrentURL = currentURL.split('/')[4]
+        } else {
+            splitcurrentURL = currentURL.split('/')[2]
+        }
+        let filterLinks = parsedArray.filter(e => e.vPageName == splitcurrentURL)
+        console.log('filterLinks:', filterLinks[0].btEditRights);
+        // setEnableActions(filterLinks)
+        if (filterLinks) {
+            setbtSaveRights(filterLinks[0].btSaveRights)
+            setbtEditRights(filterLinks[0].btEditRights)
+        }
 
     }, [])
     const getBrandMaster_SelectAll = () => {
@@ -103,7 +109,7 @@ function BrandMaster() {
 
         if (searchedVal.length > 0) {
             const filteredRows = brandData.filter((row) => {
-                return row.vBrandCode.toLowerCase().includes(searchedVal.toLowerCase()) || row.vBrandName.toLowerCase().includes(searchedVal.toLowerCase());
+                return row.vBrandName.toLowerCase().includes(searchedVal.toLowerCase()) || row.vPrefix.toLowerCase().includes(searchedVal.toLowerCase());
             });
             setBrandData(filteredRows);
         } else {
@@ -236,30 +242,6 @@ function BrandMaster() {
                 })
             }
 
-            // let brandDatas = [...brandData]
-            // console.log("brandDatas", brandDatas)
-            // let venderexistCode = brandDatas.find(e => e.vBrandCode == brandCode.toLowerCase() || e.vBrandCode == brandCode.toUpperCase())
-            // let venderexist = brandDatas.find(e => e.vBrandName == brandName.toLowerCase() || e.vBrandName == brandName.toUpperCase())
-            // if (venderexist) {
-            //     setLoader(false)
-            //     toast.success("Item is already Exists")
-            // }
-            // else if (venderexistCode) {
-            //     setLoader(false)
-            //     toast.success("Code is already Exists")
-            // }
-            // else {
-            //     console.log('brand', brand)
-            //     BrandMasterPost(brand).then(res => {
-            //         if (res) {
-            //             console.log('res', res)
-            //             toast.success("Record Added Successfully !!")
-            //             setLoader(false)
-            //             setIsOpen(false)
-            //             getBrandMaster_SelectAll()
-            //         }
-            //     })
-            // }
         } else {
             console.log('brand', brand)
             BrandMasterPut(brand).then(res => {
@@ -273,8 +255,6 @@ function BrandMaster() {
             })
         }
     }
-
-
 
     return (
         <div className='citymasterContainer'>

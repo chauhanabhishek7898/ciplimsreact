@@ -28,7 +28,7 @@ import SearchBar from "material-ui-search-bar";
 import ExportExcel from 'src/shareFunction/Excelexport';
 import CircularProgress from '@mui/joy/CircularProgress';
 import { TbEdit } from "react-icons/tb";
-
+import {apiUrlAddEdit} from '../../coreservices/environment'
 function ProductSubCategoryMaster() {
     let Heading = [['SN.', 'Product Subcategory', 'Product Subcategory Prefix', 'Status']];
     const [modalIsOpen, setIsOpen] = React.useState(false);
@@ -86,14 +86,18 @@ function ProductSubCategoryMaster() {
         let storedArray = localStorage.getItem('linkAccess');
         const parsedArray = JSON.parse(storedArray);
         let currentURL = window.location.href;
-        // let splitcurrentURL = currentURL.split('/')[4]
-       // let splitcurrentURL = currentURL.split('/')[2]
-     
-      //  let filterLinks = parsedArray.filter(e => e.vPageName == splitcurrentURL)
-
-        // setEnableActions(filterLinks)
-     //  if(filterLinks){ setbtSaveRights(filterLinks[0].btSaveRights)
-       // setbtEditRights(filterLinks[0].btEditRights) }
+         // let splitcurrentURL = currentURL.split('/')[4]
+         let splitcurrentURL
+         if(apiUrlAddEdit=='http://localhost:3000'){
+             splitcurrentURL = currentURL.split('/')[4] 
+         }else{
+             splitcurrentURL = currentURL.split('/')[2]
+         }
+         let filterLinks = parsedArray.filter(e => e.vPageName == splitcurrentURL)
+         console.log('filterLinks:', filterLinks[0].btEditRights);
+         // setEnableActions(filterLinks)
+        if(filterLinks){ setbtSaveRights(filterLinks[0].btSaveRights)
+         setbtEditRights(filterLinks[0].btEditRights) }
 
     }, [])
     const getProductSubCategoryMaster_SelectAll = () => {

@@ -28,13 +28,10 @@ import SearchBar from "material-ui-search-bar";
 import ExportExcel from 'src/shareFunction/Excelexport';
 import CircularProgress from '@mui/joy/CircularProgress';
 import { TbEdit } from "react-icons/tb";
+import { apiUrlAddEdit } from '../../coreservices/environment'
+
 function UnitMaster() {
-    // <TableCell scope="row">SN.</TableCell>
-    // <TableCell align="left" >Unit Name</TableCell>
-    // <TableCell align="left" >Status</TableCell>
-
-    let Heading = [['SN.', 'Unit Code', 'Status']];
-
+    let Heading = [['SN.', 'UOM Code', 'Status']];
     const formValidation = new SimpleReactValidator()
     const [modalIsOpen, setIsOpen] = React.useState(false);
     const [page, setPage] = React.useState(0);
@@ -54,6 +51,9 @@ function UnitMaster() {
     const [btSaveRights, setbtSaveRights] = React.useState(false);
     const [btEditRights, setbtEditRights] = React.useState(false);
 
+    const [searched, setSearched] = React.useState("");
+    const [onlyActive, setonlyActive] = React.useState(true);
+
     const { register, handleSubmit, control, errors } = useForm();
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
@@ -62,6 +62,92 @@ function UnitMaster() {
         setRowsPerPage(+event.target.value);
         setPage(0);
     };
+
+
+    let checkedData = true
+    const checkedonlyActive = (event) => {
+        setonlyActive(event.target.checked)
+        checkedData = event.target.checked
+        getUnitMaster_SelectAll()
+    }
+    useEffect(() => {
+        getUnitMaster_SelectAll()
+
+        let storedArray = localStorage.getItem('linkAccess');
+        const parsedArray = JSON.parse(storedArray);
+        let currentURL = window.location.href;
+        // let splitcurrentURL = currentURL.split('/')[4]
+        let splitcurrentURL
+        if (apiUrlAddEdit == 'http://localhost:3000') {
+            splitcurrentURL = currentURL.split('/')[4]
+        } else {
+            splitcurrentURL = currentURL.split('/')[2]
+        }
+        let filterLinks = parsedArray.filter(e => e.vPageName == splitcurrentURL)
+        console.log('filterLinks:', filterLinks[0].btEditRights);
+        // setEnableActions(filterLinks)
+        if (filterLinks) {
+            setbtSaveRights(filterLinks[0].btSaveRights)
+            setbtEditRights(filterLinks[0].btEditRights)
+        }
+
+    }, [])
+    const getUnitMaster_SelectAll = () => {
+        setLoader2(true)
+        UnitMaster_SelectAll().then(response => {
+            console.log('onlyActive', onlyActive)
+            if (checkedData == true) {
+                let activeData = response.filter(e => e.btActive == true)
+                setUnitData(response)
+                setMasterBrandData(activeData)
+                setLoader2(false)
+            } else {
+                let inactiveData = response.filter(e => e.btActive == false)
+                setUnitData(inactiveData)
+                setMasterBrandData(inactiveData)
+                setLoader2(false)
+
+            }
+        })
+    }
+
+
+    const requestSearch = (searchedVal) => {
+        if (searchedVal.length > 0) {
+            const filteredRows = unitData.filter((row) => {
+                return row.vUnitName.toLowerCase().includes(searchedVal.toLowerCase());
+            });
+            setUnitData(filteredRows);
+        } else {
+            setUnitData(masterbrandData);
+        }
+
+    };
+
+    const cancelSearch = () => {
+        setSearched("");
+        requestSearch(searched);
+        getUnitMaster_SelectAll()
+    };
+
+    const openmodale = (item, type) => {
+        if (type == 'Submit') {
+            setIsOpen(true)
+            setbuttonName(type)
+            setvUnitName('')
+            setbtActive(true)
+            setdisabled(true)
+        } else {
+            setIsOpen(true)
+            setnUId(item.nUId)
+            setvUnitName2(item.vUnitName)
+            setvUnitName(item.vUnitName)
+            setbtActive(item.btActive)
+            setdisabled(false)
+            setbuttonName(type)
+
+        }
+    }
 
     const submit = () => {
 
@@ -106,106 +192,7 @@ function UnitMaster() {
         }
 
     }
-    const [searched, setSearched] = React.useState("");
-    const [onlyActive, setonlyActive] = React.useState(true);
-    let checkedData = true
-    const checkedonlyActive = (event) => {
-        setonlyActive(event.target.checked)
-        checkedData = event.target.checked
-        getUnitMaster_SelectAll()
-    }
-    useEffect(() => {
-        getUnitMaster_SelectAll()
 
-        let storedArray = localStorage.getItem('linkAccess');
-        const parsedArray = JSON.parse(storedArray);
-        let currentURL = window.location.href;
-        // let splitcurrentURL = currentURL.split('/')[4]
-       // let splitcurrentURL = currentURL.split('/')[2]
-     
-      //  let filterLinks = parsedArray.filter(e => e.vPageName == splitcurrentURL)
-
-        // setEnableActions(filterLinks)
-     //  if(filterLinks){ setbtSaveRights(filterLinks[0].btSaveRights)
-       // setbtEditRights(filterLinks[0].btEditRights) }
-
-    }, [])
-    const getUnitMaster_SelectAll = () => {
-        setLoader2(true)
-        UnitMaster_SelectAll().then(response => {
-            console.log('onlyActive', onlyActive)
-            if (checkedData == true) {
-                let activeData = response.filter(e => e.btActive == true)
-                // setUnitData(activeData)
-
-                setUnitData(response)
-                setMasterBrandData(activeData)
-                setLoader2(false)
-            } else {
-                let inactiveData = response.filter(e => e.btActive == false)
-                setUnitData(inactiveData)
-                setMasterBrandData(inactiveData)
-                setLoader2(false)
-
-            }
-        })
-    }
-
-
-    const requestSearch = (searchedVal) => {
-        if (searchedVal.length > 0) {
-            const filteredRows = unitData.filter((row) => {
-                return row.vUnitName.toLowerCase().includes(searchedVal.toLowerCase());
-            });
-            setUnitData(filteredRows);
-        } else {
-            setUnitData(masterbrandData);
-        }
-
-        // console.log("searchedVal.length", searchedVal.length)
-        // const filteredRows = lineData.filter((row) => {
-        //     return row.vBrandCode.toLowerCase().includes(searchedVal.toLowerCase()) || row.vLineDescription.toLowerCase().includes(searchedVal.toLowerCase());
-        // });
-        // setlineData(m);
-        // console.log("filteredRows", filteredRows)
-    };
-
-    const cancelSearch = () => {
-        setSearched("");
-        requestSearch(searched);
-        getUnitMaster_SelectAll()
-    };
-
-
-    // useEffect(() => {
-    //     UnitMaster_SelectAllget()
-    // })
-    // const UnitMaster_SelectAllget = () => {
-    //     UnitMaster_SelectAll().then(res => {
-    //         if (res) {
-    //             setUnitData(res)
-
-    //         }
-    //     })
-    // }
-    const openmodale = (item, type) => {
-        if (type == 'Submit') {
-            setIsOpen(true)
-            setbuttonName(type)
-            setvUnitName('')
-            setbtActive(true)
-            setdisabled(true)
-        } else {
-            setIsOpen(true)
-            setnUId(item.nUId)
-            setvUnitName2(item.vUnitName)
-            setvUnitName(item.vUnitName)
-            setbtActive(item.btActive)
-            setdisabled(false)
-            setbuttonName(type)
-
-        }
-    }
     return (
         <div className='citymasterContainer'>
             {loader2 == true ?
@@ -222,7 +209,7 @@ function UnitMaster() {
                 {/* <button className='submitbtn_exp' onClick={() => openmodale(null, 'Submit')} title='Add'  ><AddIcon fontSize='small' /> <span className='addFont'>Add</span></button> */}
                 <button className={btSaveRights == false ? 'submitbtn_exp notAllow' : 'submitbtn_exp'} onClick={() => openmodale(null, 'Submit')} title='Add' disabled={btSaveRights == false} ><AddIcon fontSize='small' /> <span className='addFont'>Add</span></button>
 
-                <ExportExcel excelData={unitData} Heading={Heading} fileName={'Unit_Master'} />
+                <ExportExcel excelData={unitData} Heading={Heading} fileName={'UOM'} />
             </div>
             {/* <button className='addbtn_2' onClick={() => openmodale(null, 'Submit')} title='Add' ><AddIcon fontSize='small' /> <span className='addFont'>Add</span></button> */}
             <Modal
@@ -232,7 +219,7 @@ function UnitMaster() {
                 ariaHideApp={false}
             >
                 <div className='displayright'>
-                    <div><span className='title'>Unit Master</span></div>
+                    <div><span className='title'>UOM</span></div>
                     <HighlightOffIcon fontSize='large' onClick={() => setIsOpen(false)} />
                 </div>
                 <form >
@@ -241,12 +228,12 @@ function UnitMaster() {
                             sx={muiStyles.input}
                             fullWidth
                             id="outlined-basic"
-                            label="Enter Unit"
+                            label="Enter UOM"
                             variant="outlined"
                             value={vUnitName}
                             name='vUnitName'
                             onChange={e => setvUnitName(e.target.value)}
-                            inputRef={register({ required: "Unit Name is required.*", })}
+                            inputRef={register({ required: "UOM is required.*", })}
                             error={Boolean(errors.vUnitName)}
                             helperText={errors.vUnitName?.message}
                         />
@@ -296,7 +283,7 @@ function UnitMaster() {
                             <TableHead>
                                 <TableRow>
                                     {/* <TableCell scope="row">SN.</TableCell> */}
-                                    <TableCell align="left" sx={muiStyles.tableHead}>Unit Name</TableCell>
+                                    <TableCell align="left" sx={muiStyles.tableHead}>UOM</TableCell>
                                     <TableCell align="left" sx={muiStyles.tableHead}>Status</TableCell>
                                     <TableCell align="left" sx={muiStyles.tableHead}>Edit</TableCell>
 
@@ -402,14 +389,14 @@ const muiStyles = {
             left: '-10px',
 
         },
-         "& label.Mui-focused": {
+        "& label.Mui-focused": {
             zIndex: '1'
-        },'& .MuiFormHelperText-root': {
+        }, '& .MuiFormHelperText-root': {
             position: 'absolute',
             fontSize: 10,
             bottom: -18
         },
-       
+
     },
     input: {
         "& .MuiOutlinedInput-root": {
@@ -424,14 +411,14 @@ const muiStyles = {
             left: '-10px',
             backgroundColor: 'transparent',
         },
-         "& label.Mui-focused": {
+        "& label.Mui-focused": {
             zIndex: '1'
-        },'& .MuiFormHelperText-root': {
+        }, '& .MuiFormHelperText-root': {
             position: 'absolute',
             fontSize: 10,
             bottom: -18
         },
-       
+
     },
     select: {
 

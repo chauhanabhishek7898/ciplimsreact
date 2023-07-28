@@ -35,7 +35,7 @@ import IconButton from '@mui/material/IconButton';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { confirmAlert } from 'react-confirm-alert';
-
+import {apiUrlAddEdit} from '../../coreservices/environment'
 function CreateUsers() {
     let Heading = [['SN.', 'Storage Condition', 'Storage Condition Prefix', 'Status']];
     const [modalIsOpen, setIsOpen] = React.useState(false);
@@ -101,14 +101,17 @@ function CreateUsers() {
         const parsedArray = JSON.parse(storedArray);
         let currentURL = window.location.href;
         // let splitcurrentURL = currentURL.split('/')[4]
-       // let splitcurrentURL = currentURL.split('/')[2]
-     
-      //  let filterLinks = parsedArray.filter(e => e.vPageName == splitcurrentURL)
-
+        let splitcurrentURL
+        if(apiUrlAddEdit=='http://localhost:3000'){
+            splitcurrentURL = currentURL.split('/')[4] 
+        }else{
+            splitcurrentURL = currentURL.split('/')[2]
+        }
+        let filterLinks = parsedArray.filter(e => e.vPageName == splitcurrentURL)
+        console.log('filterLinks:', filterLinks[0].btEditRights);
         // setEnableActions(filterLinks)
-     //  if(filterLinks){ setbtSaveRights(filterLinks[0].btSaveRights)
-       // setbtEditRights(filterLinks[0].btEditRights) }
-
+       if(filterLinks){ setbtSaveRights(filterLinks[0].btSaveRights)
+        setbtEditRights(filterLinks[0].btEditRights) }
     }, [])
 
     const getStorageConditionMaster_SelectAll = () => {

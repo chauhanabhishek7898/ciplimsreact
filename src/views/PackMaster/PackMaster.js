@@ -30,6 +30,7 @@ import ExportExcel from 'src/shareFunction/Excelexport';
 import FormHelperText from '@mui/material/FormHelperText';
 import CircularProgress from '@mui/joy/CircularProgress';
 import { TbEdit } from "react-icons/tb";
+import {apiUrlAddEdit} from '../../coreservices/environment'
 function PackMaster() {
 
     let Heading = [['SN.', 'Pack Code', 'Pack Name', 'Pack Unit', 'Pack Product', 'Pack Cases', 'Status']];
@@ -49,7 +50,7 @@ function PackMaster() {
     const [packCode, setpackCode] = React.useState("");
     const [packName, setpackName] = React.useState("");
     const [unit, setunit] = React.useState("");
-    const [packProduct, setpackProduct] = React.useState("");
+    const [packProduct, setpackProduct] = React.useState(1);
     const [packCases, setpackCases] = React.useState("");
 
     const [vPrefix, setvPrefix] = React.useState("");
@@ -117,14 +118,18 @@ function PackMaster() {
         let storedArray = localStorage.getItem('linkAccess');
         const parsedArray = JSON.parse(storedArray);
         let currentURL = window.location.href;
-        // let splitcurrentURL = currentURL.split('/')[4]
-       // let splitcurrentURL = currentURL.split('/')[2]
-     
-      //  let filterLinks = parsedArray.filter(e => e.vPageName == splitcurrentURL)
-
-        // setEnableActions(filterLinks)
-     //  if(filterLinks){ setbtSaveRights(filterLinks[0].btSaveRights)
-       // setbtEditRights(filterLinks[0].btEditRights) }
+      // let splitcurrentURL = currentURL.split('/')[4]
+      let splitcurrentURL
+      if(apiUrlAddEdit=='http://localhost:3000'){
+          splitcurrentURL = currentURL.split('/')[4] 
+      }else{
+          splitcurrentURL = currentURL.split('/')[2]
+      }
+      let filterLinks = parsedArray.filter(e => e.vPageName == splitcurrentURL)
+      console.log('filterLinks:', filterLinks[0].btEditRights);
+      // setEnableActions(filterLinks)
+     if(filterLinks){ setbtSaveRights(filterLinks[0].btSaveRights)
+      setbtEditRights(filterLinks[0].btEditRights) }
 
     }, [])
     const getPackMaster_SelectAll = () => {
@@ -192,7 +197,7 @@ function PackMaster() {
                 vPackName: packName,
                 vPrefix: vPrefix,
                 vUnit: unitid,
-                vPackProduct: packProduct,
+                vPackProduct: parseInt(1),
                 vPackCases: packCases,
                 btActive: btActive,
             }
@@ -289,10 +294,10 @@ function PackMaster() {
                                     {/* <TableCell scope="row">SN.</TableCell> */}
 
                                     {/* <TableCell align="left" sx={muiStyles.tableHead}>Pack Code</TableCell> */}
-                                    <TableCell align="left" sx={muiStyles.tableHead}>Pack Name</TableCell>
-                                    <TableCell align="left" sx={muiStyles.tableHead}>Unit</TableCell>
-                                    <TableCell align="left" sx={muiStyles.tableHead}>Pack Product</TableCell>
-                                    <TableCell align="left" sx={muiStyles.tableHead}>Pack Cases</TableCell>
+                                    <TableCell align="left" sx={muiStyles.tableHead}>SKU</TableCell>
+                                    <TableCell align="left" sx={muiStyles.tableHead}>UOM</TableCell>
+                                    {/* <TableCell align="left" sx={muiStyles.tableHead}>Pack Product</TableCell> */}
+                                    <TableCell align="left" sx={muiStyles.tableHead}>SKU Cases</TableCell>
                                     <TableCell align="left" sx={muiStyles.tableHead}>Prefix</TableCell>
                                     <TableCell align="left" sx={muiStyles.tableHead}>Status</TableCell>
                                     <TableCell align="left" sx={muiStyles.tableHead}>Edit</TableCell>
@@ -309,7 +314,7 @@ function PackMaster() {
                                                 {/* <TableCell align="left" sx={muiStyles.tableBody}>{item.vPackCode}</TableCell> */}
                                                 <TableCell align="left" sx={muiStyles.tableBody}>{item.vPackName}</TableCell>
                                                 <TableCell align="left" sx={muiStyles.tableBody}>{item.vUnit}</TableCell>
-                                                <TableCell align="left" sx={muiStyles.tableBody}>{item.vPackProduct}</TableCell>
+                                                {/* <TableCell align="left" sx={muiStyles.tableBody}>{item.vPackProduct}</TableCell> */}
                                                 <TableCell align="left" sx={muiStyles.tableBody}>{item.vPackCases}</TableCell>
                                                 <TableCell align="left" sx={muiStyles.tableBody}>{item.vPrefix}</TableCell>
                                                 <TableCell align="left" sx={muiStyles.tableBody}>{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
@@ -369,7 +374,7 @@ function PackMaster() {
 
                         </FormControl>
                     </Box> */}
-                    <Box className='inputBox-15' >
+                    <Box className='inputBox-16' >
                         <FormControl fullWidth className='input' >
                             <TextField
                                 sx={muiStyles.input}
@@ -380,16 +385,16 @@ function PackMaster() {
                                 }}
                                 id="outlined-basic"
                                 required
-                                label="Pack Name"
+                                label="SKU"
                                 variant="outlined"
                                 name='packName'
                                 type='number'
-                                inputRef={register({ required: "Pack Name is required.*", })}
+                                inputRef={register({ required: "SKU is required.*", })}
                                 error={Boolean(errors.packName)}
                                 helperText={errors.packName?.message} />
                         </FormControl>
                     </Box>
-                    <Box className='inputBox-15'>
+                    <Box className='inputBox-11'>
                         {/* <FormControl fullWidth className='input' >
                             <TextField
                                 sx={muiStyles.input}
@@ -405,14 +410,14 @@ function PackMaster() {
                                 helperText={errors.unitid?.message} />
                         </FormControl> */}
                         <FormControl fullWidth className='input'>
-                            <InputLabel required id="demo-simple-select-label" sx={muiStyles.InputLabels}>UMO</InputLabel>
+                            <InputLabel required id="demo-simple-select-label" sx={muiStyles.InputLabels}>UOM</InputLabel>
                             <Select
                                 sx={muiStyles.select}
                                 style={{ width: '100%', }}
                                 labelId="demo-simple-select-label"
                                 id="demo-simple-select"
                                 value={unitid}
-                                label="Select Pack Unit"
+                                label="Select UOM"
                                 onChange={handleChangePackUnit}
                                 renderValue={(value) => `${value}`}
                             // name='unitid'
@@ -431,7 +436,7 @@ function PackMaster() {
                         </FormControl>
                         {/* <div className='error'>{error} </div> */}
                     </Box>
-                    <Box className='inputBox-14'>
+                    {/* <Box className='inputBox-14'>
                         <FormControl fullWidth className='input'>
                             <TextField
                                 sx={muiStyles.input}
@@ -441,12 +446,10 @@ function PackMaster() {
                                 label="Pack Product"
                                 variant="outlined"
                                 name='packProduct'
-                                // inputRef={register({ required: "Pack Product is required.*", })}
-                                // error={Boolean(errors.packProduct)}
-                                // helperText={errors.packProduct?.message}
+                              
                                  />
                         </FormControl>
-                    </Box>
+                    </Box> */}
                     <Box className='inputBox-16'>
                         <FormControl fullWidth className='input'>
                             <TextField
@@ -454,7 +457,7 @@ function PackMaster() {
                                 value={packCases}
                                 onChange={e => setpackCases(e.target.value)}
                                 id="outlined-basic"
-                                label="Pack Cases"
+                                label="SKU Cases"
                                 variant="outlined"
                                 name='packCases'
                                 // inputRef={register({ required: "Pack Cases is required.*", })}

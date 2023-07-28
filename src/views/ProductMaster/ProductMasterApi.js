@@ -52,10 +52,10 @@ export function GetProductSubCategory(nPDCId) {
     })
 }
 
-// export function StorageConditionMaster_SelectAll_Active() {
-//     let apiUrl = environment.apiUrl;
-//     let url = `${apiUrl}/StorageConditionMaster/StorageConditionMaster_SelectAll_Active`
-//     return get(url).then(response => {
-//         return response;
-//     })
-// }
+export function ProductMaster_SelectAll_Active() {
+    let apiUrl = environment.apiUrl;
+    let url = `${apiUrl}/ProductMaster/ProductMaster_SelectAll_Active`
+    return get(url).then(response => {
+        return response;
+    })
+}

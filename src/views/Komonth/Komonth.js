@@ -40,7 +40,7 @@ import FormLabel from '@mui/material/FormLabel';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import CircularProgress from '@mui/joy/CircularProgress';
 import { TbEdit } from "react-icons/tb";
-
+import {apiUrlAddEdit} from '../../coreservices/environment'
 function KOMONTH() {
     const [modalIsOpen, setIsOpen] = React.useState(false);
     const [modalIsOpen2, setIsOpen2] = React.useState(false);
@@ -251,15 +251,17 @@ function KOMONTH() {
         const parsedArray = JSON.parse(storedArray);
         let currentURL = window.location.href;
         // let splitcurrentURL = currentURL.split('/')[4]
-        //let splitcurrentURL = //currentURL.split('/')[2]
-     
-       // let filterLinks = parsedArray.filter(e => e.vPageName == splitcurrentURL)
-
+        let splitcurrentURL
+        if(apiUrlAddEdit=='http://localhost:3000'){
+            splitcurrentURL = currentURL.split('/')[4] 
+        }else{
+            splitcurrentURL = currentURL.split('/')[2]
+        }
+        let filterLinks = parsedArray.filter(e => e.vPageName == splitcurrentURL)
+        console.log('filterLinks:', filterLinks[0].btEditRights);
         // setEnableActions(filterLinks)
-      // if(filterLinks){ 
-        //setbtSaveRights(filterLinks[0].btSaveRights)
-        //setbtEditRights(filterLinks[0].btEditRights) 
-//    }
+       if(filterLinks){ setbtSaveRights(filterLinks[0].btSaveRights)
+        setbtEditRights(filterLinks[0].btEditRights) }
 
     }, [])
     const getKOMonth_SelectAll = () => {

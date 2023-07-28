@@ -11,7 +11,7 @@ import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import Paper from '@mui/material/Paper';
 import { MaterialMaster_SelectAll_ActiveLikeSearch } from '../MaterialMaster/MaterialMasterService'
-import { PackMaster_SelectAll_ActiveLikeSearch } from '../PackMaster/PackMasterService'
+import { ProductMaster_SelectAll_Active } from '../ProductMaster/ProductMasterApi'
 import { BrandMaster_SelectAll_ActiveLikeSearch } from '../BrandMaster/BrandMasterService'
 import { BOMMasterPost, ProductMaster_ActiveLikeSearch, GetBOMDetails } from './BomMasteerService'
 import TextField from '@mui/material/TextField';
@@ -138,7 +138,7 @@ function AddBomMaster() {
     }, [])
     const getPODetails = () => {
         setLoader(true)
-       
+
         GetBOMDetails(null).then(response => {
             console.log(response)
             setBrandData(response)
@@ -195,7 +195,7 @@ function AddBomMaster() {
             vGeneric = null
         }
         // console.log('vGeneric',vGeneric.target.value)
-        ProductMaster_ActiveLikeSearch(vGeneric).then(res => {
+        ProductMaster_ActiveLikeSearch(null).then(res => {
             console.log('response', res)
 
             let count = Object.keys(res).length
@@ -216,6 +216,9 @@ function AddBomMaster() {
             setProductMaster(data)
         })
     }
+    useEffect(() => {
+        materialMaster_SelectAll_ActiveLikeSearch(null)
+    }, [])
     const materialMaster_SelectAll_ActiveLikeSearch = (vGeneric) => {
 
         if (vGeneric != '') {
@@ -238,19 +241,53 @@ function AddBomMaster() {
         })
 
     }
-    const changeProductValue = (value) => {
-        setnPDId(value == null ? '' : value.value)
-        setProductDetail(value == null ? '' : value.label)
-        setvBOMName(value == null ? '' : value.vProductCode)
-        setvPCategory(value == null ? '' : value.vPCategory)
-        setvPSubCategory(value == null ? '' : value.vPSubCategory)
-        setvBrand(value == null ? '' : value.vBrand)
-        setvVarient(value == null ? '' : value.vVarient)
-        setvPackName(value == null ? '' : value.vPackName)
+
+    const changeProductValue = (event) => {
+        const selectedId = event.target.value;
+        setProductDetail(selectedId)
+        const selectedValue = ProductMaster.find((item) => item.ProductDetail === selectedId);
+        console.log("selectedValue", selectedValue)
+    };
+
+    const handleBlurM = (item) => {
+        console.log("itemitemitem", item)
+        setProductDetail(item == null ? '' : item.ProductDetail)
+        setnPDId(item == null ? '' : item.nPDId)
+        setvBOMName(item == null ? '' : item.vProductCode)
+        setvPCategory(item == null ? '' : item.vPCategory)
+        setvPSubCategory(item == null ? '' : item.vPSubCategory)
+        setvBrand(item == null ? '' : item.vBrand)
+        setvVarient(item == null ? '' : item.vVarient)
+        setvPackName(item == null ? '' : item.vPackName)
         setError({
             plant: ''
         })
+    };
+
+    useEffect(() => {
+        getProductMaster_SelectAll_Active()
+    }, [])
+
+    const getProductMaster_SelectAll_Active = () => {
+        ProductMaster_SelectAll_Active().then(response => {
+            setProductMaster(response)
+        })
     }
+
+
+    // const changeProductValue = (value) => {
+    //     setnPDId(value == null ? '' : value.value)
+    //     setProductDetail(value == null ? '' : value.label)
+    //     setvBOMName(value == null ? '' : value.vProductCode)
+    //     setvPCategory(value == null ? '' : value.vPCategory)
+    //     setvPSubCategory(value == null ? '' : value.vPSubCategory)
+    //     setvBrand(value == null ? '' : value.vBrand)
+    //     setvVarient(value == null ? '' : value.vVarient)
+    //     setvPackName(value == null ? '' : value.vPackName)
+    //     setError({
+    //         plant: ''
+    //     })
+    // }
 
     const changeMaterialMasterValueMaster = (value) => {
         console.log('value', value)
@@ -464,7 +501,7 @@ function AddBomMaster() {
                 let vendorDatas = [...bomData]
                 let venderexistcode = vendorDatas.find(e => e.nPDId == nPDId)
                 let venderexist = vendorDatas.find(e => e.nPDId == nPDId)
-                if (venderexist ) {
+                if (venderexist) {
                     setLoader(false)
                     toast.success("Product already Exists.")
                 } else if (venderexistcode) {
@@ -660,22 +697,16 @@ function AddBomMaster() {
                             />
                         </FormControl>
                     </Box> */}
-                    <Box className='inputBox-45' >
+                    {/* <Box className='inputBox-45' >
                         <FormControl fullWidth className='input'>
-                            {/* <InputLabel required id="demo-simple-select-label">Plant</InputLabel>npm  */}
                             <Autocomplete
                                 sx={muiStyles.autoCompleate}
                                 disablePortal
                                 id="combo-box-demo"
                                 options={ProductMaster}
                                 value={ProductDetail}
-                                // changePlantValue(value)
                                 onChange={(event, value) => changeProductValue(value)}
-                                // inputValue={inputValue}
-                                // onKeyDown={newInputValue => plantMaster_SelectAll_ActiveLikeSearch(newInputValue)}
-
                                 onInputChange={(event, newInputValue) => {
-                                    // setInputValue(newInputValue);
                                     if (newInputValue.length >= 2) {
                                         plantMaster_SelectAll_ActiveLikeSearch(newInputValue)
 
@@ -686,7 +717,32 @@ function AddBomMaster() {
                             />
                             {errorText.product != '' ? <p className='error'>{errorText.product}</p> : null}
                         </FormControl>
+                    </Box> */}
+
+                    <Box className='inputBox-6'>
+                        <FormControl fullWidth className='input'>
+                            <InputLabel required id="demo-simple-select-label" sx={muiStyles.InputLabels}>Select Product</InputLabel>
+                            <Select
+                                sx={muiStyles.select}
+                                style={{ width: '100%', }}
+                                labelId="demo-simple-select-label"
+                                id="demo-simple-select"
+                                value={ProductDetail}
+                                label="Select Brand"
+                                onChange={changeProductValue}
+                                name='ProductDetail' >
+                                {ProductMaster.map((item, index) => {
+                                    return (
+                                        <MenuItem key={index} onBlur={() => handleBlurM(item)} value={item.ProductDetail} id={item.nPDId}>{item.ProductDetail}</MenuItem>
+                                        // <MenuItem key={index} value={item.vMaterialType}>{item.vMaterialType}</MenuItem>
+                                    )
+                                })
+                                }
+                            </Select>
+                            {errorText.ProductDetail != '' ? <p className='error'>{errorText.ProductDetail}</p> : null}
+                        </FormControl>
                     </Box>
+
                     <Box className='inputBox-22' >
                         <FormControl fullWidth className='input'>
                             <TextField

@@ -28,6 +28,7 @@ import SearchBar from "material-ui-search-bar";
 import ExportExcel from 'src/shareFunction/Excelexport';
 import CircularProgress from '@mui/joy/CircularProgress';
 import { TbEdit } from "react-icons/tb";
+import {apiUrlAddEdit} from '../../coreservices/environment'
 function VendorSubCategoryMaster() {
     let Heading = [['SN.', 'Unit Code', 'Status']];
 
@@ -91,11 +92,11 @@ function VendorSubCategoryMaster() {
             }
             if (buttonName == 'Submit') {
                 let unistData = [...unitData]
-                console.log("unistData", unistData)
+                // console.log("unistData", unistData)
                 let venderexistCode = unistData.find(e => e.vSubCatPrefix == vSubCatPrefix.toLowerCase() || e.vSubCatPrefix == vSubCatPrefix.toUpperCase())
 
                 let unitName = unistData.find(e => e.vSubCategoryName == vUnitName.toLowerCase() || e.vSubCategoryName == vUnitName.toUpperCase())
-                console.log("unitName", unitName)
+                // console.log("unitName", unitName)
                 if (unitName || venderexistCode) {
                     // if (venderexist && venderexistCode) {
                     //     setLoader(false)
@@ -154,19 +155,23 @@ function VendorSubCategoryMaster() {
         const parsedArray = JSON.parse(storedArray);
         let currentURL = window.location.href;
         // let splitcurrentURL = currentURL.split('/')[4]
-       // let splitcurrentURL = currentURL.split('/')[2]
-     
-      //  let filterLinks = parsedArray.filter(e => e.vPageName == splitcurrentURL)
-
+        let splitcurrentURL
+        if(apiUrlAddEdit=='http://localhost:3000'){
+            splitcurrentURL = currentURL.split('/')[4] 
+        }else{
+            splitcurrentURL = currentURL.split('/')[2]
+        }
+        let filterLinks = parsedArray.filter(e => e.vPageName == splitcurrentURL)
+        // console.log('filterLinks:', filterLinks[0].btEditRights);
         // setEnableActions(filterLinks)
-     //  if(filterLinks){ setbtSaveRights(filterLinks[0].btSaveRights)
-       // setbtEditRights(filterLinks[0].btEditRights) }
+       if(filterLinks){ setbtSaveRights(filterLinks[0].btSaveRights)
+        setbtEditRights(filterLinks[0].btEditRights) }
 
     }, [])
     const getUnitMaster_SelectAll = () => {
         setLoader2(true)
         UnitMaster_SelectAll().then(response => {
-            console.log('onlyActive', onlyActive)
+            // console.log('onlyActive', onlyActive)
             if (checkedData == true) {
                 let activeData = response.filter(e => e.btActive == true)
                 // setUnitData(activeData)
@@ -195,12 +200,12 @@ function VendorSubCategoryMaster() {
             setUnitData(masterbrandData);
         }
 
-        // console.log("searchedVal.length", searchedVal.length)
+        // // console.log("searchedVal.length", searchedVal.length)
         // const filteredRows = lineData.filter((row) => {
         //     return row.vBrandCode.toLowerCase().includes(searchedVal.toLowerCase()) || row.vLineDescription.toLowerCase().includes(searchedVal.toLowerCase());
         // });
         // setlineData(m);
-        // console.log("filteredRows", filteredRows)
+        // // console.log("filteredRows", filteredRows)
     };
 
     const cancelSearch = () => {
@@ -244,7 +249,7 @@ function VendorSubCategoryMaster() {
         }
     }
     const materialMaster_SelectAll_ActiveLikeSearch = (vGeneric) => {
-        console.log('response', vGeneric)
+        // console.log('response', vGeneric)
         if (vGeneric != '') {
             vGeneric = vGeneric
         } else {
@@ -266,7 +271,7 @@ function VendorSubCategoryMaster() {
 
     }
     const changeMaterialMasterValue = (value) => {
-        console.log('value', value)
+        // console.log('value', value)
         setnMId(value == null ? '' : value.value)
         setMaterialDetail(value.label)
         setError({
@@ -337,7 +342,7 @@ function VendorSubCategoryMaster() {
                                             materialMaster_SelectAll_ActiveLikeSearch(newInputValue)
 
                                         }
-                                        console.log('newInputValue', newInputValue)
+                                        // console.log('newInputValue', newInputValue)
                                     }}
                                     renderInput={(params) => <TextField {...params} label="Search Category" required />}
                                 />

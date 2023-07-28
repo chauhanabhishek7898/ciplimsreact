@@ -31,3 +31,10 @@ export function VarientMaster_ActiveLikeSearch(vGeneric) {
         return response;
     })
 }
+export function VarientMaster_SelectAll_Active() {
+    let apiUrl = environment.apiUrl;
+    let url = `${apiUrl}/VarientMaster/VarientMaster_SelectAll_Active`
+    return get(url).then(response => {
+        return response;
+    })
+}

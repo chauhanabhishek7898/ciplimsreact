@@ -176,7 +176,7 @@ function VenderForm() {
         checkedData = event.target.checked
         getVendorMaster_SelectAll() 
     }
-    useEffect(() => {
+    useEffect(() => { 
         getVendorMaster_SelectAll()
         let storedArray = localStorage.getItem('linkAccess');
         const parsedArray = JSON.parse(storedArray);
@@ -343,7 +343,7 @@ function VenderForm() {
     const validateVenderDetailForm = () => {
         if (MaterialType == '' || MaterialType == undefined) {
             setError({
-                MaterialType: 'Select Material Type *'
+                MaterialType: 'Select Service *'
             })
             return false
         } else if (MaterialDetail == '' || MaterialDetail == undefined) {
@@ -733,14 +733,14 @@ function VenderForm() {
                 <div className='displayflexend borderTop' >
                     <Box className='inputBox-3'>
                         <FormControl fullWidth className='input'>
-                            <InputLabel id="demo-simple-select-label" required sx={muiStyles.InputLabels}>Material Type</InputLabel>
+                            <InputLabel id="demo-simple-select-label" required sx={muiStyles.InputLabels}>Service</InputLabel>
                             <Select
                                 sx={muiStyles.select}
                                 style={{ width: '100%', }}
                                 labelId="demo-simple-select-label"
                                 id="demo-simple-select"
                                 value={MaterialType}
-                                label="Select Material Type"
+                                label="Select Service"
                                 onChange={handleChange}
                             >
                                 {vMaterialTypeData.map((item, index) => {
@@ -964,7 +964,7 @@ function VenderForm() {
                                     <TableCell align="left" sx={muiStyles.tableHead}>Mobile No</TableCell>
                                     <TableCell align="left" sx={muiStyles.tableHead}>Email Id</TableCell>
                                     <TableCell align="left" sx={muiStyles.tableHead}>GST No</TableCell>
-                                    <TableCell align="left" sx={muiStyles.tableHead}>Material Types</TableCell>
+                                    <TableCell align="left" sx={muiStyles.tableHead}>Service</TableCell>
                                     <TableCell align="left" sx={muiStyles.tableHead}>Categories</TableCell>
                                     <TableCell align="left" sx={muiStyles.tableHead}>Sub Categories</TableCell>
                                     <TableCell align="left" sx={muiStyles.tableHead}>Remarks</TableCell>
