@@ -354,7 +354,7 @@ function PackMaster() {
                 ariaHideApp={false}
             >
                 <div className='displayright'>
-                    <div><span className='title'>Pack</span></div>
+                    <div><span className='title'>SKU</span></div>
                     <HighlightOffIcon fontSize='large' onClick={() => setIsOpen(false)} />
                 </div>
                 <div className='displayflexend mt-4'>

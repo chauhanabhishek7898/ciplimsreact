@@ -103,7 +103,7 @@ function VenderForm() {
     const [errorText, setError] = React.useState({
         MaterialType: '',
         MaterialDetail: '',
-        subCategory: '',
+        // subCategory: '',
     });
     const { register, handleSubmit, control, errors } = useForm();
     const [vMaterialType, setvMaterialType] = React.useState("");
@@ -112,7 +112,9 @@ function VenderForm() {
     useEffect(() => {
         getMaterialTypeMaster_SelectAll_Active()
     }, [])
-
+    useEffect(() => {
+        categoryMaster_ActiveLikeSearch(null)
+    }, [])
     const getMaterialTypeMaster_SelectAll_Active = () => {
         MaterialTypeMaster_SelectAll_Active().then(response => {
             setvMaterialTypeData(response)
@@ -228,7 +230,9 @@ function VenderForm() {
     const requestSearch = (searchedVal) => {
         if (searchedVal.length > 0) {
             const filteredRows = vendorData.filter((row) => {
-                return row.vVendorCode.toLowerCase().includes(searchedVal.toLowerCase()) || row.MaterialTypes.toLowerCase().includes(searchedVal.toLowerCase()) || row.Categories.toLowerCase().includes(searchedVal.toLowerCase()) || row.SubCategories.toLowerCase().includes(searchedVal.toLowerCase()) || row.vVendorAddress.toLowerCase().includes(searchedVal.toLowerCase()) || row.vContactPerson.toLowerCase().includes(searchedVal.toLowerCase()) || row.vMobileNo.toLowerCase().includes(searchedVal.toLowerCase()) || row.vEmailId.toLowerCase().includes(searchedVal.toLowerCase()) || row.vGSTNo.toLowerCase().includes(searchedVal.toLowerCase()) || row.vRemarks.toLowerCase().includes(searchedVal.toLowerCase());
+                return row.vVendorCode.toLowerCase().includes(searchedVal.toLowerCase()) || row.MaterialTypes.toLowerCase().includes(searchedVal.toLowerCase()) || row.Categories.toLowerCase().includes(searchedVal.toLowerCase()) 
+                // || row.SubCategories.toLowerCase().includes(searchedVal.toLowerCase()) 
+                || row.vVendorAddress.toLowerCase().includes(searchedVal.toLowerCase()) || row.vContactPerson.toLowerCase().includes(searchedVal.toLowerCase()) || row.vMobileNo.toLowerCase().includes(searchedVal.toLowerCase()) || row.vEmailId.toLowerCase().includes(searchedVal.toLowerCase()) || row.vGSTNo.toLowerCase().includes(searchedVal.toLowerCase()) || row.vRemarks.toLowerCase().includes(searchedVal.toLowerCase());
             });
             setVendorData(filteredRows);
         } else {
@@ -256,7 +260,7 @@ function VenderForm() {
             btActive: btActive,
             vMaterialType: MaterialType,
             vCategoryName: MaterialDetail,
-            vSubCategoryName: SubCategory,
+            vSubCategoryName: null,
 
         }
         if (buttonName == 'Submit') {
@@ -344,7 +348,7 @@ function VenderForm() {
     const validateVenderDetailForm = () => {
         if (MaterialType == '' || MaterialType == undefined) {
             setError({
-                MaterialType: 'Select Service *'
+                MaterialType: 'Select Material Group *'
             })
             return false
         } else if (MaterialDetail == '' || MaterialDetail == undefined) {
@@ -352,11 +356,11 @@ function VenderForm() {
                 MaterialDetail: 'Select Category*'
             })
             return false
-        } else if (SubCategory == '' || SubCategory == undefined) {
-            setError({
-                subCategory: 'Select Subcategory*'
-            })
-            return false
+        // } else if (SubCategory == '' || SubCategory == undefined) {
+        //     setError({
+        //         subCategory: 'Select Subcategory*'
+        //     })
+        //     return false
         } else {
             setError('')
             return true
@@ -369,7 +373,7 @@ function VenderForm() {
                 nVDId: nVDId == null ? 0 : nVDId,
                 vMaterialType: MaterialType,
                 vCategoryName: MaterialDetail,
-                vSubCategoryName: SubCategory,
+                vSubCategoryName: null,
                 btDActive: btDActive,
 
             }
@@ -771,10 +775,10 @@ function VenderForm() {
                                 // onKeyDown={newInputValue => categoryMaster_ActiveLikeSearch(newInputValue)}
                                 onInputChange={(event, newInputValue) => {
                                     // setInputValue(newInputValue);
-                                    if (newInputValue.length >= 3) {
+                                    // if (newInputValue.length >= 3) {
                                         categoryMaster_ActiveLikeSearch(newInputValue)
 
-                                    }
+                                    // }
                                     console.log('newInputValue', newInputValue)
                                 }}
                                 renderInput={(params) => <TextField {...params} label="Search Category" required />}
@@ -783,7 +787,7 @@ function VenderForm() {
                         </FormControl>
                     </Box>
                     <Box className='inputBox-3'>
-                        <FormControl fullWidth className='input'>
+                        {/* <FormControl fullWidth className='input'>
                             <InputLabel required id="demo-simple-select-label" sx={muiStyles.InputLabels}>Subcategory</InputLabel>
                             <Select
                                 sx={muiStyles.select}
@@ -803,7 +807,7 @@ function VenderForm() {
                                 }
                             </Select>
                             {errorText.subCategory != '' ? <p className='error'>{errorText.subCategory}</p> : null}
-                        </FormControl>
+                        </FormControl> */}
                     </Box>
                     <div style={{ display: 'flex', gap: 10 }}>
                         <FormGroup style={{ marginLeft: 10, marginRight: 10 }}>
@@ -831,8 +835,6 @@ function VenderForm() {
 
                     </div>
 
-
-
                 </div>
 
                 {buttonName == 'Update' || secondtimeSubmit == true ?
@@ -845,7 +847,7 @@ function VenderForm() {
                                             <TableRow>
                                                 <TableCell align="left" sx={muiStyles.tableHead}>MaterialType</TableCell>
                                                 <TableCell align="left" sx={muiStyles.tableHead}>Category Name</TableCell>
-                                                <TableCell align="left" sx={muiStyles.tableHead}>Subcategory Name</TableCell>
+                                                {/* <TableCell align="left" sx={muiStyles.tableHead}>Subcategory Name</TableCell> */}
 
                                                 {buttonName == 'Update' ?
                                                     <TableCell align="left" sx={muiStyles.tableHead} >Edit</TableCell>
@@ -863,7 +865,7 @@ function VenderForm() {
                                                             <TableCell align="left" sx={muiStyles.tableBody}>{item.vMaterialType}</TableCell>
                                                             <TableCell align="left" sx={muiStyles.tableBody}>{item.vCategoryName}</TableCell>
 
-                                                            <TableCell align="left" sx={muiStyles.tableBody}>{item.vSubCategoryName}</TableCell>
+                                                            {/* <TableCell align="left" sx={muiStyles.tableBody}>{item.vSubCategoryName}</TableCell> */}
                                                             {buttonName == 'Update' ?
                                                                 <TableCell align="left" sx={muiStyles.tableBody}><div onClick={() => changeupdatedata(item, 'venderDetails')} className='editbtn' ><TbEdit size={20} color='#000' disabled={btEditRights == false} /></div></TableCell>
                                                                 :
@@ -965,9 +967,9 @@ function VenderForm() {
                                     <TableCell align="left" sx={muiStyles.tableHead}>Mobile No</TableCell>
                                     <TableCell align="left" sx={muiStyles.tableHead}>Email Id</TableCell>
                                     <TableCell align="left" sx={muiStyles.tableHead}>GST No</TableCell>
-                                    <TableCell align="left" sx={muiStyles.tableHead}>Service</TableCell>
+                                    <TableCell align="left" sx={muiStyles.tableHead}>Material Group</TableCell>
                                     <TableCell align="left" sx={muiStyles.tableHead}>Categories</TableCell>
-                                    <TableCell align="left" sx={muiStyles.tableHead}>Sub Categories</TableCell>
+                                    {/* <TableCell align="left" sx={muiStyles.tableHead}>Sub Categories</TableCell> */}
                                     <TableCell align="left" sx={muiStyles.tableHead}>Remarks</TableCell>
                                     <TableCell align="left" sx={muiStyles.tableHead}>Status</TableCell>
                                     <TableCell align="left" sx={muiStyles.tableHead} >Edit</TableCell>
@@ -987,7 +989,7 @@ function VenderForm() {
                                                 <TableCell align="left" sx={muiStyles.tableBody}>{item.vGSTNo}</TableCell>
                                                 <TableCell align="left" sx={muiStyles.tableBody}>{item.MaterialTypes}</TableCell>
                                                 <TableCell align="left" sx={muiStyles.tableBody}>{item.Categories}</TableCell>
-                                                <TableCell align="left" sx={muiStyles.tableBody}>{item.SubCategories}</TableCell>
+                                                {/* <TableCell align="left" sx={muiStyles.tableBody}>{item.SubCategories}</TableCell> */}
                                                 <TableCell align="left" sx={muiStyles.tableBody}><a data-tooltip-id="my-tooltip" data-tooltip-content={item.vRemarks}>{(item.vRemarks.length > 10) ? (item.vRemarks.slice(0, 10)) + '...' : (item.vRemarks)}</a><Tooltip id="my-tooltip" place="bottom" /></TableCell>
                                                 <TableCell align="left" sx={muiStyles.tableBody}>{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
                                                 <TableCell align="left" sx={muiStyles.tableBody}><button onClick={() => openmodale(item, 'Update')} disabled={btEditRights == false} className={btEditRights == false?'editbtn notAllow':'editbtn'}><TbEdit size={20} color='#000' /></button></TableCell>

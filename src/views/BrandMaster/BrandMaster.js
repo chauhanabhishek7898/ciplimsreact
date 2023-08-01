@@ -74,12 +74,12 @@ function BrandMaster() {
         let splitcurrentURL
         // if(apiUrlAddEdit=='http://localhost:3000'){
             splitcurrentURL = currentURL.split('/')[4] 
-            console.log('parsedArray:', window.location.href);
+            // console.log('parsedArray:', window.location.href);
         // }else{
         //     splitcurrentURL = currentURL.split('/')[2]
         // }
         let filterLinks = parsedArray.filter(e => e.vPageName == splitcurrentURL)
-        console.log('filterLinks:', filterLinks[0].btEditRights);
+        // console.log('filterLinks:', filterLinks[0].btEditRights);
         // setEnableActions(filterLinks)
        if(filterLinks){ setbtSaveRights(filterLinks[0].btSaveRights)
         setbtEditRights(filterLinks[0].btEditRights) }
@@ -88,7 +88,7 @@ function BrandMaster() {
     const getBrandMaster_SelectAll = () => {
         setLoader2(true)
         BrandMaster_SelectAll().then(response => {
-            console.log('onlyActive', onlyActive)
+            // console.log('onlyActive', onlyActive)
             if (checkedData == true) {
                 let activeData = response.filter(e => e.btActive == true)
                 setBrandData(activeData)
@@ -157,18 +157,18 @@ function BrandMaster() {
     const submit = () => {
 
         const brandDatas = [...brandData]
-        console.log("brandDatas", brandDatas)
+        // console.log("brandDatas", brandDatas)
 
         const venderexistCode = brandDatas.find(e => e.vBrandCode.toLowerCase() == brandCode.toLowerCase())
-        console.log("venderexistCode", venderexistCode)
+        // console.log("venderexistCode", venderexistCode)
         // console.log("venderexist.vBrandCode", venderexist.vBrandCode)
 
         const venderexist = brandDatas.find(e => e.vBrandName.toLowerCase() == brandName.toLowerCase())
-        console.log("venderexist", venderexist)
+        // console.log("venderexist", venderexist)
         // console.log("venderexist.brandName", venderexist.brandName)
 
         const venderexistvVPrefix = brandDatas.find(e => e.vPrefix.toLowerCase() == vPrefix.toLowerCase())
-        console.log("venderexistvVPrefix", venderexistvVPrefix)
+        // console.log("venderexistvVPrefix", venderexistvVPrefix)
         // console.log("venderexistvVPrefix.vPrefix", venderexistvVPrefix.vPrefix)
 
         let lowercaseString3 = ''
@@ -176,36 +176,36 @@ function BrandMaster() {
         let lowercaseString5 = ''
         if (venderexistCode != undefined) {
             lowercaseString5 = venderexistCode.vBrandCode.toLowerCase();
-            console.log("lowercaseString5", lowercaseString5)
+            // console.log("lowercaseString5", lowercaseString5)
         }
 
         if (venderexist != undefined) {
             lowercaseString3 = venderexist.vBrandName.toLowerCase();
-            console.log("lowercaseString3", lowercaseString3)
+            // console.log("lowercaseString3", lowercaseString3)
         }
 
         if (venderexistvVPrefix != undefined) {
             lowercaseString4 = venderexistvVPrefix.vPrefix.toLowerCase();
-            console.log("lowercaseString4", lowercaseString4)
+            // console.log("lowercaseString4", lowercaseString4)
         }
 
         const lowercaseString1 = brandName.toLowerCase();
         const lowercaseString2 = vPrefix.toLowerCase();
         const lowercaseString6 = brandCode.toLowerCase();
-        console.log("lowercaseString1", lowercaseString1)
-        console.log("lowercaseString2", lowercaseString2)
+        // console.log("lowercaseString1", lowercaseString1)
+        // console.log("lowercaseString2", lowercaseString2)
 
         const isMatch = lowercaseString1 === lowercaseString3;
         setMatchResult(isMatch);
-        console.log("isMatch", isMatch)
+        // console.log("isMatch", isMatch)
 
         const isMatch2 = lowercaseString2 === lowercaseString4;
         setMatchResult2(isMatch2);
-        console.log("isMatch2", isMatch2)
+        // console.log("isMatch2", isMatch2)
 
         const isMatch3 = lowercaseString6 === lowercaseString5;
         setMatchResult3(isMatch3);
-        console.log("isMatch3", isMatch3)
+        // console.log("isMatch3", isMatch3)
         setLoader(true)
         let brand = {
             nBId: nBid == null ? 0 : nBid,
@@ -216,10 +216,10 @@ function BrandMaster() {
         }
         if (buttonName == 'Submit') {
             if (isMatch == true || isMatch2 == true) {
-                if (isMatch3 == true) {
-                    setLoader(false)
-                    toast.error("Code is already Exists")
-                }
+                // if (isMatch3 == true) {
+                //     setLoader(false)
+                //     toast.error("Code is already Exists")
+                // }
                 if (isMatch == true) {
                     setLoader(false)
                     toast.error("Brand Name is already Exists")
@@ -229,10 +229,10 @@ function BrandMaster() {
                     toast.error("Prefix is already Exists")
                 }
             } else {
-                console.log('brand', brand)
+                // console.log('brand', brand)
                 BrandMasterPost(brand).then(res => {
                     if (res) {
-                        console.log('res', res)
+                        // console.log('res', res)
                         toast.success("Record Added Successfully !!")
                         setLoader(false)
                         setIsOpen(false)
@@ -242,10 +242,10 @@ function BrandMaster() {
             }
 
         } else {
-            console.log('brand', brand)
+            // console.log('brand', brand)
             BrandMasterPut(brand).then(res => {
                 if (res) {
-                    console.log('res', res)
+                    // console.log('res', res)
                     toast.success("Record Updated Successfully !!")
                     setLoader(false)
                     setIsOpen(false)
@@ -269,7 +269,7 @@ function BrandMaster() {
             }
             <div className='add_export'>
                 <button className={btSaveRights == false ? 'submitbtn_exp notAllow' : 'submitbtn_exp'} onClick={() => openmodale(null, 'Submit')} title='Add' disabled={btSaveRights == false} ><AddIcon fontSize='small' /> <span className='addFont'>Add</span></button>
-                <ExportExcel excelData={brandData} Heading={Heading} fileName={'Brand_Master'} />
+                <ExportExcel excelData={brandData} Heading={Heading} fileName={'Brand_Unit'} />
 
             </div>
 
@@ -280,7 +280,7 @@ function BrandMaster() {
                 ariaHideApp={false}
             >
                 <div className='displayright'>
-                    <div><span className='title'>Brand</span></div>
+                    <div><span className='title'>Brand Unit</span></div>
                     <HighlightOffIcon fontSize='large' onClick={() => setIsOpen(false)} />
                 </div>
                 <div className='displayflexend mt-4'>
@@ -330,8 +330,8 @@ function BrandMaster() {
                                     maxLength: 3, // Set the maximum length here (e.g., 20)
                                 }}
                                 inputRef={register({ required: "Prefix is required.*", })}
-                                error={Boolean(errors.brandCode)}
-                                helperText={errors.brandCode?.message}
+                                error={Boolean(errors.vPrefix)}
+                                helperText={errors.vPrefix?.message}
 
                             />
                         </FormControl>

@@ -10,17 +10,14 @@ import TablePagination from '@mui/material/TablePagination';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import Paper from '@mui/material/Paper';
-
 import { MaterialMasterPost, MaterialMasterPut, MaterialMaster_SelectAll } from '../MaterialMaster/MaterialMasterService'
 import { UnitMaster_SelectAll_Active, StorageConditionMaster_SelectAll_Active } from '../UnitMaster/UnitMasterApi'
 import { ProductCategoryMaster_SelectAll, ProductMasterPost, GetProductSubCategory, ProductMasterPut, ProductMaster_SelectAll } from './ProductMasterApi'
-import { VarientMaster_ActiveLikeSearch ,VarientMaster_SelectAll_Active} from '../VarientMaster/VarientMasterApi'
+import { VarientMaster_ActiveLikeSearch, VarientMaster_SelectAll_Active } from '../VarientMaster/VarientMasterApi'
 import { BrandMaster_SelectAll } from '../BrandMaster/BrandMasterService'
 import { ProductCategoryMaster_ActiveLikeSearch } from '../ProductCategoryMaster/ProductCategoryMasterapi'
 import Autocomplete from '@mui/material/Autocomplete';
 import { PackMaster_SelectAll_ActiveLikeSearch } from '../PackMaster/PackMasterService'
-
-
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import InputLabel from '@mui/material/InputLabel';
@@ -35,7 +32,6 @@ import { useForm } from 'react-hook-form';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { CButton, CSpinner } from '@coreui/react';
-
 import SearchBar from "material-ui-search-bar";
 import dayjs from 'dayjs';
 import Stack from '@mui/material/Stack';
@@ -46,9 +42,11 @@ import { parseDateToString } from '../../coreservices/Date';
 import ExportExcel from 'src/shareFunction/Excelexport';
 import CircularProgress from '@mui/joy/CircularProgress';
 import { TbEdit } from "react-icons/tb";
-import {apiUrlAddEdit} from '../../coreservices/environment'
+import { apiUrlAddEdit } from '../../coreservices/environment'
+
 function ProductMaster() {
-    let Heading = [['SN.', 'Material Code', 'Material Name', 'Category', 'Material Type', 'UOM', 'HSN Code', 'Remarks', 'Status']];
+
+    let Heading = [['SN.', 'Brand Code', 'Brand Name', 'Category', 'Subcategory', 'Brand', 'Variant', 'Pack Name', 'UOM', 'Remarks', 'Status']];
     const [modalIsOpen, setIsOpen] = React.useState(false);
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -85,10 +83,8 @@ function ProductMaster() {
     const [nPDId, setnPDId] = React.useState('');
     const [error, setError] = React.useState('');
     const [unit, setunit] = React.useState('');
-
     const [btSaveRights, setbtSaveRights] = React.useState(false);
     const [btEditRights, setbtEditRights] = React.useState(false);
-
     const [onlyActive, setonlyActive] = React.useState(true);
     const [errorText, setErrorText] = React.useState({
         vProductName: '',
@@ -99,7 +95,6 @@ function ProductMaster() {
         PackLabel: '',
     });
     let checkedData = true
-
     const [PackMaster, setPackMaster] = useState([])
     const [PackLabel, setPackLabel] = useState('')
     const [VariantMaster, setVariantMaster] = useState([])
@@ -109,16 +104,24 @@ function ProductMaster() {
     const [vBrandName, setvBrandName] = React.useState("");
     const [vBrandNameId, setvBrandNameId] = React.useState("");
     const [nPackId, setnPackId] = useState('')
+    const [vCategoryData, setvCategoryData] = React.useState([]);
+    const [vCategory, setvCategory] = React.useState("");
+    const [vCategoryId, setvCategoryId] = React.useState("");
+    const [SubCategoryDataForSelection, setSubCategoryDataForSelection] = React.useState([]);
+    const [SubCategoryData, setSubCategoryData] = React.useState([]);
+    const [SubCategory, setSubCategory] = React.useState("");
+    const [SubCategoryId, setSubCategoryId] = React.useState("");
+
     const handleChangeBrand = (event) => {
         const selectedId = event.target.value;
         setvBrandName(selectedId)
     };
 
     const handleBlurB = (item) => {
-        console.log("itemitemitem", item)
         setvBrandName(item.vBrandName)
         setvBrandNameId(item.nBId)
     };
+
     const changeVarientMasterValue = (event) => {
         // setVariantMasterLabel(value.value)
         setVariantMasterLabel(value == null ? '' : value.label)
@@ -131,47 +134,29 @@ function ProductMaster() {
     };
 
     const handleBlurV = (item) => {
-        console.log("itemitemitem", item)
         setVariantMasterLabel(item.vVarient)
         setVariantId(item.nVRId)
     };
 
-
-    const [vCategoryData, setvCategoryData] = React.useState([]);
-    const [vCategory, setvCategory] = React.useState("");
-    const [vCategoryId, setvCategoryId] = React.useState("");
-
-    const [SubCategoryDataForSelection, setSubCategoryDataForSelection] = React.useState([]);
-
     const handleChangeCategory = (event) => {
         const selectedId = event.target.value;
         setvCategory(selectedId)
-
     };
 
     const handleBlurC = (item) => {
-        console.log("itemitemitem", item)
+        // console.log("itemitemitem", item)
         setvCategory(item.vPDCategoryName)
         setvCategoryId(item.nPDCId)
         getSubCategoryMaster_SelectAll(item.nPDCId)
-
     };
-
-    const [SubCategoryData, setSubCategoryData] = React.useState([]);
-
-    const [SubCategory, setSubCategory] = React.useState("");
-    const [SubCategoryId, setSubCategoryId] = React.useState("");
-
 
     const handleChangeSubCategory = (event) => {
         const selectedId = event.target.value;
         setSubCategoryId(selectedId)
         const selectedValue = SubCategoryData.find((item) => item.vPDSubCategoryName === selectedId);
-        console.log("selectedValue", selectedValue)
     };
 
     const handleBlurSC = (item) => {
-        console.log("itemitemitem", item)
         setSubCategory(item.vPDSubCategoryName)
         setSubCategoryId(item.nPDSCId)
     };
@@ -184,11 +169,11 @@ function ProductMaster() {
         const selectedId = event.target.value;
         setvUOM(selectedId)
         const selectedValue = uniteData.find((item) => item.vUnitName === selectedId);
-        console.log("selectedValue", selectedValue)
+        // console.log("selectedValue", selectedValue)
     };
-    
+
     const handleBlurU = (item) => {
-        console.log("itemitemitem", item)
+        // console.log("itemitemitem", item)
         setvUOM(item.vUnitName)
         setvUOMId(item.nUId)
     };
@@ -202,11 +187,11 @@ function ProductMaster() {
         const selectedId = event.target.value;
         setStorageCondition(selectedId)
         const selectedValue = StorageConditionData.find((item) => item.vStorageCondition === selectedId);
-        console.log("selectedValue", selectedValue)
+        // console.log("selectedValue", selectedValue)
     };
 
     const handleBlurS = (item) => {
-        console.log("itemitemitem", item)
+        // console.log("itemitemitem", item)
         setStorageCondition(item.vStorageCondition)
         setStorageConditionId(item.nSCId)
     };
@@ -230,23 +215,25 @@ function ProductMaster() {
         // let splitcurrentURL = currentURL.split('/')[4]
         let splitcurrentURL
         // if(apiUrlAddEdit=='http://localhost:3000'){
-            splitcurrentURL = currentURL.split('/')[4] 
-            console.log('parsedArray:', window.location.href);
+        splitcurrentURL = currentURL.split('/')[4]
+        console.log('parsedArray:', window.location.href);
         // }else{
         //     splitcurrentURL = currentURL.split('/')[2]
         // }
         let filterLinks = parsedArray.filter(e => e.vPageName == splitcurrentURL)
         console.log('filterLinks:', filterLinks[0].btEditRights);
         // setEnableActions(filterLinks)
-       if(filterLinks){ setbtSaveRights(filterLinks[0].btSaveRights)
-        setbtEditRights(filterLinks[0].btEditRights) }
+        if (filterLinks) {
+            setbtSaveRights(filterLinks[0].btSaveRights)
+            setbtEditRights(filterLinks[0].btEditRights)
+        }
 
     }, [])
     const getMaterialMaster_SelectAll = () => {
         setLoader2(true)
         ProductMaster_SelectAll().then(response => {
             if (checkedData == true) {
-                console.log("MaterialMaster_SelectAll", response)
+                // console.log("MaterialMaster_SelectAll", response)
                 let activeData = response.filter(e => e.btActive == true)
                 setProductData(activeData)
                 setMasterBrandData(activeData)
@@ -299,7 +286,7 @@ function ProductMaster() {
             setSubCategoryData(response)
 
             // const forselectionSC = response.find((item) => item.nCId === vCategoryId);
-            console.log("response", response)
+            // console.log("response", response)
         })
     }
 
@@ -391,7 +378,7 @@ function ProductMaster() {
         })
 
     }
-   
+
 
     const changeProductCategoryValue = (value) => {
         // setnPackId(value == null ? '' : value.value)
@@ -477,7 +464,7 @@ function ProductMaster() {
     const validateform = () => {
         if (vProductName == '' || vProductName == undefined) {
             setErrorText({
-                vProductName: 'Enter Product Name *'
+                vProductName: 'Enter Brand Name *'
             })
             return false
         } else if (vCategory == '' || vCategory == undefined) {
@@ -492,7 +479,7 @@ function ProductMaster() {
             return false
         } else if (vBrandName == '' || vBrandName == undefined) {
             setErrorText({
-                vBrandName: 'Select Material Type *'
+                vBrandName: 'Select Brand *'
             })
             return false
         } else if (VariantMasterLabel == '' || VariantMasterLabel == undefined) {
@@ -507,9 +494,7 @@ function ProductMaster() {
             return false
         }
         else {
-            setError({
-                MaterialDetail: ''
-            })
+            setError('')
             return true
         }
 
@@ -549,15 +534,15 @@ function ProductMaster() {
                     e.vPackName == PackLabel
 
                 )
-                console.log('existdata', existdata)
-                console.log('venderexist', venderexist, vProductName, vCategory, SubCategory, vBrandName, VariantMasterLabel, PackLabel)
+                // console.log('existdata', existdata)
+                // console.log('venderexist', venderexist, vProductName, vCategory, SubCategory, vBrandName, VariantMasterLabel, PackLabel)
                 if (venderexist != undefined) {
                     setLoader(false)
-                    toast.success("This selection criteria already Exists. Product name is unique; and selection of (Product category, Product Subcategory, Brand, variant, Pack) is unique.")
+                    toast.success("This selection criteria already Exists. Brand name is unique; and selection of (Brand category, Brand Subcategory, Brand, variant, Pack) is unique.")
                 }
                 else if (venderexistcode) {
                     setLoader(false)
-                    toast.success("This selection criteria already Exists. Product name is unique; and selection of (Product category, Product Subcategory, Brand, variant, Pack) is unique.")
+                    toast.success("This selection criteria already Exists. Brand name is unique; and selection of (Brand category, Brand Subcategory, Brand, variant, Pack) is unique.")
                 }
                 else {
                     ProductMasterPost(brand).then(res => {
@@ -629,7 +614,7 @@ function ProductMaster() {
                 {/* <button className='submitbtn_exp' onClick={() => openmodale(null, 'Submit')} title='Add'  ><AddIcon fontSize='small' /> <span className='addFont'>Add</span></button> */}
                 <button className={btSaveRights == false ? 'submitbtn_exp notAllow' : 'submitbtn_exp'} onClick={() => openmodale(null, 'Submit')} title='Add' disabled={btSaveRights == false} ><AddIcon fontSize='small' /> <span className='addFont'>Add</span></button>
 
-                <ExportExcel excelData={ProductData} Heading={Heading} fileName={'Product_Master'} />
+                <ExportExcel excelData={ProductData} Heading={Heading} fileName={'Brand_Master'} />
             </div>
             {/* <button className='addbtn_2' onClick={() => openmodale(null, 'Submit')} title='Add'  ><AddIcon fontSize='small' /> <span className='addFont'>Add</span></button> */}
             <Modal
@@ -640,7 +625,7 @@ function ProductMaster() {
 
 
                 <div className='displayright'>
-                    <div><span className='title'>Product</span></div>
+                    <div><span className='title'>Brand</span></div>
                     <HighlightOffIcon fontSize='large' onClick={() => setIsOpen(false)} />
                 </div>
 
@@ -690,10 +675,10 @@ function ProductMaster() {
                                 // onKeyDown={newInputValue => varientMaster_SelectAll_ActiveLikeSearch(newInputValue)}
                                 onInputChange={(event, newInputValue) => {
                                     // setInputValue(newInputValue);
-                                    if (newInputValue.length >= 0) {
-                                        productCategoryMaster_ActiveLikeSearch(newInputValue)
+                                    // if (newInputValue.length >= 0) {
+                                    productCategoryMaster_ActiveLikeSearch(newInputValue)
 
-                                    }
+                                    // }
                                 }}
                                 renderInput={(params) => <TextField {...params} label="Search Category" required />}
                             />
@@ -720,7 +705,7 @@ function ProductMaster() {
                                 })
                                 }
                             </Select>
-                            {errorText.SubCategory != '' ? <p className='error'>{errorText.SubCategory}</p> : null}
+                            {errorText.nPDSCId != '' ? <p className='error'>{errorText.nPDSCId}</p> : null}
                         </FormControl>
                     </Box>
                     <Box className='inputBox-6'>
@@ -1027,15 +1012,15 @@ const muiStyles = {
             left: '-10px',
 
         },
-         "& label.Mui-focused": {
+        "& label.Mui-focused": {
             zIndex: '1'
-        },'& .MuiFormHelperText-root': {
+        }, '& .MuiFormHelperText-root': {
             position: 'absolute',
             fontSize: 10,
             bottom: -18
         },
-        
-       
+
+
         "& .MuiIconButton-root": {
             padding: '0'
         }
@@ -1053,14 +1038,14 @@ const muiStyles = {
             left: '-10px',
             backgroundColor: 'transparent',
         },
-         "& label.Mui-focused": {
+        "& label.Mui-focused": {
             zIndex: '1'
-        },'& .MuiFormHelperText-root': {
+        }, '& .MuiFormHelperText-root': {
             position: 'absolute',
             fontSize: 10,
             bottom: -18
         },
-       
+
     },
     select: {
 

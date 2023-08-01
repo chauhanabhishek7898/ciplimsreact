@@ -78,7 +78,7 @@ const routes = [
   //  { path:"/login", name:"Login", element:Login },   
   { path: '/dashboard', name: 'Dashboard', element: Dashboard },
   { path: '/KOMonth', name: 'Ko Month', element: Komonth, exact: true },
-  { path: '/ProductMaster', name: 'Product', element: ProductMaster, exact: true },
+  { path: '/ProductMaster', name: 'Brand', element: ProductMaster, exact: true },
 
   { path: '/Roles', name: 'Role', element: RoleMaster, exact: true },
 
@@ -104,9 +104,9 @@ const routes = [
   { path: '/update-email-id', name: 'Update Email Id', element: UpdateEmail, exact: true },
   { path: '/update-mobile-no', name: 'Update Mobile Number', element: UpdateMobileNo, exact: true },
   { path: '/update-password', name: 'Change Password', element: UpdatePassword, exact: true },
-  { path: '/VendorMaster', name: 'Vendor Master', element: VenderForm, exact: true },
-  { path: '/BrandMaster', name: 'Brand', element: BrandMaster, exact: true },
-  { path: '/PackMaster', name: 'Pack', element: PackMaster, exact: true },
+  { path: '/VendorMaster', name: 'Vendor', element: VenderForm, exact: true },
+  { path: '/BrandMaster', name: 'Brand Unit', element: BrandMaster, exact: true },
+  { path: '/PackMaster', name: 'SKU', element: PackMaster, exact: true },
   { path: '/PlantMaster', name: 'Plant', element: PlantMaster, exact: true },
   { path: '/MaterialMaster', name: 'Material', element: MaterialMaster, exact: true },
   { path: '/PurchaseOrder', name: 'Purchase Order', element: PurchaseOrder, exact: true },

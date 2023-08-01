@@ -264,9 +264,9 @@ function BomMasterList() {
 
 
                                     <TableCell align="left" sx={muiStyles.tableHead} >BOM Name</TableCell>
-                                    <TableCell align="left" sx={muiStyles.tableHead} >Product Name</TableCell>
-                                    <TableCell align="left" sx={muiStyles.tableHead} >Product Category</TableCell>
-                                    <TableCell align="left" sx={muiStyles.tableHead} >Product Subcategory</TableCell>
+                                    <TableCell align="left" sx={muiStyles.tableHead} >Brand Name</TableCell>
+                                    {/* <TableCell align="left" sx={muiStyles.tableHead} >Brand Category</TableCell>
+                                    <TableCell align="left" sx={muiStyles.tableHead} >Brand Subcategory</TableCell> */}
                                     <TableCell align="left" sx={muiStyles.tableHead} >Brand</TableCell>
                                     <TableCell align="left" sx={muiStyles.tableHead} >Varient</TableCell>
                                     <TableCell align="left" sx={muiStyles.tableHead} >Pack</TableCell>
@@ -294,8 +294,8 @@ function BomMasterList() {
                                                 {/* <TableCell component="th" scope="row">{index + 1}.</TableCell> */}
                                                 <TableCell align="left" sx={muiStyles.tableBody}>{item.vBOMName}</TableCell>
                                                 <TableCell align="left" sx={muiStyles.tableBody}>{item.vProductName}</TableCell>
-                                                <TableCell align="left" sx={muiStyles.tableBody}>{item.vPCategory}</TableCell>
-                                                <TableCell align="left" sx={muiStyles.tableBody}>{item.vPSubCategory}</TableCell>
+                                                {/* <TableCell align="left" sx={muiStyles.tableBody}>{item.vPCategory}</TableCell>
+                                                <TableCell align="left" sx={muiStyles.tableBody}>{item.vPSubCategory}</TableCell> */}
                                                 <TableCell align="left" sx={muiStyles.tableBody}>{item.vBrand}</TableCell>
                                                 <TableCell align="left" sx={muiStyles.tableBody}>{item.vVarient}</TableCell>
                                                 <TableCell align="left" sx={muiStyles.tableBody}>{item.vPackPrefix}</TableCell>
