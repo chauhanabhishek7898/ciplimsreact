@@ -63,18 +63,19 @@ function ProductCategoryMaster() {
         let storedArray = localStorage.getItem('linkAccess');
         const parsedArray = JSON.parse(storedArray);
         let currentURL = window.location.href;
-       // let splitcurrentURL = currentURL.split('/')[4]
-       let splitcurrentURL
-       if(apiUrlAddEdit=='http://localhost:3000'){
-           splitcurrentURL = currentURL.split('/')[4] 
-       }else{
-           splitcurrentURL = currentURL.split('/')[2]
-       }
-       let filterLinks = parsedArray.filter(e => e.vPageName == splitcurrentURL)
-       console.log('filterLinks:', filterLinks[0].btEditRights);
-       // setEnableActions(filterLinks)
-      if(filterLinks){ setbtSaveRights(filterLinks[0].btSaveRights)
-       setbtEditRights(filterLinks[0].btEditRights) }
+        // let splitcurrentURL = currentURL.split('/')[4]
+        let splitcurrentURL
+        // if(apiUrlAddEdit=='http://localhost:3000'){
+            splitcurrentURL = currentURL.split('/')[4] 
+            console.log('parsedArray:', window.location.href);
+        // }else{
+        //     splitcurrentURL = currentURL.split('/')[2]
+        // }
+        let filterLinks = parsedArray.filter(e => e.vPageName == splitcurrentURL)
+        console.log('filterLinks:', filterLinks[0].btEditRights);
+        // setEnableActions(filterLinks)
+       if(filterLinks){ setbtSaveRights(filterLinks[0].btSaveRights)
+        setbtEditRights(filterLinks[0].btEditRights) }
 
     }, [])
     const getProductCategoryMaster_SelectAll = () => {
@@ -240,7 +241,7 @@ function ProductCategoryMaster() {
                 ariaHideApp={false}
             >
                 <div className='displayright'>
-                    <div><span className='title'>Product Category Master</span></div>
+                    <div><span className='title'>Product Category</span></div>
                     <HighlightOffIcon fontSize='large' onClick={() => setIsOpen(false)} />
                 </div>
                 <div className='displayflexend mt-4'>

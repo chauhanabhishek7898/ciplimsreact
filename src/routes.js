@@ -78,40 +78,40 @@ const routes = [
   //  { path:"/login", name:"Login", element:Login },   
   { path: '/dashboard', name: 'Dashboard', element: Dashboard },
   { path: '/KOMonth', name: 'Ko Month', element: Komonth, exact: true },
-  { path: '/ProductMaster', name: 'Product Master', element: ProductMaster, exact: true },
+  { path: '/ProductMaster', name: 'Product', element: ProductMaster, exact: true },
 
-  { path: '/Roles', name: 'Role Master', element: RoleMaster, exact: true },
+  { path: '/Roles', name: 'Role', element: RoleMaster, exact: true },
 
-  { path: '/Pages', name: 'Page Master', element: PageMaster, exact: true },
+  { path: '/Pages', name: 'Page', element: PageMaster, exact: true },
 
   { path: '/CreateUsers', name: 'Create Users', element: CreateUsers, exact: true },
   { path: '/RolePageLinkage', name: 'Role Page Linkage', element: RolePageLinkegList, exact: true },
   { path: '/AddRolePageLinkeg', name: 'Add Role Page Linkage', element: AddRolePageLinkeg, exact: true },
   { path: '/EditRolePageLinkeg', name: 'Edit Role Page Linkage', element: EditRolePageLinkeg, exact: true },
 
-  { path: '/MaterialTypeMaster', name: 'Material Type Master', element: MaterialTypeMaster, exact: true },
+  { path: '/MaterialTypeMaster', name: 'Material Type', element: MaterialTypeMaster, exact: true },
 
-  { path: '/ProductCategoryMaster', name: 'Product Category Master', element: ProductCategoryMaster, exact: true },
+  { path: '/ProductCategoryMaster', name: 'Product Category', element: ProductCategoryMaster, exact: true },
 
-  { path: '/ProductSubCategoryMaster', name: 'Product Subcategory Master', element: ProductSubCategoryMaster, exact: true },
+  { path: '/ProductSubCategoryMaster', name: 'Product Subcategory', element: ProductSubCategoryMaster, exact: true },
 
-  { path: '/StorageConditionMaster', name: 'Storage Condition Master', element: StorageConditionMaster, exact: true },
+  { path: '/StorageConditionMaster', name: 'Storage Condition', element: StorageConditionMaster, exact: true },
 
-  { path: '/VarientMaster', name: 'Varient Master', element: VarientMaster, exact: true },
+  { path: '/VarientMaster', name: 'Varient', element: VarientMaster, exact: true },
 
 
-  { path: '/UnitMaster', name: 'Unit Master', element: UnitMaster, exact: true },
+  { path: '/UnitMaster', name: 'Unit', element: UnitMaster, exact: true },
   { path: '/update-email-id', name: 'Update Email Id', element: UpdateEmail, exact: true },
   { path: '/update-mobile-no', name: 'Update Mobile Number', element: UpdateMobileNo, exact: true },
   { path: '/update-password', name: 'Change Password', element: UpdatePassword, exact: true },
   { path: '/VendorMaster', name: 'Vendor Master', element: VenderForm, exact: true },
-  { path: '/BrandMaster', name: 'Brand Master', element: BrandMaster, exact: true },
-  { path: '/PackMaster', name: 'Pack Master', element: PackMaster, exact: true },
-  { path: '/PlantMaster', name: 'Plant Master', element: PlantMaster, exact: true },
-  { path: '/MaterialMaster', name: 'Material Master', element: MaterialMaster, exact: true },
+  { path: '/BrandMaster', name: 'Brand', element: BrandMaster, exact: true },
+  { path: '/PackMaster', name: 'Pack', element: PackMaster, exact: true },
+  { path: '/PlantMaster', name: 'Plant', element: PlantMaster, exact: true },
+  { path: '/MaterialMaster', name: 'Material', element: MaterialMaster, exact: true },
   { path: '/PurchaseOrder', name: 'Purchase Order', element: PurchaseOrder, exact: true },
-  { path: '/LineMaster', name: 'Line Master', element: LineMaster, exact: true },
-  { path: '/GodownMaster', name: 'Godown Master', element: GodownMaster, exact: true },
+  { path: '/LineMaster', name: 'Line', element: LineMaster, exact: true },
+  { path: '/GodownMaster', name: 'Godown', element: GodownMaster, exact: true },
   { path: '/AddPurchaseOrder', name: 'Add Purchase Order', element: AddPurchaseOrder, exact: true },
   { path: '/EditPurchaseOrder', name: 'Edit Purchase Order', element: EditPurchaseOrder, exact: true },
   { path: '/GRNReceived', name: 'GRN Received', element: GRNReceivedList, exact: true },
@@ -139,8 +139,8 @@ const routes = [
   { path: '/DispatchDetails', name: 'Dispatch Details ', element: DispatchDetailsList, exact: true },
   { path: '/AddDispatchDetails', name: 'Add Dispatch Details ', element: AddDispatchDetails, exact: true },
   { path: '/EditDispatchDetails', name: 'Edit Dispatch Details ', element: EditDispatchDetails, exact: true },
-  { path: '/VendorCategoryMaster', name: 'Vendor / Material Category Master ', element: VendorCategoryMaster, exact: true },
-  { path: '/VendorSubCategoryMaster', name: 'Vendor / Material Subcategory Master ', element: VendorSubCategoryMaster, exact: true },
+  { path: '/VendorCategoryMaster', name: 'Vendor / Material Category ', element: VendorCategoryMaster, exact: true },
+  { path: '/VendorSubCategoryMaster', name: 'Vendor / Material Subcategory ', element: VendorSubCategoryMaster, exact: true },
 
   { path: '/BomPdf', name: 'PDF', element: BomPdf, exact: true },
 

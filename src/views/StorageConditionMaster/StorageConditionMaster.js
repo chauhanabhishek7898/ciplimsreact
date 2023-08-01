@@ -68,11 +68,12 @@ function StorageConditionMaster() {
         let currentURL = window.location.href;
         // let splitcurrentURL = currentURL.split('/')[4]
         let splitcurrentURL
-        if(apiUrlAddEdit=='http://localhost:3000'){
+        // if(apiUrlAddEdit=='http://localhost:3000'){
             splitcurrentURL = currentURL.split('/')[4] 
-        }else{
-            splitcurrentURL = currentURL.split('/')[2]
-        }
+            console.log('parsedArray:', window.location.href);
+        // }else{
+        //     splitcurrentURL = currentURL.split('/')[2]
+        // }
         let filterLinks = parsedArray.filter(e => e.vPageName == splitcurrentURL)
         console.log('filterLinks:', filterLinks[0].btEditRights);
         // setEnableActions(filterLinks)
@@ -248,7 +249,7 @@ function StorageConditionMaster() {
                 ariaHideApp={false}
             >
                 <div className='displayright'>
-                    <div><span className='title'>Storage Condition Master</span></div>
+                    <div><span className='title'>Storage Condition</span></div>
                     <HighlightOffIcon fontSize='large' onClick={() => setIsOpen(false)} />
                 </div>
                 <div className='displayflexend mt-4'>

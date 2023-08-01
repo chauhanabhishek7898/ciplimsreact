@@ -555,7 +555,7 @@ function VenderForm() {
                 contentLabel="Example Modal"
             >
                 <div className='displayright mb-4'>
-                    <div><span className='title'>Vendor Master</span></div>
+                    <div><span className='title'>Vendor</span></div>
                     <HighlightOffIcon fontSize='large' onClick={() => setIsOpen(false)} />
                 </div>
                 <div className='displayflexend'>
