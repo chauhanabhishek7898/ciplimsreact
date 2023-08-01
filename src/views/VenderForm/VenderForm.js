@@ -733,14 +733,14 @@ function VenderForm() {
                 <div className='displayflexend borderTop' >
                     <Box className='inputBox-3'>
                         <FormControl fullWidth className='input'>
-                            <InputLabel id="demo-simple-select-label" required sx={muiStyles.InputLabels}>Service</InputLabel>
+                            <InputLabel id="demo-simple-select-label" required sx={muiStyles.InputLabels}>Material Group</InputLabel>
                             <Select
                                 sx={muiStyles.select}
                                 style={{ width: '100%', }}
                                 labelId="demo-simple-select-label"
                                 id="demo-simple-select"
                                 value={MaterialType}
-                                label="Select Service"
+                                label="Select Material Group"
                                 onChange={handleChange}
                             >
                                 {vMaterialTypeData.map((item, index) => {

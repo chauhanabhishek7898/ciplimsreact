@@ -275,7 +275,7 @@ function BomMasterList() {
                                     <TableCell align="left" sx={muiStyles.tableHead} >Material Detail</TableCell>
                                     <TableCell align="left" sx={muiStyles.tableHead} >SU of Concentrate</TableCell>
                                     <TableCell align="left" sx={muiStyles.tableHead} >BOM of Concentrate</TableCell>
-                                    <TableCell align="left" sx={muiStyles.tableHead} >Requirement in CS</TableCell>
+                                    {/* <TableCell align="left" sx={muiStyles.tableHead} >Requirement in CS</TableCell> */}
                                     <TableCell align="left" sx={muiStyles.tableHead} >Unit</TableCell>
                                     <TableCell align="left" sx={muiStyles.tableHead} >Remarks</TableCell>
                                     <TableCell align="left" sx={muiStyles.tableHead} >BOM Copy</TableCell>
@@ -304,7 +304,7 @@ function BomMasterList() {
                                                 <TableCell align="left" sx={muiStyles.tableBody}>{item.MatDetail}</TableCell>
                                                 <TableCell align="left" sx={muiStyles.tableBody}>{item.nSUofConcentrate}</TableCell>
                                                 <TableCell align="left" sx={muiStyles.tableBody}>{item.nBOMofConcentrate}</TableCell>
-                                                <TableCell align="left" sx={muiStyles.tableBody}>{item.nRequirementinCS}</TableCell>
+                                                {/* <TableCell align="left" sx={muiStyles.tableBody}>{item.nRequirementinCS}</TableCell> */}
                                                 <TableCell align="left" sx={muiStyles.tableBody}>{item.vUnit}</TableCell>
                                                 <TableCell align="left" sx={muiStyles.tableBody}>{item.vRemarks}</TableCell>
                                                 <TableCell align="left" sx={muiStyles.tableBody}> <a href={imageUrl + '/' + item.vBOMCopyFilePath} target="_blank" rel="noopener noreferrer" style={{ marginLeft: 10 }}>{item.vBOMCopyFilePath != null && item.vBOMCopyFilePath != '' ? 'BOM Copy' : null}</a> </TableCell>
