@@ -55,7 +55,7 @@ import Autocomplete from '@mui/material/Autocomplete';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import { confirmAlert } from 'react-confirm-alert';
-import {apiUrlAddEdit} from '../../coreservices/environment'
+import { apiUrlAddEdit } from '../../coreservices/environment'
 function VenderForm() {
     let Heading = [['SN.', 'Vendor Code', 'Vendor Name', 'Vendor Address', 'Contact Person', 'Mobile No', 'Email Id', 'GST No', 'Remarks', 'Status']];
     const [modalIsOpen, setIsOpen] = React.useState(false);
@@ -100,6 +100,11 @@ function VenderForm() {
     const [subcategoryMasterDetail, setsubcategoryMasterDetail] = React.useState('');
     const [subcategoryMasterId, setsubcategoryMasterId] = React.useState('');
     const [nCid, setnCid] = React.useState('');
+
+    const [modalIsOpen2, setIsOpen2] = React.useState(false);
+    const [modalIsOpen3, setIsOpen3] = React.useState(false);
+    const [modalIsOpen4, setIsOpen4] = React.useState(false);
+
     const [errorText, setError] = React.useState({
         MaterialType: '',
         MaterialDetail: '',
@@ -176,9 +181,9 @@ function VenderForm() {
     const checkedonlyActive = (event) => {
         setonlyActive(event.target.checked)
         checkedData = event.target.checked
-        getVendorMaster_SelectAll() 
+        getVendorMaster_SelectAll()
     }
-    useEffect(() => { 
+    useEffect(() => {
         getVendorMaster_SelectAll()
         let storedArray = localStorage.getItem('linkAccess');
         const parsedArray = JSON.parse(storedArray);
@@ -186,16 +191,18 @@ function VenderForm() {
         // let splitcurrentURL = currentURL.split('/')[4]
         let splitcurrentURL
         // if(apiUrlAddEdit=='http://localhost:3000'){
-            splitcurrentURL = currentURL.split('/')[4] 
-            console.log('parsedArray:', window.location.href);
+        splitcurrentURL = currentURL.split('/')[4]
+        console.log('parsedArray:', window.location.href);
         // }else{
         //     splitcurrentURL = currentURL.split('/')[2]
         // }
         let filterLinks = parsedArray.filter(e => e.vPageName == splitcurrentURL)
         console.log('filterLinks:', filterLinks[0].btEditRights);
         // setEnableActions(filterLinks)
-       if(filterLinks){ setbtSaveRights(filterLinks[0].btSaveRights)
-        setbtEditRights(filterLinks[0].btEditRights) }
+        if (filterLinks) {
+            setbtSaveRights(filterLinks[0].btSaveRights)
+            setbtEditRights(filterLinks[0].btEditRights)
+        }
 
     }, [])
     const getVendorMaster_SelectAll = () => {
@@ -230,9 +237,9 @@ function VenderForm() {
     const requestSearch = (searchedVal) => {
         if (searchedVal.length > 0) {
             const filteredRows = vendorData.filter((row) => {
-                return row.vVendorCode.toLowerCase().includes(searchedVal.toLowerCase()) || row.MaterialTypes.toLowerCase().includes(searchedVal.toLowerCase()) || row.Categories.toLowerCase().includes(searchedVal.toLowerCase()) 
-                // || row.SubCategories.toLowerCase().includes(searchedVal.toLowerCase()) 
-                || row.vVendorAddress.toLowerCase().includes(searchedVal.toLowerCase()) || row.vContactPerson.toLowerCase().includes(searchedVal.toLowerCase()) || row.vMobileNo.toLowerCase().includes(searchedVal.toLowerCase()) || row.vEmailId.toLowerCase().includes(searchedVal.toLowerCase()) || row.vGSTNo.toLowerCase().includes(searchedVal.toLowerCase()) || row.vRemarks.toLowerCase().includes(searchedVal.toLowerCase());
+                return row.vVendorCode.toLowerCase().includes(searchedVal.toLowerCase()) || row.MaterialTypes.toLowerCase().includes(searchedVal.toLowerCase()) || row.Categories.toLowerCase().includes(searchedVal.toLowerCase())
+                    // || row.SubCategories.toLowerCase().includes(searchedVal.toLowerCase()) 
+                    || row.vVendorAddress.toLowerCase().includes(searchedVal.toLowerCase()) || row.vContactPerson.toLowerCase().includes(searchedVal.toLowerCase()) || row.vMobileNo.toLowerCase().includes(searchedVal.toLowerCase()) || row.vEmailId.toLowerCase().includes(searchedVal.toLowerCase()) || row.vGSTNo.toLowerCase().includes(searchedVal.toLowerCase()) || row.vRemarks.toLowerCase().includes(searchedVal.toLowerCase());
             });
             setVendorData(filteredRows);
         } else {
@@ -244,7 +251,18 @@ function VenderForm() {
         requestSearch(searched);
         getVendorMaster_SelectAll()
     };
+    const openSubmitmodale = () => {
+        if (buttonName == 'Submit') {
+            if (validateVenderDetailForm() == true) {
 
+                setIsOpen2(true)
+            }
+        } else {
+            setIsOpen3(true)
+        }
+
+
+    }
     const submit = () => {
 
         let vendor = {
@@ -279,68 +297,69 @@ function VenderForm() {
             else {
                 if (validateVenderDetailForm() == true) {
 
-                    confirmAlert({
-                        title: 'Alert !!',
-                        message: 'Do you want to Add ?',
-                        buttons: [
-                            {
-                                label: 'Yes',
-                                onClick: () => {
-                                    setLoader(true)
-                                    VendorMasterPost(vendor).then(res => {
-                                        if (res) {
-                                            console.log('res', res[0].VendorId)
-                                            toast.success("Record Added Successfully !!")
-                                            setLoader(false)
-                                            // setIsOpen(false)
-                                            setsecondtimeSubmit(true)
-                                            setMaterialType('')
-                                            setCategoryDetail('')
-                                            setSubCategory('')
-                                            vendorMaster_GetVendorById(res[0].VendorId)
-                                            getVendorMaster_SelectAll()
+                    // confirmAlert({
+                    //     title: 'Alert !!',
+                    //     message: 'Do you want to Add ?',
+                    //     buttons: [
+                    //         {
+                    //             label: 'Yes',
+                    //             onClick: () => {
+                    setLoader(true)
+                    VendorMasterPost(vendor).then(res => {
+                        if (res) {
+                            console.log('res', res[0].VendorId)
+                            toast.success("Record Added Successfully !!")
+                            setLoader(false)
+                            setIsOpen2(false)
+                            setsecondtimeSubmit(true)
+                            setMaterialType('')
+                            setCategoryDetail('')
+                            setSubCategory('')
+                            vendorMaster_GetVendorById(res[0].VendorId)
+                            getVendorMaster_SelectAll()
 
-                                        }
-                                    })
+                        }
+                    })
 
-                                }
-                            },
-                            {
-                                label: 'No',
-                                onClick: () => { return null }
-                            }
-                        ]
-                    });
+                    //             }
+                    //         },
+                    //         {
+                    //             label: 'No',
+                    //             onClick: () => { return null }
+                    //         }
+                    //     ]
+                    // });
                 }
 
 
             }
         } else {
-            confirmAlert({
-                title: 'Alert !!',
-                message: 'Do you want to Edit ?',
-                buttons: [
-                    {
-                        label: 'Yes',
-                        onClick: () => {
-                            setLoader(true)
-                            VendorMasterPut(vendor).then(res => {
-                                if (res) {
-                                    toast.success("Record Updated Successfully !!")
-                                    setLoader(false)
-                                    setIsOpen(false)
-                                    getVendorMaster_SelectAll()
-                                }
-                            })
+            // confirmAlert({
+            //     title: 'Alert !!',
+            //     message: 'Do you want to Edit ?',
+            //     buttons: [
+            //         {
+            //             label: 'Yes',
+            //             onClick: () => {
+            setLoader(true)
+            VendorMasterPut(vendor).then(res => {
+                if (res) {
+                    toast.success("Record Updated Successfully !!")
+                    setLoader(false)
+                    setIsOpen(false)
+                    setIsOpen3(false)
+                    getVendorMaster_SelectAll()
+                }
+            })
 
-                        }
-                    },
-                    {
-                        label: 'No',
-                        onClick: () => { return null }
-                    }
-                ]
-            });
+            //             }
+            //         },
+            //         {
+            //             label: 'No',
+            //             onClick: () => { return null }
+            //         }
+            //     ]
+            // });
 
 
         }
@@ -356,16 +375,26 @@ function VenderForm() {
                 MaterialDetail: 'Select Category*'
             })
             return false
-        // } else if (SubCategory == '' || SubCategory == undefined) {
-        //     setError({
-        //         subCategory: 'Select Subcategory*'
-        //     })
-        //     return false
+            // } else if (SubCategory == '' || SubCategory == undefined) {
+            //     setError({
+            //         subCategory: 'Select Subcategory*'
+            //     })
+            //     return false
         } else {
             setError('')
             return true
         }
     }
+
+    const openEditmodale = () => {
+        if (buttonName == 'Update') {
+            if (validateVenderDetailForm() == true) {
+
+                setIsOpen4(true)
+            }
+        }
+    }
+
     const vendorDetail_UpdatePut = () => {
         if (validateVenderDetailForm() == true) {
 
@@ -377,19 +406,20 @@ function VenderForm() {
                 btDActive: btDActive,
 
             }
-            confirmAlert({
-                title: 'Alert !!',
-                message: 'Do you want to Edit ?',
-                buttons: [
-                    {
-                        label: 'Yes',
-                        onClick: () => {
+            // confirmAlert({
+            //     title: 'Alert !!',
+            //     message: 'Do you want to Edit ?',
+            //     buttons: [
+            //         {
+            //             label: 'Yes',
+            //             onClick: () => {
                             setLoader5(true)
                             VendorDetail_UpdatePut(vendor).then(res => {
                                 if (res) {
                                     toast.success("Record Updated Successfully !!")
                                     setLoader5(false)
                                     setIsOpen(false)
+                                    setIsOpen4(false)
                                     setMaterialType('')
                                     setCategoryDetail('')
                                     setSubCategory('')
@@ -397,17 +427,14 @@ function VenderForm() {
                                 }
                             })
 
-                        }
-                    },
-                    {
-                        label: 'No',
-                        onClick: () => { return null }
-                    }
-                ]
-            });
-
-
-
+            //             }
+            //         },
+            //         {
+            //             label: 'No',
+            //             onClick: () => { return null }
+            //         }
+            //     ]
+            // });
 
         }
     }
@@ -539,7 +566,7 @@ function VenderForm() {
     return (
         <div className='citymasterContainer'>
             <div className='add_export'>
-                <button className={btSaveRights == false?'submitbtn_exp notAllow':'submitbtn_exp'} onClick={() => openmodale(null, 'Submit')} title='Add' disabled={btSaveRights == false}><AddIcon fontSize='small' /><span className='addFont'>Add</span></button>
+                <button className={btSaveRights == false ? 'submitbtn_exp notAllow' : 'submitbtn_exp'} onClick={() => openmodale(null, 'Submit')} title='Add' disabled={btSaveRights == false}><AddIcon fontSize='small' /><span className='addFont'>Add</span></button>
                 <ExportExcel excelData={vendorData} Heading={Heading} fileName={'Vendor_Master'} />
             </div>
             {loader2 == true ?
@@ -701,7 +728,10 @@ function VenderForm() {
                             :
                             <div>
                                 {buttonName == 'Update' ?
-                                    <button type="submit" className='submitbtn' onClick={handleSubmit(submit)}>{buttonName}</button>
+                                    <button type="submit" className='submitbtn'
+                                        onClick={handleSubmit(openSubmitmodale)}
+                                    //  onClick={handleSubmit(submit)}
+                                    >{buttonName}</button>
                                     : null
                                 }
                             </div>
@@ -776,7 +806,7 @@ function VenderForm() {
                                 onInputChange={(event, newInputValue) => {
                                     // setInputValue(newInputValue);
                                     // if (newInputValue.length >= 3) {
-                                        categoryMaster_ActiveLikeSearch(newInputValue)
+                                    categoryMaster_ActiveLikeSearch(newInputValue)
 
                                     // }
                                     console.log('newInputValue', newInputValue)
@@ -823,7 +853,10 @@ function VenderForm() {
                                     :
                                     <div>
                                         {buttonName == 'Submit' ?
-                                            <button type="submit" className='addbtn' onClick={handleSubmit(submit)}><AddIcon fontSize='small' /></button>
+                                            <button type="submit" className='addbtn'
+                                                onClick={handleSubmit(openSubmitmodale)}
+                                            // onClick={handleSubmit(submit)}
+                                            ><AddIcon fontSize='small' /></button>
                                             : null
                                         }
                                     </div>
@@ -911,7 +944,10 @@ function VenderForm() {
                                 :
                                 <div>
                                     {buttonName == 'Submit' ?
-                                        <button type="submit" className='submitbtn' onClick={handleSubmit(submit)}>{buttonName}</button>
+                                        <button type="submit" className='submitbtn'
+                                            onClick={handleSubmit(openSubmitmodale)}
+                                        // onClick={handleSubmit(submit)}
+                                        >{buttonName}</button>
                                         : null
                                     }
                                 </div>
@@ -931,7 +967,10 @@ function VenderForm() {
                         :
                         <div>
                             {buttonName == 'Update' ?
-                                <button type="submit" className='submitbtn' onClick={vendorDetail_UpdatePut}>{buttonName}</button>
+                                <button type="submit" className='submitbtn'
+                                    onClick={openEditmodale}
+                                //  onClick={vendorDetail_UpdatePut}
+                                >{buttonName}</button>
                                 : null
 
                             }
@@ -992,7 +1031,7 @@ function VenderForm() {
                                                 {/* <TableCell align="left" sx={muiStyles.tableBody}>{item.SubCategories}</TableCell> */}
                                                 <TableCell align="left" sx={muiStyles.tableBody}><a data-tooltip-id="my-tooltip" data-tooltip-content={item.vRemarks}>{(item.vRemarks.length > 10) ? (item.vRemarks.slice(0, 10)) + '...' : (item.vRemarks)}</a><Tooltip id="my-tooltip" place="bottom" /></TableCell>
                                                 <TableCell align="left" sx={muiStyles.tableBody}>{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
-                                                <TableCell align="left" sx={muiStyles.tableBody}><button onClick={() => openmodale(item, 'Update')} disabled={btEditRights == false} className={btEditRights == false?'editbtn notAllow':'editbtn'}><TbEdit size={20} color='#000' /></button></TableCell>
+                                                <TableCell align="left" sx={muiStyles.tableBody}><button onClick={() => openmodale(item, 'Update')} disabled={btEditRights == false} className={btEditRights == false ? 'editbtn notAllow' : 'editbtn'}><TbEdit size={20} color='#000' /></button></TableCell>
                                             </TableRow>
                                         )
                                     })
@@ -1019,6 +1058,55 @@ function VenderForm() {
                 </Paper>
             </div>
             <ToastContainer />
+            <Modal
+                isOpen={modalIsOpen4}
+                style={customStyles1}
+                contentLabel="Example Modal"
+                ariaHideApp={false}
+            >
+                <div className='displayright'>
+                    <div><span className='title'>Alert !!</span></div>
+                    <HighlightOffIcon fontSize='large' onClick={() => setIsOpen4(false)} />
+                </div>
+                <div className='alertmsg'><p>Do you want to Edit ?</p></div>
+                <div className='alertButton' >
+                    <button type="submit" className='alertYes' onClick={vendorDetail_UpdatePut}>Yes</button>
+                    <button type="submit" className='alertno' onClick={() => setIsOpen4(false)}>No</button>
+                </div>
+            </Modal >
+            <Modal
+                isOpen={modalIsOpen3}
+                style={customStyles1}
+                contentLabel="Example Modal"
+                ariaHideApp={false}
+            >
+                <div className='displayright'>
+                    <div><span className='title'>Alert !!</span></div>
+                    <HighlightOffIcon fontSize='large' onClick={() => setIsOpen3(false)} />
+                </div>
+                <div className='alertmsg'><p>Do you want to Edit ?</p></div>
+                <div className='alertButton' >
+                    <button type="submit" className='alertYes' onClick={handleSubmit(submit)}>Yes</button>
+                    <button type="submit" className='alertno' onClick={() => setIsOpen3(false)}>No</button>
+                </div>
+            </Modal >
+            <Modal
+                isOpen={modalIsOpen2}
+                style={customStyles1}
+                contentLabel="Example Modal"
+                ariaHideApp={false}
+            >
+                <div className='displayright'>
+                    <div><span className='title'>Alert !!</span></div>
+                    <HighlightOffIcon fontSize='large' onClick={() => setIsOpen2(false)} />
+                </div>
+                <div className='alertmsg'><p>Do you want to Add ?</p></div>
+                <div className='alertButton' >
+                    <button type="submit" className='alertYes' onClick={handleSubmit(submit)}>Yes</button>
+                    <button type="submit" className='alertno' onClick={() => setIsOpen2(false)}>No</button>
+                </div>
+            </Modal >
+
         </div >
     )
 }
@@ -1167,6 +1255,17 @@ const muiStyles = {
                 fontSize: '14px'
             }
         }
+    },
+};
+const customStyles1 = {
+    content: {
+        top: '50%',
+        left: '50%',
+        right: 'auto',
+        bottom: 'auto',
+        marginRight: '-50%',
+        transform: 'translate(-50%, -50%)',
+        width: '30%',
     },
 };
 export default VenderForm

@@ -46,7 +46,7 @@ import { apiUrlAddEdit } from '../../coreservices/environment'
 
 function ProductMaster() {
 
-    let Heading = [['SN.', 'Brand Code', 'Brand Name', 'Category', 'Subcategory', 'Brand', 'Variant', 'Pack Name', 'UOM', 'Remarks', 'Status']];
+    let Heading = [['SN.', 'Brand Code', 'Brand Name', 'Category', 'Subcategory', 'Brand', 'Variant', 'SKU', 'UOM', 'Remarks', 'Status']];
     const [modalIsOpen, setIsOpen] = React.useState(false);
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -710,14 +710,14 @@ function ProductMaster() {
                     </Box>
                     <Box className='inputBox-6'>
                         <FormControl fullWidth className='input'>
-                            <InputLabel required id="demo-simple-select-label" sx={muiStyles.InputLabels}>Brand</InputLabel>
+                            <InputLabel required id="demo-simple-select-label" sx={muiStyles.InputLabels}>Brand Unit</InputLabel>
                             <Select
                                 sx={muiStyles.select}
                                 style={{ width: '100%', }}
                                 labelId="demo-simple-select-label"
                                 id="demo-simple-select"
                                 value={vBrandName}
-                                label="Select Brand"
+                                label="Select Brand Unit"
                                 onChange={handleChangeBrand}
                                 name='nBId' >
                                 {brandData.map((item, index) => {
@@ -798,7 +798,7 @@ function ProductMaster() {
 
                                     }
                                 }}
-                                renderInput={(params) => <TextField {...params} label="Search Pack" required />}
+                                renderInput={(params) => <TextField {...params} label="Search SKU" required />}
                             />
                             {errorText.PackLabel != '' ? <p className='error'>{errorText.PackLabel}</p> : null}
                         </FormControl>
@@ -887,9 +887,9 @@ function ProductMaster() {
                                         <TableCell align="left" sx={muiStyles.tableHead}>Brand Name</TableCell>
                                         <TableCell align="left" sx={muiStyles.tableHead}>Category</TableCell>
                                         <TableCell align="left" sx={muiStyles.tableHead}>Subcategory</TableCell>
-                                        <TableCell align="left" sx={muiStyles.tableHead}>Brand</TableCell>
+                                        <TableCell align="left" sx={muiStyles.tableHead}>Brand Unit</TableCell>
                                         <TableCell align="left" sx={muiStyles.tableHead}>Variant</TableCell>
-                                        <TableCell align="left" sx={muiStyles.tableHead}>Pack Name</TableCell>
+                                        <TableCell align="left" sx={muiStyles.tableHead}>SKU</TableCell>
                                         <TableCell align="left" sx={muiStyles.tableHead}>UOM</TableCell>
 
 
