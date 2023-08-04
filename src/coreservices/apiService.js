@@ -76,7 +76,6 @@ let token = await localStorage.getItem('token');
             return response;
         })
         .catch(err => {
-            // alert(err)
             console.log(err);
         });
 }
