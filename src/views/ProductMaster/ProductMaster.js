@@ -10,7 +10,6 @@ import TablePagination from '@mui/material/TablePagination';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import Paper from '@mui/material/Paper';
-import { MaterialMasterPost, MaterialMasterPut, MaterialMaster_SelectAll } from '../MaterialMaster/MaterialMasterService'
 import { UnitMaster_SelectAll_Active, StorageConditionMaster_SelectAll_Active } from '../UnitMaster/UnitMasterApi'
 import { ProductCategoryMaster_SelectAll, ProductMasterPost, GetProductSubCategory, ProductMasterPut, ProductMaster_SelectAll } from './ProductMasterApi'
 import { VarientMaster_ActiveLikeSearch, VarientMaster_SelectAll_Active } from '../VarientMaster/VarientMasterApi'
@@ -26,7 +25,6 @@ import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
-import BorderColorIcon from '@mui/icons-material/BorderColor';
 import AddIcon from '@mui/icons-material/Add';
 import { useForm } from 'react-hook-form';
 import { ToastContainer, toast } from 'react-toastify';
@@ -34,15 +32,11 @@ import 'react-toastify/dist/ReactToastify.css';
 import { CButton, CSpinner } from '@coreui/react';
 import SearchBar from "material-ui-search-bar";
 import dayjs from 'dayjs';
-import Stack from '@mui/material/Stack';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import { parseDateToString } from '../../coreservices/Date';
 import ExportExcel from 'src/shareFunction/Excelexport';
 import CircularProgress from '@mui/joy/CircularProgress';
 import { TbEdit } from "react-icons/tb";
-import { apiUrlAddEdit } from '../../coreservices/environment'
+import { ProductSubCategoryMaster_ActiveLikeSearch } from '../ProductSubCategoryMaster/ProductSubCategoryMasterapi';
 
 function ProductMaster() {
 
@@ -54,12 +48,8 @@ function ProductMaster() {
     const [masterbrandData, setMasterBrandData] = React.useState([]);
     const [loader, setLoader] = React.useState(false);
     const [loader2, setLoader2] = React.useState(false);
-    const [nMId, setnMId] = React.useState(0);
     const [btActive, setBtActive] = React.useState(true);
     const [brandName, setbrandName] = React.useState("");
-    const [vMCode, setvMCode] = React.useState("");
-    const [vMName, setvMName] = React.useState("");
-    const [vHSNCode, setvHSNCode] = React.useState("");
     const [vProductName, setvProductName] = React.useState("");
     const [vProductCode, setvProductCode] = React.useState("");
     const [vRemarks, setvRemarks] = React.useState("");
@@ -76,8 +66,6 @@ function ProductMaster() {
     const [toDate, setTodate] = React.useState(dayjs(toDates));
     let startDates = new Date(Date.now())
     let endDates = new Date(Date.now())
-    const [startDate, setStartDate] = React.useState(dayjs(startDates));
-    const [endDate, setEndDate] = React.useState(dayjs(endDates));
     const [koMonthData, setkoMonthData] = React.useState([]);
     const [weekNumberId, setWeekNumberId] = React.useState('');
     const [nPDId, setnPDId] = React.useState('');
@@ -111,6 +99,88 @@ function ProductMaster() {
     const [SubCategoryData, setSubCategoryData] = React.useState([]);
     const [SubCategory, setSubCategory] = React.useState("");
     const [SubCategoryId, setSubCategoryId] = React.useState("");
+    const [uniteData, setUnitData] = React.useState([]);
+    const [vUOM, setvUOM] = React.useState("");
+    const [vUOMId, setvUOMId] = React.useState("");
+    const [StorageConditionData, setStorageConditionData] = React.useState([]);
+
+    useEffect(() => {
+        getMaterialMaster_SelectAll()
+        let storedArray = localStorage.getItem('linkAccess');
+        const parsedArray = JSON.parse(storedArray);
+        let currentURL = window.location.href;
+        // let splitcurrentURL = currentURL.split('/')[4]
+        let splitcurrentURL
+        // if(apiUrlAddEdit=='http://localhost:3000'){
+        splitcurrentURL = currentURL.split('/')[4]
+        // console.log('parsedArray:', window.location.href);
+        // }else{
+        //     splitcurrentURL = currentURL.split('/')[2]
+        // }
+        let filterLinks = parsedArray.filter(e => e.vPageName == splitcurrentURL)
+        // console.log('filterLinks:', filterLinks[0].btEditRights);
+        // setEnableActions(filterLinks)
+        if (filterLinks) {
+            setbtSaveRights(filterLinks[0].btSaveRights)
+            setbtEditRights(filterLinks[0].btEditRights)
+        }
+    }, [])
+
+    useEffect(() => {
+        const userId = localStorage.getItem("nUserId")
+        setnLoggedInUserId(userId)
+    }, [])
+
+    useEffect(() => {
+        getVarientMaster_SelectAll_Active()
+    }, [])
+
+    useEffect(() => {
+        getBrandMaster_SelectAll()
+    }, [])
+
+    useEffect(() => {
+        getCategoryMaster_SelectAll()
+    }, [])
+
+    useEffect(() => {
+        getUnitMaster_SelectAll()
+    }, [])
+
+    useEffect(() => {
+        getStorageConditionMaster_SelectAll_Active()
+    }, [])
+
+    useEffect(() => {
+        productCategoryMaster_ActiveLikeSearch(null)
+    }, [])
+
+    useEffect(() => {
+        packMaster_SelectAll_ActiveLikeSearch(null)
+    }, [])
+
+    const checkedonlyActive = (event) => {
+        setonlyActive(event.target.checked)
+        checkedData = event.target.checked
+        getMaterialMaster_SelectAll()
+    }
+
+    const getMaterialMaster_SelectAll = () => {
+        setLoader2(true)
+        ProductMaster_SelectAll().then(response => {
+            if (checkedData == true) {
+                let activeData = response.filter(e => e.btActive == true)
+                setProductData(activeData)
+                setMasterBrandData(activeData)
+                setLoader2(false)
+            } else {
+                let inactiveData = response.filter(e => e.btActive == false)
+                setProductData(inactiveData)
+                setMasterBrandData(inactiveData)
+                setLoader2(false)
+            }
+        })
+    }
 
     const handleChangeBrand = (event) => {
         const selectedId = event.target.value;
@@ -122,12 +192,6 @@ function ProductMaster() {
         setvBrandNameId(item.nBId)
     };
 
-    const changeVarientMasterValue = (event) => {
-        // setVariantMasterLabel(value.value)
-        setVariantMasterLabel(value == null ? '' : value.label)
-        // setvPack(value.label)
-        setError('')
-    }
     const handleChangeVariant = (event) => {
         const selectedId = event.target.value;
         setVariantMasterLabel(selectedId)
@@ -138,22 +202,9 @@ function ProductMaster() {
         setVariantId(item.nVRId)
     };
 
-    const handleChangeCategory = (event) => {
-        const selectedId = event.target.value;
-        setvCategory(selectedId)
-    };
-
-    const handleBlurC = (item) => {
-        // console.log("itemitemitem", item)
-        setvCategory(item.vPDCategoryName)
-        setvCategoryId(item.nPDCId)
-        getSubCategoryMaster_SelectAll(item.nPDCId)
-    };
-
     const handleChangeSubCategory = (event) => {
         const selectedId = event.target.value;
         setSubCategoryId(selectedId)
-        const selectedValue = SubCategoryData.find((item) => item.vPDSubCategoryName === selectedId);
     };
 
     const handleBlurSC = (item) => {
@@ -161,119 +212,17 @@ function ProductMaster() {
         setSubCategoryId(item.nPDSCId)
     };
 
-    const [uniteData, setUnitData] = React.useState([]);
-    const [vUOM, setvUOM] = React.useState("");
-    const [vUOMId, setvUOMId] = React.useState("");
-
-    const handleChangePackUnit = (event) => {
-        const selectedId = event.target.value;
-        setvUOM(selectedId)
-        const selectedValue = uniteData.find((item) => item.vUnitName === selectedId);
-        // console.log("selectedValue", selectedValue)
-    };
-
-    const handleBlurU = (item) => {
-        // console.log("itemitemitem", item)
-        setvUOM(item.vUnitName)
-        setvUOMId(item.nUId)
-    };
-
-
-    const [StorageConditionData, setStorageConditionData] = React.useState([]);
-    const [StorageCondition, setStorageCondition] = React.useState("");
-    const [StorageConditionId, setStorageConditionId] = React.useState("");
-
-    const handleChangeStorageCondition = (event) => {
-        const selectedId = event.target.value;
-        setStorageCondition(selectedId)
-        const selectedValue = StorageConditionData.find((item) => item.vStorageCondition === selectedId);
-        // console.log("selectedValue", selectedValue)
-    };
-
-    const handleBlurS = (item) => {
-        // console.log("itemitemitem", item)
-        setStorageCondition(item.vStorageCondition)
-        setStorageConditionId(item.nSCId)
-    };
-
-    useEffect(() => {
-        const userId = localStorage.getItem("nUserId")
-        setnLoggedInUserId(userId)
-    }, [])
-    const checkedonlyActive = (event) => {
-        setonlyActive(event.target.checked)
-        checkedData = event.target.checked
-        getMaterialMaster_SelectAll()
-    }
-
-    useEffect(() => {
-        getMaterialMaster_SelectAll()
-
-        let storedArray = localStorage.getItem('linkAccess');
-        const parsedArray = JSON.parse(storedArray);
-        let currentURL = window.location.href;
-        // let splitcurrentURL = currentURL.split('/')[4]
-        let splitcurrentURL
-        // if(apiUrlAddEdit=='http://localhost:3000'){
-        splitcurrentURL = currentURL.split('/')[4]
-        console.log('parsedArray:', window.location.href);
-        // }else{
-        //     splitcurrentURL = currentURL.split('/')[2]
-        // }
-        let filterLinks = parsedArray.filter(e => e.vPageName == splitcurrentURL)
-        console.log('filterLinks:', filterLinks[0].btEditRights);
-        // setEnableActions(filterLinks)
-        if (filterLinks) {
-            setbtSaveRights(filterLinks[0].btSaveRights)
-            setbtEditRights(filterLinks[0].btEditRights)
-        }
-
-    }, [])
-    const getMaterialMaster_SelectAll = () => {
-        setLoader2(true)
-        ProductMaster_SelectAll().then(response => {
-            if (checkedData == true) {
-                // console.log("MaterialMaster_SelectAll", response)
-                let activeData = response.filter(e => e.btActive == true)
-                setProductData(activeData)
-                setMasterBrandData(activeData)
-                setLoader2(false)
-            } else {
-                let inactiveData = response.filter(e => e.btActive == false)
-                setProductData(inactiveData)
-                setMasterBrandData(inactiveData)
-                setLoader2(false)
-
-            }
-        })
-    }
-
-
-    useEffect(() => {
-        getVarientMaster_SelectAll_Active()
-    }, [])
-
     const getVarientMaster_SelectAll_Active = () => {
         VarientMaster_SelectAll_Active().then(response => {
             setVariantMaster(response)
         })
     }
 
-
-    useEffect(() => {
-        getBrandMaster_SelectAll()
-    }, [])
-
     const getBrandMaster_SelectAll = () => {
         BrandMaster_SelectAll().then(response => {
             setBrandData(response)
         })
     }
-
-
-    useEffect(() => {
-        getCategoryMaster_SelectAll()
-    }, [])
 
     const getCategoryMaster_SelectAll = () => {
         ProductCategoryMaster_SelectAll().then(response => {
@@ -283,17 +232,10 @@ function ProductMaster() {
 
     const getSubCategoryMaster_SelectAll = (nPDCId) => {
         GetProductSubCategory(nPDCId).then(response => {
+            console.log("GetProductSubCategory", response)
             setSubCategoryData(response)
-
-            // const forselectionSC = response.find((item) => item.nCId === vCategoryId);
-            // console.log("response", response)
         })
     }
-
-
-    useEffect(() => {
-        getUnitMaster_SelectAll()
-    }, [])
 
     const getUnitMaster_SelectAll = () => {
         UnitMaster_SelectAll_Active().then(response => {
@@ -301,19 +243,12 @@ function ProductMaster() {
         })
     }
 
-
-    useEffect(() => {
-        getStorageConditionMaster_SelectAll_Active()
-    }, [])
-
     const getStorageConditionMaster_SelectAll_Active = () => {
         StorageConditionMaster_SelectAll_Active().then(response => {
             setStorageConditionData(response)
         })
     }
-    useEffect(() => {
-        productCategoryMaster_ActiveLikeSearch(null)
-    }, [])
+
     const productCategoryMaster_ActiveLikeSearch = (vGeneric) => {
         if (vGeneric != '') {
             vGeneric = vGeneric
@@ -332,11 +267,28 @@ function ProductMaster() {
             setvCategoryData(data)
             // getSubCategoryMaster_SelectAll(res[0].nPDCId)
         })
-
     }
-    useEffect(() => {
-        packMaster_SelectAll_ActiveLikeSearch(null)
-    }, [])
+
+    const productSubCategoryMaster_ActiveLikeSearch = (vGeneric) => {
+        if (vGeneric != '') {
+            vGeneric = vGeneric
+        } else {
+            vGeneric = null
+        }
+        ProductSubCategoryMaster_ActiveLikeSearch(vGeneric).then(res => {
+            let count = Object.keys(res).length
+            let data = []
+            for (var i = 0; i < count; i++) {
+                data.push({
+                    value: res[i].nVRId,
+                    label: res[i].vVarient,
+                    // label: res[i].MaterialDetail,       
+                })
+            }
+            setVariantMaster(data)
+        })
+    }
+
     const packMaster_SelectAll_ActiveLikeSearch = (vGeneric) => {
         if (vGeneric != '') {
             vGeneric = vGeneric
@@ -354,47 +306,24 @@ function ProductMaster() {
                 })
             }
             setPackMaster(data)
-
         })
-
     }
-    const varientMaster_SelectAll_ActiveLikeSearch = (vGeneric) => {
-        if (vGeneric != '') {
-            vGeneric = vGeneric
-        } else {
-            vGeneric = null
-        }
-        VarientMaster_ActiveLikeSearch(vGeneric).then(res => {
-            let count = Object.keys(res).length
-            let data = []
-            for (var i = 0; i < count; i++) {
-                data.push({
-                    value: res[i].nVRId,
-                    label: res[i].vVarient,
-                    // label: res[i].MaterialDetail,       
-                })
-            }
-            setVariantMaster(data)
-        })
-
-    }
-
 
     const changeProductCategoryValue = (value) => {
         // setnPackId(value == null ? '' : value.value)
         setvCategory(value == null ? '' : value.label)
-
         getSubCategoryMaster_SelectAll(value.value)
         setError('')
     }
+
     const changepackMasterValue = (value) => {
         setnPackId(value == null ? '' : value.value)
         setPackLabel(value == null ? '' : value.label)
         setunit(value == null ? '' : value.vUnit)
         setError('')
     }
-    const requestSearch = (searchedVal) => {
 
+    const requestSearch = (searchedVal) => {
         if (searchedVal.length > 0) {
             const filteredRows = ProductData.filter((row) => {
                 return row.vMCode.toLowerCase().includes(searchedVal.toLowerCase()) || row.vMName.toLowerCase().includes(searchedVal.toLowerCase()) || row.vCategory.toLowerCase().includes(searchedVal.toLowerCase()) || row.vMaterialType.toLowerCase().includes(searchedVal.toLowerCase());
@@ -409,7 +338,6 @@ function ProductMaster() {
             setnoRecord(false)
             setProductData(masterbrandData);
         }
-
     };
 
     const cancelSearch = () => {
@@ -418,10 +346,10 @@ function ProductMaster() {
         getMaterialMaster_SelectAll()
     };
 
-
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
     };
+
     const handleChangeRowsPerPage = (event) => {
         setRowsPerPage(+event.target.value);
         setPage(0);
@@ -444,6 +372,7 @@ function ProductMaster() {
             setdisabled(true)
             productCategoryMaster_ActiveLikeSearch(null)
         } else {
+            console.log("item.vPCategory", item.vPCategory)
             setIsOpen(true)
             setnPDId(item.nPDId)
             setvProductCode(item.vProductCode)
@@ -451,6 +380,12 @@ function ProductMaster() {
             setvCategory(item.vPCategory)
             productCategoryMaster_ActiveLikeSearch(item.vPCategory)
             setSubCategory(item.vPSubCategory)
+            console.log("vCategoryData", vCategoryData)
+            const forselectionSC = vCategoryData.find((items) => items.label === item.vPCategory);
+            console.log("forselectionSC", forselectionSC)
+            getSubCategoryMaster_SelectAll(forselectionSC.value)
+
+
             setvBrandName(item.vBrand)
             setVariantMasterLabel(item.vVarient)
             setPackLabel(item.vPackName)
@@ -497,7 +432,6 @@ function ProductMaster() {
             setError('')
             return true
         }
-
     }
     const submit = () => {
         if (validateform() == true) {
@@ -512,10 +446,8 @@ function ProductMaster() {
                 vRemarks: vRemarks,
                 btActive: btActive,
             }
-            console.log(brand)
             setLoader(true)
             if (buttonName == 'Submit') {
-
                 let existdata = [...ProductData]
                 let venderexist = existdata.find(e => e.vProductName == vProductName ||
                     e.vPCategory == vCategory &&
@@ -523,19 +455,14 @@ function ProductMaster() {
                     e.vBrand == vBrandName &&
                     e.vVarient == VariantMasterLabel &&
                     e.vPackName == PackLabel
-
                 )
-
                 let venderexistcode = existdata.find(e => e.vProductName == vProductName ||
                     e.vPCategory == vCategory &&
                     e.vPSubCategory == SubCategory &&
                     e.vBrand == vBrandName &&
                     e.vVarient == VariantMasterLabel &&
                     e.vPackName == PackLabel
-
                 )
-                // console.log('existdata', existdata)
-                // console.log('venderexist', venderexist, vProductName, vCategory, SubCategory, vBrandName, VariantMasterLabel, PackLabel)
                 if (venderexist != undefined) {
                     setLoader(false)
                     toast.success("This selection criteria already Exists. Brand name is unique; and selection of (Brand category, Brand Subcategory, Brand, variant, Pack) is unique.")
@@ -547,7 +474,6 @@ function ProductMaster() {
                 else {
                     ProductMasterPost(brand).then(res => {
                         if (res) {
-                            console.log('res', res)
                             toast.success("Record Added Successfully !!")
                             setLoader(false)
                             setIsOpen(false)
@@ -555,13 +481,11 @@ function ProductMaster() {
                         }
                     })
                 }
-
             } else {
                 setLoader(true)
                 ProductMasterPut(brand).then(res => {
 
                     if (res) {
-                        console.log('res', res)
                         toast.success("Record Updated Successfully !!")
                         setLoader(false)
                         setIsOpen(false)
@@ -569,18 +493,13 @@ function ProductMaster() {
                     }
                 })
             }
-
         }
-
     }
-
-
-
-
 
     const handleChange = (event) => {
         setWeekNumberId(event.target.value);
     };
+
     const addKoMonthDate = () => {
         if (validateform() == true) {
             let koMonth = [...koMonthData]
@@ -590,14 +509,10 @@ function ProductMaster() {
                 fromDate: parseDateToString(new Date(fromDate)),
                 toDate: parseDateToString(new Date(toDate)),
                 weekNumber: weekNumberId,
-
-
             })
-            console.log('koMonth', koMonth)
             setkoMonthData(koMonth)
         }
     }
-
 
     return (
         <div className='citymasterContainer'>
@@ -623,12 +538,10 @@ function ProductMaster() {
                 contentLabel="Example Modal"
                 ariaHideApp={false} >
 
-
                 <div className='displayright'>
                     <div><span className='title'>Brand</span></div>
                     <HighlightOffIcon fontSize='large' onClick={() => setIsOpen(false)} />
                 </div>
-
 
                 <div className='displayflexend mt-4'>
                     <Box className='inputBox-6'>
@@ -655,7 +568,6 @@ function ProductMaster() {
                                 label="Brand Name"
                                 variant="outlined"
                                 name='vProductName'
-
                             />
                             {errorText.vProductName != '' ? <p className='error'>{errorText.vProductName}</p> : null}
                         </FormControl>
@@ -663,22 +575,15 @@ function ProductMaster() {
                     <Box className='inputBox-6'>
 
                         <FormControl fullWidth className='input'>
-                            {/* <InputLabel required id="demo-simple-select-label">Item</InputLabel>  */}
                             <Autocomplete
                                 sx={muiStyles.autoCompleate}
                                 disablePortal
                                 id="combo-box-demo"
                                 options={vCategoryData}
                                 value={vCategory}
-                                // inputValue={MaterialDetail}
                                 onChange={(event, value) => changeProductCategoryValue(value)}
-                                // onKeyDown={newInputValue => varientMaster_SelectAll_ActiveLikeSearch(newInputValue)}
                                 onInputChange={(event, newInputValue) => {
-                                    // setInputValue(newInputValue);
-                                    // if (newInputValue.length >= 0) {
                                     productCategoryMaster_ActiveLikeSearch(newInputValue)
-
-                                    // }
                                 }}
                                 renderInput={(params) => <TextField {...params} label="Search Category" required />}
                             />
@@ -731,30 +636,6 @@ function ProductMaster() {
                         </FormControl>
                     </Box>
 
-
-                    {/* <Box className='inputBox-6' >
-                        <FormControl fullWidth className='input'>
-                            <Autocomplete
-                                sx={muiStyles.autoCompleate}
-                                disablePortal
-                                id="combo-box-demo"
-                                options={VariantMaster}
-                                value={VariantMasterLabel}
-                                onChange={(event, value) => changeVarientMasterValue(value)}
-                                onInputChange={(event, newInputValue) => {
-                                    if (newInputValue.length >= 3) {
-                                        varientMaster_SelectAll_ActiveLikeSearch(newInputValue)
-
-                                    }
-                                }}
-                                renderInput={(params) => <TextField {...params} label="Search Variant" required />}
-                            />
-                            {errorText.VariantMasterLabel != '' ? <p className='error'>{errorText.VariantMasterLabel}</p> : null}
-                        </FormControl>
-
-                    </Box> */}
-
-
                     <Box className='inputBox-6'>
                         <FormControl fullWidth className='input'>
                             <InputLabel required id="demo-simple-select-label" sx={muiStyles.InputLabels}>Varient</InputLabel>
@@ -778,24 +659,18 @@ function ProductMaster() {
                         </FormControl>
                     </Box>
 
-
                     <Box className='inputBox-6' >
                         <FormControl fullWidth className='input'>
-                            {/* <InputLabel required id="demo-simple-select-label">Item</InputLabel>  */}
                             <Autocomplete
                                 sx={muiStyles.autoCompleate}
                                 disablePortal
                                 id="combo-box-demo"
                                 options={PackMaster}
                                 value={PackLabel}
-                                // inputValue={MaterialDetail}
                                 onChange={(event, value) => changepackMasterValue(value)}
-                                // onKeyDown={newInputValue => packMaster_SelectAll_ActiveLikeSearch(newInputValue)}
                                 onInputChange={(event, newInputValue) => {
-                                    // setInputValue(newInputValue);
                                     if (newInputValue.length >= 0) {
                                         packMaster_SelectAll_ActiveLikeSearch(newInputValue)
-
                                     }
                                 }}
                                 renderInput={(params) => <TextField {...params} label="Search SKU" required />}
@@ -803,8 +678,6 @@ function ProductMaster() {
                             {errorText.PackLabel != '' ? <p className='error'>{errorText.PackLabel}</p> : null}
                         </FormControl>
                     </Box>
-
-
 
                     <Box className='inputBox-6'>
                         <FormControl fullWidth className='input' >
@@ -819,7 +692,6 @@ function ProductMaster() {
                         </FormControl>
                     </Box>
 
-
                     <Box className='inputBox-4'>
                         <FormControl fullWidth className='input' >
                             <TextField
@@ -833,15 +705,13 @@ function ProductMaster() {
                             />
                         </FormControl>
                     </Box>
+
                     <div className='check'>
                         <FormGroup >
                             <FormControlLabel style={{ marginRight: 0 }} control={<Checkbox defaultChecked={btActive} value={btActive} onChange={e => setBtActive(e.target.checked)} />} label="Active" disabled={disabled} />
                         </FormGroup>
 
                     </div>
-
-
-
 
                 </div>
                 <div className='displayflexendmodal'>
@@ -856,11 +726,9 @@ function ProductMaster() {
                 </div>
             </Modal >
             <div>
-
                 <div className='tablecenter'>
                     <Paper sx={{ width: '100%', overflow: 'hidden', paddingTop: 1 }}>
                         <div className='exportandfilter'>
-
                             <div className='filterbox'>
                                 <Box className='searchbox'>
                                     <SearchBar
@@ -873,7 +741,6 @@ function ProductMaster() {
                                 <FormGroup className='activeonly'>
                                     <FormControlLabel style={{ marginRight: 0 }} control={<Checkbox checked={onlyActive} value={onlyActive} onChange={checkedonlyActive} />} label="Active Data" />
                                 </FormGroup>
-
                             </div>
                         </div>
 
@@ -881,8 +748,6 @@ function ProductMaster() {
                             <Table stickyHeader aria-label="sticky table">
                                 <TableHead>
                                     <TableRow>
-                                        {/* <TableCell scope="row">SN.</TableCell> */}
-
                                         <TableCell align="left" sx={muiStyles.tableHead}>Brand Code</TableCell>
                                         <TableCell align="left" sx={muiStyles.tableHead}>Brand Name</TableCell>
                                         <TableCell align="left" sx={muiStyles.tableHead}>Category</TableCell>
@@ -891,36 +756,25 @@ function ProductMaster() {
                                         <TableCell align="left" sx={muiStyles.tableHead}>Variant</TableCell>
                                         <TableCell align="left" sx={muiStyles.tableHead}>SKU</TableCell>
                                         <TableCell align="left" sx={muiStyles.tableHead}>UOM</TableCell>
-
-
                                         <TableCell align="left" sx={muiStyles.tableHead}>Status</TableCell>
                                         <TableCell align="left" sx={muiStyles.tableHead}>Edit</TableCell>
-
                                     </TableRow>
                                 </TableHead>
-
                                 {ProductData?.length > 0 ?
                                     <TableBody>
                                         {ProductData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((item, index) => {
                                             return (
                                                 <TableRow hover role="checkbox" tabIndex={-1} key={index}>
-                                                    {/* <TableCell component="th" scope="row">{index + 1}.</TableCell> */}
-
                                                     <TableCell align="left" sx={muiStyles.tableBody}>{item.vProductCode}</TableCell>
                                                     <TableCell align="left" sx={muiStyles.tableBody}>{item.vProductName}</TableCell>
                                                     <TableCell align="left" sx={muiStyles.tableBody}>{item.vPCategory}</TableCell>
                                                     <TableCell align="left" sx={muiStyles.tableBody}>{item.vPSubCategory}</TableCell>
-
                                                     <TableCell align="left" sx={muiStyles.tableBody}>{item.vBrand}</TableCell>
                                                     <TableCell align="left" sx={muiStyles.tableBody}>{item.vVarient}</TableCell>
                                                     <TableCell align="left" sx={muiStyles.tableBody}>{item.vPackName}</TableCell>
                                                     <TableCell align="left" sx={muiStyles.tableBody}>{item.vUnit}</TableCell>
-
-
                                                     <TableCell align="left" sx={muiStyles.tableBody}>{item.btActive === true ? <Checkbox disabled checked='checked' /> : <Checkbox disabled />}</TableCell>
-                                                    {/* <TableCell align="left" sx={muiStyles.tableBody}><div onClick={() => openmodale(item, 'Update')} className='editbtn'><TbEdit size={20} color='#000' /></div></TableCell> */}
                                                     <TableCell align="left" sx={muiStyles.tableBody}><button onClick={() => openmodale(item, 'Update')} disabled={btEditRights == false} className={btEditRights == false ? 'editbtn notAllow' : 'editbtn'}><TbEdit size={20} color='#000' /></button></TableCell>
-
                                                 </TableRow>
                                             );
                                         })}
@@ -932,7 +786,6 @@ function ProductMaster() {
                                         </TableRow>
                                     </TableBody>
                                 }
-
                             </Table>
                         </TableContainer>
                         <TablePagination
@@ -947,7 +800,6 @@ function ProductMaster() {
                     </Paper>
                 </div>
             </div>
-
             <ToastContainer />
         </div >
     )
@@ -989,7 +841,6 @@ const muiStyles = {
         },
         "& label.Mui-focused": {
             zIndex: '1'
-
         },
         '& .MuiInputAdornment-root': {
             position: 'absolute',
@@ -1003,14 +854,12 @@ const muiStyles = {
                 padding: '6px 6px',
                 fontSize: '13px'
             }
-
         },
         "& .MuiFormLabel-root": {
             fontSize: '13px',
             backgroundColor: 'transparent',
             top: '-13px',
             left: '-10px',
-
         },
         "& label.Mui-focused": {
             zIndex: '1'
@@ -1019,8 +868,6 @@ const muiStyles = {
             fontSize: 10,
             bottom: -18
         },
-
-
         "& .MuiIconButton-root": {
             padding: '0'
         }
@@ -1045,16 +892,12 @@ const muiStyles = {
             fontSize: 10,
             bottom: -18
         },
-
     },
     select: {
-
         "& .MuiSelect-select": {
             padding: '3px',
             fontSize: '12px'
         },
-
-
     },
     InputLabels: {
         fontSize: '13px',
@@ -1092,7 +935,5 @@ const muiStyles = {
             }
         }
     },
-
-
 };
 export default ProductMaster

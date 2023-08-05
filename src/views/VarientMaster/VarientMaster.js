@@ -231,15 +231,15 @@ function VarientMaster() {
             btActive: btActive, lowercaseString2
         }
         if (buttonName == 'Submit') {
-            if (isMatch == true || isMatch2 == true) {
+            if (isMatch == true) {
                 if (isMatch == true) {
                     setLoader(false)
                     toast.error("Variant is already Exists")
                 }
-                if (isMatch2 == true) {
-                    setLoader(false)
-                    toast.error("Variant Prefix is already Exists")
-                }
+                // if (isMatch2 == true) {
+                //     setLoader(false)
+                //     toast.error("Variant Prefix is already Exists")
+                // }
             } else {
                 VarientMasterPost(brand).then(res => {
                     if (res) {

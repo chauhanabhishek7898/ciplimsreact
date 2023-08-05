@@ -311,6 +311,10 @@ function ProductSubCategoryMaster() {
         }
     }
 
+    useEffect(() => {
+        productCategoryMaster_ActiveLikeSearch(null)
+    }, [])
+
     const productCategoryMaster_ActiveLikeSearch = (vGeneric) => {
         console.log('response', vGeneric)
         if (vGeneric != '') {
@@ -407,10 +411,10 @@ function ProductSubCategoryMaster() {
                                 // onKeyDown={newInputValue => ProductCategoryMaster_ActiveLikeSearch(newInputValue)}
                                 onInputChange={(event, newInputValue) => {
                                     // setInputValue(newInputValue);
-                                    if (newInputValue.length >= 3) {
+                                    // if (newInputValue.length >= 3) {
                                         productCategoryMaster_ActiveLikeSearch(newInputValue)
 
-                                    }
+                                    // }
                                     console.log('newInputValue', newInputValue)
                                 }}
                                 renderInput={(params) => <TextField {...params} label="Search Category" required />}

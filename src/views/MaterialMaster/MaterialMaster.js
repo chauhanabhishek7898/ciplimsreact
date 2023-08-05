@@ -888,7 +888,7 @@ function MaterialMaster() {
 
                                         <TableCell align="left" sx={muiStyles.tableHead}>Material Code</TableCell>
                                         <TableCell align="left" sx={muiStyles.tableHead}>Material Name</TableCell>
-                                        <TableCell align="left" sx={muiStyles.tableHead}>Material Type</TableCell>
+                                        <TableCell align="left" sx={muiStyles.tableHead}>Material Group</TableCell>
                                         <TableCell align="left" sx={muiStyles.tableHead}>Category</TableCell>
                                         <TableCell align="left" sx={muiStyles.tableHead}>Subcategory</TableCell>
                                         <TableCell align="left" sx={muiStyles.tableHead}>UOM</TableCell>

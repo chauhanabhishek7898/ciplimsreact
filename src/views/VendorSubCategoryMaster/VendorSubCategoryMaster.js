@@ -92,11 +92,9 @@ function VendorSubCategoryMaster() {
             }
             if (buttonName == 'Submit') {
                 let unistData = [...unitData]
-                // console.log("unistData", unistData)
                 let venderexistCode = unistData.find(e => e.vSubCatPrefix == vSubCatPrefix.toLowerCase() || e.vSubCatPrefix == vSubCatPrefix.toUpperCase())
 
                 let unitName = unistData.find(e => e.vSubCategoryName == vUnitName.toLowerCase() || e.vSubCategoryName == vUnitName.toUpperCase())
-                // console.log("unitName", unitName)
                 if (unitName || venderexistCode) {
                     // if (venderexist && venderexistCode) {
                     //     setLoader(false)
@@ -163,7 +161,7 @@ function VendorSubCategoryMaster() {
         //     splitcurrentURL = currentURL.split('/')[2]
         // }
         let filterLinks = parsedArray.filter(e => e.vPageName == splitcurrentURL)
-        console.log('filterLinks:', filterLinks[0].btEditRights);
+        // console.log('filterLinks:', filterLinks[0].btEditRights);
         // setEnableActions(filterLinks)
        if(filterLinks){ setbtSaveRights(filterLinks[0].btSaveRights)
         setbtEditRights(filterLinks[0].btEditRights) }

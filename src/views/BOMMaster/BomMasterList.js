@@ -102,22 +102,22 @@ function BomMasterList() {
     useEffect(() => {
         getPODetails()
 
-        let storedArray = localStorage.getItem('linkAccess');
-        const parsedArray = JSON.parse(storedArray);
-        let currentURL = window.location.href;
-        // let splitcurrentURL = currentURL.split('/')[4]
-        let splitcurrentURL
-        // if(apiUrlAddEdit=='http://localhost:3000'){
-            splitcurrentURL = currentURL.split('/')[4] 
-            console.log('parsedArray:', window.location.href);
-        // }else{
-        //     splitcurrentURL = currentURL.split('/')[2]
-        // }
-        let filterLinks = parsedArray.filter(e => e.vPageName == splitcurrentURL)
-        console.log('filterLinks:', filterLinks[0].btEditRights);
-        // setEnableActions(filterLinks)
-       if(filterLinks){ setbtSaveRights(filterLinks[0].btSaveRights)
-        setbtEditRights(filterLinks[0].btEditRights) }
+    //     let storedArray = localStorage.getItem('linkAccess');
+    //     const parsedArray = JSON.parse(storedArray);
+    //     let currentURL = window.location.href;
+    //     // let splitcurrentURL = currentURL.split('/')[4]
+    //     let splitcurrentURL
+    //     // if(apiUrlAddEdit=='http://localhost:3000'){
+    //         splitcurrentURL = currentURL.split('/')[4] 
+    //         console.log('parsedArray:', window.location.href);
+    //     // }else{
+    //     //     splitcurrentURL = currentURL.split('/')[2]
+    //     // }
+    //     let filterLinks = parsedArray.filter(e => e.vPageName == splitcurrentURL)
+    //     console.log('filterLinks:', filterLinks[0].btEditRights);
+    //     // setEnableActions(filterLinks)
+    //    if(filterLinks){ setbtSaveRights(filterLinks[0].btSaveRights)
+    //     setbtEditRights(filterLinks[0].btEditRights) }
      
     }, [])
     const getPODetails = () => {
@@ -192,12 +192,12 @@ function BomMasterList() {
             }
             <div className='exportandfilter_2'>
                 <div></div>
-                {/* <div className='exportandfilter_end'>
-                    <Link to="/AddBomMaster" className='submitbtn_exp'><AddIcon fontSize='small' /> <span className='addFont'>Add</span></Link>
-                </div> */}
                 <div className='exportandfilter_end'>
-                    <button className={btSaveRights == false ? 'submitbtn_exp notAllow' : 'submitbtn_exp'} onClick={handleAdd} title='Add' disabled={btSaveRights == false} ><AddIcon fontSize='small' /> <span className='addFont'>Add</span></button>
+                    <Link to="/AddBomMaster" className='submitbtn_exp'><AddIcon fontSize='small' /> <span className='addFont'>Add</span></Link>
                 </div>
+                {/* <div className='exportandfilter_end'>
+                    <button className={btSaveRights == false ? 'submitbtn_exp notAllow' : 'submitbtn_exp'} onClick={handleAdd} title='Add' disabled={btSaveRights == false} ><AddIcon fontSize='small' /> <span className='addFont'>Add</span></button>
+                </div> */}
 
             </div>
 
@@ -311,8 +311,8 @@ function BomMasterList() {
                                                 <TableCell align="left" sx={muiStyles.tableBody}> <a href={imageUrl + '/' + item.vBOMCopyFilePath} target="_blank" rel="noopener noreferrer" style={{ marginLeft: 10 }}>{item.vBOMCopyFilePath != null && item.vBOMCopyFilePath != '' ? 'BOM Copy' : null}</a> </TableCell>
 
                                                 <TableCell align="left" sx={muiStyles.tableBody}>{item.btActive === true ? <Checkbox disabled checked /> : <Checkbox disabled />}</TableCell>
-                                                {/* <TableCell align="left" sx={muiStyles.tableBody}><div className='editbtn' title='Edit' onClick={() => handleDetail(item.nBId)}><TbEdit size={20} color='#000' /></div></TableCell> */}
-                                                <TableCell align="left" sx={muiStyles.tableBody}><button onClick={() => handleDetail(item.nBId)} disabled={btEditRights == false} className={btEditRights == false ? 'editbtn notAllow' : 'editbtn'} title='Edit'><TbEdit size={20} color='#000' /></button></TableCell>
+                                                <TableCell align="left" sx={muiStyles.tableBody}><div className='editbtn' title='Edit' onClick={() => handleDetail(item.nBId)}><TbEdit size={20} color='#000' /></div></TableCell>
+                                                {/* <TableCell align="left" sx={muiStyles.tableBody}><button onClick={() => handleDetail(item.nBId)} disabled={btEditRights == false} className={btEditRights == false ? 'editbtn notAllow' : 'editbtn'} title='Edit'><TbEdit size={20} color='#000' /></button></TableCell> */}
 
                                             </TableRow>
                                         )
