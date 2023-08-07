@@ -91,9 +91,9 @@ const routes = [
 
   { path: '/MaterialTypeMaster', name: 'Material Type', element: MaterialTypeMaster, exact: true },
 
-  { path: '/ProductCategoryMaster', name: 'Product Category', element: ProductCategoryMaster, exact: true },
+  { path: '/ProductCategoryMaster', name: 'Brand Category', element: ProductCategoryMaster, exact: true },
 
-  { path: '/ProductSubCategoryMaster', name: 'Product Subcategory', element: ProductSubCategoryMaster, exact: true },
+  { path: '/ProductSubCategoryMaster', name: 'Brand Subcategory', element: ProductSubCategoryMaster, exact: true },
 
   { path: '/StorageConditionMaster', name: 'Storage Condition', element: StorageConditionMaster, exact: true },
 

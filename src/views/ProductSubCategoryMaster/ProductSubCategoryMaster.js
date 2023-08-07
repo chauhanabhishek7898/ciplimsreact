@@ -28,9 +28,10 @@ import SearchBar from "material-ui-search-bar";
 import ExportExcel from 'src/shareFunction/Excelexport';
 import CircularProgress from '@mui/joy/CircularProgress';
 import { TbEdit } from "react-icons/tb";
-import {apiUrlAddEdit} from '../../coreservices/environment'
+import { apiUrlAddEdit } from '../../coreservices/environment'
+import { InputLabel, MenuItem, Select } from '@mui/material';
 function ProductSubCategoryMaster() {
-    let Heading = [['SN.', 'Product Subcategory', 'Product Subcategory Prefix', 'Status']];
+    let Heading = [['SN.', 'Brand Subcategory', 'Brand Subcategory Prefix', 'Status']];
     const [modalIsOpen, setIsOpen] = React.useState(false);
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -63,7 +64,7 @@ function ProductSubCategoryMaster() {
     const validateformPoDetial = () => {
         if (MaterialDetail == '' || MaterialDetail == undefined) {
             setError({
-                MaterialDetail: 'Select Product Cetegory *'
+                MaterialDetail: 'Select Brand Cetegory *'
             })
             return false
         }
@@ -89,16 +90,18 @@ function ProductSubCategoryMaster() {
         // let splitcurrentURL = currentURL.split('/')[4]
         let splitcurrentURL
         // if(apiUrlAddEdit=='http://localhost:3000'){
-            splitcurrentURL = currentURL.split('/')[4] 
-            console.log('parsedArray:', window.location.href);
+        splitcurrentURL = currentURL.split('/')[4]
+        console.log('parsedArray:', window.location.href);
         // }else{
         //     splitcurrentURL = currentURL.split('/')[2]
         // }
         let filterLinks = parsedArray.filter(e => e.vPageName == splitcurrentURL)
         console.log('filterLinks:', filterLinks[0].btEditRights);
         // setEnableActions(filterLinks)
-       if(filterLinks){ setbtSaveRights(filterLinks[0].btSaveRights)
-        setbtEditRights(filterLinks[0].btEditRights) }
+        if (filterLinks) {
+            setbtSaveRights(filterLinks[0].btSaveRights)
+            setbtEditRights(filterLinks[0].btEditRights)
+        }
 
     }, [])
     const getProductSubCategoryMaster_SelectAll = () => {
@@ -220,11 +223,11 @@ function ProductSubCategoryMaster() {
         if (isMatch == true || isMatch2 == true) {
             if (isMatch == true) {
                 setLoader(false)
-                toast.error("Product Subcategory is already Exists")
+                toast.error("Brand Subcategory is already Exists")
             }
             if (isMatch2 == true) {
                 setLoader(false)
-                toast.error("Product Subcategory Prefix is already Exists")
+                toast.error("Brand Subcategory Prefix is already Exists")
             }
         } else {
             console.log('brand', brand)
@@ -279,11 +282,11 @@ function ProductSubCategoryMaster() {
                 if (isMatch == true || isMatch2 == true) {
                     if (isMatch == true) {
                         setLoader(false)
-                        toast.error("Product Subcategory is already Exists")
+                        toast.error("Brand Subcategory is already Exists")
                     }
                     if (isMatch2 == true) {
                         setLoader(false)
-                        toast.error("Product Subcategory Prefix is already Exists")
+                        toast.error("Brand Subcategory Prefix is already Exists")
                     }
                 } else {
                     ProductSubCategoryMasterPost(brand).then(res => {
@@ -311,32 +314,64 @@ function ProductSubCategoryMaster() {
         }
     }
 
+
+    const [vCategoryData, setvCategoryData] = React.useState([]);
+    const [vCategory, setvCategory] = React.useState("");
+    const [vCategoryId, setvCategoryId] = React.useState("");
+
+    const [SubCategoryDataForSelection, setSubCategoryDataForSelection] = React.useState([]);
+
     useEffect(() => {
-        productCategoryMaster_ActiveLikeSearch(null)
+        getCategoryMaster_SelectAll()
     }, [])
 
-    const productCategoryMaster_ActiveLikeSearch = (vGeneric) => {
-        console.log('response', vGeneric)
-        if (vGeneric != '') {
-            vGeneric = vGeneric
-        } else {
-            vGeneric = null
-        }
-        ProductCategoryMaster_ActiveLikeSearch(vGeneric).then(res => {
-
-
-            let count = Object.keys(res).length
-            let data = []
-            for (var i = 0; i < count; i++) {
-                data.push({
-                    value: res[i].nPDCId,
-                    label: res[i].vPDCategoryName,
-                })
-            }
-            setMaterialMaster(data)
+    const getCategoryMaster_SelectAll = () => {
+        ProductCategoryMaster_ActiveLikeSearch(null).then(response => {
+            setMaterialMaster(response)
         })
-
     }
+
+
+    const handleChangeCategory = (event) => {
+        const selectedId = event.target.value;
+        setMaterialDetail(selectedId)
+        setError({
+            MaterialDetail: ''
+        })
+       
+    };
+
+    const handleBlurC = (item) => {
+        console.log("itemitemitem", item)
+        setMaterialDetail(item.vPDCategoryName)
+        setnMId(item.nPDCId)
+    };
+    // useEffect(() => {
+    //     productCategoryMaster_ActiveLikeSearch(null)
+    // }, [])
+
+    // const productCategoryMaster_ActiveLikeSearch = (vGeneric) => {
+    //     console.log('response', vGeneric)
+    //     if (vGeneric != '') {
+    //         vGeneric = vGeneric
+    //     } else {
+    //         vGeneric = null
+    //     }
+    //     ProductCategoryMaster_ActiveLikeSearch(vGeneric).then(res => {
+
+
+    //         let count = Object.keys(res).length
+    //         let data = []
+    //         for (var i = 0; i < count; i++) {
+    //             data.push({
+    //                 value: res[i].nPDCId,
+    //                 label: res[i].vPDCategoryName,
+    //             })
+    //         }
+    //         setMaterialMaster(data)
+    //     })
+
+    // }
 
     const changeMaterialMasterValue = (value) => {
         console.log('value', value)
@@ -363,7 +398,7 @@ function ProductSubCategoryMaster() {
                 {/* <button className='submitbtn_exp' onClick={() => openmodale(null, 'Submit')} title='Add'  ><AddIcon fontSize='small' /> <span className='addFont'>Add</span></button> */}
                 <button className={btSaveRights == false ? 'submitbtn_exp notAllow' : 'submitbtn_exp'} onClick={() => openmodale(null, 'Submit')} title='Add' disabled={btSaveRights == false} ><AddIcon fontSize='small' /> <span className='addFont'>Add</span></button>
 
-                <ExportExcel excelData={brandData} Heading={Heading} fileName={'ProductSubCategory_Master'} />
+                <ExportExcel excelData={brandData} Heading={Heading} fileName={'BrandSubCategory_Master'} />
 
             </div>
 
@@ -374,7 +409,7 @@ function ProductSubCategoryMaster() {
                 ariaHideApp={false}
             >
                 <div className='displayright'>
-                    <div><span className='title'>Product SubCategory</span></div>
+                    <div><span className='title'>Brand SubCategory</span></div>
                     <HighlightOffIcon fontSize='large' onClick={() => setIsOpen(false)} />
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -386,19 +421,43 @@ function ProductSubCategoryMaster() {
                                 value={brandName}
                                 onChange={e => setBrandName(e.target.value)}
                                 required id="outlined-basic"
-                                label="Product Subcategory"
+                                label="Brand Subcategory"
                                 variant="outlined"
                                 name='brandName'
-                                inputRef={register({ required: "Product Subcategory is required.*", })}
+                                inputRef={register({ required: "Brand Subcategory is required.*", })}
                                 error={Boolean(errors.brandName)}
                                 helperText={errors.brandName?.message}
                             />
                         </FormControl>
                     </Box>
 
-                    <Box className='inputBox-12 mt-4'>
+
+                    <Box className='inputBox-12 mt-4' >
                         <FormControl fullWidth className='input'>
-                            {/* <InputLabel required id="demo-simple-select-label">Item</InputLabel> */}
+                            <InputLabel required id="demo-simple-select-label" sx={muiStyles.InputLabels}>Category</InputLabel>
+                            <Select
+                                sx={muiStyles.select}
+                                style={{ width: '100%', }}
+                                labelId="demo-simple-select-label"
+                                id="demo-simple-select"
+                                value={MaterialDetail}
+                                label="Select Category"
+                                onChange={handleChangeCategory}
+                                name='nPDCId' >
+                                {MaterialMaster.map((item, index) => {
+                                    return (
+                                        <MenuItem key={index} onBlur={() => handleBlurC(item)} value={item.vPDCategoryName} id={item.nPDCId}>{item.vPDCategoryName}</MenuItem>
+                                    )
+                                })
+                                }
+                            </Select>
+                            {errorText.MaterialDetail != '' ? <p className='error'>{errorText.MaterialDetail}</p> : null}
+                        </FormControl>
+                    </Box>
+
+
+                    {/* <Box className='inputBox-12 mt-4'>
+                        <FormControl fullWidth className='input'>
                             <Autocomplete
                                 sx={muiStyles.autoCompleate}
                                 disablePortal
@@ -406,22 +465,18 @@ function ProductSubCategoryMaster() {
                                 options={MaterialMaster}
                                 value={MaterialDetail}
                                 name='MaterialDetail'
-                                // inputValue={MaterialDetail}
                                 onChange={(event, value) => changeMaterialMasterValue(value)}
-                                // onKeyDown={newInputValue => ProductCategoryMaster_ActiveLikeSearch(newInputValue)}
                                 onInputChange={(event, newInputValue) => {
-                                    // setInputValue(newInputValue);
-                                    // if (newInputValue.length >= 3) {
+                                   
                                         productCategoryMaster_ActiveLikeSearch(newInputValue)
 
-                                    // }
                                     console.log('newInputValue', newInputValue)
                                 }}
                                 renderInput={(params) => <TextField {...params} label="Search Category" required />}
                             />
                             {errorText.MaterialDetail != '' ? <p className='error'>{errorText.MaterialDetail}</p> : null}
                         </FormControl>
-                    </Box>
+                    </Box> */}
 
 
 
@@ -432,13 +487,13 @@ function ProductSubCategoryMaster() {
                                 value={vPrefix}
                                 onChange={e => setvPrefix(e.target.value)}
                                 required id="outlined-basic"
-                                label="Product Subcategory Prefix"
+                                label="Brand Subcategory Prefix"
                                 variant="outlined"
                                 name='vPrefix'
                                 inputProps={{
                                     maxLength: 2, // Set the maximum length here (e.g., 20)
                                 }}
-                                inputRef={register({ required: "Product Subcategory Prefix is required.*", })}
+                                inputRef={register({ required: "Brand Subcategory Prefix is required.*", })}
                                 error={Boolean(errors.vPrefix)}
                                 helperText={errors.vPrefix?.message}
 
@@ -487,10 +542,10 @@ function ProductSubCategoryMaster() {
                                 <TableRow>
                                     {/* <TableCell scope="row">SN.</TableCell> */}
                                     {/* <TableCell align="left" sx={muiStyles.tableHead} >Brand Code</TableCell> */}
-                                    <TableCell align="left" sx={muiStyles.tableHead} >Product Subcategory</TableCell>
-                                    <TableCell align="left" sx={muiStyles.tableHead} >Product Category</TableCell>
+                                    <TableCell align="left" sx={muiStyles.tableHead} >Brand Subcategory</TableCell>
+                                    <TableCell align="left" sx={muiStyles.tableHead} >Brand Category</TableCell>
 
-                                    <TableCell align="left" sx={muiStyles.tableHead} >Product Subcategory Prefix</TableCell>
+                                    <TableCell align="left" sx={muiStyles.tableHead} >Brand Subcategory Prefix</TableCell>
                                     <TableCell align="left" sx={muiStyles.tableHead} >Status</TableCell>
 
                                     <TableCell align="left" sx={muiStyles.tableHead} >Edit</TableCell>
@@ -554,6 +609,7 @@ const customStyles = {
         marginRight: '-50%',
         transform: 'translate(-50%, -50%)',
         width: '50%',
+        height: 'auto',
     },
 };
 const muiStyles = {
@@ -605,14 +661,14 @@ const muiStyles = {
             left: '-10px',
 
         },
-         "& label.Mui-focused": {
+        "& label.Mui-focused": {
             zIndex: '1'
-        },'& .MuiFormHelperText-root': {
+        }, '& .MuiFormHelperText-root': {
             position: 'absolute',
             fontSize: 10,
             bottom: -18
         },
-       
+
     },
     autoCompleate: {
         "& .MuiOutlinedInput-root": {
@@ -630,14 +686,14 @@ const muiStyles = {
             left: '-10px',
 
         },
-         "& label.Mui-focused": {
+        "& label.Mui-focused": {
             zIndex: '1'
-        },'& .MuiFormHelperText-root': {
+        }, '& .MuiFormHelperText-root': {
             position: 'absolute',
             fontSize: 10,
             bottom: -18
         },
-       
+
         "& .MuiIconButton-root": {
             padding: '0'
         }
@@ -655,14 +711,14 @@ const muiStyles = {
             left: '-10px',
             backgroundColor: 'transparent',
         },
-         "& label.Mui-focused": {
+        "& label.Mui-focused": {
             zIndex: '1'
-        },'& .MuiFormHelperText-root': {
+        }, '& .MuiFormHelperText-root': {
             position: 'absolute',
             fontSize: 10,
             bottom: -18
         },
-       
+
     },
     select: {
 

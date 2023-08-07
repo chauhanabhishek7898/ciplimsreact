@@ -384,6 +384,9 @@ p {
   padding: 8px;
 }
 
+.input-selection{
+  width: 30% !important;;
+}
 .displayright {
   display: flex;
   align-items: center;
@@ -1281,6 +1284,7 @@ input[type="number"] {
 
 .MuiAutocomplete-popper {
   font-size: 12px !important;
+  z-index: 10000;
 }
 
 .css-9npbnl-MuiFormLabel-root-MuiInputLabel-root {

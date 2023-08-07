@@ -38,7 +38,7 @@ import { parseDateToString } from '../../coreservices/Date';
 import ExportExcel from 'src/shareFunction/Excelexport';
 import CircularProgress from '@mui/joy/CircularProgress';
 import { TbEdit } from "react-icons/tb";
-import {apiUrlAddEdit} from '../../coreservices/environment'
+import { apiUrlAddEdit } from '../../coreservices/environment'
 function MaterialMaster() {
     let Heading = [['SN.', 'Material Code', 'Material Name', 'Category', 'Material Type', 'UOM', 'HSN Code', 'Remarks', 'Status']];
     const [modalIsOpen, setIsOpen] = React.useState(false);
@@ -203,16 +203,18 @@ function MaterialMaster() {
         // let splitcurrentURL = currentURL.split('/')[4]
         let splitcurrentURL
         // if(apiUrlAddEdit=='http://localhost:3000'){
-            splitcurrentURL = currentURL.split('/')[4] 
-            console.log('parsedArray:', window.location.href);
+        splitcurrentURL = currentURL.split('/')[4]
+        console.log('parsedArray:', window.location.href);
         // }else{
         //     splitcurrentURL = currentURL.split('/')[2]
         // }
         let filterLinks = parsedArray.filter(e => e.vPageName == splitcurrentURL)
         console.log('filterLinks:', filterLinks[0].btEditRights);
         // setEnableActions(filterLinks)
-       if(filterLinks){ setbtSaveRights(filterLinks[0].btSaveRights)
-        setbtEditRights(filterLinks[0].btEditRights) }
+        if (filterLinks) {
+            setbtSaveRights(filterLinks[0].btSaveRights)
+            setbtEditRights(filterLinks[0].btEditRights)
+        }
 
     }, [])
     const getMaterialMaster_SelectAll = () => {
@@ -543,7 +545,7 @@ function MaterialMaster() {
                                 value={vMCode}
                                 onChange={e => setvMCode(e.target.value)}
                                 id="outlined-basic"
-                                label={buttonName == 'Submit'?"Material Code (Auto generated)":"Material Code"}
+                                label={buttonName == 'Submit' ? "Material Code (Auto generated)" : "Material Code"}
                                 variant="outlined"
                                 name='MaterialCode '
                                 disabled={buttonName == 'Submit'}
@@ -603,7 +605,56 @@ function MaterialMaster() {
                     </Box>
 
 
+
+                    {/* <Box className='inputBox-6' >
+                        <FormControl fullWidth className='input'>
+                            <InputLabel required id="demo-simple-select-label" sx={muiStyles.InputLabels}>Category</InputLabel>
+                            <Select
+                                sx={muiStyles.select}
+                                style={{ width: '100%', }}
+                                labelId="demo-simple-select-label"
+                                id="demo-simple-select"
+                                value={vCategory}
+                                label="Select Category"
+                                onChange={handleChangeCategory}
+                                name='nPDCId' >
+                                {vCategoryData.map((item, index) => {
+                                    return (
+                                        <MenuItem key={index} onBlur={() => handleBlurC(item)} value={item.vCategoryName} id={item.nCId}>{item.vCategoryName}</MenuItem>
+                                    )
+                                })
+                                }
+                            </Select>
+                            {errorText.vCategory != '' ? <p className='error'>{errorText.vCategory}</p> : null}
+                        </FormControl>
+                    </Box> */}
+
                     <Box className='inputBox-6'>
+                        <FormControl fullWidth className='input'>
+                            <InputLabel required id="demo-simple-select-label" sx={muiStyles.InputLabels}>Category</InputLabel>
+                            <Select
+                           
+                                sx={muiStyles.select}
+                                style={{ width: '100%', }}
+                                labelId="demo-simple-select-label"
+                                id="demo-simple-select"
+                                value={vCategory}
+                                label="Select Category"
+                                onChange={handleChangeCategory}
+                                name='unitid' >
+                                {vCategoryData.map((item, index) => {
+                                    return (
+                                        <MenuItem  className='input-selection' key={index} onBlur={() => handleBlurC(item)} value={item.vCategoryName} id={item.nCId}>{item.vCategoryName}</MenuItem>
+                                        // <MenuItem key={index} value={item.vUnitName}>{item.vUnitName}</MenuItem>
+                                    )
+                                })
+                                }
+                            </Select>
+                            {errorText.vCategory != '' ? <p className='error'>{errorText.vCategory}</p> : null}
+                        </FormControl>
+                    </Box>
+
+                    {/* <Box className='inputBox-6'>
                         <FormControl fullWidth className='input'>
                             <InputLabel required id="demo-simple-select-label" sx={muiStyles.InputLabels}>Category</InputLabel>
                             <Select
@@ -618,14 +669,13 @@ function MaterialMaster() {
                                 {vCategoryData.map((item, index) => {
                                     return (
                                         <MenuItem key={index} onBlur={() => handleBlurC(item)} value={item.vCategoryName} id={item.nCId}>{item.vCategoryName}</MenuItem>
-                                        // <MenuItem key={index} value={item.vCategoryName}>{item.vCategoryName}</MenuItem>
                                     )
                                 })
                                 }
                             </Select>
                             {errorText.vCategory != '' ? <p className='error'>{errorText.vCategory}</p> : null}
                         </FormControl>
-                    </Box>
+                    </Box> */}
 
 
                     <Box className='inputBox-6'>
@@ -1015,14 +1065,14 @@ const muiStyles = {
             left: '-10px',
 
         },
-         "& label.Mui-focused": {
+        "& label.Mui-focused": {
             zIndex: '1'
-        },'& .MuiFormHelperText-root': {
+        }, '& .MuiFormHelperText-root': {
             position: 'absolute',
             fontSize: 10,
             bottom: -18
         },
-       
+
     },
     input: {
         "& .MuiOutlinedInput-root": {
@@ -1038,17 +1088,16 @@ const muiStyles = {
             left: '-10px',
             backgroundColor: 'transparent',
         },
-         "& label.Mui-focused": {
+        "& label.Mui-focused": {
             zIndex: '1'
-        },'& .MuiFormHelperText-root': {
+        }, '& .MuiFormHelperText-root': {
             position: 'absolute',
             fontSize: 10,
             bottom: -18
         },
-       
+
     },
     select: {
-
         "& .MuiSelect-select": {
             padding: '3px',
             fontSize: '12px'

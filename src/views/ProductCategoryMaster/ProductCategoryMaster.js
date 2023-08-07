@@ -28,7 +28,7 @@ import CircularProgress from '@mui/joy/CircularProgress';
 import { TbEdit } from "react-icons/tb";
 import {apiUrlAddEdit} from '../../coreservices/environment'
 function ProductCategoryMaster() {
-    let Heading = [['SN.', 'Product Category', 'Product Category Prefix', 'Status']];
+    let Heading = [['SN.', 'Brand Category', 'Brand Category Prefix', 'Status']];
     const [modalIsOpen, setIsOpen] = React.useState(false);
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -189,11 +189,11 @@ function ProductCategoryMaster() {
             if (isMatch == true || isMatch2 == true) {
                 if (isMatch == true) {
                     setLoader(false)
-                    toast.error("Product Category is already Exists")
+                    toast.error("Brand Category is already Exists")
                 }
                 if (isMatch2 == true) {
                     setLoader(false)
-                    toast.error("Product Category Prefix is already Exists")
+                    toast.error("Brand Category Prefix is already Exists")
                 }
             } else {
                 ProductCategoryMasterPost(brand).then(res => {
@@ -241,7 +241,7 @@ function ProductCategoryMaster() {
                 ariaHideApp={false}
             >
                 <div className='displayright'>
-                    <div><span className='title'>Product Category</span></div>
+                    <div><span className='title'>Brand Category</span></div>
                     <HighlightOffIcon fontSize='large' onClick={() => setIsOpen(false)} />
                 </div>
                 <div className='displayflexend mt-4'>
@@ -252,10 +252,10 @@ function ProductCategoryMaster() {
                                 value={brandName}
                                 onChange={e => setBrandName(e.target.value)}
                                 required id="outlined-basic"
-                                label="Product Category"
+                                label="Brand Category"
                                 variant="outlined"
                                 name='brandName'
-                                inputRef={register({ required: "Product Category is required.*", })}
+                                inputRef={register({ required: "Brand Category is required.*", })}
                                 error={Boolean(errors.brandName)}
                                 helperText={errors.brandName?.message}
                             />
@@ -268,13 +268,13 @@ function ProductCategoryMaster() {
                                 value={vPrefix}
                                 onChange={e => setvPrefix(e.target.value)}
                                 required id="outlined-basic"
-                                label="Product Category Prefix"
+                                label="Brand Category Prefix"
                                 variant="outlined"
                                 name='vPrefix'
                                 inputProps={{
                                     maxLength: 2, // Set the maximum length here (e.g., 20)
                                 }}
-                                inputRef={register({ required: "Product Category Prefix is required.*", })}
+                                inputRef={register({ required: "Brand Category Prefix is required.*", })}
                                 error={Boolean(errors.vPrefix)}
                                 helperText={errors.vPrefix?.message}
                             />
@@ -316,8 +316,8 @@ function ProductCategoryMaster() {
                         <Table stickyHeader aria-label="sticky table" >
                             <TableHead>
                                 <TableRow>
-                                    <TableCell align="left" sx={muiStyles.tableHead} >Product Category</TableCell>
-                                    <TableCell align="left" sx={muiStyles.tableHead} >Product Category Prefix</TableCell>
+                                    <TableCell align="left" sx={muiStyles.tableHead} >Brand Category</TableCell>
+                                    <TableCell align="left" sx={muiStyles.tableHead} >Brand Category Prefix</TableCell>
                                     <TableCell align="left" sx={muiStyles.tableHead} >Status</TableCell>
                                     <TableCell align="left" sx={muiStyles.tableHead} >Edit</TableCell>
                                 </TableRow>
