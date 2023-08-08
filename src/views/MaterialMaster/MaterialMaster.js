@@ -584,6 +584,12 @@ function MaterialMaster() {
                         <FormControl fullWidth className='input'>
                             <InputLabel required id="demo-simple-select-label" sx={muiStyles.InputLabels}>Material Group</InputLabel>
                             <Select
+                                MenuProps={{
+                                    style: {
+                                        maxHeight: 400,
+                                        maxWidth: 150
+                                    },
+                                }}
                                 sx={muiStyles.select}
                                 style={{ width: '100%', }}
                                 labelId="demo-simple-select-label"
@@ -592,12 +598,7 @@ function MaterialMaster() {
                                 label="Select Material Group"
                                 onChange={handleChangeMaterialType}
                                 name='nMTId'
-                                MenuProps={{
-                                    style: {
-                                       maxHeight: 400,
-                                       maxWidth:150
-                                          },
-                                    }} >
+                            >
                                 {vMaterialTypeData.map((item, index) => {
                                     return (
                                         <MenuItem key={index} onBlur={() => handleBlurM(item)} value={item.vMaterialType} id={item.nMTId}>{item.vMaterialType}</MenuItem>
@@ -615,7 +616,12 @@ function MaterialMaster() {
                     {/* <Box className='inputBox-6' >
                         <FormControl fullWidth className='input'>
                             <InputLabel required id="demo-simple-select-label" sx={muiStyles.InputLabels}>Category</InputLabel>
-                            <Select
+                             <Select
+MenuProps={{
+ style: { maxHeight: 400,
+          maxWidth:150
+        },
+     }}
                                 sx={muiStyles.select}
                                 style={{ width: '100%', }}
                                 labelId="demo-simple-select-label"
@@ -638,6 +644,12 @@ function MaterialMaster() {
                         <FormControl fullWidth className='input'>
                             <InputLabel required id="demo-simple-select-label" sx={muiStyles.InputLabels}>Category</InputLabel>
                             <Select
+                                MenuProps={{
+                                    style: {
+                                        maxHeight: 400,
+                                        maxWidth: 150
+                                    },
+                                }}
                                 sx={muiStyles.select}
                                 style={{ width: '100%', }}
                                 labelId="demo-simple-select-label"
@@ -645,14 +657,9 @@ function MaterialMaster() {
                                 value={vCategory}
                                 label="Select Category"
                                 onChange={handleChangeCategory}
-                                name='unitid' 
-                                MenuProps={{
-                                    style: {
-                                       maxHeight: 400,
-                                       maxWidth:150
-                                          },
-                                    }}
-                                >
+                                name='unitid'
+
+                            >
                                 {vCategoryData.map((item, index) => {
                                     return (
                                         <MenuItem key={index} onBlur={() => handleBlurC(item)} value={item.vCategoryName} id={item.nCId}>{item.vCategoryName}</MenuItem>
@@ -668,7 +675,12 @@ function MaterialMaster() {
                     {/* <Box className='inputBox-6'>
                         <FormControl fullWidth className='input'>
                             <InputLabel required id="demo-simple-select-label" sx={muiStyles.InputLabels}>Category</InputLabel>
-                            <Select
+                             <Select
+MenuProps={{
+ style: { maxHeight: 400,
+          maxWidth:150
+        },
+     }}
                                 sx={muiStyles.select}
                                 style={{ width: '100%', }}
                                 labelId="demo-simple-select-label"
@@ -693,6 +705,12 @@ function MaterialMaster() {
                         <FormControl fullWidth className='input'>
                             <InputLabel required id="demo-simple-select-label" sx={muiStyles.InputLabels}>Subcategory</InputLabel>
                             <Select
+                                MenuProps={{
+                                    style: {
+                                        maxHeight: 400,
+                                        maxWidth: 150
+                                    },
+                                }}
                                 sx={muiStyles.select}
                                 style={{ width: '100%', }}
                                 labelId="demo-simple-select-label"
@@ -701,12 +719,7 @@ function MaterialMaster() {
                                 label="Select Subcategory"
                                 onChange={handleChangeSubCategory}
                                 name='nSCId'
-                                MenuProps={{
-                                    style: {
-                                       maxHeight: 400,
-                                       maxWidth:150
-                                          },
-                                    }}
+
                             >
                                 {SubCategoryData.map((item, index) => {
                                     return (
@@ -721,7 +734,12 @@ function MaterialMaster() {
                     {/* <Box className='inputBox-6'>
                         <FormControl fullWidth className='input'>
                             <InputLabel required id="demo-simple-select-label" sx={muiStyles.InputLabels}>Sub Category</InputLabel>
-                            <Select
+                             <Select
+MenuProps={{
+ style: { maxHeight: 400,
+          maxWidth:150
+        },
+     }}
                                 sx={muiStyles.select}
                                 style={{ width: '100%' }}
                                 labelId="demo-simple-select-label"
@@ -749,6 +767,12 @@ function MaterialMaster() {
                         <FormControl fullWidth className='input'>
                             <InputLabel required id="demo-simple-select-label" sx={muiStyles.InputLabels}>UOM</InputLabel>
                             <Select
+                                MenuProps={{
+                                    style: {
+                                        maxHeight: 400,
+                                        maxWidth: 150
+                                    },
+                                }}
                                 sx={muiStyles.select}
                                 style={{ width: '100%', }}
                                 labelId="demo-simple-select-label"
@@ -756,13 +780,8 @@ function MaterialMaster() {
                                 value={vUOM}
                                 label="Select UOM"
                                 onChange={handleChangePackUnit}
-                                name='unitid' 
-                                MenuProps={{
-                                    style: {
-                                       maxHeight: 400,
-                                       maxWidth:150
-                                          },
-                                    }}>
+                                name='unitid'
+                            >
                                 {uniteData.map((item, index) => {
                                     return (
                                         <MenuItem key={index} onBlur={() => handleBlurU(item)} value={item.vUnitName} id={item.nUId}>{item.vUnitName}</MenuItem>
@@ -780,6 +799,12 @@ function MaterialMaster() {
                         <FormControl fullWidth className='input'>
                             <InputLabel required id="demo-simple-select-label" sx={muiStyles.InputLabels}>Storage Condition</InputLabel>
                             <Select
+                                MenuProps={{
+                                    style: {
+                                        maxHeight: 400,
+                                        maxWidth: 150
+                                    },
+                                }}
                                 sx={muiStyles.select}
                                 style={{ width: '100%', }}
                                 labelId="demo-simple-select-label"
@@ -787,14 +812,9 @@ function MaterialMaster() {
                                 value={StorageCondition}
                                 label="Select Subcategory"
                                 onChange={handleChangeStorageCondition}
-                                name='nSCId' 
-                                MenuProps={{
-                                    style: {
-                                       maxHeight: 400,
-                                       maxWidth:150
-                                          },
-                                    }}
-                                >
+                                name='nSCId'
+
+                            >
                                 {StorageConditionData.map((item, index) => {
                                     return (
                                         <MenuItem key={index} onBlur={() => handleBlurS(item)} value={item.vStorageCondition} id={item.nSCId}>{item.vStorageCondition}</MenuItem>
@@ -907,7 +927,12 @@ function MaterialMaster() {
                     <Box sx={{ width: '20%' }}>
                         <FormControl fullWidth className='input'>
                             <InputLabel id="demo-simple-select-label">Location <span style={{ color: "red" }}>*</span></InputLabel>
-                            <Select
+                             <Select
+MenuProps={{
+ style: { maxHeight: 400,
+          maxWidth:150
+        },
+     }}
                                 style={{ width: '100%', }}
                                 labelId="demo-simple-select-label"
                                 id="demo-simple-select"

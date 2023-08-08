@@ -412,7 +412,12 @@ function PackMaster() {
                         </FormControl> */}
                         <FormControl fullWidth className='input'>
                             <InputLabel required id="demo-simple-select-label" sx={muiStyles.InputLabels}>UOM</InputLabel>
-                            <Select
+                             <Select
+MenuProps={{
+ style: { maxHeight: 400,
+          maxWidth:150
+        },
+     }}
                                 sx={muiStyles.select}
                                 style={{ width: '100%', }}
                                 labelId="demo-simple-select-label"

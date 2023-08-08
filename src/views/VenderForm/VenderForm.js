@@ -743,7 +743,12 @@ function VenderForm() {
                 {/* <Box className='inputBox-6'>
                         <FormControl fullWidth className='input'>
                             <InputLabel required id="demo-simple-select-label" sx={muiStyles.InputLabels}>Material Type</InputLabel>
-                            <Select
+                             <Select
+MenuProps={{
+ style: { maxHeight: 400,
+          maxWidth:150
+        },
+     }}
                                 sx={muiStyles.select}
                                 style={{ width: '100%', }}
                                 labelId="demo-simple-select-label"
@@ -769,7 +774,12 @@ function VenderForm() {
                     <Box className='inputBox-3'>
                         <FormControl fullWidth className='input'>
                             <InputLabel id="demo-simple-select-label" required sx={muiStyles.InputLabels}>Material Group</InputLabel>
-                            <Select
+                             <Select
+MenuProps={{
+ style: { maxHeight: 400,
+          maxWidth:150
+        },
+     }}
                                 sx={muiStyles.select}
                                 style={{ width: '100%', }}
                                 labelId="demo-simple-select-label"
@@ -819,7 +829,12 @@ function VenderForm() {
                     <Box className='inputBox-3'>
                         {/* <FormControl fullWidth className='input'>
                             <InputLabel required id="demo-simple-select-label" sx={muiStyles.InputLabels}>Subcategory</InputLabel>
-                            <Select
+                             <Select
+MenuProps={{
+ style: { maxHeight: 400,
+          maxWidth:150
+        },
+     }}
                                 sx={muiStyles.select}
                                 style={{ width: '100%', }}
                                 labelId="demo-simple-select-label"

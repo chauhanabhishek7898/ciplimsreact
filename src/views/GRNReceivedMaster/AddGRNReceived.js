@@ -1172,7 +1172,12 @@ function AddGRNReceived() {
                     {/* <Box sx={{ width: '10%', marginTop: 2 }}>
                         <FormControl fullWidth className='input'>
                             <InputLabel id="demo-simple-select-label">Business</InputLabel>
-                            <Select
+                             <Select
+MenuProps={{
+ style: { maxHeight: 400,
+          maxWidth:150
+        },
+     }}
                                 style={{ width: '100%', }}
                                 labelId="demo-simple-select-label"
                                 id="demo-simple-select"
@@ -1335,7 +1340,12 @@ function AddGRNReceived() {
                     {/* <Box sx={{ width: '25%' }} >
                         <FormControl fullWidth className='input'>
                             <InputLabel id="demo-simple-select-label">Select Material</InputLabel>
-                            <Select
+                             <Select
+MenuProps={{
+ style: { maxHeight: 400,
+          maxWidth:150
+        },
+     }}
                                 style={{ width: '100%', }}
                                 labelId="demo-simple-select-label"
                                 id="demo-simple-select"

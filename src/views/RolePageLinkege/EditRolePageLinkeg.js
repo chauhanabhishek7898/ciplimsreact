@@ -243,7 +243,12 @@ const handleChecked = (event, id, accessType)=>{
         <Box className='inputBox-47 mt-4'>
           {/* <FormControl fullWidth className='input'>
             <InputLabel required id="demo-simple-select-label" sx={muiStyles.InputLabels}>Select Role</InputLabel>
-            <Select
+             <Select
+MenuProps={{
+ style: { maxHeight: 400,
+          maxWidth:150
+        },
+     }}
               sx={muiStyles.select}
               style={{ width: '100%', }}
               labelId="demo-simple-select-label"

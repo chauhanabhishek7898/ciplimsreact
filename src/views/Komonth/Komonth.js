@@ -468,7 +468,12 @@ function KOMONTH() {
                 <Box sx={{ width: '100%' }}>
                     <FormControl fullWidth required>
                         <InputLabel id="demo-simple-select-label" sx={muiStyles.InputLabels}>KO Month</InputLabel>
-                        <Select value={vKOMonth} sx={muiStyles.select} onChange={handleChangevKOMonth} readOnly={disable}>
+                         <Select
+MenuProps={{
+ style: { maxHeight: 400,
+          maxWidth:150
+        },
+     }} value={vKOMonth} sx={muiStyles.select} onChange={handleChangevKOMonth} readOnly={disable}>
                             <MenuItem value={'JAN'}>JAN</MenuItem>
                             <MenuItem value={'FEB'}>FEB</MenuItem>
                             <MenuItem value={'MAR'}>MAR</MenuItem>
@@ -571,7 +576,12 @@ function KOMONTH() {
                     <Box sx={{ width: '100%' }}>
                         <FormControl fullWidth className='input' >
                             <InputLabel id="demo-simple-select-label" sx={muiStyles.InputLabels}>Week Number <span>*</span></InputLabel>
-                            {/* <Select
+                            {/*  <Select
+MenuProps={{
+ style: { maxHeight: 400,
+          maxWidth:150
+        },
+     }}
                                 style={{ width: '100%', }}
                                 labelId="demo-simple-select-label"
                                 id="demo-simple-select"
@@ -585,7 +595,12 @@ function KOMONTH() {
                                 <MenuItem value={'W4'}>W4</MenuItem>
                                 <MenuItem value={'W5'}>W5</MenuItem>
                             </Select> */}
-                            <Select value={weekNumberId} sx={muiStyles.select} onChange={handleChange} >
+                             <Select
+MenuProps={{
+ style: { maxHeight: 400,
+          maxWidth:150
+        },
+     }} value={weekNumberId} sx={muiStyles.select} onChange={handleChange} >
                                 <MenuItem value={'W1'}>W1</MenuItem>
                                 <MenuItem value={'W2'}>W2</MenuItem>
                                 <MenuItem value={'W3'}>W3</MenuItem>
@@ -816,7 +831,12 @@ function KOMONTH() {
                         <Box className='inputBox-6'>
                             <FormControl fullWidth className='input' required>
                                 <InputLabel id="demo-simple-select-label" sx={muiStyles.InputLabels}>KO Month</InputLabel>
-                                <Select
+                                 <Select
+MenuProps={{
+ style: { maxHeight: 400,
+          maxWidth:150
+        },
+     }}
                                     sx={muiStyles.select}
                                     labelId="demo-simple-select-label"
                                     id="demo-simple-select"
@@ -919,7 +939,12 @@ function KOMONTH() {
                         <Box className='inputBox-9'>
                             <FormControl fullWidth required >
                                 <InputLabel id="demo-simple-select-label" sx={muiStyles.InputLabels}>Week Number</InputLabel>
-                                <Select
+                                 <Select
+MenuProps={{
+ style: { maxHeight: 400,
+          maxWidth:150
+        },
+     }}
                                     sx={muiStyles.select}
                                     style={{ width: '100%', }}
                                     labelId="demo-simple-select-label"
@@ -1005,7 +1030,12 @@ function KOMONTH() {
                         <Box className='inputBox-6'>
                             <FormControl fullWidth required>
                                 <InputLabel id="demo-simple-select-label" sx={muiStyles.InputLabels}>KO Month</InputLabel>
-                                <Select
+                                 <Select
+MenuProps={{
+ style: { maxHeight: 400,
+          maxWidth:150
+        },
+     }}
                                     sx={muiStyles.select}
                                     labelId="demo-simple-select-label"
                                     id="demo-simple-select"
@@ -1106,7 +1136,12 @@ function KOMONTH() {
                         <Box className='inputBox-9'>
                             <FormControl fullWidth required >
                                 <InputLabel id="demo-simple-select-label" sx={muiStyles.InputLabels}>Week Number</InputLabel>
-                                <Select
+                                 <Select
+MenuProps={{
+ style: { maxHeight: 400,
+          maxWidth:150
+        },
+     }}
                                     sx={muiStyles.select}
                                     style={{ width: '100%', }}
                                     labelId="demo-simple-select-label"

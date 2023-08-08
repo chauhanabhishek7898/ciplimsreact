@@ -940,7 +940,12 @@ function AddRejectedOut() {
                     <Box className='inputBox-38'>
                         <FormControl fullWidth className='input'>
                             <InputLabel id="demo-simple-select-label" htmlFor="age-simple" required sx={muiStyles.InputLabels}>Exp Date</InputLabel>
-                            <Select
+                             <Select
+MenuProps={{
+ style: { maxHeight: 400,
+          maxWidth:150
+        },
+     }}
                                 sx={muiStyles.select}
                                 style={{ width: '100%', }}
                                 labelId="demo-simple-select-label"

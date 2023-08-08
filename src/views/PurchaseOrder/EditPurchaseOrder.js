@@ -814,7 +814,12 @@ function EditPurchaseOrder() {
                     <Box className='inputBox-25'>
                         <FormControl fullWidth className='input'>
                             <InputLabel id="demo-simple-select-label" sx={muiStyles.InputLabels}>Business</InputLabel>
-                            <Select
+                             <Select
+MenuProps={{
+ style: { maxHeight: 400,
+          maxWidth:150
+        },
+     }}
                             sx={muiStyles.select}
                                 style={{ width: '100%', }}
                                 labelId="demo-simple-select-label"
