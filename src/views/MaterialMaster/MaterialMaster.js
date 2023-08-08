@@ -591,7 +591,13 @@ function MaterialMaster() {
                                 value={vMaterialType}
                                 label="Select Material Group"
                                 onChange={handleChangeMaterialType}
-                                name='nMTId' >
+                                name='nMTId'
+                                MenuProps={{
+                                    style: {
+                                       maxHeight: 400,
+                                       maxWidth:150
+                                          },
+                                    }} >
                                 {vMaterialTypeData.map((item, index) => {
                                     return (
                                         <MenuItem key={index} onBlur={() => handleBlurM(item)} value={item.vMaterialType} id={item.nMTId}>{item.vMaterialType}</MenuItem>
@@ -628,12 +634,10 @@ function MaterialMaster() {
                             {errorText.vCategory != '' ? <p className='error'>{errorText.vCategory}</p> : null}
                         </FormControl>
                     </Box> */}
-
                     <Box className='inputBox-6'>
                         <FormControl fullWidth className='input'>
                             <InputLabel required id="demo-simple-select-label" sx={muiStyles.InputLabels}>Category</InputLabel>
                             <Select
-                           
                                 sx={muiStyles.select}
                                 style={{ width: '100%', }}
                                 labelId="demo-simple-select-label"
@@ -641,10 +645,17 @@ function MaterialMaster() {
                                 value={vCategory}
                                 label="Select Category"
                                 onChange={handleChangeCategory}
-                                name='unitid' >
+                                name='unitid' 
+                                MenuProps={{
+                                    style: {
+                                       maxHeight: 400,
+                                       maxWidth:150
+                                          },
+                                    }}
+                                >
                                 {vCategoryData.map((item, index) => {
                                     return (
-                                        <MenuItem  className='input-selection' key={index} onBlur={() => handleBlurC(item)} value={item.vCategoryName} id={item.nCId}>{item.vCategoryName}</MenuItem>
+                                        <MenuItem key={index} onBlur={() => handleBlurC(item)} value={item.vCategoryName} id={item.nCId}>{item.vCategoryName}</MenuItem>
                                         // <MenuItem key={index} value={item.vUnitName}>{item.vUnitName}</MenuItem>
                                     )
                                 })
@@ -690,6 +701,12 @@ function MaterialMaster() {
                                 label="Select Subcategory"
                                 onChange={handleChangeSubCategory}
                                 name='nSCId'
+                                MenuProps={{
+                                    style: {
+                                       maxHeight: 400,
+                                       maxWidth:150
+                                          },
+                                    }}
                             >
                                 {SubCategoryData.map((item, index) => {
                                     return (
@@ -739,7 +756,13 @@ function MaterialMaster() {
                                 value={vUOM}
                                 label="Select UOM"
                                 onChange={handleChangePackUnit}
-                                name='unitid' >
+                                name='unitid' 
+                                MenuProps={{
+                                    style: {
+                                       maxHeight: 400,
+                                       maxWidth:150
+                                          },
+                                    }}>
                                 {uniteData.map((item, index) => {
                                     return (
                                         <MenuItem key={index} onBlur={() => handleBlurU(item)} value={item.vUnitName} id={item.nUId}>{item.vUnitName}</MenuItem>
@@ -764,7 +787,14 @@ function MaterialMaster() {
                                 value={StorageCondition}
                                 label="Select Subcategory"
                                 onChange={handleChangeStorageCondition}
-                                name='nSCId' >
+                                name='nSCId' 
+                                MenuProps={{
+                                    style: {
+                                       maxHeight: 400,
+                                       maxWidth:150
+                                          },
+                                    }}
+                                >
                                 {StorageConditionData.map((item, index) => {
                                     return (
                                         <MenuItem key={index} onBlur={() => handleBlurS(item)} value={item.vStorageCondition} id={item.nSCId}>{item.vStorageCondition}</MenuItem>
@@ -1139,6 +1169,13 @@ const muiStyles = {
             "&.MuiTypography-root": {
                 fontSize: '14px'
             }
+        }
+    },
+    MuiPaper: {
+        "&.MuiPaper-elevation8": {
+            maxWidth: '250 !important',
+            left: '68% !important',
+            top: '34% !important'
         }
     },
 
