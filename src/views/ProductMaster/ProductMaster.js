@@ -593,12 +593,13 @@ function ProductMaster() {
                     <Box className='inputBox-6'>
                         <FormControl fullWidth className='input'>
                             <InputLabel required id="demo-simple-select-label" sx={muiStyles.InputLabels}>Subcategory</InputLabel>
-                             <Select
-MenuProps={{
- style: { maxHeight: 400,
-          maxWidth:150
-        },
-     }}
+                            <Select
+                                MenuProps={{
+                                    style: {
+                                        maxHeight: 400,
+                                        maxWidth: 150
+                                    },
+                                }}
                                 sx={muiStyles.select}
                                 style={{ width: '100%', }}
                                 labelId="demo-simple-select-label"
@@ -621,12 +622,13 @@ MenuProps={{
                     <Box className='inputBox-6'>
                         <FormControl fullWidth className='input'>
                             <InputLabel required id="demo-simple-select-label" sx={muiStyles.InputLabels}>Brand Unit</InputLabel>
-                             <Select
-MenuProps={{
- style: { maxHeight: 400,
-          maxWidth:150
-        },
-     }}
+                            <Select
+                                MenuProps={{
+                                    style: {
+                                        maxHeight: 400,
+                                        maxWidth: 150
+                                    },
+                                }}
                                 sx={muiStyles.select}
                                 style={{ width: '100%', }}
                                 labelId="demo-simple-select-label"
@@ -649,12 +651,13 @@ MenuProps={{
                     <Box className='inputBox-6'>
                         <FormControl fullWidth className='input'>
                             <InputLabel required id="demo-simple-select-label" sx={muiStyles.InputLabels}>Varient</InputLabel>
-                             <Select
-MenuProps={{
- style: { maxHeight: 400,
-          maxWidth:150
-        },
-     }}
+                            <Select
+                                MenuProps={{
+                                    style: {
+                                        maxHeight: 400,
+                                        maxWidth: 150
+                                    },
+                                }}
                                 sx={muiStyles.select}
                                 style={{ width: '100%', }}
                                 labelId="demo-simple-select-label"
@@ -863,6 +866,7 @@ const muiStyles = {
         }
     },
     autoCompleate: {
+        
         "& .MuiOutlinedInput-root": {
             padding: '0px',
             "& .MuiAutocomplete-input": {

@@ -89,7 +89,7 @@ const routes = [
   { path: '/AddRolePageLinkeg', name: 'Add Role Page Linkage', element: AddRolePageLinkeg, exact: true },
   { path: '/EditRolePageLinkeg', name: 'Edit Role Page Linkage', element: EditRolePageLinkeg, exact: true },
 
-  { path: '/MaterialTypeMaster', name: 'Material Type', element: MaterialTypeMaster, exact: true },
+  { path: '/MaterialTypeMaster', name: 'Material Group', element: MaterialTypeMaster, exact: true },
 
   { path: '/ProductCategoryMaster', name: 'Brand Category', element: ProductCategoryMaster, exact: true },
 

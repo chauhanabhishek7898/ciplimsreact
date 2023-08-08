@@ -28,7 +28,7 @@ import SearchBar from "material-ui-search-bar";
 import ExportExcel from 'src/shareFunction/Excelexport';
 import CircularProgress from '@mui/joy/CircularProgress';
 import { TbEdit } from "react-icons/tb";
-import {apiUrlAddEdit} from '../../coreservices/environment'
+import { apiUrlAddEdit } from '../../coreservices/environment'
 function VendorSubCategoryMaster() {
     let Heading = [['SN.', 'Unit Code', 'Status']];
 
@@ -108,7 +108,7 @@ function VendorSubCategoryMaster() {
                         setLoader(false)
                         toast.error("Vender Subcategory Prefix is already Exists")
                     }
-    
+
                 } else {
                     UnitMastersPost(data).then(res => {
                         if (res) {
@@ -147,6 +147,9 @@ function VendorSubCategoryMaster() {
         getUnitMaster_SelectAll()
     }
     useEffect(() => {
+        materialMaster_SelectAll_ActiveLikeSearch(null)
+    }, [])
+    useEffect(() => {
         getUnitMaster_SelectAll()
 
         let storedArray = localStorage.getItem('linkAccess');
@@ -155,16 +158,18 @@ function VendorSubCategoryMaster() {
         // let splitcurrentURL = currentURL.split('/')[4]
         let splitcurrentURL
         // if(apiUrlAddEdit=='http://localhost:3000'){
-            splitcurrentURL = currentURL.split('/')[4] 
-            console.log('parsedArray:', window.location.href);
+        splitcurrentURL = currentURL.split('/')[4]
+        console.log('parsedArray:', window.location.href);
         // }else{
         //     splitcurrentURL = currentURL.split('/')[2]
         // }
         let filterLinks = parsedArray.filter(e => e.vPageName == splitcurrentURL)
         // console.log('filterLinks:', filterLinks[0].btEditRights);
         // setEnableActions(filterLinks)
-       if(filterLinks){ setbtSaveRights(filterLinks[0].btSaveRights)
-        setbtEditRights(filterLinks[0].btEditRights) }
+        if (filterLinks) {
+            setbtSaveRights(filterLinks[0].btSaveRights)
+            setbtEditRights(filterLinks[0].btEditRights)
+        }
 
     }, [])
     const getUnitMaster_SelectAll = () => {
@@ -247,6 +252,8 @@ function VendorSubCategoryMaster() {
 
         }
     }
+
+
     const materialMaster_SelectAll_ActiveLikeSearch = (vGeneric) => {
         // console.log('response', vGeneric)
         if (vGeneric != '') {
@@ -337,10 +344,10 @@ function VendorSubCategoryMaster() {
                                     // onKeyDown={newInputValue => materialMaster_SelectAll_ActiveLikeSearch(newInputValue)}
                                     onInputChange={(event, newInputValue) => {
                                         // setInputValue(newInputValue);
-                                        if (newInputValue.length >= 3) {
-                                            materialMaster_SelectAll_ActiveLikeSearch(newInputValue)
+                                        // if (newInputValue.length >= 3) {
+                                        materialMaster_SelectAll_ActiveLikeSearch(newInputValue)
 
-                                        }
+                                        // }
                                         // console.log('newInputValue', newInputValue)
                                     }}
                                     renderInput={(params) => <TextField {...params} label="Search Category" required />}
@@ -526,14 +533,14 @@ const muiStyles = {
             left: '-10px',
 
         },
-         "& label.Mui-focused": {
+        "& label.Mui-focused": {
             zIndex: '1'
-        },'& .MuiFormHelperText-root': {
+        }, '& .MuiFormHelperText-root': {
             position: 'absolute',
             fontSize: 10,
             bottom: -18
         },
-       
+
         "& .MuiIconButton-root": {
             padding: '0'
         }
@@ -551,14 +558,14 @@ const muiStyles = {
             left: '-10px',
             backgroundColor: 'transparent',
         },
-         "& label.Mui-focused": {
+        "& label.Mui-focused": {
             zIndex: '1'
-        },'& .MuiFormHelperText-root': {
+        }, '& .MuiFormHelperText-root': {
             position: 'absolute',
             fontSize: 10,
             bottom: -18
         },
-       
+
     },
     select: {
 
