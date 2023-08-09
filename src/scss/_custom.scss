@@ -19,7 +19,7 @@ a {
 }
 
 .sidebar-brand {
-  background: #cf2e2e;
+  background: #e41e2b;
   border-top-left-radius: 20px;
 }
 
@@ -218,7 +218,7 @@ p {
 }
 
 .sidebar-nav .nav-group.show {
-  background: #e54253;
+  background: #e41e2b;
 }
 
 .sidebar-nav {
@@ -227,11 +227,34 @@ p {
 
 .simplebar-content {
   .nav-item {
-    .nav-link.active {
+    .nav-link {
       color: #fff !important;
       padding: 10px 15px;
-      background-color: #e54253;
+      // background-color: #ebedef;
+      font-weight: bold !important;
+   }
+  }
+}
 
+.simplebar-content {
+  .nav-item {
+    .nav-link:hover {
+      color: #000 !important;
+      padding: 10px 15px;
+      background-color: #ebedef;
+      font-weight: bold !important;
+
+    }
+  }
+}
+
+.simplebar-content {
+  .nav-item {
+    .nav-link.active {
+      color: #000 !important;
+      padding: 10px 15px;
+      background-color: #ebedef;
+      font-weight: bold !important;
     }
   }
 }
@@ -272,9 +295,36 @@ p {
 .nav-group-items {
   .nav-item {
     .nav-link.active {
-      color: #fff !important;
+      color: #000 !important;
       padding: 10px 15px;
-      background-color: #e54253;
+      background-color: #ebedef;
+    }
+  }
+}
+
+.nav-group-toggle {
+  color: #fff !important;
+  font-weight: bold;
+}
+
+.nav-group-toggle:hover {
+  // color: #fff !important;
+  // font-weight: bold;
+  color: #000 !important;
+  background-color: #ebedef !important;
+}
+
+.nav-group-toggle.active {
+  color: #000 !important;
+  background-color: #ebedef !important;
+}
+
+.nav-group-items {
+  .nav-item {
+    .nav-link:hover {
+      color: #000 !important;
+      padding: 10px 15px;
+      background-color: #ebedef;
     }
   }
 }
@@ -291,13 +341,50 @@ p {
   }
 }
 
-.nav-group-toggle {
-  color: #fff !important;
-  font-weight: bold;
+.sidebar-nav {
+  svg.nav-icon {
+    color: #fff;
+  }
+}
+
+.sidebar-nav {
+  svg.nav-icon:hover {
+    color: #000 !important;
+  }
+}
+
+.sidebar-nav {
+  svg.nav-icon.active {
+    color: #000 !important;
+  }
+}
+
+.sidebar-nav {
+  .nav-group {
+    .nav-group-toggle:hover {
+      color: #000 !important;
+    }
+  }
+}
+
+.nav-group {
+  .nav-group-toggle:hover {
+    color: #000 !important;
+    // padding: 10px 15px;
+    background-color: #ebedef;
+  }
+}
+
+.nav-group {
+  .nav-group-toggle.active {
+    color: #000 !important;
+    // padding: 10px 15px;
+    background-color: #ebedef;
+  }
 }
 
 .sidebar.sidebar-fixed {
-  background-color: #cf2e2e;
+  background-color: #e41e2b;
   border-top-left-radius: 20px;
 }
 
@@ -384,9 +471,11 @@ p {
   padding: 8px;
 }
 
-.input-selection{
-  width: 30% !important;;
+.input-selection {
+  width: 30% !important;
+  ;
 }
+
 .displayright {
   display: flex;
   align-items: center;
@@ -1202,7 +1291,8 @@ p {
   border: none;
   background: transparent;
 }
-.notAllow{
+
+.notAllow {
   cursor: not-allowed !important;
 }
 
@@ -1383,6 +1473,7 @@ input[type="number"] {
   justify-content: space-between;
   flex-wrap: wrap;
 }
+
 .createusersContainer {
   background: #fff;
   height: 220px;
@@ -1393,7 +1484,8 @@ input[type="number"] {
   box-shadow: 0 0 6px 0 rgba($color: #000000, $alpha: 0.2);
   border-radius: 5px;
 }
-.rolePageLinkeg_box{
+
+.rolePageLinkeg_box {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -1407,14 +1499,17 @@ input[type="number"] {
   box-shadow: 0 0 6px 0 rgba($color: #000000, $alpha: 0.2);
   flex-direction: column;
 }
-.btnActive{
+
+.btnActive {
   background-color: #9da5b1 !important;
 }
-.ExistingPages{
+
+.ExistingPages {
   display: flex;
   gap: 10px;
   margin-top: 12px;
-  button{
+
+  button {
     border: none;
     padding: 5px 10px;
     background: red;
@@ -1423,24 +1518,27 @@ input[type="number"] {
     font-size: 14px;
   }
 }
-.roleText{
+
+.roleText {
   font-size: 24px;
   font-weight: 600;
   text-align: center;
 }
-.revokebtn{
+
+.revokebtn {
   padding: 4px 4px;
-    background-color: #cf2e2e;
-    color: #fff;
-    text-align: center;
-    border-radius: 20px;
-    cursor: pointer;
+  background-color: #cf2e2e;
+  color: #fff;
+  text-align: center;
+  border-radius: 20px;
+  cursor: pointer;
 }
-.activebtn{
+
+.activebtn {
   padding: 4px 4px;
-    background-color: #2ab049;
-    color: #fff;
-    text-align: center;
-    border-radius: 20px;
-    cursor: pointer;
+  background-color: #2ab049;
+  color: #fff;
+  text-align: center;
+  border-radius: 20px;
+  cursor: pointer;
 }
