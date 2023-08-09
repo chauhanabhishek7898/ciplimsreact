@@ -289,6 +289,34 @@ function ProductMaster() {
         })
     }
 
+    // const [uniteData, setUnitData] = React.useState([]);
+    // const [vUOM, setvUOM] = React.useState("");
+    // const [vUOMId, setvUOMId] = React.useState("");
+
+    const handleChangePackUnit = (event) => {
+        const selectedId = event.target.value;
+        setPackLabel(selectedId)
+        const selectedValue = uniteData.find((item) => item.vUnitName === selectedId);
+        console.log("selectedValue", selectedValue)
+    };
+
+    const handleBlurU = (item) => {
+        console.log("itemitemitem", item)
+        setPackLabel(item.vPackName)
+        setnPackId(item.nPId)
+        setunit(item.vUnit)
+    };
+
+    useEffect(() => {
+        getPackMaster_SelectAll()
+    }, [])
+
+    const getPackMaster_SelectAll = () => {
+        PackMaster_SelectAll_ActiveLikeSearch(null).then(response => {
+            setPackMaster(response)
+        })
+    }
+
     const packMaster_SelectAll_ActiveLikeSearch = (vGeneric) => {
         if (vGeneric != '') {
             vGeneric = vGeneric
@@ -676,7 +704,41 @@ function ProductMaster() {
                             {errorText.VariantMasterLabel != '' ? <p className='error'>{errorText.VariantMasterLabel}</p> : null}
                         </FormControl>
                     </Box>
+ 
 
+                    <Box className='inputBox-6'>
+                        <FormControl fullWidth className='input'>
+                            <InputLabel required id="demo-simple-select-label" sx={muiStyles.InputLabels}>SKU</InputLabel>
+                            <Select
+                                MenuProps={{
+                                    style: {
+                                        maxHeight: 400,
+                                        maxWidth: 150
+                                    },
+                                }}
+                                sx={muiStyles.select}
+                                style={{ width: '100%', }}
+                                labelId="demo-simple-select-label"
+                                id="demo-simple-select"
+                                value={PackLabel}
+                                label="Select SKU"
+                                onChange={handleChangePackUnit}
+                                name='PackLabel'
+                            >
+                                {PackMaster.map((item, index) => {
+                                    return (
+                                        <MenuItem key={index} onBlur={() => handleBlurU(item)} value={item.vPackName} id={item.nPackId}>{item.vPackName}</MenuItem>
+                                        // <MenuItem key={index} value={item.vUnitName}>{item.vUnitName}</MenuItem>
+                                    )
+                                })
+                                }
+                            </Select>
+                            {errorText.PackLabel != '' ? <p className='error'>{errorText.PackLabel}</p> : null}
+                        </FormControl>
+                    </Box>
+
+
+{/* 
                     <Box className='inputBox-6' >
                         <FormControl fullWidth className='input'>
                             <Autocomplete
@@ -695,7 +757,7 @@ function ProductMaster() {
                             />
                             {errorText.PackLabel != '' ? <p className='error'>{errorText.PackLabel}</p> : null}
                         </FormControl>
-                    </Box>
+                    </Box> */}
 
                     <Box className='inputBox-6'>
                         <FormControl fullWidth className='input' >

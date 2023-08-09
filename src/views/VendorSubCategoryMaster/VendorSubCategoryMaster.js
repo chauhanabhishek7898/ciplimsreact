@@ -29,6 +29,7 @@ import ExportExcel from 'src/shareFunction/Excelexport';
 import CircularProgress from '@mui/joy/CircularProgress';
 import { TbEdit } from "react-icons/tb";
 import { apiUrlAddEdit } from '../../coreservices/environment'
+import { InputLabel, MenuItem, Select } from '@mui/material';
 function VendorSubCategoryMaster() {
     let Heading = [['SN.', 'Unit Code', 'Status']];
 
@@ -253,6 +254,34 @@ function VendorSubCategoryMaster() {
         }
     }
 
+    const [SubCategoryData, setSubCategoryData] = React.useState([]);
+
+    const [SubCategory, setSubCategory] = React.useState("");
+    const [SubCategoryId, setSubCategoryId] = React.useState("");
+
+
+    const handleChangeSubCategory = (event) => {
+        const selectedId = event.target.value;
+        setnMId(selectedId)
+        // const selectedValue = SubCategoryData.find((item) => item.vSubCategoryName === selectedId);
+        // console.log("selectedValue", selectedValue)
+    };
+
+    const handleBlurSC = (item) => {
+        console.log("itemitemitem", item)
+        setMaterialDetail(item.vCategoryName)
+        setnMId(item.nCId)
+    };
+
+    useEffect(() => {
+        getCategoryMaster_SelectAll()
+    }, [])
+
+    const getCategoryMaster_SelectAll = () => {
+        MaterialMaster_SelectAll_ActiveLikeSearch(null).then(response => {
+            setMaterialMaster(response)
+        })
+    }
 
     const materialMaster_SelectAll_ActiveLikeSearch = (vGeneric) => {
         // console.log('response', vGeneric)
@@ -330,31 +359,59 @@ function VendorSubCategoryMaster() {
                                 helperText={errors.vUnitName?.message}
                             />
                         </div>
+
+
                         <Box className='inputBox-12 mt-4'>
+                        <FormControl fullWidth className='input'>
+                            <InputLabel required id="demo-simple-select-label" sx={muiStyles.InputLabels}>category</InputLabel>
+                            <Select
+                                MenuProps={{
+                                    style: {
+                                        maxHeight: 400,
+                                        maxWidth: 150
+                                    },
+                                }}
+                                sx={muiStyles.select}
+                                style={{ width: '100%', }}
+                                labelId="demo-simple-select-label"
+                                id="demo-simple-select"
+                                value={MaterialDetail}
+                                label="Select Category"
+                                onChange={handleChangeSubCategory}
+                                name='nPDSCId'
+                            >
+                                {MaterialMaster.map((item, index) => {
+                                    return (
+                                        <MenuItem key={index} onBlur={() => handleBlurSC(item)} value={item.vCategoryName} id={item.nCId}>{item.vCategoryName}</MenuItem>
+                                    )
+                                })
+                                }
+                            </Select>
+                            {errorText.MaterialDetail != '' ? <p className='error'>{errorText.MaterialDetail}</p> : null}
+                        </FormControl>
+                    </Box>
+
+
+                        {/* <Box className='inputBox-12 mt-4'>
                             <FormControl fullWidth className='input'>
-                                {/* <InputLabel required id="demo-simple-select-label">Item</InputLabel> */}
                                 <Autocomplete
                                     sx={muiStyles.autoCompleate}
                                     disablePortal
                                     id="combo-box-demo"
                                     options={MaterialMaster}
                                     value={MaterialDetail}
-                                    // inputValue={MaterialDetail}
                                     onChange={(event, value) => changeMaterialMasterValue(value)}
-                                    // onKeyDown={newInputValue => materialMaster_SelectAll_ActiveLikeSearch(newInputValue)}
                                     onInputChange={(event, newInputValue) => {
-                                        // setInputValue(newInputValue);
-                                        // if (newInputValue.length >= 3) {
+                                   
                                         materialMaster_SelectAll_ActiveLikeSearch(newInputValue)
 
-                                        // }
-                                        // console.log('newInputValue', newInputValue)
+                                     
                                     }}
                                     renderInput={(params) => <TextField {...params} label="Search Category" required />}
                                 />
                                 {errorText.MaterialDetail != '' ? <p className='error'>{errorText.MaterialDetail}</p> : null}
                             </FormControl>
-                        </Box>
+                        </Box> */}
 
                         <div className='inputBox-12 mt-4'>
                             <TextField
