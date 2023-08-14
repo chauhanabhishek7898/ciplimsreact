@@ -814,7 +814,7 @@ function EditBomMaster() {
                     <Box className='inputBox-45' >
                         <FormControl fullWidth className='input'>
                             {/* <InputLabel required id="demo-simple-select-label">Item</InputLabel> */}
-                            <p style={{ color: '#1976d2', fontSize: 10, position: 'absolute', top: -20, lineHeight: 1 }}>Search Material to Calculate BOM & Req In CS</p>
+                            <p style={{ color: '#1976d2', fontSize: 10, position: 'absolute', top: -20, lineHeight: 1 }}>Select Concentrate</p>
                             <Autocomplete
                                 sx={muiStyles.autoCompleate}
                                 disablePortal
@@ -833,7 +833,7 @@ function EditBomMaster() {
                                 renderInput={(params) => <TextField {...params} label="" required />}
                             />
                             {errorText.MaterialDetail != '' ? <p className='error'>{errorText.MaterialDetail}</p> : null}
-                            <p style={{ color: 'red', fontSize: 10, position: 'absolute', bottom: -12, lineHeight: 1 }}>**Note: The material selected, will be the 1st row of the Material table shown below.</p>
+                            <p style={{ color: 'red', fontSize: 10, position: 'absolute', bottom: -12, lineHeight: 1 }}></p>
                         </FormControl>
                     </Box>
                     <Box className='inputBox-31' >
@@ -937,7 +937,7 @@ function EditBomMaster() {
                                     materialMaster_SelectAll_ActiveLikeSearch(newInputValue)
                                     console.log('newInputValue', newInputValue)
                                 }}
-                                renderInput={(params) => <TextField {...params} label="Search Material" required />}
+                                renderInput={(params) => <TextField {...params} label="Select Material" required />}
                             />
                             {errorText.MaterialDetail != '' ? <p className='error'>{errorText.MaterialDetail}</p> : null}
                         </FormControl>
