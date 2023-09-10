@@ -18,14 +18,14 @@ export function UnitMastersPut(data) {
         return response;
     })
 }
-export function UnitMaster_SelectAll() {
+export function CategoryMaster_SelectAll() {
     let apiUrl = environment.apiUrl;
     let url = `${apiUrl}/CategoryMaster/CategoryMaster_SelectAll`
     return get(url).then(response => {
         return response;
     })
 }
-export function UnitMaster_SelectAll_Active() {
+export function CategoryMaster_SelectAll_Active() {
     let apiUrl = environment.apiUrl;
     let url = `${apiUrl}/CategoryMaster/CategoryMaster_SelectAll_Active`
     return get(url).then(response => {

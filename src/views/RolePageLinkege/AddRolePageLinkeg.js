@@ -25,9 +25,10 @@ import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import SearchBar from "material-ui-search-bar";
 import FormGroup from '@mui/material/FormGroup';
 import { CButton, CSpinner } from '@coreui/react';
+import { TbEdit } from 'react-icons/tb';
 function AddRolePageLinkegAddRolePageLinkeg() {
     const navigate = useNavigate();
-
+    const [pushbtActive, pushCheckedValues] = React.useState(false);
     const [RoleMasterData, setRoleMasterData] = React.useState([]);
     const [RoleMasterData2, setRoleMasterData2] = React.useState([]);
     const [RoleMasterTableData, setRoleMasterTableData] = React.useState([]);
@@ -68,8 +69,8 @@ function AddRolePageLinkegAddRolePageLinkeg() {
         setnRoleId(item.nRoleId)
         getPagesForRolePageLinkageByRoleId(item.nRoleId)
     };
-    const createaccessData = (data)=>{
-        const filterdata = data.map(item=>{
+    const createaccessData = (data) => {
+        const filterdata = data.map(item => {
             return {
                 nPageId: item.nPageId,
                 btSaveRights: false,
@@ -94,7 +95,7 @@ function AddRolePageLinkegAddRolePageLinkeg() {
             });
             setRoleMasterTableData(filteredRows);
 
-        }else{
+        } else {
             setRoleMasterTableData(RoleMasterData2)
         }
     };
@@ -110,9 +111,9 @@ function AddRolePageLinkegAddRolePageLinkeg() {
         setRowsPerPage(+event.target.value);
         setPage(0);
     };
-   
-    
- 
+
+
+
     const validateform = () => {
         if (roleName == '' || roleName == undefined || roleName == null) {
             setErrorText({
@@ -144,41 +145,41 @@ function AddRolePageLinkegAddRolePageLinkeg() {
         setIsOpen3(true)
 
     }
-    const createAccessPayload = (data) =>{
-        const payloaditems = data.filter(item=> item.btActive || item.btEditRights || item.btSaveRights)
-        return payloaditems.map(item=>{
-            let copyitem = {...item};
+    const createAccessPayload = (data) => {
+        const payloaditems = data.filter(item => item.btActive || item.btEditRights || item.btSaveRights)
+        return payloaditems.map(item => {
+            let copyitem = { ...item };
             copyitem['nRoleId'] = nRoleId;
             return copyitem;
-            
+
         });
     }
-    
-    const handleChecked = (event, id, accessType)=>{
+
+    const handleChecked = (event, id, accessType) => {
         const copyResponseData = [...responseData];
         setLoader(true)
-        const updateRes = copyResponseData.map(item=>{
-            let copyitem = {...item}
+        const updateRes = copyResponseData.map(item => {
+            let copyitem = { ...item }
             // console.log('copyitem', copyitem)
-            if(item.nPageId == id){
-                if(accessType=='MAIN'){
-                     copyitem['btActive'] = event.target.checked;
-                     copyitem['btSaveRights'] = event.target.checked;
-                     copyitem['btEditRights'] = event.target.checked;
-                }else if(accessType=='SAVE_RIGHT'){
-                     copyitem['btSaveRights'] = event.target.checked;
+            if (item.nPageId == id) {
+                if (accessType == 'MAIN') {
+                    copyitem['btActive'] = event.target.checked;
+                    copyitem['btSaveRights'] = event.target.checked;
+                    copyitem['btEditRights'] = event.target.checked;
+                } else if (accessType == 'SAVE_RIGHT') {
+                    copyitem['btSaveRights'] = event.target.checked;
 
-                }else{
-                     copyitem['btEditRights'] = event.target.checked;
+                } else {
+                    copyitem['btEditRights'] = event.target.checked;
                 }
             }
-            
+
             return copyitem;
         })
-         return setResponseData(updateRes), setLoader(false)
+        return setResponseData(updateRes), setLoader(false)
 
     }
-    
+
     return (
         <div className='citymasterContainer'>
             {loader == true ?
@@ -195,12 +196,13 @@ function AddRolePageLinkegAddRolePageLinkeg() {
                 <Box className='inputBox-47 mt-4'>
                     <FormControl fullWidth className='input'>
                         <InputLabel required id="demo-simple-select-label" sx={muiStyles.InputLabels}>Select Role</InputLabel>
-                         <Select
-MenuProps={{
- style: { maxHeight: 400,
-          maxWidth:150
-        },
-     }}
+                        <Select
+                            MenuProps={{
+                                style: {
+                                    maxHeight: 400,
+                                    maxWidth: 150
+                                },
+                            }}
                             sx={muiStyles.select}
                             style={{ width: '100%', }}
                             labelId="demo-simple-select-label"
@@ -262,19 +264,19 @@ MenuProps={{
                                             {RoleMasterTableData.map((item, index) => {
                                                 return (
                                                     <TableRow key={index}>
-                                                      {/* <TableCell component="th" scope="row">{index + 1}.</TableCell> */}
-                          
-                                                      <TableCell align="left" sx={muiStyles.tableBody}><Checkbox defaultChecked={true} value={pushbtActive} disabled={true} onChange={e => pushCheckedValues(e, item)} /></TableCell>
-                                                      {/* <TableCell align="left" sx={muiStyles.tableBody}>{item.nPageId}</TableCell> */}
-                                                      <TableCell align="left" sx={muiStyles.tableBody}>{item.vPageName}</TableCell>
-                                                      {/* <TableCell align="left" sx={muiStyles.tableBody}>{item.vModuleName}</TableCell> */}
-                                                      <TableCell align="left" sx={muiStyles.tableBody}>{item.DependentOn}</TableCell>
-                                                      <TableCell align="left" sx={muiStyles.tableBody}><Checkbox defaultChecked={item.btSaveRights} value={saveRight} onChange={e => changeRights(e,item,'save') } /></TableCell>
-                                                      <TableCell align="left" sx={muiStyles.tableBody}><Checkbox defaultChecked={item.btEditRights} value={editRight} onChange={e => changeRights(e,item,'edit') } /></TableCell>
-                                                      <TableCell align="left" sx={muiStyles.tableBody}><Checkbox defaultChecked={item.btActive} value={btActive} onChange={e => changeRights(e,item,'btActive') } /></TableCell>
-                                                      <TableCell align="left" sx={muiStyles.tableBody}><button className='deletbtn' title='Edit' onClick={() => openmodale(item)}><TbEdit size={20} color='#000' /></button></TableCell>
+                                                        {/* <TableCell component="th" scope="row">{index + 1}.</TableCell> */}
+
+                                                        <TableCell align="left" sx={muiStyles.tableBody}><Checkbox defaultChecked={true} value={pushbtActive} disabled={true} onChange={e => pushCheckedValues(e, item)} /></TableCell>
+                                                        {/* <TableCell align="left" sx={muiStyles.tableBody}>{item.nPageId}</TableCell> */}
+                                                        <TableCell align="left" sx={muiStyles.tableBody}>{item.vPageName}</TableCell>
+                                                        {/* <TableCell align="left" sx={muiStyles.tableBody}>{item.vModuleName}</TableCell> */}
+                                                        <TableCell align="left" sx={muiStyles.tableBody}>{item.DependentOn}</TableCell>
+                                                        <TableCell align="left" sx={muiStyles.tableBody}><Checkbox defaultChecked={item.btSaveRights} value={saveRight} onChange={e => changeRights(e, item, 'save')} /></TableCell>
+                                                        <TableCell align="left" sx={muiStyles.tableBody}><Checkbox defaultChecked={item.btEditRights} value={editRight} onChange={e => changeRights(e, item, 'edit')} /></TableCell>
+                                                        <TableCell align="left" sx={muiStyles.tableBody}><Checkbox defaultChecked={item.btActive} value={btActive} onChange={e => changeRights(e, item, 'btActive')} /></TableCell>
+                                                        <TableCell align="left" sx={muiStyles.tableBody}><button className='deletbtn' title='Edit' onClick={() => openmodale(item)}><TbEdit size={20} color='#000' /></button></TableCell>
                                                     </TableRow>
-                                                  )
+                                                )
                                             })
                                             }
                                         </TableBody>
@@ -329,7 +331,7 @@ MenuProps={{
                 <div className='alertmsg'><p>Do you want to Add?</p></div>
                 <div className='alertButton' >
                     <button type="submit" className='alertYes' onClick={submit}>Yes</button>
-                    <button type="submit" className='alertno' onClick={() => setIsOpen2(false)}>No</button>
+                    <button type="submit" className='alertno' onClick={() => setIsOpen3(false)}>No</button>
                 </div>
             </Modal >
         </div>

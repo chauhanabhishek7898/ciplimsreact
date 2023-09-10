@@ -58,6 +58,8 @@ function VendorSubCategoryMaster() {
     });
     const [MaterialMaster, setMaterialMaster] = React.useState([]);
     const [MaterialDetail, setMaterialDetail] = React.useState('');
+    const [matchResult, setMatchResult] = React.useState(null);
+    const [matchResult2, setMatchResult2] = React.useState(null);
     const [nMId, setnMId] = React.useState('');
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
@@ -83,6 +85,32 @@ function VendorSubCategoryMaster() {
     }
     const submit = () => {
         if (validateformPoDetial() == true) {
+
+            const brandDatas = [...unitData]
+
+            const venderexist = brandDatas.find(e => e.vSubCategoryName.toLowerCase() == vUnitName.toLowerCase())
+
+            const venderexistvVPrefix = brandDatas.find(e => e.vSubCatPrefix.toLowerCase() == vSubCatPrefix.toLowerCase())
+
+            let lowercaseString3 = ''
+            let lowercaseString4 = ''
+            if (venderexist != undefined) {
+                lowercaseString3 = venderexist.vSubCategoryName.toLowerCase();
+            }
+
+            if (venderexistvVPrefix != undefined) {
+                lowercaseString4 = venderexistvVPrefix.vSubCatPrefix.toLowerCase();
+            }
+
+            const lowercaseString1 = vUnitName.toLowerCase();
+            const lowercaseString2 = vSubCatPrefix.toLowerCase();
+
+            const isMatch = lowercaseString1 === lowercaseString3;
+            setMatchResult(isMatch);
+
+            const isMatch2 = lowercaseString2 === lowercaseString4;
+            setMatchResult2(isMatch2);
+
             setLoader(true)
             let data = {
                 nSCId: nUId == null ? 0 : nUId,
@@ -92,24 +120,15 @@ function VendorSubCategoryMaster() {
                 btActive: btActive
             }
             if (buttonName == 'Submit') {
-                let unistData = [...unitData]
-                let venderexistCode = unistData.find(e => e.vSubCatPrefix == vSubCatPrefix.toLowerCase() || e.vSubCatPrefix == vSubCatPrefix.toUpperCase())
-
-                let unitName = unistData.find(e => e.vSubCategoryName == vUnitName.toLowerCase() || e.vSubCategoryName == vUnitName.toUpperCase())
-                if (unitName || venderexistCode) {
-                    // if (venderexist && venderexistCode) {
-                    //     setLoader(false)
-                    //     toast.error("Product Category and Product Category Prefix is already Exists")
-                    // }
-                    if (unitName) {
+                if (isMatch == true || isMatch2 == true) {
+                    if (isMatch == true) {
                         setLoader(false)
-                        toast.error("Vender Subcategory is already Exists")
+                        toast.error("Sub Category is already Exists")
                     }
-                    if (venderexistCode) {
+                    if (isMatch2 == true) {
                         setLoader(false)
-                        toast.error("Vender Subcategory Prefix is already Exists")
+                        toast.error("Prefix is already Exists")
                     }
-
                 } else {
                     UnitMastersPost(data).then(res => {
                         if (res) {
@@ -121,10 +140,7 @@ function VendorSubCategoryMaster() {
                     })
 
                 }
-
-            }
-
-            else {
+            } else {
 
                 UnitMastersPut(data).then(res => {
                     if (res) {
@@ -362,34 +378,34 @@ function VendorSubCategoryMaster() {
 
 
                         <Box className='inputBox-12 mt-4'>
-                        <FormControl fullWidth className='input'>
-                            <InputLabel required id="demo-simple-select-label" sx={muiStyles.InputLabels}>category</InputLabel>
-                            <Select
-                                MenuProps={{
-                                    style: {
-                                        maxHeight: 400,
-                                        maxWidth: 150
-                                    },
-                                }}
-                                sx={muiStyles.select}
-                                style={{ width: '100%', }}
-                                labelId="demo-simple-select-label"
-                                id="demo-simple-select"
-                                value={MaterialDetail}
-                                label="Select Category"
-                                onChange={handleChangeSubCategory}
-                                name='nPDSCId'
-                            >
-                                {MaterialMaster.map((item, index) => {
-                                    return (
-                                        <MenuItem key={index} onBlur={() => handleBlurSC(item)} value={item.vCategoryName} id={item.nCId}>{item.vCategoryName}</MenuItem>
-                                    )
-                                })
-                                }
-                            </Select>
-                            {errorText.MaterialDetail != '' ? <p className='error'>{errorText.MaterialDetail}</p> : null}
-                        </FormControl>
-                    </Box>
+                            <FormControl fullWidth className='input'>
+                                <InputLabel required id="demo-simple-select-label" sx={muiStyles.InputLabels}>category</InputLabel>
+                                <Select
+                                    MenuProps={{
+                                        style: {
+                                            maxHeight: 400,
+                                            maxWidth: 150
+                                        },
+                                    }}
+                                    sx={muiStyles.select}
+                                    style={{ width: '100%', }}
+                                    labelId="demo-simple-select-label"
+                                    id="demo-simple-select"
+                                    value={MaterialDetail}
+                                    label="Select Category"
+                                    onChange={handleChangeSubCategory}
+                                    name='nPDSCId'
+                                >
+                                    {MaterialMaster.map((item, index) => {
+                                        return (
+                                            <MenuItem key={index} onBlur={() => handleBlurSC(item)} value={item.vCategoryName} id={item.nCId}>{item.vCategoryName}</MenuItem>
+                                        )
+                                    })
+                                    }
+                                </Select>
+                                {errorText.MaterialDetail != '' ? <p className='error'>{errorText.MaterialDetail}</p> : null}
+                            </FormControl>
+                        </Box>
 
 
                         {/* <Box className='inputBox-12 mt-4'>

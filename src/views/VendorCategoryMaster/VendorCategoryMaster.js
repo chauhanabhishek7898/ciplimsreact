@@ -18,7 +18,7 @@ import Checkbox from '@mui/material/Checkbox';
 import AddIcon from '@mui/icons-material/Add';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import { CButton, CSpinner } from '@coreui/react'
-import { UnitMastersPost, UnitMaster_SelectAll, UnitMastersPut } from './VendorCategoryMasterApi'
+import { UnitMastersPost, CategoryMaster_SelectAll, UnitMastersPut } from './VendorCategoryMasterApi'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import SimpleReactValidator from 'simple-react-validator';
@@ -96,7 +96,7 @@ function VendorCategoryMaster() {
                         toast.success(res)
                         setLoader(false)
                         setIsOpen(false)
-                        getUnitMaster_SelectAll()
+                        getCategoryMaster_SelectAll()
                     }
                 })
 
@@ -111,7 +111,7 @@ function VendorCategoryMaster() {
                     toast.success(res)
                     setLoader(false)
                     setIsOpen(false)
-                    getUnitMaster_SelectAll()
+                    getCategoryMaster_SelectAll()
                 }
             })
         }
@@ -123,10 +123,10 @@ function VendorCategoryMaster() {
     const checkedonlyActive = (event) => {
         setonlyActive(event.target.checked)
         checkedData = event.target.checked
-        getUnitMaster_SelectAll()
+        getCategoryMaster_SelectAll()
     }
     useEffect(() => {
-        getUnitMaster_SelectAll()
+        getCategoryMaster_SelectAll()
 
         let storedArray = localStorage.getItem('linkAccess');
         const parsedArray = JSON.parse(storedArray);
@@ -145,15 +145,15 @@ function VendorCategoryMaster() {
        if(filterLinks){ setbtSaveRights(filterLinks[0].btSaveRights)
         setbtEditRights(filterLinks[0].btEditRights) }
     }, [])
-    const getUnitMaster_SelectAll = () => {
+    const getCategoryMaster_SelectAll = () => {
         setLoader2(true)
-        UnitMaster_SelectAll().then(response => {
+        CategoryMaster_SelectAll().then(response => {
             console.log('onlyActive', onlyActive)
             if (checkedData == true) {
                 let activeData = response.filter(e => e.btActive == true)
                 // setUnitData(activeData)
 
-                setUnitData(response)
+                setUnitData(activeData)
                 setMasterBrandData(activeData)
                 setLoader2(false)
             } else {
@@ -188,15 +188,15 @@ function VendorCategoryMaster() {
     const cancelSearch = () => {
         setSearched("");
         requestSearch(searched);
-        getUnitMaster_SelectAll()
+        getCategoryMaster_SelectAll()
     };
 
 
     // useEffect(() => {
-    //     UnitMaster_SelectAllget()
+    //     CategoryMaster_SelectAllget()
     // })
-    // const UnitMaster_SelectAllget = () => {
-    //     UnitMaster_SelectAll().then(res => {
+    // const CategoryMaster_SelectAllget = () => {
+    //     CategoryMaster_SelectAll().then(res => {
     //         if (res) {
     //             setUnitData(res)
 

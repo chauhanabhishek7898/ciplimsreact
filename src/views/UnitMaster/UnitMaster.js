@@ -97,7 +97,7 @@ function UnitMaster() {
             console.log('onlyActive', onlyActive)
             if (checkedData == true) {
                 let activeData = response.filter(e => e.btActive == true)
-                setUnitData(response)
+                setUnitData(activeData)
                 setMasterBrandData(activeData)
                 setLoader2(false)
             } else {

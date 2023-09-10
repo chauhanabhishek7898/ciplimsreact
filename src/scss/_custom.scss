@@ -1542,3 +1542,14 @@ input[type="number"] {
   border-radius: 20px;
   cursor: pointer;
 }
+
+.difficon{
+  color: #fff;
+}
+.difficon:hover{
+  color: '#000' !important;
+}
+.difficon.active{
+  color: #000 !important;
+}
+
