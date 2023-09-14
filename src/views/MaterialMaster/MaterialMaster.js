@@ -75,7 +75,10 @@ function MaterialMaster() {
     const [error, setError] = React.useState('');
     const [unitid, setUnitid] = React.useState('');
     const [onlyActive, setonlyActive] = React.useState(true);
+    const [SubCategoryData, setSubCategoryData] = React.useState([]);
 
+    const [SubCategory, setSubCategory] = React.useState("");
+    const [SubCategoryId, setSubCategoryId] = React.useState("");
     const [btSaveRights, setbtSaveRights] = React.useState(true);
     const [btEditRights, setbtEditRights] = React.useState(true);
 
@@ -112,15 +115,22 @@ function MaterialMaster() {
 
     const handleChangeCategory = (event) => {
         const selectedId = event.target.value;
+
         setvCategory(selectedId)
         const selectedValue = vCategoryData.find((item) => item.vCategoryName === selectedId);
         console.log("selectedValue", selectedValue)
-        console.log("SubCategoryDataSubCategoryData", SubCategoryData)
-        const forselectionSC = SubCategoryData.find((item) => item.nCId === selectedValue.nCId);
-        const itemsWithSameId = SubCategoryData.filter((item) => item.nCId === selectedValue.nCId);
-        setSubCategoryDataForSelection(itemsWithSameId)
-        console.log("forselectionSC", forselectionSC)
-        console.log("itemsWithSameId", itemsWithSameId)
+        // console.log("SubCategoryDataSubCategoryData", SubCategoryData)
+
+        getSubCategoryMaster_SelectAll(selectedValue)
+
+        // const forselectionSC = SubCategoryData.find((item) => item.nCId === selectedValue.nCId );
+        // const forselectionOnlyActiveSC = forselectionSC.find((item) => item.btActive === true);
+        // const itemsWithSameId = SubCategoryData.filter((item) => item.nCId === selectedValue.nCId);
+        // setSubCategoryDataForSelection(forselectionOnlyActiveSC)
+        // setSubCategoryData(forselectionOnlyActiveSC)
+        // console.log("forselectionSC", forselectionSC)
+        // console.log("forselectionOnlyActiveSC", forselectionOnlyActiveSC)
+        // console.log("itemsWithSameId", itemsWithSameId)
     };
 
     const handleBlurC = (item) => {
@@ -130,10 +140,7 @@ function MaterialMaster() {
         getSubCategoryMaster_SelectAll(item.nCId)
     };
 
-    const [SubCategoryData, setSubCategoryData] = React.useState([]);
-
-    const [SubCategory, setSubCategory] = React.useState("");
-    const [SubCategoryId, setSubCategoryId] = React.useState("");
+  
 
 
     const handleChangeSubCategory = (event) => {
@@ -261,10 +268,11 @@ function MaterialMaster() {
 
     const getSubCategoryMaster_SelectAll = (nCId) => {
         GetSubCategory(nCId).then(response => {
-            setSubCategoryData(response)
+            // setSubCategoryData(response)
 
-            // const forselectionSC = response.find((item) => item.nCId === vCategoryId);
-            // console.log("forselectionSC", forselectionSC)
+            const forselectionSC = response.filter((item) => item.btActive === true);
+            setSubCategoryData(forselectionSC)
+            console.log("forselectionSC", forselectionSC)
         })
     }
 
@@ -582,7 +590,7 @@ function MaterialMaster() {
 
                     <Box className='inputBox-6'>
                         <FormControl fullWidth className='input'>
-                            <InputLabel required id="demo-simple-select-label" sx={muiStyles.InputLabels}>Material Group</InputLabel>
+                            <InputLabel required id="demo-simple-select-label" sx={muiStyles.InputLabels}>Material Type</InputLabel>
                             <Select
                                 MenuProps={{
                                     style: {
@@ -595,7 +603,7 @@ function MaterialMaster() {
                                 labelId="demo-simple-select-label"
                                 id="demo-simple-select"
                                 value={vMaterialType}
-                                label="Select Material Group"
+                                label="Select Material Type"
                                 onChange={handleChangeMaterialType}
                                 name='nMTId'
                             >
@@ -993,7 +1001,7 @@ MenuProps={{
 
                                         <TableCell align="left" sx={muiStyles.tableHead}>Material Code</TableCell>
                                         <TableCell align="left" sx={muiStyles.tableHead}>Material Name</TableCell>
-                                        <TableCell align="left" sx={muiStyles.tableHead}>Material Group</TableCell>
+                                        <TableCell align="left" sx={muiStyles.tableHead}>Material Type</TableCell>
                                         <TableCell align="left" sx={muiStyles.tableHead}>Category</TableCell>
                                         <TableCell align="left" sx={muiStyles.tableHead}>Subcategory</TableCell>
                                         <TableCell align="left" sx={muiStyles.tableHead}>UOM</TableCell>

@@ -13,7 +13,7 @@ import Paper from '@mui/material/Paper';
 import { UnitMaster_SelectAll_Active, StorageConditionMaster_SelectAll_Active } from '../UnitMaster/UnitMasterApi'
 import { ProductCategoryMaster_SelectAll, ProductMasterPost, GetProductSubCategory, ProductMasterPut, ProductMaster_SelectAll } from './ProductMasterApi'
 import { VarientMaster_ActiveLikeSearch, VarientMaster_SelectAll_Active } from '../VarientMaster/VarientMasterApi'
-import { BrandMaster_SelectAll } from '../BrandMaster/BrandMasterService'
+import { BrandMaster_SelectAll,BrandMaster_SelectAll_Active } from '../BrandMaster/BrandMasterService'
 import { ProductCategoryMaster_ActiveLikeSearch } from '../ProductCategoryMaster/ProductCategoryMasterapi'
 import Autocomplete from '@mui/material/Autocomplete';
 import { PackMaster_SelectAll_ActiveLikeSearch } from '../PackMaster/PackMasterService'
@@ -219,7 +219,12 @@ function ProductMaster() {
     }
 
     const getBrandMaster_SelectAll = () => {
-        BrandMaster_SelectAll().then(response => {
+        BrandMaster_SelectAll_Active().then(response => {
+            setBrandData(response)
+        })
+    }
+    const getBrandMaster_SelectAll_Active = () => {
+        BrandMaster_SelectAll_Active().then(response => {
             setBrandData(response)
         })
     }
@@ -354,14 +359,14 @@ function ProductMaster() {
     const requestSearch = (searchedVal) => {
         if (searchedVal.length > 0) {
             const filteredRows = ProductData.filter((row) => {
-                return row.vMCode.toLowerCase().includes(searchedVal.toLowerCase()) || row.vMName.toLowerCase().includes(searchedVal.toLowerCase()) || row.vCategory.toLowerCase().includes(searchedVal.toLowerCase()) || row.vMaterialType.toLowerCase().includes(searchedVal.toLowerCase());
+                return row.vProductCode.toLowerCase().includes(searchedVal.toLowerCase()) || row.vProductName.toLowerCase().includes(searchedVal.toLowerCase()) || row.vPCategory.toLowerCase().includes(searchedVal.toLowerCase()) || row.vPSubCategory.toLowerCase().includes(searchedVal.toLowerCase())|| row.vBrand.toLowerCase().includes(searchedVal.toLowerCase());
             });
-            if (filteredRows?.length > 0) {
-                setnoRecord(false)
+            // if (filteredRows?.length > 0) {
+            //     setnoRecord(false)
                 setProductData(filteredRows);
-            } else {
-                setnoRecord(true)
-            }
+            // } else {
+                // setnoRecord(true)
+            // }
         } else {
             setnoRecord(false)
             setProductData(masterbrandData);

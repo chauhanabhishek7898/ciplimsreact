@@ -193,7 +193,7 @@ function PlantMaster() {
     const requestSearch = (searchedVal) => {
         if (searchedVal.length > 0) {
             const filteredRows = plantData.filter((row) => {
-                return row.vPlantName.toLowerCase().includes(searchedVal.toLowerCase()) || row.vPlantAddress.toLowerCase().includes(searchedVal.toLowerCase()) || row.vProfitCentre.toLowerCase().includes(searchedVal.toLowerCase()) || row.vCostCentre.toLowerCase().includes(searchedVal.toLowerCase());
+                return row.vPlantCode.toLowerCase().includes(searchedVal.toLowerCase()) || row.vPlantName.toLowerCase().includes(searchedVal.toLowerCase()) || row.vPlantAddress.toLowerCase().includes(searchedVal.toLowerCase()) || row.vProfitCentre.toLowerCase().includes(searchedVal.toLowerCase()) || row.vCostCentre.toLowerCase().includes(searchedVal.toLowerCase());
             });
             setPlantData(filteredRows);
         } else {

@@ -197,7 +197,7 @@ function VendorSubCategoryMaster() {
                 let activeData = response.filter(e => e.btActive == true)
                 // setUnitData(activeData)
 
-                setUnitData(response)
+                setUnitData(activeData)
                 setMasterBrandData(activeData)
                 setLoader2(false)
             } else {

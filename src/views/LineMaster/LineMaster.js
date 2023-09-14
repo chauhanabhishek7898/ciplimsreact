@@ -108,7 +108,7 @@ function LineMaster() {
     const requestSearch = (searchedVal) => {
         if (searchedVal.length > 0) {
             const filteredRows = lineData.filter((row) => {
-                return row.vLineName.toLowerCase().includes(searchedVal.toLowerCase()) || row.vLineDescription.toLowerCase().includes(searchedVal.toLowerCase());
+                return row.vLineName.toLowerCase().includes(searchedVal.toLowerCase()) ||vrow.vLineName.toLowerCase().includes(searchedVal.toLowerCase()) || row.vLineDescription.toLowerCase().includes(searchedVal.toLowerCase());
             });
             setlineData(filteredRows);
         } else {

@@ -28,7 +28,7 @@ import { TbEdit } from "react-icons/tb";
 import { useForm } from 'react-hook-form';
 import {apiUrlAddEdit} from '../../coreservices/environment'
 function MaterialTypeMaster() {
-    let Heading = [['SN.', 'Material Group', 'Material Group Prefix', 'Status']];
+    let Heading = [['SN.', 'Material Type', 'Material Type Prefix', 'Status']];
 
     const [modalIsOpen, setIsOpen] = React.useState(false);
     const [page, setPage] = React.useState(0);
@@ -243,7 +243,7 @@ function MaterialTypeMaster() {
                 ariaHideApp={false}
             >
                 <div className='displayright'>
-                    <div><span className='title'>Material Group</span></div>
+                    <div><span className='title'>Material Type</span></div>
                     <HighlightOffIcon fontSize='large' onClick={() => setIsOpen(false)} />
                 </div>
                 <div className='displayflexend mt-4'>
@@ -255,10 +255,10 @@ function MaterialTypeMaster() {
                                 value={brandName}
                                 onChange={e => setBrandName(e.target.value)}
                                 required id="outlined-basic"
-                                label="Material Group"
+                                label="Material Type"
                                 variant="outlined"
                                 name="materialType"
-                                inputRef={register({ required: "Material Group is required.*" })}
+                                inputRef={register({ required: "Material Type is required.*" })}
                                 error={Boolean(errors.materialType)}
                                 helperText={errors.materialType?.message}
                             />
@@ -272,13 +272,13 @@ function MaterialTypeMaster() {
                                 value={vPrefix}
                                 onChange={e => setvPrefix(e.target.value)}
                                 required id="outlined-basic"
-                                label="Material Group Prefix"
+                                label="Material Type Prefix"
                                 variant="outlined"
                                 name='vPrefix'
                                 inputProps={{
                                     maxLength: 2, // Set the maximum length here (e.g., 20)
                                 }}
-                                inputRef={register({ required: "Material Group Prefix is required.*" })}
+                                inputRef={register({ required: "Material Type Prefix is required.*" })}
                                 error={Boolean(errors.vPrefix)}
                                 helperText={errors.vPrefix?.message}
                             />
@@ -319,8 +319,8 @@ function MaterialTypeMaster() {
                         <Table stickyHeader aria-label="sticky table" >
                             <TableHead>
                                 <TableRow>
-                                    <TableCell align="left" sx={muiStyles.tableHead} >Material Group</TableCell>
-                                    <TableCell align="left" sx={muiStyles.tableHead} >Material Group Prefix</TableCell>
+                                    <TableCell align="left" sx={muiStyles.tableHead} >Material Type</TableCell>
+                                    <TableCell align="left" sx={muiStyles.tableHead} >Material Type Prefix</TableCell>
                                     <TableCell align="left" sx={muiStyles.tableHead} >Status</TableCell>
                                     <TableCell align="left" sx={muiStyles.tableHead} >Edit</TableCell>
                                 </TableRow>

@@ -367,7 +367,7 @@ function VenderForm() {
     const validateVenderDetailForm = () => {
         if (MaterialType == '' || MaterialType == undefined) {
             setError({
-                MaterialType: 'Select Material Group *'
+                MaterialType: 'Select Material Type *'
             })
             return false
         } else if (MaterialDetail == '' || MaterialDetail == undefined) {
@@ -413,19 +413,19 @@ function VenderForm() {
             //         {
             //             label: 'Yes',
             //             onClick: () => {
-                            setLoader5(true)
-                            VendorDetail_UpdatePut(vendor).then(res => {
-                                if (res) {
-                                    toast.success("Record Updated Successfully !!")
-                                    setLoader5(false)
-                                    setIsOpen(false)
-                                    setIsOpen4(false)
-                                    setMaterialType('')
-                                    setCategoryDetail('')
-                                    setSubCategory('')
-                                    getVendorMaster_SelectAll()
-                                }
-                            })
+            setLoader5(true)
+            VendorDetail_UpdatePut(vendor).then(res => {
+                if (res) {
+                    toast.success("Record Updated Successfully !!")
+                    setLoader5(false)
+                    setIsOpen(false)
+                    setIsOpen4(false)
+                    setMaterialType('')
+                    setCategoryDetail('')
+                    setSubCategory('')
+                    getVendorMaster_SelectAll()
+                }
+            })
 
             //             }
             //         },
@@ -773,19 +773,20 @@ MenuProps={{
                 <div className='displayflexend borderTop' >
                     <Box className='inputBox-3'>
                         <FormControl fullWidth className='input'>
-                            <InputLabel id="demo-simple-select-label" required sx={muiStyles.InputLabels}>Material Group</InputLabel>
-                             <Select
-MenuProps={{
- style: { maxHeight: 400,
-          maxWidth:150
-        },
-     }}
+                            <InputLabel id="demo-simple-select-label" required sx={muiStyles.InputLabels}>Material Type</InputLabel>
+                            <Select
+                                MenuProps={{
+                                    style: {
+                                        maxHeight: 400,
+                                        maxWidth: 150
+                                    },
+                                }}
                                 sx={muiStyles.select}
                                 style={{ width: '100%', }}
                                 labelId="demo-simple-select-label"
                                 id="demo-simple-select"
                                 value={MaterialType}
-                                label="Select Material Group"
+                                label="Select Material Type"
                                 onChange={handleChange}
                             >
                                 {vMaterialTypeData.map((item, index) => {
@@ -1021,7 +1022,7 @@ MenuProps={{
                                     <TableCell align="left" sx={muiStyles.tableHead}>Mobile No</TableCell>
                                     <TableCell align="left" sx={muiStyles.tableHead}>Email Id</TableCell>
                                     <TableCell align="left" sx={muiStyles.tableHead}>GST No</TableCell>
-                                    <TableCell align="left" sx={muiStyles.tableHead}>Material Group</TableCell>
+                                    <TableCell align="left" sx={muiStyles.tableHead}>Material Type</TableCell>
                                     <TableCell align="left" sx={muiStyles.tableHead}>Categories</TableCell>
                                     {/* <TableCell align="left" sx={muiStyles.tableHead}>Sub Categories</TableCell> */}
                                     <TableCell align="left" sx={muiStyles.tableHead}>Remarks</TableCell>
