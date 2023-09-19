@@ -238,7 +238,8 @@ function ProductMaster() {
     const getSubCategoryMaster_SelectAll = (nPDCId) => {
         GetProductSubCategory(nPDCId).then(response => {
             console.log("GetProductSubCategory", response)
-            setSubCategoryData(response)
+            const activeProductSubCategory = response.filter((item => item.btActive === true)) 
+            setSubCategoryData(activeProductSubCategory)
         })
     }
 
