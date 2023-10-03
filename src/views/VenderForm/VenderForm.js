@@ -367,7 +367,7 @@ function VenderForm() {
     const validateVenderDetailForm = () => {
         if (MaterialType == '' || MaterialType == undefined) {
             setError({
-                MaterialType: 'Select Material Type *'
+                MaterialType: 'Select Material Group *'
             })
             return false
         } else if (MaterialDetail == '' || MaterialDetail == undefined) {
@@ -742,7 +742,7 @@ function VenderForm() {
 
                 {/* <Box className='inputBox-6'>
                         <FormControl fullWidth className='input'>
-                            <InputLabel required id="demo-simple-select-label" sx={muiStyles.InputLabels}>Material Type</InputLabel>
+                            <InputLabel required id="demo-simple-select-label" sx={muiStyles.InputLabels}>Material Group</InputLabel>
                              <Select
 MenuProps={{
  style: { maxHeight: 400,
@@ -754,7 +754,7 @@ MenuProps={{
                                 labelId="demo-simple-select-label"
                                 id="demo-simple-select"
                                 value={vMaterialType}
-                                label="Select Material Type"
+                                label="Select Material Group"
                                 onChange={handleChangeMaterialType}
                                 name='nMTId' >
                                 {vMaterialTypeData.map((item, index) => {
@@ -773,7 +773,7 @@ MenuProps={{
                 <div className='displayflexend borderTop' >
                     <Box className='inputBox-3'>
                         <FormControl fullWidth className='input'>
-                            <InputLabel id="demo-simple-select-label" required sx={muiStyles.InputLabels}>Material Type</InputLabel>
+                            <InputLabel id="demo-simple-select-label" required sx={muiStyles.InputLabels}>Material Group</InputLabel>
                             <Select
                                 MenuProps={{
                                     style: {
@@ -786,7 +786,7 @@ MenuProps={{
                                 labelId="demo-simple-select-label"
                                 id="demo-simple-select"
                                 value={MaterialType}
-                                label="Select Material Type"
+                                label="Select Material Group"
                                 onChange={handleChange}
                             >
                                 {vMaterialTypeData.map((item, index) => {
@@ -1022,7 +1022,7 @@ MenuProps={{
                                     <TableCell align="left" sx={muiStyles.tableHead}>Mobile No</TableCell>
                                     <TableCell align="left" sx={muiStyles.tableHead}>Email Id</TableCell>
                                     <TableCell align="left" sx={muiStyles.tableHead}>GST No</TableCell>
-                                    <TableCell align="left" sx={muiStyles.tableHead}>Material Type</TableCell>
+                                    <TableCell align="left" sx={muiStyles.tableHead}>Material Group</TableCell>
                                     <TableCell align="left" sx={muiStyles.tableHead}>Categories</TableCell>
                                     {/* <TableCell align="left" sx={muiStyles.tableHead}>Sub Categories</TableCell> */}
                                     <TableCell align="left" sx={muiStyles.tableHead}>Remarks</TableCell>

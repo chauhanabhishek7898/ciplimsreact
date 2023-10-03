@@ -40,7 +40,7 @@ import CircularProgress from '@mui/joy/CircularProgress';
 import { TbEdit } from "react-icons/tb";
 import { apiUrlAddEdit } from '../../coreservices/environment'
 function MaterialMaster() {
-    let Heading = [['SN.', 'Material Code', 'Material Name', 'Category', 'Material Type', 'UOM', 'HSN Code', 'Remarks', 'Status']];
+    let Heading = [['SN.', 'Material Code', 'Material Name', 'Category', 'Material Group', 'UOM', 'HSN Code', 'Remarks', 'Status']];
     const [modalIsOpen, setIsOpen] = React.useState(false);
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -397,7 +397,7 @@ function MaterialMaster() {
             return false
         } else if (vMaterialType == '' || vMaterialType == undefined) {
             setErrorText({
-                vMaterialType: 'Select Material Type *'
+                vMaterialType: 'Select Material Group *'
             })
             return false
         } else if (vUOM == '' || vUOM == undefined) {
@@ -590,7 +590,7 @@ function MaterialMaster() {
 
                     <Box className='inputBox-6'>
                         <FormControl fullWidth className='input'>
-                            <InputLabel required id="demo-simple-select-label" sx={muiStyles.InputLabels}>Material Type</InputLabel>
+                            <InputLabel required id="demo-simple-select-label" sx={muiStyles.InputLabels}>Material Group</InputLabel>
                             <Select
                                 MenuProps={{
                                     style: {
@@ -603,7 +603,7 @@ function MaterialMaster() {
                                 labelId="demo-simple-select-label"
                                 id="demo-simple-select"
                                 value={vMaterialType}
-                                label="Select Material Type"
+                                label="Select Material Group"
                                 onChange={handleChangeMaterialType}
                                 name='nMTId'
                             >
@@ -1001,7 +1001,7 @@ MenuProps={{
 
                                         <TableCell align="left" sx={muiStyles.tableHead}>Material Code</TableCell>
                                         <TableCell align="left" sx={muiStyles.tableHead}>Material Name</TableCell>
-                                        <TableCell align="left" sx={muiStyles.tableHead}>Material Type</TableCell>
+                                        <TableCell align="left" sx={muiStyles.tableHead}>Material Group</TableCell>
                                         <TableCell align="left" sx={muiStyles.tableHead}>Category</TableCell>
                                         <TableCell align="left" sx={muiStyles.tableHead}>Subcategory</TableCell>
                                         <TableCell align="left" sx={muiStyles.tableHead}>UOM</TableCell>

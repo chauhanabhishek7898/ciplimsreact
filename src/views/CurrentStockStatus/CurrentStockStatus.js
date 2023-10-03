@@ -30,7 +30,7 @@ import ExportExcel from 'src/shareFunction/Excelexport';
 import CircularProgress from '@mui/joy/CircularProgress';
 import Autocomplete from '@mui/material/Autocomplete';
 function CurrentStockStatus() {
-    let Heading = [['SN.', 'Plant Detail', ' Material Detail', 'UOM', 'Category', ' Material Type', 'Exp Date', 'Aeging', 'Balance Stock']];
+    let Heading = [['SN.', 'Plant Detail', ' Material Detail', 'UOM', 'Category', ' Material Group', 'Exp Date', 'Aeging', 'Balance Stock']];
     const [modalIsOpen, setIsOpen] = React.useState(false);
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -279,7 +279,7 @@ function CurrentStockStatus() {
                                     <TableCell align="left" >Material Detail</TableCell>
                                     <TableCell align="left" >UOM</TableCell>
                                     <TableCell align="left" >Category</TableCell>
-                                    <TableCell align="left" >Material Type</TableCell>
+                                    <TableCell align="left" >Material Group</TableCell>
                                     <TableCell align="left" >Exp Date</TableCell>
                                     <TableCell align="left" >Aeging</TableCell>
                                     <TableCell align="left" >Balance Stock</TableCell>
